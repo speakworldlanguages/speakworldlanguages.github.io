@@ -1,0 +1,131 @@
+/*Set fontSize via script to set different sizes for different fonts. Consider using the percentage unit.*/
+body {
+  color: #34546d;
+  /* In case of tablets and phones, the viewport may need adjustments */
+}
+main{ /*This used to be a normal div with #idOfTheDivThatContainsEverything*/
+  position: fixed;
+  top:0;        left:0;
+  bottom:0;        right:0;
+  background-image: linear-gradient(#becbd5,#dbe2e8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+p{
+  line-height: 125%;
+}
+.textShadow{
+  text-shadow: 0px -0.5vmin 0.8vmin rgba(123,145,158,0.45), 0px -0.2vmin 0.4vmin rgba(123,145,158,0.65);
+}
+/* ASIDE IS USED AS A BUTTON: See js_for_all_iframed_lesson_htmls.js */
+aside{
+  font-size: 320%;
+  /*font-family: ;*/ /*See js_for_every_single_html.js*/
+  line-height: normal;
+}
+
+.glassmorphismOnMobiles{
+  background-color: rgba( 177, 177, 177, 0.3 );
+  box-shadow: 0px 0px 30px 0px rgba( 0, 0, 0, 0.4 );
+  backdrop-filter: blur( 7px );                 /*------ Not supported by Firefox in 2021*/
+  -webkit-backdrop-filter: blur( 7px );         /*------ Not supported by Firefox in 2021*/
+  border: 2px solid rgba( 255, 255, 255, 0.25 );
+  text-shadow: 0px 0px 3px rgba(222,222,222,0.95);
+  color: rgba(255,255,255,0.5);
+}
+.glassmorphismOnDesktops{
+  background-color: rgba( 255, 255, 255, 0.22 );
+  box-shadow: 0px 0px 30px 0px rgba( 0, 0, 0, 0.4 );
+  backdrop-filter: blur( 9px );                 /*------ Not supported by Firefox in 2021*/
+  -webkit-backdrop-filter: blur( 9px );         /*------ Not supported by Firefox in 2021*/
+  border: 1.7px solid rgba( 255, 255, 255, 0.25 );
+  -webkit-text-stroke-width: 1px;               /*------ Not supported by Firefox in 2021*/
+  -webkit-text-stroke-color: rgba(0,0,0,0.11);  /*------ Not supported by Firefox in 2021*/
+  color: rgba( 0, 0, 0, 0.11 );
+}
+.glassmorphismOnDesktops:hover{
+  background-color: rgba( 255, 255, 255, 0.35 );
+  backdrop-filter: blur( 6px );                 /*------ Not supported by Firefox in 2021*/
+  -webkit-backdrop-filter: blur( 6px );         /*------ Not supported by Firefox in 2021*/
+  -webkit-text-stroke-width: 1px;               /*------ Not supported by Firefox in 2021*/
+  -webkit-text-stroke-color: rgba(0,0,0,0.17);  /*------ Not supported by Firefox in 2021*/
+  color: rgba( 144, 144, 144, 0.22 );
+  text-shadow: 0px 0px 10px rgba( 255, 255, 255, 0.65 );
+}
+.glassmorphismOnDesktops:active{
+  background-color: rgba( 255, 255, 255, 0.7 );
+}
+@supports not ( ( -webkit-backdrop-filter: blur(9px) ) or ( backdrop-filter: blur(9px) ) ) {
+  /* CSS to provide fallback alternative for Firefox in 2021 and other less common browsers */
+  .glassmorphismOnMobiles{color: rgba(255,255,255,0.7); background-color: rgba( 188, 188, 188, 0.4 ); text-shadow: 0px 0px 2px rgba(222,222,222,0.85);}
+  .glassmorphismOnDesktops{color: rgba(255,255,255,0.7); background-color: rgba( 188, 188, 188, 0.4 ); text-shadow: 0px 0px 2px rgba(222,222,222,0.85);}
+}
+@keyframes realExplodeForDesktops { /* CAUTION: Unaffordably CPU intensive on mobiles */
+  0%{filter: blur(0vmin);}
+  25%{filter: blur(15vmin);}
+  100%{filter: blur(30vmin);}
+}
+.addThisToTheButtonWhenItIsClickedOnDesktops{ /* This has to be a “desktops only” */
+  animation-name: realExplodeForDesktops;
+  animation-duration: 1.7s;
+  animation-fill-mode: forwards;
+}
+@keyframes noExplodeForMobiles { /* Easier for CPU on mobiles */
+  0%{ /*backdrop-filter: blur( 3px ); -webkit-backdrop-filter: blur( 3px ); transform: translate(-50%,-50%) scale(1);*/ opacity:1; }
+  10%{ /*backdrop-filter: blur( 0px ); -webkit-backdrop-filter: blur( 0px ); transform: translate(-50%,-50%) scale(1.25);*/ opacity:0.3; }
+  100%{ /*transform: translate(-50%,-50%) scale(2);*/ opacity:0; }
+}
+.addThisToTheButtonWhenItIsTouchedOnMobiles{ /* This has to be a “desktops only” */
+  animation-name: noExplodeForMobiles;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+
+/* STANDARD BUTTON TYPE 1: See js_for_all_iframed_lesson_htmls.js*/
+/* REMEMBER: <aside> elements are used as a second type of button. See js_for_all_iframed_lesson_htmls.js */
+/* NOTICE: This is for LESSON buttons only and NOT the parents*/
+button{ /* Generic BUTTON used first time in 1-1-5 */ /*Buttons use same rules for all devices. REMEMBER: Glassmorphism needs different rules for different devices*/
+  border-radius: 5px;
+  padding: 10px;
+  margin: 7px; /*Space between two buttons AS WELL AS drop-shadow area around the button*/
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(77, 96, 111, 1); /*Used to be #55626e;*/
+  font-size: 33px;/* 3.5vmin is good on desktop but too small for mobile. Better be at least 5.5vmin on phone.*/
+  transition: all 0.1s;
+}
+button:hover{
+  border: 3px solid rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(0, 255, 0, 1); /* Bizarre colors can look good with certain blending modes */
+  transform: scale(1.05); /*Just a tiny bit bigger than idle size*/
+  text-shadow: 0px 0px 2px white;
+  box-shadow: 0px 0px 6px white;
+}
+button:active {
+  background-color: rgba(228, 245, 252, 0.5);;
+}
+button:focus {outline:0;}
+
+.addThisToAButtonForPlayStationStyleClick{ /* See js_for_all_iframed_lesson_htmls.js */
+  animation: playStationStyle 0.6s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes playStationStyle {
+  0%{
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  25%{
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100%{
+    opacity: 0;
+    transform: scale(0.1);
+    visibility: hidden; /*Not sure if we need display none instead of visibility hidden. Looks like it's working anyway.*/
+  }
+}

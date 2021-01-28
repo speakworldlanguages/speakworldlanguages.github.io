@@ -1,0 +1,135 @@
+body{ /*Also see css_for_every_single_html.css*/
+  color: #34546d;
+  overflow:hidden;  /*This is necessary for information/index.html to be viewed properly on mobiles. (Used to be inline style)*/
+  max-width:100vw;  /*This is necessary for information/index.html to be viewed properly on mobiles. (Used to be inline style)*/
+  max-height:100vh; /*This is necessary for information/index.html to be viewed properly on mobiles. (Used to be inline style)*/
+}
+
+iframe{
+  border: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;        left: 0;        /*bottom:0;        right:0;*/
+}
+
+p{
+  line-height: normal; /*Set it back to normal because it was set to ZERO in css_for_every_single_html.css*/
+  text-shadow: 0px -0.5vmin 0.8vmin rgba(123,145,158,0.45), 0px -0.2vmin 0.4vmin rgba(123,145,158,0.65);
+  letter-spacing: 1px;
+  padding-left:7px;
+  padding-right:7px;
+}
+
+button{
+  border: .25vmin solid white;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 1.8vmin; /*Space between two buttons*/
+  background-color: #4d606f;
+  color: white;
+  transition-duration: 0.06s;
+}
+
+button:hover{
+  color: #7790a5;
+  background-color: #e4f6fc;
+  text-shadow: 0px 0px 3px white;
+  box-shadow: 0px 0px 6px white;
+}
+button:focus {outline:0;}
+
+#fullViewportPositionFixedDivAsContainerOfTheMenu{
+  /*May create a new div inside this div with display:grid; to contain all the buttons. In fact, something like a fancy interactible world map would be cooler.*/
+  position: fixed;
+  top:0;        left:0; /*The "left" value is to be changed via script to hide this div. See js_reusables/js_for_all_container_parent_htmls.js*/
+  bottom:0;        right:0;
+  /* width: 100%;
+  height: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Preloader is 9999 */
+  background-image: linear-gradient(#becbd5, #dbe2e8);
+  flex-direction: column;
+  line-height: 2rem; /*Is set to zero by default. See css_for_every_single_html*/
+  /* mix-blend-mode: normal; */
+}
+
+.upperHalfDiv{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.lowerHalfDiv{
+  display: flex;
+
+}
+
+@media screen and (orientation:portrait){
+  button{min-width: 62vmin;}
+  .upperHalfDiv{width: 100%; height: 20%;}
+  .lowerHalfDiv{width: 100%; height: 80%; flex-direction: column; justify-content: flex-start;  align-items: center; }
+  .theSmallNavigationMenuMOBILEStyling img{margin-left: 1vmin;  margin-right: 1vmin;}
+}
+
+@media screen and (orientation:landscape){
+  button{min-width: 38vmin;}
+  .upperHalfDiv{width: 100%; height: 40%;}
+  .lowerHalfDiv{width: 100%; height: 60%; flex-direction: row-reverse;  justify-content: center;  align-items: flex-start; }
+  .theSmallNavigationMenuMOBILEStyling img{margin-left: 5vmin;  margin-right: 5vmin;}
+}
+
+#fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt{
+  position: fixed;
+  top:0;        left:0;
+  bottom:0;        right:0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998; /* Preloading div is 9999 */
+  background-color: rgba(0,0,0,0.5);
+  flex-direction: column; /*For only one div this is unnecessary but let's leave it here anyway.*/
+  line-height: 2rem; /*Is set to zero. See css_for_every_single_html*/
+  opacity: 0;
+  visibility: hidden;
+}
+.promptBoxesLikeTheOneForLoadingTheLastLesson{
+  min-width: 20%;
+  min-height: 10%;
+  max-width: 95vw; /*For phones*/
+  background-color: white;
+  color: black;
+  border-radius: 2vmin;
+  display: flex;
+  flex-direction: column;
+  justify-content:  center;
+  align-items: center;
+  padding: 3vmin;
+}
+.addThisForOpacityAnimationFadeIn{ /* Used in js_for_all_container_parent_htmls for “load last checkpoint” prompt box div. */
+  animation-name: fadeInAndBeClickable;
+  animation-duration: .4s;
+  animation-fill-mode: forwards;
+}
+.addThisForOpacityAnimationFadeOut{
+  animation-name: fadeInAndBeClickable;
+  animation-duration: .4s;
+  animation-fill-mode: backwards;
+}
+
+@keyframes fadeInAndBeClickable {
+  0%{
+    opacity: 0;
+    visibility: hidden;
+  }
+  100%{
+    opacity: 1;
+    visibility: visible;
+  }
+}

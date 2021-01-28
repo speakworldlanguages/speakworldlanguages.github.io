@@ -1,0 +1,2 @@
+﻿This web application is published under
+“Good People's License v1.0”

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>  <!-- Default page for birdildahaogreney.im -->
+    <script src="js_reusables/js_for_preload_handling_of_all_htmls.js">/* INCLUSION PRIORITIZED: Another piece of code, building our app */</script>
+    <script> var thisIsTheParentWhichContainsAllIFramedLessons = "yes"; </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0"> <!-- For mobile device screens to display things properly -->
+    <title>Bir dil daha öğren</title>
+    <meta name="description" content="Küresel iletişim gerekleriniz için yardım (YAZILIM GELİŞTİRİLME AŞAMASINDA)">
+    <meta name="author" content="Beykan Alper Bilgekılınç Topraksoy">
+
+    <link rel="alternate" hreflang="ja" href="ja.html">
+    <!-- <link rel="alternate" hreflang="ko" href="ko.html"> -->
+    <!-- <link rel="alternate" hreflang="zh" href="zh.html"> -->
+    <!-- <link rel="alternate" hreflang="ms" href="ms.html"> -->
+    <link rel="alternate" hreflang="tr" href="tr.html">
+    <!-- <link rel="alternate" hreflang="ar" href="ar.html"> -->
+    <link rel="alternate" hreflang="en" href="en.html">
+
+    <link rel="icon" type="image/png" href="user_interface/icon/animated_globe_icon_39.png" id="icon" sizes="32x32"> <!-- This appears next to the title in the browser's TABS and plays as an animation. See js_for_icon_animation.js -->
+    <link rel="preload" href="css_reusables/css_for_custom_cursor.css" as="style" onload=" var useThis=this; useThis.onload=null; setTimeout(function(){ useThis.rel='stylesheet'; },3000); "> <!-- DESKTOPS only! -->
+    <!-- Above line is used because 40 little png files (for custom cursors) can take too many milliseconds to download and some frames can go missing as browser's rendering starts. Note: As of 2020 Firefox doesn't support rel="preload". -->
+    <link rel="stylesheet" href="css_reusables/css_for_every_single_html.css">
+    <link rel="stylesheet" href="css_reusables/css_for_all_container_parent_htmls.css">
+    <link rel="stylesheet" href="css_reusables/css_for_sliding_navigation_menu.css">
+    <link rel="stylesheet" href="css_reusables/css_for_latin_font_rules.css">
+
+    <script src="third_party_js/annyang.min.js">/*Speech Recognition library by Tal Ater - Github: TalAter*/</script>
+    <script src="third_party_js/ua-parser.min.js">/*JS library for getting the browser and OS names by Faisal Salman - Github: faisalman*/</script>
+    <script src="third_party_js/devicedetector-min.js">/*A device detector by Maarten Belmans - Github: PoeHaH*/</script>
+    <script src="third_party_js/howler.core.min.js">/*An audio handler - Github: goldfire*/</script>
+
+    <script defer src="js_reusables/js_for_every_single_html.js">/*Pieces of code, building our app*/</script>
+    <script defer src="js_reusables/js_for_browser_device_issues_in_parents.js">/*Pieces of code, building our app*/</script>
+    <script defer src="js_reusables/js_for_fetch_api_character_encoding.js">/*Pieces of code, building our app*/</script>
+    <script defer src="js_reusables/js_for_handling_fullscreen_mode.js">/*Pieces of code, building our app*/</script>
+    <script defer src="js_reusables/js_for_icon_animation.js">/*Pieces of code, building our app*/</script>
+    <script defer src="js_reusables/js_for_the_sliding_navigation_menu.js">/*Pieces of code, building our app*/</script>
+    <script defer src="js_reusables/js_object_of_all_lessons_listed.js">/*Pieces of code, building our app*/</script>
+    <script defer src="js_reusables/js_for_all_container_parent_htmls.js">/*Pieces of code, building our app*/</script>
+
+    <!-- Uncomment the following to be able to use the browser console on mobile devices -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/1.5.8/eruda.min.js"></script> -->
+    <!-- <script>eruda.init();</script> -->
+
+    <script>
+      /*PLACE ANY SPECIFIC CODE HERE IF NECESSARY*/
+    </script>
+
+  </head>
+  <body>
+    <div id="idOfThePreloadHandlingDiv" style="position: fixed; top:0; left:0; bottom:0; right:0; background-color: white; display: flex; justify-content: center; align-items: center; z-index: 9999;">
+      <!-- The content of this div is added via script. See js_for_preload_handling_of_all_htmls.js -->
+      <!-- The style is left inline as a safe measure against slow network etc. See css_for_every_single_html.css-->
+    </div>
+
+    <!-- Parent HTMLs are not multilingual. Therefore the text below must be translated too, along with the contents of the /user_interface/text/ folder -->
+    <!-- THE MAIN MENU -->
+    <div id="fullViewportPositionFixedDivAsContainerOfTheMenu"> <!-- See css_for_all_container_parent_htmls.css -->
+      <div class="upperHalfDiv">
+        <p>Öğrenmek istediğin dili seç</p>
+      </div>
+      <div class="lowerHalfDiv">
+        <!-- When more languages are hopefully added better list them with the world map order like east to west, west to east,right to left, left to right swipe area -->
+        <!-- Initial location of that grid map can be users location via IP geolocation; we want to avoid asking permission for GPS location as that would be distracting or could be annoying -->
+        <button onclick="letTheIFrameTeachHitoicJapanese()">Hito Dili (Japonca)</button> <!-- See js_for_all_container_parent_htmls.js -->
+        <button onclick="letTheIFrameTeachTurkish()">Kişi Dili (Türkçe)</button> <!-- See js_for_all_container_parent_htmls.js -->
+        <button onclick="letTheIFrameTeachEnglish()">Piypıl Dili (İngilizce)</button> <!-- See js_for_all_container_parent_htmls.js -->
+      </div>
+    </div>
+
+    <div id="fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt">
+      <div class="promptBoxesLikeTheOneForLoadingTheLastLesson">
+        <p>Kaldığın bölüme dön</p>
+        <button onclick="whenLoadLastLessonOkButtonIsClickedOrTapped()">Tamam</button> <!-- See js_for_all_container_parent_htmls.js -->
+      </div>
+    </div>
+
+    <!-- LESSONS WILL BE DISPLAYED ONE BY ONE THROUGH THIS IFRAME -->
+    <iframe src="user_interface/blank.html" id="theIdOfTheIframe" allowfullscreen></iframe>
+
+  </body>
+</html>

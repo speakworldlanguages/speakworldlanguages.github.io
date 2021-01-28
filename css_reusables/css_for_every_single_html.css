@@ -1,0 +1,54 @@
+/*Initial style rules for preload divs are placed inline within the htmls and/or set via script*/
+.addThisClassToHideIt{ /*See preload handling*/ /*This used to be in css_for_all_lesson_htmls before being moved to here*/
+  animation: fadeOutAndBeGone 0.5s;
+  animation-fill-mode: forwards;
+}
+@keyframes fadeOutAndBeGone {
+  100%{
+    opacity: 0;
+    visibility: hidden; /*Not sure if we need display none instead of visibility hidden. Will see.*/ /*After a while: Well, looks like it's working.*/
+  }
+}
+
+*, *::before, *::after{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /*With the star selector every div is selected. Divs don't inherit this from body if we set it like body{ box-sizing: border-box; } */
+}
+
+body{
+  line-height: 0px; /*necessary to remove the unwanted space below objects*/
+  user-select: none; /*disable highlighting text for a modern feel*/
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  text-align: center; /*Necessary! Flexboxes center the containers and not the text itself.*/ /*Divs seem to inherit this automatically. Must handle if some element doesn't inherit this rule automatically.*/
+  /* Also see css_for_custom_cursor.css */
+}
+
+button{} /* See css_for_custom_cursor.css */
+
+button:active{}
+
+img{
+  /*pointer-events: none;*/ /*This makes Firefox on mobile go crazy with touch events! Set it to none only when necessary and only locally in a given lesson's css*/
+}
+/*See js_for_every_single_html.js for fonts*/
+/*Cannot use @import because frame html does not inherit fonts from parent html. Have done it via script.*/
+
+.rightClickMenuWithWebpsInside{
+  position: fixed;
+  z-index: 99999;
+  /*top:50%;*/
+  left:50%; /*This for mobile only in case the script allows the user to be able to touch and hold on the screen to open the context menu*/
+  transform: translateX(-50%); /*This has effect on desktops too*/
+  border-radius: 15px;
+  box-shadow: 0px -3px 3px rgba(0,0,0,0.1);
+  filter: contrast(91%);
+}
+
+.rightClickMenuWithWebpsInside:hover{
+  cursor: row-resize;
+  filter: contrast(108%);
+  box-shadow: 0px -3px 3px rgba(0,0,0,0.1);
+}

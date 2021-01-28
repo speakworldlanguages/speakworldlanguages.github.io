@@ -1,0 +1,131 @@
+#idOfTheDivThatContainsTwoDivsWithPictures{ /*Unique object. So we use the ID*/
+  width:100%;
+  height: 100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4vmin;
+}
+
+.oneOfTheTwoDivsThatContainSquarePictures{  /*Not unique objects. So we use a CLASS*/
+  background-color: white;
+  padding: 10px;
+  margin: 5px; /*CAREFUL: Possible problem when centering is not done with a flexbox but with left 50% transform translateX -50%*/
+  border-radius: 15px;
+  box-shadow: 0 0 15px #55778e;
+}
+
+.oneOfTheTwoDivsThatContainSquarePictures img{ /* Should probably add video too. Will see... UPDATE: Animated webps are better than webm files. So won't use video */
+  width: 100%; /*This was moved here from css_for_all_lesson_htmls.css*/
+  height: 100%; /*This was moved here from css_for_all_lesson_htmls.css*/
+  object-fit: cover; /*This was moved here from css_for_all_lesson_htmls.css*/ /*See .resizeTheMicrophoneDependingOnTheDevice img{}*/
+  border-radius: 10px;
+  transition: opacity 1s ease-in-out;
+}
+
+/*When there is ONE-BIG-PHOTO instead of two photos*/
+#idOfTheDivThatContainsOneBigPictureWhichWorksBothInPortraitAndLandscapeModes{
+  width:100%;
+  height: 100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+}
+.longPictureDivShowWhenInLandscapeHideWhenInPortrait{
+  background-color: white;
+  padding: 0px;
+  margin: 0px;
+  border-radius: 0px;
+  width: 100%;
+  height: 100%;
+}
+.longPictureDivShowWhenInLandscapeHideWhenInPortrait img{
+  width:100%;
+  height: 100%;
+  border-radius: 0px;
+  transition: opacity 1s ease-in-out;
+}
+.longPictureDivShowWhenInPortraitHideWhenInLandscape{
+  background-color: white;
+  padding: 0px;
+  margin: 0px;
+  border-radius: 0px;
+  width: 100%;
+  height: 100%;
+}
+.longPictureDivShowWhenInPortraitHideWhenInLandscape img{
+  height:100%;
+  width: 100%;
+  border-radius: 0px;
+  transition: opacity 1s ease-in-out;
+}
+
+@media screen and (orientation:portrait) {
+  #idOfTheDivThatContainsTwoDivsWithPictures {
+    flex-direction: column;
+  }
+  .oneOfTheTwoDivsThatContainSquarePictures{
+    width: 100%;
+    height: 50%;
+  }
+  .longPictureDivShowWhenInLandscapeHideWhenInPortrait{display: none;}
+  .longPictureDivShowWhenInPortraitHideWhenInLandscape{display: initial;}
+}
+
+@media screen and (orientation:landscape) {
+  #idOfTheDivThatContainsTwoDivsWithPictures {
+    flex-direction: row;
+  }
+  .oneOfTheTwoDivsThatContainSquarePictures{
+    width: 50%;
+    height: 100%;
+  }
+  .longPictureDivShowWhenInLandscapeHideWhenInPortrait{display: initial;}
+  .longPictureDivShowWhenInPortraitHideWhenInLandscape{display: none;}
+}
+
+/*_______*/
+/*Things for Hitonokao-chan's “NOW IT'S YOUR TURN TO SAY IT” animation*/
+.toZeroOpacity {opacity: 0;} /*Intended fade in effect is achieved by removing the toZeroOpacity class from the elements.*/
+.containerFlexDivOfNowYouSayItAnimation{
+  position: fixed;
+  left: -9999px; /* CAUTION: This number has to be big enough for 4K and 8K desktops. See if this makes mobile displays go weird because of viewport maximum-scale. */
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /*Not sure if necessary since this is flex. Rather be safe.*/
+  transition: opacity 0.5s ease-in-out;
+}
+#idOfTheFullViewportDivWithNOWYOUSAYITAnimationInsideLayer1{ /*It will appear by changing left:-9999px to left:0 via script*/
+  background-color: rgba(38, 46, 51, 0.57); /*Used to be rgba(57, 76, 90, 0.15)*/
+  mix-blend-mode: multiply;
+}
+#idOfTheFullViewportDivWithNOWYOUSAYITAnimationInsideLayer2{ /*It will appear by changing left:-9999px to left:0 via script*/
+  background-color: transparent;
+  mix-blend-mode: normal;
+}
+.theNowYouSayItAnimation{ /*This IMG has its own ID*/
+  width:250px;
+  height:250px;
+  object-fit: scale-down; /*Even though no screen will probably be smaller than 250px tall and/or wide*/
+}
+
+/* For lessons with interactables alternatives of these must be put in css_for_lessons_with_interactables*/
+/*____Animation of the GIVE-UP\GO-TO-NEXT elements____*/ /* See css_for_all_iframed_lesson_htmls.css for styling */
+.postloaderInNewVocabularyStartHidden{           opacity:0; transition: opacity 1.75s;     } /* Postloader: White fullviewport cover*/
+.postloaderInNewVocabularyGetSlightlyVisible{    opacity:0.17;      } /* Postloader: White fullviewport cover*/
+.postloaderInNewVocabularyGetTotallyVisible{     opacity:1;      } /* Postloader: White fullviewport cover*/
+/* NOTICE: The “glassy-give-up-button” becomes “proceed-to-next-button” on browsers like Safari, Firefox etc that don’t support Web Speech API*/
+.glassButtonStartHidden{
+  margin-top: 1500px; /*MUST: Find out if this is OK on 4K and 8K!*/
+  transition: all 1.4s ease-in-out;
+}
+.addThisToGlassButtonToUnhide{
+  margin-top: 0px;
+}
+.addThisToGlassButtonWhenSuccessHappens{
+  margin-top: 1500px; /*MUST: Find out if this is OK on 4K and 8K!*/
+}

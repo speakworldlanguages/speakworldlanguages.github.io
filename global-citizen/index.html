@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"> <!-- For mobile devices -->
+    <link rel="icon" type="image/png" href="../user_interface/icon/animated_globe_icon_39.png" id="icon" sizes="32x32">
+
+    <title>💳</title> <!-- The title will depend on UI language. See global-citizen.js -->
+
+    <link rel="stylesheet" href="../css_reusables/css_for_every_single_html.css">
+    <link rel="stylesheet" href="../css_reusables/css_for_all_container_parent_htmls.css">
+    <link rel="stylesheet" href="global-citizen.css">
+
+    <script defer src="../js_reusables/js_for_every_single_html.js">/*Get fonts and user interface language variables*/</script>
+    <script defer src="../js_reusables/js_for_fetch_api_character_encoding.js">/*Display non-english characters correctly*/</script>
+    <script defer src="../third_party_js/devicedetector-min.js">/*Desktop or moblie: Device detector*/</script>
+    <script defer src="../third_party_js/howler.core.min.js">/*Sound*/</script>
+    <script src="global-citizen.js">/*What to do here*/</script>
+
+    <!-- Uncomment the following to be able to use the browser console on mobile devices -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/1.5.8/eruda.min.js"></script> -->
+    <!-- <script>eruda.init();</script> -->
+
+    <style>    .startWithNearZeroOpacity{opacity:0.01;}    </style>
+  </head>
+  <!-- CAREFUL: Mind viewport maximum-scale=1.0, minimum-scale=1.0 with body overflow hidden -->
+  <body>
+    <div id="fullViewportPositionFixedDivAsContainerOfTheMenu" style="z-index:0;"></div> <!-- Provides background gradient. See css_for_all_container_parent_htmls.css -->
+
+    <!-- FOR DESKTOPS -->
+    <div id="thisDivContainsEverythingThatWillBeDisplayedOnDesktops" style="display: none;"> <!-- Use remove() or removeChild() on tablets and phones -->
+
+      <!-- MAIN on desktops -->
+        <!-- A -->
+        <div class="imgShadow startWithNearZeroOpacity niceFadeInA" style="position:fixed; left: 50vw; top: 1vh; transform: translate(-50%,0%); pointer-events: none;"> <!-- pointer-events has function on mobiles too -->
+          <img id="globalCirculationID" class="zoomOut" src="../user_interface/images/global_circulation_frame0_all_devices.webp" alt="" style="height:92vh;/*zoom out to 62vh*/">
+        </div>
+        <!-- B -->
+        <div class=" startWithNearZeroOpacity niceFadeInB" style="position:fixed; left: 50vw; top: 61vh; transform: translate(-50%,0%); margin-top:-1vh;"> <!-- margin-top is desktop only -->
+          <p id="introductionP" style="font-size: 20px; line-height: 25px; white-space: normal;">&dArr;</p>
+        </div>
+        <!-- C -->
+        <div class="thingsInThisFlexboxWillBeCentered" style="position:fixed; left: 0px; right: 0px; top: 65.9vh; height: 20vh; display:flex;">
+          <!-- Availability and type of the options will depend on the user’s LOCATION -->
+          <div id="" class="startWithNearZeroOpacity niceFadeInB" style="display:flex; flex-direction: column; align-items: center;">
+            <div id="financialButton1ID" class="whiteBackgroundWithRoundCornersOnDesktops" style="position:relative; cursor: pointer;">
+              <img src="patreon.webp" alt="" class="absoluteCenteringInsideParentDiv" style="height:8vh;">
+            </div>
+            <p id="globalCitizenBelowPatreonOptionP" style="font-size: 2.2vh; line-height:110%; font-family:'Oxanium SemiBold'; color: white; white-space: pre;">...</p>
+          </div>
+          <!-- ANY ALTERNATIVE TO PATREON CAN BE ADDED HERE -->
+
+        </div>
+        <!-- D -->
+        <div id="navigateBackToInfoID" class="hoverableAndClickableChoice startWithNearZeroOpacity niceFadeInC" style="position:fixed; left:50vw; transform: translateX(-50%); top:90vh; min-width:30vw; min-height:3vh; max-width:90vw; margin:0px;">
+          <p id="goBackToInfoP" style="color:inherit; text-shadow: none; font-size:2.3vh; white-space: nowrap;">...</p>
+        </div>
+      <!-- END OF MAIN on desktops -->
+
+    </div>
+    <!-- End of contents for desktops -->
+
+    <!-- FOR TABLETS -->
+    <div id="thisDivContainsEverythingThatWillBeDisplayedOnTablets" class="startWithNearZeroOpacity niceFadeInA" style="display: none;"> <!-- Use remove() or removeChild() on desktops and phones -->
+
+      <!-- MAIN on tablets -->
+        <!-- A -->
+        <div class="imgShadow imgPositionDependOnDeviceOrientation" style="pointer-events: none;"> <!-- pointer-events has function on mobiles too -->
+          <img id="globalCirculationID" src="../user_interface/images/global_circulation_frame0_all_devices.webp" alt="" class="imgSizeDependOnDeviceOrientationTablet" style="">
+        </div>
+        <!-- B -->
+        <div class="textPositionDependOnDeviceOrientationTablet" style="">
+          <p class="textWidthDependOnDeviceOrientation" id="introductionP" style="font-size: 20px; line-height: 25px; white-space: pre-wrap;">&dArr;</p>
+        </div>
+        <!-- C -->
+        <div class="thingsInThisFlexboxWillBeCentered buttonsPositionDependOnDeviceOrientationTablet" style="display:flex;">
+          <!-- Availability and type of the options will depend on the user’s LOCATION -->
+          <div id="" class="" style="display:flex; flex-direction: column; align-items: center;">
+            <div id="financialButton1ID" class="whiteBackgroundWithRoundCornersOnTablets" style="position:relative;">
+              <img src="patreon.webp" alt="" class="absoluteCenteringInsideParentDiv" style="height:70px;">
+            </div>
+            <p id="globalCitizenBelowPatreonOptionP" style="font-size: 2.2vmax; line-height:110%; font-family:'Oxanium SemiBold'; color: white; white-space: pre;">...</p>
+          </div>
+          <!-- ANY ALTERNATIVE TO PATREON CAN BE ADDED HERE -->
+
+        </div>
+        <!-- D -->
+        <div id="navigateBackToInfoID" class="hoverableAndClickableChoice positionOfNavigateBackOnTablets" style="">
+          <p id="goBackToInfoP" style="color:inherit; text-shadow: none; font-size:3.3vmin; white-space: nowrap;">...</p>
+        </div>
+      <!-- END OF MAIN on tablets -->
+
+    </div>
+    <!-- End of contents for tablets -->
+
+    <!-- FOR PHONES -->
+    <div id="thisDivContainsEverythingThatWillBeDisplayedOnPhones" class="startWithNearZeroOpacity niceFadeInA" style="display: none;"> <!-- Use remove() or removeChild() on desktops and tablets -->
+
+      <!-- MAIN on phones -->
+        <!-- A -->
+        <div class="imgShadow imgPositionDependOnDeviceOrientation" style="pointer-events: none;"> <!-- pointer-events has function on mobiles too -->
+          <img id="globalCirculationID" src="../user_interface/images/global_circulation_frame0_all_devices.webp" alt="" class="imgSizeDependOnDeviceOrientationPhone" style="">
+        </div>
+        <!-- B -->
+        <div class="textPositionDependOnDeviceOrientationPhone" style="">
+          <p class="textWidthDependOnDeviceOrientation" id="introductionP" style="font-size: 17px; line-height: 25px; white-space: pre-wrap;">&dArr;</p>
+        </div>
+        <!-- C -->
+        <div class="thingsInThisFlexboxWillBeCentered buttonsPositionDependOnDeviceOrientationPhone" style="display:flex;">
+          <!-- Availability and type of the options will depend on the user’s LOCATION -->
+          <div id="" class="" style="display:flex; flex-direction: column; align-items: center;">
+            <div id="financialButton1ID" class="whiteBackgroundWithRoundCornersOnTablets" style="position:relative;">
+              <img src="patreon.webp" alt="" class="absoluteCenteringInsideParentDiv" style="height:70px;">
+            </div>
+            <p id="globalCitizenBelowPatreonOptionP" style="font-size: 2.2vmax; line-height:110%; font-family:'Oxanium SemiBold'; color: white; white-space: pre;">...</p>
+          </div>
+          <!-- ANY ALTERNATIVE TO PATREON CAN BE ADDED HERE -->
+
+        </div>
+        <!-- D -->
+        <div id="navigateBackToInfoID" class="hoverableAndClickableChoice positionOfNavigateBackOnPhones" style="">
+          <p id="goBackToInfoP" style="color:inherit; text-shadow: none; font-size:3.5vmin; white-space: nowrap;">...</p>
+        </div>
+      <!-- END OF MAIN on phones -->
+
+
+    </div>
+    <!-- End of contents for phones -->
+
+    <!-- The script that must be executed immediately without any file download delay -->
+    <script>
+      const desktopDisplay = document.getElementById('thisDivContainsEverythingThatWillBeDisplayedOnDesktops');
+      const tabletDisplay = document.getElementById('thisDivContainsEverythingThatWillBeDisplayedOnTablets');
+      const phoneDisplay = document.getElementById('thisDivContainsEverythingThatWillBeDisplayedOnPhones');
+      window.addEventListener('DOMContentLoaded', function(){
+        if (deviceDetector.device == "tablet") {
+            desktopDisplay.parentNode.removeChild(desktopDisplay);
+            phoneDisplay.parentNode.removeChild(phoneDisplay);
+        } else if(deviceDetector.device == "phone") {
+            desktopDisplay.parentNode.removeChild(desktopDisplay);
+            tabletDisplay.parentNode.removeChild(tabletDisplay);
+        } else {
+            tabletDisplay.parentNode.removeChild(tabletDisplay);
+            phoneDisplay.parentNode.removeChild(phoneDisplay);
+        }
+      }, { once: true });
+      window.addEventListener('load', function(){
+        if (deviceDetector.device == "tablet") {
+          tabletDisplay.style.display = "initial";
+        } else if(deviceDetector.device == "phone") {
+          phoneDisplay.style.display = "initial";
+        } else {
+          desktopDisplay.style.display = "initial";
+        }
+      }, { once: true });
+    </script>
+
+  </body>
+</html>
