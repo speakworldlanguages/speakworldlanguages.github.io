@@ -9,13 +9,13 @@
     <meta name="description" content="Speaking two languages is twice as good as one and three is thrice.">
     <meta name="author" content="Manheart Goodwill Wiserule Earthman">
 
-    <link rel="alternate" hreflang="ja" href="ja.html">
-    <!-- <link rel="alternate" hreflang="ko" href="ko.html"> -->
-    <!-- <link rel="alternate" hreflang="zh" href="zh.html"> -->
-    <!-- <link rel="alternate" hreflang="ms" href="ms.html"> -->
-    <link rel="alternate" hreflang="tr" href="tr.html">
-    <!-- <link rel="alternate" hreflang="ar" href="ar.html"> -->
-    <link rel="alternate" hreflang="en" href="en.html">
+    <link rel="alternate" hreflang="ja" href="https://hanaserutoiidesuy.one">
+    <!-- <link rel="alternate" hreflang="ko" href="https://???"> -->
+    <!-- <link rel="alternate" hreflang="zh" href="https://tingdongshijiederen.men"> -->
+    <!-- <link rel="alternate" hreflang="ms" href="https://???"> -->
+    <!-- <link rel="alternate" hreflang="tr" href="https://birdildahaogreney.im"> -->
+    <!-- <link rel="alternate" hreflang="ar" href="https://takall.am"> -->
+    <!-- <link rel="alternate" hreflang="en" href="https://speakworldlanguag.es"> -->
 
     <link rel="icon" type="image/png" href="user_interface/icon/animated_globe_icon_39.png" id="icon" sizes="32x32"> <!-- This appears next to the title in the browser's TABS and plays as an animation. See js_for_icon_animation.js -->
     <link rel="preload" href="css_reusables/css_for_custom_cursor.css" as="style" onload=" var useThis=this; useThis.onload=null; setTimeout(function(){ useThis.rel='stylesheet'; },3000); "> <!-- DESKTOPS only! -->
@@ -80,5 +80,24 @@
     <!-- Firefox refresh button's bug is solved; see js_for_browser_device_issues_in_parents.js  -->
     <iframe src="user_interface/blank.html" id="theIdOfTheIframe" allowfullscreen></iframe>
     <!-- Not sure but allowfullscreen could be useless here. Will leave it anyway unless it is certain that removing it won't break anything -->
+
+<!-- REDIRECT AND SET GUI LANGUAGE ACCORDING TO THE BROWSER LANGUAGE -->
+    <script>
+      // See js_for_every_single_html.js to find UI language settings.
+      // Wait for DOMContentLoaded to be able to use the “browserLanguage” variable from the js file.
+      window.addEventListener('DOMContentLoaded', function(){
+        switch (browserLanguage) {
+          case "ja": window.open("https://hanaserutoiidesuy.one", "_top"); break; // For Hitoland a.k.a. Japan
+          //case "ko": window.open("https://???", "_top"); break; // For Saramland a.k.a. Korea
+          //case "zh": window.open("https://tingdongshijiederen.men", "_top"); break; // For Renland a.k.a China
+          //case "ms": window.open("https://???", "_top"); break; // For Malaysia
+          //case "tr": case "uz": case "ug": case "tk": case "ky": case "kk": case "az": window.open("https://birdildahaogreney.im", "_top"); break;  // Türkiye, Özbekistan, Uygur Doğu Türkistan, Türkmenistan, Kırgızistan, Kazakistan, Azerbaycan
+          //case "ar": window.open("https://takall.am", "_top"); break;
+          //default: break;  // Defaults to Engilsh
+        }
+      }, { once: true });
+      // We don't want to complicate the GUI by adding a button to change the language of the interface.
+    </script>
+
   </body>
 </html>
