@@ -1,9 +1,9 @@
 # This is a MEMBERS-ONLY area.
 
 > - hanaserutoiidesuyoneの社員さんへ,
-* あなたはここにいてよかったです。
+* あなたはここにいてよかったです!
 > - tingdongshijiederenmen的大家,
-* 你也是在这儿好好哦
+* 你也是在这儿好好哦!
 > - birdildahaogreneyim takımının sayın üyesi,
 * Yazılım geliştirme çalışmalarımızı düzenli bir biçimde yürütmek için burayı kullanıyoruz ve sen de iyi ki buradasın!
 > - Dear honorable team member of speakworldlanguages,
