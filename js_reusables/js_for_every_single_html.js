@@ -18,15 +18,15 @@ var needHitoicJapaneseFonts = false;
 
 // BEST PRACTICE: Check if browser language and IP-geolocation match. Ask the user which language he/she wants for the GUI if the location and language is different.
 switch (browserLanguage) {
-  case "tr":
-    userInterfaceLanguage = "tr";
-    userReadsLeftToRightOrRightToLeft = "ltr";
-    needLatinFonts = true;
-    break;
   case "ja":
     userInterfaceLanguage = "ja";
     userReadsLeftToRightOrRightToLeft = "ltr";
     needHitoicJapaneseFonts = true;
+    break;
+  case "tr": /*case "uz": case "ug": case "tk": case "ky": case "kk": case "az":*/
+    userInterfaceLanguage = "tr";
+    userReadsLeftToRightOrRightToLeft = "ltr";
+    needLatinFonts = true;
     break;
   default:
     userInterfaceLanguage = "en";

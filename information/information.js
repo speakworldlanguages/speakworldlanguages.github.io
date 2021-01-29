@@ -39,16 +39,16 @@ window.addEventListener('load', function(){
   // GOOD PRACTICE: It would be good if we could “SILENTLY” get the location of the user via IP detection (without device GPS because that pops another “allow-block” prompt).
   switch (userInterfaceLanguage) {
     /* HIDE-UNHIDE THE LOCAL TRANSACTION OPTION UNTIL IT BECOMES AVAILABLE FOR OUR ORGANIZATION */
-    case "tr":
-      monthlyOpt.style.display = "none";
+    case "ja":
+      //monthlyOpt.style.display = "none";
       oneTimeOpt.style.display = "none";
       break;
-    case "ja":
-      monthlyOpt.style.display = "none";
+    case "tr": /*case "uz": case "ug": case "tk": case "ky": case "kk": case "az":*/
+      //monthlyOpt.style.display = "none";
       oneTimeOpt.style.display = "none";
       break;
     default:// "en" or none of the above
-      monthlyOpt.style.display = "none";
+      //monthlyOpt.style.display = "none";
       oneTimeOpt.style.display = "none";
   }
 
