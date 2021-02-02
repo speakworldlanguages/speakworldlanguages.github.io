@@ -49,17 +49,16 @@ p{color: #34546d;}
   /*__EXIT FULLSCREEN__*/
   .classForAuthorsPhotoOnTablets{height: 77vmin; left: 50%; transform: translate(-50%,20px);} /*__TABLET__*/
   .classForTheBreadOnTablets{top: 6vmin; left: 50%; transform: translate(-50%,0%); width: 92vmin; height: 59vmin;} /*__TABLET__*/
-  .classForSpeechBubbleElementsOnTablets{position: fixed; left: 50%; transform: translate(-50%,40px);} /*__TABLET__*/
+  .classForSpeechBubbleElementsOnTablets{position: fixed; left: 50%; transform: translateX(-50%);} /*__TABLET__*/
   .classForSpeechBubbleTextOnTablets{font-size: 4vmin; line-height: 5vmin;} /*__TABLET__*/
-  .nudgeTheLittleTriangleOnTablets{transform: translateX(0px) scale(1.1);} /*__TABLET__*/
   .classForButton115OrientationalPositioningOnTablets{position: fixed; left: 50%; top: 9.5%; transform: translate(-50%,0px);} /*__TABLET__*/
 
   .classForAuthorsPhotoOnPhones{height: 87vmin; left: 50%; transform: translate(-50%,20px);} /*__PHONE__*/
   .classForTheBreadOnPhones{top: 4vmin; left: 50%; transform: translate(-50%,0%); width: 92vmin; height: 59vmin;} /*__PHONE__*/
-  .classForSpeechBubbleElementsOnPhones{position: fixed; left: 50%; transform: translate(-50%,25px);} /*__PHONE__*/
+  .classForSpeechBubbleElementsOnPhones{position: fixed; left: 50%; transform: translateX(-50%); bottom: 76vmin;} /*__PHONE__*/
   .classForSpeechBubbleTextOnPhones{font-size: 4vmin; line-height: 5.5vmin;} /*__PHONE__*/
   .forKanjiOnMobiles{white-space: pre-wrap;}
-  .nudgeTheLittleTriangleOnPhones{transform: translateX(-3px) scale(0.75);} /*__PHONE__*/
+  .nudgeTheLittleTriangleOnPhones{margin-left: -5px;}  /*__PHONE__*/
   .classForButton115OrientationalPositioningOnPhones{position: fixed; left: 50%; top: 6%; transform: translate(-50%,3px);} /*__PHONE__*/
 
   /*__ENTER FULLSCREEN__*/
@@ -68,7 +67,7 @@ p{color: #34546d;}
 
     .classForAuthorsPhotoOnPhones{height: 89vmin; left: 50%; transform: translate(-50%,0px);} /*__PHONE__*/
     .classForTheBreadOnPhones{height: 71vmin;} /*__PHONE__*/
-    .classForSpeechBubbleElementsOnPhones{position: fixed; left: 50%; transform: translate(-50%,0px);} /*__PHONE__*/
+    .classForSpeechBubbleElementsOnPhones{position: fixed; left: 50%; transform: translateX(-50%); bottom: 84vmin;} /*__PHONE__*/
     .classForSpeechBubbleTextOnPhones{font-size: 4.5vmin;} /*__PHONE__*/
     .classForButton115OrientationalPositioningOnPhones{position: fixed; left: 50%; top: 5%; transform: translate(-50%,1px);} /*__PHONE__*/
   }
@@ -77,29 +76,29 @@ p{color: #34546d;}
   /*__ENTER FULLSCREEN__*/
   .classForAuthorsPhotoOnTablets{height: 80vmin; left: 5%; transform: translate(-5%,0%);}
   .classForTheBreadOnTablets{top:15vmin; right: 4vmin; transform: translate(0%,0%); width: 75vmin; height: 62vmin;}
-  .classForSpeechBubbleElementsOnTablets{position: fixed; left:0%; transform: translate(0%,-5px);}
+  .classForSpeechBubbleElementsOnTablets{position: fixed; left:0%;}
   .classForSpeechBubbleTextOnTablets{font-size: 5.1vmin; line-height: 6.1vmin;}
-  .nudgeTheLittleTriangleOnTablets{transform: translateX(42.5vmin) scale(0.9);}
+  .nudgeTheLittleTriangleOnTablets{margin-left: 42vmin;}
   .classForButton115OrientationalPositioningOnTablets{position: fixed; right: 9vmin; bottom: 5vmin; transform: translate(0%,0%);}
 
   .classForAuthorsPhotoOnPhones{height: 80vmin; left: 5%; transform: translate(-5%,0%);}
   .classForTheBreadOnPhones{top:10vmin; right: 4vmin; transform: translate(0%,0%); width: 75vmin; height: 62vmin;}
-  .classForSpeechBubbleElementsOnPhones{position: fixed; left:0%; transform: translate(0%,22px);}
+  .classForSpeechBubbleElementsOnPhones{position: fixed; left:0%; bottom: 77vmin;}
   .classForSpeechBubbleTextOnPhones{font-size: 5.1vmin; line-height: 6.1vmin;}
   .forKanjiOnMobiles{white-space: normal;}
-  .nudgeTheLittleTriangleOnPhones{transform: translateX(40.5vmin) scale(0.75);}
+  .nudgeTheLittleTriangleOnPhones{margin-left: 42vmin;}
   .classForButton115OrientationalPositioningOnPhones{position: fixed; right: 8vmin; bottom: 3.3vmin; transform: translate(0%,2%);}
 
   /*__EXIT FULLSCREEN__*/
   @media (min-aspect-ratio: 2/1) {
-    .nudgeTheLittleTriangleOnTablets{transform: translateX(44vmin) scale(1);}
+    .nudgeTheLittleTriangleOnTablets{margin-left: 44vmin;}
     .classForButton115OrientationalPositioningOnTablets{position: fixed; right: 50%; bottom: 50%; transform: translate(37%,35%);}
 
     .classForAuthorsPhotoOnPhones{height: 80vmin; left: 5%; transform: translate(-5%,0%);}
     .classForTheBreadOnPhones{top:20vmin; height: 55vmin;}
-    .classForSpeechBubbleElementsOnPhones{position: fixed; left: 0%; transform: translate(0%,17px);}
+    .classForSpeechBubbleElementsOnPhones{position: fixed; left:0%; bottom: 74vmin;}
     .classForSpeechBubbleTextOnPhones{font-size: 5.5vmin; line-height: 6vmin;}
-    .nudgeTheLittleTriangleOnPhones{transform: translateX(41.5vmin) scale(0.75);}
+    .nudgeTheLittleTriangleOnPhones{margin-left: 44vmin;}
     .classForButton115OrientationalPositioningOnPhones{position: fixed; right: 50%; bottom: 50%; transform: translate(36%,45%);}
   }
 }
