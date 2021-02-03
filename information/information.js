@@ -1,8 +1,8 @@
 let hoverSound;
 let clickSound;
 window.addEventListener('DOMContentLoaded', function(){
-  hoverSound = new Howl({  src: ['../user_interface/sounds/monthly_or_onetime_hover.ogg']  });
-  clickSound = new Howl({  src: ['../user_interface/sounds/monthly_or_onetime_click.ogg']  });
+  hoverSound = new Howl({  src: ['../user_interface/sounds/monthly_or_onetime_hover.mp3']  });
+  clickSound = new Howl({  src: ['../user_interface/sounds/monthly_or_onetime_click.mp3']  });
   // ------- Fill the divs with text depending on the user interface language --------
   const filePathForLicense = "../LICENSE";
   fetch(filePathForLicense,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ const keepTheNiceLineBreaks = contentOfTheTxtFile.replace(/\n\s*/g, "<br>"); document.getElementById('putTheLicenseIntoThisP').innerHTML = keepTheNiceLineBreaks; });

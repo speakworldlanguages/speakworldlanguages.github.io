@@ -10,14 +10,14 @@ window.addEventListener('DOMContentLoaded', function(){
   fetch(filePathB,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textB = contentOfTheTxtFile; });
 }, { once: true });
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
-const sayNaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/give_water_normal.ogg";
+const sayNaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/give_water_normal.mp3";
 const sayNatural = new parent.Howl({  src: [sayNaturalPath]  });
-const saySlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/give_water_slow.ogg";
+const saySlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/give_water_slow.mp3";
 const saySlow = new parent.Howl({  src: [saySlowPath]  });
-const sayLastlyPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/thank_you.ogg";
+const sayLastlyPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/thank_you.mp3";
 const sayLastly = new parent.Howl({  src: [sayLastlyPath]  });
-const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_3/click_on_glass.ogg'] });
-const successTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.ogg'] });
+const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_3/click_on_glass.mp3'] });
+const successTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.mp3'] });
 function unloadTheSoundsOfThisLesson() { // Call this as the last thing before leaving.
   successTone.unload();
   clickTone.unload();

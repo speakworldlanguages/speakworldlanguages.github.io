@@ -8,15 +8,15 @@ fetch(filePathA,myHeaders).then(function(response){return response.text();}).the
 //fetch(filePathB,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textB = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-const sayAPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink.ogg";
+const sayAPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink.mp3";
 const sayA = new parent.Howl({  src: [sayAPath]  });
-const sayBPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink_water.ogg";
+const sayBPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink_water.mp3";
 const sayB = new parent.Howl({  src: [sayBPath]  });
-const sayCPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink_water_from_the_glass.ogg";
+const sayCPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink_water_from_the_glass.mp3";
 const sayC = new parent.Howl({  src: [sayCPath]  });
-const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_4/click_to_drink.ogg'] });
-const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_4/drink_water_from_glass_state_b.ogg'] });
-const successTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_4/successfully_drank_water.ogg'] });
+const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_4/click_to_drink.mp3'] });
+const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_4/drink_water_from_glass_state_b.mp3'] });
+const successTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_4/successfully_drank_water.mp3'] });
 function unloadTheSoundsOfThisLesson() { // Call this as the last thing before leaving.
   successTone.unload();
   videoSoundTrack.unload();

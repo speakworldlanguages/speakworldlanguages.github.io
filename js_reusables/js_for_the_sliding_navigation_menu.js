@@ -1,5 +1,5 @@
-var exitFullscreenModeSound = new Howl({  src: ['user_interface/sounds/user_goes_away.ogg']  }); // MOBILE ONLY!
-var enterFullscreenModeSound = new Howl({  src: ['user_interface/sounds/user_returns.ogg']  }); // MOBILE ONLY!
+var exitFullscreenModeSound = new Howl({  src: ['user_interface/sounds/user_goes_away.mp3']  }); // MOBILE ONLY!
+var enterFullscreenModeSound = new Howl({  src: ['user_interface/sounds/user_returns.mp3']  }); // MOBILE ONLY!
 // NOTE: Do not use “const” for things that need to be accessible from elsewhere. Only use “var” for such variables.
 // The buttons have 4 (webp img) states : A, B, C and D. If we use one variable and only change the src it works but it is very glitchy.
 // Therefore we have to use four variables for each webp and change the css rule “display block none” instead of changing the src.
@@ -112,8 +112,8 @@ function removeGoBackToPreviousButtonFromTheNavigationMenu() {
 }
 
 // Sliding navigation menu button UI sounds
-const navMenuHoverSound = new Howl({  src: ['user_interface/sounds/navigation_menu_hover.ogg']  }); // DESKTOP ONLY. Put it here to make it global.
-const navMenuClickSound = new Howl({  src: ['user_interface/sounds/navigation_menu_click.ogg']  });
+const navMenuHoverSound = new Howl({  src: ['user_interface/sounds/navigation_menu_hover.mp3']  }); // DESKTOP ONLY. Put it here to make it global.
+const navMenuClickSound = new Howl({  src: ['user_interface/sounds/navigation_menu_click.mp3']  });
 
 var speedAdjustmentDiv = document.createElement("DIV"); // ONLY FOR DESKTOPS
 speedAdjustmentDiv.classList.add("sliderContainerDivsWillLook");

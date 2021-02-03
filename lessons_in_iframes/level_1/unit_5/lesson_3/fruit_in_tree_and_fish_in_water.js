@@ -22,22 +22,22 @@ fetch(filePathD,myHeaders).then(function(response){return response.text();}).the
 fetch(filePathE,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textE = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-const say1NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_fruit_normal.ogg";
+const say1NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_fruit_normal.mp3";
 const say1Natural = new parent.Howl({  src: [say1NaturalPath]  });
-const say1SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_fruit_slow.ogg";
+const say1SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_fruit_slow.mp3";
 const say1Slow = new parent.Howl({  src: [say1SlowPath]  });
-const say2NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_no_fruit_normal.ogg";
+const say2NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_no_fruit_normal.mp3";
 const say2Natural = new parent.Howl({  src: [say2NaturalPath]  });
-const say2SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_no_fruit_slow.ogg";
+const say2SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_no_fruit_slow.mp3";
 const say2Slow = new parent.Howl({  src: [say2SlowPath]  });
-const say3Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/what_is_that.ogg";
+const say3Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/what_is_that.mp3";
 const say3 = new parent.Howl({  src: [say3Path]  });
-const say4Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/it_is_a_fish.ogg";
+const say4Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/it_is_a_fish.mp3";
 const say4 = new parent.Howl({  src: [say4Path]  });
-const say5Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_a_fish_in_the_water.ogg";
+const say5Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_a_fish_in_the_water.mp3";
 const say5 = new parent.Howl({  src: [say5Path]  });
-const loopingBackgroundSound = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_5/lesson_3/waterfall_and_river_loop.ogg']  , loop:true });
-const videoSoundTrackThatWillPlayWithClickOrTouch = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_5/lesson_3/state_c_soundtrack.ogg'] });
+const loopingBackgroundSound = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_5/lesson_3/waterfall_and_river_loop.mp3']  , loop:true });
+const videoSoundTrackThatWillPlayWithClickOrTouch = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_5/lesson_3/state_c_soundtrack.mp3'] });
 function unloadTheSoundsOfThisLesson() { // Call this as the last thing before leaving.
   videoSoundTrackThatWillPlayWithClickOrTouch.unload();
   loopingBackgroundSound.unload();

@@ -8,16 +8,16 @@ fetch(filePathA,myHeaders).then(function(response){return response.text();}).the
 /*There is no textB in this lesson*/
 
 /* ___AUDIO ELEMENTS___ */
-const sayNaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_3/lesson_4/play_in_the_garden_normal.ogg";
+const sayNaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_3/lesson_4/play_in_the_garden_normal.mp3";
 const sayNatural = new parent.Howl({  src: [sayNaturalPath]  });
-const saySlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_3/lesson_4/play_in_the_garden_slow.ogg";
+const saySlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_3/lesson_4/play_in_the_garden_slow.mp3";
 const saySlow = new parent.Howl({  src: [saySlowPath]  });
-const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/click_on_garden.ogg'] });
-const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/garden_sound.ogg'] });
-const successTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/success_in_garden.ogg'] });
-const actionSound1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/ball_hit.ogg'] });
-const actionSound2 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/bubbles.ogg'] }); // 12850 + 2360
-const actionSound3 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/pop.ogg'] });
+const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/click_on_garden.mp3'] });
+const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/garden_sound.mp3'] });
+const successTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/success_in_garden.mp3'] });
+const actionSound1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/ball_hit.mp3'] });
+const actionSound2 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/bubbles.mp3'] }); // 12850 + 2360
+const actionSound3 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/pop.mp3'] });
 function unloadTheSoundsOfThisLesson() { // Call this as the last thing before leaving.
   actionSound3.unload();
   actionSound2.unload();

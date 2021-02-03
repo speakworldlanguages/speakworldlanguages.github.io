@@ -8,19 +8,19 @@ fetch(filePathA,myHeaders).then(function(response){return response.text();}).the
 fetch(filePathB,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textB = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
-const say1NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/take_bread_normal.ogg";
+const say1NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/take_bread_normal.mp3";
 const say1Natural = new parent.Howl({  src: [say1NaturalPath]  });
-const say1SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/take_bread_slow.ogg";
+const say1SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/take_bread_slow.mp3";
 const say1Slow = new parent.Howl({  src: [say1SlowPath]  });
-const say2NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat_normal.ogg";
+const say2NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat_normal.mp3";
 const say2Natural = new parent.Howl({  src: [say2NaturalPath]  });
-const say2SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat_slow.ogg";
+const say2SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat_slow.mp3";
 const say2Slow = new parent.Howl({  src: [say2SlowPath]  });
-const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/click_on_bread.ogg'] });
-const bite1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bite1.ogg'] });
-const bite2 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bite2.ogg'] });
-const bite3 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bite3.ogg'] });
-const successTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bread_is_eaten.ogg'] });
+const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/click_on_bread.mp3'] });
+const bite1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bite1.mp3'] });
+const bite2 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bite2.mp3'] });
+const bite3 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bite3.mp3'] });
+const successTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bread_is_eaten.mp3'] });
 function unloadTheSoundsOfThisLesson() { // Call this as the last thing before leaving.
   successTone.unload();
   bite3.unload();

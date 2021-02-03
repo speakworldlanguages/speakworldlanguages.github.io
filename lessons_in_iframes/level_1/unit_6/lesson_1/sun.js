@@ -5,24 +5,24 @@ const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+
 fetch(filePathForTheWordOrPhrase,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theNewWordUserIsLearningNowAndPossibleMishaps = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-const say1Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_1/sun_1.ogg";
-const say2Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_1/sun_2.ogg";
-const say3Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_1/sun_3.ogg";
-const say4Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_1/sun_4.ogg";
+const say1Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_1/sun_1.mp3";
+const say2Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_1/sun_2.mp3";
+const say3Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_1/sun_3.mp3";
+const say4Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_1/sun_4.mp3";
 
 const sayA = new parent.Howl({  src: [say1Path]  });
 const sayB = new parent.Howl({  src: [say2Path]  });
 const sayC = new parent.Howl({  src: [say3Path]  });
 const sayD = new parent.Howl({  src: [say4Path]  });
 
-const theSoundOfBurningSun = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_6/lesson_1/the_sun_is_burning.ogg"] , loop:true });
-const impactSound1 = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_6/lesson_1/impact_1.ogg"]  });
-const impactSound2 = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_6/lesson_1/impact_2.ogg"]  });
-const impactSound3 = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_6/lesson_1/impact_3.ogg"]  });
-const impactSound4 = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_6/lesson_1/impact_4.ogg"]  });
+const theSoundOfBurningSun = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_6/lesson_1/the_sun_is_burning.mp3"] , loop:true });
+const impactSound1 = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_6/lesson_1/impact_1.mp3"]  });
+const impactSound2 = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_6/lesson_1/impact_2.mp3"]  });
+const impactSound3 = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_6/lesson_1/impact_3.mp3"]  });
+const impactSound4 = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_6/lesson_1/impact_4.mp3"]  });
 
-const successTone = new parent.Howl({  src: ['user_interface/sounds/success1.ogg']  });
-const notificationDingTone = new parent.Howl({  src: ['user_interface/sounds/ding.ogg']  });
+const successTone = new parent.Howl({  src: ['user_interface/sounds/success1.mp3']  });
+const notificationDingTone = new parent.Howl({  src: ['user_interface/sounds/ding.mp3']  });
 function unloadTheSoundsOfThisLesson() { // Call this as the last thing before leaving.
   notificationDingTone.unload();
   successTone.unload();

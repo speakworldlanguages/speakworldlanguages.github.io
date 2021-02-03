@@ -98,8 +98,8 @@ setInterval( function ()
 } , 6000);
 
 // UI sounds ... also see js_for_browser_device_issues_in_parents.js
-const hoverSound = new Howl({  src: ['user_interface/sounds/select_language_hover.ogg']  }); // DESKTOP ONLY!
-const clickSound = new Howl({  src: ['user_interface/sounds/select_language_click.ogg']  });
+const hoverSound = new Howl({  src: ['user_interface/sounds/select_language_hover.mp3']  }); // DESKTOP ONLY!
+const clickSound = new Howl({  src: ['user_interface/sounds/select_language_click.mp3']  });
 
 let allIndexButtonElementsAreInThisArray = document.getElementsByTagName("BUTTON"); /*All buttons in parents, without any of the lesson buttons*/
 let i;

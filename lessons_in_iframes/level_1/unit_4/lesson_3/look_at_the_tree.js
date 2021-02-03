@@ -17,21 +17,21 @@ fetch(filePathD,myHeaders).then(function(response){return response.text();}).the
 fetch(filePathE,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textE = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-const say1NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/look_at_the_tree_normal.ogg";
+const say1NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/look_at_the_tree_normal.mp3";
 const say1Natural = new parent.Howl({  src: [say1NaturalPath]  });
-const say1SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/look_at_the_tree_slow.ogg";
+const say1SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/look_at_the_tree_slow.mp3";
 const say1Slow = new parent.Howl({  src: [say1SlowPath]  });
-const say2NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/there_is_a_bird_normal.ogg";
+const say2NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/there_is_a_bird_normal.mp3";
 const say2Natural = new parent.Howl({  src: [say2NaturalPath]  });
-const say2SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/there_is_a_bird_in_the_tree_slow.ogg";
+const say2SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/there_is_a_bird_in_the_tree_slow.mp3";
 const say2Slow = new parent.Howl({  src: [say2SlowPath]  });
-const say3NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/listen_normal.ogg";
+const say3NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/listen_normal.mp3";
 const say3Natural = new parent.Howl({  src: [say3NaturalPath]  });
-const say3SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/listen_to_the_bird_slow.ogg";
+const say3SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/listen_to_the_bird_slow.mp3";
 const say3Slow = new parent.Howl({  src: [say3SlowPath]  });
-const clickTone1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_4/lesson_3/click_on_tree.ogg'] });
-const clickTone2 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_4/lesson_3/bird_tweet_tweet.ogg'] });
-const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_4/lesson_3/state_g_soundtrack.ogg'] });
+const clickTone1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_4/lesson_3/click_on_tree.mp3'] });
+const clickTone2 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_4/lesson_3/bird_tweet_tweet.mp3'] });
+const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_4/lesson_3/state_g_soundtrack.mp3'] });
 function unloadTheSoundsOfThisLesson() { // Call this as the last thing before leaving.
   videoSoundTrack.unload();
   clickTone2.unload();

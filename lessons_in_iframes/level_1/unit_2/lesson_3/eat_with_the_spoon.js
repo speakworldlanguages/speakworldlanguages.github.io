@@ -9,15 +9,15 @@ fetch(filePathA,myHeaders).then(function(response){return response.text();}).the
 
 /* ___AUDIO ELEMENTS___ */
 // The following say1 say2 and say3 are not slow vs fast. Just 3 different intonations to make it feel less “robotic”.
-const say1Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_3/eat_with_the_spoon_1.ogg";
+const say1Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_3/eat_with_the_spoon_1.mp3";
 const say1 = new parent.Howl({  src: [say1Path]  });
-const say2Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_3/eat_with_the_spoon_2.ogg";
+const say2Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_3/eat_with_the_spoon_2.mp3";
 const say2 = new parent.Howl({  src: [say2Path]  });
-const say3Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_3/eat_with_the_spoon_3.ogg";
+const say3Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_3/eat_with_the_spoon_3.mp3";
 const say3 = new parent.Howl({  src: [say3Path]  });
-const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_3/spoon_is_clicked.ogg'] });
-const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_3/eat_with_the_spoon_state_b.ogg'] });
-const successTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_3/meal_is_finished.ogg'] });
+const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_3/spoon_is_clicked.mp3'] });
+const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_3/eat_with_the_spoon_state_b.mp3'] });
+const successTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_3/meal_is_finished.mp3'] });
 function unloadTheSoundsOfThisLesson() { // Call this as the last thing before leaving.
   successTone.unload();
   videoSoundTrack.unload();

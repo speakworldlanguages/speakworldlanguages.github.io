@@ -3,10 +3,10 @@ let clickSoundFinancials;
 let hoverSoundNavigation;
 let clickSoundNavigation;
 window.addEventListener('DOMContentLoaded', function(){
-  hoverSoundFinancials = new Howl({  src: ['../user_interface/sounds/financial_thirdparty_hover.ogg']  });
-  clickSoundFinancials = new Howl({  src: ['../user_interface/sounds/financial_thirdparty_click.ogg']  });
-  hoverSoundNavigation = new Howl({  src: ['../user_interface/sounds/monthly_or_onetime_hover.ogg']  });
-  clickSoundNavigation = new Howl({  src: ['../user_interface/sounds/monthly_or_onetime_click.ogg']  });
+  hoverSoundFinancials = new Howl({  src: ['../user_interface/sounds/financial_thirdparty_hover.mp3']  });
+  clickSoundFinancials = new Howl({  src: ['../user_interface/sounds/financial_thirdparty_click.mp3']  });
+  hoverSoundNavigation = new Howl({  src: ['../user_interface/sounds/monthly_or_onetime_hover.mp3']  });
+  clickSoundNavigation = new Howl({  src: ['../user_interface/sounds/monthly_or_onetime_click.mp3']  });
   // REMEMBER: Wait for “userInterfaceLanguage” variable to be ready. See js_for_every_single_html.js
   // ------- Fill the divs with text depending on the user interface language --------
   const filePathForTitle = "../user_interface/text/"+userInterfaceLanguage+"/global-citizen_title.txt";

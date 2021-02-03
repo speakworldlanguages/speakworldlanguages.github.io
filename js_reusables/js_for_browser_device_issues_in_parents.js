@@ -87,8 +87,8 @@ window.addEventListener('DOMContentLoaded', function(){
   /*________________________________________*/
   // Handle lesson PAUSE with visibility change on mobile devices for return after tab navigation or when on/off button is pressed etc.
   // Use “var” (not “const”) for things that has to be accessible from elsewhere.
-  var userGoesAway = new Howl({  src: ['user_interface/sounds/user_goes_away.ogg']  }); // DESKTOP ONLY!
-  var userReturns = new Howl({  src: ['user_interface/sounds/user_returns.ogg']  }); // DESKTOP ONLY!
+  var userGoesAway = new Howl({  src: ['user_interface/sounds/user_goes_away.mp3']  }); // DESKTOP ONLY!
+  var userReturns = new Howl({  src: ['user_interface/sounds/user_returns.mp3']  }); // DESKTOP ONLY!
   let continueAfterPauseMsgFromTxtFileInUILanguage = "Continue?"; // Get the actual text from txt file and use it instead of this default.
   const filePathForTheContinueLessonText = "user_interface/text/"+userInterfaceLanguage+"/0-continue_after_pause.txt";
   fetch(filePathForTheContinueLessonText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ continueAfterPauseMsgFromTxtFileInUILanguage = contentOfTheTxtFile; });// See js_for_fetch_api_character_encoding.js for the headers thingy.

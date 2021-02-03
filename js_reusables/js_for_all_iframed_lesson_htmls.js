@@ -39,8 +39,8 @@ window.onbeforeunload = function() {
 };
 
 // BUTTON TYPE 1: Classical with playstation style
-const hoverSoundForProceedToNextButton115 = new parent.Howl({  src: ['user_interface/sounds/proceed_to_next_hover.ogg']  }); // DESKTOPS ONLY! Could add code to disable it on mobile but guess it just works when left like this.
-const clickSoundForProceedToNextButton115 = new parent.Howl({  src: ['user_interface/sounds/proceed_to_next_click.ogg']  });
+const hoverSoundForProceedToNextButton115 = new parent.Howl({  src: ['user_interface/sounds/proceed_to_next_hover.mp3']  }); // DESKTOPS ONLY! Could add code to disable it on mobile but guess it just works when left like this.
+const clickSoundForProceedToNextButton115 = new parent.Howl({  src: ['user_interface/sounds/proceed_to_next_click.mp3']  });
 let allLessonButtonElementsAreInThisArray = document.getElementsByTagName("BUTTON");
 let i;
 for (i = 0; i < allLessonButtonElementsAreInThisArray.length; i++)
@@ -66,8 +66,8 @@ function mouseDownClassical() {
 }
 
 // BUTTON TYPE 2: Glassy button with glassy sounds
-const hoverSoundForGlassyButtons = new parent.Howl({  src: ['user_interface/sounds/glassybuttonhover.ogg']  }); // DESKTOPS ONLY! Could add code to disable it on mobile but guess it just works when left like this.
-const clickSoundForGlassyButtons = new parent.Howl({  src: ['user_interface/sounds/glassybuttongiveupskipclick.ogg']  });
+const hoverSoundForGlassyButtons = new parent.Howl({  src: ['user_interface/sounds/glassybuttonhover.mp3']  }); // DESKTOPS ONLY! Could add code to disable it on mobile but guess it just works when left like this.
+const clickSoundForGlassyButtons = new parent.Howl({  src: ['user_interface/sounds/glassybuttongiveupskipclick.mp3']  });
 /* Use ASIDE elements as a second type of button */
 let allLessonAsideElementsAreInThisArray = document.getElementsByTagName("ASIDE");
 let j;

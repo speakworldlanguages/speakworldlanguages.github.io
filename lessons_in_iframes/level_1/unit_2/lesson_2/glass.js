@@ -5,23 +5,23 @@ const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+
 fetch(filePathForTheWordOrPhrase,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theNewWordUserIsLearningNowAndPossibleMishaps = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-const say1say2Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_2/glass_1-2.ogg";
-const say3say4Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_2/glass_3-4.ogg";
-const say5say6Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_2/glass_5-6.ogg";
-const say7say8Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_2/glass_7-8.ogg";
+const say1say2Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_2/glass_1-2.mp3";
+const say3say4Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_2/glass_3-4.mp3";
+const say5say6Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_2/glass_5-6.mp3";
+const say7say8Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_2/glass_7-8.mp3";
 
 const sayAB = new parent.Howl({  src: [say1say2Path]  });
 const sayCD = new parent.Howl({  src: [say3say4Path]  });
 const sayEF = new parent.Howl({  src: [say5say6Path]  });
 const sayGH = new parent.Howl({  src: [say7say8Path]  });
 
-const realGlassSoundAB = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_2/lesson_2/realglass_1-2.ogg"]  });
-const realGlassSoundCD = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_2/lesson_2/realglass_3-4.ogg"]  });
-const realGlassSoundEF = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_2/lesson_2/realglass_5-6.ogg"]  });
-const realGlassSoundGH = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_2/lesson_2/realglass_7-8.ogg"]  });
+const realGlassSoundAB = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_2/lesson_2/realglass_1-2.mp3"]  });
+const realGlassSoundCD = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_2/lesson_2/realglass_3-4.mp3"]  });
+const realGlassSoundEF = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_2/lesson_2/realglass_5-6.mp3"]  });
+const realGlassSoundGH = new parent.Howl({  src: ["lessons_in_iframes/level_1/unit_2/lesson_2/realglass_7-8.mp3"]  });
 
-const successTone = new parent.Howl({  src: ['user_interface/sounds/success2.ogg']  });
-const notificationDingTone = new parent.Howl({  src: ['user_interface/sounds/ding.ogg']  });
+const successTone = new parent.Howl({  src: ['user_interface/sounds/success2.mp3']  });
+const notificationDingTone = new parent.Howl({  src: ['user_interface/sounds/ding.mp3']  });
 function unloadTheSoundsOfThisLesson() { // Call this as the last thing before leaving.
   notificationDingTone.unload();
   successTone.unload();
