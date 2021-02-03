@@ -85,22 +85,22 @@ for (j = 0; j < allLessonAsideElementsAreInThisArray.length; j++)
   /* Glassy sounds for hover and click */
   if (parent.deviceDetector.device == "desktop") { // Desktops
     allLessonAsideElementsAreInThisArray[j].addEventListener("mouseenter", mouseEnterGlassy);
-    allLessonAsideElementsAreInThisArray[j].addEventListener("mousedown", mouseDownOrTouchStartGlassy);
+    allLessonAsideElementsAreInThisArray[j].addEventListener("mousedown", mouseDownOrTouchStartGlassy, { once: true });
   }
   else { // Mobiles
-    allLessonAsideElementsAreInThisArray[j].addEventListener("touchstart", mouseDownOrTouchStartGlassy);
+    allLessonAsideElementsAreInThisArray[j].addEventListener("touchstart", mouseDownOrTouchStartGlassy, { once: true });
   }
 }
 
 function clickGlassy(event) {
   if (parent.deviceDetector.isMobile) { // Mobiles
     event.target.parentNode.classList.add('addThisToTheButtonWhenItIsTouchedOnMobiles'); //See css_for_all_iframed_lesson_htmls.css
-    event.target.removeEventListener("touchstart", mouseDownOrTouchStartGlassy);
+    //event.target.removeEventListener("touchstart", mouseDownOrTouchStartGlassy);
   }
   else { // Desktops
     event.target.parentNode.classList.add('addThisToTheButtonWhenItIsClickedOnDesktops'); //See css_for_all_iframed_lesson_htmls.css
     event.target.removeEventListener("mouseenter", mouseEnterGlassy);
-    event.target.removeEventListener("mousedown", mouseDownOrTouchStartGlassy);
+    //event.target.removeEventListener("mousedown", mouseDownOrTouchStartGlassy);
   }
 }
 function mouseEnterGlassy() {

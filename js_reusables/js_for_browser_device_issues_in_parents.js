@@ -1,9 +1,12 @@
 var isTheUsersBrowserWhitelisted = false;
+var detectedBrowser;
+var detectedOS;
 window.addEventListener('DOMContentLoaded', function(){
 
   var parser = new UAParser();
   // Check for browser name on every device
   detectedBrowser = parser.getBrowser();
+  detectedOS = parser.getOS();
   // See caniuse.com
   // Samsung Browser PROBLEM SOLVED: See js_for_the_sliding_navigation_menu.js to find the function hideOrUnhideTheNavigationMenuOnMOBILES()
   // Sliding navigation menu used to be triggered oppositely because resize and fullscreenchange events fired at different times in Chrome and in Samsung Browser.

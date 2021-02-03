@@ -3,17 +3,17 @@
 window.addEventListener('DOMContentLoaded', function(){
   // switch (browserLanguage) { // See js_for_every_single_html.js
   //   case "tr":
-  //     if (location.hostname != "birdildahaogreney.im") {
+  //     if (location.hostname != "birdildahaogreneyim") {
   //       window.open("https://birdildahaogreney.im/","_top");
   //     }
   //     break;
   //   case "ja":
-  //     if (location.hostname != "hanaserutoiidesuy.one") {
+  //     if (location.hostname != "hanaserutoiidesuyone") {
   //       window.open("https://hanaserutoiidesuy.one/","_top");
   //     }
   //     break;
   //   default:
-  //     if (location.hostname != "speakworldlanguag.es") {
+  //     if (location.hostname != "speakworldlanguages") {
   //       window.open("https://speakworldlanguag.es/","_top");
   //     }
   // }
@@ -128,13 +128,13 @@ let firstSevenCharactersOfTheAddress = location.hostname.substring(0,7);
 switch (location.hostname) {
   case "speakworldlanguages.github.io": // ALLOW
     break;
-  case "speakworldlanguag.es": // ALLOW
+  case "speakworldlanguages": // ALLOW
     break;
-  case "birdildahaogreney.im": // ALLOW
+  case "birdildahaogreneyim": // ALLOW
     break;
-  case "hanaserutoiidesuy.one": // ALLOW
+  case "hanaserutoiidesuyone": // ALLOW
     break;
-  case "tingdongshijiederen.men": // ALLOW
+  case "tingdongshijiederenmen": // ALLOW
     break;
   case "localhost": // ALLOW
     break;
