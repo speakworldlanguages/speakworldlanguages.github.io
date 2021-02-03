@@ -50,6 +50,7 @@ function loadingIsCompleteFunction() {
 let looping; // Declare it here, outside any {} to make it global.
 let counter = 1;
 function goFromAtoB() {
+  console.log("Şu anda goFromAtoB() nin içini uyguluyor");
   imgA.style.display = "none"; // From static last frame
   imgB.style.display = "initial"; // To looping animation. One cycle is 8250 ms
   // Action one at 2640,,, action two at 7920,,, total time 66ms x 125frames = 8250 ms loop ... 8250 x 2 = 16500 -> 1 cycle of slow fast slow fast
