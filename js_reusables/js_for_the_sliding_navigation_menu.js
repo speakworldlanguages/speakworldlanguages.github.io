@@ -464,21 +464,7 @@ window.addEventListener("load",function() {
   clickToOpenProgressDiv.addEventListener("click", openProgressChartFunction );
   clickToFinanceDiv.addEventListener("click", openFinancialMethodsPageFunction );
 
-  // /* This task has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload*/
-  // function stopAnnyangAndStopHowler() {
-  //   if (annyang) { // DO NOT OMIT! Firefox and other no-speech browsers need this to let the app work without Web Speech API.
-  //     if (annyang.isListening()) {
-  //       annyang.removeCommands();
-  //       annyang.abort();
-  //     }
-  //   }
-  //
-  //   // Stop with a nice fade and get ready to come back. Use console.log(Howler._howls.length); to see how many.
-  //   Howler._howls.forEach(function(nextAudioToBeStopped) {
-  //     nextAudioToBeStopped.fade(1, 0, 1500);
-  //     setTimeout(function () {   nextAudioToBeStopped.stop();  nextAudioToBeStopped.volume(1); /*volume(1) means “don't leave it muted” because THE USER MAY RETURN*/  },1501);
-  //   });
-  // }
+  // The task of unloading sounds and stopping annyang has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload
 
   function goToPreviousLessonFunction() {
     navMenuClickSound.play();

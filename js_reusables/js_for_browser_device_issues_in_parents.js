@@ -105,8 +105,10 @@ window.addEventListener('DOMContentLoaded', function(){
                 // Handle audio
                 Howler._howls.forEach(function(nextAudioToFadeToSilence) {         nextAudioToFadeToSilence.fade(1, 0, 1200);         });
                 // Handle microphone
-                wasListeningJustBeforeUserLeft = annyang.isListening();
-                annyang.abort(); // without this annyang.start() won't function.
+                if (annyang) {
+                  wasListeningJustBeforeUserLeft = annyang.isListening();
+                  annyang.abort(); // without this annyang.start() won't function.
+                }
                 alert(continueAfterPauseMsgFromTxtFileInUILanguage); // Try to make the app pause when On/Off button of the phone/tablet is pressed, but do not block annyang restart.
             } else {
                 // console.log("visible means user is back");
@@ -115,7 +117,7 @@ window.addEventListener('DOMContentLoaded', function(){
                 // Handle microphone
                 //MUST restart annyang if was listening!
                 if (wasListeningJustBeforeUserLeft) {
-                  setTimeout(function() {                 annyang.start();                },1000);
+                  setTimeout(function() {          if (annyang){ annyang.start(); }              },1000);
                 }
             }
           }
