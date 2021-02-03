@@ -65,8 +65,10 @@ function goFromAtoB() {
   // touchstart is the mobile equivalent of mousedown
   if (parent.deviceDetector.isMobile) {
     clickableArea.addEventListener("touchstart",goFromBtoC,{once:true}); // NECESSARY: Because mousedown doesn't fire until the screen is released by user's finger.
+    console.log("Mobil cihaz algılandı. Alan TOUCH ile dokunulabilir");
   } else {
     clickableArea.addEventListener("mousedown",goFromBtoC,{once:true});
+    console.log("Cihaz mobil değil. Alan MOUSE ile tıklanabilir");
   }
 }
 

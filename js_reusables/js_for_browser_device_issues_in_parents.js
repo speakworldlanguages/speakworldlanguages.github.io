@@ -82,7 +82,7 @@ window.addEventListener('DOMContentLoaded', function(){
         }
       },3000);
     } // End of inner “else”
-  } // End of outer “else”
+  } // End of if (annyang)
 
   /*________________________________________*/
   // Handle lesson PAUSE with visibility change on mobile devices for return after tab navigation or when on/off button is pressed etc.
