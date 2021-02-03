@@ -55,7 +55,7 @@ function goFromAtoB() {
   imgB.style.display = "initial"; // To looping animation. One cycle is 8250 ms
   // Action one at 2640,,, action two at 7920,,, total time 66ms x 125frames = 8250 ms loop ... 8250 x 2 = 16500 -> 1 cycle of slow fast slow fast
   function loopFunction() {
-    parent.navigator.vibrate([0,2640,20,5260,20,310]);
+    // parent.navigator.vibrate([0,2640,20,5260,20,310]);
     setTimeout(function () {  sayNatural.play();  },3000);
     setTimeout(function () {  saySlow.play();  },8250+3000);
     if (counter == 4) {  clearInterval(looping);  }
@@ -76,7 +76,7 @@ function goFromAtoB() {
 function goFromBtoC() {
   clearInterval(looping); sayNatural.fade(1,0,1500); saySlow.fade(1,0,1500);
   clickTone.play();
-  parent.navigator.vibrate(15);
+  // parent.navigator.vibrate(15);
   imgB.style.display = "none";
   imgC.style.display = "initial";
   setTimeout(function () { successTone.play(); },2250); // Actual time of last frame is 1848 milliseconds

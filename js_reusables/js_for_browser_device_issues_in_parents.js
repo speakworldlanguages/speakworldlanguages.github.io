@@ -78,7 +78,7 @@ window.addEventListener('DOMContentLoaded', function(){
         if (annyang.isListening()) {
           annyang.abort();
           clearInterval(tryToAbortEveryThreeSeconds);
-          setTimeout(function () {  navigator.vibrate(1);  },4000); // This is for browsers (like Firefox Mobile) which ask the user if he/she wants to allow vibration.
+          //setTimeout(function () {  navigator.vibrate(1);  },4000); // This is for browsers (like Firefox Mobile) which ask the user if he/she wants to allow vibration.
         }
       },3000);
     } // End of inner “else”
