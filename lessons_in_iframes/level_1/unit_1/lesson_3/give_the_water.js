@@ -50,6 +50,8 @@ function loadingIsCompleteFunction() {
 let looping; // Declare it here, outside any {} to make it global.
 let counter = 1;
 function goFromAtoB() {
+  // // DEBUG:
+  clickableArea.addEventListener("mousedown",goFromBtoC,{once:true});
   // setTimeout(function () {  alert("5000ms süresi doldu");  },5000); // Bu iPhone Safaride çalıştı navigator vibrateleri kapatınca
   imgA.style.display = "none"; // From static last frame
   imgB.style.display = "initial"; // To looping animation. One cycle is 8250 ms
@@ -73,8 +75,7 @@ function goFromAtoB() {
     alert("Cihaz mobil değil. Alan MOUSE ile tıklanabilir");
   }
   */
-  // // DEBUG:
-  clickableArea.addEventListener("mousedown",goFromBtoC,{once:true});
+
 }
 
 function goFromBtoC() {
