@@ -69,7 +69,7 @@ function goFromAtoB() {
 
   if (parent.deviceDetector.isMobile) {
     clickableArea.addEventListener("touchstart",goFromBtoC,{once:true}); // NECESSARY: Because mousedown doesn't fire until the screen is released by user's finger.
-    //alert("Mobil cihaz algılandı. Alan TOUCH ile dokunulabilir");
+    alert("Mobil cihaz algılandı. Alan TOUCH ile dokunulabilir");
   } else {
     clickableArea.addEventListener("mousedown",goFromBtoC,{once:true});
     //alert("Cihaz mobil değil. Alan MOUSE ile tıklanabilir");
