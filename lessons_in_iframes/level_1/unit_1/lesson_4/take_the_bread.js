@@ -57,19 +57,20 @@ window.addEventListener('load', function(){    loadingIsCompleteFunction();    }
 function loadingIsCompleteFunction() {
   setTimeout(goFromAtoB,2750); /* CRITICAL! Exact timing is necessary.*/
 }
-let looping1; // Declare it here, outside any {} to make it global.
+var looping1; // Declare it here, outside any {} to make it global.
 let counter1 = 1;
 function goFromAtoB() {
   imgA.style.display = "none";
   imgB.style.display = "initial"; // Loop duration is 4800 ms
+  looping1 = setInterval(loopFunction1,19200); // 4800x4 = 19200
   function loopFunction1() {
     setTimeout(function () {  say1Natural.play();  },1000);
-    setTimeout(function () {  say1Slow.play();  },1000+4800*2);
+    setTimeout(function () {  say1Slow.play();     },10600); // 1000+4800x2 = 10600
     if (counter1 == 4) {  clearInterval(looping1);  }
     counter1++;
   }
   loopFunction1();
-  looping1 = setInterval(loopFunction1,4800*4);
+
   // touchstart is the equivalent of mousedown for mobile
   if (parent.deviceDetector.isMobile) {
     clickableArea.addEventListener("touchstart",goFromBtoC,{once:true});
@@ -81,12 +82,12 @@ function goFromAtoB() {
 function goFromBtoC() {
   clearInterval(looping1); say1Natural.fade(1,0,1500); say1Slow.fade(1,0,1500);
   clickTone.play();
-  parent.navigator.vibrate(10);
+  //parent.navigator.vibrate(10);
   imgB.style.display = "none";
   imgC.style.display = "initial";
   setTimeout(goFromCtoD,7300); // CRITICAL! Exact timing is necessary.
 }
-let looping2; // Declare it here, outside any {} to make it global.
+var looping2; // Declare it here, outside any {} to make it global.
 let counter2 = 1;
 function goFromCtoD() {
   setTimeout(function () { putTranslationIntoThisHelpAreaFromFileP.innerHTML = textB; },1000);
@@ -96,6 +97,7 @@ function goFromCtoD() {
   clickableArea.style.top="26%";
   clickableArea.style.width="35vmin";
   // Loop 2
+  looping2 = setInterval(loopFunction2,14080); // 704x20 = 14080
   function loopFunction2() {
     setTimeout(function () {  say2Natural.play();  },2000);
     setTimeout(function () {  say2Slow.play();  },8000);
@@ -103,7 +105,7 @@ function goFromCtoD() {
     counter2++;
   }
   loopFunction2();
-  looping2 = setInterval(loopFunction2,704*20);
+
   // Add clickability
   if (parent.deviceDetector.isMobile) {
     clickableArea.addEventListener("touchstart",goFromDtoE,{once:true});
@@ -114,11 +116,11 @@ function goFromCtoD() {
 var fadeThisOutInsteadOfPostloader = document.getElementById('thisTimeUseFadeOutInsteadOfPostLoader');
 function goFromDtoE() {
   clearInterval(looping2); say2Natural.fade(1,0,1500); say2Slow.fade(1,0,1500);
-  parent.navigator.vibrate(20);
+  //parent.navigator.vibrate(20);
   imgD.style.display = "none";
   imgE.style.display = "initial";
   putTranslationIntoThisHelpAreaFromFileP.innerHTML=" ";
-  parent.navigator.vibrate([0,2300,10,100,10,200,10,100,10,200,10,100,10,200,10,100,9,200,8]); // Bread is being eaten.
+  //parent.navigator.vibrate([0,2300,10,100,10,200,10,100,10,200,10,100,10,200,10,100,9,200,8]); // Bread is being eaten.
   setTimeout(function () { bite1.play();  },2228); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { bite2.play();  },2728); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { bite3.play();  },3228); // IMPORTANT! Timing must be accurate.

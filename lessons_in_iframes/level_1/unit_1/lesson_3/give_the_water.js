@@ -47,7 +47,7 @@ window.addEventListener('load', function(){   loadingIsCompleteFunction();   }, 
 function loadingIsCompleteFunction() {
   setTimeout(goFromAtoB,1400); // last frame starts showing at t=1300 milliseconds
 }
-let looping; // Declare it here, outside any {} to make it global.
+var looping; // Declare it here, outside any {} to make it global.
 let counter = 1;
 function goFromAtoB() {
   // // DEBUG:
@@ -56,20 +56,21 @@ function goFromAtoB() {
   imgA.style.display = "none"; // From static last frame
   imgB.style.display = "initial"; // To the looping animation. One cycle is 8250 ms
   // Action one at 2640,,, action two at 7920,,, total time 66ms x 125frames = 8250 ms loop ... 8250 x 2 = 16500 -> 1 cycle of slow fast slow fast
+  looping = setInterval(loopFunction,16500); // 8250x2 = 16500
   function loopFunction() {
     //  // if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([0,2640,20,5260,20,310]);}
     setTimeout(function () {  sayNatural.play();  },3000);
-    setTimeout(function () {  saySlow.play();  },8250+3000);
+    setTimeout(function () {  saySlow.play();     },11250); // 8250+3000 = 11250
     if (counter == 4) {  clearInterval(looping);  }
     counter++;
   }
   loopFunction();
-  looping = setInterval(loopFunction,8250*2);
+
   // touchstart is the mobile equivalent of mousedown
 
   if (parent.deviceDetector.isMobile) {
     clickableArea.addEventListener("touchstart",goFromBtoC,{once:true}); // NECESSARY: Because mousedown doesn't fire until the screen is released by user's finger.
-    alert("Mobil cihaz algılandı. Alan TOUCH ile dokunulabilir");
+    //alert("Mobil cihaz algılandı. Alan TOUCH ile dokunulabilir");//Safaride burası çalışıyor
   } else {
     clickableArea.addEventListener("mousedown",goFromBtoC,{once:true});
     //alert("Cihaz mobil değil. Alan MOUSE ile tıklanabilir");
