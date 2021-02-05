@@ -137,7 +137,7 @@ volumeAdjustmentDiv.appendChild(volumeSlider);
 volumeSlider.classList.add("bothSlidersAppearance");
 volumeSlider.classList.add("volumeSliderAppearance");
 
-var speedAdjustmentCoefficient = 1;
+var speedAdjustmentCoefficient = 1.1;
 
 // Detect first click/first user gesture that unlocks sounds
 // REMEMBER: Sliding menu buttons also need this. Handle separately. See js_for_the_sliding_navigation_menu.js
@@ -184,7 +184,7 @@ window.addEventListener("load",function() {
       switch (localStorage.speedWasAtThisLevel) {
         case "1":
           // SLOWER
-          speedAdjustmentCoefficient = 1.40; // Inversely proportional; the greater the value the slower.
+          speedAdjustmentCoefficient = 1.4; // Inversely proportional; the greater the value the slower.
           speedSlider.classList.add("speedSliderAppearance1");
           speedSlider.classList.remove("speedSliderAppearance2");
           speedSlider.classList.remove("speedSliderAppearance3");
@@ -198,7 +198,7 @@ window.addEventListener("load",function() {
           break;
         default:
           // NORMAL
-          speedAdjustmentCoefficient = 1;
+          speedAdjustmentCoefficient = 1.1;
           speedSlider.classList.remove("speedSliderAppearance1");
           speedSlider.classList.add("speedSliderAppearance2");
           speedSlider.classList.remove("speedSliderAppearance3");
@@ -215,7 +215,7 @@ window.addEventListener("load",function() {
       switch (chosen) {
         case "1":
           // SLOWER
-          speedAdjustmentCoefficient = 1.40; // Inversely proportional; the greater the value the slower
+          speedAdjustmentCoefficient = 1.4; // Inversely proportional; the greater the value the slower
           speedSlider.classList.add("speedSliderAppearance1");
           speedSlider.classList.remove("speedSliderAppearance2");
           speedSlider.classList.remove("speedSliderAppearance3");
@@ -229,7 +229,7 @@ window.addEventListener("load",function() {
           break;
         default:
           // NORMAL
-          speedAdjustmentCoefficient = 1;
+          speedAdjustmentCoefficient = 1.1;
           speedSlider.classList.remove("speedSliderAppearance1");
           speedSlider.classList.add("speedSliderAppearance2");
           speedSlider.classList.remove("speedSliderAppearance3");
