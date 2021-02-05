@@ -84,7 +84,7 @@ function loadingIsCompleteFunction() {
 
   },7500);
 }
-let looping;
+var looping;
 let counter = 1;
 function goFromAtoB() {
   setTimeout(function () {  putTranslationIntoThisHelpAreaFromFileP.innerHTML = textB;  },8000);
@@ -93,16 +93,17 @@ function goFromAtoB() {
   layerOverImg1B.style.display = "initial";
   layerOverImg2B.style.display = "initial";
   // Must sync! 19500 ms
-  function loopFunction1() {
+  looping = setInterval(loopFunction,39000); // 19500 x 2 = 39000
+  function loopFunction() {
     setTimeout(function () {  say1Natural.play();  },1300);
     setTimeout(function () {  say2Natural.play();  },10000);
-    setTimeout(function () {  say1Slow.play();  },1300+19500);
-    setTimeout(function () {  say2Slow.play();  },10000+19500);
+    setTimeout(function () {  say1Slow.play();  },20800); // 1300+19500 = 20800
+    setTimeout(function () {  say2Slow.play();  },29500); // 10000+19500 = 29500
     if (counter == 2) {  clearInterval(looping);  }
     counter++;
   }
-  loopFunction1();
-  looping = setInterval(loopFunction1,19500*2);
+  loopFunction();
+
   // Add clickability!
   setTimeout(function () {
     // touchstart is the equivalent of mousedown for mobile
@@ -122,10 +123,10 @@ function goFromBtoC() {
   setTimeout(function () {  say4.play();  },15000);
   setTimeout(function () {  say5.play();  },18000);
   videoSoundTrackThatWillPlayWithClickOrTouch.play();
-  parent.navigator.vibrate([10,75,10,75,10]);
-  setTimeout(function () {  parent.navigator.vibrate([17]);  },5550); // IMPORTANT! Timing must be accurate.
+  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") { parent.navigator.vibrate([18,75,14,75,10]); }
+  setTimeout(function () {  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") { parent.navigator.vibrate([18,40,22]); } },5550); // IMPORTANT! Timing must be accurate.
   setTimeout(function () {  putTranslationIntoThisHelpAreaFromFileP.innerHTML = textC;  },5200);
-  setTimeout(function () {  parent.navigator.vibrate([11,111,15,555,15]);  },12000); // IMPORTANT! Timing must be accurate.
+  setTimeout(function () {  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") { parent.navigator.vibrate([15,111,25,555,15]); } },12000); // IMPORTANT! Timing must be accurate.
   setTimeout(function () {  putTranslationIntoThisHelpAreaFromFileP.innerHTML = textD;  },15000);
   setTimeout(function () {  putTranslationIntoThisHelpAreaFromFileP.innerHTML = textE;  },18600);
   clickableArea.style.display = "none";
@@ -141,6 +142,6 @@ function goFromBtoC() {
   },27500);
   setTimeout(function () { postloaderWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },30000); // -500ms from the end.
   setTimeout(function () { postloaderHiddenGlobeInsideWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },30250); // -250ms from the end.
-  // /*Move to js_for_all_iframed...*/ setTimeout(function() { unloadTheSoundsOfThisLesson(); unloadTheImagesOfThisLesson(); },30400); // Caution: Playing sounds must not be cut in the middle.
+  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function () {    self.location.href = "../../unit_6/lesson_1/index.html";    },30500);
 }

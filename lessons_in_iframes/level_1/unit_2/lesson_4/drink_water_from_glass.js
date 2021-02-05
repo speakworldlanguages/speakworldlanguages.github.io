@@ -41,10 +41,11 @@ const postloaderHiddenGlobeInsideWhitecover = document.getElementById('theGlobeI
 
 // ALWAYS: Use window load to be safe with timing.
 window.addEventListener('load', function(){  loadingIsCompleteFunction();  }, { once: true });
-let looping;
+var looping;
 let counter = 1;
 function loadingIsCompleteFunction() {
   // In this case the audio loop doesn’t have to sync with the visual animation loop.
+  looping = setInterval(loopFunction,21500);
   function loopFunction() {
     setTimeout(function () {  sayA.play();  },2200);
     setTimeout(function () {  sayB.play();  },8000);
@@ -53,7 +54,7 @@ function loadingIsCompleteFunction() {
     counter++;
   }
   loopFunction();
-  looping = setInterval(loopFunction,21500);
+
   // Add clickability AFTER the instructions are given!
   setTimeout(function () {
       // touchstart is the equivalent of mousedown for mobile
@@ -68,7 +69,7 @@ function loadingIsCompleteFunction() {
 function goFromAtoB() {
   clearInterval(looping); sayA.fade(1,0,1500); sayB.fade(1,0,1500); sayC.fade(1,0,1500);
   clickTone.play();
-  parent.navigator.vibrate([9,99,8,88,7,77,7,77,7,77,7,77,6,77,5,77,4,77,3,77,2,77,1]); // As user taps on the glass.
+  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([7,99,9,88,11,77,13,77,15,77,13,77,11,77,9,77,7,77,5,77,3,77,1]);} // As user taps on the glass.
   setTimeout(function () { videoSoundTrack.play();  },3250); // IMPORTANT! Timing must be accurate.
   imgA.style.display = "none";
   imgB.style.display = "initial";
@@ -76,6 +77,6 @@ function goFromAtoB() {
   setTimeout(function () { successTone.play();  },9500); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { postloaderWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },14500); // -500ms from ending
   setTimeout(function () { postloaderHiddenGlobeInsideWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },14750); // -250ms from ending
-  // /*Move to js_for_all_iframed...*/ setTimeout(function() { unloadTheSoundsOfThisLesson(); unloadTheImagesOfThisLesson(); },14900); // Caution: Playing sounds must not be cut in the middle.
+  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function () { self.location.href = "../../unit_3/lesson_1/index.html";  },15000);
 }

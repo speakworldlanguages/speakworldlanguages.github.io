@@ -47,18 +47,16 @@ window.addEventListener('load', function(){   loadingIsCompleteFunction();   }, 
 function loadingIsCompleteFunction() {
   setTimeout(goFromAtoB,1400); // last frame starts showing at t=1300 milliseconds
 }
-var looping; // Declare it here, outside any {} to make it global.
+var looping; // Declare it here, outside any {} to make it global. // Try using var instead of let to see if it will fix the issue in Safari.
 let counter = 1;
 function goFromAtoB() {
-  // // DEBUG:
-  //clickableArea.addEventListener("mousedown",goFromBtoC,{once:true});
-  // setTimeout(function () {  alert("5000ms süresi doldu");  },5000); // Bu iPhone Safaride çalıştı navigator vibrateleri kapatınca
+
   imgA.style.display = "none"; // From static last frame
   imgB.style.display = "initial"; // To the looping animation. One cycle is 8250 ms
   // Action one at 2640,,, action two at 7920,,, total time 66ms x 125frames = 8250 ms loop ... 8250 x 2 = 16500 -> 1 cycle of slow fast slow fast
   looping = setInterval(loopFunction,16500); // 8250x2 = 16500
   function loopFunction() {
-    //  // if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([0,2640,20,5260,20,310]);}
+    if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([0,2640,20,5260,20,310]);}
     setTimeout(function () {  sayNatural.play();  },3000);
     setTimeout(function () {  saySlow.play();     },11250); // 8250+3000 = 11250
     if (counter == 4) {  clearInterval(looping);  }
@@ -70,10 +68,8 @@ function goFromAtoB() {
 
   if (parent.deviceDetector.isMobile) {
     clickableArea.addEventListener("touchstart",goFromBtoC,{once:true}); // NECESSARY: Because mousedown doesn't fire until the screen is released by user's finger.
-    //alert("Mobil cihaz algılandı. Alan TOUCH ile dokunulabilir");//Safaride burası çalışıyor
   } else {
     clickableArea.addEventListener("mousedown",goFromBtoC,{once:true});
-    //alert("Cihaz mobil değil. Alan MOUSE ile tıklanabilir");
   }
 
 }
@@ -81,7 +77,7 @@ function goFromAtoB() {
 function goFromBtoC() {
   clearInterval(looping); sayNatural.fade(1,0,1500); saySlow.fade(1,0,1500);
   clickTone.play();
-  // parent.navigator.vibrate(15);
+  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate(15);}
   imgB.style.display = "none";
   imgC.style.display = "initial";
   setTimeout(function () { successTone.play(); },2250); // Actual time of last frame is 1848 milliseconds
@@ -89,6 +85,6 @@ function goFromBtoC() {
   /* END OF ACTIONS */
   setTimeout(function () { postloaderWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },8500);
   setTimeout(function () { postloaderHiddenGlobeInsideWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },8750);
-  // /*Move to js_for_all_iframed...*/ setTimeout(function() { unloadTheSoundsOfThisLesson(); unloadTheImagesOfThisLesson(); },8900); // Caution: Playing sounds must not be cut in the middle.
+  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function () { self.location.href = "../lesson_4/index.html"; },9000);
 }

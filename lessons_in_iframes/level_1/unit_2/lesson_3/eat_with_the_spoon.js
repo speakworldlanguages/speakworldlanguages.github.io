@@ -42,10 +42,11 @@ const postloaderHiddenGlobeInsideWhitecover = document.getElementById('theGlobeI
 
 // ALWAYS: Use window load to be safe with timing.
 window.addEventListener('load', function(){  loadingIsCompleteFunction();  }, { once: true });
-let looping;
+var looping;
 let counter = 1;
 function loadingIsCompleteFunction() {
   // In this case the audio loop doesn’t have to sync with the visual animation loop.
+  looping = setInterval(loopFunction,22000);
   function loopFunction() {
     setTimeout(function () {  say1.play();  },2500);  // These are not slow vs fast. Just 3 different intonations to make it feel less “robotic”.
     setTimeout(function () {  say2.play();  },9500);  // These are not slow vs fast. Just 3 different intonations to make it feel less “robotic”.
@@ -54,7 +55,7 @@ function loadingIsCompleteFunction() {
     counter++;
   }
   loopFunction();
-  looping = setInterval(loopFunction,22000);
+
   // Add clickability AFTER the instructions are given!
   setTimeout(function () {
       // touchstart is the equivalent of mousedown for mobile
@@ -69,7 +70,7 @@ function loadingIsCompleteFunction() {
 function goFromAtoB() {
   clearInterval(looping); say1.fade(1,0,1500); say2.fade(1,0,1500); say3.fade(1,0,1500);
   clickTone.play();
-  parent.navigator.vibrate([10,60,10,60,10,60,10]);
+  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([10,60,10,60,10,60,10]);}
   videoSoundTrack.play();
   imgA.style.display = "none";
   imgB.style.display = "initial";
@@ -77,6 +78,6 @@ function goFromAtoB() {
   setTimeout(function () { successTone.play(); },11300); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { postloaderWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },14000);
   setTimeout(function () { postloaderHiddenGlobeInsideWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },14250);
-  // /*Move to js_for_all_iframed...*/ setTimeout(function() { unloadTheSoundsOfThisLesson(); unloadTheImagesOfThisLesson(); },14400); // Caution: Playing sounds must not be cut in the middle.
+  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function () { self.location.href = "../lesson_4/index.html"; },14500);
 }

@@ -80,10 +80,11 @@ const postloaderHiddenGlobeInsideWhitecover = document.getElementById('theGlobeI
 
 // ALWAYS: Use window load to be safe with timing.
 window.addEventListener('load', function(){  loadingIsCompleteFunction();  }, { once: true });
-let looping1;
+var looping1;
 let counter1 = 1;
 function loadingIsCompleteFunction() {
   // No need to sync. The timing must just feel nice enough.
+  looping1 = setInterval(loopFunction1,14000);
   function loopFunction1() {
     setTimeout(function () {  say1Natural.play();  },2500);
     setTimeout(function () {  say1Slow.play();  },8500);
@@ -91,7 +92,6 @@ function loadingIsCompleteFunction() {
     counter1++;
   }
   loopFunction1();
-  looping1 = setInterval(loopFunction1,14000);
   // Add clickability!
   setTimeout(function () {
       // touchstart is the equivalent of mousedown for mobile
@@ -107,7 +107,7 @@ function goFromAtoB() {
   clearInterval(looping1); say1Natural.fade(1,0,1500); say1Slow.fade(1,0,1500);
   clickableArea1.style.display = "none"; // NOTICE: Yes, these divs are already invisible yet we still have to add/remove them because when they overlap the lower z-indexed ones are blocked and user can't click.
   clickTone1.play();
-  parent.navigator.vibrate([10,40,10]);
+  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([17,40,15,40,13]);}
   imgA.style.display = "none";
   layerOverImgA.style.display = "none";
   imgB.style.display = "initial";
@@ -121,7 +121,7 @@ function goFromBtoC() {
   imgC.style.display = "initial";
   setTimeout(function () {  goFromCtoD();  },2000); // IMPORTANT! Timing must be accurate.
 }
-let looping2;
+var looping2;
 let counter2 = 1;
 function goFromCtoD() {
   setTimeout(function () {   putTranslationIntoThisHelpAreaFromFileP.innerHTML = textB;   },2500);
@@ -129,6 +129,7 @@ function goFromCtoD() {
   imgC.style.display = "none";
   imgD.style.display = "initial";
   // Loop 2
+  looping2 = setInterval(loopFunction2,19500);
   function loopFunction2() {
     setTimeout(function () {  say2Natural.play();  },2200);
     setTimeout(function () {  say2Slow.play();  },7700);
@@ -136,7 +137,7 @@ function goFromCtoD() {
     counter2++;
   }
   loopFunction2();
-  looping2 = setInterval(loopFunction2,19500);
+
   // Add clickability!
   clickableArea2.style.display = "initial"; // NOTICE: Yes, these divs are already invisible yet we still have to add/remove them because when they overlap the lower z-indexed ones are blocked and user can't click.
   setTimeout(function () {
@@ -157,7 +158,7 @@ function goFromDtoE() {
   imgE.style.display = "initial";
   setTimeout(function () {  goFromEtoF();  },3000); // IMPORTANT! Timing must be accurate.
 }
-let looping3;
+var looping3;
 let counter3 = 1;
 function goFromEtoF() {
   setTimeout(function () {  putTranslationIntoThisHelpAreaFromFileP.innerHTML = textD;  },4000);
@@ -165,6 +166,7 @@ function goFromEtoF() {
   imgE.style.display = "none";
   imgF.style.display = "initial";
   // Loop 3
+  looping3 = setInterval(loopFunction3,15000);
   function loopFunction3() {
     setTimeout(function () {  say3Natural.play();  },4000);
     setTimeout(function () {  say3Slow.play();  },8000);
@@ -172,7 +174,7 @@ function goFromEtoF() {
     counter3++;
   }
   loopFunction3();
-  looping3 = setInterval(loopFunction3,15000);
+
   // Add clickability!
   setTimeout(function () {
       // touchstart is the equivalent of mousedown for mobile
@@ -194,9 +196,9 @@ function goFromFtoG() {
   putTranslationIntoThisHelpAreaFromFileP.innerHTML = " ";
   layerOverImgG.style.display = "initial";
   videoSoundTrack.play();
-  setTimeout(function () { parent.navigator.vibrate([13,333,10,333,8,333,7]);   },16500);  // Exact number of milliseconds from webp
+  setTimeout(function () { if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([19,333,16,333,13,333,10,333,7]);} },16500);  // Exact number of milliseconds from webp
   setTimeout(function () { postloaderWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },21000); // -500ms from the end.
   setTimeout(function () { postloaderHiddenGlobeInsideWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },21250); // -250ms from the end.
-  // /*Move to js_for_all_iframed...*/ setTimeout(function() { unloadTheSoundsOfThisLesson(); unloadTheImagesOfThisLesson(); },21400); // Caution: Playing sounds must not be cut in the middle.
+  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function () { self.location.href = "../../unit_5/lesson_1/index.html";  },21500);
 }

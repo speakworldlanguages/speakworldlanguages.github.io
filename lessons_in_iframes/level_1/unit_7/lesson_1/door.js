@@ -84,14 +84,14 @@ window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, {
 function loadingIsCompleteFunction()
 {
   setTimeout(function(){ doorSoundAB.play(); }, 1000);
-  setTimeout(function(){ sayAB.play(); }, 1000+5000);
+  setTimeout(function(){ sayAB.play(); }, 6000); // 1000+5000=6000
   setTimeout(goFromABtoCD,4500*parent.speedAdjustmentCoefficient+5000); // See js_for_the_sliding_navigation_menu.js
 }
 
 function goFromABtoCD()
 {
   setTimeout(function(){ doorSoundCD.play(); }, 2000); // after 1s fade out plus 1s fade in
-  setTimeout(function(){ sayCD.play(); }, 2000+5000); // after 1s fade out plus 1s fade in
+  setTimeout(function(){ sayCD.play(); }, 7000); // 2000+5000=7000 // after 1s fade out plus 1s fade in
   imgA.classList.add("toZeroOpacity");
   imgB.classList.add("toZeroOpacity");
   setTimeout(betweenABandCD,1000);
@@ -114,7 +114,7 @@ function betweenABandCD()
 function goFromCDtoEF()
 {
   setTimeout(function(){ doorSoundEF.play(); }, 2000);
-  setTimeout(function(){ sayEF.play(); }, 2000+5900);
+  setTimeout(function(){ sayEF.play(); }, 7900); // 2000 + 5900 = 7900
   imgC.classList.add("toZeroOpacity");
   imgD.classList.add("toZeroOpacity");
   setTimeout(betweenCDandEF,1000);
@@ -137,7 +137,7 @@ function betweenCDandEF()
 function goFromEFtoGH()
 {
   setTimeout(function(){ doorSoundGH.play(); }, 2000);
-  setTimeout(function(){ sayGH.play(); }, 2000+4500);
+  setTimeout(function(){ sayGH.play(); }, 6500); // 2000 + 4500 = 6500
   imgE.classList.add("toZeroOpacity");
   imgF.classList.add("toZeroOpacity");
   setTimeout(betweenEFandGH,1000);
@@ -249,6 +249,6 @@ var stopListeningAndProceedToNext = function () {
   stopAudioInputVisualization();
   theWhitePreexitDivWithAHiddenGlobeInside.classList.add("postloaderInNewVocabularyGetTotallyVisible"); // 1.75s
   setTimeout(function() { theGlobeInsideTheWhiteOutroIMG.classList.add("postloaderInNewVocabularyGetTotallyVisible"); },1750); // 1.75s+1.75s=3.5s
-  // /*Move this task to js_for_all_iframed...*/ setTimeout(function() { unloadTheSoundsOfThisLesson(); unloadTheImagesOfThisLesson(); },3500); // 3500 is for letting the success tones (both of them) play without being cut in the middle.
+  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function() { self.location.href = '../lesson_2/index.html'; },3600);
 };

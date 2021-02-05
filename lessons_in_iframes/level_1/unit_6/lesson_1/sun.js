@@ -88,7 +88,7 @@ function loadingIsCompleteFunction()
   theSoundOfBurningSun.play();
   theSoundOfBurningSun.fade(0,1,1000);
   setTimeout(function(){ impactSound1.play(); }, 4250);
-  setTimeout(function(){ sayA.play(); }, 1000+5250);
+  setTimeout(function(){ sayA.play(); }, 6250); // 1000 + 5250 = 6250
   // WEBP ANIMATION MUST START FROM FIRST FRAME WHEN THIS IS FIRED ,,, DISPLAY NONE TO INITIAL WORKS ONCE. WOULD NEED SRC CHANGE IF IT HAD TO REPEAT.
   landscapeImgA.style.display = "initial";
   portraitImgA.style.display = "initial";
@@ -98,7 +98,7 @@ function loadingIsCompleteFunction()
 function goFromAtoB()
 {
   setTimeout(function(){ impactSound2.play(); }, 2250);
-  setTimeout(function(){ sayB.play(); }, 2000+3000); // after 1s fade out plus 1s fade in
+  setTimeout(function(){ sayB.play(); }, 5000); // 2000 + 3000 // after 1s fade out plus 1s fade in
   landscapeImgA.classList.add("toZeroOpacity");
   portraitImgA.classList.add("toZeroOpacity");
   setTimeout(betweenAandB,1000);
@@ -122,7 +122,7 @@ function betweenAandB()
 function goFromBtoC()
 {
   setTimeout(function(){ impactSound3.play(); }, 2700);
-  setTimeout(function(){ sayC.play(); }, 2000+3750); // after 1s fade out plus 1s fade in
+  setTimeout(function(){ sayC.play(); }, 5750); // 2000 + 3750 = 5750 // after 1s fade out plus 1s fade in
   landscapeImgB.classList.add("toZeroOpacity");
   portraitImgB.classList.add("toZeroOpacity");
   setTimeout(betweenBandC,1000);
@@ -145,7 +145,7 @@ function betweenBandC()
 function goFromCtoD()
 {
   setTimeout(function(){ impactSound4.play(); }, 1950);
-  setTimeout(function(){ sayD.play(); }, 2000+3750); // after 1s fade out plus 1s fade in
+  setTimeout(function(){ sayD.play(); }, 5750); // 2000 + 3750 = 5750 // after 1s fade out plus 1s fade in
   theSoundOfBurningSun.fade(1,0,12000);
   landscapeImgC.classList.add("toZeroOpacity");
   portraitImgC.classList.add("toZeroOpacity");
@@ -260,6 +260,6 @@ var stopListeningAndProceedToNext = function () {
   stopAudioInputVisualization();
   theWhitePreexitDivWithAHiddenGlobeInside.classList.add("postloaderInNewVocabularyGetTotallyVisible"); // 1.75s
   setTimeout(function() { theGlobeInsideTheWhiteOutroIMG.classList.add("postloaderInNewVocabularyGetTotallyVisible"); },1750); // 1.75s+1.75s=3.5s
-  // /*Move this task to js_for_all_iframed...*/ setTimeout(function() { unloadTheSoundsOfThisLesson(); unloadTheImagesOfThisLesson(); },3500); // 3500 is for letting the success tones (both of them) play without being cut in the middle.
+  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function() { self.location.href = '../lesson_2/index.html'; },3600);
 };

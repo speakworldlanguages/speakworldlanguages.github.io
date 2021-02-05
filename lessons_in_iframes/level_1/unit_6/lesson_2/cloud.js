@@ -81,8 +81,7 @@ function loadingIsCompleteFunction()
 {
   theSoundOfAir.play();
   theSoundOfAir.fade(0,0.5,3000);
-  //setTimeout(function(){ cloudlySound.volume(0.4); cloudlySound.play(); }, 1000);
-  setTimeout(function(){ sayAB.play(); }, 1000+500);
+  setTimeout(function(){ sayAB.play(); }, 1500); // 1000 + 500 = 1500
   setTimeout(goFromABtoCD,4500*parent.speedAdjustmentCoefficient+500); // See js_for_the_sliding_navigation_menu.js
 }
 
@@ -113,7 +112,7 @@ function goFromCDtoEF()
 {
   theSoundOfAir.fade(0.3,0,18000);
   setTimeout(function(){ cloudlySound.volume(0.4); cloudlySound.play(); }, 1500);
-  setTimeout(function(){ sayEF.play(); }, 2000+750);
+  setTimeout(function(){ sayEF.play(); }, 2750); // 2000 + 750 = 2750
   imgC.classList.add("toZeroOpacity");
   imgD.classList.add("toZeroOpacity");
   setTimeout(betweenCDandEF,1000);
@@ -248,6 +247,6 @@ var stopListeningAndProceedToNext = function () {
   stopAudioInputVisualization();
   theWhitePreexitDivWithAHiddenGlobeInside.classList.add("postloaderInNewVocabularyGetTotallyVisible"); // 1.75s
   setTimeout(function() { theGlobeInsideTheWhiteOutroIMG.classList.add("postloaderInNewVocabularyGetTotallyVisible"); },1750); // 1.75s+1.75s=3.5s
-  // /*Move this task to js_for_all_iframed...*/ setTimeout(function() { unloadTheSoundsOfThisLesson(); unloadTheImagesOfThisLesson(); },3500); // 3500 is for letting the success tones (both of them) play without being cut in the middle.
+  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function() { self.location.href = '../lesson_3/index.html'; },3600);
 };

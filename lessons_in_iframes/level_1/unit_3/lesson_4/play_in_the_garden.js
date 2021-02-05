@@ -48,10 +48,11 @@ const postloaderHiddenGlobeInsideWhitecover = document.getElementById('theGlobeI
 
 // ALWAYS: Use window load to be safe with timing.
 window.addEventListener('load', function(){  loadingIsCompleteFunction();  }, { once: true });
-let looping;
+var looping;
 let counter = 1;
 function loadingIsCompleteFunction() {
   // No syncing necessary in this case. The timing must just feel nice enough!
+  looping = setInterval(loopFunction,19500);
   function loopFunction() {
     setTimeout(function () {  sayNatural.play();  },3000);
     setTimeout(function () {  saySlow.play();  },12500);
@@ -59,7 +60,7 @@ function loadingIsCompleteFunction() {
     counter++;
   }
   loopFunction();
-  looping = setInterval(loopFunction,19500);
+
   // Add clickability AFTER the instructions are given!
   setTimeout(function () {
       // touchstart is the equivalent of mousedown for mobile
@@ -75,23 +76,22 @@ function goFromAtoB() {
   clearInterval(looping); sayNatural.fade(1,0,1500); saySlow.fade(1,0,1500);
   clickTone.play();
   videoSoundTrack.play();
-  parent.navigator.vibrate([9,99,8,88,7,77,6]); // As a response to user's tap
+  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([14,99,11,88,8,77,5]);} // As a response to user's tap
   imgA.style.display = "none";
   imgB.style.display = "initial";
   putTranslationIntoThisHelpAreaFromFileP.innerHTML = " ";
   const imgDivLayerAboveB = document.getElementById('divIdForBallPlayAnimationContainer');
   setTimeout(function () { imgDivLayerAboveB.classList.add("ballPlayersRopeJumpersEtcFadeInToFullOpacity");   },2200); // IMPORTANT! Timing must be accurate.
-  setTimeout(function () { actionSound1.play();      parent.navigator.vibrate([60,60,20,60,10]);         },4000);
-  setTimeout(function () { actionSound1.play();      parent.navigator.vibrate([60,60,20,60,10]);         },6000);
-  setTimeout(function () { successTone.play();  },4800); // IMPORTANT! Timing must be accurate.
-  setTimeout(function () { successTone.play();  },6800); // IMPORTANT! Timing must be accurate.
+  setTimeout(function () { actionSound1.play();   if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([60,60,20,60,10]);}    },4000); // As players hit the ball
+  setTimeout(function () { actionSound1.play();   if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([60,60,20,60,10]);}    },6000); // As players hit the ball
+  setTimeout(function () { successTone.play(); },4800); // IMPORTANT! Timing must be accurate.
+  setTimeout(function () { successTone.play(); },6800); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { imgB.style.display = "none"; imgC.style.display = "initial"; },10200); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { imgC.style.display = "none"; imgD.style.display = "initial"; },15000); // IMPORTANT! Timing must be accurate.
-  setTimeout(function () { actionSound2.play();  },13900); // IMPORTANT! Timing must be accurate.
-  setTimeout(function () { actionSound3.play();  },16650); // IMPORTANT! Timing must be accurate.
+  setTimeout(function () { actionSound2.play(); },13900); // IMPORTANT! Timing must be accurate.
+  setTimeout(function () { actionSound3.play(); },16650); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { postloaderWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },16400); // -500ms from ending
   setTimeout(function () { postloaderHiddenGlobeInsideWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },16650); // -250ms from ending
-  // /*Move to js_for_all_iframed...*/ setTimeout(function() { unloadTheImagesOfThisLesson();  },16750);
-  // /*Move to js_for_all_iframed...*/ setTimeout(function() { unloadTheSoundsOfThisLesson();  },16850); // Caution: Playing sounds must not be cut in the middle.
+  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function () { self.location.href = "../../unit_4/lesson_1/index.html";  },16900);
 }

@@ -57,7 +57,7 @@ window.addEventListener('load', function(){    loadingIsCompleteFunction();    }
 function loadingIsCompleteFunction() {
   setTimeout(goFromAtoB,2750); /* CRITICAL! Exact timing is necessary.*/
 }
-var looping1; // Declare it here, outside any {} to make it global.
+var looping1; // Declare it here, outside any {} to make it global. // Try using var instead of let to see if it will fix the issue in Safari.
 let counter1 = 1;
 function goFromAtoB() {
   imgA.style.display = "none";
@@ -82,7 +82,7 @@ function goFromAtoB() {
 function goFromBtoC() {
   clearInterval(looping1); say1Natural.fade(1,0,1500); say1Slow.fade(1,0,1500);
   clickTone.play();
-  //parent.navigator.vibrate(10);
+  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate(15);}
   imgB.style.display = "none";
   imgC.style.display = "initial";
   setTimeout(goFromCtoD,7300); // CRITICAL! Exact timing is necessary.
@@ -116,16 +116,16 @@ function goFromCtoD() {
 var fadeThisOutInsteadOfPostloader = document.getElementById('thisTimeUseFadeOutInsteadOfPostLoader');
 function goFromDtoE() {
   clearInterval(looping2); say2Natural.fade(1,0,1500); say2Slow.fade(1,0,1500);
-  //parent.navigator.vibrate(20);
+  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate(25);}
   imgD.style.display = "none";
   imgE.style.display = "initial";
   putTranslationIntoThisHelpAreaFromFileP.innerHTML=" ";
-  //parent.navigator.vibrate([0,2300,10,100,10,200,10,100,10,200,10,100,10,200,10,100,9,200,8]); // Bread is being eaten.
+  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([0,2300,15,100,10,200,20,100,10,200,15,100,10,200,20,100,9,200,8]);}  // Bread is being eaten.
   setTimeout(function () { bite1.play();  },2228); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { bite2.play();  },2728); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { bite3.play();  },3228); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { successTone.play(); },4728); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { fadeThisOutInsteadOfPostloader.classList.add("addThisToFadeOut"); },7400); //
-  // /*Move to js_for_all_iframed...*/ setTimeout(function() { unloadTheSoundsOfThisLesson(); unloadTheImagesOfThisLesson(); },9400); // Caution: Playing sounds must not be cut in the middle.
+  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function () { self.location.href = "../notice_0/index.html";  },9500); //
 }

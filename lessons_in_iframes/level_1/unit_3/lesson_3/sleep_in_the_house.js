@@ -39,10 +39,11 @@ const postloaderHiddenGlobeInsideWhitecover = document.getElementById('theGlobeI
 
 // ALWAYS: Use window load to be safe with timing.
 window.addEventListener('load', function(){  loadingIsCompleteFunction();  }, { once: true });
-let looping;
+var looping;
 let counter = 1;
 function loadingIsCompleteFunction() {
   // No syncing necessary.
+  looping = setInterval(loopFunction,19500);
   function loopFunction() {
     setTimeout(function () {  sayNatural.play();  },3000);
     setTimeout(function () {  saySlow.play();  },12500);
@@ -50,7 +51,7 @@ function loadingIsCompleteFunction() {
     counter++;
   }
   loopFunction();
-  looping = setInterval(loopFunction,19500);
+
   // Add clickability AFTER the instructions are given!
   setTimeout(function () {
       // touchstart is the equivalent of mousedown for mobile
@@ -65,7 +66,7 @@ function loadingIsCompleteFunction() {
 function goFromAtoB() {
   clearInterval(looping); sayNatural.fade(1,0,1500); saySlow.fade(1,0,1500);
   clickTone.play();
-  parent.navigator.vibrate([10,60,10,60,10,60,10]);
+  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([15,60,13,60,11,60,9]);}
   videoSoundTrack.play();
   imgA.style.display = "none";
   imgB.style.display = "initial";
@@ -73,6 +74,6 @@ function goFromAtoB() {
   setTimeout(function () { successTone.play();  },8800); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { postloaderWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },19000); // -500ms from the end.
   setTimeout(function () { postloaderHiddenGlobeInsideWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },19250); // -250ms from the end.
-  // /*Move to js_for_all_iframed...*/ setTimeout(function() { unloadTheSoundsOfThisLesson(); unloadTheImagesOfThisLesson();  },19400); // Caution: Playing sounds must not be cut in the middle.
+  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function () { self.location.href = "../lesson_4/index.html";  },19500);
 }
