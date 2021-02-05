@@ -54,12 +54,13 @@ function goFromAtoB() {
   imgA.style.display = "none"; // From static last frame
   imgB.style.display = "initial"; // To the looping animation. One cycle is 8250 ms
   // Action one at 2640,,, action two at 7920,,, total time 66ms x 125frames = 8250 ms loop ... 8250 x 2 = 16500 -> 1 cycle of slow fast slow fast
-  looping = setInterval(loopFunction,16500); // 8250x2 = 16500
+  // Actually maybe it is better if it doesn't sync
+  looping = setInterval(loopFunction,18500); // 8250x2 = 16500 but it feels like it needs to be slower than that.
   function loopFunction() {
-    if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([0,2640,20,5260,20,310]);}
+    if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([0,2640,20,5260,20,310]);} // Vibrate makes Safari (in 2021) freeze.
     setTimeout(function () {  sayNatural.play();  },3000);
     setTimeout(function () {  saySlow.play();     },11250); // 8250+3000 = 11250
-    if (counter == 4) {  clearInterval(looping);  }
+    if (counter == 3) {  clearInterval(looping);  }
     counter++;
   }
   loopFunction();
