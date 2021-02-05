@@ -59,7 +59,7 @@ function goFromAtoB() {
   function loopFunction() {
     if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([0,2640,20,5260,20,310]);} // Vibrate makes Safari (in 2021) freeze.
     setTimeout(function () {  sayNatural.play();  },3000);
-    setTimeout(function () {  saySlow.play();     },11250); // 8250+3000 = 11250
+    setTimeout(function () {  saySlow.play();     },12500); // 8250+3000 = 11250 // Tweaking a little more.
     if (counter == 3) {  clearInterval(looping);  }
     counter++;
   }
