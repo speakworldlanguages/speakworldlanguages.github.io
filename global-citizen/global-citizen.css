@@ -43,7 +43,7 @@
 	.imgSizeDependOnDeviceOrientationPhone{width:70vw;}
   .textPositionDependOnDeviceOrientationTablet{position:fixed; left: 50vw; top: 54vh; transform: translate(-50%,0%);}
 	.textPositionDependOnDeviceOrientationPhone{position:fixed; left: 50vw; top: 44vh; transform: translate(-50%,0%);}
-  .textWidthDependOnDeviceOrientation{width:90vw;}
+  .textWidthDependOnDeviceOrientation{width:92vw;}
   .buttonsPositionDependOnDeviceOrientationTablet{position:fixed; left: 0px; right: 0px; top: 59vh; height: 20vh;}
 	.buttonsPositionDependOnDeviceOrientationPhone{position:fixed; left: 0px; right: 0px; top: 55vh; height: 20vh;}
   /* .aLittleNudgeForLandscapeOnPhones{margin-right: 0px;} */
@@ -55,8 +55,8 @@
   .imgSizeDependOnDeviceOrientationTablet{width:45vw;}
 	.imgSizeDependOnDeviceOrientationPhone{width:45vw;}
   .textPositionDependOnDeviceOrientationTablet{position:fixed; right: 1vw; top: 14%; transform: translate(0%,0%);}
-	.textPositionDependOnDeviceOrientationPhone{position:fixed; right: 0vw; top: 8%; transform: translate(0%,0%);}
-  .textWidthDependOnDeviceOrientation{width:50vw;}
+	.textPositionDependOnDeviceOrientationPhone{position:fixed; right: 0vw; top: 6.5%; transform: translate(2%,0%);}
+  .textWidthDependOnDeviceOrientation{width:52vw;}
   .buttonsPositionDependOnDeviceOrientationTablet{position:fixed; right: 1vw; top: 29%; width: 50vw;}
 	.buttonsPositionDependOnDeviceOrientationPhone{position:fixed; right: 0px; top: 23%; width: 50vw;}
   /* .aLittleNudgeForLandscapeOnPhones{margin-right: 10px;} */
