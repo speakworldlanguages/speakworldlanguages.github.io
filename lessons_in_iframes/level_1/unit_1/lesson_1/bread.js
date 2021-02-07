@@ -18,6 +18,12 @@ if (parent.deviceDetector.isMobile){
     parent.addHomeButtonToTheNavigationMenu();
   }
 }
+
+// Special case: Display explanation about accents for users who want to learn English.
+if (parent.theLanguageUserIsLearningNow == "en") {
+  const notificationAboutBritishVsAmerican = "../../../../user_interface/text/"+userInterfaceLanguage+"/british_vs_american.txt";
+  fetch(notificationAboutBritishVsAmerican,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ alert(contentOfTheTxtFile); });
+}
 /*______________END OF CODE FOR THE VERY FIRST LESSON______________*/
 
 /*___________________STANDARD CODE___________________*/
