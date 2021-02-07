@@ -30,13 +30,13 @@ const sayCD = new parent.Howl({  src: [say3say4Path]  });
 const sayEF = new parent.Howl({  src: [say5say6Path]  });
 const sayGH = new parent.Howl({  src: [say7say8Path]  });
 
-const howItSounds = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_2/water.mp3'] , loop:true });
+const whatWaterSoundsLike = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_2/water.mp3'] , loop:true });
 const successTone = new parent.Howl({  src: ['user_interface/sounds/success2.mp3']  });
 const notificationDingTone = new parent.Howl({  src: ['user_interface/sounds/ding.mp3']  });
 function unloadTheSoundsOfThisLesson() { // Call this as the last thing before leaving.
   notificationDingTone.unload();
   successTone.unload();
-  howItSounds.unload();
+  whatWaterSoundsLike.unload();
   sayGH.unload();
   sayEF.unload();
   sayCD.unload();
@@ -91,7 +91,7 @@ window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, {
 // Change the speed gradually...
 function loadingIsCompleteFunction()
 {
-  howItSounds.play(); howItSounds.fade(0,1,2000);
+  whatWaterSoundsLike.play(); whatWaterSoundsLike.fade(0,1,2000);
   setTimeout(function(){ sayAB.play(); }, 1000); // first thing that will be heard
   setTimeout(goFromABtoCD,4500*parent.speedAdjustmentCoefficient); // See js_for_the_sliding_navigation_menu.js
 }
@@ -160,7 +160,7 @@ function betweenEFandGH()
   imgH.classList.remove("toZeroOpacity");
   }
   setTimeout(goFromGHtoIJ,7500*parent.speedAdjustmentCoefficient); // See js_for_the_sliding_navigation_menu.js =1.40 =1 =0.8
-  howItSounds.fade(1,0,9000);
+  whatWaterSoundsLike.fade(1,0,9000);
 }
 
 function goFromGHtoIJ()
