@@ -122,6 +122,12 @@ window.addEventListener('DOMContentLoaded', function(){
                 if (wasListeningJustBeforeUserLeft) {
                   setTimeout(function() {          if (annyang){ annyang.start(); }              },1000);
                 }
+                // On mobiles, we want to go back to fullscreen because the alert box has made the browser exit fullscreen
+                // Unfortunately requestFullscreen gets blocked because Chrome does not count an alert box click as a valid user gesture
+                // See https://stackoverflow.com/questions/66242084/chrome-does-not-count-closing-an-alert-box-as-a-valid-user-gesture-therefore-unl
+                // if (deviceDetector.isMobile){
+                //   setTimeout(function () {  openFullscreen();  },100);
+                // }
             }
           }
       // Maybe could use window blur focus && iframe blur focus to handle userGoesAway.play(); userReturns.play(); OR MAYBE should find another solution.

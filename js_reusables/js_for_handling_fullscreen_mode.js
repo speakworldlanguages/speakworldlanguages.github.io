@@ -23,6 +23,7 @@ window.addEventListener("load",function() {
         document.addEventListener('mousedown', coordinatesF);
         window.onkeyup = function(e) {  if ( e.keyCode === 27 ) {    toggleMenuOff();   }  }; // When the “Esc”ape key is hit
         document.addEventListener('mousedown', toggleMenuOff);
+        document.addEventListener('dblclick', toggleFullScreen);
       }
       // When user is viewing a lesson
       else {
@@ -30,6 +31,7 @@ window.addEventListener("load",function() {
         iframe.contentWindow.document.addEventListener('mousedown', coordinatesF);
         iframe.contentWindow.onkeyup = function(e) {  if ( e.keyCode === 27 ) {    toggleMenuOff();   }  }; // When the “Esc”ape key is hit
         iframe.contentWindow.addEventListener('mousedown', toggleMenuOff);
+        iframe.contentWindow.addEventListener('dblclick', toggleFullScreen);
       }
 
     }; // This line is the end of iframe.onload = function(){}; for DESKTOPS

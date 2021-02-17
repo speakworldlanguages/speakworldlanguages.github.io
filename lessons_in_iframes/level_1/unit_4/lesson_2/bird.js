@@ -189,9 +189,9 @@ function speakToTheMic() {
       the2ndDivThatWillAppearWhenMicrophoneStartsListening.classList.add("toZeroOpacity");
     },4800); // AND DISAPPEAR AS SOON AS ANIMATION ENDS
   }
-  // A slight whiteout and then the GIVE-UP-BUTTON (Go-To-Next-Button on Safari2021,Firefox2021 etc) appear SLOWLY.
-  // Can use clearTimeout before it appears to prevent it.
-  // IDEA: Delay time can be tweaked by secretly measuring how long or short-tempered the user is.
+  // A slight whiteout and then the GIVE-UP-BUTTON (Go-To-Next-Button on Safari2021,Firefox2021 etc) appears SLOWLY.
+  // Use clearTimeout before it appears to prevent it accordingly.
+  // For sake of GUI simplicity the Speed Adjustment Slider is available on desktops only as well as the Global Volume Slider.
   preventGiveUpButtonIfSuccessHappens = setTimeout(function () {
     theWhitePreexitDivWithAHiddenGlobeInside.classList.add("postloaderInNewVocabularyGetSlightlyVisible"); // 1.75
     setTimeout(function () {  giveUpAndContinueButtonIsInsideThisDiv.classList.add("addThisToGlassButtonToUnhide");  },1000);

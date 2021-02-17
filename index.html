@@ -89,7 +89,7 @@
     <!-- LESSONS WILL BE DISPLAYED ONE BY ONE THROUGH THIS IFRAME -->
     <!-- Firefox refresh button's bug is solved; see js_for_browser_device_issues_in_parents.js  -->
     <iframe src="user_interface/blank.html" id="theIdOfTheIframe" allowfullscreen></iframe>
-    <!-- Not sure but allowfullscreen could be useless here. Will leave it anyway unless it is certain that removing it won't break anything -->
+    <!-- allowfullscreen is needed to be able to call requestFullscreen on the iframe, should that be necessary -->
 
     <!-- REDIRECT AND SET GUI LANGUAGE ACCORDING TO THE BROWSER LANGUAGE -->
     <script>
