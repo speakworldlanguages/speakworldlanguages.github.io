@@ -5,6 +5,7 @@ var touchAndDragThisDiv;
 var imgInsideClickableAreaOFF;
 var imgInsideClickableAreaON;
 var clickToRevealSubtitlesDiv;
+var layerOfGlassmorphism;
 var subtitlesAreTurnedON = false;
 window.addEventListener('DOMContentLoaded', function(){
 
@@ -55,6 +56,10 @@ window.addEventListener('DOMContentLoaded', function(){
     if (userInterfaceLanguage == "ja") {
       putTranslationIntoThisHelpAreaFromFileP.classList.add("theDesktopsKanjiFontAdjustP");
     }
+    /**/
+    layerOfGlassmorphism = document.createElement("DIV");
+    layerOfGlassmorphism.classList.add("workaroundForGlassmorphismRevealHelp"); // See css_for_lessons_with_interactables.css
+    document.body.appendChild(layerOfGlassmorphism);
     /**/
     clickToRevealSubtitlesDiv = document.createElement("DIV");
     clickToRevealSubtitlesDiv.classList.add("mouseClickableDivSizePosition"); // See css_for_lessons_with_interactables.css

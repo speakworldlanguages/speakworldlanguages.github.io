@@ -23,8 +23,13 @@
 }
 /* DESKTOPS */
 .translationBoxOnDesktopsSizePosition{pointer-events: none; position:fixed; left:0px; top:83vh; width:100vw; height:120px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .3s;}
-.mouseClickableDivSizePosition{position:fixed; right:1vw; bottom: 1vw; width:120px; height:120px; background-color: #728994; border: 2px solid rgba(74,96,111,.4); border-radius: 8px; opacity:.5; transition: opacity .3s; mix-blend-mode: luminosity;}
-.mouseClickableDivSizePosition:hover{opacity:1; mix-blend-mode: normal; border: 2px solid rgba(74,96,111,.8);}
+.workaroundForGlassmorphismRevealHelp{ /*As of 2021 with Chrome version 87.0, backdrop filter and opacity don't work together. To achieve the desired effect use two layers: one with filter other with opacity animation*/
+  position:fixed; right:1vw; bottom: 1.5vw; width:120px; height:120px; border-radius: 8px; border: 2px solid rgba(255,255,255,.13); box-shadow: 0px 0px 15px 0 rgba( 1,1, 1, 0.15 );
+  backdrop-filter: blur( 7px );
+  -webkit-backdrop-filter: blur( 7px );
+}
+.mouseClickableDivSizePosition{position:fixed; right:1vw; bottom: 1.5vw; width:120px; height:120px; background-color: rgba(114,137,148,0.85); border: 2px solid rgba(255,255,255,.01); /*border: 2px solid rgba(74,96,111,.4);*/ border-radius: 8px; opacity:.5; transition: opacity .3s;}
+.mouseClickableDivSizePosition:hover{opacity:1; mix-blend-mode: normal; border: 2px solid rgba(255,255,255,.13); /*border: 2px solid rgba(74,96,111,.8);*/ }
 .mouseClickableImgSizePosition{height:110px; position:absolute; left: 5px; top: 5px;}
 .thetranslationAssistanceOnDesktopsP{ /* CAREFUL: Desktops only!*/
   white-space: nowrap;
@@ -101,6 +106,28 @@
   overflow: hidden;
 }
 
+.changeFlexPositionPortraitLandscapeAndBackgroundColorToo{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  /*overflow: hidden;*/ /*This may be unnecessary*/
+  display: flex;
+  flex-direction: column;
+  /* -webkit-filter: blur(0px); */ /*bug fix?*/
+}
+
+.beSquareInPortraitAndFullWidthRectangleInLandscape{
+  overflow: hidden; /* This is the one that is necessary */
+  position: relative; /* To be able to center its contents which are set to position absolute wrt this */
+}
+.beSquareInPortraitAndFullWidthRectangleInLandscape img{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 @media screen and (orientation:landscape){
   .layeredOverImageContainer1000x1000 img{
     height: 100%;
@@ -110,6 +137,21 @@
     height: 100%;
     width: auto;
   }
+  .changeFlexPositionPortraitLandscapeAndBackgroundColorToo{ /* Used for the first time in 1-6-3 */
+    background-color: black;
+    justify-content: center;
+  }
+  .beSquareInPortraitAndFullWidthRectangleInLandscape{
+    height: 40vw; /* 2.5 : 1 aspect ratio */
+    width: 100vw;
+  }
+  .beSquareInPortraitAndFullWidthRectangleInLandscape img{
+    width: 100%;
+  }
+  .addThisToAdjustPositionOnMobiles{
+    /*left: 7%;*/
+    margin-left: -30vw;
+  }
 }
 
 @media screen and (orientation:portrait){
@@ -118,9 +160,25 @@
     width: 100%;
   }
   .layeredOverImageContainer2222x1000 img{
-    /*NEED MAGIC HERE*/
+    /*NEED MAGIC HERE*/ /*Looks like everything works fine*/
     height: 100vmin;
     width: auto;
+  }
+  .changeFlexPositionPortraitLandscapeAndBackgroundColorToo{ /* Used for the first time in 1-6-3 */
+    background-color: #adbbc4;
+    justify-content: flex-end;
+  }
+  .beSquareInPortraitAndFullWidthRectangleInLandscape{
+    width: 100vw;
+    height: 100vw;
+  }
+  .beSquareInPortraitAndFullWidthRectangleInLandscape img{
+    height: 100%;
+    width: auto;
+  }
+  .addThisToAdjustPositionOnMobiles{
+    /*left: 50%;*/ /*Default horizontal center position*/
+    margin-top: -20vh;
   }
 }
 
@@ -136,6 +194,50 @@
   flex-direction: column-reverse;
 	align-items: center;
   overflow: hidden;
+}
+
+.proceedToNextActionButton{ /* Used for the first time in 1-6-3 */
+  width: 130px;
+  height: 130px;
+  position: fixed;
+  top: -50%;/* Start hidden and animate in */
+  left: 50%;
+  transform: translate(-50%,-50%) scale(1);
+  border-radius: 25px;
+  border: 2px solid rgba(255,255,255,0.3);
+  background-color: rgba(211, 222, 229, 0.2);
+  /*margin-top: -100vh;*/ /* Start hidden and animate in */
+  /*margin-left: 0vw;*/ /* Start hidden and animate in */
+  box-shadow: 0px 0px 15px 0 rgba( 1,1, 1, 0.15 );
+  backdrop-filter: blur( 7px );
+  -webkit-backdrop-filter: blur( 7px );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*opacity: 0.7;*/ /*backdrop filter doesn't work if opacity is changed*/
+  transition: background-color .2s, transform .2s ease-in-out, top 2s ease-in-out, left 4s ease-in;/*margin-top 2s ease-in-out, margin-left 1s ease-in-out*/
+}
+.addThisToMakeItAppearFromTop{  top: 50%;  }
+.addThisToAdjustPositionOnDesktops{  margin-top: -21vh;  }
+.addThisToMakeItBlowAwayTowardsRight{  left: 500%;  }
+
+.proceedToNextActionButton:hover{
+  background-color: rgba(211, 222, 229, 0.35);
+  transform: translate(-50%,-50%) scale(1.04);
+}
+.proceedToNextActionButton img{
+  opacity: 0.7;
+  transition: opacity .3s;
+}
+.proceedToNextActionButton img:hover{
+  opacity: 1;
+}
+.addThisForFadeIn2000ms {animation-name: simpleFadeIn; animation-duration: 2s; animation-fill-mode: forwards;}
+/* For 1-6-3 state C */
+@keyframes simpleFadeIn {
+  from {opacity:0;}
+  to {opacity:1;}
 }
 
 .postloaderInInteractablesStartHidden{   transform: translateX(-9999px);   opacity:0.1; transition: opacity 0.25s;  } /* Postloader: White fullviewport cover*/

@@ -161,6 +161,7 @@ function betweenEFandGH()
   }
   setTimeout(goFromGHtoIJ,7500*parent.speedAdjustmentCoefficient); // See js_for_the_sliding_navigation_menu.js =1.40 =1 =0.8
   whatWaterSoundsLike.fade(1,0,9000);
+  setTimeout(function(){ whatWaterSoundsLike.stop(); }, 9000);
 }
 
 function goFromGHtoIJ()

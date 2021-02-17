@@ -4,17 +4,17 @@ window.addEventListener('DOMContentLoaded', function(){
   // switch (browserLanguage) { // See js_for_every_single_html.js
   //   case "tr":
   //     if (location.hostname != "birdildahaogreneyim") {
-  //       window.open("https://birdildahaogreney.im/","_top");
+  //       window.open("https://birdildahaogreneyim/","_top");
   //     }
   //     break;
   //   case "ja":
   //     if (location.hostname != "hanaserutoiidesuyone") {
-  //       window.open("https://hanaserutoiidesuy.one/","_top");
+  //       window.open("https://hanaserutoiidesuyone/","_top");
   //     }
   //     break;
   //   default:
   //     if (location.hostname != "speakworldlanguages") {
-  //       window.open("https://speakworldlanguag.es/","_top");
+  //       window.open("https://speakworldlanguages/","_top");
   //     }
   // }
 }, { once: true });
@@ -128,13 +128,13 @@ let firstSevenCharactersOfTheAddress = location.hostname.substring(0,7);
 switch (location.hostname) {
   case "speakworldlanguages.github.io": // ALLOW
     break;
-  case "speakworldlanguages": // ALLOW
+  case "speakworldlanguages.com": // ALLOW
     break;
-  case "birdildahaogreneyim": // ALLOW
+  case "birdildahaogreneyim.com": // ALLOW
     break;
-  case "hanaserutoiidesuyone": // ALLOW
+  case "hanaserutoiidesuyone.com": // ALLOW
     break;
-  case "tingdongshijiederenmen": // ALLOW
+  case "tingdongshijiederenmen.com": // ALLOW
     break;
   case "localhost": // ALLOW
     break;
@@ -160,6 +160,7 @@ if (self === top) {
       }
     },7000);
 }
+
 /*____________*/
 // Odtü detector
 var detectODTUscript = document.createElement('script');
@@ -183,4 +184,4 @@ function getIP(json) {
     },1000);
  }
 
-// <script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+// /*Above method is used instead of putting the following inside the html document*/ <script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script> //

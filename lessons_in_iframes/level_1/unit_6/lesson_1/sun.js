@@ -147,6 +147,7 @@ function goFromCtoD()
   setTimeout(function(){ impactSound4.play(); }, 1950);
   setTimeout(function(){ sayD.play(); }, 5750); // 2000 + 3750 = 5750 // after 1s fade out plus 1s fade in
   theSoundOfBurningSun.fade(1,0,12000);
+  theSoundOfBurningSun.once('fade', function(){      theSoundOfBurningSun.stop();       });
   landscapeImgC.classList.add("toZeroOpacity");
   portraitImgC.classList.add("toZeroOpacity");
   setTimeout(betweenCandD,1000);

@@ -1,1 +1,1 @@
-﻿Az önce gördüğün bu ekmeği evde kendim pişirdim. Geliştirdiğim bu uygulamayı beğenirsen hangi yöntemle nasıl bağış yapabileceğini görmek için terazi simgeli düğmeyi kullan.
+﻿Az önce gördüğün bu ekmeği evde kendim pişirdim. Geliştirdiğim bu uygulama için hangi yöntemle nasıl bağış yapabileceğini menüdeki terazi simgeli düğmeyi kullanarak görebilirsin.

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- This will be parented by a container HTML -->
+    <title>🏁</title> <!-- Symbol &#127937;-->
+    <script>    localStorage.theLastCheckpoint = self.location.href; /*Save checkpoint*/    </script>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../../css_reusables/css_for_custom_cursor.css">
+    <link rel="stylesheet" href="../../css_reusables/css_for_every_single_html.css">
+    <link rel="stylesheet" href="../../css_reusables/css_for_all_iframed_lesson_htmls.css"> <!-- Necessary for background gradient. -->
+
+    <script defer src="../../js_reusables/js_for_every_single_html.js">/*Get fonts*/</script>
+    <!-- <script defer src="../../../../js_reusables/js_for_all_iframed_lesson_htmls.js">/*Make button sounds work*/</script> -->
+    <script defer src="../../js_reusables/js_for_fetch_api_character_encoding.js">/*Display non-english characters correctly*/</script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> <!-- Use google font library -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet"> <!-- Use for license info -->
+
+    <style>
+      .zoomInForLastNoticeAtTheEnd{animation-name: niceZoom; animation-duration: 45s; animation-fill-mode: forwards; animation-timing-function: ease-out;}
+      @keyframes niceZoom {
+        0%{transform: scale(1); /*font-size:200%; letter-spacing: .1vmin;*/}
+      100%{transform: scale(1.3); /*font-size:300%; letter-spacing: 1vmin;*/}
+      }
+      .zoomInForLastNoticeAtTheEndPhones{animation-name: niceZoomPhones; animation-duration: 15s; animation-fill-mode: forwards; animation-timing-function: ease-out;}
+      @keyframes niceZoomPhones {
+      0%{transform: scale(0.5); /*font-size:200%; letter-spacing: .1vmin;*/}
+    100%{transform: scale(0.9); /*font-size:300%; letter-spacing: 1vmin;*/}
+      }
+      .latinTextFont{font-family:'Kanit';} /*REMOVE THIS IF User Interface is in non-Latin like Kanji etc*/
+    </style>
+    <script>
+      window.addEventListener('DOMContentLoaded', function(){
+        if (userInterfaceLanguage=="ja") {
+          document.getElementById('messageAfterTheLastLessonP').classList.remove("latinTextFont");
+        }
+        // REMEMBER: Wait for “userInterfaceLanguage” variable to be ready. See js_for_every_single_html.js
+        // ------- Fill the divs with text depending on the user interface language --------
+        const filePathForMessageText = "../../user_interface/text/"+userInterfaceLanguage+"/after_last_lesson_message.txt";
+        const filePathForButtonText = "../../user_interface/text/"+userInterfaceLanguage+"/after_last_lesson_button.txt";
+        fetch(filePathForMessageText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ document.getElementById('messageAfterTheLastLessonP').innerHTML = contentOfTheTxtFile; });
+        fetch(filePathForButtonText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ document.getElementById('goToInfoPageButton').innerHTML = contentOfTheTxtFile; });
+
+        //const zoomable = document.getElementById('thisContainsEverything');
+        if (parent.deviceDetector.device == "phone") {
+          document.getElementById('particularZoomOnPhonesA').classList.add("zoomInForLastNoticeAtTheEndPhones");
+          document.getElementById('particularZoomOnPhonesB').classList.add("zoomInForLastNoticeAtTheEnd");
+        }
+        else {
+          document.getElementById('thisContainsEverything').classList.add("zoomInForLastNoticeAtTheEnd");
+        }
+      }, { once: true });
+      // UPDATE: It's now OK if the following two functions are not defined here. See js_for_all_iframed_lesson_htmls typeof conditionals
+      // function unloadTheSoundsOfThisLesson() {   /*Do nothing*/   } // This used to exist here otherwise nav buttons didn't function
+      // function unloadTheImagesOfThisLesson() {   /*Do nothing*/   } // This used to exist here otherwise nav buttons didn't function
+    </script>
+  </head>
+
+  <body>
+    <main id="thisContainsEverything" style="flex-direction: column;"> <!-- See css_for_all_iframed_lesson_htmls -->
+        <div id="particularZoomOnPhonesA">
+          <p id="messageAfterTheLastLessonP" class="latinTextFont" style="font-size:170%; letter-spacing: -0.1vmin; white-space: pre;">...</p>
+        </div>
+        <img id="particularZoomOnPhonesB" src="../../user_interface/images/we_are_working.webp" alt="" style="height:38vh;">
+        <button id="goToInfoPageButton" style="mix-blend-mode: overlay; font-size:25px; white-space: pre;" onmouseup="window.open('../../information');">...</button>
+        <!-- mix-blend should depend on device -->
+    </main>
+  </body>
+</html>
