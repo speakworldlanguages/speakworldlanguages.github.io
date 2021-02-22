@@ -9,13 +9,13 @@ fetch(filePathA,myHeaders).then(function(response){return response.text();}).the
 
 /* ___AUDIO ELEMENTS___ */
 let sayAPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayAPath = sayAPath + "_female"; }
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayAPath = sayAPath.split(".")[0] + "_female.mp3"; }
 const sayA = new parent.Howl({  src: [sayAPath]  });
 let sayBPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink_water.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayBPath = sayBPath + "_female"; }
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayBPath = sayBPath.split(".")[0] + "_female.mp3"; }
 const sayB = new parent.Howl({  src: [sayBPath]  });
 let sayCPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink_water_from_the_glass.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayCPath = sayCPath + "_female"; }
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayCPath = sayCPath.split(".")[0] + "_female.mp3"; }
 const sayC = new parent.Howl({  src: [sayCPath]  });
 const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_4/click_to_drink.mp3'] });
 const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_4/drink_water_from_glass_state_b.mp3'] });

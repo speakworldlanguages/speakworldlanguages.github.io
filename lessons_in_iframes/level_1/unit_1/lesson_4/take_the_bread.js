@@ -9,16 +9,16 @@ fetch(filePathB,myHeaders).then(function(response){return response.text();}).the
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
 let say1NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/take_bread_normal.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1NaturalPath = say1NaturalPath + "_female"; }
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1NaturalPath = say1NaturalPath.split(".")[0] + "_female.mp3"; }
 const say1Natural = new parent.Howl({  src: [say1NaturalPath]  });
 let say1SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/take_bread_slow.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1SlowPath = say1SlowPath + "_female"; }
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1SlowPath = say1SlowPath.split(".")[0] + "_female.mp3"; }
 const say1Slow = new parent.Howl({  src: [say1SlowPath]  });
 let say2NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat_normal.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say2NaturalPath = say2NaturalPath + "_female"; }
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say2NaturalPath = say2NaturalPath.split(".")[0] + "_female.mp3"; }
 const say2Natural = new parent.Howl({  src: [say2NaturalPath]  });
 let say2SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat_slow.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say2SlowPath = say2SlowPath + "_female"; }
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say2SlowPath = say2SlowPath.split(".")[0] + "_female.mp3"; }
 const say2Slow = new parent.Howl({  src: [say2SlowPath]  });
 const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/click_on_bread.mp3'] });
 const bite1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bite1.mp3'] });

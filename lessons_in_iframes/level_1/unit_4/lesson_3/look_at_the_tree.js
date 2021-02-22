@@ -18,20 +18,20 @@ fetch(filePathE,myHeaders).then(function(response){return response.text();}).the
 
 /* ___AUDIO ELEMENTS___ */
 let say1NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/look_at_the_tree_normal.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1NaturalPath = say1NaturalPath + "_female"; }
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1NaturalPath = say1NaturalPath.split(".")[0] + "_female.mp3"; }
 const say1Natural = new parent.Howl({  src: [say1NaturalPath]  });
 let say1SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/look_at_the_tree_slow.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1SlowPath = say1SlowPath + "_female"; }
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1SlowPath = say1SlowPath.split(".")[0] + "_female.mp3"; }
 const say1Slow = new parent.Howl({  src: [say1SlowPath]  });
 const say2NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/there_is_a_bird_normal.mp3";
 const say2Natural = new parent.Howl({  src: [say2NaturalPath]  });
 const say2SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/there_is_a_bird_in_the_tree_slow.mp3";
 const say2Slow = new parent.Howl({  src: [say2SlowPath]  });
 let say3NaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/listen_normal.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say3NaturalPath = say3NaturalPath + "_female"; }
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say3NaturalPath = say3NaturalPath.split(".")[0] + "_female.mp3"; }
 const say3Natural = new parent.Howl({  src: [say3NaturalPath]  });
 let say3SlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/listen_to_the_bird_slow.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say3SlowPath = say3SlowPath + "_female"; }
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say3SlowPath = say3SlowPath.split(".")[0] + "_female.mp3"; }
 const say3Slow = new parent.Howl({  src: [say3SlowPath]  });
 const clickTone1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_4/lesson_3/click_on_tree.mp3'] });
 const clickTone2 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_4/lesson_3/bird_tweet_tweet.mp3'] });
