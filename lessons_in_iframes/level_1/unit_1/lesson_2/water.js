@@ -91,13 +91,16 @@ window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, {
 // Change the speed gradually...
 function loadingIsCompleteFunction()
 {
-  whatWaterSoundsLike.play(); whatWaterSoundsLike.fade(0,1,2000);
+  whatWaterSoundsLike.play(); whatWaterSoundsLike.fade(0,1,500);
   setTimeout(function(){ sayAB.play(); }, 1000); // first thing that will be heard
+  setTimeout(function(){ whatWaterSoundsLike.fade(1,0.25,444); }, 501);
   setTimeout(goFromABtoCD,4500*parent.speedAdjustmentCoefficient); // See js_for_the_sliding_navigation_menu.js
 }
 
 function goFromABtoCD()
 {
+  whatWaterSoundsLike.fade(0.25,1,999);
+  setTimeout(function(){ whatWaterSoundsLike.fade(1,0.20,999); }, 1000);
   setTimeout(function(){ sayCD.play(); }, 2000); // after 1s fade out plus 1s fade in
   imgA.classList.add("toZeroOpacity");
   imgB.classList.add("toZeroOpacity");
@@ -120,6 +123,8 @@ function betweenABandCD()
 
 function goFromCDtoEF()
 {
+  whatWaterSoundsLike.fade(0.20,1,999);
+  setTimeout(function(){ whatWaterSoundsLike.fade(1,0.20,999); }, 1000);
   setTimeout(function(){ sayEF.play(); }, 2000);
   imgC.classList.add("toZeroOpacity");
   imgD.classList.add("toZeroOpacity");
@@ -142,6 +147,8 @@ function betweenCDandEF()
 
 function goFromEFtoGH()
 {
+  whatWaterSoundsLike.fade(0.20,1,999);
+  setTimeout(function(){ whatWaterSoundsLike.fade(1,0.25,999); }, 1000);
   setTimeout(function(){ sayGH.play(); }, 2000);
   imgE.classList.add("toZeroOpacity");
   imgF.classList.add("toZeroOpacity");
@@ -160,8 +167,8 @@ function betweenEFandGH()
   imgH.classList.remove("toZeroOpacity");
   }
   setTimeout(goFromGHtoIJ,7500*parent.speedAdjustmentCoefficient); // See js_for_the_sliding_navigation_menu.js =1.40 =1 =0.8
-  whatWaterSoundsLike.fade(1,0,9000);
-  setTimeout(function(){ whatWaterSoundsLike.stop(); }, 9000);
+  setTimeout(function(){ whatWaterSoundsLike.fade(0.25,0,9000); }, 1001);
+  setTimeout(function(){ whatWaterSoundsLike.stop(); }, 10002);
 }
 
 function goFromGHtoIJ()
