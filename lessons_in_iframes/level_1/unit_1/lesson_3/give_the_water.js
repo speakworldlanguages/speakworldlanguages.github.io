@@ -10,9 +10,11 @@ window.addEventListener('DOMContentLoaded', function(){
   fetch(filePathB,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textB = contentOfTheTxtFile; });
 }, { once: true });
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
-const sayNaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/give_water_normal.mp3";
+let sayNaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/give_water_normal.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayNaturalPath = sayNaturalPath + "_female"; }
 const sayNatural = new parent.Howl({  src: [sayNaturalPath]  });
-const saySlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/give_water_slow.mp3";
+let saySlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/give_water_slow.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { saySlowPath = saySlowPath + "_female"; }
 const saySlow = new parent.Howl({  src: [saySlowPath]  });
 const sayLastlyPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/thank_you.mp3";
 const sayLastly = new parent.Howl({  src: [sayLastlyPath]  });

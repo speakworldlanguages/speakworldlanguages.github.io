@@ -89,9 +89,9 @@ function goFromAtoB() {
   looping1 = setInterval(loopFunction1,52750);
   function loopFunction1() {
     setTimeout(function () {  say1Natural.play();  },4500);
-    setTimeout(function () {  say2Natural.play();  },3500+13188);
-    setTimeout(function () {  say1Slow.play();  },4500+26375);
-    setTimeout(function () {  say2Slow.play();  },3500+26375+13188);
+    setTimeout(function () {  say2Natural.play();  },16688); // 3500+13188 =
+    setTimeout(function () {  say1Slow.play();  },30875); // 4500+26375 =
+    setTimeout(function () {  say2Slow.play();  },43063); // 3500+26375+13188 =
     if (counter1 == 2) {  clearInterval(looping1);  }
     counter1++;
   }

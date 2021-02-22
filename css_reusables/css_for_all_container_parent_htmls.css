@@ -81,7 +81,7 @@ button:focus {outline:0;}
 @media screen and (orientation:landscape){
   button{min-width: 38vmin;}
   .upperHalfDiv{width: 100%; height: 40%;}
-  .lowerHalfDiv{width: 100%; height: 60%; flex-direction: row-reverse;  justify-content: center;  align-items: flex-start; }
+  .lowerHalfDiv{width: 100%; height: 60%; flex-direction: row-reverse;  justify-content: center;  align-items: flex-start; flex-wrap: wrap;}
   .theSmallNavigationMenuMOBILEStyling img{margin-left: 5vmin;  margin-right: 5vmin;}
 }
 
@@ -133,3 +133,64 @@ button:focus {outline:0;}
     visibility: visible;
   }
 }
+.darkenTheWholeViewportClass{
+  position: fixed;
+  z-index: 1001; /*Sliding navigation menu's z-index is 1100~1111*/
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  background-color: rgba(66, 91, 110, 0.7);
+  mix-blend-mode: multiply;
+  animation-name: fadeInAndBeClickable;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  backdrop-filter: blur( 8px );                 /*------ Not supported by Firefox in 2021*/
+  -webkit-backdrop-filter: blur( 8px );         /*------ Not supported by Firefox in 2021*/
+}
+.gentlemenAndLadiesButtonClass{
+  box-shadow: 0px 0px 8px 0px white, 0px 0px 3px 0px white;
+  position: fixed;
+  background-color: white;
+  border-radius: 20px;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 50%;
+  transition: all .3s;
+  z-index: 9990;
+}
+.gentlemenButtonClass{
+  transform: translate(-50%,-109%) scale(1);
+  animation-name: gentlemenSlideAnimation;
+  animation-duration: 1.8s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+.gentlemenButtonClass:hover{
+  transform: translate(-50%,-109%) scale(1.05);
+}
+.ladiesButtonClass{
+  transform: translate(-50%,9%) scale(1);
+  animation-name: ladiesSlideAnimation;
+  animation-duration: 1.8s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+.ladiesButtonClass:hover{
+  transform: translate(-50%,9%) scale(1.05);
+}
+@keyframes gentlemenSlideAnimation {
+  0%{ top: -50%; }
+  10%{ top: -50%; }
+  100%{ top: 50%; }
+}
+@keyframes ladiesSlideAnimation {
+  0%{ top: 150%; }
+  10%{ top: 150%; }
+  100%{ top: 50%; }
+}
+.bringGenderButtonToVerticalCenter{top: 50%; transform: translate(-50%,-50%) scale(1.15);}
+.fadeGenderButtonToZeroOpacity{opacity:0;}

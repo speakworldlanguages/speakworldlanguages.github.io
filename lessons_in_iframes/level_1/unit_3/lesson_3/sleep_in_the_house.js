@@ -8,9 +8,11 @@ fetch(filePathA,myHeaders).then(function(response){return response.text();}).the
 /* This lesson has no textB*/
 
 /* ___AUDIO ELEMENTS___ */
-const sayNaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_3/lesson_3/go_to_sleep_in_the_house_normal.mp3";
+let sayNaturalPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_3/lesson_3/go_to_sleep_in_the_house_normal.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayNaturalPath = sayNaturalPath + "_female"; }
 const sayNatural = new parent.Howl({  src: [sayNaturalPath]  });
-const saySlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_3/lesson_3/go_to_sleep_in_the_house_slow.mp3";
+let saySlowPath = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_3/lesson_3/go_to_sleep_in_the_house_slow.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { saySlowPath = saySlowPath + "_female"; }
 const saySlow = new parent.Howl({  src: [saySlowPath]  });
 const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_3/click_on_house.mp3'] });
 const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_3/night_time_crickets.mp3'] });

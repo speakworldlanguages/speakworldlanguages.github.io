@@ -19,7 +19,7 @@ window.addEventListener('DOMContentLoaded', function(){
   // }
 }, { once: true });
 
-
+var genderOfTheUser;
 var theLanguageUserIsLearningNow;
 const iFrameScriptAccess = document.getElementById('theIdOfTheIframe');
 
@@ -58,21 +58,91 @@ if (localStorage.theLastCheckpoint) { // See if a previously saved checkpoint ex
   // localStorage.theLastCheckpoint is created in lesson 1-1-1 and updated with every lesson in the following units.
 }
 
+// For languages like Arabic we need to know the user's gender.
+// Let the webp img files be downloaded and ready before the button to reveal them is clicked/touched.
+const malesIcon = document.createElement("IMG");
+const femalesIcon = document.createElement("IMG");
+malesIcon.src = "user_interface/images/gender_gentlemen.webp";
+femalesIcon.src = "user_interface/images/gender_ladies.webp";
+
+/*What language will be taught via the iframe*/
+/* JA - Hito */
+function letTheIFrameTeachJapanese(){ //See index.html to find the button that triggers this via onclick.
+  theLanguageUserIsLearningNow = "ja";
+  openFirstLesson();
+}
+/* ZH - Ren */
+function letTheIFrameTeachChinese(){ //See index.html to find the button that triggers this via onclick.
+  theLanguageUserIsLearningNow = "zh";
+  openFirstLesson();
+}
+/* TR - Kişi */
 function letTheIFrameTeachTurkish(){ //See index.html to find the button that triggers this via onclick.
   theLanguageUserIsLearningNow = "tr";
   openFirstLesson();
 }
-
-function letTheIFrameTeachHitoicJapanese(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNow = "ja";
-  openFirstLesson();
+/* AR Arabic */
+function letTheIFrameTeachArabic(){ //See index.html to find the button that triggers this via onclick.
+  theLanguageUserIsLearningNow = "ar";
+  // Get user's gender
+  const darkenWholeViewportDiv = document.createElement("DIV");
+  darkenWholeViewportDiv.classList.add("darkenTheWholeViewportClass");
+  document.body.appendChild(darkenWholeViewportDiv);
+  const gentlemenButtonDiv = document.createElement("DIV");
+  const ladiesButtonDiv = document.createElement("DIV");
+  gentlemenButtonDiv.appendChild(malesIcon);
+  ladiesButtonDiv.appendChild(femalesIcon);
+  malesIcon.style.width = "160px";
+  malesIcon.style.height = "160px";
+  femalesIcon.style.width = "160px";
+  femalesIcon.style.height = "160px";
+  gentlemenButtonDiv.classList.add("gentlemenAndLadiesButtonClass");
+  gentlemenButtonDiv.classList.add("gentlemenButtonClass");
+  ladiesButtonDiv.classList.add("gentlemenAndLadiesButtonClass");
+  ladiesButtonDiv.classList.add("ladiesButtonClass");
+  document.body.appendChild(gentlemenButtonDiv);
+  document.body.appendChild(ladiesButtonDiv);
+  if (deviceDetector.isMobile) {
+    gentlemenButtonDiv.addEventListener("touchstart",theUserIsMaleFunction,{once:true});
+    ladiesButtonDiv.addEventListener("touchstart",theUserIsFemaleFunction,{once:true});
+  } else {
+    gentlemenButtonDiv.addEventListener("mousedown",theUserIsMaleFunction,{once:true});
+    ladiesButtonDiv.addEventListener("mousedown",theUserIsFemaleFunction,{once:true});
+  }
+  function theUserIsMaleFunction() {
+    gentlemenButtonDiv.classList.remove("gentlemenButtonClass");
+    gentlemenButtonDiv.classList.add("bringGenderButtonToVerticalCenter");
+    ladiesButtonDiv.classList.add("fadeGenderButtonToZeroOpacity");
+    setTimeout( function ()  {  ladiesButtonDiv.style.display="none";  },500);
+    genderOfTheUser = "male";
+    setTimeout( function ()  {
+      openFirstLesson();
+      document.body.removeChild(darkenWholeViewportDiv);
+      document.body.removeChild(gentlemenButtonDiv);
+      document.body.removeChild(ladiesButtonDiv);
+    },1500);
+  }
+  function theUserIsFemaleFunction() {
+    ladiesButtonDiv.classList.remove("ladiesButtonClass");
+    ladiesButtonDiv.classList.add("bringGenderButtonToVerticalCenter");
+    gentlemenButtonDiv.classList.add("fadeGenderButtonToZeroOpacity");
+    setTimeout( function ()  {  gentlemenButtonDiv.style.display="none";  },500);
+    genderOfTheUser = "female";
+    setTimeout( function ()  {
+      openFirstLesson();
+      document.body.removeChild(darkenWholeViewportDiv);
+      document.body.removeChild(gentlemenButtonDiv);
+      document.body.removeChild(ladiesButtonDiv);
+    },1500);
+  }
 }
-
+/* EN - People */
 function letTheIFrameTeachEnglish(){ //See index.html to find the button that triggers this via onclick.
   theLanguageUserIsLearningNow = "en";
   openFirstLesson();
 }
 
+/*___________Navigate to first lesson_____________*/
 function openFirstLesson() {
   localStorage.theLanguageUserWasLearningLastTime = theLanguageUserIsLearningNow;
   if (annyang) {
