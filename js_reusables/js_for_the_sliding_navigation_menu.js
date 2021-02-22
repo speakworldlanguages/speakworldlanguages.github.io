@@ -500,7 +500,7 @@ window.addEventListener("load",function() {
     */
     // Ask “Are you sure?” in all user interface languages via fetch()
     if (confirm(areYouSureTextInUILanguage)) {
-      localStorage.removeItem("theLastCheckpoint");
+      localStorage.removeItem("theLastCheckpointSavedInLocalStorage");
       localStorage.removeItem("theLanguageUserWasLearningLastTime");
       // WARNING: Avoid using reference to the root "/" as it maybe uncertain what the root is in case of deep-iframing.
       // Try solving with conditionals if a problem emerges.

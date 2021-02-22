@@ -25,12 +25,12 @@ const iFrameScriptAccess = document.getElementById('theIdOfTheIframe');
 
 // CODE TO BE REMOVED AFTER TESTS IS
 // FROM HERE
-//localStorage.theLastCheckpoint = "lessons_in_iframes/level_1/unit_7/lesson_2/"; // Only for testing.
+//localStorage.theLastCheckpointSavedInLocalStorage = "lessons_in_iframes/level_1/unit_7/lesson_2/"; // Only for testing.
 //localStorage.theLanguageUserWasLearningLastTime = "tr";
 // TO HERE
 
 // Continue progress from last unit
-if (localStorage.theLastCheckpoint) { // See if a previously saved checkpoint exists.
+if (localStorage.theLastCheckpointSavedInLocalStorage) { // See if a previously saved checkpoint exists.
   // MUST USE display:none to avoid click blocking by z-index.
   document.getElementById('fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt').classList.add("addThisForOpacityAnimationFadeIn");
   // NOTE: Chrome does not count an alert box click as a user gesture.
@@ -38,10 +38,13 @@ if (localStorage.theLastCheckpoint) { // See if a previously saved checkpoint ex
   if (annyang) {
       annyang.setLanguage(theLanguageUserIsLearningNow); // Firefox v60's and v70's won't let buttons function unless this is wrapped in an if (annyang){} like this.
   }
+  if (localStorage.genderOfTheUserSavedToLocalStorage) {
+      genderOfTheUser = localStorage.genderOfTheUserSavedToLocalStorage;
+  }
   function whenLoadLastLessonOkButtonIsClickedOrTapped() { // See a parent document like index.html, ja.html, tr.html to find that button.
     // WARNING: Must see if 5000px is enough not to cause a problem with very high desktop resolutions like 4K.
     document.getElementById('fullViewportPositionFixedDivAsContainerOfTheMenu').style.left = "5000px";
-    iFrameScriptAccess.src = localStorage.theLastCheckpoint;
+    iFrameScriptAccess.src = localStorage.theLastCheckpointSavedInLocalStorage;
     document.getElementById('fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt').classList.add("addThisForOpacityAnimationFadeOut");
     // Small navigation menu buttons... See js_for_the_sliding_navigation_menu.js
     if (iFrameScriptAccess.src.substring(iFrameScriptAccess.src.length - 34, iFrameScriptAccess.src.length)=="level_1/unit_1/lesson_1/index.html") {
@@ -55,7 +58,7 @@ if (localStorage.theLastCheckpoint) { // See if a previously saved checkpoint ex
   }
 } else {
   // First time users will proceed via openFirstLesson()
-  // localStorage.theLastCheckpoint is created in lesson 1-1-1 and updated with every lesson in the following units.
+  // localStorage.theLastCheckpointSavedInLocalStorage is created in lesson 1-1-1 and updated with every lesson in the following units.
 }
 
 // For languages like Arabic we need to know the user's gender.
@@ -114,7 +117,8 @@ function letTheIFrameTeachArabic(){ //See index.html to find the button that tri
     gentlemenButtonDiv.classList.add("bringGenderButtonToVerticalCenter");
     ladiesButtonDiv.classList.add("fadeGenderButtonToZeroOpacity");
     setTimeout( function ()  {  ladiesButtonDiv.style.display="none";  },500);
-    genderOfTheUser = "male";
+    genderOfTheUser = "male"; // Set it...
+    localStorage.genderOfTheUserSavedToLocalStorage = "male"; // ...and save it
     setTimeout( function ()  {
       openFirstLesson();
       document.body.removeChild(darkenWholeViewportDiv);
@@ -127,7 +131,8 @@ function letTheIFrameTeachArabic(){ //See index.html to find the button that tri
     ladiesButtonDiv.classList.add("bringGenderButtonToVerticalCenter");
     gentlemenButtonDiv.classList.add("fadeGenderButtonToZeroOpacity");
     setTimeout( function ()  {  gentlemenButtonDiv.style.display="none";  },500);
-    genderOfTheUser = "female";
+    genderOfTheUser = "female"; // Set it...
+    localStorage.genderOfTheUserSavedToLocalStorage = "female"; // ...and save it
     setTimeout( function ()  {
       openFirstLesson();
       document.body.removeChild(darkenWholeViewportDiv);
