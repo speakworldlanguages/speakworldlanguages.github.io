@@ -40,15 +40,15 @@ window.addEventListener('load', function(){
   switch (userInterfaceLanguage) {
     /* HIDE-UNHIDE THE LOCAL TRANSACTION OPTION UNTIL IT BECOMES AVAILABLE FOR OUR ORGANIZATION */
     case "ja":
-      //monthlyOpt.style.display = "none";
+      monthlyOpt.style.display = "none";
       oneTimeOpt.style.display = "none";
       break;
     case "tr": /*case "uz": case "ug": case "tk": case "ky": case "kk": case "az":*/
-      //monthlyOpt.style.display = "none";
+      monthlyOpt.style.display = "none";
       oneTimeOpt.style.display = "none";
       break;
     default:// "en" or none of the above
-      //monthlyOpt.style.display = "none";
+      monthlyOpt.style.display = "none";
       oneTimeOpt.style.display = "none";
   }
 
