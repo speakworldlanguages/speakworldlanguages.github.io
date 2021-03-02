@@ -20,10 +20,10 @@ const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+
 fetch(filePathForTheWordOrPhrase,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theNewWordUserIsLearningNowAndPossibleMishaps = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
-const say1say2Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_2/water_1-2.mp3";
-const say3say4Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_2/water_3-4.mp3";
-const say5say6Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_2/water_5-6.mp3";
-const say7say8Path = "audio_files_from_teachers/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_2/water_7-8.mp3";
+const say1say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_2/water_1-2.mp3";
+const say3say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_2/water_3-4.mp3";
+const say5say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_2/water_5-6.mp3";
+const say7say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_2/water_7-8.mp3";
 
 const sayAB = new parent.Howl({  src: [say1say2Path]  });
 const sayCD = new parent.Howl({  src: [say3say4Path]  });
