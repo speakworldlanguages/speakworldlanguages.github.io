@@ -38,17 +38,17 @@ window.addEventListener('load', function(){
   /* Remove the one-time button if it is not usable yet due to the actual availability of regional financial methods, localized transaction possibilities */
   // GOOD PRACTICE: It would be good if we could “SILENTLY” get the location of the user via IP detection (without device GPS because that pops another “allow-block” prompt).
   switch (userInterfaceLanguage) {
-    /* HIDE-UNHIDE THE LOCAL TRANSACTION OPTION UNTIL IT BECOMES AVAILABLE FOR OUR ORGANIZATION */
+    /* HIDE-UNHIDE THE LOCAL TRANSACTION OPTION UNTIL IT BECOMES AVAILABLE FOR OUR ORGANIZATION IN THAT COUNTRY */
     case "ja":
-      monthlyOpt.style.display = "none";
+      //monthlyOpt.style.display = "none";
       oneTimeOpt.style.display = "none";
       break;
     case "tr": /*case "uz": case "ug": case "tk": case "ky": case "kk": case "az":*/
-      monthlyOpt.style.display = "none";
+      //monthlyOpt.style.display = "none";
       oneTimeOpt.style.display = "none";
       break;
     default:// "en" or none of the above
-      monthlyOpt.style.display = "none";
+      //monthlyOpt.style.display = "none";
       oneTimeOpt.style.display = "none";
   }
 
