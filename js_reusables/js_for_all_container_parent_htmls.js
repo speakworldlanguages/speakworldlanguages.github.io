@@ -207,7 +207,7 @@ switch (location.hostname) {
     break;
   case "birdildahaogreneyim.com": // ALLOW
     break;
-  case "hanaserutoiidesuyone.com": // ALLOW
+  case "hanaserutoiidesuy.one": // ALLOW
     break;
   case "tingdongshijiederenmen.com": // ALLOW
     break;
@@ -223,7 +223,7 @@ switch (location.hostname) {
 }
 
 /*___________*/
-// Do not allow embedding of this app (no re-serve through an iframe)
+// Do not allow embedding of this app (no re-serving through an alien iframe)
 if (self === top) {
     // Display normally
 } else {
