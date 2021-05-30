@@ -1,4 +1,4 @@
-This directory contains the javascript libraries created by talented coders who kindly shared their work on GitHub. This web application depends on the following.
+This directory contains the javascript libraries created by talented coders who kindly shared their work on GitHub. Our web application depends on the following.
 
 * [annyang](https://github.com/TalAter/annyang)
 * [devicedetector](https://github.com/PoeHaH/devicedetector)

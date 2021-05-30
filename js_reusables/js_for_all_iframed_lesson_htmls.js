@@ -12,7 +12,37 @@ if (parent.thisIsTheParentWhichContainsAllIFramedLessons == "yes") {
   // AVOID: Do not use reference to root with "/" as it could be uncertain what the root is in case of deep-iframing for domain masking.
   window.open("/","_top"); // Has been tested. It works.
   // WELL: If one tries to open "https://myproject.github.io/forbidden/folder/index.html" this will force it to open "https://myproject.github.io/index.html"
-  //  --- This may have to be changed with something like window.open("https://speakworldlaguages.....","_self");
+  //  --- PERHAPS: It could be changed with something like window.open("https://speakworldlaguages.....","_self");
+}
+
+// Function that creates a div for NOTIFICATIONS
+var notificationBoxContainer;
+var notificationBoxItself;
+var putNotificationTxtIntoThisP;
+var okButtonToCloseTheNotification;
+
+function createAndHandleNotificationBox() {
+  notificationBoxContainer = document.createElement("DIV");
+  notificationBoxContainer.classList.add("notificationBG"); // See css_for_all_iframed_lesson_htmls
+  document.body.appendChild(notificationBoxContainer);
+  notificationBoxItself = document.createElement("DIV");
+  notificationBoxItself.classList.add("notificationRoundedBox"); // See css_for_all_iframed_lesson_htmls
+  notificationBoxContainer.appendChild(notificationBoxItself);
+
+  putNotificationTxtIntoThisP = document.createElement("P");
+  notificationBoxItself.appendChild(putNotificationTxtIntoThisP);
+  okButtonToCloseTheNotification = document.createElement("DIV");
+  okButtonToCloseTheNotification.classList.add("okButtonUnderNotification"); // See css_for_all_iframed_lesson_htmls
+  if (needLatinFonts) {
+    okButtonToCloseTheNotification.style.fontFamily = '"Oxanium SemiBold", sans-serif';
+  }
+  notificationBoxItself.appendChild(okButtonToCloseTheNotification);
+  okButtonToCloseTheNotification.addEventListener("mousedown",okButtonIsClicked);
+  function okButtonIsClicked(event) {
+    notificationBoxContainer.classList.add("addThisToAButtonForPlayStationStyleClick"); // See css_for_every_single_html_css
+    setTimeout(function () {     notificationBoxContainer.parentNode.removeChild(notificationBoxContainer);     },1000); // The animation completes in 600ms
+    setTimeout(function () {     startTheLesson();     }, 1500);
+  }
 }
 
 // HANDLE PAGE UNLOAD IF THE BROWSER'S “BACK” BUTTON IS USED

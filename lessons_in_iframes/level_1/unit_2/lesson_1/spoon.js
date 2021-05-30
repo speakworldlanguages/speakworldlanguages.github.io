@@ -80,8 +80,14 @@ the2ndDivThatWillAppearWhenMicrophoneStartsListening.classList.add("toZeroOpacit
 
 /* ___PROGRESSION___ */
 window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, { once: true });
-// Change the speed gradually...
+// Desktop users can change the speed; mobile users can't. Because the mobile GUI has to stay simple.
 function loadingIsCompleteFunction()
+{
+  // Stop and notify the user if necessary; otherwise just continue.
+  startTheLesson();
+}
+
+function startTheLesson()
 {
   setTimeout(function(){ tablewareSoundAB.play(); }, 1000);
   setTimeout(function(){ sayAB.play(); }, 4000); //1000+3000=4000

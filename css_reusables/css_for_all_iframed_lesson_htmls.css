@@ -25,6 +25,50 @@ aside{
   line-height: normal;
 }
 
+.notificationBG{
+  position: fixed;
+  top:0;        left:0;
+  width:100vw;  height:100vh;
+  background-color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200; /* Just a guesstimation */
+}
+.notificationRoundedBox{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  max-width: 600px;
+  min-height: 42vh;
+  background-color: rgb(250, 251, 252);
+  border-radius: 2.5vmin;
+  box-shadow: rgba(141, 149, 155, 0.48) 0px -5px 16px 0px, rgba(255, 255, 255, 0.8) 0px 5px 16px 0px;
+  font-size: 4vmin;
+  color: rgb(154,170,182);
+  text-shadow: 0px -1px 0px rgba(255,255,255,.3), 0px 1px 0px rgba(0,0,0,.5);
+  margin: 5vmin; /*Will take effect on mobiles only*/
+  padding-left: 4vmin; padding-right: 4vmin;
+  text-align: justify;
+}
+.okButtonUnderNotification{
+  min-width:100px;
+  min-height:62px;
+  padding: 10px;
+  background-color: rgb(154,170,182);
+  border-radius: 1.5vmin;
+  border: 3px solid rgb(124, 144, 160);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-shadow: none;
+}
+.okButtonUnderNotification:hover{
+  background-color: rgb(93,114,137);
+  border: 3px solid rgb(73, 94, 110);
+}
 .glassmorphismOnMobiles{
   background-color: rgba( 177, 177, 177, 0.3 );
   box-shadow: 0px 0px 30px 0px rgba( 0, 0, 0, 0.4 );
@@ -76,7 +120,7 @@ aside{
   10%{ /*backdrop-filter: blur( 0px ); -webkit-backdrop-filter: blur( 0px ); transform: translate(-50%,-50%) scale(1.25);*/ opacity:0.3; }
   100%{ /*transform: translate(-50%,-50%) scale(2);*/ opacity:0; }
 }
-.addThisToTheButtonWhenItIsTouchedOnMobiles{ /* This has to be a “desktops only” */
+.addThisToTheButtonWhenItIsTouchedOnMobiles{ /* ... */
   animation-name: noExplodeForMobiles;
   animation-duration: 1s;
   animation-fill-mode: forwards;
@@ -109,7 +153,8 @@ button:active {
 }
 button:focus {outline:0;}
 
-.addThisToAButtonForPlayStationStyleClick{ /* See js_for_all_iframed_lesson_htmls.js */
+/* MOVE THIS TO EVERY SINGLE HTML CSS
+.addThisToAButtonForPlayStationStyleClick{
   animation: playStationStyle 0.6s;
   animation-fill-mode: forwards;
 }
@@ -126,6 +171,7 @@ button:focus {outline:0;}
   100%{
     opacity: 0;
     transform: scale(0.1);
-    visibility: hidden; /*Not sure if we need display none instead of visibility hidden. Looks like it's working anyway.*/
+    visibility: hidden;
   }
 }
+*/

@@ -72,13 +72,21 @@ var looping1; // Try var instead of let, not sure if that is the cause of the fr
 let counter1 = 1;
 var looping2;
 let counter2 = 1;
-function loadingIsCompleteFunction() {
+function loadingIsCompleteFunction()
+{
+  // Display notifications if there are any.
+  startTheLesson();
+}
+
+function startTheLesson()
+{
   imgA.style.display = "initial";
   loopingBackgroundSound.play();
   setTimeout(function () {  goFromAtoB();  },6500);
 }
 
-function goFromAtoB() {
+function goFromAtoB()
+{
   putTranslationIntoThisHelpAreaFromFileP.innerHTML = textA;
   setTimeout(function () {  putTranslationIntoThisHelpAreaFromFileP.innerHTML = textB;  },12500);
   imgA.style.display = "none";

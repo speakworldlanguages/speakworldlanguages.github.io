@@ -1,8 +1,4 @@
 // All settings here will depend on the content of the lesson
-if (parent.theLanguageUserIsLearningNow == "ja") { // SPECIAL CASE ABOUT NEW VOCABULARY when user is learning Hito language
-  const filePathForAlertAboutHitoic = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-3_special_case_for_ja.txt";
-  fetch(filePathForAlertAboutHitoic,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ alert(contentOfTheTxtFile); });
-}
 
 // See js_for_every_single_html.js for userInterfaceLanguage
 const filePathA = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-3a.txt";
@@ -75,18 +71,39 @@ const postloaderHiddenGlobeInsideWhitecover = document.getElementById('theGlobeI
 // ALWAYS: Use window load to be safe with timing.
 window.addEventListener('load', function(){  loadingIsCompleteFunction();  }, { once: true });
 
-function loadingIsCompleteFunction() {
+function loadingIsCompleteFunction()
+{
+  // Display notifications if there are any.
+  if (parent.theLanguageUserIsLearningNow == "ja") { // SPECIAL CASE ABOUT NEW VOCABULARY when user is learning Hito language
+    const filePathForAlertAboutHitoic = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-3_special_case_for_ja.txt";
+    fetch(filePathForAlertAboutHitoic,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      // Display notification instead of alert(contentOfTheTxtFile);
+      createAndHandleNotificationBox();
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  }
+  else {
+    startTheLesson();
+  }
+}
+
+function startTheLesson()
+{
   document.getElementById("likeCameraZoomID").classList.add("addThisClassToStartZoomingInA");
   loopingBackgroundSound.play();
-  setTimeout(function () {
-
-   goFromAtoB();
-
-  },7500);
+  setTimeout(function () {   goFromAtoB();   },7500);
 }
+
 var looping;
 let counter = 1;
-function goFromAtoB() {
+function goFromAtoB()
+{
   setTimeout(function () {  putTranslationIntoThisHelpAreaFromFileP.innerHTML = textB;  },8000);
   layerOverImg1A.style.display = "none";
   layerOverImg2A.style.display = "none";

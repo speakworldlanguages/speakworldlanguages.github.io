@@ -46,7 +46,14 @@ const postloaderHiddenGlobeInsideWhitecover = document.getElementById('theGlobeI
 window.addEventListener('load', function(){  loadingIsCompleteFunction();  }, { once: true });
 var looping;
 let counter = 1;
-function loadingIsCompleteFunction() {
+function loadingIsCompleteFunction()
+{
+  // Display notifications if there are any.
+  startTheLesson();
+}
+
+function startTheLesson()
+{
   // In this case the audio loop doesn’t have to sync with the visual animation loop.
   looping = setInterval(loopFunction,21500);
   function loopFunction() {
@@ -69,7 +76,8 @@ function loadingIsCompleteFunction() {
    },5000);
 }
 
-function goFromAtoB() {
+function goFromAtoB()
+{
   clearInterval(looping); sayA.fade(1,0,1500); sayB.fade(1,0,1500); sayC.fade(1,0,1500);
   clickTone.play();
   if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([7,99,9,88,11,77,13,77,15,77,13,77,11,77,9,77,7,77,5,77,3,77,1]);} // As user taps on the glass.

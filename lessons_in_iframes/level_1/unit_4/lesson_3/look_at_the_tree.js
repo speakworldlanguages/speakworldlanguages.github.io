@@ -86,7 +86,14 @@ const postloaderHiddenGlobeInsideWhitecover = document.getElementById('theGlobeI
 window.addEventListener('load', function(){  loadingIsCompleteFunction();  }, { once: true });
 var looping1;
 let counter1 = 1;
-function loadingIsCompleteFunction() {
+function loadingIsCompleteFunction()
+{
+  // Display notifications if there are any.
+  startTheLesson();
+}
+
+function startTheLesson()
+{
   // No need to sync. The timing must just feel nice enough.
   looping1 = setInterval(loopFunction1,14000);
   function loopFunction1() {
@@ -107,7 +114,8 @@ function loadingIsCompleteFunction() {
    },5000);
 }
 
-function goFromAtoB() {
+function goFromAtoB()
+{
   clearInterval(looping1); say1Natural.fade(1,0,1500); say1Slow.fade(1,0,1500);
   clickableArea1.style.display = "none"; // NOTICE: Yes, these divs are already invisible yet we still have to add/remove them because when they overlap the lower z-indexed ones are blocked and user can't click.
   clickTone1.play();

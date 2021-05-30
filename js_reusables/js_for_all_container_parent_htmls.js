@@ -1,22 +1,24 @@
 ﻿// This is deferred.
-// Use this instead of inline script in index.html
+// Redirection based on browser language is handled with inline script in index.html which should fire before anything here.
+
+const welcomeMessageDiv = document.getElementById('idOfTheWelcomeMenuDiv');
+function userHasClickedOrTouchedWelcomeAnswerA() {
+  // Remove the element but display it again next time
+  welcomeMessageDiv.classList.add("addThisToAButtonForPlayStationStyleClick");
+  setTimeout(function () {     welcomeMessageDiv.parentNode.removeChild(welcomeMessageDiv);    },1000);
+}
+function userHasClickedOrTouchedWelcomeAnswerB() { // The user has claimed that he/she is a member of the crowd.
+  // Remove the element and don't display it anymore
+  welcomeMessageDiv.classList.add("addThisToAButtonForPlayStationStyleClick");
+  setTimeout(function () {     welcomeMessageDiv.parentNode.removeChild(welcomeMessageDiv);    },1000);
+  localStorage.theUserHasSaidHeOrSheIsAMemberOfTheCrowd = "yes";
+}
+
 window.addEventListener('DOMContentLoaded', function(){
-  // switch (browserLanguage) { // See js_for_every_single_html.js
-  //   case "tr":
-  //     if (location.hostname != "birdildahaogreneyim") {
-  //       window.open("https://birdildahaogreneyim/","_top");
-  //     }
-  //     break;
-  //   case "ja":
-  //     if (location.hostname != "hanaserutoiidesuyone") {
-  //       window.open("https://hanaserutoiidesuyone/","_top");
-  //     }
-  //     break;
-  //   default:
-  //     if (location.hostname != "speakworldlanguages") {
-  //       window.open("https://speakworldlanguages/","_top");
-  //     }
-  // }
+  // Skip the crowdfunding (welcome screen) message if user says he she is a member.
+  if (localStorage.theUserHasSaidHeOrSheIsAMemberOfTheCrowd == "yes") {
+    welcomeMessageDiv.parentNode.removeChild(welcomeMessageDiv);
+  }
 }, { once: true });
 
 var genderOfTheUser;

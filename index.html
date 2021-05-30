@@ -65,6 +65,15 @@
     </div>
 
     <!-- Parent HTMLs are not multilingual. Therefore the text below must be translated too, along with the contents of the /user_interface/text/ folder -->
+    <div id="idOfTheWelcomeMenuDiv" style="position: fixed; top:0; left:0; bottom:0; right:0; background-color: rgba(255, 255, 255, 0.5); display: flex; justify-content: center; align-items: center; z-index: 9998;">
+      <div class="promptBoxesLikeTheOneForLoadingTheLastLesson">
+        <p>The development of this app is financed via crowdfunding.<br>Use the "balance scale" button in the navigation menu to see how you can join the "funding crowd".</p>
+        <div style="width:10px;height:10px;">          <!-- Empty little box to adjust the line height -->        </div>
+        <button onclick="userHasClickedOrTouchedWelcomeAnswerA()">I will think about joining the funding crowd</button> <!-- See js_for_all_container_parent_htmls.js -->
+        <button onclick="userHasClickedOrTouchedWelcomeAnswerB()">I am already a member of the funding crowd</button> <!-- See js_for_all_container_parent_htmls.js -->
+      </div>
+    </div>
+
     <!-- THE MAIN MENU -->
     <div id="fullViewportPositionFixedDivAsContainerOfTheMenu"> <!-- See css_for_all_container_parent_htmls.css -->
       <div class="upperHalfDiv">
@@ -84,6 +93,7 @@
     <div id="fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt">
       <div class="promptBoxesLikeTheOneForLoadingTheLastLesson">
         <p>Continue from where you were</p>
+        <div style="width:10px;height:10px;">          <!-- Empty little box to adjust the line height -->        </div>
         <button onclick="whenLoadLastLessonOkButtonIsClickedOrTapped()">OK</button> <!-- See js_for_all_container_parent_htmls.js -->
       </div>
     </div>

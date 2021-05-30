@@ -43,7 +43,14 @@ const postloaderHiddenGlobeInsideWhitecover = document.getElementById('theGlobeI
 window.addEventListener('load', function(){  loadingIsCompleteFunction();  }, { once: true });
 var looping;
 let counter = 1;
-function loadingIsCompleteFunction() {
+function loadingIsCompleteFunction()
+{
+  // Display notifications if there are any.
+  startTheLesson();
+}
+
+function startTheLesson()
+{
   // No syncing necessary.
   looping = setInterval(loopFunction,19500);
   function loopFunction() {
@@ -65,7 +72,8 @@ function loadingIsCompleteFunction() {
    },5000);
 }
 
-function goFromAtoB() {
+function goFromAtoB()
+{
   clearInterval(looping); sayNatural.fade(1,0,1500); saySlow.fade(1,0,1500);
   clickTone.play();
   if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([15,60,13,60,11,60,9]);}

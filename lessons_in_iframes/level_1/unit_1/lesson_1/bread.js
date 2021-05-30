@@ -18,12 +18,6 @@ if (parent.deviceDetector.isMobile){
     parent.addHomeButtonToTheNavigationMenu();
   }
 }
-
-// Special case: Display explanation about accents for users who want to learn English.
-if (parent.theLanguageUserIsLearningNow == "en") {
-  const notificationAboutBritishVsAmerican = "../../../../user_interface/text/"+userInterfaceLanguage+"/british_vs_american.txt";
-  fetch(notificationAboutBritishVsAmerican,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ alert(contentOfTheTxtFile); });
-}
 /*______________END OF CODE FOR THE VERY FIRST LESSON______________*/
 
 /*___________________STANDARD CODE___________________*/
@@ -102,9 +96,29 @@ the2ndDivThatWillAppearWhenMicrophoneStartsListening.classList.add("toZeroOpacit
 
 /* ___PROGRESSION___ */
 window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, { once: true });
-// Change the speed gradually...
+// Desktop users can change the speed; mobile users can't. Because the mobile GUI has to stay simple.
 function loadingIsCompleteFunction()
 {
+  // Stop and notify the user if necessary; otherwise just continue.
+  if (parent.theLanguageUserIsLearningNow == "en") { // Display the explanation about accents for users who want to learn English.
+    const pathOfNotificationAboutBritishVsAmerican = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-british_vs_american.txt";
+    fetch(pathOfNotificationAboutBritishVsAmerican,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      // Display notification instead of alert(contentOfTheTxtFile);
+      createAndHandleNotificationBox();
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  } else {
+    startTheLesson(); // PERHAPS: It would be better to use async await in js_for_all_iframed_lesson_htmls
+  }
+}
+
+function startTheLesson() {
   setTimeout(function(){ sayAB.play(); }, 1000); // first thing that will be heard
   setTimeout(goFromABtoCD,4500*parent.speedAdjustmentCoefficient); // See js_for_the_sliding_navigation_menu.js
 }

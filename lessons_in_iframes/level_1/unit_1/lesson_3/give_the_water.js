@@ -46,13 +46,21 @@ const postloaderHiddenGlobeInsideWhitecover = document.getElementById('theGlobeI
 // ALWAYS: Use window load to be safe with timing
 window.addEventListener('load', function(){   loadingIsCompleteFunction();   }, { once: true });
 
-function loadingIsCompleteFunction() {
+function loadingIsCompleteFunction()
+{
+  // Stop and notify the user if necessary; otherwise just continue.
+  startTheLesson();
+}
+
+function startTheLesson()
+{
   setTimeout(goFromAtoB,1400); // last frame starts showing at t=1300 milliseconds
 }
+
 var looping; // Declare it here, outside any {} to make it global. // Try using var instead of let to see if it will fix the issue in Safari.
 let counter = 1;
-function goFromAtoB() {
-
+function goFromAtoB()
+{
   imgA.style.display = "none"; // From static last frame
   imgB.style.display = "initial"; // To the looping animation. One cycle is 8250 ms
   // Action one at 2640,,, action two at 7920,,, total time 66ms x 125frames = 8250 ms loop ... 8250 x 2 = 16500 -> 1 cycle of slow fast slow fast
@@ -77,7 +85,8 @@ function goFromAtoB() {
 
 }
 
-function goFromBtoC() {
+function goFromBtoC()
+{
   clearInterval(looping); sayNatural.fade(1,0,1500); saySlow.fade(1,0,1500);
   clickTone.play();
   if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate(15);}

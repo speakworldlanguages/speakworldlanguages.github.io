@@ -47,7 +47,14 @@ const postloaderHiddenGlobeInsideWhitecover = document.getElementById('theGlobeI
 window.addEventListener('load', function(){  loadingIsCompleteFunction();  }, { once: true });
 var looping;
 let counter = 1;
-function loadingIsCompleteFunction() {
+function loadingIsCompleteFunction()
+{
+  // Display notifications if there are any.
+  startTheLesson();
+}
+
+function startTheLesson()
+{
   // In this case the audio loop doesn’t have to sync with the visual animation loop.
   looping = setInterval(loopFunction,22000);
   function loopFunction() {
@@ -70,7 +77,8 @@ function loadingIsCompleteFunction() {
    },5000);
 }
 
-function goFromAtoB() {
+function goFromAtoB()
+{
   clearInterval(looping); say1.fade(1,0,1500); say2.fade(1,0,1500); say3.fade(1,0,1500);
   clickTone.play();
   if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([10,60,10,60,10,60,10]);}

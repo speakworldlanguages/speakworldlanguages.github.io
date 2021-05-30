@@ -12,7 +12,7 @@ var browserLanguage = navigator.language.substring(0,2).toLowerCase();
 
 // These variables will exist both in parent html and in frame html separately at the same time.
 var userInterfaceLanguage;
-var userReadsLeftToRightOrRightToLeft; /*Use this to flip the arrow signs etc with transform rotate 180deg if UI is in Arabic or another rtl language*/
+var userReadsLeftToRightOrRightToLeft; /*Use this to flip the arrow signs etc with transform rotate 180deg or scaleX -1 if UI is in Arabic or another rtl language*/
 var needLatinFonts = false;
 var needHitoicJapaneseFonts = false;
 

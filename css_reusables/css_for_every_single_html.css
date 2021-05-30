@@ -52,3 +52,24 @@ img{
   filter: contrast(108%);
   box-shadow: 0px -3px 3px rgba(0,0,0,0.1);
 }
+
+.addThisToAButtonForPlayStationStyleClick{ /* See js_for_all_iframed_lesson_htmls.js */
+  animation: playStationStyle 0.6s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes playStationStyle {
+  0%{
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  25%{
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100%{
+    opacity: 0;
+    transform: scale(0.1);
+    visibility: hidden; /*Not sure if we need display none instead of visibility hidden. Looks like it's working anyway.*/
+  }
+}

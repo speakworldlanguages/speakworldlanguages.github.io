@@ -92,7 +92,7 @@ button:focus {outline:0;}
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9998; /* Preloading div is 9999 */
+  z-index: 9997; /* Preloading div is 9999 and welcome screen is 9998 */
   background-color: rgba(0,0,0,0.5);
   flex-direction: column; /*For only one div this is unnecessary but let's leave it here anyway.*/
   line-height: 2rem; /*Is set to zero. See css_for_every_single_html*/
@@ -104,13 +104,14 @@ button:focus {outline:0;}
   min-height: 10%;
   max-width: 95vw; /*For phones*/
   background-color: white;
-  color: black;
+  color: rgb(36,41,46);
   border-radius: 2vmin;
   display: flex;
   flex-direction: column;
   justify-content:  center;
   align-items: center;
   padding: 3vmin;
+  box-shadow: rgba(141, 149, 155, 0.4) 0px -5px 14px 0px, rgba(255, 255, 255, 0.2) 0px 3px 8px 0px;
 }
 .addThisForOpacityAnimationFadeIn{ /* Used in js_for_all_container_parent_htmls for “load last checkpoint” prompt box div. */
   animation-name: fadeInAndBeClickable;

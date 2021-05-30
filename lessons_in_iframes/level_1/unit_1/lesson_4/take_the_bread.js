@@ -58,7 +58,13 @@ function unloadTheImagesOfThisLesson() { // Call this as the last thing before l
 // ALWAYS: Use window load to be safe with timing.
 window.addEventListener('load', function(){    loadingIsCompleteFunction();    }, { once: true });
 
-function loadingIsCompleteFunction() {
+function loadingIsCompleteFunction()
+{
+  // Stop and notify the user if necessary; otherwise just continue.
+  startTheLesson();
+}
+function startTheLesson()
+{
   setTimeout(goFromAtoB,2750); /* CRITICAL! Exact timing is necessary.*/
 }
 var looping1; // Declare it here, outside any {} to make it global. // Try using var instead of let to see if it will fix the issue in Safari.

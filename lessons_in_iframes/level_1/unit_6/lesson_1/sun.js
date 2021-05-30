@@ -85,6 +85,12 @@ window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, {
 // Gradually speed up to avoid boredom.
 function loadingIsCompleteFunction()
 {
+  // Display notifications if there are any.
+  startTheLesson();
+}
+
+function startTheLesson()
+{
   theSoundOfBurningSun.play();
   theSoundOfBurningSun.fade(0,1,1000);
   setTimeout(function(){ impactSound1.play(); }, 4250);
