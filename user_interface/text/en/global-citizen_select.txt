@@ -1,2 +1,2 @@
-Select the service you want to use
-for financing this project
+Select the transaction handling
+service you want to use
