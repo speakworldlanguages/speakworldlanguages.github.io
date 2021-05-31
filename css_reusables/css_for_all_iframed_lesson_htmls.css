@@ -51,7 +51,7 @@ aside{
   margin: 5vmin; /*Will take effect on mobiles only*/
   padding-left: 4vmin; padding-right: 4vmin;
   text-align: justify;
-  white-space: pre;
+  /*white-space: pre;*/
 }
 @media screen and (max-width: 380px) { /*Trying to target phones (not tablets) to increase font size*/
   .notificationRoundedBox {
