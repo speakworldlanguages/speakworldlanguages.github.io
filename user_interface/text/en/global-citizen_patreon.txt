@@ -1,2 +1,2 @@
-﻿Regulate $1 (USD)
+﻿Can regulate it as $1 (USD)
 on the 1st of every month
