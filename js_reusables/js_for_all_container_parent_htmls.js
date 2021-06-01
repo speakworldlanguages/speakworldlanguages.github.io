@@ -205,7 +205,7 @@ let firstSevenCharactersOfTheAddress = location.hostname.substring(0,7);
 switch (location.hostname) {
   case "speakworldlanguages.github.io": // ALLOW
     break;
-  case "speakworldlanguages.com": // ALLOW
+  case "speakworldlanguages.app": // ALLOW
     break;
   case "birdildahaogreneyim.com": // ALLOW
     break;
