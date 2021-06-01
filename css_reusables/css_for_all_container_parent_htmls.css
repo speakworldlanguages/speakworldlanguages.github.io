@@ -111,7 +111,15 @@ button:focus {outline:0;}
   justify-content:  center;
   align-items: center;
   padding: 3vmin;
-  box-shadow: rgba(141, 149, 155, 0.4) 0px -5px 14px 0px, rgba(255, 255, 255, 0.2) 0px 3px 8px 0px;
+  /*box-shadow: rgba(141, 149, 155, 0.4) 0px -5px 14px 0px, rgba(255, 255, 255, 0.2) 0px 3px 8px 0px;*/
+}
+.getSmallOnPhones{
+  font-size: 100%;
+}
+@media screen and (max-width: 600px) { /*  */
+  .getSmallOnPhones{
+    font-size: 80%;
+  }
 }
 .addThisForOpacityAnimationFadeIn{ /* Used in js_for_all_container_parent_htmls for “load last checkpoint” prompt box div. */
   animation-name: fadeInAndBeClickable;
