@@ -1,2 +1,2 @@
-﻿Send a single dose of "juice"
-with a one time transaction
+﻿Send a single dose of power up
+juice with a one time transaction
