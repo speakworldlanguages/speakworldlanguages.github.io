@@ -1,1 +1,2 @@
-﻿Yalnızca bir kez maddi destek ulaştır
+﻿Yalnızca bir kez (tek seferlik)
+maddi desteği belirle ve ulaştır

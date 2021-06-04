@@ -1,2 +1,2 @@
-Select the transaction handling
-service you want to use
+Select the handling service you want to use
+for the automation of periodic transactions
