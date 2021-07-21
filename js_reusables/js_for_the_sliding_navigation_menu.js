@@ -137,7 +137,7 @@ volumeAdjustmentDiv.appendChild(volumeSlider);
 volumeSlider.classList.add("bothSlidersAppearance");
 volumeSlider.classList.add("volumeSliderAppearance");
 
-var speedAdjustmentCoefficient = 1.1;
+var speedAdjustmentCoefficient = 1.0;
 
 // Detect first click/first user gesture that unlocks sounds
 // REMEMBER: Sliding menu buttons also need this. Handle separately. See js_for_the_sliding_navigation_menu.js
@@ -191,14 +191,14 @@ window.addEventListener("load",function() {
           break;
         case "3":
           // FASTER
-          speedAdjustmentCoefficient = 0.8; // Inversely proportional; the smaller the value the faster.
+          speedAdjustmentCoefficient = 0.78; // Inversely proportional; the smaller the value the faster.
           speedSlider.classList.remove("speedSliderAppearance1");
           speedSlider.classList.remove("speedSliderAppearance2");
           speedSlider.classList.add("speedSliderAppearance3");
           break;
         default:
           // NORMAL
-          speedAdjustmentCoefficient = 1.1;
+          speedAdjustmentCoefficient = 1.0;
           speedSlider.classList.remove("speedSliderAppearance1");
           speedSlider.classList.add("speedSliderAppearance2");
           speedSlider.classList.remove("speedSliderAppearance3");
@@ -222,14 +222,14 @@ window.addEventListener("load",function() {
           break;
         case "3":
           // FASTER
-          speedAdjustmentCoefficient = 0.8; // Inversely proportional; the smaller the value the faster
+          speedAdjustmentCoefficient = 0.78; // Inversely proportional; the smaller the value the faster
           speedSlider.classList.remove("speedSliderAppearance1");
           speedSlider.classList.remove("speedSliderAppearance2");
           speedSlider.classList.add("speedSliderAppearance3");
           break;
         default:
           // NORMAL
-          speedAdjustmentCoefficient = 1.1;
+          speedAdjustmentCoefficient = 1.0;
           speedSlider.classList.remove("speedSliderAppearance1");
           speedSlider.classList.add("speedSliderAppearance2");
           speedSlider.classList.remove("speedSliderAppearance3");

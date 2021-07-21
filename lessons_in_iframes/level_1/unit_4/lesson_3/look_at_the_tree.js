@@ -17,22 +17,31 @@ fetch(filePathD,myHeaders).then(function(response){return response.text();}).the
 fetch(filePathE,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textE = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-let say1NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/look_at_the_tree_normal.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1NaturalPath = say1NaturalPath.split(".")[0] + "_female.mp3"; }
-const say1Natural = new parent.Howl({  src: [say1NaturalPath]  });
-let say1SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/look_at_the_tree_slow.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1SlowPath = say1SlowPath.split(".")[0] + "_female.mp3"; }
-const say1Slow = new parent.Howl({  src: [say1SlowPath]  });
-const say2NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/there_is_a_bird_normal.mp3";
-const say2Natural = new parent.Howl({  src: [say2NaturalPath]  });
-const say2SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/there_is_a_bird_in_the_tree_slow.mp3";
-const say2Slow = new parent.Howl({  src: [say2SlowPath]  });
-let say3NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/listen_normal.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say3NaturalPath = say3NaturalPath.split(".")[0] + "_female.mp3"; }
-const say3Natural = new parent.Howl({  src: [say3NaturalPath]  });
-let say3SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/listen_to_the_bird_slow.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say3SlowPath = say3SlowPath.split(".")[0] + "_female.mp3"; }
-const say3Slow = new parent.Howl({  src: [say3SlowPath]  });
+let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/look.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
+const say1 = new parent.Howl({  src: [say1Path]  });
+let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/look_at_the_tree.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
+const say2 = new parent.Howl({  src: [say2Path]  });
+let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/look_at_the_tree_slow.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
+const say3 = new parent.Howl({  src: [say3Path]  });
+const say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/there_is_a_bird.mp3";
+const say4 = new parent.Howl({  src: [say4Path]  });
+const say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/there_is_a_bird_in_the_tree.mp3";
+const say5 = new parent.Howl({  src: [say5Path]  });
+const say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/there_is_a_bird_in_the_tree_slow.mp3";
+const say6 = new parent.Howl({  src: [say6Path]  });
+let say7Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/listen.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say7Path = say7Path.split(".")[0] + "_female.mp3"; }
+const say7 = new parent.Howl({  src: [say7Path]  });
+let say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/listen_to_the_bird.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say8Path = say8Path.split(".")[0] + "_female.mp3"; }
+const say8 = new parent.Howl({  src: [say8Path]  });
+let say9Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_4/lesson_3/listen_to_the_bird_slow.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say9Path = say9Path.split(".")[0] + "_female.mp3"; }
+const say9 = new parent.Howl({  src: [say9Path]  });
+
 const clickTone1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_4/lesson_3/click_on_tree.mp3'] });
 const clickTone2 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_4/lesson_3/bird_tweet_tweet.mp3'] });
 const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_4/lesson_3/state_g_soundtrack.mp3'] });
@@ -40,12 +49,15 @@ function unloadTheSoundsOfThisLesson() { // Call this as the last thing before l
   videoSoundTrack.unload();
   clickTone2.unload();
   clickTone1.unload();
-  say3Slow.unload();
-  say3Natural.unload();
-  say2Slow.unload();
-  say2Natural.unload();
-  say1Slow.unload();
-  say1Natural.unload();
+  say9.unload();
+  say8.unload();
+  say7.unload();
+  say6.unload();
+  say5.unload();
+  say4.unload();
+  say3.unload();
+  say2.unload();
+  say1.unload();
 }
 
 /* ___VISUAL ELEMENTS___ */
@@ -95,10 +107,11 @@ function loadingIsCompleteFunction()
 function startTheLesson()
 {
   // No need to sync. The timing must just feel nice enough.
-  looping1 = setInterval(loopFunction1,14000);
+  looping1 = setInterval(loopFunction1,20000*((parent.speedAdjustmentCoefficient + 1)/2));
   function loopFunction1() {
-    setTimeout(function () {  say1Natural.play();  },2500);
-    setTimeout(function () {  say1Slow.play();  },8500);
+    setTimeout(function () {  say1.play();  },5000*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say2.play();  },9000*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say3.play();  },15000*((parent.speedAdjustmentCoefficient + 1)/2));
     if (counter1 == 3) {  clearInterval(looping1);  }
     counter1++;
   }
@@ -116,7 +129,7 @@ function startTheLesson()
 
 function goFromAtoB()
 {
-  clearInterval(looping1); say1Natural.fade(1,0,1500); say1Slow.fade(1,0,1500);
+  clearInterval(looping1); say1.fade(1,0,1500); say2.fade(1,0,1500); say3.fade(1,0,1500);
   clickableArea1.style.display = "none"; // NOTICE: Yes, these divs are already invisible yet we still have to add/remove them because when they overlap the lower z-indexed ones are blocked and user can't click.
   clickTone1.play();
   if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([17,40,15,40,13]);}
@@ -141,10 +154,11 @@ function goFromCtoD() {
   imgC.style.display = "none";
   imgD.style.display = "initial";
   // Loop 2
-  looping2 = setInterval(loopFunction2,19500);
+  looping2 = setInterval(loopFunction2,20000*((parent.speedAdjustmentCoefficient + 1)/2));
   function loopFunction2() {
-    setTimeout(function () {  say2Natural.play();  },2200);
-    setTimeout(function () {  say2Slow.play();  },7700);
+    setTimeout(function () {  say4.play();  },5000*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say5.play();  },9000*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say6.play();  },15000*((parent.speedAdjustmentCoefficient + 1)/2));
     if (counter2 == 3) {  clearInterval(looping2);  }
     counter2++;
   }
@@ -163,7 +177,7 @@ function goFromCtoD() {
 }
 
 function goFromDtoE() {
-  clearInterval(looping2); say2Natural.fade(1,0,1500); say2Slow.fade(1,0,1500);
+  clearInterval(looping2); say4.fade(1,0,1500); say5.fade(1,0,1500); say6.fade(1,0,1500);
   clickableArea2.style.display = "none"; // NOTICE: Yes, these divs are already invisible yet we still have to add/remove them because when they overlap the lower z-indexed ones are blocked and user can't click.
   clickTone2.play();
   imgD.style.display = "none";
@@ -178,10 +192,11 @@ function goFromEtoF() {
   imgE.style.display = "none";
   imgF.style.display = "initial";
   // Loop 3
-  looping3 = setInterval(loopFunction3,15000);
+  looping3 = setInterval(loopFunction3,20000*((parent.speedAdjustmentCoefficient + 1)/2));
   function loopFunction3() {
-    setTimeout(function () {  say3Natural.play();  },4000);
-    setTimeout(function () {  say3Slow.play();  },8000);
+    setTimeout(function () {  say7.play();  },5000*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say8.play();  },9000*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say9.play();  },15000*((parent.speedAdjustmentCoefficient + 1)/2));
     if (counter3 == 3) {  clearInterval(looping3);  }
     counter3++;
   }
@@ -200,7 +215,7 @@ function goFromEtoF() {
 }
 
 function goFromFtoG() {
-  clearInterval(looping3); say3Natural.fade(1,0,1500); say3Slow.fade(1,0,1500);
+  clearInterval(looping3); say7.fade(1,0,1500); say8.fade(1,0,1500); say9.fade(1,0,1500);
   imgBackground2.style.display = "none";
   imgBackground1.style.display = "initial";
   imgF.style.display = "none";

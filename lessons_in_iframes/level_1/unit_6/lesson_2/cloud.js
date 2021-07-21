@@ -87,14 +87,14 @@ function startTheLesson()
 {
   theSoundOfAir.play();
   theSoundOfAir.fade(0,0.5,3000);
-  setTimeout(function(){ sayAB.play(); }, 1500); // 1000 + 500 = 1500
-  setTimeout(goFromABtoCD,4500*parent.speedAdjustmentCoefficient+500); // See js_for_the_sliding_navigation_menu.js
+  setTimeout(function(){ sayAB.play(); }, 1750);
+  setTimeout(goFromABtoCD,6500*parent.speedAdjustmentCoefficient); // See js_for_the_sliding_navigation_menu.js
 }
 
 function goFromABtoCD()
 {
   theSoundOfAir.fade(0.5,0.3,4000);
-  setTimeout(function(){ sayCD.play(); }, 2000); // after 1s fade out plus 1s fade in
+  setTimeout(function(){ sayCD.play(); }, 2750); // after 1s fade out plus 1s fade in
   imgA.classList.add("toZeroOpacity");
   imgB.classList.add("toZeroOpacity");
   setTimeout(betweenABandCD,1000);
@@ -111,14 +111,14 @@ function betweenABandCD()
     imgC.classList.remove("toZeroOpacity");
     imgD.classList.remove("toZeroOpacity");
     }
-    setTimeout(goFromCDtoEF,5500*parent.speedAdjustmentCoefficient);
+    setTimeout(goFromCDtoEF,7500*parent.speedAdjustmentCoefficient);
 }
 
 function goFromCDtoEF()
 {
   theSoundOfAir.fade(0.3,0,18000);
   setTimeout(function(){ cloudlySound.volume(0.4); cloudlySound.play(); }, 1500);
-  setTimeout(function(){ sayEF.play(); }, 2750); // 2000 + 750 = 2750
+  setTimeout(function(){ sayEF.play(); }, 3500); // 2000 + 750 = 2750
   imgC.classList.add("toZeroOpacity");
   imgD.classList.add("toZeroOpacity");
   setTimeout(betweenCDandEF,1000);
@@ -135,13 +135,13 @@ function betweenCDandEF()
   imgE.classList.remove("toZeroOpacity");
   imgF.classList.remove("toZeroOpacity");
   }
-  setTimeout(goFromEFtoGH,6500*parent.speedAdjustmentCoefficient+750);
+  setTimeout(goFromEFtoGH,6600*parent.speedAdjustmentCoefficient);
 }
 
 function goFromEFtoGH()
 {
 
-  setTimeout(function(){ sayGH.play(); }, 2000);
+  setTimeout(function(){ sayGH.play(); }, 2750);
   imgE.classList.add("toZeroOpacity");
   imgF.classList.add("toZeroOpacity");
   setTimeout(betweenEFandGH,1000);
@@ -158,7 +158,7 @@ function betweenEFandGH()
   imgG.classList.remove("toZeroOpacity");
   imgH.classList.remove("toZeroOpacity");
   }
-  setTimeout(goFromGHtoIJ,7500*parent.speedAdjustmentCoefficient);
+  setTimeout(goFromGHtoIJ,8500*((parent.speedAdjustmentCoefficient+1)/2));
 }
 
 function goFromGHtoIJ()
@@ -179,7 +179,7 @@ function betweenGHandIJ()
   imgI.classList.remove("toZeroOpacity");
   imgJ.classList.remove("toZeroOpacity");
   }
-  setTimeout(speakToTheMic,1500*parent.speedAdjustmentCoefficient);
+  setTimeout(speakToTheMic,1900*parent.speedAdjustmentCoefficient);
 }
 
 /* ___SPEECH RECOGNITION___ */
@@ -216,10 +216,8 @@ function speakToTheMic() {
   },howLongBeforeGiveUpButtonAppears);
 
   // REMEMBER: To find “what language the browser will listen to (via annyang)” see the code in /js_reusables/js_for_all_container_parent_htmls.js
-  // TRICKY: Must know how to set the contents of a script object dynamically as well as how to use regular expressions.
   var commands = {};
-  const magicalSelectionRegex = /\S+/gim; // So called “regular expression” to get each and every word separated by a space (i.e. either the Latin space or the Asian “big space”)
-  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.match(magicalSelectionRegex);
+  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_dictionary must be written with the | (bar) character as the separator between phrases.
   for(i=0;i<eachWordArray.length;i++)
   {
     let oneOfTheWords = eachWordArray[i];

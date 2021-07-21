@@ -8,12 +8,15 @@ fetch(filePathA,myHeaders).then(function(response){return response.text();}).the
 /*There is no textB in this lesson*/
 
 /* ___AUDIO ELEMENTS___ */
-let sayNaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_3/lesson_4/play_in_the_garden_normal.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayNaturalPath = sayNaturalPath.split(".")[0] + "_female.mp3"; }
-const sayNatural = new parent.Howl({  src: [sayNaturalPath]  });
-let saySlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_3/lesson_4/play_in_the_garden_slow.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { saySlowPath = saySlowPath.split(".")[0] + "_female.mp3"; }
-const saySlow = new parent.Howl({  src: [saySlowPath]  });
+let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_3/lesson_4/play.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
+const say1 = new parent.Howl({  src: [say1Path]  });
+let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_3/lesson_4/play_in_the_garden.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
+const say2 = new parent.Howl({  src: [say2Path]  });
+let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_3/lesson_4/play_in_the_garden_slow.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
+const say3 = new parent.Howl({  src: [say3Path]  });
 const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/click_on_garden.mp3'] });
 const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/garden_sound.mp3'] });
 const successTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_4/success_in_garden.mp3'] });
@@ -27,8 +30,9 @@ function unloadTheSoundsOfThisLesson() { // Call this as the last thing before l
   successTone.unload();
   videoSoundTrack.unload();
   clickTone.unload();
-  saySlow.unload();
-  sayNatural.unload();
+  say3.unload();
+  say2.unload();
+  say1.unload();
 }
 
 /* ___VISUAL ELEMENTS___ */
@@ -61,10 +65,11 @@ function loadingIsCompleteFunction()
 function startTheLesson()
 {
   // No syncing necessary in this case. The timing must just feel nice enough!
-  looping = setInterval(loopFunction,19500);
+  looping = setInterval(loopFunction,20000*((parent.speedAdjustmentCoefficient + 1)/2));
   function loopFunction() {
-    setTimeout(function () {  sayNatural.play();  },3000);
-    setTimeout(function () {  saySlow.play();  },12500);
+    setTimeout(function () {  say1.play();  },5000*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say2.play();  },9000*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say3.play();  },15000*((parent.speedAdjustmentCoefficient + 1)/2));
     if (counter == 3) {  clearInterval(looping);  }
     counter++;
   }
@@ -83,7 +88,7 @@ function startTheLesson()
 
 function goFromAtoB()
 {
-  clearInterval(looping); sayNatural.fade(1,0,1500); saySlow.fade(1,0,1500);
+  clearInterval(looping); say1.fade(1,0,1500); say2.fade(1,0,1500); say3.fade(1,0,1500);
   clickTone.play();
   videoSoundTrack.play();
   if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([14,99,11,88,8,77,5]);} // As a response to user's tap

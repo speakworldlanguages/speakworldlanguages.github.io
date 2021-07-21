@@ -8,15 +8,15 @@ fetch(filePathA,myHeaders).then(function(response){return response.text();}).the
 //fetch(filePathB,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textB = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-let sayAPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayAPath = sayAPath.split(".")[0] + "_female.mp3"; }
-const sayA = new parent.Howl({  src: [sayAPath]  });
-let sayBPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink_water.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayBPath = sayBPath.split(".")[0] + "_female.mp3"; }
-const sayB = new parent.Howl({  src: [sayBPath]  });
-let sayCPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink_water_from_the_glass.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayCPath = sayCPath.split(".")[0] + "_female.mp3"; }
-const sayC = new parent.Howl({  src: [sayCPath]  });
+let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
+const say1 = new parent.Howl({  src: [say1Path]  });
+let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink_water.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
+const say2 = new parent.Howl({  src: [say2Path]  });
+let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_4/drink_water_from_the_glass.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
+const say3 = new parent.Howl({  src: [say3Path]  });
 const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_4/click_to_drink.mp3'] });
 const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_4/drink_water_from_glass_state_b.mp3'] });
 const successTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_4/successfully_drank_water.mp3'] });
@@ -24,9 +24,9 @@ function unloadTheSoundsOfThisLesson() { // Call this as the last thing before l
   successTone.unload();
   videoSoundTrack.unload();
   clickTone.unload();
-  sayC.unload();
-  sayB.unload();
-  sayA.unload();
+  say3.unload();
+  say2.unload();
+  say1.unload();
 }
 
 /* ___VISUAL ELEMENTS___ */
@@ -54,12 +54,12 @@ function loadingIsCompleteFunction()
 
 function startTheLesson()
 {
-  // In this case the audio loop doesn’t have to sync with the visual animation loop.
-  looping = setInterval(loopFunction,21500);
+  // In this case the audio loop doesn’t have to sync with the visual (animation) loop.
+  looping = setInterval(loopFunction,22000*((parent.speedAdjustmentCoefficient + 1)/2));
   function loopFunction() {
-    setTimeout(function () {  sayA.play();  },2200);
-    setTimeout(function () {  sayB.play();  },8000);
-    setTimeout(function () {  sayC.play();  },16000);
+    setTimeout(function () {  say1.play();  },2000*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say2.play();  },7000*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say3.play();  },14000*((parent.speedAdjustmentCoefficient + 1)/2));
     if (counter == 3) {  clearInterval(looping);  }
     counter++;
   }
@@ -78,7 +78,7 @@ function startTheLesson()
 
 function goFromAtoB()
 {
-  clearInterval(looping); sayA.fade(1,0,1500); sayB.fade(1,0,1500); sayC.fade(1,0,1500);
+  clearInterval(looping); say1.fade(1,0,1500); say2.fade(1,0,1500); say3.fade(1,0,1500);
   clickTone.play();
   if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([7,99,9,88,11,77,13,77,15,77,13,77,11,77,9,77,7,77,5,77,3,77,1]);} // As user taps on the glass.
   setTimeout(function () { videoSoundTrack.play();  },3250); // IMPORTANT! Timing must be accurate.

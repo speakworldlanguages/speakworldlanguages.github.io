@@ -9,13 +9,13 @@ fetch(filePathA,myHeaders).then(function(response){return response.text();}).the
 
 /* ___AUDIO ELEMENTS___ */
 // The following say1 say2 and say3 are not slow vs fast. Just 3 different intonations to make it feel less “robotic”.
-let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_3/eat_with_the_spoon_1.mp3";
+let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_3/eat.mp3";
 if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
 const say1 = new parent.Howl({  src: [say1Path]  });
-let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_3/eat_with_the_spoon_2.mp3";
+let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_3/eat_with_the_spoon.mp3";
 if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
 const say2 = new parent.Howl({  src: [say2Path]  });
-let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_3/eat_with_the_spoon_3.mp3";
+let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_3/eat_with_the_spoon_slow.mp3";
 if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
 const say3 = new parent.Howl({  src: [say3Path]  });
 const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_3/spoon_is_clicked.mp3'] });
@@ -49,18 +49,33 @@ var looping;
 let counter = 1;
 function loadingIsCompleteFunction()
 {
-  // Display notifications if there are any.
-  startTheLesson();
+  // Stop and notify the user if necessary; otherwise just continue.
+  if (parent.theLanguageUserIsLearningNow == "ar") { // Kul or Tanaawal
+    const pathOfNotificationArabicEat = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-2-3_special_case_for_ar.txt";
+    fetch(pathOfNotificationArabicEat,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  } else {
+    startTheLesson();
+  }
 }
 
 function startTheLesson()
 {
-  // In this case the audio loop doesn’t have to sync with the visual animation loop.
-  looping = setInterval(loopFunction,22000);
+  // In this case the audio loop doesn’t have to sync with the visual (animation) loop.
+  looping = setInterval(loopFunction,22000*((parent.speedAdjustmentCoefficient + 1)/2));
   function loopFunction() {
-    setTimeout(function () {  say1.play();  },2500);  // These are not slow vs fast. Just 3 different intonations to make it feel less “robotic”.
-    setTimeout(function () {  say2.play();  },9500);  // These are not slow vs fast. Just 3 different intonations to make it feel less “robotic”.
-    setTimeout(function () {  say3.play();  },16000); // These are not slow vs fast. Just 3 different intonations to make it feel less “robotic”.
+    setTimeout(function () {  say1.play();  },2000*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say2.play();  },7000*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say3.play();  },14000*((parent.speedAdjustmentCoefficient + 1)/2));
     if (counter == 3) {  clearInterval(looping);  }   // 3 will make the user hear it 9 times.
     counter++;
   }

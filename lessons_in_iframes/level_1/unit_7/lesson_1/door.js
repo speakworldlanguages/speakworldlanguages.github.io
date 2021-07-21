@@ -89,15 +89,15 @@ function loadingIsCompleteFunction()
 
 function startTheLesson()
 {
-  setTimeout(function(){ doorSoundAB.play(); }, 1000);
-  setTimeout(function(){ sayAB.play(); }, 6000); // 1000+5000=6000
-  setTimeout(goFromABtoCD,4500*parent.speedAdjustmentCoefficient+5000); // See js_for_the_sliding_navigation_menu.js
+  setTimeout(function(){ doorSoundAB.play(); }, 1450);
+  setTimeout(function(){ sayAB.play(); }, 6450); // 1000+5000=6000
+  setTimeout(goFromABtoCD,6500*parent.speedAdjustmentCoefficient+5000); // See js_for_the_sliding_navigation_menu.js
 }
 
 function goFromABtoCD()
 {
-  setTimeout(function(){ doorSoundCD.play(); }, 2000); // after 1s fade out plus 1s fade in
-  setTimeout(function(){ sayCD.play(); }, 7000); // 2000+5000=7000 // after 1s fade out plus 1s fade in
+  setTimeout(function(){ doorSoundCD.play(); }, 2450); // after 1s fade out plus 1s fade in
+  setTimeout(function(){ sayCD.play(); }, 7450); // 2000+5000=7000 // after 1s fade out plus 1s fade in
   imgA.classList.add("toZeroOpacity");
   imgB.classList.add("toZeroOpacity");
   setTimeout(betweenABandCD,1000);
@@ -114,13 +114,13 @@ function betweenABandCD()
     imgC.classList.remove("toZeroOpacity");
     imgD.classList.remove("toZeroOpacity");
     }
-    setTimeout(goFromCDtoEF,5500*parent.speedAdjustmentCoefficient+5000);
+    setTimeout(goFromCDtoEF,7500*parent.speedAdjustmentCoefficient+5000);
 }
 
 function goFromCDtoEF()
 {
-  setTimeout(function(){ doorSoundEF.play(); }, 2000);
-  setTimeout(function(){ sayEF.play(); }, 7900); // 2000 + 5900 = 7900
+  setTimeout(function(){ doorSoundEF.play(); }, 2450);
+  setTimeout(function(){ sayEF.play(); }, 8350); // 2000 + 5900 = 7900
   imgC.classList.add("toZeroOpacity");
   imgD.classList.add("toZeroOpacity");
   setTimeout(betweenCDandEF,1000);
@@ -137,13 +137,13 @@ function betweenCDandEF()
   imgE.classList.remove("toZeroOpacity");
   imgF.classList.remove("toZeroOpacity");
   }
-  setTimeout(goFromEFtoGH,6000*parent.speedAdjustmentCoefficient+5500);
+  setTimeout(goFromEFtoGH,6600*parent.speedAdjustmentCoefficient+5900);
 }
 
 function goFromEFtoGH()
 {
-  setTimeout(function(){ doorSoundGH.play(); }, 2000);
-  setTimeout(function(){ sayGH.play(); }, 6500); // 2000 + 4500 = 6500
+  setTimeout(function(){ doorSoundGH.play(); }, 2450);
+  setTimeout(function(){ sayGH.play(); }, 6950); // 2000 + 4500 = 6500
   imgE.classList.add("toZeroOpacity");
   imgF.classList.add("toZeroOpacity");
   setTimeout(betweenEFandGH,1000);
@@ -160,7 +160,7 @@ function betweenEFandGH()
   imgG.classList.remove("toZeroOpacity");
   imgH.classList.remove("toZeroOpacity");
   }
-  setTimeout(goFromGHtoIJ,7000*parent.speedAdjustmentCoefficient+4500); // See js_for_the_sliding_navigation_menu.js
+  setTimeout(goFromGHtoIJ,8500*((parent.speedAdjustmentCoefficient+1)/2)+4500); // See js_for_the_sliding_navigation_menu.js
 }
 
 function goFromGHtoIJ()
@@ -181,7 +181,7 @@ function betweenGHandIJ()
   imgI.classList.remove("toZeroOpacity");
   imgJ.classList.remove("toZeroOpacity");
   }
-  setTimeout(speakToTheMic,1500*parent.speedAdjustmentCoefficient);
+  setTimeout(speakToTheMic,1900*parent.speedAdjustmentCoefficient);
 }
 
 /* ___SPEECH RECOGNITION___ */
@@ -218,10 +218,8 @@ function speakToTheMic() {
   },howLongBeforeGiveUpButtonAppears);
 
   // REMEMBER: To find “what language the browser will listen to (via annyang)” see the code in js_for_all_container_parent_htmls.js
-  // TRICKY: Must know how to set the contents of a script object dynamically as well as how to use regular expressions.
   var commands = {};
-  const magicalSelectionRegex = /\S+/gim; // So called “regular expression” to get each and every word separated by a space (i.e. either the Latin space or the Asian “big space”)
-  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.match(magicalSelectionRegex);
+  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_dictionary must be written with the | (bar) character as the separator between phrases.
   for(i=0;i<eachWordArray.length;i++)
   {
     let oneOfTheWords = eachWordArray[i];

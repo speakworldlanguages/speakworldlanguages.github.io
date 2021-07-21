@@ -14,15 +14,15 @@ fetch(filePathC,myHeaders).then(function(response){return response.text();}).the
 fetch(filePathD,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textD = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-const say1NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_bird_normal.mp3";
+const say1NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_bird.mp3";
 const say1Natural = new parent.Howl({  src: [say1NaturalPath]  });
 const say1SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_bird_slow.mp3";
 const say1Slow = new parent.Howl({  src: [say1SlowPath]  });
-const say2NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_fish_normal.mp3";
+const say2NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_fish.mp3";
 const say2Natural = new parent.Howl({  src: [say2NaturalPath]  });
 const say2SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_fish_slow.mp3";
 const say2Slow = new parent.Howl({  src: [say2SlowPath]  });
-const say3NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_3/where_is_the_sun_normal.mp3";
+const say3NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_3/where_is_the_sun.mp3";
 const say3Natural = new parent.Howl({  src: [say3NaturalPath]  });
 const say3SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_6/lesson_3/where_is_the_sun_slow.mp3";
 const say3Slow = new parent.Howl({  src: [say3SlowPath]  });
@@ -74,8 +74,23 @@ var looping2;
 let counter2 = 1;
 function loadingIsCompleteFunction()
 {
-  // Display notifications if there are any.
-  startTheLesson();
+  if (parent.theLanguageUserIsLearningNow == "zh") { // Display the warning about intonations to users who want to learn the Ren language.
+    const pathOfNotificationAboutRenIntonation = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-6-3_special_case_for_zh.txt";
+    fetch(pathOfNotificationAboutRenIntonation,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      // Display notification instead of alert(contentOfTheTxtFile);
+      createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  } else {
+    startTheLesson(); // PERHAPS: It would be better to use async await in js_for_all_iframed_lesson_htmls
+  }
 }
 
 function startTheLesson()

@@ -193,7 +193,7 @@ function betweenDandE()
   landscapeImgE.classList.remove("toZeroOpacity");
   portraitImgE.classList.remove("toZeroOpacity");
   }
-  setTimeout(speakToTheMic,1500*parent.speedAdjustmentCoefficient+1500);
+  setTimeout(speakToTheMic,1900*parent.speedAdjustmentCoefficient+1500);
 }
 
 /* ___SPEECH RECOGNITION___ */
@@ -230,10 +230,8 @@ function speakToTheMic() {
   },howLongBeforeGiveUpButtonAppears);
 
   // REMEMBER: To find “what language the browser will listen to (via annyang)” see the code in js_for_all_container_parent_htmls.js
-  // TRICKY: Must know how to set the contents of a script object dynamically as well as how to use regular expressions.
   var commands = {};
-  const magicalSelectionRegex = /\S+/gim; // So called “regular expression” to get each and every word separated by a space (i.e. either the Latin space or the Asian “big space”)
-  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.match(magicalSelectionRegex);
+  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_dictionary must be written with the | (bar) character as the separator between phrases.
   for(i=0;i<eachWordArray.length;i++)
   {
     let oneOfTheWords = eachWordArray[i];

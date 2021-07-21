@@ -1,1 +1,1 @@
-﻿fish wish bishop
+﻿fish|a fish|wish|bishop

@@ -18,32 +18,38 @@ fetch(filePathD,myHeaders).then(function(response){return response.text();}).the
 fetch(filePathE,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textE = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-const say1NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_fruit_normal.mp3";
-const say1Natural = new parent.Howl({  src: [say1NaturalPath]  });
-const say1SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_fruit_slow.mp3";
-const say1Slow = new parent.Howl({  src: [say1SlowPath]  });
-const say2NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_no_fruit_normal.mp3";
-const say2Natural = new parent.Howl({  src: [say2NaturalPath]  });
-const say2SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_no_fruit_slow.mp3";
-const say2Slow = new parent.Howl({  src: [say2SlowPath]  });
-const say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/what_is_that.mp3";
+const say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_fruit.mp3";
+const say1 = new parent.Howl({  src: [say1Path]  });
+const say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_no_fruit.mp3";
+const say2 = new parent.Howl({  src: [say2Path]  });
+const say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_fruit_slow.mp3";
 const say3 = new parent.Howl({  src: [say3Path]  });
-const say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/it_is_a_fish.mp3";
+const say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_no_fruit_slow.mp3";
 const say4 = new parent.Howl({  src: [say4Path]  });
-const say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_a_fish_in_the_water.mp3";
+const say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/what_is_that.mp3";
 const say5 = new parent.Howl({  src: [say5Path]  });
+const say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/it_is_a_fish.mp3";
+const say6 = new parent.Howl({  src: [say6Path]  });
+const say7Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_3/there_is_a_fish_in_the_water.mp3";
+const say7 = new parent.Howl({  src: [say7Path]  });
 const loopingBackgroundSound = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_5/lesson_3/waterfall_and_river_loop.mp3']  , loop:true });
-const videoSoundTrackThatWillPlayWithClickOrTouch = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_5/lesson_3/state_c_soundtrack.mp3'] });
+const soundtrackPart1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_5/lesson_3/state_c_0000ms.mp3'] });
+const soundtrackPart2 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_5/lesson_3/state_c_5000ms.mp3'] });
+const soundtrackPart3 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_5/lesson_3/state_c_11000ms.mp3'] });
+const soundtrackPart4 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_5/lesson_3/state_c_25000ms.mp3'] });
 function unloadTheSoundsOfThisLesson() { // Call this as the last thing before leaving.
-  videoSoundTrackThatWillPlayWithClickOrTouch.unload();
+  soundtrackPart4.unload();
+  soundtrackPart3.unload();
+  soundtrackPart2.unload();
+  soundtrackPart1.unload();
   loopingBackgroundSound.unload();
+  say7.unload();
+  say6.unload();
   say5.unload();
   say4.unload();
+  say2.unload();
   say3.unload();
-  say2Slow.unload();
-  say2Natural.unload();
-  say1Slow.unload();
-  say1Natural.unload();
+  say1.unload();
 }
 
 /* ___VISUAL ELEMENTS___ */
@@ -74,7 +80,7 @@ window.addEventListener('load', function(){  loadingIsCompleteFunction();  }, { 
 function loadingIsCompleteFunction()
 {
   // Display notifications if there are any.
-  if (parent.theLanguageUserIsLearningNow == "ja") { // SPECIAL CASE ABOUT NEW VOCABULARY when user is learning Hito language
+  if (parent.theLanguageUserIsLearningNow == "ja") { // SPECIAL CASE ABOUT NEW VOCABULARY when user is learning Hito language. Kudamono - Mi.
     const filePathForAlertAboutHitoic = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-3_special_case_for_ja.txt";
     fetch(filePathForAlertAboutHitoic,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       // Display notification instead of alert(contentOfTheTxtFile);
@@ -83,12 +89,25 @@ function loadingIsCompleteFunction()
       // Continue when user clicks or touches OK
       // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
     });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
     const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
     fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
     });
-  }
-  else {
+  } else if (parent.theLanguageUserIsLearningNow == "ar") { // Thamar
+    const pathOfNotificationArabicFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-3_special_case_for_ar.txt";
+    fetch(pathOfNotificationArabicFruit,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  } else {
     startTheLesson();
   }
 }
@@ -112,10 +131,10 @@ function goFromAtoB()
   // Must sync! 19500 ms
   looping = setInterval(loopFunction,39000); // 19500 x 2 = 39000
   function loopFunction() {
-    setTimeout(function () {  say1Natural.play();  },1300);
-    setTimeout(function () {  say2Natural.play();  },10000);
-    setTimeout(function () {  say1Slow.play();  },20800); // 1300+19500 = 20800
-    setTimeout(function () {  say2Slow.play();  },29500); // 10000+19500 = 29500
+    setTimeout(function () {  say1.play();  },1300);
+    setTimeout(function () {  say2.play();  },10000);
+    setTimeout(function () {  say3.play();  },20800); // 1300+19500 = 20800
+    setTimeout(function () {  say4.play();  },29500); // 10000+19500 = 29500
     if (counter == 2) {  clearInterval(looping);  }
     counter++;
   }
@@ -134,12 +153,15 @@ function goFromAtoB()
 }
 
 function goFromBtoC() {
-  clearInterval(looping); say1Natural.fade(1,0,1500); say2Natural.fade(1,0,1500); say1Slow.fade(1,0,1500); say2Slow.fade(1,0,1500);
+  clearInterval(looping); say1.fade(1,0,1500); say2.fade(1,0,1500); say3.fade(1,0,1500); say4.fade(1,0,1500);
   document.getElementById("likeCameraZoomID").classList.add("addThisClassToStartZoomingInB");
-  setTimeout(function () {  say3.play();  },5500);
-  setTimeout(function () {  say4.play();  },15000);
-  setTimeout(function () {  say5.play();  },18000);
-  videoSoundTrackThatWillPlayWithClickOrTouch.play();
+  setTimeout(function () {  say5.play();  },5500);
+  setTimeout(function () {  say6.play();  },15000);
+  setTimeout(function () {  say7.play();  },18000);
+  soundtrackPart1.play();
+  setTimeout(function () {  soundtrackPart2.play();  },5000);
+  setTimeout(function () {  soundtrackPart3.play();  },11000);
+  setTimeout(function () {  soundtrackPart4.play();  },25000);
   if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") { parent.navigator.vibrate([18,75,14,75,10]); }
   setTimeout(function () {  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") { parent.navigator.vibrate([18,40,22]); } },5550); // IMPORTANT! Timing must be accurate.
   setTimeout(function () {  putTranslationIntoThisHelpAreaFromFileP.innerHTML = textC;  },5200);

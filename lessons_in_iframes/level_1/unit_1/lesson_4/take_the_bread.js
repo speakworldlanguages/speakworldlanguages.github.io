@@ -8,18 +8,21 @@ fetch(filePathA,myHeaders).then(function(response){return response.text();}).the
 fetch(filePathB,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textB = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
-let say1NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/take_bread_normal.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1NaturalPath = say1NaturalPath.split(".")[0] + "_female.mp3"; }
-const say1Natural = new parent.Howl({  src: [say1NaturalPath]  });
-let say1SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/take_bread_slow.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1SlowPath = say1SlowPath.split(".")[0] + "_female.mp3"; }
-const say1Slow = new parent.Howl({  src: [say1SlowPath]  });
-let say2NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat_normal.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say2NaturalPath = say2NaturalPath.split(".")[0] + "_female.mp3"; }
-const say2Natural = new parent.Howl({  src: [say2NaturalPath]  });
-let say2SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat_slow.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say2SlowPath = say2SlowPath.split(".")[0] + "_female.mp3"; }
-const say2Slow = new parent.Howl({  src: [say2SlowPath]  });
+let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/take.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
+const say1 = new parent.Howl({  src: [say1Path]  });
+let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/take_bread.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
+const say2 = new parent.Howl({  src: [say2Path]  });
+let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/take_bread_slow.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
+const say3 = new parent.Howl({  src: [say3Path]  });
+let say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say4Path = say4Path.split(".")[0] + "_female.mp3"; }
+const say4 = new parent.Howl({  src: [say4Path]  });
+let say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat_slow.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say5Path = say5Path.split(".")[0] + "_female.mp3"; }
+const say5 = new parent.Howl({  src: [say5Path]  });
 const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/click_on_bread.mp3'] });
 const bite1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bite1.mp3'] });
 const bite2 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bite2.mp3'] });
@@ -31,10 +34,11 @@ function unloadTheSoundsOfThisLesson() { // Call this as the last thing before l
   bite2.unload();
   bite1.unload();
   clickTone.unload();
-  say2Slow.unload();
-  say2Natural.unload();
-  say1Slow.unload();
-  say1Natural.unload();
+  say5.unload();
+  say4.unload();
+  say3.unload();
+  say2.unload();
+  say1.unload();
 }
 
 /* ___VISUAL ELEMENTS___ */
@@ -60,8 +64,23 @@ window.addEventListener('load', function(){    loadingIsCompleteFunction();    }
 
 function loadingIsCompleteFunction()
 {
-  // Stop and notify the user if necessary; otherwise just continue.
-  startTheLesson();
+  if (parent.theLanguageUserIsLearningNow == "zh") { // How to say [Na] with correct intonation.
+    const pathOfNotificationAboutRenIntonation = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-1-4_special_case_for_zh.txt";
+    fetch(pathOfNotificationAboutRenIntonation,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      // Display notification instead of alert(contentOfTheTxtFile);
+      createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  } else {
+    startTheLesson(); // PERHAPS: It would be better to use async await in js_for_all_iframed_lesson_htmls
+  }
 }
 function startTheLesson()
 {
@@ -72,11 +91,12 @@ let counter1 = 1;
 function goFromAtoB() {
   imgA.style.display = "none";
   imgB.style.display = "initial"; // Loop duration is 4800 ms
-  looping1 = setInterval(loopFunction1,19200); // 4800x4 = 19200
+  looping1 = setInterval(loopFunction1,22000*((parent.speedAdjustmentCoefficient + 1)/2)); // 4800x4 = 19200
   function loopFunction1() {
-    setTimeout(function () {  say1Natural.play();  },1000);
-    setTimeout(function () {  say1Slow.play();     },10600); // 1000+4800x2 = 10600
-    if (counter1 == 4) {  clearInterval(looping1);  }
+    setTimeout(function () {  say1.play();  },2000*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say2.play();  },7000*((parent.speedAdjustmentCoefficient + 1)/2)); // 1000+4800x2 = 10600
+    setTimeout(function () {  say3.play();  },14000*((parent.speedAdjustmentCoefficient + 1)/2));
+    if (counter1 == 3) {  clearInterval(looping1);  }
     counter1++;
   }
   loopFunction1();
@@ -90,9 +110,9 @@ function goFromAtoB() {
 }
 
 function goFromBtoC() {
-  clearInterval(looping1); say1Natural.fade(1,0,1500); say1Slow.fade(1,0,1500);
+  clearInterval(looping1); say1.fade(1,0,1500); say2.fade(1,0,1500); say3.fade(1,0,1500);
   clickTone.play();
-  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate(15);}
+  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate(20);}
   imgB.style.display = "none";
   imgC.style.display = "initial";
   setTimeout(goFromCtoD,7300); // CRITICAL! Exact timing is necessary.
@@ -107,11 +127,11 @@ function goFromCtoD() {
   clickableArea.style.top="26%";
   clickableArea.style.width="35vmin";
   // Loop 2
-  looping2 = setInterval(loopFunction2,14080); // 704x20 = 14080
+  looping2 = setInterval(loopFunction2,12000*parent.speedAdjustmentCoefficient); // 704x20 = 14080
   function loopFunction2() {
-    setTimeout(function () {  say2Natural.play();  },2000);
-    setTimeout(function () {  say2Slow.play();  },8000);
-    if (counter2 == 4) {  clearInterval(looping2);  }
+    setTimeout(function () {  say4.play();  },2000*parent.speedAdjustmentCoefficient);
+    setTimeout(function () {  say5.play();  },7000*parent.speedAdjustmentCoefficient);
+    if (counter2 == 3) {  clearInterval(looping2);  }
     counter2++;
   }
   loopFunction2();
@@ -125,7 +145,7 @@ function goFromCtoD() {
 }
 var fadeThisOutInsteadOfPostloader = document.getElementById('thisTimeUseFadeOutInsteadOfPostLoader');
 function goFromDtoE() {
-  clearInterval(looping2); say2Natural.fade(1,0,1500); say2Slow.fade(1,0,1500);
+  clearInterval(looping2); say4.fade(1,0,1500); say5.fade(1,0,1500);
   if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate(25);}
   imgD.style.display = "none";
   imgE.style.display = "initial";

@@ -97,17 +97,17 @@ function loadingIsCompleteFunction()
 
 function startTheLesson()
 {
-  whatWaterSoundsLike.play(); whatWaterSoundsLike.fade(0,1,500);
-  setTimeout(function(){ sayAB.play(); }, 1000); // first thing that will be heard
-  setTimeout(function(){ whatWaterSoundsLike.fade(1,0.25,444); }, 501);
-  setTimeout(goFromABtoCD,4500*parent.speedAdjustmentCoefficient); // See js_for_the_sliding_navigation_menu.js
+  whatWaterSoundsLike.play(); whatWaterSoundsLike.fade(0,1,800);
+  setTimeout(function(){ sayAB.play(); }, 1750); // first thing that will be heard
+  setTimeout(function(){ whatWaterSoundsLike.fade(1,0.25,800); }, 900);
+  setTimeout(goFromABtoCD,6500*parent.speedAdjustmentCoefficient); // See js_for_the_sliding_navigation_menu.js
 }
 
 function goFromABtoCD()
 {
   whatWaterSoundsLike.fade(0.25,1,999);
   setTimeout(function(){ whatWaterSoundsLike.fade(1,0.20,999); }, 1000);
-  setTimeout(function(){ sayCD.play(); }, 2000); // after 1s fade out plus 1s fade in
+  setTimeout(function(){ sayCD.play(); }, 2750); // after 1s fade out plus 1s fade in
   imgA.classList.add("toZeroOpacity");
   imgB.classList.add("toZeroOpacity");
   setTimeout(betweenABandCD,1000);
@@ -124,14 +124,14 @@ function betweenABandCD()
     imgC.classList.remove("toZeroOpacity");
     imgD.classList.remove("toZeroOpacity");
     }
-    setTimeout(goFromCDtoEF,5500*parent.speedAdjustmentCoefficient);
+    setTimeout(goFromCDtoEF,7500*parent.speedAdjustmentCoefficient);
 }
 
 function goFromCDtoEF()
 {
   whatWaterSoundsLike.fade(0.20,1,999);
   setTimeout(function(){ whatWaterSoundsLike.fade(1,0.20,999); }, 1000);
-  setTimeout(function(){ sayEF.play(); }, 2000);
+  setTimeout(function(){ sayEF.play(); }, 2750);
   imgC.classList.add("toZeroOpacity");
   imgD.classList.add("toZeroOpacity");
   setTimeout(betweenCDandEF,1000);
@@ -148,14 +148,14 @@ function betweenCDandEF()
   imgE.classList.remove("toZeroOpacity");
   imgF.classList.remove("toZeroOpacity");
   }
-  setTimeout(goFromEFtoGH,6500*parent.speedAdjustmentCoefficient);
+  setTimeout(goFromEFtoGH,6600*parent.speedAdjustmentCoefficient);
 }
 
 function goFromEFtoGH()
 {
   whatWaterSoundsLike.fade(0.20,1,999);
   setTimeout(function(){ whatWaterSoundsLike.fade(1,0.25,999); }, 1000);
-  setTimeout(function(){ sayGH.play(); }, 2000);
+  setTimeout(function(){ sayGH.play(); }, 2750);
   imgE.classList.add("toZeroOpacity");
   imgF.classList.add("toZeroOpacity");
   setTimeout(betweenEFandGH,1000);
@@ -172,9 +172,9 @@ function betweenEFandGH()
   imgG.classList.remove("toZeroOpacity");
   imgH.classList.remove("toZeroOpacity");
   }
-  setTimeout(goFromGHtoIJ,7500*parent.speedAdjustmentCoefficient); // See js_for_the_sliding_navigation_menu.js =1.40 =1 =0.8
-  setTimeout(function(){ whatWaterSoundsLike.fade(0.25,0,9000); }, 1001);
-  setTimeout(function(){ whatWaterSoundsLike.stop(); }, 10002);
+  setTimeout(goFromGHtoIJ,8500*((parent.speedAdjustmentCoefficient+1)/2)); // See js_for_the_sliding_navigation_menu.js =1.40 =1 =0.8
+  setTimeout(function(){ whatWaterSoundsLike.fade(0.25,0,9999); }, 2002);
+  setTimeout(function(){ whatWaterSoundsLike.stop(); }, 12002);
 }
 
 function goFromGHtoIJ()
@@ -195,7 +195,7 @@ function betweenGHandIJ()
   imgI.classList.remove("toZeroOpacity");
   imgJ.classList.remove("toZeroOpacity");
   }
-  setTimeout(speakToTheMic,1500*parent.speedAdjustmentCoefficient);
+  setTimeout(speakToTheMic,1900*parent.speedAdjustmentCoefficient);
 }
 
 /* ___SPEECH RECOGNITION___ */
@@ -232,10 +232,8 @@ function speakToTheMic() {
   },howLongBeforeGiveUpButtonAppears);
 
   // REMEMBER: To find “what language the browser will listen to (via annyang)” see the code in /js_reusables/js_for_all_container_parent_htmls.js
-  // TRICKY: Must know how to set the contents of a script object dynamically as well as how to use regular expressions.
   var commands = {};
-  const magicalSelectionRegex = /\S+/gim; // So called “regular expression” to get each and every word separated by a space (i.e. either the Latin space or the Asian “big space”)
-  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.match(magicalSelectionRegex);
+  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_dictionary must be written with the | (bar) character as the separator between phrases.
   for(i=0;i<eachWordArray.length;i++)
   {
     let oneOfTheWords = eachWordArray[i];

@@ -74,19 +74,86 @@ window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, {
 // Desktop users can change the speed; mobile users can't. Because the mobile GUI has to stay simple.
 function loadingIsCompleteFunction()
 {
-  // Display notifications if there are any.
-  startTheLesson();
+  // Stop and notify the user if necessary; otherwise just continue.
+  if (parent.theLanguageUserIsLearningNow == "ja") { // Kudamono - Mi
+    const pathOfNotificationHitoFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_ja.txt";
+    fetch(pathOfNotificationHitoFruit,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  } else if (parent.theLanguageUserIsLearningNow == "zh") { // Shuiguo - Guoshi
+    const pathOfNotificationRenFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_zh.txt";
+    fetch(pathOfNotificationRenFruit,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  } else if (parent.theLanguageUserIsLearningNow == "tr") { // Meyve - Meyveler
+    const pathOfNotificationKishiFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_tr.txt";
+    fetch(pathOfNotificationKishiFruit,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  } else if (parent.theLanguageUserIsLearningNow == "ar") { // Faakihah - Fawaakih - Thamar
+    const pathOfNotificationArabicFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_ar.txt";
+    fetch(pathOfNotificationArabicFruit,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  } else if (parent.theLanguageUserIsLearningNow == "de") { // Obst - Früchte
+    const pathOfNotificationMenschenFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_de.txt";
+    fetch(pathOfNotificationMenschenFruit,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  } else {
+    startTheLesson();
+  }
 }
 
 function startTheLesson()
 {
-  setTimeout(function(){ sayAB.play(); }, 1000);
-  setTimeout(goFromABtoCD,5000*parent.speedAdjustmentCoefficient); // NOTICE! Wait a little longer (500ms) than usual because user has to look at 8 pictures instead of 2.
+  setTimeout(function(){ sayAB.play(); }, 1750);
+  setTimeout(goFromABtoCD,6500*parent.speedAdjustmentCoefficient+750); // NOTICE! Wait a little longer than usual because user has to look at 8 pictures instead of 2.
 }
 
 function goFromABtoCD()
 {
-  setTimeout(function(){ sayCD.play(); }, 2000); // after 1s fade out plus 1s fade in
+  setTimeout(function(){ sayCD.play(); }, 2750); // after 1s fade out plus 1s fade in
   imgA.classList.add("toZeroOpacity");
   imgB.classList.add("toZeroOpacity");
   setTimeout(betweenABandCD,1000);
@@ -103,12 +170,12 @@ function betweenABandCD()
     imgC.classList.remove("toZeroOpacity");
     imgD.classList.remove("toZeroOpacity");
     }
-    setTimeout(goFromCDtoEF,6000*parent.speedAdjustmentCoefficient); // Wait a little longer (500ms) than usual.
+    setTimeout(goFromCDtoEF,7500*parent.speedAdjustmentCoefficient+750); // Wait a little longer than usual.
 }
 
 function goFromCDtoEF()
 {
-  setTimeout(function(){ sayEF.play(); }, 2000);
+  setTimeout(function(){ sayEF.play(); }, 2750);
   imgC.classList.add("toZeroOpacity");
   imgD.classList.add("toZeroOpacity");
   setTimeout(betweenCDandEF,1000);
@@ -125,12 +192,12 @@ function betweenCDandEF()
   imgE.classList.remove("toZeroOpacity");
   imgF.classList.remove("toZeroOpacity");
   }
-  setTimeout(goFromEFtoGH,7000*parent.speedAdjustmentCoefficient); // Wait a little longer (500ms) than usual.
+  setTimeout(goFromEFtoGH,6600*parent.speedAdjustmentCoefficient+750); // Wait a little longer than usual.
 }
 
 function goFromEFtoGH()
 {
-  setTimeout(function(){ sayGH.play(); }, 2000);
+  setTimeout(function(){ sayGH.play(); }, 2750);
   imgE.classList.add("toZeroOpacity");
   imgF.classList.add("toZeroOpacity");
   setTimeout(betweenEFandGH,1000);
@@ -147,7 +214,7 @@ function betweenEFandGH()
   imgG.classList.remove("toZeroOpacity");
   imgH.classList.remove("toZeroOpacity");
   }
-  setTimeout(goFromGHtoIJ,8000*parent.speedAdjustmentCoefficient); // Wait a little longer (500ms) than usual.
+  setTimeout(goFromGHtoIJ,8500*((parent.speedAdjustmentCoefficient+1)/2)+750); // Wait a little longer than usual.
 }
 
 function goFromGHtoIJ()
@@ -168,7 +235,7 @@ function betweenGHandIJ()
   imgI.classList.remove("toZeroOpacity");
   imgJ.classList.remove("toZeroOpacity");
   }
-  setTimeout(speakToTheMic,1500*parent.speedAdjustmentCoefficient);
+  setTimeout(speakToTheMic,1900*parent.speedAdjustmentCoefficient);
 }
 
 /* ___SPEECH RECOGNITION___ */
@@ -205,10 +272,8 @@ function speakToTheMic() {
   },howLongBeforeGiveUpButtonAppears);
 
   // REMEMBER: To find “what language the browser will listen to (via annyang)” see the code in js_for_all_container_parent_htmls.js
-  // TRICKY: Must know how to set the contents of a script object dynamically as well as how to use regular expressions.
   var commands = {};
-  const magicalSelectionRegex = /\S+/gim; // So called “regular expression” to get each and every word separated by a space (i.e. either the Latin space or the Asian “big space”)
-  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.match(magicalSelectionRegex);
+  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_dictionary must be written with the | (bar) character as the separator between phrases.
   for(i=0;i<eachWordArray.length;i++)
   {
     let oneOfTheWords = eachWordArray[i];

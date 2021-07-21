@@ -10,13 +10,17 @@ window.addEventListener('DOMContentLoaded', function(){
   fetch(filePathB,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textB = contentOfTheTxtFile; });
 }, { once: true });
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
-let sayNaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/give_water_normal.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayNaturalPath = sayNaturalPath.split(".")[0] + "_female.mp3"; }
-const sayNatural = new parent.Howl({  src: [sayNaturalPath]  });
-let saySlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/give_water_slow.mp3";
-if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { saySlowPath = saySlowPath.split(".")[0] + "_female.mp3"; }
-const saySlow = new parent.Howl({  src: [saySlowPath]  });
-const sayLastlyPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/thank_you.mp3";
+let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/give.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
+const say1 = new parent.Howl({  src: [say1Path]  });
+let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/give_water.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
+const say2 = new parent.Howl({  src: [say2Path]  });
+let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/give_water_slow.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
+const say3 = new parent.Howl({  src: [say3Path]  });
+let sayLastlyPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_3/thank_you.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { sayLastlyPath = sayLastlyPath.split(".")[0] + "_female.mp3"; }
 const sayLastly = new parent.Howl({  src: [sayLastlyPath]  });
 const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_3/click_on_glass.mp3'] });
 const successTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.mp3'] });
@@ -24,8 +28,9 @@ function unloadTheSoundsOfThisLesson() { // Call this as the last thing before l
   successTone.unload();
   clickTone.unload();
   sayLastly.unload();
-  saySlow.unload();
-  sayNatural.unload();
+  say3.unload();
+  say2.unload();
+  say1.unload();
 }
 
 /* ___VISUAL ELEMENTS___ */
@@ -59,17 +64,19 @@ function startTheLesson()
 
 var looping; // Declare it here, outside any {} to make it global. // Try using var instead of let to see if it will fix the issue in Safari.
 let counter = 1;
+// const speedInThisLesson = ((parent.speedAdjustmentCoefficient + 1)/2); // DON'T USE CONST: When range input is changed the timing must also chanğe.
 function goFromAtoB()
 {
   imgA.style.display = "none"; // From static last frame
   imgB.style.display = "initial"; // To the looping animation. One cycle is 8250 ms
   // Action one at 2640,,, action two at 7920,,, total time 66ms x 125frames = 8250 ms loop ... 8250 x 2 = 16500 -> 1 cycle of slow fast slow fast
   // Actually maybe it is better if it doesn't sync
-  looping = setInterval(loopFunction,18500); // 8250x2 = 16500 but it feels like it needs to be slower than that.
+  looping = setInterval(loopFunction,24750*((parent.speedAdjustmentCoefficient + 1)/2)); // 8250x2 = 16500 but it feels like it needs to be slower than that.
   function loopFunction() {
-    if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([0,2640,20,5260,20,310]);} // Vibrate makes Safari (in 2021) freeze.
-    setTimeout(function () {  sayNatural.play();  },3000);
-    setTimeout(function () {  saySlow.play();     },12500); // 8250+3000 = 11250 // Tweaking a little more.
+    if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate([0,2640,25,5255,25,305]);} // Vibrate makes Safari (in 2021) freeze.
+    setTimeout(function () {  say1.play();  },3500*((parent.speedAdjustmentCoefficient + 1)/2));
+    setTimeout(function () {  say2.play();  },8500*((parent.speedAdjustmentCoefficient + 1)/2)); // 8250+3000 = 11250 // Tweaking a little more.
+    setTimeout(function () {  say3.play();  },17700*((parent.speedAdjustmentCoefficient + 1)/2));
     if (counter == 3) {  clearInterval(looping);  }
     counter++;
   }
@@ -87,9 +94,9 @@ function goFromAtoB()
 
 function goFromBtoC()
 {
-  clearInterval(looping); sayNatural.fade(1,0,1500); saySlow.fade(1,0,1500);
+  clearInterval(looping); say1.fade(1,0,1500); say2.fade(1,0,1500); say3.fade(1,0,1500);
   clickTone.play();
-  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate(15);}
+  if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate(22);}
   imgB.style.display = "none";
   imgC.style.display = "initial";
   setTimeout(function () { successTone.play(); },2250); // Actual time of last frame is 1848 milliseconds

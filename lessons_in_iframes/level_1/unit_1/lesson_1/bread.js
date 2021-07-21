@@ -101,14 +101,29 @@ function loadingIsCompleteFunction()
 {
   // Stop and notify the user if necessary; otherwise just continue.
   if (parent.theLanguageUserIsLearningNow == "en") { // Display the explanation about accents for users who want to learn English.
-    const pathOfNotificationAboutBritishVsAmerican = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-british_vs_american.txt";
+    const pathOfNotificationAboutBritishVsAmerican = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-1-1_british_vs_american.txt";
     fetch(pathOfNotificationAboutBritishVsAmerican,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       // Display notification instead of alert(contentOfTheTxtFile);
-      createAndHandleNotificationBox();
+      createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
       putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
       // Continue when user clicks or touches OK
       // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
     });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  } else if (parent.theLanguageUserIsLearningNow == "zh") { // Display the warning about intonations to users who want to learn the Ren language.
+    const pathOfNotificationAboutRenIntonation = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-1-1_ren_intonation.txt";
+    fetch(pathOfNotificationAboutRenIntonation,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      // Display notification instead of alert(contentOfTheTxtFile);
+      createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
     const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
     fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
@@ -118,15 +133,16 @@ function loadingIsCompleteFunction()
   }
 }
 
-function startTheLesson() {
-  setTimeout(function(){ sayAB.play(); }, 1000); // first thing that will be heard
-  setTimeout(goFromABtoCD,4500*parent.speedAdjustmentCoefficient); // See js_for_the_sliding_navigation_menu.js
+function startTheLesson()
+{
+  setTimeout(function(){ sayAB.play(); }, 1750); // first thing that will be heard
+  setTimeout(goFromABtoCD,6500*parent.speedAdjustmentCoefficient); // See js_for_the_sliding_navigation_menu.js
 }
 
 function goFromABtoCD()
 {
-  setTimeout(function(){ sayCD.play(); }, 2000); // after 1s fade out plus 1s fade in
-  imgA.classList.add("toZeroOpacity");
+  setTimeout(function(){ sayCD.play(); }, 2750); // after 1s fade out plus 1s fade in
+  imgA.classList.add("toZeroOpacity"); // It takes 1s: See css_for_new_vocabulary_with_photos to find "oneOfTheTwoDivsThatContainSquarePictures img"
   imgB.classList.add("toZeroOpacity");
   setTimeout(betweenABandCD,1000);
 }
@@ -142,12 +158,12 @@ function betweenABandCD()
     imgC.classList.remove("toZeroOpacity");
     imgD.classList.remove("toZeroOpacity");
     }
-    setTimeout(goFromCDtoEF,5500*parent.speedAdjustmentCoefficient);
+    setTimeout(goFromCDtoEF,7500*parent.speedAdjustmentCoefficient);
 }
 
 function goFromCDtoEF()
 {
-  setTimeout(function(){ sayEF.play(); }, 2000);
+  setTimeout(function(){ sayEF.play(); }, 2750);
   imgC.classList.add("toZeroOpacity");
   imgD.classList.add("toZeroOpacity");
   setTimeout(betweenCDandEF,1000);
@@ -164,12 +180,12 @@ function betweenCDandEF()
   imgE.classList.remove("toZeroOpacity");
   imgF.classList.remove("toZeroOpacity");
   }
-  setTimeout(goFromEFtoGH,6500*parent.speedAdjustmentCoefficient);
+  setTimeout(goFromEFtoGH,6600*parent.speedAdjustmentCoefficient);
 }
 
 function goFromEFtoGH()
 {
-  setTimeout(function(){ sayGH.play(); }, 2000);
+  setTimeout(function(){ sayGH.play(); }, 2750);
   imgE.classList.add("toZeroOpacity");
   imgF.classList.add("toZeroOpacity");
   setTimeout(betweenEFandGH,1000);
@@ -186,7 +202,7 @@ function betweenEFandGH()
   imgG.classList.remove("toZeroOpacity");
   imgH.classList.remove("toZeroOpacity");
   }
-  setTimeout(goFromGHtoIJ,7500*parent.speedAdjustmentCoefficient); // See js_for_the_sliding_navigation_menu.js =1.40 =1 =0.8
+  setTimeout(goFromGHtoIJ,8500*((parent.speedAdjustmentCoefficient+1)/2)); // See js_for_the_sliding_navigation_menu.js =1.40 =1.0 =0.8
 }
 
 function goFromGHtoIJ()
@@ -207,7 +223,7 @@ function betweenGHandIJ()
   imgI.classList.remove("toZeroOpacity");
   imgJ.classList.remove("toZeroOpacity");
   }
-  setTimeout(speakToTheMic,1500*parent.speedAdjustmentCoefficient);
+  setTimeout(speakToTheMic,1900*parent.speedAdjustmentCoefficient);
 }
 
 /* ___SPEECH RECOGNITION___ */
@@ -246,8 +262,10 @@ function speakToTheMic() {
   // REMEMBER: To find “what language the browser will listen to (via annyang)” see the code in /js_reusables/js_for_all_container_parent_htmls.js
   // TRICKY: Must know how to set the contents of a script object dynamically as well as how to use regular expressions.
   var commands = {};
-  const magicalSelectionRegex = /\S+/gim; // So called “regular expression” to get each and every word separated by a space (i.e. either the Latin space or the Asian “wide space”)
-  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.match(magicalSelectionRegex); // Note that split(" ") works for only one of either Latin space or Asian space; NOT FOR BOTH. But this regex does.
+  // DEPRECATED: No need to use a regex. Use split() instead.
+  /*const magicalSelectionRegex = /\S+/gim;*/ // So called “regular expression” to get each and every word separated by a space (i.e. either the Latin space or the Asian “wide space”)
+  /*const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.match(magicalSelectionRegex);*/ // Note that split(" ") works for only one of either Latin space or Asian space; NOT FOR BOTH. But this regex does.
+  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_dictionary must be written with the | (bar) character as the separator between phrases.
   for(i=0;i<eachWordArray.length;i++)
   {
     let oneOfTheWords = eachWordArray[i];
