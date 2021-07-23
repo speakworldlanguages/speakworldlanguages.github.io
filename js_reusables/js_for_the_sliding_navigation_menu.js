@@ -143,10 +143,13 @@ var speedAdjustmentCoefficient = 1.0;
 // REMEMBER: Sliding menu buttons also need this. Handle separately. See js_for_the_sliding_navigation_menu.js
 var firstUserGestureHasUnleashedAudio = false;
 window.addEventListener("mouseup",function () {  firstUserGestureHasUnleashedAudio = true;  }, {once:true});
-
+// Variables for detecting the swipe-up
+let touchStartY;
+let touchEndY;
 window.addEventListener("load",function() {
 
   // What to do on MOBILE DEVICES
+  var iframe = document.getElementById('theIdOfTheIframe'); // Actually the exact same thing was defined with const iFrameScriptAccess in js_for_all_container_parent_htmls.js
   if (deviceDetector.isMobile){
     // If something blocks the clickablity of any other element use pointerEvents = "none";
     containerDivOfTheNavigationMenu.classList.add("theSmallNavigationMenuMOBILEStyling"); // See css_for_all_container_parent_htmls.css
@@ -157,7 +160,17 @@ window.addEventListener("load",function() {
     document.body.appendChild(invisibleContainerOfContainerDivOfTheNavigationMenu);
     invisibleContainerOfContainerDivOfTheNavigationMenu.appendChild(containerDivOfTheNavigationMenu);
     // SOLVED: Samsung Browser and Chrome were firing fullscreenchange and resize differently. 100ms delay before the boolean operations did the trick.
-    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMOBILES);
+    // The Navigation Menu must appear only when user exits fullscreen. It MUST NOT APPEAR when device orientation is changed.
+    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);
+    // SWIPE FROM BELOW TO BRING THE NAV MENU
+    function getY1(event) {      touchStartY = event.changedTouches[0].screenY;    }
+    function getY2(event) {      touchEndY = event.changedTouches[0].screenY;      handleSwipeGesture();    }
+    window.addEventListener('touchstart', getY1);
+    window.addEventListener('touchend', getY2);
+    iframe.onload = function() {
+      iframe.contentWindow.addEventListener("touchstart", getY1);
+      iframe.contentWindow.addEventListener("touchend", getY2);
+    };
   }
   // What to do on DESKTOPS
   else {
@@ -408,55 +421,72 @@ window.addEventListener("load",function() {
   }
 
   // ---------- Mobile functions ----------
-  function hideOrUnhideTheNavigationMenuOnMOBILES() {
-    window.removeEventListener('resize', hideOrUnhideTheNavigationMenuOnMOBILES);
-    // Use hasGoneFullscreen variable from js_for_handling_fullscreen_mode.js
-    // WARNING! “hasGoneFullscreen” has a boolean value that alternates every time “fullscreenchange” event fires.
-    // CAUTION! This may happen before or after “resize” event fires depending on the browser!
-    setTimeout(function () { /*!!!*/ // Try and see if 100ms delay will solve the opposite firing conflict between Chrome and Samsung Browser? Result: YES!
-      if (!hasGoneFullscreen) {
-        exitFullscreenModeSound.play();
-        invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationAppearFromBottom"); // See css_for_all_container_parent_htmls.css
-        invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationSinkAndDisappear");
-        setTimeout(function () {    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMOBILES);    },200); // animation duration is .4s inside css
+  // GO FULLSCREEN TO HIDE THE NAV MENU - EXIT TO REVEAL
+  function hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen() {
+    // Safari on iPhone doesn't allow fullscreen! (iOS 14.7 July 2021)
+    if (deviceDetector.device == "phone" && detectedOS.name == "iOS") { // Do these only on the iPhones
+      // Tapping on the screen doesn't activate fullscreen display because of Apple's permission policy.
+      // Instead tapping on the screen must toggle the navigation menu
 
-        // Make the nav menu buttons glow
-        setTimeout(function () {
-          setTimeout(function () { clickToGoToPreviousImgA.style.display = "none"; clickToGoToPreviousImgB.style.display = "initial";  },300); //Could these be the cause of THAT problem on mobiles?
-          setTimeout(function () { clickToGoToMainMenuImgA.style.display = "none"; clickToGoToMainMenuImgB.style.display = "initial";  },200);
-          setTimeout(function () { clickToOpenProgressImgA.style.display = "none"; clickToOpenProgressImgB.style.display = "initial";  },100);
-          clickToFinanceImgA.style.display = "none"; clickToFinanceImgB.style.display = "initial";
-        },1000);
-        setTimeout(function () {
-          setTimeout(function () { clickToGoToPreviousImgB.style.display = "none"; clickToGoToPreviousImgC.style.display = "initial";  },300);
-          setTimeout(function () { clickToGoToMainMenuImgB.style.display = "none"; clickToGoToMainMenuImgC.style.display = "initial";  },200);
-          setTimeout(function () { clickToOpenProgressImgB.style.display = "none"; clickToOpenProgressImgC.style.display = "initial";  },100);
-          clickToFinanceImgB.style.display = "none"; clickToFinanceImgC.style.display = "initial";
-        },1240);
-      } // End of if
-      else {
-        enterFullscreenModeSound.play();
-        invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationSinkAndDisappear"); // See css_for_all_container_parent_htmls.css
-        invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationAppearFromBottom");
-        setTimeout(function () {    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMOBILES);    },200); // animation duration is .4s inside css
+    } else { // Do these on EVERY MOBILE DEVICE except iPhones
+      window.removeEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);
+      // Use hasGoneFullscreen variable from js_for_handling_fullscreen_mode.js
+      // WARNING! “hasGoneFullscreen” has a boolean value that alternates every time “fullscreenchange” event fires.
+      // CAUTION! This may happen before or after “resize” event fires depending on the browser!
+      setTimeout(function () { /*!!!*/ // Try and see if 100ms delay will solve the opposite firing conflict between Chrome and Samsung Browser? Result: YES!
+        if (!hasGoneFullscreen) {
+          exitFullscreenModeSound.play();
+          invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationAppearFromBottom"); // See css_for_all_container_parent_htmls.css
+          invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationSinkAndDisappear");
+          setTimeout(function () {    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);    },200); // animation duration is .4s inside css
 
-        // Reset the nav menu buttons back to initial
-        clickToGoToPreviousImgC.style.display = "none"; clickToGoToPreviousImgA.style.display = "initial";
-        clickToGoToMainMenuImgC.style.display = "none"; clickToGoToMainMenuImgA.style.display = "initial";
-        clickToOpenProgressImgC.style.display = "none"; clickToOpenProgressImgA.style.display = "initial";
-        clickToFinanceImgC.style.display = "none"; clickToFinanceImgA.style.display = "initial";
+          // Make the nav menu buttons glow
+          setTimeout(function () {
+            setTimeout(function () { clickToGoToPreviousImgA.style.display = "none"; clickToGoToPreviousImgB.style.display = "initial";  },300); //Could these be the cause of THAT problem on mobiles?
+            setTimeout(function () { clickToGoToMainMenuImgA.style.display = "none"; clickToGoToMainMenuImgB.style.display = "initial";  },200);
+            setTimeout(function () { clickToOpenProgressImgA.style.display = "none"; clickToOpenProgressImgB.style.display = "initial";  },100);
+            clickToFinanceImgA.style.display = "none"; clickToFinanceImgB.style.display = "initial";
+          },1000);
+          setTimeout(function () {
+            setTimeout(function () { clickToGoToPreviousImgB.style.display = "none"; clickToGoToPreviousImgC.style.display = "initial";  },300);
+            setTimeout(function () { clickToGoToMainMenuImgB.style.display = "none"; clickToGoToMainMenuImgC.style.display = "initial";  },200);
+            setTimeout(function () { clickToOpenProgressImgB.style.display = "none"; clickToOpenProgressImgC.style.display = "initial";  },100);
+            clickToFinanceImgB.style.display = "none"; clickToFinanceImgC.style.display = "initial";
+          },1240);
+        } // End of if
+        else {
+          enterFullscreenModeSound.play();
+          invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationSinkAndDisappear"); // See css_for_all_container_parent_htmls.css
+          invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationAppearFromBottom");
+          setTimeout(function () {    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);    },200); // animation duration is .4s inside css
 
-        const resetWebpsViaSrcPB = clickToGoToPreviousImgB.src; clickToGoToPreviousImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToGoToPreviousImgB.src = resetWebpsViaSrcPB; },10);
-        const resetWebpsViaSrcPC = clickToGoToPreviousImgC.src; clickToGoToPreviousImgC.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToGoToPreviousImgC.src = resetWebpsViaSrcPC; },10);
-        const resetWebpsViaSrcMB = clickToGoToMainMenuImgB.src; clickToGoToMainMenuImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToGoToMainMenuImgB.src = resetWebpsViaSrcMB; },10);
-        const resetWebpsViaSrcMC = clickToGoToMainMenuImgC.src; clickToGoToMainMenuImgC.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToGoToMainMenuImgC.src = resetWebpsViaSrcMC; },10);
-        const resetWebpsViaSrcGB = clickToOpenProgressImgB.src; clickToOpenProgressImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToOpenProgressImgB.src = resetWebpsViaSrcGB; },10);
-        const resetWebpsViaSrcGC = clickToOpenProgressImgC.src; clickToOpenProgressImgC.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToOpenProgressImgC.src = resetWebpsViaSrcGC; },10);
-        const resetWebpsViaSrcFB = clickToFinanceImgB.src; clickToFinanceImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToFinanceImgB.src = resetWebpsViaSrcFB; },10);
-        const resetWebpsViaSrcFC = clickToFinanceImgC.src; clickToFinanceImgC.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToFinanceImgC.src = resetWebpsViaSrcFC; },10);
-      } // End of else
-    },100); /*!!!*/ // End of setTimeout. Set to 100ms assuming that nobody would enter and then exit full screen within 100 milliseconds.
-  } // End of function hideOrUnhideTheNavigationMenuOnMOBILES()
+          // Reset the nav menu buttons back to initial
+          clickToGoToPreviousImgC.style.display = "none"; clickToGoToPreviousImgA.style.display = "initial";
+          clickToGoToMainMenuImgC.style.display = "none"; clickToGoToMainMenuImgA.style.display = "initial";
+          clickToOpenProgressImgC.style.display = "none"; clickToOpenProgressImgA.style.display = "initial";
+          clickToFinanceImgC.style.display = "none"; clickToFinanceImgA.style.display = "initial";
+
+          const resetWebpsViaSrcPB = clickToGoToPreviousImgB.src; clickToGoToPreviousImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToGoToPreviousImgB.src = resetWebpsViaSrcPB; },10);
+          const resetWebpsViaSrcPC = clickToGoToPreviousImgC.src; clickToGoToPreviousImgC.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToGoToPreviousImgC.src = resetWebpsViaSrcPC; },10);
+          const resetWebpsViaSrcMB = clickToGoToMainMenuImgB.src; clickToGoToMainMenuImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToGoToMainMenuImgB.src = resetWebpsViaSrcMB; },10);
+          const resetWebpsViaSrcMC = clickToGoToMainMenuImgC.src; clickToGoToMainMenuImgC.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToGoToMainMenuImgC.src = resetWebpsViaSrcMC; },10);
+          const resetWebpsViaSrcGB = clickToOpenProgressImgB.src; clickToOpenProgressImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToOpenProgressImgB.src = resetWebpsViaSrcGB; },10);
+          const resetWebpsViaSrcGC = clickToOpenProgressImgC.src; clickToOpenProgressImgC.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToOpenProgressImgC.src = resetWebpsViaSrcGC; },10);
+          const resetWebpsViaSrcFB = clickToFinanceImgB.src; clickToFinanceImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToFinanceImgB.src = resetWebpsViaSrcFB; },10);
+          const resetWebpsViaSrcFC = clickToFinanceImgC.src; clickToFinanceImgC.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToFinanceImgC.src = resetWebpsViaSrcFC; },10);
+        } // End of else
+      },100); /*!!!*/ // End of setTimeout. Set to 100ms assuming that nobody would enter and then exit full screen within 100 milliseconds.
+    } // End of EVERY MOBILE DEVICE except iPhones
+
+  } // End of function hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen()
+
+  // SWIPE UP TO BRING THE NAV MENU
+  function handleSwipeGesture() {
+    //alert("touch start&end is "+touchStartY+"-"+touchEndY);
+    if ((touchStartY-touchEndY)>75) {
+      alert("SWIPED UP");
+    }
+  }
 
   // NOTE: Consider adding listeners for touchstart events for mobile.
   clickToGoToPreviousDiv.addEventListener("click", goToPreviousLessonFunction );
@@ -525,3 +555,4 @@ window.addEventListener("load",function() {
   }
 
 },{ once: true });
+// END OF "window load" event
