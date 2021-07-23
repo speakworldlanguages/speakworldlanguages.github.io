@@ -24,6 +24,10 @@ window.addEventListener('DOMContentLoaded', function(){
       break;
     case "Samsung Browser": isTheUsersBrowserWhitelisted = true;
       break;
+    case "Safari": isTheUsersBrowserWhitelisted = true;
+      break;
+    case "Mobile Safari": isTheUsersBrowserWhitelisted = true;
+      break;
     case "Baidu": isTheUsersBrowserWhitelisted = true;
       break;
     case "baidu": isTheUsersBrowserWhitelisted = true;
