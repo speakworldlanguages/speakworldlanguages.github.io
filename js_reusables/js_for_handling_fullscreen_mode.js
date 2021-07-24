@@ -1,15 +1,16 @@
 // This is included in parent htmls only. Not in lesson htmls.
 // Even though this is deferred, looks like we still need to wait for the load event before we call a function from another js file.
-
+var hasGoneFullscreen = false;
 // Go fullscreen by touching anywhere on the screen.
 window.addEventListener("load",function() {
   var iframe = document.getElementById('theIdOfTheIframe'); // Actually the exact same thing was defined with const iFrameScriptAccess in js_for_all_container_parent_htmls.js
 
-  // GO FULLSCREEN ON MOBILE IMMEDIATELY AND STAY THAT WAY AS MUCH AS POSSIBLE
+  // GO FULLSCREEN ON MOBILE AS SOON AS THE USER SELECTS WHICH LANGUAGE HE/SHE WANTS TO LEARN
+  // AND RETURN TO FULLSCREEN WITH THE FIRST TOUCH IF USER NAVIGATES AWAY FROM THE APP AND COMES BACK
   if (deviceDetector.isMobile) {
     // With every click/touch/tap, will try to go fullscreen unless it is not fullscreen already.
-    document.addEventListener("click",openFullscreen);
-    iframe.onload = function() {      iframe.contentWindow.addEventListener("click",openFullscreen);    };
+    // document.addEventListener("touchstart",openFullscreen); // We don't need this, do we?
+    // iframe.onload = function() {    iframe.contentWindow.addEventListener("touchstart", function () {   if (!hasGoneFullscreen) {  openFullscreen();  }   });    };
   }
   // THE RIGHT CLICK METHOD ON DESKTOPS
   else {
@@ -21,16 +22,16 @@ window.addEventListener("load",function() {
       if (currentSrcParsed == "blank") {
         document.addEventListener('contextmenu', rightClickHandlerFunction);
         document.addEventListener('mousedown', coordinatesF);
-        window.onkeyup = function(e) {  if ( e.keyCode === 27 ) {    toggleMenuOff();   }  }; // When the “Esc”ape key is hit
-        document.addEventListener('mousedown', toggleMenuOff);
+        window.onkeyup = function(e) {  if ( e.keyCode === 27 ) {    toggleRightClickMenuOff();   }  }; // When the “Esc”ape key is hit
+        document.addEventListener('mousedown', toggleRightClickMenuOff);
         document.addEventListener('dblclick', toggleFullScreen);
       }
       // When user is viewing a lesson
       else {
         iframe.contentWindow.document.addEventListener('contextmenu', rightClickHandlerFunction);
         iframe.contentWindow.document.addEventListener('mousedown', coordinatesF);
-        iframe.contentWindow.onkeyup = function(e) {  if ( e.keyCode === 27 ) {    toggleMenuOff();   }  }; // When the “Esc”ape key is hit
-        iframe.contentWindow.addEventListener('mousedown', toggleMenuOff);
+        iframe.contentWindow.onkeyup = function(e) {  if ( e.keyCode === 27 ) {    toggleRightClickMenuOff();   }  }; // When the “Esc”ape key is hit
+        iframe.contentWindow.addEventListener('mousedown', toggleRightClickMenuOff);
         iframe.contentWindow.addEventListener('dblclick', toggleFullScreen);
       }
 
@@ -40,7 +41,6 @@ window.addEventListener("load",function() {
 },{ once: true });
 
 
-var hasGoneFullscreen = false;
 var rightClickMenu = document.createElement("DIV");
 var goFullscreenWebp = document.createElement("IMG");
 var exitFullscreenWebp = document.createElement("IMG");
@@ -81,7 +81,7 @@ function toggleFullScreen() { // Note: It double fires during a lesson if main m
   }
 }
 
-function toggleMenuOff() {
+function toggleRightClickMenuOff() {
   if (isContextMenuDisplayed) {
     document.body.removeChild(rightClickMenu);
     isContextMenuDisplayed = false;

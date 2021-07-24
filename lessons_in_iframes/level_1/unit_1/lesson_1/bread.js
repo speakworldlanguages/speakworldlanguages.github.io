@@ -97,6 +97,7 @@ the2ndDivThatWillAppearWhenMicrophoneStartsListening.classList.add("toZeroOpacit
 /* ___PROGRESSION___ */
 window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, { once: true });
 // Desktop users can change the speed; mobile users can't. Because the mobile GUI has to stay simple.
+// LATER EDIT: Actually swipe gestures with 3 stages (navmenu-nothing-speedadjuster) can bring down a div from the top of the viewport.
 function loadingIsCompleteFunction()
 {
   // Stop and notify the user if necessary; otherwise just continue.

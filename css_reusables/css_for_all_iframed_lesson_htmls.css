@@ -50,6 +50,7 @@ aside{
   text-shadow: 0px -1px 0px rgba(255,255,255,.3), 0px 1px 0px rgba(0,0,0,.5);
   margin: 5vmin; /*Will take effect on mobiles only*/
   padding-left: 4vmin; padding-right: 4vmin;
+  padding-top: 5vmin; padding-bottom: 5vmin;
   text-align: justify;
   white-space: pre-wrap; /* pre means do not convert the line breaks into regular spaces. pre-wrap handles the overflow as well for longer lines */
 }
@@ -62,6 +63,7 @@ aside{
   min-width:100px;
   min-height:62px;
   padding: 10px;
+  margin-top: 5vmin;
   background-color: rgb(154,170,182);
   border-radius: 1.5vmin;
   border: 3px solid rgb(124, 144, 160);

@@ -44,8 +44,8 @@ if (localStorage.theLastCheckpointSavedInLocalStorage) { // See if a previously 
       genderOfTheUser = localStorage.genderOfTheUserSavedToLocalStorage;
   }
   function whenLoadLastLessonOkButtonIsClickedOrTapped() { // See a parent document like index.html, ja.html, tr.html to find that button.
-    // WARNING: Must see if 5000px is enough not to cause a problem with very high desktop resolutions like 4K.
-    document.getElementById('fullViewportPositionFixedDivAsContainerOfTheMenu').style.left = "5000px";
+    // WARNING: Must see if 8000px is enough not to cause a problem with very high desktop resolutions like 4K.
+    document.getElementById('fullViewportPositionFixedDivAsContainerOfTheMenu').style.left = "8000px";
     iFrameScriptAccess.src = localStorage.theLastCheckpointSavedInLocalStorage;
     document.getElementById('fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt').classList.add("addThisForOpacityAnimationFadeOut");
     // Small navigation menu buttons... See js_for_the_sliding_navigation_menu.js
@@ -151,14 +151,29 @@ function letTheIFrameTeachEnglish(){ //See index.html to find the button that tr
 
 /*___________Navigate to first lesson_____________*/
 function openFirstLesson() {
+  // Save language choice
   localStorage.theLanguageUserWasLearningLastTime = theLanguageUserIsLearningNow;
+  // Set language
   if (annyang) {
       annyang.setLanguage(theLanguageUserIsLearningNow); // Firefox v60's and v70's won't let buttons function unless this is wrapped in an if (annyang){} like this.
   }
 
+  // Try to go fullscreen on mobile devices. Note that this won't work on iPhones!
+  if (deviceDetector.isMobile) {
+    // Going fullscreen on mobiles will make the nav menu sink down and disappear
+    // See js_for_the_sliding_navigation_menu -> resize event triggers hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen()
+    openFullscreen(); // See js_for_handling_fullscreen_mode
+    // WARNING: iPhone's Safari won't allow fullscreen! caniuse.com says it is allowed on iPads but wasn't able to test it as of July 2021.
+    // So manually do the first sinking of the nav menu like this.
+    if (deviceDetector.device == "phone" && detectedOS.name == "iOS") {
+      // Just hide the nav menu (without being able to go fullscreen)
+      setTimeout(function () {      makeTheNavMenuGoDownOnMobiles();      },3500); // See js_for_the_sliding_navigation_menu
+    }
+  }
+
   setTimeout(function() {
     // Hide the welcome screen ( <<choose the language you want to learn>> screen's menu-div)
-    document.getElementById('fullViewportPositionFixedDivAsContainerOfTheMenu').style.left = "5000px";
+    document.getElementById('fullViewportPositionFixedDivAsContainerOfTheMenu').style.left = "8000px";
     // Display the first lesson
     iFrameScriptAccess.src = "lessons_in_iframes/level_1/unit_1/lesson_1/index.html";
   },50); // Unnoticable tiny delay

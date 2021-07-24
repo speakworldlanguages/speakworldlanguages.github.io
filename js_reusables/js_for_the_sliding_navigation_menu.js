@@ -142,21 +142,34 @@ var speedAdjustmentCoefficient = 1.0;
 // Detect first click/first user gesture that unlocks sounds
 // REMEMBER: Sliding menu buttons also need this. Handle separately. See js_for_the_sliding_navigation_menu.js
 var firstUserGestureHasUnleashedAudio = false;
-window.addEventListener("mouseup",function () {  firstUserGestureHasUnleashedAudio = true;  }, {once:true});
+window.addEventListener("mouseup",function () {  firstUserGestureHasUnleashedAudio = true;  }, {once:true}); // Prevent sound flooding.
 // Variables for detecting the swipe-up
 let touchStartY;
 let touchEndY;
+var navMenuOnMobileHasBeenHiddenForTheFirstTime = false; // So that the very first swipe-up can be ignored.
+var invisibleContainerOfContainerDivOfTheNavigationMenu = document.createElement("DIV");
+
+function makeTheNavMenuGoDownOnMobiles() {
+  invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationSinkAndDisappear"); // See css_for_sliding_navigation_menu.css
+  invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationAppearFromBottom");
+  navMenuOnMobileHasBeenHiddenForTheFirstTime = true;
+}
+
+function makeTheNavMenuComeUpOnMobiles() {
+  invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationAppearFromBottom"); // See css_for_sliding_navigation_menu.css
+  invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationSinkAndDisappear");
+}
+
 window.addEventListener("load",function() {
 
   // What to do on MOBILE DEVICES
   var iframe = document.getElementById('theIdOfTheIframe'); // Actually the exact same thing was defined with const iFrameScriptAccess in js_for_all_container_parent_htmls.js
+  // What to do on MOBILES
   if (deviceDetector.isMobile){
     // If something blocks the clickablity of any other element use pointerEvents = "none";
     containerDivOfTheNavigationMenu.classList.add("theSmallNavigationMenuMOBILEStyling"); // See css_for_all_container_parent_htmls.css
-    var invisibleContainerOfContainerDivOfTheNavigationMenu = document.createElement("DIV");
+
     invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("invisibleTopContainerOfTheNavigationMenuOnMobiles"); // See css_for_all_container_parent_htmls.css
-    //invisibleContainerOfContainerDivOfTheNavigationMenu.style.bottom = "-25vmin";
-    //invisibleContainerOfContainerDivOfTheNavigationMenu.style.display = "none"; // See bread.js to find how this is made visible
     document.body.appendChild(invisibleContainerOfContainerDivOfTheNavigationMenu);
     invisibleContainerOfContainerDivOfTheNavigationMenu.appendChild(containerDivOfTheNavigationMenu);
     // SOLVED: Samsung Browser and Chrome were firing fullscreenchange and resize differently. 100ms delay before the boolean operations did the trick.
@@ -171,7 +184,7 @@ window.addEventListener("load",function() {
       iframe.contentWindow.addEventListener("touchstart", getY1);
       iframe.contentWindow.addEventListener("touchend", getY2);
     };
-  }
+  } // END OF WHAT TO DO ON mobiles
   // What to do on DESKTOPS
   else {
     // CAUTION: localStorage works with strings variables only! Conversion may be necessary in and out.
@@ -270,7 +283,7 @@ window.addEventListener("load",function() {
     clickToFinanceDiv.addEventListener("mouseenter",clickToFinanceEnterHoverFunction);
     clickToFinanceDiv.addEventListener("mouseleave",clickToFinanceExitHoverFunction);
 
-  } // End of IF-ELSE
+  } // End of IF-ELSE -> END OF WHAT TO DO ON desktops
 
   // ---------- Desktop-only functions ----------
 
@@ -424,85 +437,61 @@ window.addEventListener("load",function() {
   // GO FULLSCREEN TO HIDE THE NAV MENU - EXIT TO REVEAL
   function hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen() {
     // Safari on iPhone doesn't allow fullscreen! (iOS 14.7 July 2021)
-    if (deviceDetector.device == "phone" && detectedOS.name == "iOS") { // Do these only on the iPhones
-      // Tapping on the screen doesn't activate fullscreen display because of Apple's permission policy.
-      // Instead tapping on the screen must toggle the navigation menu
-
-    } else { // Do these on EVERY MOBILE DEVICE except iPhones
-      window.removeEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);
-      // Use hasGoneFullscreen variable from js_for_handling_fullscreen_mode.js
-      // WARNING! “hasGoneFullscreen” has a boolean value that alternates every time “fullscreenchange” event fires.
-      // CAUTION! This may happen before or after “resize” event fires depending on the browser!
-      setTimeout(function () { /*!!!*/ // Try and see if 100ms delay will solve the opposite firing conflict between Chrome and Samsung Browser? Result: YES!
-        if (!hasGoneFullscreen) {
-          exitFullscreenModeSound.play();
-          invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationAppearFromBottom"); // See css_for_all_container_parent_htmls.css
-          invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationSinkAndDisappear");
-          setTimeout(function () {    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);    },200); // animation duration is .4s inside css
-
-          // Make the nav menu buttons glow
-          setTimeout(function () {
-            setTimeout(function () { clickToGoToPreviousImgA.style.display = "none"; clickToGoToPreviousImgB.style.display = "initial";  },300); //Could these be the cause of THAT problem on mobiles?
-            setTimeout(function () { clickToGoToMainMenuImgA.style.display = "none"; clickToGoToMainMenuImgB.style.display = "initial";  },200);
-            setTimeout(function () { clickToOpenProgressImgA.style.display = "none"; clickToOpenProgressImgB.style.display = "initial";  },100);
-            clickToFinanceImgA.style.display = "none"; clickToFinanceImgB.style.display = "initial";
-          },1000);
-          setTimeout(function () {
-            setTimeout(function () { clickToGoToPreviousImgB.style.display = "none"; clickToGoToPreviousImgC.style.display = "initial";  },300);
-            setTimeout(function () { clickToGoToMainMenuImgB.style.display = "none"; clickToGoToMainMenuImgC.style.display = "initial";  },200);
-            setTimeout(function () { clickToOpenProgressImgB.style.display = "none"; clickToOpenProgressImgC.style.display = "initial";  },100);
-            clickToFinanceImgB.style.display = "none"; clickToFinanceImgC.style.display = "initial";
-          },1240);
-        } // End of if
-        else {
-          enterFullscreenModeSound.play();
-          invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationSinkAndDisappear"); // See css_for_all_container_parent_htmls.css
-          invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationAppearFromBottom");
-          setTimeout(function () {    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);    },200); // animation duration is .4s inside css
-
-          // Reset the nav menu buttons back to initial
-          clickToGoToPreviousImgC.style.display = "none"; clickToGoToPreviousImgA.style.display = "initial";
-          clickToGoToMainMenuImgC.style.display = "none"; clickToGoToMainMenuImgA.style.display = "initial";
-          clickToOpenProgressImgC.style.display = "none"; clickToOpenProgressImgA.style.display = "initial";
-          clickToFinanceImgC.style.display = "none"; clickToFinanceImgA.style.display = "initial";
-
-          const resetWebpsViaSrcPB = clickToGoToPreviousImgB.src; clickToGoToPreviousImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToGoToPreviousImgB.src = resetWebpsViaSrcPB; },10);
-          const resetWebpsViaSrcPC = clickToGoToPreviousImgC.src; clickToGoToPreviousImgC.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToGoToPreviousImgC.src = resetWebpsViaSrcPC; },10);
-          const resetWebpsViaSrcMB = clickToGoToMainMenuImgB.src; clickToGoToMainMenuImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToGoToMainMenuImgB.src = resetWebpsViaSrcMB; },10);
-          const resetWebpsViaSrcMC = clickToGoToMainMenuImgC.src; clickToGoToMainMenuImgC.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToGoToMainMenuImgC.src = resetWebpsViaSrcMC; },10);
-          const resetWebpsViaSrcGB = clickToOpenProgressImgB.src; clickToOpenProgressImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToOpenProgressImgB.src = resetWebpsViaSrcGB; },10);
-          const resetWebpsViaSrcGC = clickToOpenProgressImgC.src; clickToOpenProgressImgC.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToOpenProgressImgC.src = resetWebpsViaSrcGC; },10);
-          const resetWebpsViaSrcFB = clickToFinanceImgB.src; clickToFinanceImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToFinanceImgB.src = resetWebpsViaSrcFB; },10);
-          const resetWebpsViaSrcFC = clickToFinanceImgC.src; clickToFinanceImgC.src = onePixelTransparentGifUsedLocallyHereInNavMenu; setTimeout(function(){ clickToFinanceImgC.src = resetWebpsViaSrcFC; },10);
-        } // End of else
-      },100); /*!!!*/ // End of setTimeout. Set to 100ms assuming that nobody would enter and then exit full screen within 100 milliseconds.
-    } // End of EVERY MOBILE DEVICE except iPhones
+    // Therefore no resize means no hiding of the nav menu through here on iPhones.
+    // So these will work only where changing to fullscreen triggers the 'resize' event.
+    window.removeEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);
+    // Use hasGoneFullscreen variable from js_for_handling_fullscreen_mode.js
+    // WARNING! “hasGoneFullscreen” has a boolean value that alternates every time “fullscreenchange” event fires.
+    // CAUTION! This may happen before or after “resize” event fires depending on the browser!
+    setTimeout(function () { /*!!!*/ // Try and see if 100ms delay will solve the opposite firing conflict between Chrome and Samsung Browser? Result: YES!
+      if (!hasGoneFullscreen) {
+        exitFullscreenModeSound.play();
+        makeTheNavMenuComeUpOnMobiles();
+        setTimeout(function () {    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);    },200); // animation duration is .4s inside css
+      } // End of if
+      else {
+        enterFullscreenModeSound.play();
+        setTimeout(function () {       makeTheNavMenuGoDownOnMobiles();      },3500);
+        setTimeout(function () {    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);    },200); // animation duration is .4s inside css
+      } // End of else
+    },100); /*!!!*/ // End of setTimeout. Set to 100ms assuming that nobody would enter and then exit full screen within 100 milliseconds.
 
   } // End of function hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen()
 
-  // SWIPE UP TO BRING THE NAV MENU
+  // SWIPE UP-DOWN TO SEE-HIDE THE NAV MENU
   function handleSwipeGesture() {
-    //alert("touch start&end is "+touchStartY+"-"+touchEndY);
-    if ((touchStartY-touchEndY)>75) {
-      alert("SWIPED UP");
+    if ((touchStartY-touchEndY)>55) {
+      // SWIPED UP
+      if (navMenuOnMobileHasBeenHiddenForTheFirstTime) {
+        makeTheNavMenuComeUpOnMobiles();
+      }
+    }
+    else if ((touchStartY-touchEndY)<-40) {
+      // SWIPED DOWN
+      makeTheNavMenuGoDownOnMobiles();
     }
   }
 
-  // NOTE: Consider adding listeners for touchstart events for mobile.
-  clickToGoToPreviousDiv.addEventListener("click", goToPreviousLessonFunction );
-  clickToGoToMainMenuDiv.addEventListener("click", goToMainMenuFunction );
-  clickToOpenProgressDiv.addEventListener("click", openProgressChartFunction );
-  clickToFinanceDiv.addEventListener("click", openFinancialMethodsPageFunction );
+  /*_________________________*/
+  clickToGoToPreviousDiv.addEventListener("touchstart", function () { clickToGoToPreviousImgA.style.display = "none"; clickToGoToPreviousImgD.style.display = "none"; clickToGoToPreviousImgC.style.display = "initial"; } );
+  clickToGoToMainMenuDiv.addEventListener("touchstart", function () { clickToGoToMainMenuImgA.style.display = "none"; clickToGoToMainMenuImgD.style.display = "none"; clickToGoToMainMenuImgC.style.display = "initial"; } );
+  clickToOpenProgressDiv.addEventListener("touchstart", function () { clickToOpenProgressImgA.style.display = "none"; clickToOpenProgressImgD.style.display = "none"; clickToOpenProgressImgC.style.display = "initial"; } );
+  clickToFinanceDiv.addEventListener("touchstart", function () { clickToFinanceImgA.style.display = "none"; clickToFinanceImgD.style.display = "none"; clickToFinanceImgC.style.display = "initial"; } );
 
-  // The task of unloading sounds and stopping annyang has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload
+  clickToGoToPreviousDiv.addEventListener("touchend", function () { clickToGoToPreviousImgC.style.display = "none"; clickToGoToPreviousImgD.style.display = "initial"; } );
+  clickToGoToMainMenuDiv.addEventListener("touchend", function () { clickToGoToMainMenuImgC.style.display = "none"; clickToGoToMainMenuImgD.style.display = "initial"; } );
+  clickToOpenProgressDiv.addEventListener("touchend", function () { clickToOpenProgressImgC.style.display = "none"; clickToOpenProgressImgD.style.display = "initial"; } );
+  clickToFinanceDiv.addEventListener("touchend", function () { clickToFinanceImgC.style.display = "none"; clickToFinanceImgD.style.display = "initial"; } );
+
+  clickToGoToPreviousDiv.addEventListener("click", function () { setTimeout(goToPreviousLessonFunction,30); }    );
+  clickToGoToMainMenuDiv.addEventListener("click", function () { setTimeout(goToMainMenuFunction,30); }          );
+  clickToOpenProgressDiv.addEventListener("click", function () { setTimeout(openProgressChartFunction,30); }     );
+  clickToFinanceDiv.addEventListener("click", function () { setTimeout(openFinancialMethodsPageFunction,30); }   );
+
+  // REMEMBER: The task of unloading sounds and stopping annyang has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload
 
   function goToPreviousLessonFunction() {
     navMenuClickSound.play();
-    /*
-    stopAnnyangAndStopHowler(); // This task has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload
-    iFrameScriptAccess.contentWindow.unloadTheSoundsOfThisLesson(); // This task has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload
-    iFrameScriptAccess.contentWindow.unloadTheImagesOfThisLesson(); // This task has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload
-    */
     // Use indexOfLessons object from js_object_of_all_lessons_listed.js
     // Get the frame title and find the lesson index
     let theTitleOfCurrentLesson = iFrameScriptAccess.contentWindow.document.title; // Use iFrameScriptAccess variable from js_for_all_container_parent_htmls.js
@@ -523,11 +512,6 @@ window.addEventListener("load",function() {
 
   function goToMainMenuFunction() {
     navMenuClickSound.play();
-    /*
-    stopAnnyangAndStopHowler(); // This task has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload
-    iFrameScriptAccess.contentWindow.unloadTheSoundsOfThisLesson(); // This task has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload
-    iFrameScriptAccess.contentWindow.unloadTheImagesOfThisLesson(); // This task has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload
-    */
     // Ask “Are you sure?” in all user interface languages via fetch()
     if (confirm(areYouSureTextInUILanguage)) {
       localStorage.removeItem("theLastCheckpointSavedInLocalStorage");
@@ -545,6 +529,7 @@ window.addEventListener("load",function() {
     navMenuClickSound.play();
     // CAUTION! Changing the location with href will trigger window.onbeforeunload
     // stopAnnyangAndStopHowler(); // When this button becomes functional in future, let this be handled by onbeforeunload function in js_for_all_iframed_lesson_htmls
+    // DO NOT USE: alert box causes a problem with sound on iPhones
     alert("This feature is not available yet.\nBu özellik henüz hazır değil.\nこのボタンの機能は準備中です。");
   }
 

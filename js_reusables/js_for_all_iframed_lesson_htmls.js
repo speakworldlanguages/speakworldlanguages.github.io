@@ -32,6 +32,7 @@ function createAndHandleNotificationBox() {
   putNotificationTxtIntoThisP = document.createElement("P");
   notificationBoxItself.appendChild(putNotificationTxtIntoThisP);
   okButtonToCloseTheNotification = document.createElement("DIV");
+  okButtonToCloseTheNotification.innerHTML = "&#10004;"; // Default content of the OK box
   okButtonToCloseTheNotification.classList.add("okButtonUnderNotification"); // See css_for_all_iframed_lesson_htmls
   if (needLatinFonts) {
     okButtonToCloseTheNotification.style.fontFamily = '"Oxanium SemiBold", sans-serif';

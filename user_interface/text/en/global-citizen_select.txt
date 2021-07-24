@@ -1,2 +1,0 @@
-Select the transaction handling 
-service you want to use
