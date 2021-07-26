@@ -3,14 +3,24 @@
 var hasGoneFullscreen = false;
 // Go fullscreen by touching anywhere on the screen.
 window.addEventListener("load",function() {
-  var iframe = document.getElementById('theIdOfTheIframe'); // Actually the exact same thing was defined with const iFrameScriptAccess in js_for_all_container_parent_htmls.js
+  const iframe = document.getElementById('theIdOfTheIframe'); // Actually the exact same thing was defined with const iFrameScriptAccess in js_for_all_container_parent_htmls.js
+  const iDoc = iframe.contentWindow || iframe.contentDocument;
 
-  // GO FULLSCREEN ON MOBILE AS SOON AS THE USER SELECTS WHICH LANGUAGE HE/SHE WANTS TO LEARN
-  // AND RETURN TO FULLSCREEN WITH THE FIRST TOUCH IF USER NAVIGATES AWAY FROM THE APP AND COMES BACK
+  // HOW TO GO AND STAY IN FULLSCREEN ON MOBILES
+  function handleTouchForFullscreen() {
+    if (!hasGoneFullscreen){  openFullscreen();  } // This works but it sometimes gives an error. Not exactly sure why. Maybe it's because of the alert box that shows after the ON/OFF button of the device is pressed.
+  }
+  function iframeHasBeenLoaded() {
+    iDoc.document.addEventListener("touchstart", handleTouchForFullscreen); // Tried to removeEventListener with 'unload' but neither 'unload' nor 'hashchange' fires on the iframe.
+  }
+  // See js_for_all_container_parent_htmls to find how openFullscreen() is called.
+  // openFullscreen() is called via handleGoingFullscreenOnMobiles() when either of these two things happen,
+  // 1- when user taps on a button in the main menu (language selection menu) 2- when user taps the "return to the last saved point" button
+  // But ALSO must RETURN TO FULLSCREEN WITH THE FIRST TOUCH if user navigates away from the app and comes back and THE REASON is
+  // BECAUSE most browsers won't allow going fullscreen without a user gesture... That means calling openFullscreen() with Onblur Onfocus or document.visibilitychange won't work.
+  // So here is how we do it...
   if (deviceDetector.isMobile) {
-    // With every click/touch/tap, will try to go fullscreen unless it is not fullscreen already.
-    // document.addEventListener("touchstart",openFullscreen); // We don't need this, do we?
-    // iframe.onload = function() {    iframe.contentWindow.addEventListener("touchstart", function () {   if (!hasGoneFullscreen) {  openFullscreen();  }   });    };
+    iframe.addEventListener("load",iframeHasBeenLoaded); // We cannot directly add an event listener for touchstart/mousedown on the iframe without this.
   }
   // THE RIGHT CLICK METHOD ON DESKTOPS
   else {
@@ -32,7 +42,7 @@ window.addEventListener("load",function() {
         iframe.contentWindow.document.addEventListener('mousedown', coordinatesF);
         iframe.contentWindow.onkeyup = function(e) {  if ( e.keyCode === 27 ) {    toggleRightClickMenuOff();   }  }; // When the “Esc”ape key is hit
         iframe.contentWindow.addEventListener('mousedown', toggleRightClickMenuOff);
-        iframe.contentWindow.addEventListener('dblclick', toggleFullScreen);
+        iframe.contentWindow.addEventListener('dblclick', toggleFullScreen); // NOTE: dblclick means either left double-click or right double-click
       }
 
     }; // This line is the end of iframe.onload = function(){}; for DESKTOPS

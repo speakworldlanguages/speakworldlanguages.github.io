@@ -57,6 +57,7 @@ if (localStorage.theLastCheckpointSavedInLocalStorage) { // See if a previously 
       addHomeButtonToTheNavigationMenu();
       addGoBackToPreviousButtonToTheNavigationMenu();
     }
+    handleGoingFullscreenOnMobiles();
   }
 } else {
   // First time users will proceed via openFirstLesson()
@@ -158,18 +159,7 @@ function openFirstLesson() {
       annyang.setLanguage(theLanguageUserIsLearningNow); // Firefox v60's and v70's won't let buttons function unless this is wrapped in an if (annyang){} like this.
   }
 
-  // Try to go fullscreen on mobile devices. Note that this won't work on iPhones!
-  if (deviceDetector.isMobile) {
-    // Going fullscreen on mobiles will make the nav menu sink down and disappear
-    // See js_for_the_sliding_navigation_menu -> resize event triggers hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen()
-    openFullscreen(); // See js_for_handling_fullscreen_mode
-    // WARNING: iPhone's Safari won't allow fullscreen! caniuse.com says it is allowed on iPads but wasn't able to test it as of July 2021.
-    // So manually do the first sinking of the nav menu like this.
-    if (deviceDetector.device == "phone" && detectedOS.name == "iOS") {
-      // Just hide the nav menu (without being able to go fullscreen)
-      setTimeout(function () {      makeTheNavMenuGoDownOnMobiles();      },3500); // See js_for_the_sliding_navigation_menu
-    }
-  }
+  handleGoingFullscreenOnMobiles();
 
   setTimeout(function() {
     // Hide the welcome screen ( <<choose the language you want to learn>> screen's menu-div)
@@ -177,6 +167,21 @@ function openFirstLesson() {
     // Display the first lesson
     iFrameScriptAccess.src = "lessons_in_iframes/level_1/unit_1/lesson_1/index.html";
   },50); // Unnoticable tiny delay
+}
+
+function handleGoingFullscreenOnMobiles() {
+  // Try to go fullscreen on mobile devices. Note that this won't work on iPhones!
+  if (deviceDetector.isMobile) {
+    // Going fullscreen on mobiles will make the nav menu sink down and disappear because
+    // as you can find in js_for_the_sliding_navigation_menu.js -> the resize event triggers hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen()
+    openFullscreen(); // See js_for_handling_fullscreen_mode.js
+    // WARNING: iPhone's Safari won't allow fullscreen! caniuse.com says it is allowed on iPads but wasn't able to test it as of July 2021.
+    // So since resize doesn't happen on iPhones we must manually do the first sinking of the nav menu like this.
+    if (deviceDetector.device == "phone" && detectedOS.name == "iOS") {
+      // Just hide the nav menu since we are unable to go fullscreen
+      setTimeout(function () {      makeTheNavMenuGoDownOnMobiles();      },3500); // See js_for_the_sliding_navigation_menu
+    }
+  } // END OF Try to go fullscreen on mobile ...
 }
 
 // Dynamic titles are cool!

@@ -115,7 +115,8 @@ function loadingIsCompleteFunction()
     fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
     });
-  } else if (parent.theLanguageUserIsLearningNow == "zh") { // Display the warning about intonations to users who want to learn the Ren language.
+  }
+  else if (parent.theLanguageUserIsLearningNow == "zh") { // Display the warning about intonations to users who want to learn the Ren language.
     const pathOfNotificationAboutRenIntonation = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-1-1_ren_intonation.txt";
     fetch(pathOfNotificationAboutRenIntonation,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       // Display notification instead of alert(contentOfTheTxtFile);
@@ -129,7 +130,23 @@ function loadingIsCompleteFunction()
     fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
     });
-  } else {
+  }
+  else if (parent.theLanguageUserIsLearningNow == "ar") { // Display the warning about TANWEEN to users who want to learn the Standard Arabic.
+    const pathOfNotificationAboutTanween = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-1-1_arabic_tanween.txt";
+    fetch(pathOfNotificationAboutTanween,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      // Display notification instead of alert(contentOfTheTxtFile);
+      createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  }
+  else {
     startTheLesson(); // PERHAPS: It would be better to use async await in js_for_all_iframed_lesson_htmls
   }
 }

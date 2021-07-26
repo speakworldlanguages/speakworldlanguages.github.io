@@ -7,8 +7,8 @@ body{ /*Also see css_for_every_single_html.css*/
 
 iframe{
   border: none;
-  width: 100%;
-  height: 100%;
+  width: 100%; /*  100vw is OK  */
+  height: 100%; /*  100vh is NOT OK because on mobiles 100vh means all screen height with the adress bar so it works only when the view is in fullscreen  */
   position: fixed;
   top: 0;        left: 0;        /*bottom:0;        right:0;*/
 }
