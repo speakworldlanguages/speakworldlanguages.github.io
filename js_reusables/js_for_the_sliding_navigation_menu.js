@@ -529,14 +529,17 @@ window.addEventListener("load",function() {
     navMenuClickSound.play();
     // CAUTION! Changing the location with href will trigger window.onbeforeunload
     // stopAnnyangAndStopHowler(); // When this button becomes functional in future, let this be handled by onbeforeunload function in js_for_all_iframed_lesson_htmls
-    // DO NOT USE: alert box causes a problem with sound on iPhones
-    alert("This feature is not available yet.\nBu özellik henüz hazır değil.\nこのボタンの機能は準備中です。");
+    // DO NOT USE: alert box causes a problem with sound on iPhones; it first mutes and then unmutes the sound and keeps toggling.
+    let temporaryNotification = "This feature is not available yet.\nBu özellik henüz hazır değil.\nこのボタンの機能はまだです。\n";
+    let additionForiOSusers = "To unlock sound on iPhone&iPad you must touch the button one more time every other time.\niPhone ve iPad kullanıcısı; sesi geri açmak için düğmeye ikinci kez dokun.";
+    if(detectedOS.name == "iOS" && deviceDetector.isMobile) {temporaryNotification = temporaryNotification + additionForiOSusers;}
+    alert(temporaryNotification);
   }
 
   function openFinancialMethodsPageFunction() {
     navMenuClickSound.play();
     // stopAnnyangAndStopHowler(); // use contentWindow because the function has been moved to js_for_all_iframed_lesson_htmls.js
-    window.open("information","_blank");
+    window.open("information","_blank"); // Will onbeforeunload fire if the link opens in a new tab?
   }
 
 },{ once: true });

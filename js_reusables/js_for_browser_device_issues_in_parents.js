@@ -109,7 +109,8 @@ window.addEventListener('DOMContentLoaded', function(){
           {
             if (document.hidden) {
                 // console.log("hidden means user is gone");
-                // Handle audio
+                // Handle audio.
+                // COULD: get the global volume and try to fade it out and then back in BUT the following 1by1 method just feels neater. There aren't too many audio files running at a time anyways.
                 Howler._howls.forEach(function(nextAudioToFadeToSilence) {         nextAudioToFadeToSilence.fade(1, 0, 1200);         });
                 // Handle microphone
                 if (annyang) {
@@ -117,6 +118,8 @@ window.addEventListener('DOMContentLoaded', function(){
                   annyang.abort(); // without this annyang.start() won't function.
                 }
                 alert(continueAfterPauseMsgFromTxtFileInUILanguage); // Try to make the app pause when On/Off button of the phone/tablet is pressed, but do not block annyang restart.
+                // MUST: notify iPhone (and maybe iPad users too) about the muting and unmuting effect of alert boxes.
+                // OR: to go back to normal, can we pop just another alert box if (iOS && phone) is true?
             } else {
                 // console.log("visible means user is back");
                 // Handle audio
