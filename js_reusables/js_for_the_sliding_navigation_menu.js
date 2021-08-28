@@ -1,5 +1,3 @@
-var exitFullscreenModeSound = new Howl({  src: ['user_interface/sounds/user_goes_away.mp3']  }); // MOBILE ONLY!
-var enterFullscreenModeSound = new Howl({  src: ['user_interface/sounds/user_returns.mp3']  }); // MOBILE ONLY!
 // NOTE: Do not use “const” for things that need to be accessible from elsewhere. Only use “var” for such variables.
 // The buttons have 4 (webp img) states : A, B, C and D. If we use one variable and only change the src it works but it is very glitchy.
 // Therefore we have to use four variables for each webp and change the css rule “display block none” instead of changing the src.
@@ -112,8 +110,8 @@ function removeGoBackToPreviousButtonFromTheNavigationMenu() {
 }
 
 // Sliding navigation menu button UI sounds
-const navMenuHoverSound = new Howl({  src: ['user_interface/sounds/navigation_menu_hover.mp3']  }); // DESKTOP ONLY. Put it here to make it global.
-const navMenuClickSound = new Howl({  src: ['user_interface/sounds/navigation_menu_click.mp3']  });
+const navMenuHoverSound = new Howl({  src: ['user_interface/sounds/ceramic_button_hover.mp3']  }); // DESKTOP ONLY. Put it here to make it global.
+const navMenuClickSound = new Howl({  src: ['user_interface/sounds/ceramic_button_click.mp3']  });
 
 var speedAdjustmentDiv = document.createElement("DIV"); // ONLY FOR DESKTOPS
 speedAdjustmentDiv.classList.add("sliderContainerDivsWillLook");
@@ -153,11 +151,19 @@ function makeTheNavMenuGoDownOnMobiles() {
   invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationSinkAndDisappear"); // See css_for_sliding_navigation_menu.css
   invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationAppearFromBottom");
   navMenuOnMobileHasBeenHiddenForTheFirstTime = true;
+  if (true) {
+    // Audio
+    deactivationSound1.play();
+  }
 }
 
 function makeTheNavMenuComeUpOnMobiles() {
   invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationAppearFromBottom"); // See css_for_sliding_navigation_menu.css
   invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationSinkAndDisappear");
+  if (true) {
+    // Audio
+    activationSound1.play();
+  }
 }
 
 window.addEventListener("load",function() {
@@ -285,7 +291,7 @@ window.addEventListener("load",function() {
 
   } // End of IF-ELSE -> END OF WHAT TO DO ON desktops
 
-  // ---------- Desktop-only functions ----------
+  // ---------- Declaration of desktop-only functions ----------
 
   /*__HANDLE GO TO PREVIOUS LESSON - BACKWARDS BUTTON__*/
   let preventMistakeForPreviousButton;
@@ -433,7 +439,7 @@ window.addEventListener("load",function() {
     containerDivOfTheNavigationMenu.classList.remove("addOrRemoveThisToMakeTheNavMenuAppearDisappear");
   }
 
-  // ---------- Mobile functions ----------
+  // ---------- Declaration of mobile functions ----------
   // GO FULLSCREEN TO HIDE THE NAV MENU - EXIT TO REVEAL
   function hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen() {
     // Safari on iPhone doesn't allow fullscreen! (iOS 14.7 July 2021)
@@ -445,13 +451,13 @@ window.addEventListener("load",function() {
     // CAUTION! This may happen before or after “resize” event fires depending on the browser!
     setTimeout(function () { /*!!!*/ // Try and see if 100ms delay will solve the opposite firing conflict between Chrome and Samsung Browser? Result: YES!
       if (!hasGoneFullscreen) {
-        exitFullscreenModeSound.play();
-        makeTheNavMenuComeUpOnMobiles();
+        deactivationSound2.play();
+        setTimeout(function () {    makeTheNavMenuComeUpOnMobiles();    },500);
         setTimeout(function () {    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);    },200); // animation duration is .4s inside css
       } // End of if
       else {
-        enterFullscreenModeSound.play();
-        setTimeout(function () {       makeTheNavMenuGoDownOnMobiles();      },3500);
+        activationSound2.play();
+        setTimeout(function () {    makeTheNavMenuGoDownOnMobiles();    },2500);
         setTimeout(function () {    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);    },200); // animation duration is .4s inside css
       } // End of else
     },100); /*!!!*/ // End of setTimeout. Set to 100ms assuming that nobody would enter and then exit full screen within 100 milliseconds.
@@ -492,18 +498,29 @@ window.addEventListener("load",function() {
 
   function goToPreviousLessonFunction() {
     navMenuClickSound.play();
-    // Use indexOfLessons object from js_object_of_all_lessons_listed.js
-    // Get the frame title and find the lesson index
-    let theTitleOfCurrentLesson = iFrameScriptAccess.contentWindow.document.title; // Use iFrameScriptAccess variable from js_for_all_container_parent_htmls.js
-    let theIndexOfCurrentLesson;
-    // Maybe “switch case” or “while” with breaks would be better instead of “for” but anyways...
-    for(i=0;i<indexOfLessons.title.length;i++)
-    { if (indexOfLessons.title[i] === theTitleOfCurrentLesson ){
-        theIndexOfCurrentLesson = i;
+    // After about 8 seconds the button must turn into a REFRESH button.
+    // But it must go to the previous place if right now is the beginning of the lesson.
+    if (iFrameScriptAccess.contentWindow.thisLessonHasBeenLoadedFresh) { // See js_for_all_iframed...
+      // Use indexOfLessons object from js_object_of_all_lessons_listed.js
+      // Get the frame title and find the lesson index
+      let theTitleOfCurrentLesson = iFrameScriptAccess.contentWindow.document.title; // Use iFrameScriptAccess variable from js_for_all_container_parent_htmls.js
+      let theIndexOfCurrentLesson;
+      // Maybe “switch case” or “while” with breaks would be better instead of “for” but anyways...
+      for(i=0;i<indexOfLessons.title.length;i++)
+      { if (indexOfLessons.title[i] === theTitleOfCurrentLesson ){
+          theIndexOfCurrentLesson = i;
+        }
       }
+      // Reveal the preloader screen cover
+      preloadHandlingDiv.classList.remove("addThisClassToHideIt"); // See css_for_every_single_html
+      preloadHandlingDiv.classList.add("addThisClassToRevealIt"); // See css_for_every_single_html
+      // Go to the previous lesson as soon as the cover is ready
+      setTimeout(function() {
+        iFrameScriptAccess.src = indexOfLessons.path[theIndexOfCurrentLesson-1];
+      },1500);
+    } else {
+      iFrameScriptAccess.contentWindow.location.reload(); // Refresh
     }
-    // Go to the previous lesson
-    iFrameScriptAccess.src = indexOfLessons.path[theIndexOfCurrentLesson-1];
   }
 
   let areYouSureTextInUILanguage = "Go to start?"; // Override this default by getting this from txt file
@@ -539,7 +556,7 @@ window.addEventListener("load",function() {
   function openFinancialMethodsPageFunction() {
     navMenuClickSound.play();
     // stopAnnyangAndStopHowler(); // use contentWindow because the function has been moved to js_for_all_iframed_lesson_htmls.js
-    window.open("information","_blank"); // Will onbeforeunload fire if the link opens in a new tab?
+    window.open("information","_blank"); // Does this make onbeforeunload fire if the link opens in a new tab???
   }
 
 },{ once: true });

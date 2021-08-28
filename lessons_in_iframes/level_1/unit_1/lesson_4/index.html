@@ -12,33 +12,19 @@
     <link rel="stylesheet" href="../../../../css_reusables/css_for_all_iframed_lesson_htmls.css">
     <link rel="stylesheet" href="../../../../css_reusables/css_for_lessons_with_interactables.css">
 
-    <script src="../../../../js_reusables/js_for_preload_handling_of_all_htmls.js">/*Pieces of code that build up our app*/</script>
     <script defer src="../../../../js_reusables/js_for_every_single_html.js">/*Pieces of code that build up our app*/</script>
     <script defer src="../../../../js_reusables/js_for_all_iframed_lesson_htmls.js">/*Pieces of code that build up our app*/</script>
     <script defer src="../../../../js_reusables/js_for_handling_reveal_help_button.js">/*Pieces of code that build up our app*/</script>
     <script defer src="../../../../js_reusables/js_for_fetch_api_character_encoding.js">/*Pieces of code that build up our app*/</script>
     <script defer src="take_the_bread.js">/*Progress handling for this lesson*/</script>
-    <style>
-      .addThisToFadeOut{ animation-name: fadeOut; animation-duration: 2s; animation-fill-mode: forwards; }
-      @keyframes fadeOut {
-        0%{opacity:1;}
-        100%{opacity:0;}
-      }
-    </style>
+
   </head>
 
   <body>
-    <!-- PRELOADER -->
-    <div id="idOfThePreloadHandlingDiv" style="position: fixed; top:0; left:0; bottom:0; right:0; background-color: white; display: flex; justify-content: center; align-items: center; z-index: 99;">
-      <!-- The content of this div is added via script. See js_for_preload_handling_of_all_htmls.js -->
-      <!-- The style is better left inline as a safe measure against slow network etc. See css_for_every_single_html.css -->
-    </div>
-    <!-- END OF PRELOADER -->
-
     <!-- MAIN -->
     <main> <!-- See css_for_all_iframed_lesson_htmls.css -->
 
-      <div class="typeOfDivThatContainsInteractables" id="thisTimeUseFadeOutInsteadOfPostLoader"> <!-- See css_for_lessons_with_interactables.css -->
+      <div class="typeOfDivThatContainsInteractables"> <!-- See css_for_lessons_with_interactables.css -->
         <div class="controlTheAbsoluteDivWithinThisRelativeDiv"> <!-- See css_for_lessons_with_interactables.css -->
           <img src="take_the_bread_state_a.webp" id="imageA">
           <img src="take_the_bread_state_b.webp" style="display:none;" id="imageB">
@@ -51,7 +37,5 @@
 
     </main>
     <!-- END OF MAIN -->
-
-    <!-- NO POSTLOADER HERE: Because “notice_0” comes after this lesson -->
   </body>
 </html>

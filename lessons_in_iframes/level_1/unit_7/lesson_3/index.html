@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- Temporary placeholder -->
+    <!-- Temporary placeholder. User will be forwarded from here to the goodbye screen. -->
     <title>1-6-3</title>
 
     <script>    localStorage.theLastCheckpointSavedInLocalStorage = self.location.href; /*Save checkpoint*/
@@ -19,10 +19,9 @@
     <script defer src="../../../../js_reusables/js_for_fetch_api_character_encoding.js">/*Display non-english characters correctly*/</script>
 
     <script>
-      window.addEventListener('DOMContentLoaded', function(){
-
-      }, { once: true });
+      // window.addEventListener('DOMContentLoaded', function(){      }, { once: true });
       // UPDATE: It's now OK if the following two functions are not defined here. See js_for_all_iframed_lesson_htmls typeof conditionals
+      // UPDATE 2: That may have changed. Must check!
       // function unloadTheSoundsOfThisLesson() {   /*Do nothing*/   } // This has to exist here otherwise nav buttons won't function
       // function unloadTheImagesOfThisLesson() {   /*Do nothing*/   } // This has to exist here otherwise nav buttons won't function
     </script>

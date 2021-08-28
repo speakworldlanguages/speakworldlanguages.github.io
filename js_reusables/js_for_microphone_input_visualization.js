@@ -11,7 +11,7 @@ var wavesurfer;
 
 if (parent.deviceDetector.device=="desktop") {
   document.body.appendChild(waveformContainerDiv);
-  wavesurfer = WaveSurfer.create({container:'#waveform',waveColor:'white',interact:false,cursorWidth:0,height:'100',barHeight:'6', plugins:[WaveSurfer.microphone.create()]});
+  wavesurfer = WaveSurfer.create({container:'#waveform',waveColor:'white',barWidth:'3',barGap:'3',barHeight:'3',interact:false,cursorWidth:0,height:'100', plugins:[WaveSurfer.microphone.create()]});
 }
 
 /* ______ Functions to start-stop ______ */
@@ -26,7 +26,7 @@ function startAudioInputVisualization() {
       wavesurfer.microphone.bufferSize = 8192; // Reduce quality if there is only 1 logical processor core available.
     }
     else {
-      // Let defaults be.
+      // Let defaults be if A- User's browser doesn't support hardwareConcurrency B- User's machine has 2 or 3 cores
     }
     // Start and fade in.
     wavesurfer.microphone.start();

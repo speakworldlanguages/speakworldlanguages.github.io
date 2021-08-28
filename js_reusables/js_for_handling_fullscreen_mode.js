@@ -1,5 +1,8 @@
 // This is included in parent htmls only. Not in lesson htmls.
 // Even though this is deferred, looks like we still need to wait for the load event before we call a function from another js file.
+var deactivationSound1 = new Howl({  src: ['user_interface/sounds/thingy_one_deactivate.mp3']  }); // Desktops: FULLSCREEN,,, Mobiles: NAVIGATION MENU
+var activationSound1 = new Howl({  src: ['user_interface/sounds/thingy_one_activate.mp3']  }); // Desktops: FULLSCREEN,,, Mobiles: NAVIGATION MENU
+
 var hasGoneFullscreen = false;
 // Go fullscreen by touching anywhere on the screen.
 window.addEventListener("load",function() {
@@ -101,6 +104,7 @@ function toggleRightClickMenuOff() {
 var theWholeDocument = document.documentElement;
 /* Function to open fullscreen mode */
 function openFullscreen() {
+  /* There is a weird thing on Android as fullscreen permission is not granted before the second touch event. It still work though. */
   if (theWholeDocument.requestFullscreen) {
     theWholeDocument.requestFullscreen();
   } else if (theWholeDocument.mozRequestFullScreen) { /* Firefox */
@@ -110,6 +114,13 @@ function openFullscreen() {
   } else if (theWholeDocument.msRequestFullscreen) { /* IE/Edge */
     theWholeDocument = window.top.document.body; //To break out of frame in IE
     theWholeDocument.msRequestFullscreen();
+  }
+  /*Handle audio on mobile with RESIZE*/ // See js_for_the_sliding_navigation_menu.js
+  if (deviceDetector.device=="desktop") {
+    activationSound1.play();
+  } else {
+    // Handle audio according to the "weird two touches problem"
+    // Create a new thingy_two_before_activate.mp3 with fixed tone.
   }
 }
 
@@ -123,6 +134,10 @@ function closeFullscreen() {
     document.webkitExitFullscreen();
   } else if (document.msExitFullscreen) {
     window.top.document.msExitFullscreen();
+  }
+  /*Handle audio on mobile with RESIZE*/ // See js_for_the_sliding_navigation_menu.js
+  if (deviceDetector.device=="desktop") {
+    deactivationSound1.play(); // Actually: This wouldn't play on mobiles even if wasn't inside an "if-desktop" since on mobiles exiting fullscreen happens without closeFullscreen().
   }
 }
 

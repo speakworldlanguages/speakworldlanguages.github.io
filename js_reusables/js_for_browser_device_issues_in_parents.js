@@ -1,6 +1,9 @@
 var isTheUsersBrowserWhitelisted = false;
 var detectedBrowser;
 var detectedOS;
+var deactivationSound2 = new Howl({  src: ['user_interface/sounds/thingy_two_deactivate.mp3']  }); // Mobiles: FULLSCREEN,,, Desktops: CHANGE BROWSER TAB
+var activationSound2 = new Howl({  src: ['user_interface/sounds/thingy_two_activate.mp3']  }); // Mobiles: FULLSCREEN,,, Desktops: CHANGE BROWSER TAB
+
 window.addEventListener('DOMContentLoaded', function(){
 
   var parser = new UAParser();
@@ -93,9 +96,8 @@ window.addEventListener('DOMContentLoaded', function(){
 
   /*________________________________________*/
   // Handle lesson PAUSE with visibility change on mobile devices for return after tab navigation or when on/off button is pressed etc.
-  // Use “var” (not “const”) for things that has to be accessible from elsewhere.
-  var userGoesAway = new Howl({  src: ['user_interface/sounds/user_goes_away.mp3']  }); // DESKTOP ONLY!
-  var userReturns = new Howl({  src: ['user_interface/sounds/user_returns.mp3']  }); // DESKTOP ONLY!
+  // Use “var” (not “const”) for things that need to be accessible from elsewhere.
+
   let continueAfterPauseMsgFromTxtFileInUILanguage = "Continue?"; // Get the actual text from txt file and use it instead of this default.
   const filePathForTheContinueLessonText = "user_interface/text/"+userInterfaceLanguage+"/0-continue_after_pause.txt";
   fetch(filePathForTheContinueLessonText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ continueAfterPauseMsgFromTxtFileInUILanguage = contentOfTheTxtFile; });// See js_for_fetch_api_character_encoding.js for the headers thingy.
@@ -106,38 +108,38 @@ window.addEventListener('DOMContentLoaded', function(){
     let wasListeningJustBeforeUserLeft = false;
     document.addEventListener("visibilitychange", handleVisibilityChangeOnMobilesFunction);
     function handleVisibilityChangeOnMobilesFunction()
-          {
-            if (document.hidden) {
-                // console.log("hidden means user is gone");
-                // Handle audio.
-                // COULD: get the global volume and try to fade it out and then back in BUT the following 1by1 method just feels neater. There aren't too many audio files running at a time anyways.
-                Howler._howls.forEach(function(nextAudioToFadeToSilence) {         nextAudioToFadeToSilence.fade(1, 0, 1200);         });
-                // Handle microphone
-                if (annyang) {
-                  wasListeningJustBeforeUserLeft = annyang.isListening();
-                  annyang.abort(); // without this annyang.start() won't function.
-                }
-                alert(continueAfterPauseMsgFromTxtFileInUILanguage); // Try to make the app pause when On/Off button of the phone/tablet is pressed, but do not block annyang restart.
-                // MUST: notify iPhone (and maybe iPad users too) about the muting and unmuting effect of alert boxes.
-                // OR: to go back to normal, can we pop just another alert box if (iOS && phone) is true?
-            } else {
-                // console.log("visible means user is back");
-                // Handle audio
-                Howler._howls.forEach(function(nextAudioToFadeBackFromSilence) {         nextAudioToFadeBackFromSilence.fade(0, 1, 1200);         });
-                // Handle microphone
-                //MUST restart annyang if was listening!
-                if (wasListeningJustBeforeUserLeft) {
-                  setTimeout(function() {          if (annyang){ annyang.start(); }              },1000);
-                }
-                // On mobiles, we want to go back to fullscreen because the alert box has made the browser exit fullscreen
-                // Unfortunately requestFullscreen gets blocked because Chrome does not count an alert box click as a valid user gesture
-                // See https://stackoverflow.com/questions/66242084/chrome-does-not-count-closing-an-alert-box-as-a-valid-user-gesture-therefore-unl
-                // if (deviceDetector.isMobile){
-                //   setTimeout(function () {  openFullscreen();  },100);
-                // }
-            }
+    {
+      if (document.hidden) {
+          // console.log("hidden means user is gone");
+          // Handle audio.
+          // COULD: get the global volume and try to fade it out and then back in BUT the following 1by1 method just feels neater. There aren't too many audio files running at a time anyways.
+          Howler._howls.forEach(function(nextAudioToFadeToSilence) {         nextAudioToFadeToSilence.fade(1, 0, 1200);         });
+          // Handle microphone
+          if (annyang) {
+            wasListeningJustBeforeUserLeft = annyang.isListening();
+            annyang.abort(); // without this annyang.start() won't function.
           }
-      // Maybe could use window blur focus && iframe blur focus to handle userGoesAway.play(); userReturns.play(); OR MAYBE should find another solution.
+          alert(continueAfterPauseMsgFromTxtFileInUILanguage); // Try to make the app pause when On/Off button of the phone/tablet is pressed, but do not block annyang restart.
+          // MUST: notify iPhone (and maybe iPad users too) about the muting and unmuting effect of alert boxes.
+          // OR: to go back to normal, can we pop just another alert box if (iOS && phone) is true?
+      } else {
+          // console.log("visible means user is back");
+          // Handle audio
+          Howler._howls.forEach(function(nextAudioToFadeBackFromSilence) {         nextAudioToFadeBackFromSilence.fade(0, 1, 1200);         });
+          // Handle microphone
+          // MUST restart annyang if was listening!
+          if (wasListeningJustBeforeUserLeft) {
+            setTimeout(function() {          if (annyang){ annyang.start(); }           },1000);
+          }
+          // On mobiles, we want to go back to fullscreen because the alert box has made the browser exit fullscreen
+          // Unfortunately requestFullscreen gets blocked because Chrome does not count an alert box click as a valid user gesture
+          // See https://stackoverflow.com/questions/66242084/chrome-does-not-count-closing-an-alert-box-as-a-valid-user-gesture-therefore-unl
+          // if (deviceDetector.isMobile){ // CANNOT USE
+          //   setTimeout(function () {  openFullscreen();  },100); // CANNOT USE
+          // } // CANNOT USE
+      }
+    }
+    // Using window blur focus to handle sounds DOES NOT WORK... Double-fires, misfires etc... No easy solution.
   }
   else {
     // ON DESKTOPS
@@ -146,12 +148,10 @@ window.addEventListener('DOMContentLoaded', function(){
           {
             if (document.hidden) {
                 // console.log("hidden means user is gone");
-                // Handle audio at will
-                userGoesAway.play();
+                deactivationSound2.play();
             } else {
                 // console.log("visible means user is back");
-                // Handle audio at will
-                userReturns.play();
+                activationSound2.play();
             }
           }
   }

@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="../../../../css_reusables/css_for_all_iframed_lesson_htmls.css">
     <link rel="stylesheet" href="../../../../css_reusables/css_for_lessons_with_interactables.css">
 
-    <script src="../../../../js_reusables/js_for_preload_handling_of_all_htmls.js">/*Pieces of code that build up our app*/</script>
     <script defer src="../../../../js_reusables/js_for_every_single_html.js">/*Pieces of code that build up our app*/</script>
     <script defer src="../../../../js_reusables/js_for_all_iframed_lesson_htmls.js">/*Pieces of code that build up our app*/</script>
     <script defer src="../../../../js_reusables/js_for_handling_reveal_help_button.js">/*Pieces of code that build up our app*/</script>
@@ -22,13 +21,6 @@
   </head>
 
   <body>
-    <!-- PRELOADER -->
-    <div id="idOfThePreloadHandlingDiv" style="position: fixed; top:0; left:0; bottom:0; right:0; background-color: white; display: flex; justify-content: center; align-items: center; z-index: 99;">
-      <!-- The content of this div is added via script. See js_for_preload_handling_of_all_htmls.js -->
-      <!-- The style is better left inline as a safe measure against slow network etc. See css_for_every_single_html.css -->
-    </div>
-    <!-- END OF PRELOADER -->
-
     <!-- MAIN -->
     <div class="changeFlexPositionPortraitLandscapeAndBackgroundColorToo">
       <!-- Total size of image files is 4.9 MB width 1920px width. Consider using navigator network speed detection and low res versions for slow connections -->
@@ -45,12 +37,5 @@
       <img id="changeTheSrcOfThisIMG" src="start_looking_for_the_sun_btn_img.webp" alt="" style="width:115px;">
     </div>
     <!-- END OF MAIN -->
-
-    <!-- POSTLOADER --> <!-- See css_for_lessons_with_interactables.css -->
-    <div id="idOfTheWhiteCoverDivBeforeExitAtTheEndOfLesson" class="postloaderInInteractablesStartHidden" style="position: fixed; top:0; bottom:0; left:0; right:0; background-color: white; display: flex; justify-content: center; align-items: center; z-index: 80;">
-      <!-- Snapshot of rotating_globe_100x150 -->
-      <img id="theGlobeInsideTheWhiteOutroID" class="postloaderInInteractablesStartHidden" src="../../../../user_interface/images/rotating_globe_100x150.webp" alt="" style="width:100px;height:150px;">
-    </div>
-    <!-- END OF POSTLOADER -->
   </body>
 </html>

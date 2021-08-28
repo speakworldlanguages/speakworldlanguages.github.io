@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head> <!-- Default landing page -->
-    <script src="js_reusables/js_for_preload_handling_of_all_htmls.js">/* INCLUSION PRIORITIZED: Another piece of code, building our app */</script>
+
     <script> var thisIsTheParentWhichContainsAllIFramedLessons = "yes"; </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.1, minimum-scale=1.0"> <!-- For mobile device screens to display things properly -->
     <title>Speak World Languages - Learn Japanese | Chinese | Turkish | Arabic</title>
-    <meta name="description" content="Can it get easier than this for beginners? Try Manheart Earthman's app and see for yourself!">
+    <meta name="description" content="Listen, learn and speak into your device microphone to make things happen!">
     <meta name="author" content="Manheart Earthman">
 
     <link rel="alternate" hreflang="ja" href="https://hanaserutoiidesuy.one">
     <!-- <link rel="alternate" hreflang="ko" href="https://???"> -->
     <!-- <link rel="alternate" hreflang="zh" href="https://???"> -->
     <!-- <link rel="alternate" hreflang="ms" href="https://???"> -->
-    <!-- <link rel="alternate" hreflang="tr" href="https://birdildahaogreneyim"> -->
+    <link rel="alternate" hreflang="tr" href="https://speakworldlanguages.app/tr.html"> <!-- birdildahaogreneyim -->
     <!-- <link rel="alternate" hreflang="ar" href="https://???"> -->
     <link rel="alternate" hreflang="en" href="https://speakworldlanguages.app">
 
@@ -30,6 +30,7 @@
     <script src="third_party_js/devicedetector-min.js">/*A device detector by Maarten Belmans - Github: PoeHaH*/</script>
     <script src="third_party_js/howler.core.min.js">/*An audio handler - Github: goldfire*/</script>
 
+    <script src="js_reusables/js_for_preload_handling.js">/* INCLUSION PRIORITIZED: Another piece of code, building our app */</script>
     <script defer src="js_reusables/js_for_every_single_html.js">/*Pieces of code, building our app*/</script>
     <script defer src="js_reusables/js_for_browser_device_issues_in_parents.js">/*Pieces of code, building our app*/</script>
     <script defer src="js_reusables/js_for_fetch_api_character_encoding.js">/*Pieces of code, building our app*/</script>
@@ -60,8 +61,9 @@
   </head>
   <body>
     <div id="idOfThePreloadHandlingDiv" style="position: fixed; top:0; left:0; bottom:0; right:0; background-color: white; display: flex; justify-content: center; align-items: center; z-index: 9999;">
-      <!-- The content of this div is added via script. See js_for_preload_handling_of_all_htmls.js -->
+      <!-- The content of this div is changed via script. See js_for_preload_handling.js -->
       <!-- The style is left inline as a safe measure against slow network etc. See css_for_every_single_html.css-->
+      <img id="globeFrameZeroImgID" src="user_interface/images/rotating_globe_100x150_frame0.webp">
     </div>
 
     <!-- Parent HTMLs are not multilingual. Therefore the text below must be translated too, along with the contents of the /user_interface/text/ folder -->

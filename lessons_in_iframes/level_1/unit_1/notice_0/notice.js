@@ -45,14 +45,21 @@ window.addEventListener('load', function(){
 //EN: "I baked this bread myself at home.";
 //JA: "先に見えたそのパンは私が家で作りました。";
 
-// UPDATE: It's now OK if the following two functions are not defined here. See js_for_all_iframed_lesson_htmls typeof conditionals
-// // FOR COMPATIBILITY
-// function unloadTheSoundsOfThisLesson() {  /*Do nothing*/  } // This has to exist here. Otherwise menu navigation buttons will go dead and give an error. Because of standard code in parent HTMLs.
-// function unloadTheImagesOfThisLesson() {  /*Do nothing*/  } // This has to exist here. Otherwise menu navigation buttons will go dead and give an error. Because of standard code in parent HTMLs.
+
+function unloadTheSoundsOfThisLesson() {  /*Nothing to do*/  } // This has to exist here.
+function unloadTheImagesOfThisLesson() {  /*Could try to unload the bread webp and tsuchimoto webp if necessary*/  } // This has to exist here.
 
 function proceedToNextLesson115() { /*This is called with an inline onclick inside the button element. See notice_0/index.html */
   document.querySelector('.nearZeroOpacity').classList.add("fadeOut"); // 2 second fadeout
-  setTimeout(function () { postloaderWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible"); },500+2000);
-  setTimeout(function () { postloaderHiddenGlobeInsideWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible"); },750+2000);
-  setTimeout(function () { self.location.href = "../../unit_2/lesson_1/index.html";  },1000+2000);
+  /* END OF ACTIVITY */
+  /* GET READY TO EXIT THIS LESSON */
+  setTimeout(function() {
+    parent.preloadHandlingDiv.classList.remove("addThisClassToHideIt");
+    parent.preloadHandlingDiv.classList.add("addThisClassToRevealIt");
+  },1500); // 3000-1500 = 1500 See css_for_every_single_html
+  setTimeout(function() {
+    unloadTheSoundsOfThisLesson();
+    unloadTheImagesOfThisLesson();
+  },2900); // Also see js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
+  setTimeout(function () { self.location.href = "../../unit_2/lesson_1/index.html";  },3000);
 }

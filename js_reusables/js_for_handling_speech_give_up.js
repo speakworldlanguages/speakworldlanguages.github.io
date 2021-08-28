@@ -3,7 +3,7 @@ const filePathForGiveUpButtonInnerHTML = "../../../../user_interface/text/"+user
 const filePathForNextButtonInnerHTML = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-continue_to_next.txt";
 
 // Let “no web-speech browser” users quickly skip to the speech recognition cancellation
-var howLongBeforeGiveUpButtonAppears;
+var howLongBeforeGiveUpButtonAppears; // This is called from bread.js, water.js etc
 if (parent.isTheUsersBrowserWhitelisted) {
   howLongBeforeGiveUpButtonAppears = 14500; // For Chrome and other full-feature browsers
   fetch(filePathForGiveUpButtonInnerHTML).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theButtonForSkippingSpeechInputVocabularyTest.innerHTML = contentOfTheTxtFile; });

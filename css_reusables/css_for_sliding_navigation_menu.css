@@ -32,7 +32,7 @@
 }
 @keyframes appearFromBottom {
   0%{
-    bottom: -19.5vmin;
+    bottom: -19.8vmin; /*CAUTION: Must be equal to the value in sinkAndDisappear*/
   }
   100%{
     bottom: 0vmin;
@@ -41,7 +41,7 @@
 
 .addThisForAnimationSinkAndDisappear{
   animation-name: sinkAndDisappear;
-  animation-duration: .4s;
+  animation-duration: 1.4s;
   animation-fill-mode: forwards;
   animation-timing-function: ease-out;
 }
@@ -49,8 +49,11 @@
   0%{
     bottom: 0vmin;
   }
+  50%{
+    bottom: -17vmin;
+  }
   100%{
-    bottom: -19.5vmin;
+    bottom: -19.8vmin; /*CAUTION: Must be equal to the value in appearFromBottom*/
   }
 }
 

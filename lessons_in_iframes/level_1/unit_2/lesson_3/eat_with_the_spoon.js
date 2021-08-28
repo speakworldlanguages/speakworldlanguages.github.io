@@ -40,8 +40,6 @@ function unloadTheImagesOfThisLesson() { // Call this as the last thing before l
   imgA.src = onePixelTransparentGif;
   imgB.src = onePixelTransparentGif;
 }
-const postloaderWhitecover = document.getElementById('idOfTheWhiteCoverDivBeforeExitAtTheEndOfLesson');
-const postloaderHiddenGlobeInsideWhitecover = document.getElementById('theGlobeInsideTheWhiteOutroID');
 
 // ALWAYS: Use window load to be safe with timing.
 window.addEventListener('load', function(){  loadingIsCompleteFunction();  }, { once: true });
@@ -102,8 +100,15 @@ function goFromAtoB()
   imgB.style.display = "initial";
   putTranslationIntoThisHelpAreaFromFileP.innerHTML = " ";
   setTimeout(function () { successTone.play(); },11300); // IMPORTANT! Timing must be accurate.
-  setTimeout(function () { postloaderWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },14000);
-  setTimeout(function () { postloaderHiddenGlobeInsideWhitecover.classList.add("postloaderInInteractablesGetTotallyVisible") },14250);
-  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
+  /* END OF ACTIVITY */
+  /* GET READY TO EXIT THIS LESSON */
+  setTimeout(function() {
+    parent.preloadHandlingDiv.classList.remove("addThisClassToHideIt");
+    parent.preloadHandlingDiv.classList.add("addThisClassToRevealIt");
+  },13000); // 14500-1500 = 13000 See css_for_every_single_html
+  setTimeout(function() {
+    unloadTheSoundsOfThisLesson();
+    unloadTheImagesOfThisLesson();
+  },14400); // Also see js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function () { self.location.href = "../lesson_4/index.html"; },14500);
 }

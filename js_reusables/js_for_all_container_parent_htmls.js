@@ -58,6 +58,9 @@ if (localStorage.theLastCheckpointSavedInLocalStorage) { // See if a previously 
       addGoBackToPreviousButtonToTheNavigationMenu();
     }
     handleGoingFullscreenOnMobiles();
+
+    // Make the loading animation appear (i.e. bring the preloader)
+    preloadHandlingDiv.classList.remove("addThisClassToHideIt"); // See css_for_every_single_html
   }
 } else {
   // First time users will proceed via openFirstLesson()
@@ -167,6 +170,9 @@ function openFirstLesson() {
     // Display the first lesson
     iFrameScriptAccess.src = "lessons_in_iframes/level_1/unit_1/lesson_1/index.html";
   },50); // Unnoticable tiny delay
+
+  // Make the loading animation appear (i.e. bring the preloader)
+  preloadHandlingDiv.classList.remove("addThisClassToHideIt"); // See css_for_every_single_html
 }
 
 function handleGoingFullscreenOnMobiles() {
@@ -195,8 +201,8 @@ setInterval( function ()
 } , 6000);
 
 // UI sounds ... also see js_for_browser_device_issues_in_parents.js
-const hoverSound = new Howl({  src: ['user_interface/sounds/select_language_hover.mp3']  }); // DESKTOP ONLY!
-const clickSound = new Howl({  src: ['user_interface/sounds/select_language_click.mp3']  });
+const hoverSound = new Howl({  src: ['user_interface/sounds/illuminant_button_hover.mp3']  }); // DESKTOP ONLY!
+const clickSound = new Howl({  src: ['user_interface/sounds/illuminant_button_click.mp3']  });
 
 let allIndexButtonElementsAreInThisArray = document.getElementsByTagName("BUTTON"); /*All buttons in parents, without any of the lesson buttons*/
 let i;

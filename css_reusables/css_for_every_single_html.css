@@ -4,9 +4,27 @@
   animation-fill-mode: forwards;
 }
 @keyframes fadeOutAndBeGone {
+  0%{
+    opacity: 1;
+    visibility: visible;
+  }
   100%{
     opacity: 0;
     visibility: hidden; /*Not sure if we need display none instead of visibility hidden. Will see.*/ /*After a while: Well, looks like it's working.*/
+  }
+}
+.addThisClassToRevealIt{
+  animation: appearByFadingIn 1.5s;
+  animation-fill-mode: forwards;
+}
+@keyframes appearByFadingIn {
+  0%{
+    opacity: 0;
+    visibility: hidden; /*Not sure if we need display none instead of visibility hidden. Will see.*/ /*After a while: Well, looks like it's working.*/
+  }
+  100%{
+    opacity: 1;
+    visibility: visible;
   }
 }
 

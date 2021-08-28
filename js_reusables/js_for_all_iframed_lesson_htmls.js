@@ -1,5 +1,11 @@
 // CAREFUL! DEFER or NOT DEFER
-
+var thisLessonHasBeenLoadedFresh = true; // Access this from js_for_the_sliding_navigation_menu to switch the function of the goBackOrRefreshButton
+window.onload = function() {
+  // Hide the preloader whenever a new lesson is ready to be shown through the iFrame
+  parent.preloadHandlingDiv.classList.remove("addThisClassToRevealIt"); // See css_for_every_single_html
+  parent.preloadHandlingDiv.classList.add("addThisClassToHideIt"); // See css_for_every_single_html
+  setTimeout(function () { thisLessonHasBeenLoadedFresh = false; },8000); // The CAR MOVING BACKWARDS button is no more a go-back button and becomes a refresh button.
+};
 // CHECK IF ACCESS IS GOOD and block (or just fix) direct linking!
 // MUST REVIEW if masked forwarding is implemented.
 if (parent.thisIsTheParentWhichContainsAllIFramedLessons == "yes") {
@@ -12,7 +18,6 @@ if (parent.thisIsTheParentWhichContainsAllIFramedLessons == "yes") {
   // AVOID: Do not use reference to root with "/" as it could be uncertain what the root is in case of deep-iframing for domain masking.
   window.open("/","_top"); // Has been tested. It works.
   // WELL: If one tries to open "https://myproject.github.io/forbidden/folder/index.html" this will force it to open "https://myproject.github.io/index.html"
-  //  --- PERHAPS: It could be changed with something like window.open("https://speakworldlaguages.....","_self");
 }
 
 // Function that creates a div for NOTIFICATIONS
@@ -42,14 +47,16 @@ function createAndHandleNotificationBox() {
   function okButtonIsClicked(event) {
     notificationBoxContainer.classList.add("addThisToAButtonForPlayStationStyleClick"); // See css_for_every_single_html_css
     setTimeout(function () {     notificationBoxContainer.parentNode.removeChild(notificationBoxContainer);     },1000); // The animation completes in 600ms
+    // BETTER: If we use typeof === function before trying to call startTheLesson() we can use the box for other things too.
     setTimeout(function () {     startTheLesson();     }, 1500);
   }
 }
 
 // HANDLE PAGE UNLOAD IF THE BROWSER'S “BACK” BUTTON IS USED
+// WARNING: onbeforeunload doesn't fire when src of the iframe changes nor does hashchange
 window.onbeforeunload = function() {
-  // PROBLEM: When user makes progress and then clicks the browser's REFRESH button and then clicks the browser's BACK button the last lesson starts playing behind the main menu.
-
+  // PROBLEM: When user makes progress and then clicks the browser's REFRESH button and then clicks the browser's BACK button the last lesson starts playing hidden behind the main menu.
+  // console.log("iframe onbeforeunload has been fired -> js_for_all_iframed..."); // This does not show in eruda
   // Turn OFF annyang if it was ON
   if (parent.annyang) { // DO NOT OMIT! Firefox and other no-speech browsers need this to let the app work without Web Speech API.
     if (parent.annyang.isListening()) {
@@ -57,7 +64,8 @@ window.onbeforeunload = function() {
       parent.annyang.abort();
     }
   }
-  // Check if the functions exist before trying to call them
+  // Check if the functions exist in the lessons own js (like bread.js, water.js etc) before trying to call them.
+  // NOTE: These are for the possibility of browser's back button being used or nav menu etc.
   if (typeof stopAudioInputVisualization === "function") {
     stopAudioInputVisualization(); // Stop Wavesurfer and turn off the microphone. See js_for_microphone_input...
   }

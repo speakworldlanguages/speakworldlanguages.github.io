@@ -20,9 +20,12 @@ const say3 = new parent.Howl({  src: [say3Path]  });
 let say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat.mp3";
 if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say4Path = say4Path.split(".")[0] + "_female.mp3"; }
 const say4 = new parent.Howl({  src: [say4Path]  });
-let say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat_slow.mp3";
+let say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat_bread.mp3";
 if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say5Path = say5Path.split(".")[0] + "_female.mp3"; }
 const say5 = new parent.Howl({  src: [say5Path]  });
+let say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_1/lesson_4/eat_bread_slow.mp3";
+if (parent.theLanguageUserIsLearningNow=="ar" && parent.genderOfTheUser=="female") { say6Path = say6Path.split(".")[0] + "_female.mp3"; }
+const say6 = new parent.Howl({  src: [say6Path]  });
 const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/click_on_bread.mp3'] });
 const bite1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bite1.mp3'] });
 const bite2 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bite2.mp3'] });
@@ -34,6 +37,7 @@ function unloadTheSoundsOfThisLesson() { // Call this as the last thing before l
   bite2.unload();
   bite1.unload();
   clickTone.unload();
+  say6.unload();
   say5.unload();
   say4.unload();
   say3.unload();
@@ -127,10 +131,11 @@ function goFromCtoD() {
   clickableArea.style.top="26%";
   clickableArea.style.width="35vmin";
   // Loop 2
-  looping2 = setInterval(loopFunction2,12000*parent.speedAdjustmentCoefficient); // 704x20 = 14080
+  looping2 = setInterval(loopFunction2,15000*parent.speedAdjustmentCoefficient); // 704x20 = 14080
   function loopFunction2() {
     setTimeout(function () {  say4.play();  },2000*parent.speedAdjustmentCoefficient);
-    setTimeout(function () {  say5.play();  },7000*parent.speedAdjustmentCoefficient);
+    setTimeout(function () {  say5.play();  },6000*parent.speedAdjustmentCoefficient);
+    setTimeout(function () {  say6.play();  },10000*parent.speedAdjustmentCoefficient);
     if (counter2 == 3) {  clearInterval(looping2);  }
     counter2++;
   }
@@ -143,9 +148,9 @@ function goFromCtoD() {
     clickableArea.addEventListener("mousedown",goFromDtoE,{once:true});
   }
 }
-var fadeThisOutInsteadOfPostloader = document.getElementById('thisTimeUseFadeOutInsteadOfPostLoader');
+
 function goFromDtoE() {
-  clearInterval(looping2); say4.fade(1,0,1500); say5.fade(1,0,1500);
+  clearInterval(looping2); say4.fade(1,0,1500); say5.fade(1,0,1500); say6.fade(1,0,1500);
   if(parent.detectedOS.name != "iOS" && parent.detectedOS.name != "Mac OS") {parent.navigator.vibrate(25);}
   imgD.style.display = "none";
   imgE.style.display = "initial";
@@ -155,7 +160,15 @@ function goFromDtoE() {
   setTimeout(function () { bite2.play();  },2728); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { bite3.play();  },3228); // IMPORTANT! Timing must be accurate.
   setTimeout(function () { successTone.play(); },4728); // IMPORTANT! Timing must be accurate.
-  setTimeout(function () { fadeThisOutInsteadOfPostloader.classList.add("addThisToFadeOut"); },7400); //
-  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
+  /* END OF ACTIVITY */
+  /* GET READY TO EXIT THIS LESSON */
+  setTimeout(function() {
+    parent.preloadHandlingDiv.classList.remove("addThisClassToHideIt");
+    parent.preloadHandlingDiv.classList.add("addThisClassToRevealIt");
+  },8000); // 9500-1500 = 8000 See css_for_every_single_html
+  setTimeout(function() {
+    unloadTheSoundsOfThisLesson();
+    unloadTheImagesOfThisLesson();
+  },9400); // Also see js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function () { self.location.href = "../notice_0/index.html";  },9500); //
 }

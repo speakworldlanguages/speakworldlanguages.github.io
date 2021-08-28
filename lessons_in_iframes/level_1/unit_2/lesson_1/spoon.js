@@ -51,8 +51,7 @@ const the2ndDivThatWillAppearWhenMicrophoneStartsListening = document.getElement
 const the1stImgOfNOWYOUSAYITwebpThatMustBeResetToFrameOne = document.getElementById('idOfTheNowYouSayItAnimationLayer1');
 const the2ndImgOfNOWYOUSAYITwebpThatMustBeResetToFrameOne = document.getElementById('idOfTheNowYouSayItAnimationLayer2');
 const giveUpAndContinueButtonIsInsideThisDiv = document.getElementById('giveUpSkipNextContinueButtonDivID');
-const theWhitePreexitDivWithAHiddenGlobeInside = document.getElementById('idOfTheWhiteCoverDivBeforeExitAtTheEndOfLesson');
-const theGlobeInsideTheWhiteOutroIMG = document.getElementById('theGlobeInsideTheWhiteOutroID');
+
 function unloadTheImagesOfThisLesson() { // Call this as the last thing before leaving.
   imgA.src = onePixelTransparentGif;
   imgB.src = onePixelTransparentGif;
@@ -84,7 +83,24 @@ window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, {
 function loadingIsCompleteFunction()
 {
   // Stop and notify the user if necessary; otherwise just continue.
-  startTheLesson();
+  if (parent.theLanguageUserIsLearningNow == "en") { // Display notification about the usage of the indefinite article "A" in English.
+    const pathOfNotificationAboutIndefiniteArticle = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-2-1_eng_indefinite_article.txt";
+    fetch(pathOfNotificationAboutIndefiniteArticle,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      // Display notification instead of alert(contentOfTheTxtFile);
+      createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
+      putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
+      // Continue when user clicks or touches OK
+      // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
+    });
+    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+    });
+  }
+  else {
+    startTheLesson();
+  }
 }
 
 function startTheLesson()
@@ -193,8 +209,8 @@ function speakToTheMic() {
   the2ndDivThatWillAppearWhenMicrophoneStartsListening.style.left=0; // See css_for_new_vocabulary_with_photos
   // Reset the webp animation
   const srcOfNowYouSayItImg = the1stImgOfNOWYOUSAYITwebpThatMustBeResetToFrameOne.src;
-  the1stImgOfNOWYOUSAYITwebpThatMustBeResetToFrameOne.src = onePixelTransparentGif; // See js_for_preload_handling_of_all_htmls.js
-  the2ndImgOfNOWYOUSAYITwebpThatMustBeResetToFrameOne.src = onePixelTransparentGif; // See js_for_preload_handling_of_all_htmls.js
+  the1stImgOfNOWYOUSAYITwebpThatMustBeResetToFrameOne.src = onePixelTransparentGif; // See js_for_every_single_html
+  the2ndImgOfNOWYOUSAYITwebpThatMustBeResetToFrameOne.src = onePixelTransparentGif; // See js_for_every_single_html
   setTimeout(function () {
     the1stImgOfNOWYOUSAYITwebpThatMustBeResetToFrameOne.src = srcOfNowYouSayItImg;
     the2ndImgOfNOWYOUSAYITwebpThatMustBeResetToFrameOne.src = srcOfNowYouSayItImg;
@@ -212,9 +228,7 @@ function speakToTheMic() {
   // Use clearTimeout before it appears to prevent it accordingly.
   // For sake of GUI simplicity the Speed Adjustment Slider is available on desktops only as well as the Global Volume Slider.
   preventGiveUpButtonIfSuccessHappens = setTimeout(function () {
-    theWhitePreexitDivWithAHiddenGlobeInside.classList.add("postloaderInNewVocabularyGetSlightlyVisible"); // 1.75
     setTimeout(function () {  giveUpAndContinueButtonIsInsideThisDiv.classList.add("addThisToGlassButtonToUnhide");  },1000);
-
   },howLongBeforeGiveUpButtonAppears);
 
   // REMEMBER: To find “what language the browser will listen to (via annyang)” see the code in js_for_all_container_parent_htmls.js
@@ -237,7 +251,7 @@ function speakToTheMic() {
     setTimeout(function() {  startAudioInputVisualization();  },300); // Will work only on desktops. See js_for_microphone_input_visualization.js
   }
 
-}
+} /* END OF speakToTheMic */
 
 // stopListeningAndProceedToNext
 var stopListeningAndProceedToNext = function () {
@@ -251,8 +265,14 @@ var stopListeningAndProceedToNext = function () {
     parent.annyang.abort();
   }
   stopAudioInputVisualization();
-  theWhitePreexitDivWithAHiddenGlobeInside.classList.add("postloaderInNewVocabularyGetTotallyVisible"); // 1.75s
-  setTimeout(function() { theGlobeInsideTheWhiteOutroIMG.classList.add("postloaderInNewVocabularyGetTotallyVisible"); },1750); // 1.75s+1.75s=3.5s
-  // See js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
+  /* GET READY TO EXIT THIS LESSON */
+  setTimeout(function() {
+    parent.preloadHandlingDiv.classList.remove("addThisClassToHideIt");
+    parent.preloadHandlingDiv.classList.add("addThisClassToRevealIt");
+  },2100); // 3600-1500 = 2100 See css_for_every_single_html
+  setTimeout(function() {
+    unloadTheSoundsOfThisLesson();
+    unloadTheImagesOfThisLesson();
+  },3500); // Also see js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()
   setTimeout(function() { self.location.href = '../lesson_2/index.html'; },3600);
 };
