@@ -82,7 +82,7 @@ function letTheIFrameTeachJapanese(){ //See index.html to find the button that t
 }
 /* ZH - Ren */
 function letTheIFrameTeachChinese(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNow = "zh";
+  theLanguageUserIsLearningNow = "zh-TW";
   openFirstLesson();
 }
 /* TR - Kişi */
@@ -92,7 +92,7 @@ function letTheIFrameTeachTurkish(){ //See index.html to find the button that tr
 }
 /* AR Arabic */
 function letTheIFrameTeachArabic(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNow = "ar";
+  theLanguageUserIsLearningNow = "ar-SA"; // Android is OK with ar but iPhone needs ar-SA
   // Get user's gender
   const darkenWholeViewportDiv = document.createElement("DIV");
   darkenWholeViewportDiv.classList.add("darkenTheWholeViewportClass");
