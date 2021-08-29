@@ -77,12 +77,12 @@ femalesIcon.src = "user_interface/images/gender_ladies.webp";
 /*What language will be taught via the iframe*/
 /* JA - Hito */
 function letTheIFrameTeachJapanese(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNow = "ja";
+  theLanguageUserIsLearningNow = "ja"; //"ja" is OK with both iOS and Android
   openFirstLesson();
 }
 /* ZH - Ren */
 function letTheIFrameTeachChinese(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNow = "zh-TW";
+  theLanguageUserIsLearningNow = "zh"; // "zh" is not OK with iOS !!! Soundplay must not break !!! Watch theLanguageUserIsLearningNow
   openFirstLesson();
 }
 /* TR - Kişi */
@@ -92,7 +92,7 @@ function letTheIFrameTeachTurkish(){ //See index.html to find the button that tr
 }
 /* AR Arabic */
 function letTheIFrameTeachArabic(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNow = "ar-SA"; // Android is OK with ar but iPhone needs ar-SA
+  theLanguageUserIsLearningNow = "ar"; // Android is OK with "ar" but iPhone needs "ar-SA" // !!! Soundplay must not break !!! Watch theLanguageUserIsLearningNow
   // Get user's gender
   const darkenWholeViewportDiv = document.createElement("DIV");
   darkenWholeViewportDiv.classList.add("darkenTheWholeViewportClass");
