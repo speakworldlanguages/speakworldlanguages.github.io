@@ -1,14 +1,14 @@
 // All settings here will depend on the content of the lesson
 let theNewWordUserIsLearningNowAndPossibleMishaps; // Get this from txt file
-const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+parent.theLanguageUserIsLearningNow+"/1-5-1-fruit.txt";
+const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/1-5-1-fruit.txt";
 // See js_for_fetch_api_character_encoding.js for the headers setting.
 fetch(filePathForTheWordOrPhrase,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theNewWordUserIsLearningNowAndPossibleMishaps = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-const say1say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_1/fruit_1-2.mp3";
-const say3say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_1/fruit_3-4.mp3";
-const say5say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_1/fruit_5-6.mp3";
-const say7say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_5/lesson_1/fruit_7-8.mp3";
+const say1say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_5/lesson_1/fruit_1-2.mp3";
+const say3say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_5/lesson_1/fruit_3-4.mp3";
+const say5say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_5/lesson_1/fruit_5-6.mp3";
+const say7say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_5/lesson_1/fruit_7-8.mp3";
 
 const sayAB = new parent.Howl({  src: [say1say2Path]  });
 const sayCD = new parent.Howl({  src: [say3say4Path]  });
@@ -74,7 +74,7 @@ window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, {
 function loadingIsCompleteFunction()
 {
   // Stop and notify the user if necessary; otherwise just continue.
-  if (parent.theLanguageUserIsLearningNow == "ja") { // Kudamono - Mi
+  if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI == "ja") { // Kudamono - Mi
     const pathOfNotificationHitoFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_ja.txt";
     fetch(pathOfNotificationHitoFruit,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
@@ -87,7 +87,7 @@ function loadingIsCompleteFunction()
     fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
     });
-  } else if (parent.theLanguageUserIsLearningNow == "zh") { // Shuiguo - Guoshi
+  } else if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI == "zh") { // Shuiguo - Guoshi
     const pathOfNotificationRenFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_zh.txt";
     fetch(pathOfNotificationRenFruit,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
@@ -100,7 +100,7 @@ function loadingIsCompleteFunction()
     fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
     });
-  } else if (parent.theLanguageUserIsLearningNow == "tr") { // Meyve - Meyveler
+  } else if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI == "tr") { // Meyve - Meyveler
     const pathOfNotificationKishiFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_tr.txt";
     fetch(pathOfNotificationKishiFruit,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
@@ -113,7 +113,7 @@ function loadingIsCompleteFunction()
     fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
     });
-  } else if (parent.theLanguageUserIsLearningNow == "ar") { // Faakihah - Fawaakih - Thamar
+  } else if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI == "ar") { // Faakihah - Fawaakih - Thamar
     const pathOfNotificationArabicFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_ar.txt";
     fetch(pathOfNotificationArabicFruit,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
@@ -126,7 +126,7 @@ function loadingIsCompleteFunction()
     fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
     });
-  } else if (parent.theLanguageUserIsLearningNow == "de") { // Obst - Früchte
+  } else if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI == "de") { // Obst - Früchte
     const pathOfNotificationMenschenFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_de.txt";
     fetch(pathOfNotificationMenschenFruit,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js

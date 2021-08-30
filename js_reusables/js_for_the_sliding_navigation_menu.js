@@ -478,21 +478,50 @@ window.addEventListener("load",function() {
     }
   }
 
-  /*_________________________*/
-  clickToGoToPreviousDiv.addEventListener("touchstart", function () { clickToGoToPreviousImgA.style.display = "none"; clickToGoToPreviousImgD.style.display = "none"; clickToGoToPreviousImgC.style.display = "initial"; } );
-  clickToGoToMainMenuDiv.addEventListener("touchstart", function () { clickToGoToMainMenuImgA.style.display = "none"; clickToGoToMainMenuImgD.style.display = "none"; clickToGoToMainMenuImgC.style.display = "initial"; } );
-  clickToOpenProgressDiv.addEventListener("touchstart", function () { clickToOpenProgressImgA.style.display = "none"; clickToOpenProgressImgD.style.display = "none"; clickToOpenProgressImgC.style.display = "initial"; } );
-  clickToFinanceDiv.addEventListener("touchstart", function () { clickToFinanceImgA.style.display = "none"; clickToFinanceImgD.style.display = "none"; clickToFinanceImgC.style.display = "initial"; } );
-
-  clickToGoToPreviousDiv.addEventListener("touchend", function () { clickToGoToPreviousImgC.style.display = "none"; clickToGoToPreviousImgD.style.display = "initial"; } );
-  clickToGoToMainMenuDiv.addEventListener("touchend", function () { clickToGoToMainMenuImgC.style.display = "none"; clickToGoToMainMenuImgD.style.display = "initial"; } );
-  clickToOpenProgressDiv.addEventListener("touchend", function () { clickToOpenProgressImgC.style.display = "none"; clickToOpenProgressImgD.style.display = "initial"; } );
-  clickToFinanceDiv.addEventListener("touchend", function () { clickToFinanceImgC.style.display = "none"; clickToFinanceImgD.style.display = "initial"; } );
-
-  clickToGoToPreviousDiv.addEventListener("click", function () { setTimeout(goToPreviousLessonFunction,30); }    );
-  clickToGoToMainMenuDiv.addEventListener("click", function () { setTimeout(goToMainMenuFunction,30); }          );
-  clickToOpenProgressDiv.addEventListener("click", function () { setTimeout(openProgressChartFunction,30); }     );
-  clickToFinanceDiv.addEventListener("click", function () { setTimeout(openFinancialMethodsPageFunction,30); }   );
+  /*____________TOUCH AND MOUSE EVENTS_____________*/
+  if (deviceDetector.isMobile) {
+    clickToGoToPreviousDiv.addEventListener("touchstart", function () {
+      clickToGoToPreviousImgA.style.display = "none";
+      clickToGoToPreviousImgD.style.display = "initial";
+      setTimeout(goToPreviousLessonFunction,40);
+      setTimeout(function () {
+        clickToGoToPreviousImgD.style.display = "none";
+        clickToGoToPreviousImgA.style.display = "initial";
+      },900);
+    } );
+    clickToGoToMainMenuDiv.addEventListener("touchstart", function () {
+      clickToGoToMainMenuImgA.style.display = "none";
+      clickToGoToMainMenuImgD.style.display = "initial";
+      setTimeout(goToMainMenuFunction,40);
+      setTimeout(function () {
+        clickToGoToMainMenuImgD.style.display = "none";
+        clickToGoToMainMenuImgA.style.display = "initial";
+      },900);
+    } );
+    clickToOpenProgressDiv.addEventListener("touchstart", function () {
+      clickToOpenProgressImgA.style.display = "none";
+      clickToOpenProgressImgD.style.display = "initial";
+      setTimeout(openProgressChartFunction,40);
+      setTimeout(function () {
+        clickToOpenProgressImgD.style.display = "none";
+        clickToOpenProgressImgA.style.display = "initial";
+      },900);
+    } );
+    clickToFinanceDiv.addEventListener("touchstart", function () {
+      clickToFinanceImgA.style.display = "none";
+      clickToFinanceImgD.style.display = "initial";
+      setTimeout(openFinancialMethodsPageFunction,40);
+      setTimeout(function () {
+        clickToFinanceImgD.style.display = "none";
+        clickToFinanceImgA.style.display = "initial";
+      },900);
+    } );
+  } else {
+    clickToGoToPreviousDiv.addEventListener("click", function () { setTimeout(goToPreviousLessonFunction,30); }    );
+    clickToGoToMainMenuDiv.addEventListener("click", function () { setTimeout(goToMainMenuFunction,30); }          );
+    clickToOpenProgressDiv.addEventListener("click", function () { setTimeout(openProgressChartFunction,30); }     );
+    clickToFinanceDiv.addEventListener("click", function () { setTimeout(openFinancialMethodsPageFunction,30); }   );
+  }
 
   // REMEMBER: The task of unloading sounds and stopping annyang has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload
 
@@ -532,7 +561,8 @@ window.addEventListener("load",function() {
     // Ask “Are you sure?” in all user interface languages via fetch()
     if (confirm(areYouSureTextInUILanguage)) {
       localStorage.removeItem("theLastCheckpointSavedInLocalStorage");
-      localStorage.removeItem("theLanguageUserWasLearningLastTime");
+      localStorage.removeItem("theLanguageUserWasLearningLastTimeToSetPathsAndGUI");
+      localStorage.removeItem("theLanguageUserWasLearningLastTimeToSetAnnyang");
       // WARNING: Avoid using reference to the root "/" as it maybe uncertain what the root is in case of deep-iframing.
       // Try solving with conditionals if a problem emerges.
       window.open("/","_self");
@@ -558,6 +588,6 @@ window.addEventListener("load",function() {
     // stopAnnyangAndStopHowler(); // use contentWindow because the function has been moved to js_for_all_iframed_lesson_htmls.js
     window.open("information","_blank"); // Does this make onbeforeunload fire if the link opens in a new tab???
   }
-
+  /*____________END OF touch and mouse events_____________*/
 },{ once: true });
 // END OF "window load" event

@@ -22,13 +22,12 @@ window.addEventListener('DOMContentLoaded', function(){
 }, { once: true });
 
 var genderOfTheUser;
-var theLanguageUserIsLearningNow;
+var theLanguageUserIsLearningNowToSetPathsAndGUI;
+var theLanguageUserIsLearningNowToSetAnnyang;
 const iFrameScriptAccess = document.getElementById('theIdOfTheIframe');
 
 // CODE TO BE REMOVED AFTER TESTS IS
 // FROM HERE
-//localStorage.theLastCheckpointSavedInLocalStorage = "lessons_in_iframes/level_1/unit_7/lesson_2/"; // Only for testing.
-//localStorage.theLanguageUserWasLearningLastTime = "tr";
 // TO HERE
 
 // Continue progress from last unit
@@ -36,9 +35,10 @@ if (localStorage.theLastCheckpointSavedInLocalStorage) { // See if a previously 
   // MUST USE display:none to avoid click blocking by z-index.
   document.getElementById('fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt').classList.add("addThisForOpacityAnimationFadeIn");
   // NOTE: Chrome does not count an alert box click as a user gesture.
-  theLanguageUserIsLearningNow = localStorage.theLanguageUserWasLearningLastTime; // Looks like there is no need to put this in an if(localStorage.theLanguageUserWasLearningLastTime){} to check if it exists.
+  theLanguageUserIsLearningNowToSetPathsAndGUI = localStorage.theLanguageUserWasLearningLastTimeToSetPathsAndGUI; // This will certainly exist as long as there has been a checkpoint save.
+  theLanguageUserIsLearningNowToSetAnnyang = localStorage.theLanguageUserWasLearningLastTimeToSetAnnyang; // Same situation.
   if (annyang) {
-      annyang.setLanguage(theLanguageUserIsLearningNow); // Firefox v60's and v70's won't let buttons function unless this is wrapped in an if (annyang){} like this.
+      annyang.setLanguage(theLanguageUserIsLearningNowToSetAnnyang); // Firefox v60's and v70's won't let buttons function unless this is wrapped in an if (annyang){} like this.
   }
   if (localStorage.genderOfTheUserSavedToLocalStorage) {
       genderOfTheUser = localStorage.genderOfTheUserSavedToLocalStorage;
@@ -77,22 +77,28 @@ femalesIcon.src = "user_interface/images/gender_ladies.webp";
 /*What language will be taught via the iframe*/
 /* JA - Hito */
 function letTheIFrameTeachJapanese(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNow = "ja"; //"ja" is OK with both iOS and Android
+  theLanguageUserIsLearningNowToSetPathsAndGUI = "ja"; //"ja" is OK with both iOS and Android
+  theLanguageUserIsLearningNowToSetAnnyang = "ja";
   openFirstLesson();
 }
 /* ZH - Ren */
 function letTheIFrameTeachChinese(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNow = "zh"; // "zh" is not OK with iOS !!! Soundplay must not break !!! Watch theLanguageUserIsLearningNow
+  theLanguageUserIsLearningNowToSetPathsAndGUI = "zh"; // Android is OK with "zh" but iOS needs "zh-TW"
+  theLanguageUserIsLearningNowToSetAnnyang = "zh-TW";
+  // WARNING: Must break the string and get "zh" only to match the path with actual folder names!
   openFirstLesson();
 }
 /* TR - Kişi */
 function letTheIFrameTeachTurkish(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNow = "tr";
+  theLanguageUserIsLearningNowToSetPathsAndGUI = "tr"; //"tr" is OK with both iOS and Android
+  theLanguageUserIsLearningNowToSetAnnyang = "tr";
   openFirstLesson();
 }
 /* AR Arabic */
 function letTheIFrameTeachArabic(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNow = "ar"; // Android is OK with "ar" but iPhone needs "ar-SA" // !!! Soundplay must not break !!! Watch theLanguageUserIsLearningNow
+  theLanguageUserIsLearningNowToSetPathsAndGUI = "ar"; // Android is OK with "ar" but iOS needs "ar-SA" or "ar-QA" etc
+  theLanguageUserIsLearningNowToSetAnnyang = "ar-QA";
+  // WARNING: Must break the string and get "zh" only to match the path with actual folder names!
   // Get user's gender
   const darkenWholeViewportDiv = document.createElement("DIV");
   darkenWholeViewportDiv.classList.add("darkenTheWholeViewportClass");
@@ -149,17 +155,19 @@ function letTheIFrameTeachArabic(){ //See index.html to find the button that tri
 }
 /* EN - People */
 function letTheIFrameTeachEnglish(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNow = "en";
+  theLanguageUserIsLearningNowToSetPathsAndGUI = "en"; // "en" alone works both on Android and iOS. No need for "en-US" or "en-GB"
+  theLanguageUserIsLearningNowToSetAnnyang = "en";
   openFirstLesson();
 }
 
 /*___________Navigate to first lesson_____________*/
 function openFirstLesson() {
   // Save language choice
-  localStorage.theLanguageUserWasLearningLastTime = theLanguageUserIsLearningNow;
+  localStorage.theLanguageUserWasLearningLastTimeToSetPathsAndGUI = theLanguageUserIsLearningNowToSetPathsAndGUI;
+  localStorage.theLanguageUserWasLearningLastTimeToSetAnnyang = theLanguageUserIsLearningNowToSetAnnyang;
   // Set language
   if (annyang) {
-      annyang.setLanguage(theLanguageUserIsLearningNow); // Firefox v60's and v70's won't let buttons function unless this is wrapped in an if (annyang){} like this.
+      annyang.setLanguage(theLanguageUserIsLearningNowToSetAnnyang); // Firefox v60's and v70's won't let buttons function unless this is wrapped in an if (annyang){} like this.
   }
 
   handleGoingFullscreenOnMobiles();

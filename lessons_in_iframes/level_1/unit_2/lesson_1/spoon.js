@@ -1,14 +1,14 @@
 // All settings here will depend on the content of the lesson
 let theNewWordUserIsLearningNowAndPossibleMishaps; // Get this from txt file
-const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+parent.theLanguageUserIsLearningNow+"/1-2-1-spoon.txt";
+const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/1-2-1-spoon.txt";
 // See js_for_fetch_api_character_encoding.js for the headers setting.
 fetch(filePathForTheWordOrPhrase,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theNewWordUserIsLearningNowAndPossibleMishaps = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-const say1say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_1/spoon_1-2.mp3";
-const say3say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_1/spoon_3-4.mp3";
-const say5say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_1/spoon_5-6.mp3";
-const say7say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNow+"/level_1/unit_2/lesson_1/spoon_7-8.mp3";
+const say1say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_2/lesson_1/spoon_1-2.mp3";
+const say3say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_2/lesson_1/spoon_3-4.mp3";
+const say5say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_2/lesson_1/spoon_5-6.mp3";
+const say7say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_2/lesson_1/spoon_7-8.mp3";
 
 const sayAB = new parent.Howl({  src: [say1say2Path]  });
 const sayCD = new parent.Howl({  src: [say3say4Path]  });
@@ -83,7 +83,7 @@ window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, {
 function loadingIsCompleteFunction()
 {
   // Stop and notify the user if necessary; otherwise just continue.
-  if (parent.theLanguageUserIsLearningNow == "en") { // Display notification about the usage of the indefinite article "A" in English.
+  if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI == "en") { // Display notification about the usage of the indefinite article "A" in English.
     const pathOfNotificationAboutIndefiniteArticle = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-2-1_eng_indefinite_article.txt";
     fetch(pathOfNotificationAboutIndefiniteArticle,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       // Display notification instead of alert(contentOfTheTxtFile);
