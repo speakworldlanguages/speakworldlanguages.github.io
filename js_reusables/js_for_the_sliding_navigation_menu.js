@@ -483,7 +483,7 @@ window.addEventListener("load",function() {
     clickToGoToPreviousDiv.addEventListener("touchstart", function () {
       clickToGoToPreviousImgA.style.display = "none";
       clickToGoToPreviousImgD.style.display = "initial";
-      setTimeout(goToPreviousLessonFunction,40);
+      setTimeout(goToPreviousLessonFunction,220);
       setTimeout(function () {
         clickToGoToPreviousImgD.style.display = "none";
         clickToGoToPreviousImgA.style.display = "initial";
@@ -492,7 +492,7 @@ window.addEventListener("load",function() {
     clickToGoToMainMenuDiv.addEventListener("touchstart", function () {
       clickToGoToMainMenuImgA.style.display = "none";
       clickToGoToMainMenuImgD.style.display = "initial";
-      setTimeout(goToMainMenuFunction,40);
+      setTimeout(goToMainMenuFunction,220);
       setTimeout(function () {
         clickToGoToMainMenuImgD.style.display = "none";
         clickToGoToMainMenuImgA.style.display = "initial";
@@ -501,7 +501,7 @@ window.addEventListener("load",function() {
     clickToOpenProgressDiv.addEventListener("touchstart", function () {
       clickToOpenProgressImgA.style.display = "none";
       clickToOpenProgressImgD.style.display = "initial";
-      setTimeout(openProgressChartFunction,40);
+      setTimeout(openProgressChartFunction,220);
       setTimeout(function () {
         clickToOpenProgressImgD.style.display = "none";
         clickToOpenProgressImgA.style.display = "initial";
@@ -510,17 +510,17 @@ window.addEventListener("load",function() {
     clickToFinanceDiv.addEventListener("touchstart", function () {
       clickToFinanceImgA.style.display = "none";
       clickToFinanceImgD.style.display = "initial";
-      setTimeout(openFinancialMethodsPageFunction,40);
+      setTimeout(openFinancialMethodsPageFunction,220);
       setTimeout(function () {
         clickToFinanceImgD.style.display = "none";
         clickToFinanceImgA.style.display = "initial";
       },900);
     } );
   } else {
-    clickToGoToPreviousDiv.addEventListener("click", function () { setTimeout(goToPreviousLessonFunction,30); }    );
-    clickToGoToMainMenuDiv.addEventListener("click", function () { setTimeout(goToMainMenuFunction,30); }          );
-    clickToOpenProgressDiv.addEventListener("click", function () { setTimeout(openProgressChartFunction,30); }     );
-    clickToFinanceDiv.addEventListener("click", function () { setTimeout(openFinancialMethodsPageFunction,30); }   );
+    clickToGoToPreviousDiv.addEventListener("mousedown", function () { setTimeout(goToPreviousLessonFunction,30); }    );
+    clickToGoToMainMenuDiv.addEventListener("mousedown", function () { setTimeout(goToMainMenuFunction,30); }          );
+    clickToOpenProgressDiv.addEventListener("mousedown", function () { setTimeout(openProgressChartFunction,30); }     );
+    clickToFinanceDiv.addEventListener("mousedown", function () { setTimeout(openFinancialMethodsPageFunction,30); }   );
   }
 
   // REMEMBER: The task of unloading sounds and stopping annyang has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload
@@ -578,7 +578,7 @@ window.addEventListener("load",function() {
     // stopAnnyangAndStopHowler(); // When this button becomes functional in future, let this be handled by onbeforeunload function in js_for_all_iframed_lesson_htmls
     // DO NOT USE: alert box causes a problem with sound on iPhones; it first mutes and then unmutes the sound and keeps toggling.
     let temporaryNotification = "This feature is not available yet.\nBu özellik henüz hazır değil.\nこのボタンの機能はまだです。\n";
-    let additionForiOSusers = "To unlock sound on iPhone&iPad you must touch the button one more time every other time.\niPhone ve iPad kullanıcısı; sesi geri açmak için düğmeye ikinci kez dokun.";
+    let additionForiOSusers = "If you have sound problems on iPhone&iPad try touching the same button again.\niPhone&iPad için seste sorun olursa geri açmak için aynı düğmeye tekrar dokunmayı dene.";
     if(detectedOS.name == "iOS" && deviceDetector.isMobile) {temporaryNotification = temporaryNotification + additionForiOSusers;}
     alert(temporaryNotification);
   }

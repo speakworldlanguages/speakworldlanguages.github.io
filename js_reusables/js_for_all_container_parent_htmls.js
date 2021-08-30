@@ -84,7 +84,10 @@ function letTheIFrameTeachJapanese(){ //See index.html to find the button that t
 /* ZH - Ren */
 function letTheIFrameTeachChinese(){ //See index.html to find the button that triggers this via onclick.
   theLanguageUserIsLearningNowToSetPathsAndGUI = "zh"; // Android is OK with "zh" but iOS needs "zh-TW"
-  theLanguageUserIsLearningNowToSetAnnyang = "zh-TW";
+  theLanguageUserIsLearningNowToSetAnnyang = "zh"; // We still want to pass "zh" on Android and Windows. Because Android turns the mic on and off too quickly in some less supported languages.
+  if (detectedOS.name == "iOS") {
+    theLanguageUserIsLearningNowToSetAnnyang = "zh-TW"; // Overwrite
+  }
   // WARNING: Must break the string and get "zh" only to match the path with actual folder names!
   openFirstLesson();
 }
@@ -97,7 +100,10 @@ function letTheIFrameTeachTurkish(){ //See index.html to find the button that tr
 /* AR Arabic */
 function letTheIFrameTeachArabic(){ //See index.html to find the button that triggers this via onclick.
   theLanguageUserIsLearningNowToSetPathsAndGUI = "ar"; // Android is OK with "ar" but iOS needs "ar-SA" or "ar-QA" etc
-  theLanguageUserIsLearningNowToSetAnnyang = "ar-QA";
+  theLanguageUserIsLearningNowToSetAnnyang = "ar"; // We still want "ar" instead of "ar-SA" on Android for better performance (frequency of the mic turn on&off thing).
+  if (detectedOS.name == "iOS") {
+    theLanguageUserIsLearningNowToSetAnnyang = "ar-SA"; // Overwrite... Don't know which is better: ar-SA ar-JO ar-KW ar-QA
+  }
   // WARNING: Must break the string and get "zh" only to match the path with actual folder names!
   // Get user's gender
   const darkenWholeViewportDiv = document.createElement("DIV");
@@ -155,7 +161,7 @@ function letTheIFrameTeachArabic(){ //See index.html to find the button that tri
 }
 /* EN - People */
 function letTheIFrameTeachEnglish(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNowToSetPathsAndGUI = "en"; // "en" alone works both on Android and iOS. No need for "en-US" or "en-GB"
+  theLanguageUserIsLearningNowToSetPathsAndGUI = "en"; // "en" alone works well both on Android and iOS. No need for "en-US" or "en-GB"
   theLanguageUserIsLearningNowToSetAnnyang = "en";
   openFirstLesson();
 }
