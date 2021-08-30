@@ -238,8 +238,8 @@ function speakToTheMic() {
   if (parent.annyang) {
     // Add commands to annyang
     parent.annyang.addCommands(commands);
-    if (parent.deviceDetector.device == "desktop") {
-        notificationDingTone.play(); // Better be heard on desktops only.
+    if (parent.deviceDetector.device == "desktop" || parent.detectedOS.name == "iOS") {
+        notificationDingTone.play(); // Android has its native DING tone. So let this DING tone play on desktops and iOS devices.
     }
     // Start listening.
     setTimeout(function() {  parent.annyang.start();  },200);
