@@ -1,3 +1,9 @@
-"dependencies": {
-  "TalAter/annyang": "2.6.1"
+{
+ "dependencies": {
+   "annyang": "2.6.1"
+   "repository": {
+    "type": "git",
+    "url": "https://github.com/TalAter/annyang.git"
+  }
+ }
 }
