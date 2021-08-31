@@ -1,14 +1,14 @@
 // All settings here will depend on the content of the lesson
 let theNewWordUserIsLearningNowAndPossibleMishaps; // Get this from txt file
-const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/1-4-2-bird.txt";
+const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/1-4-2-bird.txt";
 // See js_for_fetch_api_character_encoding.js for the headers setting.
 fetch(filePathForTheWordOrPhrase,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theNewWordUserIsLearningNowAndPossibleMishaps = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-const say1say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_4/lesson_2/bird_1-2.mp3";
-const say3say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_4/lesson_2/bird_3-4.mp3";
-const say5say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_4/lesson_2/bird_5-6.mp3";
-const say7say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_4/lesson_2/bird_7-8.mp3";
+const say1say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_4/lesson_2/bird_1-2.mp3";
+const say3say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_4/lesson_2/bird_3-4.mp3";
+const say5say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_4/lesson_2/bird_5-6.mp3";
+const say7say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_4/lesson_2/bird_7-8.mp3";
 
 const sayAB = new parent.Howl({  src: [say1say2Path]  });
 const sayCD = new parent.Howl({  src: [say3say4Path]  });

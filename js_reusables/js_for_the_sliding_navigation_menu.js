@@ -144,25 +144,28 @@ window.addEventListener("mouseup",function () {  firstUserGestureHasUnleashedAud
 // Variables for detecting the swipe-up
 let touchStartY;
 let touchEndY;
-var navMenuOnMobileHasBeenHiddenForTheFirstTime = false; // So that the very first swipe-up can be ignored.
+let navMenuIsUpAndVisible = true; // Nav menu is visible at first when the app starts.
+let navMenuOnMobileHasBeenHiddenForTheFirstTime = false; // So that the very first swipe-up can be ignored.
 var invisibleContainerOfContainerDivOfTheNavigationMenu = document.createElement("DIV");
 
 function makeTheNavMenuGoDownOnMobiles() {
   invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationSinkAndDisappear"); // See css_for_sliding_navigation_menu.css
   invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationAppearFromBottom");
   navMenuOnMobileHasBeenHiddenForTheFirstTime = true;
-  if (true) {
-    // Audio
-    deactivationSound1.play();
+  if (navMenuIsUpAndVisible) { // It really was up and is now moving down
+    // Handle audio
+    deactivationSound1.play(); // All SWIPE-DOWNs will continue firing this function but this sound must be heard only once.
+    navMenuIsUpAndVisible = false;
   }
 }
 
 function makeTheNavMenuComeUpOnMobiles() {
   invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationAppearFromBottom"); // See css_for_sliding_navigation_menu.css
   invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationSinkAndDisappear");
-  if (true) {
-    // Audio
-    activationSound1.play();
+  if (!navMenuIsUpAndVisible) { // It really was down and is now moving up
+    // Handle audio
+    activationSound1.play(); // All SWIPE-UPs will continue firing this function but this sound must be heard only once.
+    navMenuIsUpAndVisible = true;
   }
 }
 
@@ -561,7 +564,7 @@ window.addEventListener("load",function() {
     // Ask “Are you sure?” in all user interface languages via fetch()
     if (confirm(areYouSureTextInUILanguage)) {
       localStorage.removeItem("theLastCheckpointSavedInLocalStorage");
-      localStorage.removeItem("theLanguageUserWasLearningLastTimeToSetPathsAndGUI");
+      localStorage.removeItem("theLanguageUserWasLearningLastTimeToSetPathsAndNotes");
       localStorage.removeItem("theLanguageUserWasLearningLastTimeToSetAnnyang");
       // WARNING: Avoid using reference to the root "/" as it maybe uncertain what the root is in case of deep-iframing.
       // Try solving with conditionals if a problem emerges.

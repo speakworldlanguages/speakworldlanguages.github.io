@@ -5,13 +5,13 @@
 var myHeaders = new Headers();
 // See js_for_every_single_html.js for userInterfaceLanguage.
 // Fazla karışmak istemediğimiz Apache server'ın ayar dosyaları yüzünden böyle buna gerek var gibi görünüyor.
-if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI=="tr" || userInterfaceLanguage=="tr") { //ASLINDA: Yalnızca kullanıcı arayüz dili için gerekli. Birinci düzeyde öğrenilen dil için gerdekli değil ama ileride farklı tasarımlar farklı olasılıklar doğurabilir.
+if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="tr" || userInterfaceLanguage=="tr") { //ASLINDA: Yalnızca kullanıcı arayüz dili için gerekli. Birinci düzeyde öğrenilen dil için gerdekli değil ama ileride farklı tasarımlar farklı olasılıklar doğurabilir.
   // Çağrılan txt dosyasındaki ÇĞİÖŞÜçğıöşü'nın ��������� yerine doğru görünmesi için charset=iso-8859-9 gerek; charset=utf-8 ile olmuyor. Dikkat! Bunun doğru çalışması için txt dosyasının UTF-8 ile kaydedilmiş olması gerek.
   myHeaders.append('Content-Type','text/plain; charset=iso-8859-9');
   // console.log("iso-8859-9 ile fetch() için headers ayarı ... ");
 }
 
-// Arabic works without this headers thing on Windows and Android.
+// Arabic.txt fetch works fine without this headers thing on Windows and Android.
 // BIG QUESTION: Could the same problem exist with Arabic or Renic (Chinese) on iOS?
 
 //}, { once: true });

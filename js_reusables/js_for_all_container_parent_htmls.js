@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded', function(){
 }, { once: true });
 
 var genderOfTheUser;
-var theLanguageUserIsLearningNowToSetPathsAndGUI;
+var theLanguageUserIsLearningNowToSetPathsAndNotes;
 var theLanguageUserIsLearningNowToSetAnnyang;
 const iFrameScriptAccess = document.getElementById('theIdOfTheIframe');
 
@@ -35,7 +35,7 @@ if (localStorage.theLastCheckpointSavedInLocalStorage) { // See if a previously 
   // MUST USE display:none to avoid click blocking by z-index.
   document.getElementById('fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt').classList.add("addThisForOpacityAnimationFadeIn");
   // NOTE: Chrome does not count an alert box click as a user gesture.
-  theLanguageUserIsLearningNowToSetPathsAndGUI = localStorage.theLanguageUserWasLearningLastTimeToSetPathsAndGUI; // This will certainly exist as long as there has been a checkpoint save.
+  theLanguageUserIsLearningNowToSetPathsAndNotes = localStorage.theLanguageUserWasLearningLastTimeToSetPathsAndNotes; // This will certainly exist as long as there has been a checkpoint save.
   theLanguageUserIsLearningNowToSetAnnyang = localStorage.theLanguageUserWasLearningLastTimeToSetAnnyang; // Same situation.
   if (annyang) {
       annyang.setLanguage(theLanguageUserIsLearningNowToSetAnnyang); // Firefox v60's and v70's won't let buttons function unless this is wrapped in an if (annyang){} like this.
@@ -77,13 +77,13 @@ femalesIcon.src = "user_interface/images/gender_ladies.webp";
 /*What language will be taught via the iframe*/
 /* JA - Hito */
 function letTheIFrameTeachJapanese(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNowToSetPathsAndGUI = "ja"; //"ja" is OK with both iOS and Android
+  theLanguageUserIsLearningNowToSetPathsAndNotes = "ja"; //"ja" is OK with both iOS and Android
   theLanguageUserIsLearningNowToSetAnnyang = "ja";
   openFirstLesson();
 }
 /* ZH - Ren */
 function letTheIFrameTeachChinese(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNowToSetPathsAndGUI = "zh"; // Android is OK with "zh" but iOS needs "zh-TW"
+  theLanguageUserIsLearningNowToSetPathsAndNotes = "zh"; // Android is OK with "zh" but iOS needs "zh-TW"
   theLanguageUserIsLearningNowToSetAnnyang = "zh"; // We still want to pass "zh" on Android and Windows. Because Android turns the mic on and off too quickly in some less supported languages.
   if (detectedOS.name == "iOS") {
     theLanguageUserIsLearningNowToSetAnnyang = "zh-TW"; // Overwrite
@@ -93,13 +93,13 @@ function letTheIFrameTeachChinese(){ //See index.html to find the button that tr
 }
 /* TR - Kişi */
 function letTheIFrameTeachTurkish(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNowToSetPathsAndGUI = "tr"; //"tr" is OK with both iOS and Android
+  theLanguageUserIsLearningNowToSetPathsAndNotes = "tr"; //"tr" is OK with both iOS and Android
   theLanguageUserIsLearningNowToSetAnnyang = "tr";
   openFirstLesson();
 }
 /* AR Arabic */
 function letTheIFrameTeachArabic(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNowToSetPathsAndGUI = "ar"; // Android is OK with "ar" but iOS needs "ar-SA" or "ar-QA" etc
+  theLanguageUserIsLearningNowToSetPathsAndNotes = "ar"; // Android is OK with "ar" but iOS needs "ar-SA" or "ar-QA" etc
   theLanguageUserIsLearningNowToSetAnnyang = "ar"; // We still want "ar" instead of "ar-SA" on Android for better performance (frequency of the mic turn on&off thing).
   if (detectedOS.name == "iOS") {
     theLanguageUserIsLearningNowToSetAnnyang = "ar-SA"; // Overwrite... Don't know which is better: ar-SA ar-JO ar-KW ar-QA
@@ -161,7 +161,7 @@ function letTheIFrameTeachArabic(){ //See index.html to find the button that tri
 }
 /* EN - People */
 function letTheIFrameTeachEnglish(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNowToSetPathsAndGUI = "en"; // "en" alone works well both on Android and iOS. No need for "en-US" or "en-GB"
+  theLanguageUserIsLearningNowToSetPathsAndNotes = "en"; // "en" alone works well both on Android and iOS. No need for "en-US" or "en-GB"
   theLanguageUserIsLearningNowToSetAnnyang = "en";
   openFirstLesson();
 }
@@ -169,7 +169,7 @@ function letTheIFrameTeachEnglish(){ //See index.html to find the button that tr
 /*___________Navigate to first lesson_____________*/
 function openFirstLesson() {
   // Save language choice
-  localStorage.theLanguageUserWasLearningLastTimeToSetPathsAndGUI = theLanguageUserIsLearningNowToSetPathsAndGUI;
+  localStorage.theLanguageUserWasLearningLastTimeToSetPathsAndNotes = theLanguageUserIsLearningNowToSetPathsAndNotes;
   localStorage.theLanguageUserWasLearningLastTimeToSetAnnyang = theLanguageUserIsLearningNowToSetAnnyang;
   // Set language
   if (annyang) {

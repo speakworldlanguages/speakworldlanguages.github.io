@@ -8,14 +8,14 @@ fetch(filePathA,myHeaders).then(function(response){return response.text();}).the
 /* This lesson has no textB*/
 
 /* ___AUDIO ELEMENTS___ */
-let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_3/lesson_3/go_to_sleep.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
+let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_3/lesson_3/go_to_sleep.mp3";
+if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
 const say1 = new parent.Howl({  src: [say1Path]  });
-let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_3/lesson_3/go_to_sleep_in_the_house.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
+let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_3/lesson_3/go_to_sleep_in_the_house.mp3";
+if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
 const say2 = new parent.Howl({  src: [say2Path]  });
-let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_3/lesson_3/go_to_sleep_in_the_house_slow.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
+let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_3/lesson_3/go_to_sleep_in_the_house_slow.mp3";
+if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
 const say3 = new parent.Howl({  src: [say3Path]  });
 const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_3/click_on_house.mp3'] });
 const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_3/lesson_3/night_time_crickets.mp3'] });

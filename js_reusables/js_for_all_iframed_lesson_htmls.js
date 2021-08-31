@@ -105,8 +105,8 @@ function mouseDownClassical() {
 }
 
 // BUTTON TYPE 2: Glassy button with glassy sounds
-const hoverSoundForGlassyButtons = new parent.Howl({  src: ['user_interface/sounds/glassybuttonhover.mp3']  }); // DESKTOPS ONLY! Could add code to disable it on mobile but guess it just works when left like this.
-const clickSoundForGlassyButtons = new parent.Howl({  src: ['user_interface/sounds/glassybuttongiveupskipclick.mp3']  });
+const hoverSoundForGlassyButtons = new parent.Howl({  src: ['user_interface/sounds/glass_button_hover.mp3']  }); // DESKTOPS ONLY! Could add code to disable it on mobile but guess it just works when left like this.
+const clickSoundForGlassyButtons = new parent.Howl({  src: ['user_interface/sounds/glass_button_click.mp3']  });
 /* Use ASIDE elements as a second type of button */
 let allLessonAsideElementsAreInThisArray = document.getElementsByTagName("ASIDE");
 let j;

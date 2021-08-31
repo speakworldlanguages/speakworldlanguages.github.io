@@ -54,7 +54,7 @@
           <p id="aboutLicenseP" class="" style="color: white; width:100vw; letter-spacing: -0.5px; font-size: 23px; /*white-space: nowrap;*/">...</p>
         </div>
         <!-- Big navigation arrow -->
-        <div onclick="bigSlideTowardsLeft();" class="fixPositionWhenNarrowOnDesktops startWithNearZeroOpacity niceFadeInSlow2" style="position:fixed; left:50vw; transform: translate(-50%,0%); top:64.0vh; cursor: help;">
+        <div onmousedown="bigSlideTowardsLeft();" class="fixPositionWhenNarrowOnDesktops startWithNearZeroOpacity niceFadeInSlow2" style="position:fixed; left:50vw; transform: translate(-50%,0%); top:64.0vh; cursor: help;">
           <img src="../user_interface/images/long_arrow.png" alt="" style="width:35vh;">
           <p id="clickToViewP" style="white-space: nowrap; display: block; position: absolute; top:50%; left:50%; transform: translate(-50%,-54%); width: 34vh; font-size: 2.2vh; font-weight: bold; text-shadow: none; min-width:10vw;">» » »</p>
         </div>
@@ -94,7 +94,7 @@
           <p id="putTheLicenseIntoThisP" style="font-family: 'Kavivanar', earthmanFont; font-size: 24px; color: white; mix-blend-mode:color-dodge; text-align: justify; width:90vw;">Error reading the license file</p>
         </div>
         <!-- Big navigation arrow 180 -->
-        <div onclick="returnWithBigSlideTowardsRight();" class="" style="position:fixed; left:50vw; transform: translateX(-50%); top:85vh; cursor: col-resize;">
+        <div onmousedown="returnWithBigSlideTowardsRight();" class="" style="position:fixed; left:50vw; transform: translateX(-50%); top:85vh; cursor: col-resize;">
           <img src="../user_interface/images/long_arrow.png" alt="" style="width:35vh; transform: rotate(180deg);">
           <p id="clickToGoBackP" style="display: block; position: absolute; top:50%; left:50%; transform: translate(-50%,-50%); width: 34vh; font-size: 2.2vh; font-weight: bold; text-shadow: none; min-width:10vw;">« « «</p>
         </div>
@@ -130,7 +130,7 @@
           <p id="aboutLicenseP" class="" style="color: white; letter-spacing: -0.5px; font-size: 20px; white-space: pre-wrap;"> ... </p>
         </div>
         <!-- Big navigation arrow on tablets -->
-        <div onclick="bigSlideTowardsLeft();" class="bigNavigationArrowToViewLicenseOnTabletsPosition startWithNearZeroOpacity niceFadeInSlow1" style="">
+        <div ontouchstart="bigSlideTowardsLeft();" class="bigNavigationArrowToViewLicenseOnTabletsPosition startWithNearZeroOpacity niceFadeInSlow1" style="">
           <img src="../user_interface/images/long_arrow.png" alt="" class="bigNavigationArrowToViewLicenseOnTabletsSize" style="">
           <p id="clickToViewP" class="bigNavigationArrowToViewLicenseOnTabletsFontSize" style="white-space: nowrap; display: block; position: absolute; top:50%; left:50%; transform: translate(-50%,-54%); font-weight: bold; text-shadow: none; min-width:10vw;">» » »</p>
         </div>
@@ -145,7 +145,7 @@
           <p id="putTheLicenseIntoThisP" style="font-family: 'Kavivanar', earthmanFont; font-size: 24px; color: white; mix-blend-mode:color-dodge; text-align: justify; width:90vw;">Loading the license file</p>
         </div>
         <!-- Big navigation arrow 180 on tablets -->
-        <div onclick="returnWithBigSlideTowardsRight();" class="bigNavigationReturnArrowOnTablets" style="position:fixed; left:50vw; transform: translateX(-50%);">
+        <div ontouchstart="returnWithBigSlideTowardsRight();" class="bigNavigationReturnArrowOnTablets" style="position:fixed; left:50vw; transform: translateX(-50%);">
           <img src="../user_interface/images/long_arrow.png" alt="" class="bigNavigationArrowToViewLicenseOnTabletsSize" style="/*width:35vh;*/ transform: rotate(180deg);">
           <p id="clickToGoBackP" class="bigNavigationArrowToViewLicenseOnTabletsFontSize" style="display: block; position: absolute; top:50%; left:50%; transform: translate(-50%,-50%); font-weight: bold; text-shadow: none; min-width:10vw;">« « «</p>
         </div>
@@ -170,7 +170,7 @@
         <!-- Buttons of finance on phones -->
         <div id="" class="" style="">
           <div id="idOfMonthlySupportOptionDiv" class="hoverableAndClickableChoice monthlyButtonOnPhones" style="white-space: pre-wrap;">
-            <p id="idOfMonthlyOptionP" class="financeFontSizeOnPhones" style="color:inherit; text-shadow: none;" > Patreon </p>
+            <p id="idOfMonthlyOptionP" class="financeFontSizeOnPhones" style="color:inherit; text-shadow: none;">Patreon</p>
           </div>
           <!--<div id="idOfOneTimeDonationOptionDiv" class="hoverableAndClickableChoice onetimeButtonOnPhones" style="white-space: pre-wrap;">
             <p id="idOfOneTimeOptionP" class="financeFontSizeOnPhones" style="color:inherit; text-shadow: none;" > ... </p>
@@ -181,7 +181,7 @@
           <p id="aboutLicenseP" class="" style="color: white; letter-spacing: 0px; font-size: 4.4vmin; white-space: pre-wrap;">...</p>
         </div>
         <!-- Big navigation arrow on phones -->
-        <div onclick="bigSlideTowardsLeft();" class="bigNavigationArrowToViewLicenseOnPhonesPosition" style="">
+        <div ontouchstart="bigSlideTowardsLeft();" class="bigNavigationArrowToViewLicenseOnPhonesPosition" style="">
           <img src="../user_interface/images/long_arrow.png" alt="" class="bigNavigationArrowToViewLicenseOnTabletsSize" style="">
           <p id="clickToViewP" class="bigNavigationArrowToViewLicenseOnTabletsFontSize" style="white-space: nowrap; display: block; position: absolute; top:50%; left:50%; transform: translate(-50%,-54%); font-weight: bold; text-shadow: none; min-width:10vw;">» » »</p>
         </div>
@@ -196,7 +196,7 @@
           <p id="putTheLicenseIntoThisP" style="font-family: 'Kavivanar', earthmanFont; font-size: 18px; color: white; mix-blend-mode:color-dodge; text-align: justify; width:90vw;">Loading the license file</p>
         </div>
         <!-- Big navigation arrow 180 on phones -->
-        <div onclick="returnWithBigSlideTowardsRight();" class="bigNavigationReturnArrowOnPhones" style="">
+        <div ontouchstart="returnWithBigSlideTowardsRight();" class="bigNavigationReturnArrowOnPhones" style="">
           <img src="../user_interface/images/long_arrow.png" alt="" class="bigNavigationArrowToViewLicenseOnTabletsSize" style="/*width:35vh;*/ transform: rotate(180deg);">
           <p id="clickToGoBackP" class="bigNavigationArrowToViewLicenseOnTabletsFontSize" style="display: block; position: absolute; top:50%; left:50%; transform: translate(-50%,-50%); font-weight: bold; text-shadow: none; min-width:10vw;">« « «</p>
         </div>

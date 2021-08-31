@@ -1,14 +1,14 @@
 // All settings here will depend on the content of the lesson
 let theNewWordUserIsLearningNowAndPossibleMishaps; // Get this from txt file
-const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/1-6-1-sun.txt";
+const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/1-6-1-sun.txt";
 // See js_for_fetch_api_character_encoding.js for the headers setting.
 fetch(filePathForTheWordOrPhrase,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theNewWordUserIsLearningNowAndPossibleMishaps = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-const say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_6/lesson_1/sun_1.mp3";
-const say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_6/lesson_1/sun_2.mp3";
-const say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_6/lesson_1/sun_3.mp3";
-const say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_6/lesson_1/sun_4.mp3";
+const say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_6/lesson_1/sun_1.mp3";
+const say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_6/lesson_1/sun_2.mp3";
+const say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_6/lesson_1/sun_3.mp3";
+const say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_6/lesson_1/sun_4.mp3";
 
 const sayA = new parent.Howl({  src: [say1Path]  });
 const sayB = new parent.Howl({  src: [say2Path]  });

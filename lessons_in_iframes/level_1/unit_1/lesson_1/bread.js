@@ -24,16 +24,16 @@ if (parent.deviceDetector.isMobile){
 // This is DEFERRED in html
 // All settings here will depend on the content of the lesson
 let theNewWordUserIsLearningNowAndPossibleMishaps; // Get this from txt file
-// CAUTION: parent.theLanguageUserIsLearningNowToSetPathsAndGUI variable depends on localStorage data being available. See js_for_all_container_parent_htmls.js
-const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/1-1-1-bread.txt";
+// CAUTION: parent.theLanguageUserIsLearningNowToSetPathsAndNotes variable depends on localStorage data being available. See js_for_all_container_parent_htmls.js
+const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/1-1-1-bread.txt";
 // See js_for_fetch_api_character_encoding.js for the headers setting.
 fetch(filePathForTheWordOrPhrase,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theNewWordUserIsLearningNowAndPossibleMishaps = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
-const say1say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_1/lesson_1/bread_1-2.mp3";
-const say3say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_1/lesson_1/bread_3-4.mp3";
-const say5say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_1/lesson_1/bread_5-6.mp3";
-const say7say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_1/lesson_1/bread_7-8.mp3";
+const say1say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_1/lesson_1/bread_1-2.mp3";
+const say3say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_1/lesson_1/bread_3-4.mp3";
+const say5say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_1/lesson_1/bread_5-6.mp3";
+const say7say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_1/lesson_1/bread_7-8.mp3";
 
 const sayAB = new parent.Howl({  src: [say1say2Path]  });
 const sayCD = new parent.Howl({  src: [say3say4Path]  });
@@ -100,7 +100,7 @@ window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, {
 function loadingIsCompleteFunction()
 {
   // Stop and notify the user if necessary; otherwise just continue.
-  if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI == "en") { // Display the explanation about accents for users who want to learn English.
+  if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes == "en") { // Display the explanation about accents for users who want to learn English.
     const pathOfNotificationAboutBritishVsAmerican = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-1-1_british_vs_american.txt";
     fetch(pathOfNotificationAboutBritishVsAmerican,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       // Display notification instead of alert(contentOfTheTxtFile);
@@ -115,7 +115,7 @@ function loadingIsCompleteFunction()
       okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
     });
   }
-  else if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI == "zh") { // Display the warning about intonations to users who want to learn the Ren language.
+  else if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes == "zh") { // Display the warning about intonations to users who want to learn the Ren language.
     const pathOfNotificationAboutRenIntonation = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-1-1_ren_intonation.txt";
     fetch(pathOfNotificationAboutRenIntonation,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       // Display notification instead of alert(contentOfTheTxtFile);
@@ -130,7 +130,7 @@ function loadingIsCompleteFunction()
       okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
     });
   }
-  else if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI == "ar") { // Display the warning about TANWEEN to users who want to learn the Standard Arabic.
+  else if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes == "ar") { // Display the warning about TANWEEN to users who want to learn the Standard Arabic.
     const pathOfNotificationAboutTanween = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-1-1_arabic_tanween.txt";
     fetch(pathOfNotificationAboutTanween,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       // Display notification instead of alert(contentOfTheTxtFile);

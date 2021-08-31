@@ -9,14 +9,14 @@ fetch(filePathA,myHeaders).then(function(response){return response.text();}).the
 
 /* ___AUDIO ELEMENTS___ */
 // The following say1 say2 and say3 are not slow vs fast. Just 3 different intonations to make it feel less “robotic”.
-let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_2/lesson_3/eat.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
+let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_2/lesson_3/eat.mp3";
+if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
 const say1 = new parent.Howl({  src: [say1Path]  });
-let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_2/lesson_3/eat_with_the_spoon.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
+let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_2/lesson_3/eat_with_the_spoon.mp3";
+if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
 const say2 = new parent.Howl({  src: [say2Path]  });
-let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_2/lesson_3/eat_with_the_spoon_slow.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
+let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_2/lesson_3/eat_with_the_spoon_slow.mp3";
+if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
 const say3 = new parent.Howl({  src: [say3Path]  });
 const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_3/spoon_is_clicked.mp3'] });
 const videoSoundTrack = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_2/lesson_3/eat_with_the_spoon_state_b.mp3'] });
@@ -48,7 +48,7 @@ let counter = 1;
 function loadingIsCompleteFunction()
 {
   // Stop and notify the user if necessary; otherwise just continue.
-  if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI == "ar") { // Kul or Tanaawal
+  if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes == "ar") { // Kul or Tanaawal
     const pathOfNotificationArabicEat = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-2-3_special_case_for_ar.txt";
     fetch(pathOfNotificationArabicEat,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js

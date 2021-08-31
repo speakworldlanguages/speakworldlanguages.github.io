@@ -17,29 +17,29 @@ fetch(filePathD,myHeaders).then(function(response){return response.text();}).the
 fetch(filePathE,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textE = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_4/lesson_3/look.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
+let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_4/lesson_3/look.mp3";
+if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
 const say1 = new parent.Howl({  src: [say1Path]  });
-let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_4/lesson_3/look_at_the_tree.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
+let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_4/lesson_3/look_at_the_tree.mp3";
+if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
 const say2 = new parent.Howl({  src: [say2Path]  });
-let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_4/lesson_3/look_at_the_tree_slow.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
+let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_4/lesson_3/look_at_the_tree_slow.mp3";
+if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
 const say3 = new parent.Howl({  src: [say3Path]  });
-const say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_4/lesson_3/there_is_a_bird.mp3";
+const say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_4/lesson_3/there_is_a_bird.mp3";
 const say4 = new parent.Howl({  src: [say4Path]  });
-const say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_4/lesson_3/there_is_a_bird_in_the_tree.mp3";
+const say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_4/lesson_3/there_is_a_bird_in_the_tree.mp3";
 const say5 = new parent.Howl({  src: [say5Path]  });
-const say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_4/lesson_3/there_is_a_bird_in_the_tree_slow.mp3";
+const say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_4/lesson_3/there_is_a_bird_in_the_tree_slow.mp3";
 const say6 = new parent.Howl({  src: [say6Path]  });
-let say7Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_4/lesson_3/listen.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI=="ar" && parent.genderOfTheUser=="female") { say7Path = say7Path.split(".")[0] + "_female.mp3"; }
+let say7Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_4/lesson_3/listen.mp3";
+if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say7Path = say7Path.split(".")[0] + "_female.mp3"; }
 const say7 = new parent.Howl({  src: [say7Path]  });
-let say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_4/lesson_3/listen_to_the_bird.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI=="ar" && parent.genderOfTheUser=="female") { say8Path = say8Path.split(".")[0] + "_female.mp3"; }
+let say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_4/lesson_3/listen_to_the_bird.mp3";
+if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say8Path = say8Path.split(".")[0] + "_female.mp3"; }
 const say8 = new parent.Howl({  src: [say8Path]  });
-let say9Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndGUI+"/level_1/unit_4/lesson_3/listen_to_the_bird_slow.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndGUI=="ar" && parent.genderOfTheUser=="female") { say9Path = say9Path.split(".")[0] + "_female.mp3"; }
+let say9Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_4/lesson_3/listen_to_the_bird_slow.mp3";
+if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say9Path = say9Path.split(".")[0] + "_female.mp3"; }
 const say9 = new parent.Howl({  src: [say9Path]  });
 
 const clickTone1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_4/lesson_3/click_on_tree.mp3'] });
