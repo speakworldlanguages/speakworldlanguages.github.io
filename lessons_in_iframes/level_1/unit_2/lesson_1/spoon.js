@@ -91,11 +91,12 @@ function loadingIsCompleteFunction()
       putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
       // Continue when user clicks or touches OK
       // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
-    });
-    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
-    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
-    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+      // ---
+      // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+      const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+      fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+        okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+      });
     });
   }
   else {

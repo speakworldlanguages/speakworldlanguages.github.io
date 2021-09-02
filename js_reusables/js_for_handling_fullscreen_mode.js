@@ -1,7 +1,10 @@
 // This is included in parent htmls only. Not in lesson htmls.
 // Even though this is deferred, looks like we still need to wait for the load event before we call a function from another js file.
 var deactivationSound1 = new Howl({  src: ['user_interface/sounds/thingy_one_deactivate.mp3']  }); // Desktops: FULLSCREEN,,, Mobiles: NAVIGATION MENU
+// See js_for_browser_device_issues_in_parents ... Also see js_for_the_sliding_navigation_menu
 var activationSound1 = new Howl({  src: ['user_interface/sounds/thingy_one_activate.mp3']  }); // Desktops: FULLSCREEN,,, Mobiles: NAVIGATION MENU
+// See js_for_browser_device_issues_in_parents ... Also see js_for_the_sliding_navigation_menu
+var errorSound = new Howl({  src: ['user_interface/sounds/thingy_two_error.mp3']  }); // Mobiles only: Touch once - Touch twice distinction
 
 var hasGoneFullscreen = false;
 // Go fullscreen by touching anywhere on the screen.
@@ -11,13 +14,13 @@ window.addEventListener("load",function() {
 
   // HOW TO GO AND STAY IN FULLSCREEN ON MOBILES
   function handleTouchForFullscreen() {
-    if (!hasGoneFullscreen){  openFullscreen();  } // This works but it sometimes gives an error. Not exactly sure why. Maybe it's because of the alert box that shows after the ON/OFF button of the device is pressed.
+    if (!hasGoneFullscreen){  openFullscreen();  } // This works but it gives an error for the first touch. Was able to turn the error into something useful by adding errorSound.play();
   }
   function iframeHasBeenLoaded() {
     iDoc.document.addEventListener("touchstart", handleTouchForFullscreen); // Tried to removeEventListener with 'unload' but neither 'unload' nor 'hashchange' fires on the iframe.
   }
   // See js_for_all_container_parent_htmls to find how openFullscreen() is called.
-  // openFullscreen() is called via handleGoingFullscreenOnMobiles() when either of these two things happen,
+  // openFullscreen() is called via handleTheFirstGoingFullscreenOnMobiles() when either of these two things happen,
   // 1- when user taps on a button in the main menu (language selection menu) 2- when user taps the "return to the last saved point" button
   // But ALSO must RETURN TO FULLSCREEN WITH THE FIRST TOUCH if user navigates away from the app and comes back and THE REASON is
   // BECAUSE most browsers won't allow going fullscreen without a user gesture... That means calling openFullscreen() with Onblur Onfocus or document.visibilitychange won't work.
@@ -120,7 +123,7 @@ function openFullscreen() {
     activationSound1.play();
   } else {
     // Handle audio according to the "weird two touches problem"
-    // Create a new thingy_two_before_activate.mp3 with fixed tone.
+    errorSound.play();
   }
 }
 

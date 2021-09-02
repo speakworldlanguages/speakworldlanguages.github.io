@@ -18,8 +18,10 @@ p{
 .textShadow{
   text-shadow: 0px -0.5vmin 0.8vmin rgba(123,145,158,0.45), 0px -0.2vmin 0.4vmin rgba(123,145,158,0.65);
 }
-/* ASIDE IS USED AS A BUTTON: See js_for_all_iframed_lesson_htmls.js */
+/* ASIDE (inside iFrames) IS USED AS A BUTTON (glassy give up) */
+/* Glassmorphism is added to all ASIDE elements in js_for_all_iframed_lesson_htmls.js */
 aside{
+  /**/
   font-size: 320%;
   /*font-family: ;*/ /*See js_for_every_single_html.js*/
   line-height: normal;
@@ -161,25 +163,4 @@ button:active {
 }
 button:focus {outline:0;}
 
-/* MOVE THIS TO EVERY SINGLE HTML CSS
-.addThisToAButtonForPlayStationStyleClick{
-  animation: playStationStyle 0.6s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes playStationStyle {
-  0%{
-    opacity: 1;
-    transform: scale(1.05);
-  }
-  25%{
-    opacity: 1;
-    transform: scale(1.1);
-  }
-  100%{
-    opacity: 0;
-    transform: scale(0.1);
-    visibility: hidden;
-  }
-}
-*/
+/*See css_for_every_single_html about playstation style click animation*/

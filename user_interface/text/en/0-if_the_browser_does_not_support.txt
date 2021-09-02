@@ -1,1 +1,2 @@
-﻿? Can it do speech recognition?
+﻿?
+Can that do speech recognition?

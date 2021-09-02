@@ -55,7 +55,7 @@ window.addEventListener('load', function(){
 
   const monthlyOpt = document.getElementById('idOfMonthlySupportOptionDiv'); // The 2 other duplicates will have been removed by the time this gets executed.
   // GOOD PRACTICE: It would be good if we could “SILENTLY” get the location of the user via IP detection (without device GPS because that pops another “allow-block” prompt).
-  switch (browserLanguage) { // CAUTION: Not userInterfaceLanguage but browserLanguage
+  switch (browserLanguage) { // CAUTION: Not userInterfaceLanguage but browserLanguage // See js_for_every_single_html -> two letter code is ready
     case "ja": // JPY
     fetch(filePathForMonthlyFinanceBaseUsd,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       theTextThatWillBePutInTheButton = contentOfTheTxtFile;
@@ -83,10 +83,11 @@ window.addEventListener('load', function(){
   monthlyOpt.addEventListener("click", function(){
     clickSound.play();
     document.getElementById('moveAllOfThisToLeftID').classList.add("niceFadeOutInfoSlow"); // See information.css
-    // Switch case here to go to euro or usd page on patreon
-    // CAUTION: Switch must not take userInterfaceLanguage but browserLanguage
+    // Create a switch-case here to go to euro or usd page on patreon
+    // CAUTION: Switch must not take userInterfaceLanguage but browserLanguage // See js_for_every_single_html
 
-    setTimeout(function () {  document.location.href = 'https://patreon.com/one_US_dollar_a_month_for_terranational_bonocracy';  },3900);
+    setTimeout(function () {  document.location.href = 'https://patreon.com/ForTerranationalBonocracy_USD';  },3900);
+    //setTimeout(function () {  document.location.href = 'https://patreon.com/ForTerranationalBonocracy_EUR';  },3900);
   });
 
   /* __ Detect device and make the buttons blink on mobiles. __ */

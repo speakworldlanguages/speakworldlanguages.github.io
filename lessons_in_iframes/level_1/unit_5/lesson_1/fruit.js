@@ -81,11 +81,12 @@ function loadingIsCompleteFunction()
       putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
       // Continue when user clicks or touches OK
       // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
-    });
-    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
-    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
-    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+      // ---
+      // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+      const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+      fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+        okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+      });
     });
   } else if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes == "zh") { // Shuiguo - Guoshi
     const pathOfNotificationRenFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_zh.txt";
@@ -94,11 +95,12 @@ function loadingIsCompleteFunction()
       putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
       // Continue when user clicks or touches OK
       // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
-    });
-    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
-    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
-    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+      // ---
+      // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+      const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+      fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+        okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+      });
     });
   } else if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes == "tr") { // Meyve - Meyveler
     const pathOfNotificationKishiFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_tr.txt";
@@ -107,11 +109,12 @@ function loadingIsCompleteFunction()
       putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
       // Continue when user clicks or touches OK
       // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
-    });
-    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
-    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
-    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+      // ---
+      // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+      const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+      fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+        okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+      });
     });
   } else if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes == "ar") { // Faakihah - Fawaakih - Thamar
     const pathOfNotificationArabicFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_ar.txt";
@@ -120,11 +123,12 @@ function loadingIsCompleteFunction()
       putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
       // Continue when user clicks or touches OK
       // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
-    });
-    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
-    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
-    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+      // ---
+      // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+      const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+      fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+        okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+      });
     });
   } else if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes == "de") { // Obst - Früchte
     const pathOfNotificationMenschenFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-1_special_case_for_de.txt";
@@ -133,11 +137,12 @@ function loadingIsCompleteFunction()
       putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile;
       // Continue when user clicks or touches OK
       // createAndHandleNotificationBox() will start the lesson 1.5 seconds after the button is clicked
-    });
-    // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
-    const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
-    fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+      // ---
+      // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+      const pathOfOkCloseTheBox = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
+      fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+        okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
+      });
     });
   } else {
     startTheLesson();

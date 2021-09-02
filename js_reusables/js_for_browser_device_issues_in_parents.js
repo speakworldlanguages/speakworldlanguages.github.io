@@ -42,16 +42,22 @@ window.addEventListener('DOMContentLoaded', function(){
     case "QQBrowserLite": isTheUsersBrowserWhitelisted = true;
       break;
     /* __ For IE users __ */
-    case "IE": alert("(⊙_⊙)\nInternet Explorer???\nYour device is a SOFTWARE MUSEUM!");
+    case "IE": alert("(⊙_⊙)\nWhat? Internet Explorer?\nIs this a computer or is it a software museum?");
       break;
-    case "IEMobile": alert("(⊙_⊙)\nInternet Explorer???\nYour device is a SOFTWARE MUSEUM!");
+    case "IEMobile": alert("(⊙_⊙)\nWhat? Internet Explorer?\nThis device is like a software museum!");
       break;
-    /* __ Everything else __ */
+    /* __ For Edge users __ */
+    case "Edge": alert("Edge ↹ Chrome");
+      break;
+    /* __ For Opera users __ */
+    case "Opera": alert("Opera ↹ Chrome");
+      break;
+    /* __ Everything else including Firefox __ */
     default: // What to do if the browser is not whitelisted
       if (localStorage.browserIsNotWhitelistedNotificationHasAlreadyBeenDisplayed == "yes") {
         // DO NOTNING here means “Don't display the annoying alert boxes anymore.”
       } else {
-        localStorage.browserIsNotWhitelistedNotificationHasAlreadyBeenDisplayed = "yes"; // Display th notifications only once by using this.
+        localStorage.browserIsNotWhitelistedNotificationHasAlreadyBeenDisplayed = "yes"; // Display the notifications only once by using this.
         setTimeout(function () {
           // A crude alert box is shown if the user's browser is not Chrome or another Web Speech API compatible one.
           const filePath = "user_interface/text/"+userInterfaceLanguage+"/0-if_the_browser_does_not_support.txt";
@@ -84,7 +90,7 @@ window.addEventListener('DOMContentLoaded', function(){
       setTimeout(function () {  annyang.start(); localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes";  },1000); // Actually any string value makes it return true but the keyword “true” does not.
       // Thus the device shall not uselessly/purposelessly DING every time main menu is viewed.
       // While the user is viewing the dialog box and deciding whether or not to press OK
-      var tryToAbortEveryThreeSeconds = setInterval(function () {
+      let tryToAbortEveryThreeSeconds = setInterval(function () {
         if (annyang.isListening()) {
           annyang.abort();
           clearInterval(tryToAbortEveryThreeSeconds);
@@ -109,27 +115,47 @@ window.addEventListener('DOMContentLoaded', function(){
     document.addEventListener("visibilitychange", handleVisibilityChangeOnMobilesFunction);
     function handleVisibilityChangeOnMobilesFunction()
     {
+      let newVolume;
+      let i = 1;
       if (document.hidden) {
-          // console.log("hidden means user is gone");
+          // console.log("hidden means user is gone"); // This fires when ON-OFF button of the device is pressed.
           // Handle audio.
-          // COULD: get the global volume and try to fade it out and then back in BUT the following 1by1 method just feels neater. There aren't too many audio files running at a time anyways.
-          Howler._howls.forEach(function(nextAudioToFadeToSilence) {         nextAudioToFadeToSilence.fade(1, 0, 1200);         });
+          // DEPRECATED: Howler._howls.forEach(function(nextAudioToFadeToSilence) {  nextAudioToFadeToSilence.fade(1, 0, 1200);  });
+          // REMEMBER: On mobiles Howler.volume() always starts at 1 and is never changed. User adjusts OS volume natively with the device buttons.
+          // Custom FADE
+          let nineteenSteps = setInterval(littleByLittle,49);
+          function littleByLittle() {
+            newVolume = 1 - i*0.05; // The last one will be 1- 19*0.05 = 1 - 0.95 = 0.05
+            newVolume = newVolume.toFixed(2); // Some kind of bugginess in Chrome makes this necessary. // No need to use Math.abs() to prevent falling below zero.
+            Howler.volume(newVolume);
+            if (i > 18) {     Howler.volume(0); clearInterval(nineteenSteps);   }
+            i++;
+          }
           // Handle microphone
           if (annyang) {
             wasListeningJustBeforeUserLeft = annyang.isListening();
             annyang.abort(); // without this annyang.start() won't function.
           }
-          alert(continueAfterPauseMsgFromTxtFileInUILanguage); // Try to make the app pause when On/Off button of the phone/tablet is pressed, but do not block annyang restart.
-          // MUST: notify iPhone (and maybe iPad users too) about the muting and unmuting effect of alert boxes.
-          // OR: to go back to normal, can we pop just another alert box if (iOS && phone) is true?
+          // Try to make the app pause when ON/OFF button of the phone/tablet is pressed, but do not block annyang restart.
+          setTimeout(function() {          alert(continueAfterPauseMsgFromTxtFileInUILanguage);         },999);
+          // Either find a solution or notify iPhone (and maybe iPad users too) about the muting and unmuting effect of alert boxes.
       } else {
           // console.log("visible means user is back");
           // Handle audio
-          Howler._howls.forEach(function(nextAudioToFadeBackFromSilence) {         nextAudioToFadeBackFromSilence.fade(0, 1, 1200);         });
+          // DEPRECATED: Howler._howls.forEach(function(nextAudioToFadeBackFromSilence) {  nextAudioToFadeBackFromSilence.fade(0, 1, 1200);  });
+          // REMEMBER: On mobiles Howler.volume() is always 1 and is never changed. User adjusts OS volume natively with the device buttons.
+          let nineteenSteps = setInterval(littleByLittle,49);
+          function littleByLittle() {
+            newVolume = i*0.05; // The last one will be 0.95
+            newVolume = newVolume.toFixed(2); // Some kind of bugginess in Chrome makes this necessary. // No need to use Math.round() to make sure it never goes above 1
+            Howler.volume(newVolume);
+            if (i > 18) {     Howler.volume(1); clearInterval(nineteenSteps);   }
+            i++;
+          }
           // Handle microphone
           // MUST restart annyang if was listening!
           if (wasListeningJustBeforeUserLeft) {
-            setTimeout(function() {          if (annyang){ annyang.start(); }           },1000);
+            setTimeout(function() {          if (annyang){ annyang.start(); }           },1001);
           }
           // On mobiles, we want to go back to fullscreen because the alert box has made the browser exit fullscreen
           // Unfortunately requestFullscreen gets blocked because Chrome does not count an alert box click as a valid user gesture

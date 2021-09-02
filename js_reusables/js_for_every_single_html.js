@@ -5,10 +5,6 @@ var onePixelTransparentGif = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5
 // Until that time, UI language will automatically take the browser's language.
 
 var browserLanguage = navigator.language.substring(0,2).toLowerCase();
-// CODE FOR TESTING UI LANGUAGES IS
-// FROM HERE
-//browserLanguage = "ja"; /*Override during tests*/
-// TO HERE
 
 // These variables will exist both in parent html and in frame html separately at the same time.
 var userInterfaceLanguage;

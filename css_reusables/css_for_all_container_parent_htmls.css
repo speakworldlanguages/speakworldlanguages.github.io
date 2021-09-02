@@ -20,7 +20,7 @@ p{
   padding-left:7px;
   padding-right:7px;
 }
-
+/*select the language you want to learn BUTTONS*/
 button{
   border: .25vmin solid white;
   border-radius: 5px;
@@ -30,7 +30,6 @@ button{
   color: white;
   transition-duration: 0.06s;
 }
-
 button:hover{
   color: #7790a5;
   background-color: #e4f6fc;
@@ -38,6 +37,32 @@ button:hover{
   box-shadow: 0px 0px 6px white;
 }
 button:focus {outline:0;}
+
+/*All aside elements are used as just another type of button*/
+/*These will apply to parent level ASIDEs only,,, NOT THE LESSON-iFrame LEVEL*/
+aside{
+  border: .25vmin solid white;
+  border-radius: 5px;
+  min-width: 75vmin;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: 0.5vmin; /*Space between two buttons*/
+  background-color: #4d606f;
+  color: white;
+  transition-duration: 0.06s;
+}
+aside:hover{
+  background-color: black;
+}
+aside:focus {outline:0;}
+@media screen and (max-width: 400px) {
+  aside {
+    font-size: 4vmin;
+  }
+}
 
 #fullViewportPositionFixedDivAsContainerOfTheMenu{
   /*May create a new div inside this div with display:grid; to contain all the buttons. In fact, something like a fancy interactible world map would be cooler.*/

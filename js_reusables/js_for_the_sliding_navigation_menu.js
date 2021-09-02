@@ -140,7 +140,7 @@ var speedAdjustmentCoefficient = 1.0;
 // Detect first click/first user gesture that unlocks sounds
 // REMEMBER: Sliding menu buttons also need this. Handle separately. See js_for_the_sliding_navigation_menu.js
 var firstUserGestureHasUnleashedAudio = false;
-window.addEventListener("mouseup",function () {  firstUserGestureHasUnleashedAudio = true;  }, {once:true}); // Prevent sound flooding.
+window.addEventListener("mouseup",function () {  firstUserGestureHasUnleashedAudio = true;  }, {once:true}); // Prevent sound flooding-exploding.
 // Variables for detecting the swipe-up
 let touchStartY;
 let touchEndY;
@@ -169,6 +169,7 @@ function makeTheNavMenuComeUpOnMobiles() {
   }
 }
 
+/* NOTE: Looks like the function declarations could have been tidier */
 window.addEventListener("load",function() {
 
   // What to do on MOBILE DEVICES
@@ -203,7 +204,7 @@ window.addEventListener("load",function() {
       volumeSlider.value=Number(localStorage.volumeWasAtThisLevel);
     }
     else {
-      localStorage.volumeWasAtThisLevel = 75; // First time users start with 75% sound volume. Number gets converted to string automatically.
+      localStorage.volumeWasAtThisLevel = 50; // DESKTOP: First time users start with 50% sound volume (-25.0LUFS). Number gets converted to string automatically.
       volumeSlider.value=Number(localStorage.volumeWasAtThisLevel);
       Howler.volume(Number(localStorage.volumeWasAtThisLevel)/100);
     }
@@ -298,147 +299,141 @@ window.addEventListener("load",function() {
 
   /*__HANDLE GO TO PREVIOUS LESSON - BACKWARDS BUTTON__*/
   let preventMistakeForPreviousButton;
-  function goToPreviousEnterHoverFunction() {
-    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();}
+  function resetCarAndArrowButtonImgB() {
     const resetByUsingSrcB = clickToGoToPreviousImgB.src;
     clickToGoToPreviousImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu;
-    clickToGoToPreviousImgB.src = resetByUsingSrcB;
-    clickToGoToPreviousImgB.addEventListener("load", nextWebpStateB, { once: true });
-    function nextWebpStateB() {
-      clickToGoToPreviousImgA.style.display = "none"; // Necessary only once
-      clickToGoToPreviousImgD.style.display = "none"; // Necessary after the first rotation/round of hover
-      clickToGoToPreviousImgB.style.display = "block";
-    }
-
-    preventMistakeForPreviousButton = setTimeout(function () {
-      clickToGoToPreviousImgB.style.display = "none";
-      clickToGoToPreviousImgC.style.display = "block"; // Does not need to be reset. It is already looping.
-    },240); // 8 frames with 30 ms each
+    setTimeout(function () {  clickToGoToPreviousImgB.src = resetByUsingSrcB;  },3);
   }
-  function goToPreviousExitHoverFunction() {
+  function resetCarAndArrowButtonImgD() {
     const resetByUsingSrcD = clickToGoToPreviousImgD.src;
     clickToGoToPreviousImgD.src = onePixelTransparentGifUsedLocallyHereInNavMenu;
-    clickToGoToPreviousImgD.src = resetByUsingSrcD;
-    clickToGoToPreviousImgD.addEventListener("load", nextWebpStateD, { once: true });
-    function nextWebpStateD() {
-      clickToGoToPreviousImgB.style.display = "none"; // In case 240 ms could not elapse.
-      clickToGoToPreviousImgC.style.display = "none";
-      clickToGoToPreviousImgD.style.display = "block";
-    }
+    setTimeout(function () {  clickToGoToPreviousImgD.src = resetByUsingSrcD;  },3);
+  }
+  function goToPreviousEnterHoverFunction() {
+    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();}
+    // Start the movement by switching from A to B ,,, actually it could have been at C or D too
+    clickToGoToPreviousImgA.style.display = "none";
+    clickToGoToPreviousImgB.style.display = "block"; // B contains 8 frames with 30ms each -> 240ms
+    clickToGoToPreviousImgC.style.display = "none";
+    clickToGoToPreviousImgD.style.display = "none"; resetCarAndArrowButtonImgD();
+    // Go to C after the exact duration of the animation B
+    preventMistakeForPreviousButton = setTimeout(function () {
+      clickToGoToPreviousImgB.style.display = "none"; resetCarAndArrowButtonImgB();
+      clickToGoToPreviousImgC.style.display = "block"; // C contains an endless looping animation
+    },240); // Consider what will happen if the mouse leaves too quickly, like less than 240ms
+  }
+  function goToPreviousExitHoverFunction() {
     clearTimeout(preventMistakeForPreviousButton);
+    clickToGoToPreviousImgA.style.display = "none";
+    clickToGoToPreviousImgB.style.display = "none"; resetCarAndArrowButtonImgB();
+    clickToGoToPreviousImgC.style.display = "none";
+    clickToGoToPreviousImgD.style.display = "block"; // Slowly fades and stops exactly at the same frame with A
   }
 
   /*__HANDLE GO TO MAIN MENU - HOUSE HOME BUTTON__*/
   let preventMistakeForHomeButton;
-  function goToMainMenuEnterHoverFunction() {
-    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();}
+  function resetHomeButtonImgB() {
     const resetByUsingSrcB = clickToGoToMainMenuImgB.src;
     clickToGoToMainMenuImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu;
-    clickToGoToMainMenuImgB.src = resetByUsingSrcB;
-    clickToGoToMainMenuImgB.addEventListener("load", nextWebpStateB, { once: true });
-    function nextWebpStateB() {
-      clickToGoToMainMenuImgA.style.display = "none"; // Necessary only once
-      clickToGoToMainMenuImgD.style.display = "none"; // Necessary after the first rotation/round of hover
-      clickToGoToMainMenuImgB.style.display = "block";
-    }
-
-    preventMistakeForHomeButton = setTimeout(function () {
-      clickToGoToMainMenuImgB.style.display = "none";
-      clickToGoToMainMenuImgC.style.display = "block"; // Does not need to be reset. It is already looping.
-    },240); // 8 frames with 30 ms each
+    setTimeout(function () {  clickToGoToMainMenuImgB.src = resetByUsingSrcB;  },3);
   }
-  function goToMainMenuExitHoverFunction() {
+  function resetHomeButtonImgD() {
     const resetByUsingSrcD = clickToGoToMainMenuImgD.src;
     clickToGoToMainMenuImgD.src = onePixelTransparentGifUsedLocallyHereInNavMenu;
-    clickToGoToMainMenuImgD.src = resetByUsingSrcD;
-    clickToGoToMainMenuImgD.addEventListener("load", nextWebpStateD, { once: true });
-    function nextWebpStateD() {
-      clickToGoToMainMenuImgB.style.display = "none"; // In case 240 ms could not elapse.
-      clickToGoToMainMenuImgC.style.display = "none";
-      clickToGoToMainMenuImgD.style.display = "block";
-    }
+    setTimeout(function () {  clickToGoToMainMenuImgD.src = resetByUsingSrcD;  },3);
+  }
+  function goToMainMenuEnterHoverFunction() {
+    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();}
+    // Start the movement by switching from A to B ,,, actually it could have been at C or D too
+    clickToGoToMainMenuImgA.style.display = "none";
+    clickToGoToMainMenuImgB.style.display = "block"; // B contains 8 frames with 30ms each -> 240ms
+    clickToGoToMainMenuImgC.style.display = "none";
+    clickToGoToMainMenuImgD.style.display = "none"; resetHomeButtonImgD();
+    // Go to C after the exact duration of the animation B
+    preventMistakeForHomeButton = setTimeout(function () {
+      clickToGoToMainMenuImgB.style.display = "none"; resetHomeButtonImgB();
+      clickToGoToMainMenuImgC.style.display = "block"; // C contains an endless looping animation
+    },240); // Consider what will happen if the mouse leaves too quickly, like less than 240ms
+  }
+  function goToMainMenuExitHoverFunction() {
     clearTimeout(preventMistakeForHomeButton);
+    clickToGoToMainMenuImgA.style.display = "none";
+    clickToGoToMainMenuImgB.style.display = "none"; resetHomeButtonImgB();
+    clickToGoToMainMenuImgC.style.display = "none";
+    clickToGoToMainMenuImgD.style.display = "block"; // Slowly fades and stops exactly at the same frame with A
   }
 
   /*__HANDLE PROGRESS CHART BUTTON__*/
   let preventMistakeForProgressButton;
-  function clickToOpenProgressEnterHoverFunction() {
-
+  function resetProgressChartButtonImgB() {
     const resetByUsingSrcB = clickToOpenProgressImgB.src;
     clickToOpenProgressImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu;
-    clickToOpenProgressImgB.src = resetByUsingSrcB;
-    clickToOpenProgressImgB.addEventListener("load", nextWebpStateB, { once: true });
-    function nextWebpStateB() {
-      clickToOpenProgressImgA.style.display = "none"; // Necessary only once
-      clickToOpenProgressImgD.style.display = "none"; // Necessary after the first rotation/round of hover
-      clickToOpenProgressImgB.style.display = "block";
-    }
-
-    preventMistakeForProgressButton = setTimeout(function () {
-      clickToOpenProgressImgB.style.display = "none";
-      clickToOpenProgressImgC.style.display = "block"; // Does not need to be reset. It is already looping.
-    },240); // 8 frames with 30 ms each
-
-    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();}
+    setTimeout(function () {  clickToOpenProgressImgB.src = resetByUsingSrcB;  },3);
   }
-  function clickToOpenProgressExitHoverFunction() {
+  function resetProgressChartButtonImgD() {
     const resetByUsingSrcD = clickToOpenProgressImgD.src;
     clickToOpenProgressImgD.src = onePixelTransparentGifUsedLocallyHereInNavMenu;
-    clickToOpenProgressImgD.src = resetByUsingSrcD;
-    clickToOpenProgressImgD.addEventListener("load", nextWebpStateD, { once: true });
-    function nextWebpStateD() {
-      clickToOpenProgressImgB.style.display = "none"; // In case 240 ms could not elapse.
-      clickToOpenProgressImgC.style.display = "none";
-      clickToOpenProgressImgD.style.display = "block";
-    }
+    setTimeout(function () {  clickToOpenProgressImgD.src = resetByUsingSrcD;  },3);
+  }
+  function clickToOpenProgressEnterHoverFunction() {
+    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();}
+    // Start the movement by switching from A to B ,,, actually it could have been at C or D too
+    clickToOpenProgressImgA.style.display = "none";
+    clickToOpenProgressImgB.style.display = "block"; // B contains 8 frames with 30ms each -> 240ms
+    clickToOpenProgressImgC.style.display = "none";
+    clickToOpenProgressImgD.style.display = "none"; resetProgressChartButtonImgD();
+    // Go to C after the exact duration of the animation B
+    preventMistakeForProgressButton = setTimeout(function () {
+      clickToOpenProgressImgB.style.display = "none"; resetProgressChartButtonImgB();
+      clickToOpenProgressImgC.style.display = "block"; // C contains an endless looping animation
+    },240); // Consider what will happen if the mouse leaves too quickly, like less than 240ms
+  }
+  function clickToOpenProgressExitHoverFunction() {
     clearTimeout(preventMistakeForProgressButton);
+    clickToOpenProgressImgA.style.display = "none";
+    clickToOpenProgressImgB.style.display = "none"; resetProgressChartButtonImgB();
+    clickToOpenProgressImgC.style.display = "none";
+    clickToOpenProgressImgD.style.display = "block"; // Slowly fades and stops exactly at the same frame with A
   }
 
   /*__HANDLE INFORMATION BUTTON (with the scale icon)__*/
   let preventMistakeForNgoButton;
-  function clickToFinanceEnterHoverFunction() {
-
+  function resetFinanceNgoButtonImgB() {
     const resetByUsingSrcB = clickToFinanceImgB.src;
     clickToFinanceImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu;
-    clickToFinanceImgB.src = resetByUsingSrcB;
-    clickToFinanceImgB.addEventListener("load", nextWebpStateB, { once: true });
-    function nextWebpStateB() {
-      clickToFinanceImgA.style.display = "none"; // Necessary only once
-      clickToFinanceImgD.style.display = "none"; // Necessary after the first rotation/round of hover
-      clickToFinanceImgB.style.display = "block";
-    }
-
-    preventMistakeForNgoButton = setTimeout(function () {
-      const resetByUsingSrcC = clickToFinanceImgC.src;
-      clickToFinanceImgC.src = onePixelTransparentGifUsedLocallyHereInNavMenu;
-      clickToFinanceImgC.src = resetByUsingSrcC;
-      clickToFinanceImgC.addEventListener("load", nextWebpStateC, { once: true });
-      function nextWebpStateC(){
-        clickToFinanceImgB.style.display = "none";
-        clickToFinanceImgC.style.display = "block"; // This particular looping animation MUST BE RESET.
-      }
-    },240); // 8 frames with 30 ms each
-
-    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();}
+    setTimeout(function () {  clickToFinanceImgB.src = resetByUsingSrcB;  },3);
   }
-  function clickToFinanceExitHoverFunction() {
+  function resetFinanceNgoButtonImgD() {
     const resetByUsingSrcD = clickToFinanceImgD.src;
     clickToFinanceImgD.src = onePixelTransparentGifUsedLocallyHereInNavMenu;
-    clickToFinanceImgD.src = resetByUsingSrcD;
-    clickToFinanceImgD.addEventListener("load", nextWebpStateD, { once: true });
-    function nextWebpStateD() {
-      clickToFinanceImgB.style.display = "none"; // In case 240 ms could not elapse.
-      clickToFinanceImgC.style.display = "none";
-      clickToFinanceImgD.style.display = "block";
-    }
+    setTimeout(function () {  clickToFinanceImgD.src = resetByUsingSrcD;  },3);
+  }
+  function clickToFinanceEnterHoverFunction() {
+    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();}
+    // Start the movement by switching from A to B ,,, actually it could have been at C or D too
+    clickToFinanceImgA.style.display = "none";
+    clickToFinanceImgB.style.display = "block"; // B contains 8 frames with 30ms each -> 240ms
+    clickToFinanceImgC.style.display = "none";
+    clickToFinanceImgD.style.display = "none"; resetFinanceNgoButtonImgD();
+    // Go to C after the exact duration of the animation B
+    preventMistakeForNgoButton = setTimeout(function () {
+      clickToFinanceImgB.style.display = "none"; resetFinanceNgoButtonImgB();
+      clickToFinanceImgC.style.display = "block"; // C contains an endless looping animation
+    },240); // Consider what will happen if the mouse leaves too quickly, like less than 240ms
+  }
+  function clickToFinanceExitHoverFunction() {
     clearTimeout(preventMistakeForNgoButton);
+    clickToFinanceImgA.style.display = "none";
+    clickToFinanceImgB.style.display = "none"; resetFinanceNgoButtonImgB();
+    clickToFinanceImgC.style.display = "none";
+    clickToFinanceImgD.style.display = "block"; // Slowly fades and stops exactly at the same frame with A
   }
 
   /*__CREATE MOVEMENT__*/
-  function makeTheMenuComeDown() {
+  function makeTheMenuComeDown() { // Desktops
     containerDivOfTheNavigationMenu.classList.add("addOrRemoveThisToMakeTheNavMenuAppearDisappear");
   }
-  function makeTheMenuGoUp() {
+  function makeTheMenuGoUp() { // Desktops
     containerDivOfTheNavigationMenu.classList.remove("addOrRemoveThisToMakeTheNavMenuAppearDisappear");
   }
 
@@ -448,19 +443,36 @@ window.addEventListener("load",function() {
     // Safari on iPhone doesn't allow fullscreen! (iOS 14.7 July 2021)
     // Therefore no resize means no hiding of the nav menu through here on iPhones.
     // So these will work only where changing to fullscreen triggers the 'resize' event.
+    // REMEMBER: "resize" fires not only when going fullscreen but also when user rotates the device i.e. when orientation is changed.
     window.removeEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);
     // Use hasGoneFullscreen variable from js_for_handling_fullscreen_mode.js
     // WARNING! “hasGoneFullscreen” has a boolean value that alternates every time “fullscreenchange” event fires.
     // CAUTION! This may happen before or after “resize” event fires depending on the browser!
+    // REMEMBER: Since resize doesn't happen on iPhones, the very first sinking of the nav menu is handled in js_for_all_container_parent_htmls -> handleTheFirstGoingFullscreenOnMobiles()
     setTimeout(function () { /*!!!*/ // Try and see if 100ms delay will solve the opposite firing conflict between Chrome and Samsung Browser? Result: YES!
-      if (!hasGoneFullscreen) {
+      if (!hasGoneFullscreen) { // Since iPhones don't allow fullscreen orientation change fires differently on Android and iOS.
         deactivationSound2.play();
         setTimeout(function () {    makeTheNavMenuComeUpOnMobiles();    },500);
         setTimeout(function () {    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);    },200); // animation duration is .4s inside css
       } // End of if
       else {
         activationSound2.play();
-        setTimeout(function () {    makeTheNavMenuGoDownOnMobiles();    },2500);
+        // Hide the nav menu if open-fullscreen happened normally during a lesson without any preloading screen.
+        // Preloading is triggered by any of the [choose language] buttons OR [continue from last position] button etc
+        // In such cases makeTheNavMenuGoDownOnMobiles() must fire only after the preloading is done (iframe.load fires).
+        if (!preloadCoverIsShowingNow) { // This is created in js_for_preload_handling and is changed in
+          // No need to wait for smth to happen
+          setTimeout(function () {    makeTheNavMenuGoDownOnMobiles();    },2500);
+        } else {
+          // Must wait until preloadCoverIsShowingNow is set to false. That change happens in js_for_all_container_parent_htmls
+          let checkEvery250msOrSo = setInterval(isItDoneYet, 250);
+          function isItDoneYet() {
+            if (preloadCoverIsShowingNow == false) { // Yes, it is now done.
+              clearInterval(checkEvery250msOrSo); // Stop the timer.
+              makeTheNavMenuGoDownOnMobiles(); // Safely hide the nav menu as soon as possible now.
+            }
+          }
+        }
         setTimeout(function () {    window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);    },200); // animation duration is .4s inside css
       } // End of else
     },100); /*!!!*/ // End of setTimeout. Set to 100ms assuming that nobody would enter and then exit full screen within 100 milliseconds.
@@ -470,13 +482,13 @@ window.addEventListener("load",function() {
   // SWIPE UP-DOWN TO SEE-HIDE THE NAV MENU
   function handleSwipeGesture() {
     if ((touchStartY-touchEndY)>55) {
-      // SWIPED UP
+      // console.log("a swipe up happened");
       if (navMenuOnMobileHasBeenHiddenForTheFirstTime) {
         makeTheNavMenuComeUpOnMobiles();
       }
     }
     else if ((touchStartY-touchEndY)<-40) {
-      // SWIPED DOWN
+      // console.log("a swipe down happened");
       makeTheNavMenuGoDownOnMobiles();
     }
   }
@@ -486,7 +498,7 @@ window.addEventListener("load",function() {
     clickToGoToPreviousDiv.addEventListener("touchstart", function () {
       clickToGoToPreviousImgA.style.display = "none";
       clickToGoToPreviousImgD.style.display = "initial";
-      setTimeout(goToPreviousLessonFunction,220);
+      setTimeout(goToPreviousLessonFunction,270);
       setTimeout(function () {
         clickToGoToPreviousImgD.style.display = "none";
         clickToGoToPreviousImgA.style.display = "initial";
@@ -495,7 +507,7 @@ window.addEventListener("load",function() {
     clickToGoToMainMenuDiv.addEventListener("touchstart", function () {
       clickToGoToMainMenuImgA.style.display = "none";
       clickToGoToMainMenuImgD.style.display = "initial";
-      setTimeout(goToMainMenuFunction,220);
+      setTimeout(goToMainMenuFunction,270);
       setTimeout(function () {
         clickToGoToMainMenuImgD.style.display = "none";
         clickToGoToMainMenuImgA.style.display = "initial";
@@ -504,7 +516,7 @@ window.addEventListener("load",function() {
     clickToOpenProgressDiv.addEventListener("touchstart", function () {
       clickToOpenProgressImgA.style.display = "none";
       clickToOpenProgressImgD.style.display = "initial";
-      setTimeout(openProgressChartFunction,220);
+      setTimeout(openProgressChartFunction,270);
       setTimeout(function () {
         clickToOpenProgressImgD.style.display = "none";
         clickToOpenProgressImgA.style.display = "initial";
@@ -513,7 +525,7 @@ window.addEventListener("load",function() {
     clickToFinanceDiv.addEventListener("touchstart", function () {
       clickToFinanceImgA.style.display = "none";
       clickToFinanceImgD.style.display = "initial";
-      setTimeout(openFinancialMethodsPageFunction,220);
+      setTimeout(openFinancialMethodsPageFunction,270);
       setTimeout(function () {
         clickToFinanceImgD.style.display = "none";
         clickToFinanceImgA.style.display = "initial";
