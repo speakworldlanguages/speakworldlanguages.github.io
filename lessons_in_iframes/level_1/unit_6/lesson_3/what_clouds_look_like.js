@@ -14,19 +14,19 @@ fetch(filePathC,myHeaders).then(function(response){return response.text();}).the
 fetch(filePathD,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textD = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-const say1NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_bird.mp3";
+const say1NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_bird.mp3";
 const say1Natural = new parent.Howl({  src: [say1NaturalPath]  });
-const say1SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_bird_slow.mp3";
+const say1SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_bird_slow.mp3";
 const say1Slow = new parent.Howl({  src: [say1SlowPath]  });
-const say2NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_fish.mp3";
+const say2NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_fish.mp3";
 const say2Natural = new parent.Howl({  src: [say2NaturalPath]  });
-const say2SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_fish_slow.mp3";
+const say2SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_6/lesson_3/that_cloud_is_like_a_fish_slow.mp3";
 const say2Slow = new parent.Howl({  src: [say2SlowPath]  });
-const say3NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_6/lesson_3/where_is_the_sun.mp3";
+const say3NaturalPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_6/lesson_3/where_is_the_sun.mp3";
 const say3Natural = new parent.Howl({  src: [say3NaturalPath]  });
-const say3SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_6/lesson_3/where_is_the_sun_slow.mp3";
+const say3SlowPath = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_6/lesson_3/where_is_the_sun_slow.mp3";
 const say3Slow = new parent.Howl({  src: [say3SlowPath]  });
-const say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_6/lesson_3/the_sun_is_there.mp3";
+const say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_6/lesson_3/the_sun_is_there.mp3";
 const say4 = new parent.Howl({  src: [say4Path]  });
 
 const loopingBackgroundSound = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_6/lesson_3/forest_sound_loop.mp3']  , loop:true });
@@ -71,7 +71,7 @@ var looping2;
 let counter2 = 1;
 function loadingIsCompleteFunction()
 {
-  if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes == "zh") { // Display the warning about intonations to users who want to learn the Ren language.
+  if (parent.theLanguageUserIsLearningNowToSetFilePaths == "zh") { // Display the warning about intonations to users who want to learn the Ren language.
     const pathOfNotificationAboutRenIntonation = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-6-3_special_case_for_zh.txt";
     fetch(pathOfNotificationAboutRenIntonation,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       // Display notification instead of alert(contentOfTheTxtFile);
@@ -120,7 +120,7 @@ function goFromAtoB()
 
   setTimeout(function () {
     clickToProceed.classList.add("addThisToMakeItAppearFromTop");
-    if (parent.deviceDetector.isMobile) {
+    if (deviceDetector.isMobile) {
       clickToProceed.addEventListener("touchstart",goFromBtoC,{once:true});
       clickToProceed.classList.add("addThisToAdjustPositionOnMobiles");
     } else {
@@ -156,7 +156,7 @@ function goFromCtoD() {
   loopFunction2();
 
   loopingBackgroundMusic.play();
-  if (parent.deviceDetector.isMobile) {
+  if (deviceDetector.isMobile) {
     clickToProceed.addEventListener("touchstart",goFromDtoE,{once:true});
   } else {
     clickToProceed.addEventListener("mousedown",goFromDtoE,{once:true});
@@ -180,8 +180,8 @@ function goFromDtoE() {
   /* END OF ACTIVITY */
   /* GET READY TO EXIT THIS LESSON */
   setTimeout(function() {
-    parent.preloadHandlingDiv.classList.remove("addThisClassToHideIt");
-    parent.preloadHandlingDiv.classList.add("addThisClassToRevealIt");
+    parent.preloadHandlingDiv.classList.remove("addThisClassToHideThePreloader");
+    parent.preloadHandlingDiv.classList.add("addThisClassToRevealThePreloader");
   },16000); // 17500-1500 = 16000 See css_for_every_single_html
   setTimeout(function() {
     unloadTheSoundsOfThisLesson();

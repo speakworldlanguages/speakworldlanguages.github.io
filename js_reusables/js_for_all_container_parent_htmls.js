@@ -1,6 +1,18 @@
 ﻿// This is deferred.
 // Redirection based on browser language is handled with inline script in index.html which should fire before anything here.
+var wasViewingProgressChart = false; // See js_for_all_iframed_lesson_htmls AND progress.js
+/*Prevent screen turn off on mobiles*/
+const preventSleepModeOrScreenTurnOffWithFakeVideo = document.createElement("VIDEO");
+document.body.appendChild(preventSleepModeOrScreenTurnOffWithFakeVideo); // TESTED: It works
+preventSleepModeOrScreenTurnOffWithFakeVideo.autoplay=true;
+preventSleepModeOrScreenTurnOffWithFakeVideo.muted=true;
+preventSleepModeOrScreenTurnOffWithFakeVideo.loop=true; // Don't forget this otherwise the screen will still turn off after 1 single play.
+preventSleepModeOrScreenTurnOffWithFakeVideo.src="user_interface/16x16_anti_sleep_mode.mp4";
+preventSleepModeOrScreenTurnOffWithFakeVideo.style.opacity="0"; // Can't be too safe
 
+// NOTE: Chrome does not count an alert box click as a user gesture. The first click or touch will unlock sound. Must be silent until then.
+
+/*_____*/
 const welcomeMessageDiv = document.getElementById('idOfTheWelcomeMenuDiv');
 function userHasClickedOrTouchedWelcomeAnswerA() {
   // Remove the element but display it again next time
@@ -14,11 +26,10 @@ function userHasClickedOrTouchedWelcomeAnswerB() { // The user has claimed that 
   localStorage.theUserHasSaidHeOrSheIsAMemberOfTheCrowd = "yes";
 }
 
-
 var genderOfTheUser;
-var theLanguageUserIsLearningNowToSetPathsAndNotes;
+var theLanguageUserIsLearningNowToSetFilePaths;
 var theLanguageUserIsLearningNowToSetAnnyang;
-const iFrameScriptAccess = document.getElementById('theIdOfTheIframe');
+var ayFreym = document.getElementById('theIdOfTheIframe'); // Access to ayFreym from » progress.js, js_for_browser_device_issues_in_parents, js_for_the_sliding_navigation_menu
 
 window.addEventListener('DOMContentLoaded', function(){
   // Skip the crowdfunding (welcome screen) message if user says he she is a member.
@@ -28,93 +39,120 @@ window.addEventListener('DOMContentLoaded', function(){
 }, { once: true });
 
 window.addEventListener('load', function(){
-  // Fire if new stuff has appeared in the iframe. CAUTION: Do not use iFrameScriptAccess.onload = function... Because it overwrites the one inside js_for_the_sliding_navigation_menu
-  iFrameScriptAccess.addEventListener('load',frameIsLoaded);
+  // Fire if new stuff has appeared in the iframe. CAUTION: Do not use ayFreym.onload = function... Because it overwrites the one inside js_for_the_sliding_navigation_menu
+  ayFreym.addEventListener('load',frameIsLoaded);
   function frameIsLoaded() { // This will fire at the first launch (for empty src blank.html) too (that is before 1-1-1 index.html)
     // Preloader will disappear in 500ms.
     // console.log("frameIsLoaded has fired"); // TESTED: It works.
     setTimeout(function () {   setPreloadCoverIsShowingNowToFalse();   },505); // See js_for_preload_handling
   }
-}, { once: true });
-// CODE TO BE REMOVED AFTER TESTS IS
-// FROM HERE
-// TO HERE
 
-// Continue progress from last unit / last saved position
-if (localStorage.theLastCheckpointSavedInLocalStorage) { // See if a previously saved checkpoint exists.
-  // MUST USE display:none to avoid click blocking by z-index.
-  document.getElementById('fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt').classList.add("addThisForOpacityAnimationFadeIn");
-  // NOTE: Chrome does not count an alert box click as a user gesture.
-  theLanguageUserIsLearningNowToSetPathsAndNotes = localStorage.theLanguageUserWasLearningLastTimeToSetPathsAndNotes; // This will certainly exist as long as there has been a checkpoint save.
-  theLanguageUserIsLearningNowToSetAnnyang = localStorage.theLanguageUserWasLearningLastTimeToSetAnnyang; // Same situation.
-  if (annyang) {
-      annyang.setLanguage(theLanguageUserIsLearningNowToSetAnnyang); // Firefox v60's and v70's won't let buttons function unless this is wrapped in an if (annyang){} like this.
-  }
-  if (localStorage.genderOfTheUserSavedToLocalStorage) {
-      genderOfTheUser = localStorage.genderOfTheUserSavedToLocalStorage;
-  }
-  function whenLoadLastLessonOkButtonIsClickedOrTapped() { // See a parent document like index.html, ja.html, tr.html to find that button.
-    // WARNING: Must see if 8000px is enough not to cause a problem with very high desktop resolutions like 4K.
-    document.getElementById('fullViewportPositionFixedDivAsContainerOfTheMenu').style.left = "8000px";
-    iFrameScriptAccess.src = localStorage.theLastCheckpointSavedInLocalStorage;
-    document.getElementById('fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt').classList.add("addThisForOpacityAnimationFadeOut");
-    // Small navigation menu buttons... See js_for_the_sliding_navigation_menu.js
-    if (iFrameScriptAccess.src.substring(iFrameScriptAccess.src.length - 34, iFrameScriptAccess.src.length)=="level_1/unit_1/lesson_1/index.html") {
-      // add only HOME button to the left when going to the first lesson
-      addHomeButtonToTheNavigationMenu();
-    } else {
-      // add both home and go back buttons when going to any lesson except for the very first (i.e. bread)
-      addHomeButtonToTheNavigationMenu();
-      addGoBackToPreviousButtonToTheNavigationMenu();
+  // Continue progress from last unit / last saved position
+  if (localStorage.memoryCard) { // See if a previously saved checkpoint exists.
+    // See openFirstLesson() down in line 200+smth to find the first storage of theLanguageUserIsLearningNow...
+    theLanguageUserIsLearningNowToSetFilePaths = localStorage.theLanguageUserWasLearningLastTimeToSetFilePaths; // This will certainly exist as long as there has been a "memory card" save.
+    theLanguageUserIsLearningNowToSetAnnyang = localStorage.theLanguageUserWasLearningLastTimeToSetAnnyang; // Same situation.
+    if (annyang) {
+        annyang.setLanguage(theLanguageUserIsLearningNowToSetAnnyang); // Firefox v60's and v70's won't let buttons function unless this is wrapped in an if (annyang){} like this.
     }
-    handleTheFirstGoingFullscreenOnMobiles();
+    if (localStorage.genderOfTheUserSavedToLocalStorage) {
+        genderOfTheUser = localStorage.genderOfTheUserSavedToLocalStorage;
+    }
 
-    // Make the loading animation appear (i.e. bring the preloader)
-    preloadHandlingDiv.classList.remove("addThisClassToHideIt"); // See css_for_every_single_html,,, Should be 500ms if not changed.
-    setPreloadCoverIsShowingNowToTrue(); // See js_for_preload_handling
+    ayFreym.addEventListener('load',blankFrameIsLoaded,{ once: true }); // The right-click (context menu) won't function properly if ayFreym.src is changed too early
+    function blankFrameIsLoaded() {
+      ayFreym.src = "progress_chart"; // QUESTION: Immediately or as soon as OK is touchclicked in "Auto-saved progress has been loaded"
+      // Probably must do addEventListener load for iframe before hiding MAIN
+      // NOTE: 8K is 7680x4320  »  8000px should be enough for any display
+      document.getElementsByTagName('MAIN')[0].style.left = "8000px"; // Hide the "Choose the language you want to learn" screen
+    }
+
+    //
+    // HANDLE: addHomeButtonToTheNavigationMenu(); addGoBackToPreviousButtonToTheNavigationMenu(); handleTheFirstGoingFullscreenOnMobiles();
+    // HANDLE: preloadHandlingDiv setPreloadCoverIsShowingNowToTrue();
+
+    // DEPRECATED CODE
+    // function whenLoadLastLessonOkButtonIsClickedOrTapped() { // See a parent document like index.html, ja.html, tr.html to find that button.
+    //       // Used to be document.getElementById('fullViewportPositionFixedDivAsContainerOfTheMenu').style.left = "8000px";
+    //   ayFreym.src = localStorage.theLastCheckpointSavedInLocalStorage;
+    //   //document.getElementById('fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt').classList.add("addThisForOpacityAnimationFadeOut");
+    //   // Small navigation menu buttons... See js_for_the_sliding_navigation_menu.js
+    //   if (ayFreym.src.substring(ayFreym.src.length - 34, ayFreym.src.length)=="level_1/unit_1/lesson_1/index.html") {
+    //     // add only HOME button to the left when going to the first lesson
+    //     addHomeButtonToTheNavigationMenu(); // WITH PROGRESS CHART: this must be moved to progress.js
+    //   } else {
+    //     // add both home and go back buttons when going to any lesson except for the very first (i.e. bread)
+    //     addHomeButtonToTheNavigationMenu(); // WITH PROGRESS CHART: this must be moved to progress.js
+    //     addGoBackToPreviousButtonToTheNavigationMenu(); // WITH PROGRESS CHART: this must be moved to progress.js
+    //   }
+    //   handleTheFirstGoingFullscreenOnMobiles(); // WITH PROGRESS CHART: this must be moved to progress.js
+    //
+    //   // Make the loading animation appear (i.e. bring the preloader)
+    //   preloadHandlingDiv.classList.remove("addThisClassToHideThePreloader"); // See css_for_every_single_html,,, Should be 500ms if not changed.
+    //   setPreloadCoverIsShowingNowToTrue(); // See js_for_preload_handling
+    // }
+  } else {
+    // First time users will proceed via openFirstLesson() which fires when any of the letTheIframeTeach buttons is used.
+    // localStorage.memoryCard is created as soon as one of the letTheIframeTeach buttons is clicked or touched.
   }
-} else {
-  // First time users will proceed via openFirstLesson()
-  // localStorage.theLastCheckpointSavedInLocalStorage is created in lesson 1-1-1 and updated with every lesson in the following units.
-}
 
+}, { once: true });
 // For languages like Arabic we need to know the user's gender.
 // Let the webp img files be downloaded and ready before the button to reveal them is clicked/touched.
 const malesIcon = document.createElement("IMG");
 const femalesIcon = document.createElement("IMG");
-malesIcon.src = "user_interface/images/gender_gentlemen.webp";
-femalesIcon.src = "user_interface/images/gender_ladies.webp";
+malesIcon.src = "user_interface/images/gender_gentlemen.webp"; // Less than 1KB
+femalesIcon.src = "user_interface/images/gender_ladies.webp"; // Only 1,5KB
 
 /*What language will be taught via the iframe*/
 /* JA - Hito */
 function letTheIFrameTeachJapanese(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNowToSetPathsAndNotes = "ja"; //"ja" is OK with both iOS and Android
+  theLanguageUserIsLearningNowToSetFilePaths = "ja"; //"ja" is OK with both iOS and Android
   theLanguageUserIsLearningNowToSetAnnyang = "ja";
+  if (!savedProgress.ja) { // if it doesn't exist
+    savedProgress.ja = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
+  } // else » don't touch the data, leave it alone, do not overwrite-erase if something already exists,, perhaps user studies more than 1 language
+  saveJSON = JSON.stringify(savedProgress);
+  localStorage.setItem("memoryCard", saveJSON); // Now it exists on the memory card, accessible by both parent and iframe
   openFirstLesson();
 }
 /* ZH - Ren */
 function letTheIFrameTeachChinese(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNowToSetPathsAndNotes = "zh"; // Android is OK with "zh" but iOS needs "zh-TW"
+  theLanguageUserIsLearningNowToSetFilePaths = "zh"; // Android is OK with "zh" but iOS needs "zh-TW"
   theLanguageUserIsLearningNowToSetAnnyang = "zh"; // We may still want to pass "zh" instead of "zh-TW" on Android and Windows. Because Android turns the mic on and off too quickly in some less supported languages.
   if (detectedOS.name == "iOS") {
-    theLanguageUserIsLearningNowToSetAnnyang = "zh-TW"; // Overwrite
+    theLanguageUserIsLearningNowToSetAnnyang = "zh-TW"; // Overwrite because Siri won't accept zh // WARNING: Must break the string and get "zh" only to match the path with actual folder names!
   }
-  // WARNING: Must break the string and get "zh" only to match the path with actual folder names!
+  if (!savedProgress.zh) { // if it doesn't exist
+    savedProgress.zh = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
+  } // else » don't touch the data, leave it alone, do not overwrite-erase if something already exists,, perhaps user studies more than 1 language
+  saveJSON = JSON.stringify(savedProgress);
+  localStorage.setItem("memoryCard", saveJSON); // Now it exists on the memory card, accessible by both parent and iframe
   openFirstLesson();
 }
 /* TR - Kişi */
 function letTheIFrameTeachTurkish(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNowToSetPathsAndNotes = "tr"; //"tr" is OK with both iOS and Android
+  theLanguageUserIsLearningNowToSetFilePaths = "tr"; //"tr" is OK with both iOS and Android
   theLanguageUserIsLearningNowToSetAnnyang = "tr";
+  if (!savedProgress.tr) { // if it doesn't exist
+    savedProgress.tr = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
+  } // else » don't touch the data, leave it alone, do not overwrite-erase if something already exists,, perhaps user studies more than 1 language
+  saveJSON = JSON.stringify(savedProgress);
+  localStorage.setItem("memoryCard", saveJSON); // Now it exists on the memory card, accessible by both parent and iframe
   openFirstLesson();
 }
 /* AR Arabic */
 function letTheIFrameTeachArabic(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNowToSetPathsAndNotes = "ar"; // Android is OK with "ar" but iOS needs "ar-SA" or "ar-QA" etc
+  theLanguageUserIsLearningNowToSetFilePaths = "ar"; // Android is OK with "ar" but iOS needs "ar-SA" or "ar-QA" etc
   theLanguageUserIsLearningNowToSetAnnyang = "ar"; // We still want "ar" instead of "ar-SA" on Android for better performance (frequency of the mic turn on&off thing).
   if (detectedOS.name == "iOS") {
     theLanguageUserIsLearningNowToSetAnnyang = "ar-SA"; // Overwrite... Don't know which is better: ar-SA ar-JO ar-KW ar-QA
   }
+  if (!savedProgress.ar) { // if it doesn't exist
+    savedProgress.ar = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
+  } // else » don't touch the data, leave it alone, do not overwrite-erase if something already exists,, perhaps user studies more than 1 language
+  saveJSON = JSON.stringify(savedProgress);
+  localStorage.setItem("memoryCard", saveJSON); // Now it exists on the memory card, accessible by both parent and iframe
   // WARNING: Must break the string and get "zh" only to match the path with actual folder names!
   // Get user's gender
   const darkenWholeViewportDiv = document.createElement("DIV");
@@ -172,15 +210,20 @@ function letTheIFrameTeachArabic(){ //See index.html to find the button that tri
 }
 /* EN - People */
 function letTheIFrameTeachEnglish(){ //See index.html to find the button that triggers this via onclick.
-  theLanguageUserIsLearningNowToSetPathsAndNotes = "en"; // "en" alone works well both on Android and iOS. No need for "en-US" or "en-GB"
+  theLanguageUserIsLearningNowToSetFilePaths = "en"; // "en" alone works well both on Android and iOS. No need for "en-US" or "en-GB"
   theLanguageUserIsLearningNowToSetAnnyang = "en";
+  if (!savedProgress.en) { // if it doesn't exist
+    savedProgress.en = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
+  } // else » don't touch the data, leave it alone, do not overwrite-erase if something already exists,, perhaps user studies more than 1 language
+  saveJSON = JSON.stringify(savedProgress);
+  localStorage.setItem("memoryCard", saveJSON); // Now it exists on the memory card, accessible by both parent and iframe
   openFirstLesson();
 }
 
 /*___________Navigate to first lesson_____________*/
 function openFirstLesson() {
   // Save language choice
-  localStorage.theLanguageUserWasLearningLastTimeToSetPathsAndNotes = theLanguageUserIsLearningNowToSetPathsAndNotes;
+  localStorage.theLanguageUserWasLearningLastTimeToSetFilePaths = theLanguageUserIsLearningNowToSetFilePaths;
   localStorage.theLanguageUserWasLearningLastTimeToSetAnnyang = theLanguageUserIsLearningNowToSetAnnyang;
   // Set language
   if (annyang) {
@@ -191,13 +234,13 @@ function openFirstLesson() {
 
   setTimeout(function() {
     // Hide the welcome screen ( <<choose the language you want to learn>> screen's menu-div)
-    document.getElementById('fullViewportPositionFixedDivAsContainerOfTheMenu').style.left = "8000px";
+    document.getElementsByTagName('MAIN')[0].style.left = "8000px";   // Used to be    document.getElementById('fullViewportPositionFixedDivAsContainerOfTheMenu').style.left = "8000px";
     // Display the first lesson
-    iFrameScriptAccess.src = "lessons_in_iframes/level_1/unit_1/lesson_1/index.html";
+    ayFreym.src = "lessons_in_iframes/level_1/unit_1/lesson_1/index.html";
   },50); // Unnoticable tiny delay
 
   // Make the loading animation appear (i.e. bring the preloader)
-  preloadHandlingDiv.classList.remove("addThisClassToHideIt"); // See css_for_every_single_html,,, Should be 500ms if not changed.
+  preloadHandlingDiv.classList.remove("addThisClassToHideThePreloader"); // See css_for_every_single_html,,, Should be 500ms if not changed.
   setPreloadCoverIsShowingNowToTrue(); // See js_for_preload_handling
 }
 
@@ -228,14 +271,14 @@ function handleTheFirstGoingFullscreenOnMobiles() { // This fires if 1- User sel
 const theParentHtmlTitle = document.title;
 setInterval( function ()
 {
-  if (iFrameScriptAccess.contentWindow.document.title) {
-    document.title = iFrameScriptAccess.contentWindow.document.title;
+  if (ayFreym.contentWindow.document.title) {
+    document.title = ayFreym.contentWindow.document.title;
   }
   setTimeout( function ()  {   document.title = theParentHtmlTitle   },3000);
 } , 6000);
 
 // UI sounds ... also see js_for_browser_device_issues_in_parents.js
-const dismissNotificationSound1 = new Howl({  src: ['user_interface/sounds/notification_close_1.mp3']  });
+const dismissNotificationSound1 = new Howl({  src: ['user_interface/sounds/notification1_close.mp3']  });
 const hoverSound = new Howl({  src: ['user_interface/sounds/illuminant_button_hover.mp3']  }); // DESKTOP ONLY!
 const clickSound = new Howl({  src: ['user_interface/sounds/illuminant_button_click.mp3']  });
 
@@ -243,9 +286,11 @@ let allParentButtonElementsAreInThisArray = document.getElementsByTagName("BUTTO
 let i;
 for (i = 0; i < allParentButtonElementsAreInThisArray.length; i++)
 {
-  allParentButtonElementsAreInThisArray[i].addEventListener("mousedown", mouseDownMenuButtonF);
   if (deviceDetector.device == "desktop") {
     allParentButtonElementsAreInThisArray[i].addEventListener("mouseenter", mouseEnterMenuButtonF);
+    allParentButtonElementsAreInThisArray[i].addEventListener("mousedown", mouseDownMenuButtonF);
+  } else {
+    allParentButtonElementsAreInThisArray[i].addEventListener("touchstart", mouseDownMenuButtonF);
   }
 }
 
@@ -253,7 +298,11 @@ let allParentAsideElementsAreInThisArray = document.getElementsByTagName("ASIDE"
 let j;
 for (j = 0; j < allParentAsideElementsAreInThisArray.length; j++)
 {
-  allParentAsideElementsAreInThisArray[j].addEventListener("mousedown", mouseDownAsideAsButtonF);
+  if (deviceDetector.device == "desktop"){
+    allParentAsideElementsAreInThisArray[j].addEventListener("mousedown", mouseDownAsideAsButtonF); // When the [OK I will consider joining...] box is closed.
+  } else {
+    allParentAsideElementsAreInThisArray[j].addEventListener("touchstart", mouseDownAsideAsButtonF); // When the [OK I will consider joining...] box is closed.
+  }
 }
 
 // Detect first click/first user gesture that unlocks sounds

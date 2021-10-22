@@ -1,11 +1,17 @@
+main{
+  background-color: #adbbc4; /* The flat color that is behind all interactables */
+}
 /* MOBILES */
 .translationBoxOnMobilesSizePosition{position:fixed; left:0px; top:0px; width:100vw; height:101px; background-color: #728994; display: flex; align-items: center; justify-content: center;}
-.touchableDraggableDivSizePosition{position:fixed; right:0vw; top:101px; width:99px;height:130px; background-color: transparent;}
+.touchableDraggableDivSizePosition{position:fixed; right:0vw; top:101px; width:99px; height:130px; background-color: transparent;}
 .touchableDraggableImgSizePosition{position:fixed; right:0vw; top:101px; height:130px; background-color: transparent;}
 .touchableDraggableInitial{opacity:0.5; transform: translateY(-101px); transition: transform .7s ease-out,opacity .35s;}
 .toggleWithTouchStartTouchEnd{ opacity:1; transform: translateY(0px); }
 @media (min-width: 400px){ /*A small nudge*/
 .touchableDraggableImgSizePosition{right:3vw;}
+}
+@media (orientation:landscape) and (max-width:750px) {
+  .touchableDraggableImgSizePosition{height: 75px}
 }
 .thetranslationAssistanceOnMobilesP{ /* CAREFUL: Mobiles only!*/
   white-space: pre-wrap;
@@ -47,11 +53,7 @@
 }
 .veryLongBackgroundImageContainer{
   z-index: 0;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: fixed;  top: 0;  bottom: 0;  left: 0;  right: 0;
   display: flex;
   flex-direction: column-reverse; /*This makes it like bottom:0 with position: fixed on condition that justify-content: is default (flex-start)*/
 	align-items: center;
@@ -95,26 +97,15 @@
 .layeredOverImageContainer1000x1000{
   pointer-events: none;
   z-index: 50;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column-reverse;
-	align-items: center;
+  position: fixed;  top: 0;  bottom: 0;  left: 0;  right: 0;
+  display: flex;  flex-direction: column-reverse;	align-items: center;
   overflow: hidden;
 }
 
 .changeFlexPositionPortraitLandscapeAndBackgroundColorToo{
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
+  position: fixed;  top: 0px;  left: 0px;  width: 100%;  height: 100%;
   /*overflow: hidden;*/ /*This may be unnecessary*/
-  display: flex;
-  flex-direction: column;
+  display: flex;  flex-direction: column;
   /* -webkit-filter: blur(0px); */ /*bug fix?*/
 }
 
@@ -149,12 +140,11 @@
     width: 100%;
   }
   .addThisToAdjustPositionOnMobiles{
-    /*left: 7%;*/
     margin-left: -30vw;
   }
 }
 
-@media screen and (orientation:portrait){
+@media (orientation:portrait){
   .layeredOverImageContainer1000x1000 img{
     height: auto;
     width: 100%;
@@ -185,14 +175,8 @@
 .layeredOverImageContainer2222x1000{ /* To be used in 1-4-3 bird flying away from the tree */
   pointer-events: none; /* CLICK-THROUGH: Make it transparent to mouse and touch so that it won’t block layers below. */
   z-index: 51;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column-reverse;
-	align-items: center;
+  position: fixed;  top: 0;  bottom: 0;  left: 0;  right: 0;
+  display: flex;  flex-direction: column-reverse;	align-items: center;
   overflow: hidden;
 }
 
@@ -206,8 +190,6 @@
   border-radius: 25px;
   border: 2px solid rgba(255,255,255,0.3);
   background-color: rgba(211, 222, 229, 0.2);
-  /*margin-top: -100vh;*/ /* Start hidden and animate in */
-  /*margin-left: 0vw;*/ /* Start hidden and animate in */
   box-shadow: 0px 0px 15px 0 rgba( 1,1, 1, 0.15 );
   backdrop-filter: blur( 7px );
   -webkit-backdrop-filter: blur( 7px );
@@ -216,7 +198,7 @@
   align-items: center;
   justify-content: center;
   /*opacity: 0.7;*/ /*backdrop filter doesn't work if opacity is changed*/
-  transition: background-color .2s, transform .2s ease-in-out, top 2s ease-in-out, left 4s ease-in;/*margin-top 2s ease-in-out, margin-left 1s ease-in-out*/
+  transition: background-color .2s, transform .2s ease-in-out, top 2s ease-in-out, left 4s ease-in;
 }
 .addThisToMakeItAppearFromTop{  top: 50%;  }
 .addThisToAdjustPositionOnDesktops{  margin-top: -21vh;  }
@@ -240,5 +222,8 @@
   to {opacity:1;}
 }
 
-.postloaderInInteractablesStartHidden{   transform: translateX(-9999px);   opacity:0.1; transition: opacity 0.25s;  } /* Postloader: White fullviewport cover*/
-.postloaderInInteractablesGetTotallyVisible{   transform: translateX(0px);   opacity:1;      } /* Postloader: White fullviewport cover*/
+/* NO LONGER USED??? */
+/* .postloaderInInteractablesStartHidden{   transform: translateX(-9999px);   opacity:0.1; transition: opacity 0.25s;  } */
+/* Postloader: White fullviewport cover*/
+/* .postloaderInInteractablesGetTotallyVisible{   transform: translateX(0px);   opacity:1;      } */
+/* Postloader: White fullviewport cover*/

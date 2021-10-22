@@ -9,8 +9,8 @@ var errorSound = new Howl({  src: ['user_interface/sounds/thingy_two_error.mp3']
 var hasGoneFullscreen = false;
 // Go fullscreen by touching anywhere on the screen.
 window.addEventListener("load",function() {
-  const iframe = document.getElementById('theIdOfTheIframe'); // Actually the exact same thing was defined with const iFrameScriptAccess in js_for_all_container_parent_htmls.js
-  const iDoc = iframe.contentWindow || iframe.contentDocument;
+  const iFrameLocalConst = document.getElementById('theIdOfTheIframe'); // Check js_for_all_container_parent_htmls.js prevent conflicts
+  const iDoc = iFrameLocalConst.contentWindow || iFrameLocalConst.contentDocument;
 
   // HOW TO GO AND STAY IN FULLSCREEN ON MOBILES
   function handleTouchForFullscreen() {
@@ -26,14 +26,14 @@ window.addEventListener("load",function() {
   // BECAUSE most browsers won't allow going fullscreen without a user gesture... That means calling openFullscreen() with Onblur Onfocus or document.visibilitychange won't work.
   // So here is how we do it...
   if (deviceDetector.isMobile) {
-    iframe.addEventListener("load",iframeHasBeenLoaded); // We cannot directly add an event listener for touchstart/mousedown on the iframe without this.
+    iFrameLocalConst.addEventListener("load",iframeHasBeenLoaded); // We cannot directly add an event listener for touchstart/mousedown on the iframe without this.
   }
   // THE RIGHT CLICK METHOD ON DESKTOPS
   else {
     var currentSrcParsed;
     // Every time the iframe is loaded, add the custom context menu to either the parent document or the framed document.
-    iframe.onload = function() {
-      currentSrcParsed = iframe.src.substring(iframe.src.length - 10, iframe.src.length-5); // Get the name of the html file from a string like "/user_interface/blank.html"
+    iFrameLocalConst.onload = function() {
+      currentSrcParsed = iFrameLocalConst.src.substring(iFrameLocalConst.src.length - 10, iFrameLocalConst.src.length-5); // Get the name of the html file from a string like "/user_interface/blank.html"
       // When user is viewing the main menu
       if (currentSrcParsed == "blank") {
         document.addEventListener('contextmenu', rightClickHandlerFunction);
@@ -44,14 +44,14 @@ window.addEventListener("load",function() {
       }
       // When user is viewing a lesson
       else {
-        iframe.contentWindow.document.addEventListener('contextmenu', rightClickHandlerFunction);
-        iframe.contentWindow.document.addEventListener('mousedown', coordinatesF);
-        iframe.contentWindow.onkeyup = function(e) {  if ( e.keyCode === 27 ) {    toggleRightClickMenuOff();   }  }; // When the “Esc”ape key is hit
-        iframe.contentWindow.addEventListener('mousedown', toggleRightClickMenuOff);
-        iframe.contentWindow.addEventListener('dblclick', toggleFullScreen); // NOTE: dblclick means either left double-click or right double-click
+        iFrameLocalConst.contentWindow.document.addEventListener('contextmenu', rightClickHandlerFunction);
+        iFrameLocalConst.contentWindow.document.addEventListener('mousedown', coordinatesF);
+        iFrameLocalConst.contentWindow.onkeyup = function(e) {  if ( e.keyCode === 27 ) {    toggleRightClickMenuOff();   }  }; // When the “Esc”ape key is hit
+        iFrameLocalConst.contentWindow.addEventListener('mousedown', toggleRightClickMenuOff);
+        iFrameLocalConst.contentWindow.addEventListener('dblclick', toggleFullScreen); // NOTE: dblclick means either left double-click or right double-click
       }
 
-    }; // This line is the end of iframe.onload = function(){}; for DESKTOPS
+    }; // This line is the end of iFrameLocalConst.onload = function(){}; for DESKTOPS
   } // End of “else”
 
 },{ once: true });
@@ -107,7 +107,7 @@ function toggleRightClickMenuOff() {
 var theWholeDocument = document.documentElement;
 /* Function to open fullscreen mode */
 function openFullscreen() {
-  /* There is a weird thing on Android as fullscreen permission is not granted before the second touch event. It still work though. */
+  /* There is a weird thing on Android as fullscreen permission is not granted before the second touch event. It still works though. */
   if (theWholeDocument.requestFullscreen) {
     theWholeDocument.requestFullscreen();
   } else if (theWholeDocument.mozRequestFullScreen) { /* Firefox */
@@ -122,8 +122,8 @@ function openFullscreen() {
   if (deviceDetector.device=="desktop") {
     activationSound1.play();
   } else {
-    // Handle audio according to the "weird two touches problem"
-    errorSound.play();
+    // Handle audio according to the "weird two touches problem" without creating conflict with iOS
+    if (detectedOS.name != "iOS") { errorSound.play(); } // No need for DOMContentLoaded etc???
   }
 }
 
@@ -140,7 +140,11 @@ function closeFullscreen() {
   }
   /*Handle audio on mobile with RESIZE*/ // See js_for_the_sliding_navigation_menu.js
   if (deviceDetector.device=="desktop") {
-    deactivationSound1.play(); // Actually: This wouldn't play on mobiles even if wasn't inside an "if-desktop" since on mobiles exiting fullscreen happens without closeFullscreen().
+    deactivationSound1.play(); // Let it be heard only on desktops,,, Actually: This wouldn't play on mobiles even if wasn't inside an "if-desktop" since on mobiles exiting fullscreen happens without closeFullscreen().
+  } else { // What happens when fullscreen is closed on tablets and phones
+    if (typeof swipeMenuIsDisabled == "boolean") { // Check if it exists even if they are both at parent level
+      swipeMenuIsDisabled = false; // Enable it (it could have been disabled because of a game-input-conflict) See js_for_the_sliding_navigation_menu.js
+    }
   }
 }
 

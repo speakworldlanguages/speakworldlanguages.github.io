@@ -18,19 +18,19 @@ fetch(filePathD,myHeaders).then(function(response){return response.text();}).the
 fetch(filePathE,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textE = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */
-const say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_5/lesson_3/there_is_fruit.mp3";
+const say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_5/lesson_3/there_is_fruit.mp3";
 const say1 = new parent.Howl({  src: [say1Path]  });
-const say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_5/lesson_3/there_is_no_fruit.mp3";
+const say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_5/lesson_3/there_is_no_fruit.mp3";
 const say2 = new parent.Howl({  src: [say2Path]  });
-const say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_5/lesson_3/there_is_fruit_slow.mp3";
+const say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_5/lesson_3/there_is_fruit_slow.mp3";
 const say3 = new parent.Howl({  src: [say3Path]  });
-const say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_5/lesson_3/there_is_no_fruit_slow.mp3";
+const say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_5/lesson_3/there_is_no_fruit_slow.mp3";
 const say4 = new parent.Howl({  src: [say4Path]  });
-const say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_5/lesson_3/what_is_that.mp3";
+const say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_5/lesson_3/what_is_that.mp3";
 const say5 = new parent.Howl({  src: [say5Path]  });
-const say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_5/lesson_3/it_is_a_fish.mp3";
+const say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_5/lesson_3/it_is_a_fish.mp3";
 const say6 = new parent.Howl({  src: [say6Path]  });
-const say7Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_5/lesson_3/there_is_a_fish_in_the_water.mp3";
+const say7Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_5/lesson_3/there_is_a_fish_in_the_water.mp3";
 const say7 = new parent.Howl({  src: [say7Path]  });
 const loopingBackgroundSound = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_5/lesson_3/waterfall_and_river_loop.mp3']  , loop:true });
 const soundtrackPart1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_5/lesson_3/state_c_0000ms.mp3'] });
@@ -77,7 +77,7 @@ window.addEventListener('load', function(){  loadingIsCompleteFunction();  }, { 
 function loadingIsCompleteFunction()
 {
   // Display notifications if there are any.
-  if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes == "ja") { // SPECIAL CASE ABOUT NEW VOCABULARY when user is learning Hito language. Kudamono - Mi.
+  if (parent.theLanguageUserIsLearningNowToSetFilePaths == "ja") { // SPECIAL CASE ABOUT NEW VOCABULARY when user is learning Hito language. Kudamono - Mi.
     const filePathForAlertAboutHitoic = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-3_special_case_for_ja.txt";
     fetch(filePathForAlertAboutHitoic,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       // Display notification instead of alert(contentOfTheTxtFile);
@@ -92,7 +92,7 @@ function loadingIsCompleteFunction()
         okButtonToCloseTheNotification.innerHTML = contentOfTheTxtFile;
       });
     });
-  } else if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes == "ar") { // Thamar
+  } else if (parent.theLanguageUserIsLearningNowToSetFilePaths == "ar") { // Thamar
     const pathOfNotificationArabicFruit = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-5-3_special_case_for_ar.txt";
     fetch(pathOfNotificationArabicFruit,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       createAndHandleNotificationBox(); // See js_for_all_iframed_lesson_htmls.js
@@ -142,7 +142,7 @@ function goFromAtoB()
   // Add clickability!
   setTimeout(function () {
     // touchstart is the equivalent of mousedown for mobile
-    if (parent.deviceDetector.isMobile) {
+    if (deviceDetector.isMobile) {
       clickableArea.addEventListener("touchstart",goFromBtoC,{once:true});
     } else {
       clickableArea.addEventListener("mousedown",goFromBtoC,{once:true});
@@ -181,8 +181,8 @@ function goFromBtoC() {
   /* END OF ACTIVITY */
   /* GET READY TO EXIT THIS LESSON */
   setTimeout(function() {
-    parent.preloadHandlingDiv.classList.remove("addThisClassToHideIt");
-    parent.preloadHandlingDiv.classList.add("addThisClassToRevealIt");
+    parent.preloadHandlingDiv.classList.remove("addThisClassToHideThePreloader");
+    parent.preloadHandlingDiv.classList.add("addThisClassToRevealThePreloader");
   },29000); // 30500-1500 = 29000 See css_for_every_single_html
   setTimeout(function() {
     unloadTheSoundsOfThisLesson();

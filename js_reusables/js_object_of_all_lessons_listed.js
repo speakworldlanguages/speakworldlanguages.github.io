@@ -1,13 +1,13 @@
 // This js file is not deferred.
 // Must wait for window load or a similar event before trying to access these.
 // Use relative paths. Do not use absolute reference to root with "/" as it could be uncertain what the root is in case of deep-iframing for domain masking.
-const indexOfLessons = {
-  title:[ "&nbsp;",
-          "1-1-1",
-          "1-1-2",
-          "1-1-3",
-          "1-1-4",
-          "🍞", /*NOTE: 1-1-5 is actually not a lesson. It is only a notification*/ // &#127838;
+var indexOfLessons = { // ONLY USED IN js_for_the_sliding_navigation_menu.js
+  title:[ "💬",
+          "🍞", // &#127838;
+          "💧💦",
+          "🍷📥",
+          "🍞📤",
+          "✋", /*NOTE: 1-1-5 is actually not a lesson. It is only a notification*/
           "1-2-1",
           "1-2-2",
           "1-2-3",

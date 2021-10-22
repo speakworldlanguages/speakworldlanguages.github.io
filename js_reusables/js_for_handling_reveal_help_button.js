@@ -1,5 +1,5 @@
 var letTheUserSeeTheTranslation;
-var putTranslationIntoThisHelpAreaFromFileP;
+var injectTextIntoTheHelpBoxP;
 var imgInsideTouchableArea;
 var touchAndDragThisDiv;
 var imgInsideClickableAreaOFF;
@@ -9,18 +9,19 @@ var layerOfGlassmorphism;
 var subtitlesAreTurnedON = false;
 window.addEventListener('DOMContentLoaded', function(){
 
-  if (parent.deviceDetector.isMobile) { // TABLETS AND PHONES
+  if (deviceDetector.isMobile) { // TABLETS AND PHONES
     /**/
     letTheUserSeeTheTranslation = document.createElement("HEADER");
     letTheUserSeeTheTranslation.classList.add("translationBoxOnMobilesSizePosition"); // See css_for_lessons_with_interactables.css
     letTheUserSeeTheTranslation.classList.add("touchableDraggableInitial");
     document.body.appendChild(letTheUserSeeTheTranslation);
     /**/
-    putTranslationIntoThisHelpAreaFromFileP = document.createElement("P");
-    putTranslationIntoThisHelpAreaFromFileP.classList.add("thetranslationAssistanceOnMobilesP"); // See css_for_lessons_with_interactables.css
-    letTheUserSeeTheTranslation.appendChild(putTranslationIntoThisHelpAreaFromFileP);
+    injectTextIntoTheHelpBoxP = document.createElement("P");
+    injectTextIntoTheHelpBoxP.innerHTML = "...";
+    injectTextIntoTheHelpBoxP.classList.add("thetranslationAssistanceOnMobilesP"); // See css_for_lessons_with_interactables.css
+    letTheUserSeeTheTranslation.appendChild(injectTextIntoTheHelpBoxP);
     if (userInterfaceLanguage == "ja") {
-      putTranslationIntoThisHelpAreaFromFileP.classList.add("theMobilesKanjiFontAdjustP");
+      injectTextIntoTheHelpBoxP.classList.add("theMobilesKanjiFontAdjustP");
     }
     /**/
     imgInsideTouchableArea = document.createElement("IMG");
@@ -50,11 +51,12 @@ window.addEventListener('DOMContentLoaded', function(){
     letTheUserSeeTheTranslation.classList.add("translationBoxOnDesktopsSizePosition");
     document.body.appendChild(letTheUserSeeTheTranslation);
     /**/
-    putTranslationIntoThisHelpAreaFromFileP = document.createElement("P");
-    putTranslationIntoThisHelpAreaFromFileP.classList.add("thetranslationAssistanceOnDesktopsP"); // See css_for_lessons_with_interactables.css
-    letTheUserSeeTheTranslation.appendChild(putTranslationIntoThisHelpAreaFromFileP);
+    injectTextIntoTheHelpBoxP = document.createElement("P");
+    injectTextIntoTheHelpBoxP.innerHTML = "...";
+    injectTextIntoTheHelpBoxP.classList.add("thetranslationAssistanceOnDesktopsP"); // See css_for_lessons_with_interactables.css
+    letTheUserSeeTheTranslation.appendChild(injectTextIntoTheHelpBoxP);
     if (userInterfaceLanguage == "ja") {
-      putTranslationIntoThisHelpAreaFromFileP.classList.add("theDesktopsKanjiFontAdjustP");
+      injectTextIntoTheHelpBoxP.classList.add("theDesktopsKanjiFontAdjustP");
     }
     /**/
     layerOfGlassmorphism = document.createElement("DIV");

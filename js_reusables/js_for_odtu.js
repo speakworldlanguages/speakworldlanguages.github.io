@@ -2,7 +2,7 @@
 // Odtü detector
 var detectODTUscript = document.createElement('script');
 detectODTUscript.setAttribute('type', 'application/javascript');
-detectODTUscript.setAttribute('src', 'https://api.ipify.org?format=jsonp&callback=getIP');
+detectODTUscript.setAttribute('src', 'https://api.ipify.org?format=jsonp&callback=getIP'); // They offer free ($0) unlimited requests per month for bare IP numbers only without geolocation.
 document.getElementsByTagName('head')[0].appendChild(detectODTUscript);
 
 function getIP(json) {

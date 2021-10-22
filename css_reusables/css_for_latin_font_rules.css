@@ -21,6 +21,6 @@ button{
   button{font-size: 22px; }
 }
 
-.promptBoxesLikeTheOneForLoadingTheLastLesson{
+.promptBoxInParent{
   font-size: 24px;
 }

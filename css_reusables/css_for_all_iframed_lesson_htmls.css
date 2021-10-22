@@ -1,16 +1,17 @@
 /*Set fontSize via script to set different sizes for different fonts. Consider using the percentage unit.*/
 body {
-  color: #34546d;
+  /*color: #34546d;*/ /* 34546d is DARK BLUE */ /*Forgot what it was for*/
   /* In case of tablets and phones, the viewport may need adjustments */
 }
 main{ /*This used to be a normal div with #idOfTheDivThatContainsEverything*/
   position: fixed;
   top:0;        left:0;
   bottom:0;        right:0;
-  background-image: linear-gradient(#becbd5,#dbe2e8);
+  /*For background colors, see css_for_new_vocabulary_with_photos AND css_for_lessons_with_interactables*/
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden; /* ... */
 }
 p{
   line-height: 125%;
@@ -28,57 +29,125 @@ aside{
 }
 
 .notificationBG{
-  position: fixed;
-  top:0;        left:0;
-  width:100vw;  height:100vh;
+  position: fixed; top:0; left:0; width:100vw; height:100vh;
   background-color: rgba(255, 255, 255, 0.85);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 200; /* Just a guesstimation */
+  display: flex; justify-content: center; align-items: center;
+  z-index: 201; /* Just a guesstimation */
 }
 .notificationRoundedBox{
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-direction: column;
-  max-width: 600px;
-  min-height: 42vh;
+  display: flex;  justify-content: space-around;  align-items: center;  flex-direction: column;
+  max-width: 600px;  min-height: 42vh;
   background-color: rgb(250, 251, 252);
   border-radius: 2.5vmin;
   box-shadow: rgba(141, 149, 155, 0.48) 0px -5px 16px 0px, rgba(255, 255, 255, 0.8) 0px 5px 16px 0px;
   font-size: 4vmin;
-  color: rgb(154,170,182);
-  text-shadow: 0px -1px 0px rgba(255,255,255,.3), 0px 1px 0px rgba(0,0,0,.5);
+  /* color: rgb(154,170,182); */
+  color: rgb(130,155,173);
+  /* text-shadow: 0px -1px 0px rgba(255,255,255,.3), 0px 1px 0px rgba(0,0,0,.5); */
   margin: 5vmin; /*Will take effect on mobiles only*/
-  padding-left: 4vmin; padding-right: 4vmin;
-  padding-top: 5vmin; padding-bottom: 5vmin;
+  padding-left: 4vmin; padding-right: 4vmin; padding-top: 5vmin; padding-bottom: 5vmin;
   text-align: justify;
   white-space: pre-wrap; /* pre means do not convert the line breaks into regular spaces. pre-wrap handles the overflow as well for longer lines */
 }
-@media screen and (max-width: 380px) { /* IT WORKS: Trying to target phones (not tablets) and only in vertical position to increase the font size */
-  .notificationRoundedBox {
-    font-size: 5.6vmin;
-  }
-}
+/* IT WORKS: Trying to target phones (and tablets) and especially in vertical position to increase the font size */
+@media (max-width: 666px) {  .notificationRoundedBox {   font-size: 5.0vmin;  }   }
+@media (max-width: 555px) {  .notificationRoundedBox {   font-size: 5.3vmin;  }   }
+@media (max-width: 444px) {  .notificationRoundedBox {   font-size: 5.6vmin;  }   }
+
 .okButtonUnderNotification{
-  min-width:100px;
-  min-height:62px;
+  min-width:100px;  min-height:62px;
   padding: 10px;
   margin-top: 5vmin;
   background-color: rgb(154,170,182);
   border-radius: 1.5vmin;
   border: 3px solid rgb(124, 144, 160);
   color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: flex;  justify-content: center;  align-items: center;
   text-shadow: none;
 }
 .okButtonUnderNotification:hover{
   background-color: rgb(93,114,137);
   border: 3px solid rgb(73, 94, 110);
 }
+/**/
+.vocabularyBG{
+  position: fixed; top:0; left:0; width:100vw; height:100vh;
+  background-color: rgba(41,53,64,0.5);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 200; /* Just a guesstimation */
+  animation-name: vocabularyWavesurferAppearsBG; animation-duration: .5s; animation-fill-mode: forwards;
+}
+@keyframes vocabularyWavesurferAppearsBG {  0%{opacity:0;} 100%{opacity:1}  }
+@keyframes vocabularyWavesurferDisappearsBG {  0%{opacity:1;} 100%{opacity:0}  }
+.vocabularyRoundedBox{
+  display: flex;  justify-content: space-around;  align-items: center;  flex-direction: column;
+  min-width: 33vw; max-width: 86vw;  min-height: 42vh;
+  background-color: #2c3b46;
+  border-radius: 2.5vmin;
+  border: 3px solid #314351;
+  box-shadow: 0px 0px 12px -4px #daecfa;
+  font-size: 3.8vmin;
+  color: #daecfa;
+  margin: 5vmin; /*Will take effect on mobiles only*/
+  padding-left: 4vmin; padding-right: 4vmin; padding-top: 5vmin; padding-bottom: 5vmin;
+  text-align: justify;
+  white-space: pre-wrap; /* pre means do not convert the line breaks into regular spaces. pre-wrap handles the overflow as well for longer lines */
+  animation-name: vocabularyWavesurferAppears; animation-duration: .5s; animation-fill-mode: forwards;
+}
+@keyframes vocabularyWavesurferAppears    {  0%{opacity:0; transform: scale(.5);}  100%{opacity:1; transform: scale(1);}  }
+@keyframes vocabularyWavesurferDisappears {  0%{opacity:1; transform: scale(1);}   100%{opacity:0; transform: scale(.5);} }
+
+/* IT WORKS: Trying to target phones (and tablets) especially in vertical position to increase the font size */
+@media (max-width: 666px) {  .vocabularyRoundedBox {   font-size: 5.0vmin;  }  }
+@media (max-width: 555px) {  .vocabularyRoundedBox {   font-size: 5.3vmin;  }  }
+@media (max-width: 444px) {  .vocabularyRoundedBox {   font-size: 5.6vmin;  }  }
+
+.vocabularyButtonsContainer{ display: flex; gap: 12px; }
+.buttonsUnderWavesurfer{
+  min-width:100px;  min-height:62px;
+  padding: 10px;
+  margin-top: 3vmin; /*margin-left: 4px; margin-right: 4px;*/
+  border-radius: 1vmin;
+  color: white;
+  display: flex;  justify-content: center;  align-items: center;
+  text-shadow: none;
+  transform: scale(1);
+  background-color: #1b2732;
+  border: 2px solid #141e28;
+  box-shadow: 0px 0px 0px black;
+  transition: transform .1s, background-color .25s, border-color .5s;
+}
+@media (min-width:1000px) { /*We don't want hover on phones and tablets*/
+  .buttonsUnderWavesurfer:hover{ /* For desktops (hopefully) */
+    transform: scale(1.07);
+    background-color: #0f161e;/*Almost black*/
+    border: 2px solid black; /*#344552*/
+  }
+  .buttonsUnderWavesurfer:active{ /* For desktops (hopefully) */
+    transform: scale(0.93);
+  }
+}
+@media (max-width:999px) { /* For tablets and phones (hopefully) */
+  .buttonsUnderWavesurfer:active{
+    transform: scale(1.1);
+  }
+}
+
+.startButtonUnderWavesurfer{ animation-name: slideAndAppear; animation-duration: 1s; animation-fill-mode: forwards; }
+@keyframes slideAndAppear { 0%{opacity:0; margin-right: -100px;}  100%{opacity:1; margin-right: 0px;} }
+/*REMEMBER: THIS IS NOT the microphone wavesurfer*/
+.vocabularyWavesurfer{
+  width:100%;  height: 60px;
+  border-radius: 5px;
+  /* background-color: rgba(255,255,255,0.02); */
+  /* border: 1px solid white; */
+  margin-top: 10px; margin-bottom: 10px;
+  overflow: hidden; /*Can't be too safe*/
+  filter: drop-shadow(0px 0px 1px black);
+}
+
+
+/**/
 .glassmorphismOnMobiles{
   background-color: rgba( 177, 177, 177, 0.3 );
   box-shadow: 0px 0px 30px 0px rgba( 0, 0, 0, 0.4 );
@@ -111,7 +180,7 @@ aside{
   background-color: rgba( 255, 255, 255, 0.7 );
 }
 @supports not ( ( -webkit-backdrop-filter: blur(9px) ) or ( backdrop-filter: blur(9px) ) ) {
-  /* CSS to provide fallback alternative for Firefox in 2021 and other less common browsers */
+  /* CSS to provide fallback alternative for Firefox in 2021 and other less incapable browsers */
   .glassmorphismOnMobiles{color: rgba(255,255,255,0.7); background-color: rgba( 188, 188, 188, 0.4 ); text-shadow: 0px 0px 2px rgba(222,222,222,0.85);}
   .glassmorphismOnDesktops{color: rgba(255,255,255,0.7); background-color: rgba( 188, 188, 188, 0.4 ); text-shadow: 0px 0px 2px rgba(222,222,222,0.85);}
 }

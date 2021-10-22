@@ -2,6 +2,12 @@ let clickSound;
 let theTextThatWillBePutInTheButton;
 let filePathForMonthlyFinanceBaseUsd; // Dynamic
 let filePathForMonthlyFinanceBaseEur; // Dynamic
+let useTheOtherExchangeService = false;
+const d = new Date();
+const today = d.getDate();
+const turn = today%5;
+if (turn>=3) {useTheOtherExchangeService = true;}
+
 window.addEventListener('DOMContentLoaded', function(){
 
   if (needLatinFonts) {
@@ -41,7 +47,7 @@ window.addEventListener('DOMContentLoaded', function(){
   fetch(filePathForNameOfLicense,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ document.getElementById('aboutLicenseP').innerHTML = contentOfTheTxtFile; });
   fetch(filePathForViewLicenseButton,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ document.getElementById('clickToViewP').innerHTML = contentOfTheTxtFile; });
   fetch(filePathForGoBackButton,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ document.getElementById('clickToGoBackP').innerHTML = contentOfTheTxtFile;  });
-//  fetch(filePathForMonthlyFinanceBaseUsd,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theTextThatWillBePutInTheButton = contentOfTheTxtFile; });
+//  fetch(filePathForMonthlyFinanceBaseUsd,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theTextThatWillBePutInTheButton = contentOfTheTxtFile; }); //Do this dynamically with exchange rates
 
   // CAUTION: ERROR happens if an element is removed before fetch can try to put text inside it.
   /*NOTE: Error has been fixed which happened due to inexistence of aboutResourcesP on mobiles; see if(deviceDetector.device == "desktop").*/
@@ -55,21 +61,28 @@ window.addEventListener('load', function(){
 
   const monthlyOpt = document.getElementById('idOfMonthlySupportOptionDiv'); // The 2 other duplicates will have been removed by the time this gets executed.
   // GOOD PRACTICE: It would be good if we could “SILENTLY” get the location of the user via IP detection (without device GPS because that pops another “allow-block” prompt).
-  switch (browserLanguage) { // CAUTION: Not userInterfaceLanguage but browserLanguage // See js_for_every_single_html -> two letter code is ready
+  switch (browserLanguage) { // CAUTION: Not userInterfaceLanguage but browserLanguage. WHY: Because EURO users speak many different languages  // See js_for_every_single_html -> two letter code is ready
     case "ja": // JPY
     fetch(filePathForMonthlyFinanceBaseUsd,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       theTextThatWillBePutInTheButton = contentOfTheTxtFile;
-      fetch("https://v6.exchangerate-api.com/v6/41e9b765199c3405e72bce0a/pair/USD/JPY").then(function(response){return response.json();}).then(function(jsonObject){
-        document.getElementById('idOfMonthlyOptionP').innerHTML = theTextThatWillBePutInTheButton.split("?")[0]+Math.round(jsonObject.conversion_rate)+theTextThatWillBePutInTheButton.split("?")[1];
-      });
+      if (useTheOtherExchangeService) {
+        fetch("https://openexchangerates.org/api/latest.json?app_id=00d60b05bdf64fe7acd41c8378f40877").then(function(response){return response.json();}).then(function(jsonObject){
+		      document.getElementById('idOfMonthlyOptionP').innerHTML = theTextThatWillBePutInTheButton.split("?")[0]+Math.round(jsonObject.rates.JPY)+theTextThatWillBePutInTheButton.split("?")[1];
+        });
+      } else {
+        fetch("https://v6.exchangerate-api.com/v6/41e9b765199c3405e72bce0a/pair/USD/JPY").then(function(response){return response.json();}).then(function(jsonObject){
+          document.getElementById('idOfMonthlyOptionP').innerHTML = theTextThatWillBePutInTheButton.split("?")[0]+Math.round(jsonObject.conversion_rate)+theTextThatWillBePutInTheButton.split("?")[1];
+        });
+      }
     });
       break;
     case "tr": // TRY
     fetch(filePathForMonthlyFinanceBaseUsd,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      theTextThatWillBePutInTheButton = contentOfTheTxtFile;
+      document.getElementById('idOfMonthlyOptionP').innerHTML = contentOfTheTxtFile;
+      /*theTextThatWillBePutInTheButton = contentOfTheTxtFile;
       fetch("https://v6.exchangerate-api.com/v6/41e9b765199c3405e72bce0a/pair/USD/TRY").then(function(response){return response.json();}).then(function(jsonObject){
         document.getElementById('idOfMonthlyOptionP').innerHTML = theTextThatWillBePutInTheButton.split("?")[0]+Math.round(jsonObject.conversion_rate*100)/100+theTextThatWillBePutInTheButton.split("?")[1];
-      });
+      });*/
     });
       break;
     case "it": case "es": case "de": case "fr": case "pt": case "fi": case "el": case "et": case "ga": case "lv": case "lt": case "nl": case "mt": case "sk": case "sl": // EUR

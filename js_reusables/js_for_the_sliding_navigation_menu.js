@@ -1,13 +1,15 @@
 // NOTE: Do not use “const” for things that need to be accessible from elsewhere. Only use “var” for such variables.
 // The buttons have 4 (webp img) states : A, B, C and D. If we use one variable and only change the src it works but it is very glitchy.
 // Therefore we have to use four variables for each webp and change the css rule “display block none” instead of changing the src.
-// DEBUG: On mobiles buttons sometimes appear incorrectly for a brief moment like two states are “display block” at the same time. That is supposed to never happen!
-// DEBUG: On desktops something sometimes mysteriously causes the button animations to NOT reset back to frame 1. Not a major issue because the result is still usable.
+// ---
+// For sake of GUI simplicity the Speed Adjustment Slider is available on desktops only.
+// The Global Volume Slider is also "desktops-only". Mobile volume is to be adjusted natively via device volume buttons.
+
 var containerDivOfTheNavigationMenu = document.createElement("NAV");
 
 var clickToGoToPreviousDiv = document.createElement("DIV");
 var clickToGoToMainMenuDiv = document.createElement("DIV");
-var clickToOpenProgressDiv = document.createElement("DIV");
+var clickToPauseTheAppDiv = document.createElement("DIV");
 var clickToFinanceDiv = document.createElement("DIV");
 
 const clickToGoToPreviousImgA = document.createElement("IMG");
@@ -18,10 +20,10 @@ const clickToGoToMainMenuImgA = document.createElement("IMG");
 const clickToGoToMainMenuImgB = document.createElement("IMG");
 const clickToGoToMainMenuImgC = document.createElement("IMG");
 const clickToGoToMainMenuImgD = document.createElement("IMG");
-const clickToOpenProgressImgA = document.createElement("IMG");
-const clickToOpenProgressImgB = document.createElement("IMG");
-const clickToOpenProgressImgC = document.createElement("IMG");
-const clickToOpenProgressImgD = document.createElement("IMG");
+const clickToPauseTheAppImgA = document.createElement("IMG");
+const clickToPauseTheAppImgB = document.createElement("IMG");
+const clickToPauseTheAppImgC = document.createElement("IMG");
+const clickToPauseTheAppImgD = document.createElement("IMG");
 const clickToFinanceImgA = document.createElement("IMG");
 const clickToFinanceImgB = document.createElement("IMG");
 const clickToFinanceImgC = document.createElement("IMG");
@@ -37,10 +39,10 @@ clickToGoToMainMenuImgA.src = "user_interface/images/sliding_navigation_menu/go_
 clickToGoToMainMenuImgB.src = "user_interface/images/sliding_navigation_menu/go_to_main_menu_house_b.webp";
 clickToGoToMainMenuImgC.src = "user_interface/images/sliding_navigation_menu/go_to_main_menu_house_c.webp";
 clickToGoToMainMenuImgD.src = "user_interface/images/sliding_navigation_menu/go_to_main_menu_house_d.webp";
-clickToOpenProgressImgA.src = "user_interface/images/sliding_navigation_menu/open_progress_a.webp";
-clickToOpenProgressImgB.src = "user_interface/images/sliding_navigation_menu/open_progress_b.webp";
-clickToOpenProgressImgC.src = "user_interface/images/sliding_navigation_menu/open_progress_c.webp";
-clickToOpenProgressImgD.src = "user_interface/images/sliding_navigation_menu/open_progress_d.webp";
+clickToPauseTheAppImgA.src = "user_interface/images/sliding_navigation_menu/pause_lesson_a.webp";
+clickToPauseTheAppImgB.src = "user_interface/images/sliding_navigation_menu/pause_lesson_b.webp";
+clickToPauseTheAppImgC.src = "user_interface/images/sliding_navigation_menu/pause_lesson_c.webp";
+clickToPauseTheAppImgD.src = "user_interface/images/sliding_navigation_menu/pause_lesson_d.webp";
 clickToFinanceImgA.src = "user_interface/images/sliding_navigation_menu/scale_a.webp";
 clickToFinanceImgB.src = "user_interface/images/sliding_navigation_menu/scale_b.webp";
 clickToFinanceImgC.src = "user_interface/images/sliding_navigation_menu/scale_c.webp";
@@ -52,9 +54,9 @@ clickToGoToPreviousImgD.style.display = "none";
 clickToGoToMainMenuImgB.style.display = "none";
 clickToGoToMainMenuImgC.style.display = "none";
 clickToGoToMainMenuImgD.style.display = "none";
-clickToOpenProgressImgB.style.display = "none";
-clickToOpenProgressImgC.style.display = "none";
-clickToOpenProgressImgD.style.display = "none";
+clickToPauseTheAppImgB.style.display = "none";
+clickToPauseTheAppImgC.style.display = "none";
+clickToPauseTheAppImgD.style.display = "none";
 clickToFinanceImgB.style.display = "none";
 clickToFinanceImgC.style.display = "none";
 clickToFinanceImgD.style.display = "none";
@@ -67,10 +69,10 @@ clickToGoToMainMenuDiv.appendChild(clickToGoToMainMenuImgA); // display = "block
 clickToGoToMainMenuDiv.appendChild(clickToGoToMainMenuImgB); // display = "none";
 clickToGoToMainMenuDiv.appendChild(clickToGoToMainMenuImgC); // display = "none";
 clickToGoToMainMenuDiv.appendChild(clickToGoToMainMenuImgD); // display = "none";
-clickToOpenProgressDiv.appendChild(clickToOpenProgressImgA); // display = "block";
-clickToOpenProgressDiv.appendChild(clickToOpenProgressImgB); // display = "none";
-clickToOpenProgressDiv.appendChild(clickToOpenProgressImgC); // display = "none";
-clickToOpenProgressDiv.appendChild(clickToOpenProgressImgD); // display = "none";
+clickToPauseTheAppDiv.appendChild(clickToPauseTheAppImgA); // display = "block";
+clickToPauseTheAppDiv.appendChild(clickToPauseTheAppImgB); // display = "none";
+clickToPauseTheAppDiv.appendChild(clickToPauseTheAppImgC); // display = "none";
+clickToPauseTheAppDiv.appendChild(clickToPauseTheAppImgD); // display = "none";
 clickToFinanceDiv.appendChild(clickToFinanceImgA); // display = "block";
 clickToFinanceDiv.appendChild(clickToFinanceImgB); // display = "none";
 clickToFinanceDiv.appendChild(clickToFinanceImgC); // display = "none";
@@ -79,13 +81,16 @@ clickToFinanceDiv.appendChild(clickToFinanceImgD); // display = "none";
 /* Touching/Clicking the "Return to last checkpoint" box's “OK” button must also add “clickToGoToMainMenu” and “clickToGoToPrevious” button images */
 /* See js_for_all_container_parent_htmls.js and find whenLoadLastLessonOkButtonIsClickedOrTapped() function */
 
-containerDivOfTheNavigationMenu.appendChild(clickToOpenProgressDiv);
 containerDivOfTheNavigationMenu.appendChild(clickToFinanceDiv);
-// speedAdjustmentDiv and volumeAdjustmentDiv are for DESKTOP ONLY. See the code below in window load event's desktop block.
+
+// DEPRECATED: See js_for_all_iframed_lesson_htmls for the new thing containerDivOfTheNavigationMenu.insertBefore(clickToPauseTheAppDiv,clickToFinanceDiv); // See progress.js to find its removal AND See js_for_all_iframed_lesson_htmls to find its addition
+
+// speedAdjustmentDiv and volumeAdjustmentDiv are for DESKTOPS ONLY. See the code below in window load event's desktop block.
 
 // Call these from bread.js and water.js etc to add or remove the navigation buttons
 // In the future, use a condition like if(userInterfaceDirection=="ltr") {} for a user interface that reads from right to left like Arabic.
 // Don't forget to do the same in whenLoadLastLessonOkButtonIsClickedOrTapped() inside js_for_all_container_parent_htmls.js
+/* DEPRECATED: See js_for_all_iframed_lesson_htmls.js for the new thing
 function addHomeButtonToTheNavigationMenu() {
   if (deviceDetector.isMobile) {
     containerDivOfTheNavigationMenu.insertBefore(clickToGoToMainMenuDiv,containerDivOfTheNavigationMenu.childNodes[0]); // Make it leftmost
@@ -94,8 +99,10 @@ function addHomeButtonToTheNavigationMenu() {
   }
   //console.log("HOME button is added to the menu");
 }
+*/
 // In the future, use a condition like if(userInterfaceDirection=="ltr") {} for a user interface that reads from right to left like Arabic.
-// Don't forget to check whenLoadLastLessonOkButtonIsClickedOrTapped() inside js_for_all_container_parent_htmls.js
+// Don't forget to check whenLoadLastLessonOkButtonIsClickedOrTapped() inside js_for_all_container_parent_htmls.js // EDIT: That doesn't exist anymore
+/*
 function addGoBackToPreviousButtonToTheNavigationMenu() {
   if (deviceDetector.isMobile){
     containerDivOfTheNavigationMenu.insertBefore(clickToGoToPreviousDiv,containerDivOfTheNavigationMenu.childNodes[0]); // Make it leftmost
@@ -108,7 +115,7 @@ function removeGoBackToPreviousButtonFromTheNavigationMenu() {
   containerDivOfTheNavigationMenu.removeChild(clickToGoToPreviousDiv); // Whatever its location was
   //console.log("GO BACK button is removed from the menu");
 }
-
+*/
 // Sliding navigation menu button UI sounds
 const navMenuHoverSound = new Howl({  src: ['user_interface/sounds/ceramic_button_hover.mp3']  }); // DESKTOP ONLY. Put it here to make it global.
 const navMenuClickSound = new Howl({  src: ['user_interface/sounds/ceramic_button_click.mp3']  });
@@ -135,13 +142,10 @@ volumeAdjustmentDiv.appendChild(volumeSlider);
 volumeSlider.classList.add("bothSlidersAppearance");
 volumeSlider.classList.add("volumeSliderAppearance");
 
-var speedAdjustmentCoefficient = 1.0;
+var speedAdjustmentCoefficient = 1.0; // 0 is SLOW,,, 1 is NORMAL,,, 2 is FAST // REMEMBER: This is NOT the slider position.
 
-// Detect first click/first user gesture that unlocks sounds
-// REMEMBER: Sliding menu buttons also need this. Handle separately. See js_for_the_sliding_navigation_menu.js
-var firstUserGestureHasUnleashedAudio = false;
-window.addEventListener("mouseup",function () {  firstUserGestureHasUnleashedAudio = true;  }, {once:true}); // Prevent sound flooding-exploding.
 // Variables for detecting the swipe-up
+var swipeMenuIsDisabled = false; // Must disable it during any touch controlled gameplay. Example: give_me_water.js in 1-1-3
 let touchStartY;
 let touchEndY;
 let navMenuIsUpAndVisible = true; // Nav menu is visible at first when the app starts.
@@ -149,31 +153,38 @@ let navMenuOnMobileHasBeenHiddenForTheFirstTime = false; // So that the very fir
 var invisibleContainerOfContainerDivOfTheNavigationMenu = document.createElement("DIV");
 
 function makeTheNavMenuGoDownOnMobiles() {
-  invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationSinkAndDisappear"); // See css_for_sliding_navigation_menu.css
-  invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationAppearFromBottom");
-  navMenuOnMobileHasBeenHiddenForTheFirstTime = true;
-  if (navMenuIsUpAndVisible) { // It really was up and is now moving down
-    // Handle audio
-    deactivationSound1.play(); // All SWIPE-DOWNs will continue firing this function but this sound must be heard only once.
-    navMenuIsUpAndVisible = false;
-  }
+  // Watch what's happening with swipeMenuIsDisabled
+    invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationSinkAndDisappear"); // See css_for_sliding_navigation_menu.css
+    invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationAppearFromBottom");
+    navMenuOnMobileHasBeenHiddenForTheFirstTime = true;
+    if (navMenuIsUpAndVisible) { // It really was up and is now moving down
+      deactivationSound1.play(); // Handle audio: All SWIPE-DOWNs will continue firing this function but this sound must be heard only once.
+      navMenuIsUpAndVisible = false;
+    }
+  // ---
 }
 
 function makeTheNavMenuComeUpOnMobiles() {
-  invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationAppearFromBottom"); // See css_for_sliding_navigation_menu.css
-  invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationSinkAndDisappear");
-  if (!navMenuIsUpAndVisible) { // It really was down and is now moving up
-    // Handle audio
-    activationSound1.play(); // All SWIPE-UPs will continue firing this function but this sound must be heard only once.
-    navMenuIsUpAndVisible = true;
+  if (!swipeMenuIsDisabled) {
+    invisibleContainerOfContainerDivOfTheNavigationMenu.classList.add("addThisForAnimationAppearFromBottom"); // See css_for_sliding_navigation_menu.css
+    invisibleContainerOfContainerDivOfTheNavigationMenu.classList.remove("addThisForAnimationSinkAndDisappear");
+    if (!navMenuIsUpAndVisible) { // It really was down and is now moving up
+      activationSound1.play(); // Handle audio: All SWIPE-UPs will continue firing this function but this sound must be heard only once.
+      navMenuIsUpAndVisible = true;
+    }
   }
 }
-
+/*---*/
+let mouseIsOnMenuTriggerArea = false;
+/*---*/
+let continueAfterPauseByNavMenuPauseButton = "Paused?"; // Get the actual text from txt file and use it instead of this default.
+const filePathForResumeAfterPausedByButton = "user_interface/text/"+userInterfaceLanguage+"/0-lesson_is_paused_by_button.txt";
+fetch(filePathForResumeAfterPausedByButton,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ continueAfterPauseByNavMenuPauseButton = contentOfTheTxtFile; });// See js_for_fetch_api_character_encoding.js for the headers thingy.
 /* NOTE: Looks like the function declarations could have been tidier */
 window.addEventListener("load",function() {
 
   // What to do on MOBILE DEVICES
-  var iframe = document.getElementById('theIdOfTheIframe'); // Actually the exact same thing was defined with const iFrameScriptAccess in js_for_all_container_parent_htmls.js
+  //var iframe = document.getElementById('theIdOfTheIframe'); // DEPRECATED: Use ayFreym from js_for_all_container_parent_htmls
   // What to do on MOBILES
   if (deviceDetector.isMobile){
     // If something blocks the clickablity of any other element use pointerEvents = "none";
@@ -190,12 +201,12 @@ window.addEventListener("load",function() {
     function getY2(event) {      touchEndY = event.changedTouches[0].screenY;      handleSwipeGesture();    }
     window.addEventListener('touchstart', getY1);
     window.addEventListener('touchend', getY2);
-    iframe.onload = function() {
-      iframe.contentWindow.addEventListener("touchstart", getY1);
-      iframe.contentWindow.addEventListener("touchend", getY2);
+    ayFreym.onload = function() {
+      ayFreym.contentWindow.addEventListener("touchstart", getY1);
+      ayFreym.contentWindow.addEventListener("touchend", getY2);
     };
   } // END OF WHAT TO DO ON mobiles
-  // What to do on DESKTOPS
+  /* ____ ----- What to do on DESKTOPS ----- ____*/
   else {
     // CAUTION: localStorage works with strings variables only! Conversion may be necessary in and out.
     /* __ HANDLE GLOBAL VOLUME WITH THE SLIDER __ */
@@ -220,14 +231,14 @@ window.addEventListener("load",function() {
       switch (localStorage.speedWasAtThisLevel) {
         case "1":
           // SLOWER
-          speedAdjustmentCoefficient = 1.4; // Inversely proportional; the greater the value the slower.
+          speedAdjustmentCoefficient = 0.0; // USED TO BE: Inversely proportional; the greater the value the slower.
           speedSlider.classList.add("speedSliderAppearance1");
           speedSlider.classList.remove("speedSliderAppearance2");
           speedSlider.classList.remove("speedSliderAppearance3");
           break;
         case "3":
           // FASTER
-          speedAdjustmentCoefficient = 0.78; // Inversely proportional; the smaller the value the faster.
+          speedAdjustmentCoefficient = 2.0; // USED TO BE: Inversely proportional; the smaller the value the faster.
           speedSlider.classList.remove("speedSliderAppearance1");
           speedSlider.classList.remove("speedSliderAppearance2");
           speedSlider.classList.add("speedSliderAppearance3");
@@ -240,10 +251,11 @@ window.addEventListener("load",function() {
           speedSlider.classList.remove("speedSliderAppearance3");
       }
     } else {
-      localStorage.speedWasAtThisLevel = 2; // First time users start with normal speed (1 is slow, 2 is normal, 3 is fast). Number gets converted to string automatically.
+      localStorage.speedWasAtThisLevel = 2; // First time users start with normal speed (slider position 2). Number gets converted to string automatically.
       speedSlider.value=Number(localStorage.speedWasAtThisLevel);
       speedSlider.classList.add("speedSliderAppearance2");
     }
+    /* __Change speed when user click-drags the slider__ */
     speedSlider.oninput = function()
     {
       let chosen = this.value;
@@ -251,14 +263,14 @@ window.addEventListener("load",function() {
       switch (chosen) {
         case "1":
           // SLOWER
-          speedAdjustmentCoefficient = 1.4; // Inversely proportional; the greater the value the slower
+          speedAdjustmentCoefficient = 0.0; // USED TO BE: Inversely proportional; the greater the value the slower
           speedSlider.classList.add("speedSliderAppearance1");
           speedSlider.classList.remove("speedSliderAppearance2");
           speedSlider.classList.remove("speedSliderAppearance3");
           break;
         case "3":
           // FASTER
-          speedAdjustmentCoefficient = 0.78; // Inversely proportional; the smaller the value the faster
+          speedAdjustmentCoefficient = 2.0; // USED TO BE: Inversely proportional; the smaller the value the faster
           speedSlider.classList.remove("speedSliderAppearance1");
           speedSlider.classList.remove("speedSliderAppearance2");
           speedSlider.classList.add("speedSliderAppearance3");
@@ -275,21 +287,24 @@ window.addEventListener("load",function() {
     /* __Add the elements and event listeners__ */
     containerDivOfTheNavigationMenu.insertBefore(speedAdjustmentDiv,containerDivOfTheNavigationMenu.childNodes[0]); // Make it leftmost
     containerDivOfTheNavigationMenu.appendChild(volumeAdjustmentDiv); // Make it rightmost
-    containerDivOfTheNavigationMenu.classList.add("theSmallNavigationMenuDESKTOPStyling"); // See css_for_all_container_parent_htmls.css
+    containerDivOfTheNavigationMenu.classList.add("theNavigationMenuDESKTOPStyling"); // See css_for_all_container_parent_htmls.css
+    setTimeout(function(){
+      if (!mouseIsOnMenuTriggerArea) {    containerDivOfTheNavigationMenu.classList.add("hideWithSlowTransition");   }
+    },2222);
+
     var invisibleHoverAreaDiv = document.createElement("DIV");
     invisibleHoverAreaDiv.classList.add("invisibleHoverAreaToAccessNavigationMenu"); // See css_for_all_container_parent_htmls.css
     document.body.appendChild(invisibleHoverAreaDiv);
     invisibleHoverAreaDiv.appendChild(containerDivOfTheNavigationMenu);
     invisibleHoverAreaDiv.addEventListener("mouseenter",makeTheMenuComeDown);
     invisibleHoverAreaDiv.addEventListener("mouseleave",makeTheMenuGoUp);
-    containerDivOfTheNavigationMenu.classList.add("addThisForAnimationAppearFromTop");
 
     clickToGoToPreviousDiv.addEventListener("mouseenter",goToPreviousEnterHoverFunction);
     clickToGoToPreviousDiv.addEventListener("mouseleave",goToPreviousExitHoverFunction);
     clickToGoToMainMenuDiv.addEventListener("mouseenter",goToMainMenuEnterHoverFunction);
     clickToGoToMainMenuDiv.addEventListener("mouseleave",goToMainMenuExitHoverFunction);
-    clickToOpenProgressDiv.addEventListener("mouseenter",clickToOpenProgressEnterHoverFunction);
-    clickToOpenProgressDiv.addEventListener("mouseleave",clickToOpenProgressExitHoverFunction);
+    clickToPauseTheAppDiv.addEventListener("mouseenter",clickToPauseTheAppEnterHoverFunction);
+    clickToPauseTheAppDiv.addEventListener("mouseleave",clickToPauseTheAppExitHoverFunction);
     clickToFinanceDiv.addEventListener("mouseenter",clickToFinanceEnterHoverFunction);
     clickToFinanceDiv.addEventListener("mouseleave",clickToFinanceExitHoverFunction);
 
@@ -310,7 +325,7 @@ window.addEventListener("load",function() {
     setTimeout(function () {  clickToGoToPreviousImgD.src = resetByUsingSrcD;  },3);
   }
   function goToPreviousEnterHoverFunction() {
-    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();}
+    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();} // See js_for_every_single_html.js
     // Start the movement by switching from A to B ,,, actually it could have been at C or D too
     clickToGoToPreviousImgA.style.display = "none";
     clickToGoToPreviousImgB.style.display = "block"; // B contains 8 frames with 30ms each -> 240ms
@@ -343,7 +358,7 @@ window.addEventListener("load",function() {
     setTimeout(function () {  clickToGoToMainMenuImgD.src = resetByUsingSrcD;  },3);
   }
   function goToMainMenuEnterHoverFunction() {
-    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();}
+    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();} // See js_for_every_single_html.js
     // Start the movement by switching from A to B ,,, actually it could have been at C or D too
     clickToGoToMainMenuImgA.style.display = "none";
     clickToGoToMainMenuImgB.style.display = "block"; // B contains 8 frames with 30ms each -> 240ms
@@ -366,34 +381,34 @@ window.addEventListener("load",function() {
   /*__HANDLE PROGRESS CHART BUTTON__*/
   let preventMistakeForProgressButton;
   function resetProgressChartButtonImgB() {
-    const resetByUsingSrcB = clickToOpenProgressImgB.src;
-    clickToOpenProgressImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu;
-    setTimeout(function () {  clickToOpenProgressImgB.src = resetByUsingSrcB;  },3);
+    const resetByUsingSrcB = clickToPauseTheAppImgB.src;
+    clickToPauseTheAppImgB.src = onePixelTransparentGifUsedLocallyHereInNavMenu;
+    setTimeout(function () {  clickToPauseTheAppImgB.src = resetByUsingSrcB;  },3);
   }
   function resetProgressChartButtonImgD() {
-    const resetByUsingSrcD = clickToOpenProgressImgD.src;
-    clickToOpenProgressImgD.src = onePixelTransparentGifUsedLocallyHereInNavMenu;
-    setTimeout(function () {  clickToOpenProgressImgD.src = resetByUsingSrcD;  },3);
+    const resetByUsingSrcD = clickToPauseTheAppImgD.src;
+    clickToPauseTheAppImgD.src = onePixelTransparentGifUsedLocallyHereInNavMenu;
+    setTimeout(function () {  clickToPauseTheAppImgD.src = resetByUsingSrcD;  },3);
   }
-  function clickToOpenProgressEnterHoverFunction() {
-    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();}
+  function clickToPauseTheAppEnterHoverFunction() {
+    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();} // See js_for_every_single_html.js
     // Start the movement by switching from A to B ,,, actually it could have been at C or D too
-    clickToOpenProgressImgA.style.display = "none";
-    clickToOpenProgressImgB.style.display = "block"; // B contains 8 frames with 30ms each -> 240ms
-    clickToOpenProgressImgC.style.display = "none";
-    clickToOpenProgressImgD.style.display = "none"; resetProgressChartButtonImgD();
+    clickToPauseTheAppImgA.style.display = "none";
+    clickToPauseTheAppImgB.style.display = "block"; // B contains 8 frames with 30ms each -> 240ms
+    clickToPauseTheAppImgC.style.display = "none";
+    clickToPauseTheAppImgD.style.display = "none"; resetProgressChartButtonImgD();
     // Go to C after the exact duration of the animation B
     preventMistakeForProgressButton = setTimeout(function () {
-      clickToOpenProgressImgB.style.display = "none"; resetProgressChartButtonImgB();
-      clickToOpenProgressImgC.style.display = "block"; // C contains an endless looping animation
+      clickToPauseTheAppImgB.style.display = "none"; resetProgressChartButtonImgB();
+      clickToPauseTheAppImgC.style.display = "block"; // C contains an endless looping animation
     },240); // Consider what will happen if the mouse leaves too quickly, like less than 240ms
   }
-  function clickToOpenProgressExitHoverFunction() {
+  function clickToPauseTheAppExitHoverFunction() {
     clearTimeout(preventMistakeForProgressButton);
-    clickToOpenProgressImgA.style.display = "none";
-    clickToOpenProgressImgB.style.display = "none"; resetProgressChartButtonImgB();
-    clickToOpenProgressImgC.style.display = "none";
-    clickToOpenProgressImgD.style.display = "block"; // Slowly fades and stops exactly at the same frame with A
+    clickToPauseTheAppImgA.style.display = "none";
+    clickToPauseTheAppImgB.style.display = "none"; resetProgressChartButtonImgB();
+    clickToPauseTheAppImgC.style.display = "none";
+    clickToPauseTheAppImgD.style.display = "block"; // Slowly fades and stops exactly at the same frame with A
   }
 
   /*__HANDLE INFORMATION BUTTON (with the scale icon)__*/
@@ -409,7 +424,7 @@ window.addEventListener("load",function() {
     setTimeout(function () {  clickToFinanceImgD.src = resetByUsingSrcD;  },3);
   }
   function clickToFinanceEnterHoverFunction() {
-    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();}
+    if(firstUserGestureHasUnleashedAudio){navMenuHoverSound.play();} // See js_for_every_single_html.js
     // Start the movement by switching from A to B ,,, actually it could have been at C or D too
     clickToFinanceImgA.style.display = "none";
     clickToFinanceImgB.style.display = "block"; // B contains 8 frames with 30ms each -> 240ms
@@ -431,10 +446,14 @@ window.addEventListener("load",function() {
 
   /*__CREATE MOVEMENT__*/
   function makeTheMenuComeDown() { // Desktops
-    containerDivOfTheNavigationMenu.classList.add("addOrRemoveThisToMakeTheNavMenuAppearDisappear");
+    mouseIsOnMenuTriggerArea = true;
+    containerDivOfTheNavigationMenu.classList.remove("hideWithSlowTransition");
+    containerDivOfTheNavigationMenu.classList.add("revealWithQuickTransition");
   }
   function makeTheMenuGoUp() { // Desktops
-    containerDivOfTheNavigationMenu.classList.remove("addOrRemoveThisToMakeTheNavMenuAppearDisappear");
+    mouseIsOnMenuTriggerArea = false;
+    containerDivOfTheNavigationMenu.classList.remove("revealWithQuickTransition");
+    containerDivOfTheNavigationMenu.classList.add("hideWithSlowTransition");
   }
 
   // ---------- Declaration of mobile functions ----------
@@ -494,7 +513,7 @@ window.addEventListener("load",function() {
   }
 
   /*____________TOUCH AND MOUSE EVENTS_____________*/
-  if (deviceDetector.isMobile) {
+  if (deviceDetector.isMobile) { // Touch
     clickToGoToPreviousDiv.addEventListener("touchstart", function () {
       clickToGoToPreviousImgA.style.display = "none";
       clickToGoToPreviousImgD.style.display = "initial";
@@ -513,13 +532,13 @@ window.addEventListener("load",function() {
         clickToGoToMainMenuImgA.style.display = "initial";
       },900);
     } );
-    clickToOpenProgressDiv.addEventListener("touchstart", function () {
-      clickToOpenProgressImgA.style.display = "none";
-      clickToOpenProgressImgD.style.display = "initial";
-      setTimeout(openProgressChartFunction,270);
+    clickToPauseTheAppDiv.addEventListener("touchstart", function () {
+      clickToPauseTheAppImgA.style.display = "none";
+      clickToPauseTheAppImgD.style.display = "initial";
+      setTimeout(pauseTheAppFunction,270);
       setTimeout(function () {
-        clickToOpenProgressImgD.style.display = "none";
-        clickToOpenProgressImgA.style.display = "initial";
+        clickToPauseTheAppImgD.style.display = "none";
+        clickToPauseTheAppImgA.style.display = "initial";
       },900);
     } );
     clickToFinanceDiv.addEventListener("touchstart", function () {
@@ -531,10 +550,10 @@ window.addEventListener("load",function() {
         clickToFinanceImgA.style.display = "initial";
       },900);
     } );
-  } else {
+  } else { // Mouse
     clickToGoToPreviousDiv.addEventListener("mousedown", function () { setTimeout(goToPreviousLessonFunction,30); }    );
     clickToGoToMainMenuDiv.addEventListener("mousedown", function () { setTimeout(goToMainMenuFunction,30); }          );
-    clickToOpenProgressDiv.addEventListener("mousedown", function () { setTimeout(openProgressChartFunction,30); }     );
+    clickToPauseTheAppDiv.addEventListener("mousedown", function () { setTimeout(pauseTheAppFunction,30); }     );
     clickToFinanceDiv.addEventListener("mousedown", function () { setTimeout(openFinancialMethodsPageFunction,30); }   );
   }
 
@@ -544,10 +563,13 @@ window.addEventListener("load",function() {
     navMenuClickSound.play();
     // After about 8 seconds the button must turn into a REFRESH button.
     // But it must go to the previous place if right now is the beginning of the lesson.
-    if (iFrameScriptAccess.contentWindow.thisLessonHasBeenLoadedFresh) { // See js_for_all_iframed...
+    if (ayFreym.contentWindow.thisLessonHasBeenLoadedFresh) { // See js_for_all_iframed...
+      // Try to use sessionStorage and do smth dynamic instead of relying on static objects
+
+      /*
       // Use indexOfLessons object from js_object_of_all_lessons_listed.js
       // Get the frame title and find the lesson index
-      let theTitleOfCurrentLesson = iFrameScriptAccess.contentWindow.document.title; // Use iFrameScriptAccess variable from js_for_all_container_parent_htmls.js
+      let theTitleOfCurrentLesson = ayFreym.contentWindow.document.title; // Use ayFreym variable from js_for_all_container_parent_htmls.js
       let theIndexOfCurrentLesson;
       // Maybe “switch case” or “while” with breaks would be better instead of “for” but anyways...
       for(i=0;i<indexOfLessons.title.length;i++)
@@ -556,52 +578,75 @@ window.addEventListener("load",function() {
         }
       }
       // Reveal the preloader screen cover
-      preloadHandlingDiv.classList.remove("addThisClassToHideIt"); // See css_for_every_single_html
-      preloadHandlingDiv.classList.add("addThisClassToRevealIt"); // See css_for_every_single_html
+      preloadHandlingDiv.classList.remove("addThisClassToHideThePreloader"); // See css_for_every_single_html
+      preloadHandlingDiv.classList.add("addThisClassToRevealThePreloader"); // See css_for_every_single_html
       // Go to the previous lesson as soon as the cover is ready
       setTimeout(function() {
-        iFrameScriptAccess.src = indexOfLessons.path[theIndexOfCurrentLesson-1];
-      },1500);
+        ayFreym.src = indexOfLessons.path[theIndexOfCurrentLesson-1];
+      },1500);*/
     } else {
-      iFrameScriptAccess.contentWindow.location.reload(); // Refresh
+      ayFreym.contentWindow.location.reload(); // Refresh
     }
   }
 
-  let areYouSureTextInUILanguage = "Go to start?"; // Override this default by getting this from txt file
-  const filePathForTheConfirmationText = "user_interface/text/"+userInterfaceLanguage+"/0-are_you_sure.txt";
-  fetch(filePathForTheConfirmationText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ areYouSureTextInUILanguage = contentOfTheTxtFile; });// See js_for_fetch_api_character_encoding.js for the headers thingy.
 
   function goToMainMenuFunction() {
     navMenuClickSound.play();
-    // Ask “Are you sure?” in all user interface languages via fetch()
-    if (confirm(areYouSureTextInUILanguage)) {
-      localStorage.removeItem("theLastCheckpointSavedInLocalStorage");
-      localStorage.removeItem("theLanguageUserWasLearningLastTimeToSetPathsAndNotes");
-      localStorage.removeItem("theLanguageUserWasLearningLastTimeToSetAnnyang");
-      // WARNING: Avoid using reference to the root "/" as it maybe uncertain what the root is in case of deep-iframing.
-      // Try solving with conditionals if a problem emerges.
-      window.open("/","_self");
-      containerDivOfTheNavigationMenu.removeChild(clickToGoToMainMenuDiv);
-    } else {
-      // User has clicked CANCEL. So, do nothing and stay.
+    let searchAndDetectLocation = ayFreym.src;
+    let result = searchAndDetectLocation.search("progress_chart");
+    if (result < 0) { // iFrame was not showing the progress_chart
+      // fade
+      ayFreym.classList.add("everyThingFadesToBlack"); // Should take 700ms // Exists in css_for_all_container_parent_htmls
+      setTimeout(function() {
+        ayFreym.src = "progress_chart";
+        ayFreym.addEventListener('load',frameIsLoadedByHomeButton,{ once: true });
+        function frameIsLoadedByHomeButton() {
+          ayFreym.classList.remove("everyThingFadesToBlack"); ayFreym.classList.add("everyThingComesFromBlack");
+          setTimeout(function() {  ayFreym.classList.remove("everyThingComesFromBlack");  },701);
+        }
+      },701);
+    } else { // Already viewing the progress chart
+      // 3 times quick flash white inset box shadow
+      const flashingDiv = document.createElement("DIV"); flashingDiv.classList.add("flashBordersWithInsetWhiteBoxShadow");
+      document.body.appendChild(flashingDiv);
+      setTimeout(function() {  flashingDiv.parentNode.removeChild(flashingDiv);  },1500);
+      // ayFreym.contentWindow.document.body.appendChild(flashingDiv);
     }
+    // ayFreym.contentWindow.document.location.href="http://myLink.com"; // or ayFreym.src = "folder/index.html";
+    // REMEMBER: If we navigate via location.href the browser WILL NOT update ayFreym.src
+    // CAUTION! Changing the location with href will trigger window.onbeforeunload
   }
 
-  function openProgressChartFunction() {
+  function pauseTheAppFunction() {
     navMenuClickSound.play();
-    // CAUTION! Changing the location with href will trigger window.onbeforeunload
-    // stopAnnyangAndStopHowler(); // When this button becomes functional in future, let this be handled by onbeforeunload function in js_for_all_iframed_lesson_htmls
-    // DO NOT USE: alert box causes a problem with sound on iPhones; it first mutes and then unmutes the sound and keeps toggling.
-    let temporaryNotification = "This feature is not available yet.\nBu özellik henüz hazır değil.\nこのボタンの機能はまだです。\n";
-    let additionForiOSusers = "If you have sound problems on iPhone&iPad try touching the same button again.\niPhone&iPad için seste sorun olursa geri açmak için aynı düğmeye tekrar dokunmayı dene.";
-    if(detectedOS.name == "iOS" && deviceDetector.isMobile) {temporaryNotification = temporaryNotification + additionForiOSusers;}
-    alert(temporaryNotification);
+    // Pause the app
+    setTimeout(function () {
+      let wasListeningWhenUserPaused = false;
+      if (annyang) {
+        wasListeningWhenUserPaused = annyang.isListening();
+        annyang.abort(); // without this annyang.start() won't function. // No problem if abort() fires when annyang wasn't listening.
+      }
+      /**/
+      let howlerVolumeWas = Howler.volume();
+      Howler.volume(0);
+      /**/
+      alert(continueAfterPauseByNavMenuPauseButton);
+      /**/
+      setTimeout(function() {
+        /*Return to normal*/
+        Howler.volume(howlerVolumeWas);
+        /*Continue receiving speech if it was interrupted*/
+        if (wasListeningWhenUserPaused) {
+          setTimeout(function() {          if (annyang){ annyang.start(); }           },1001);
+        }
+      },30); // 30ms is not a superstition, it's guesstimated safety measure.
+    },250);
   }
 
   function openFinancialMethodsPageFunction() {
     navMenuClickSound.play();
     // stopAnnyangAndStopHowler(); // use contentWindow because the function has been moved to js_for_all_iframed_lesson_htmls.js
-    window.open("information","_blank"); // Does this make onbeforeunload fire if the link opens in a new tab???
+    window.open("information","_blank"); // Does this make onbeforeunload fire if the link opens in a new tab??? Probably not.
   }
   /*____________END OF touch and mouse events_____________*/
 },{ once: true });

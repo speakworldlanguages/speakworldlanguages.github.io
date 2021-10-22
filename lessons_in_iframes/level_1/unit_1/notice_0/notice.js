@@ -8,10 +8,10 @@ let filePathForWhatToPutIntoTheButton;
 // Wait until all images and other js variables are ready with the 'load' event.
 // ESPECIALLY wait for userInterfaceLanguage in js_for_every_single_html.js
 window.addEventListener('load', function(){
-  if (parent.deviceDetector.device == "tablet") {
+  if (deviceDetector.device == "tablet") {
       tabletDisplay.classList.add("fadeIn");
   }
-  else if (parent.deviceDetector.device == "phone") {
+  else if (deviceDetector.device == "phone") {
       phoneDisplay.classList.add("fadeIn");
   }
   else {
@@ -54,8 +54,8 @@ function proceedToNextLesson115() { /*This is called with an inline onclick insi
   /* END OF ACTIVITY */
   /* GET READY TO EXIT THIS LESSON */
   setTimeout(function() {
-    parent.preloadHandlingDiv.classList.remove("addThisClassToHideIt");
-    parent.preloadHandlingDiv.classList.add("addThisClassToRevealIt");
+    parent.preloadHandlingDiv.classList.remove("addThisClassToHideThePreloader");
+    parent.preloadHandlingDiv.classList.add("addThisClassToRevealThePreloader");
   },1500); // 3000-1500 = 1500 See css_for_every_single_html
   setTimeout(function() {
     unloadTheSoundsOfThisLesson();

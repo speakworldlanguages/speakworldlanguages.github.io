@@ -8,23 +8,23 @@ fetch(filePathA,myHeaders).then(function(response){return response.text();}).the
 fetch(filePathB,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ textB = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
-let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_1/lesson_4/take.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
+let say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_4/take.mp3";
+if (parent.theLanguageUserIsLearningNowToSetFilePaths=="ar" && parent.genderOfTheUser=="female") { say1Path = say1Path.split(".")[0] + "_female.mp3"; }
 const say1 = new parent.Howl({  src: [say1Path]  });
-let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_1/lesson_4/take_bread.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
+let say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_4/take_bread.mp3";
+if (parent.theLanguageUserIsLearningNowToSetFilePaths=="ar" && parent.genderOfTheUser=="female") { say2Path = say2Path.split(".")[0] + "_female.mp3"; }
 const say2 = new parent.Howl({  src: [say2Path]  });
-let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_1/lesson_4/take_bread_slow.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
+let say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_4/take_bread_slow.mp3";
+if (parent.theLanguageUserIsLearningNowToSetFilePaths=="ar" && parent.genderOfTheUser=="female") { say3Path = say3Path.split(".")[0] + "_female.mp3"; }
 const say3 = new parent.Howl({  src: [say3Path]  });
-let say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_1/lesson_4/eat.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say4Path = say4Path.split(".")[0] + "_female.mp3"; }
+let say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_4/eat.mp3";
+if (parent.theLanguageUserIsLearningNowToSetFilePaths=="ar" && parent.genderOfTheUser=="female") { say4Path = say4Path.split(".")[0] + "_female.mp3"; }
 const say4 = new parent.Howl({  src: [say4Path]  });
-let say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_1/lesson_4/eat_bread.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say5Path = say5Path.split(".")[0] + "_female.mp3"; }
+let say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_4/eat_bread.mp3";
+if (parent.theLanguageUserIsLearningNowToSetFilePaths=="ar" && parent.genderOfTheUser=="female") { say5Path = say5Path.split(".")[0] + "_female.mp3"; }
 const say5 = new parent.Howl({  src: [say5Path]  });
-let say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetPathsAndNotes+"/level_1/unit_1/lesson_4/eat_bread_slow.mp3";
-if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes=="ar" && parent.genderOfTheUser=="female") { say6Path = say6Path.split(".")[0] + "_female.mp3"; }
+let say6Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_4/eat_bread_slow.mp3";
+if (parent.theLanguageUserIsLearningNowToSetFilePaths=="ar" && parent.genderOfTheUser=="female") { say6Path = say6Path.split(".")[0] + "_female.mp3"; }
 const say6 = new parent.Howl({  src: [say6Path]  });
 const clickTone = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/click_on_bread.mp3'] });
 const bite1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_4/bite1.mp3'] });
@@ -68,7 +68,7 @@ window.addEventListener('load', function(){    loadingIsCompleteFunction();    }
 
 function loadingIsCompleteFunction()
 {
-  if (parent.theLanguageUserIsLearningNowToSetPathsAndNotes == "zh") { // How to say [Na] with correct intonation.
+  if (parent.theLanguageUserIsLearningNowToSetFilePaths == "zh") { // How to say [Na] with correct intonation.
     const pathOfNotificationAboutRenIntonation = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-1-4_special_case_for_zh.txt";
     fetch(pathOfNotificationAboutRenIntonation,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       // Display notification instead of alert(contentOfTheTxtFile);
@@ -107,7 +107,7 @@ function goFromAtoB() {
   loopFunction1();
 
   // touchstart is the equivalent of mousedown for mobile
-  if (parent.deviceDetector.isMobile) {
+  if (deviceDetector.isMobile) {
     clickableArea.addEventListener("touchstart",goFromBtoC,{once:true});
   } else {
     clickableArea.addEventListener("mousedown",goFromBtoC,{once:true});
@@ -143,7 +143,7 @@ function goFromCtoD() {
   loopFunction2();
 
   // Add clickability
-  if (parent.deviceDetector.isMobile) {
+  if (deviceDetector.isMobile) {
     clickableArea.addEventListener("touchstart",goFromDtoE,{once:true});
   } else {
     clickableArea.addEventListener("mousedown",goFromDtoE,{once:true});
@@ -164,8 +164,8 @@ function goFromDtoE() {
   /* END OF ACTIVITY */
   /* GET READY TO EXIT THIS LESSON */
   setTimeout(function() {
-    parent.preloadHandlingDiv.classList.remove("addThisClassToHideIt");
-    parent.preloadHandlingDiv.classList.add("addThisClassToRevealIt");
+    parent.preloadHandlingDiv.classList.remove("addThisClassToHideThePreloader");
+    parent.preloadHandlingDiv.classList.add("addThisClassToRevealThePreloader");
   },8000); // 9500-1500 = 8000 See css_for_every_single_html
   setTimeout(function() {
     unloadTheSoundsOfThisLesson();

@@ -3,12 +3,12 @@ const filePathForGiveUpButtonInnerHTML = "../../../../user_interface/text/"+user
 const filePathForNextButtonInnerHTML = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-continue_to_next.txt";
 
 // Let “no web-speech browser” users quickly skip to the speech recognition cancellation
-var howLongBeforeGiveUpButtonAppears; // This is called from bread.js, water.js etc
+//var howLongBeforeGiveUpButtonAppears; // This is called from bread.js, water.js etc // DEPRECATION: Move this to each lesson’s own js
 if (parent.isTheUsersBrowserWhitelisted) {
-  howLongBeforeGiveUpButtonAppears = 14500; // For Chrome and other full-feature browsers
+  //howLongBeforeGiveUpButtonAppears = 33000; // For Chrome and other full-feature, white-listed browsers // DEPRECATION: Move this to each lesson’s own js
   fetch(filePathForGiveUpButtonInnerHTML).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theButtonForSkippingSpeechInputVocabularyTest.innerHTML = contentOfTheTxtFile; });
 } else {
-  howLongBeforeGiveUpButtonAppears = 2500;
+  //howLongBeforeGiveUpButtonAppears = 3300; // DEPRECATION: Move this to each lesson’s own js
   fetch(filePathForNextButtonInnerHTML).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theButtonForSkippingSpeechInputVocabularyTest.innerHTML = contentOfTheTxtFile; });
 }
 

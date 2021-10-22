@@ -8,7 +8,7 @@
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">  --> <!-- For mobile devices-->
     <script>    localStorage.theLastCheckpointSavedInLocalStorage = self.location.href; /*Save checkpoint*/    </script>
     <!-- We want the “car going backwards” button in the nav menu to be functional by using the title as a string-->
-    <title>🍞</title> <!-- See js_object_of_all_lessons_listed.js -->
+    <title>✋</title> <!-- See js_object_of_all_lessons_listed.js -->
 
     <link rel="stylesheet" href="../../../../css_reusables/css_for_custom_cursor.css">
     <link rel="stylesheet" href="../../../../css_reusables/css_for_every_single_html.css">
@@ -121,12 +121,12 @@
 
     window.addEventListener('DOMContentLoaded', function(){
       // DETECT DEVICE AND DISPLAY ACCORDINGLY
-      if (parent.deviceDetector.device == "tablet") {
+      if (deviceDetector.device == "tablet") {
           // ON TABLETS leave only the tablet div
           desktopDisplay.parentNode.removeChild(desktopDisplay);
           phoneDisplay.parentNode.removeChild(phoneDisplay);
       }
-      else if (parent.deviceDetector.device == "phone") {
+      else if (deviceDetector.device == "phone") {
           // ON PHONES leave only the phone div
           desktopDisplay.parentNode.removeChild(desktopDisplay);
           tabletDisplay.parentNode.removeChild(tabletDisplay);
@@ -138,7 +138,7 @@
       }
       /*For Motoya Kosugi Font*/
       if (userInterfaceLanguage=="ja") {
-        if (parent.deviceDetector.isMobile) {
+        if (deviceDetector.isMobile) {
             document.getElementById('putTheWordsInHereP').classList.add("forKanjiOnMobiles");
         }
         else {

@@ -7,13 +7,13 @@
     <meta charset="utf-8">
     <meta name="robots" content="noindex" />
 
-    <link rel="stylesheet" href="../../css_reusables/css_for_custom_cursor.css">
+    <link rel="stylesheet" href="../../css_reusables/css_for_permanent_custom_cursor.css">
     <link rel="stylesheet" href="../../css_reusables/css_for_every_single_html.css">
     <link rel="stylesheet" href="../../css_reusables/css_for_all_iframed_lesson_htmls.css"> <!-- Necessary for background gradient. -->
 
     <script defer src="../../js_reusables/js_for_every_single_html.js">/*Get fonts*/</script>
-    <!-- <script defer src="../../../../js_reusables/js_for_all_iframed_lesson_htmls.js">/*Make button sounds work*/</script> -->
-    <script defer src="../../js_reusables/js_for_fetch_api_character_encoding.js">/*Display non-english characters correctly*/</script>
+    <script defer src="../../js_reusables/js_for_all_iframed_lesson_htmls.js">/*Make button sounds work*/</script>
+    <!--ADDED THIS INTO js_for_every_single_html.js <script defer src="../../js_reusables/js_for_fetch_api_character_encoding.js">/*Display non-english characters correctly*/</script> -->
 
     <link rel="preconnect" href="https://fonts.gstatic.com"> <!-- Use google font library -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet"> <!-- Use for license info -->
@@ -44,7 +44,7 @@
         fetch(filePathForButtonText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ document.getElementById('goToInfoPageButton').innerHTML = contentOfTheTxtFile; });
 
         //const zoomable = document.getElementById('thisContainsEverything');
-        if (parent.deviceDetector.device == "phone") {
+        if (deviceDetector.device == "phone") {
           document.getElementById('particularZoomOnPhonesA').classList.add("zoomInForLastNoticeAtTheEndPhones");
           document.getElementById('particularZoomOnPhonesB').classList.add("zoomInForLastNoticeAtTheEnd");
         }
@@ -58,10 +58,24 @@
     </script>
   </head>
 
-  <body>
+  <body style="background-color: #adbbc4;"> <!-- Main palette color -->
+    <!-- Manual handling for preloader -->
+    <script>
+      parent.preloadHandlingDiv.classList.add("addThisClassToHideThePreloader");
+      parent.preloadHandlingDiv.classList.remove("addThisClassToRevealThePreloader");
+      /*Remove PAUSE BUTTON from nav menu ,, try not to fall behind js_for_all_iframed_lesson_htmls.js otherwise it will be added back*/
+      window.addEventListener("load",function () {
+        setTimeout(function () {
+          if (parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) { // Don't break the app
+            parent.containerDivOfTheNavigationMenu.removeChild(parent.clickToPauseTheAppDiv);  // also see progress.js
+          }
+        },30);
+      }, { once: true })
+    </script>
+
     <main id="thisContainsEverything" style="flex-direction: column;"> <!-- See css_for_all_iframed_lesson_htmls -->
         <div id="particularZoomOnPhonesA">
-          <p id="messageAfterTheLastLessonP" class="latinTextFont" style="font-size:170%; letter-spacing: -0.1vmin; white-space: pre;">...</p>
+          <p id="messageAfterTheLastLessonP" class="latinTextFont" style="color:#2b3e4e ;font-size:170%; letter-spacing: -0.1vmin; white-space: pre;">...</p>
         </div>
         <img id="particularZoomOnPhonesB" src="../../user_interface/images/we_are_working.webp" alt="" style="height:38vh;">
         <button id="goToInfoPageButton" style="mix-blend-mode: overlay; font-size:25px; white-space: pre;" onmouseup="window.open('../../information');">...</button>

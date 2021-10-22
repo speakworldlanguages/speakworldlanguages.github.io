@@ -1,10 +1,34 @@
 // IMPORTANT! Everything below will run in PARALLEL both on PARENT and iFRAME.
+/*_____DUMMY IMG____*/
 var onePixelTransparentGif = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="; // Use wherever needed. Like in resetting webp animation playback.
-/*___________________________________*/
+
+/*_____PHONE TABLET OR DESKTOP???__________https://github.com/PoeHaH/devicedetector__________________*/
+var deviceDetector=function(){var b=navigator.userAgent.toLowerCase(),a=function(a){void 0!==a&&(b=a.toLowerCase());return/(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(b)?"tablet":/(mobi|ipod|phone|blackberry|opera mini|fennec|minimo|symbian|psp|nintendo ds|archos|skyfire|puffin|blazer|bolt|gobrowser|iris|maemo|semc|teashark|uzard)/.test(b)?"phone":"desktop"};return{device:a(),detect:a,isMobile:"desktop"!=a()?!0:!1,userAgent:b}}();
+
+/*_____CAN VIBRATE???: https://stackoverflow.com/questions/56926591/navigator-vibrate-break-the-code-on-ios-browsers/66134699*/
+const canVibrate = window.navigator.vibrate;
+
+/*_____CAN PLAY SOUND??? ___using howler.js*/
+// Detect first click/first user gesture that unlocks sounds
+// REMEMBER: Sliding menu buttons also need this. Handle separately. See js_for_the_sliding_navigation_menu.js
+var firstUserGestureHasUnleashedAudio = false;
+window.addEventListener("mouseup",function () {  firstUserGestureHasUnleashedAudio = true;  }, {once:true}); // Prevent sound flooding-exploding.
+
+/*________________LOAD/SAVE___________________*/
+var savedProgress; // This will make two vars exist [1- container parent level] [2- iframed lesson level]
+var saveJSON, loadJSON; // Same as savedProgress
+// Load all previous progress data
+if (localStorage.memoryCard) {  // https://www.w3schools.com/jsref/tryit.asp?filename=tryjson_store
+  loadJSON = localStorage.getItem("memoryCard");
+  savedProgress = JSON.parse(loadJSON);
+} else {
+  savedProgress = {}; // It is the user's first time using the app. So we create an empty object to be able to fill it.
+  // Now we must create savedProgress.tr = {}; savedProgress.ja = {}; savedProgress.en = {}; ... in js_for_all_container_parent_htmls letTheIframeTeach..
+}
 // Must give the user the option to change the user interface language and allow him/her to choose any available language other than the browser's language if necessary.
 // Until that time, UI language will automatically take the browser's language.
 
-var browserLanguage = navigator.language.substring(0,2).toLowerCase();
+var browserLanguage = navigator.language.substring(0,2).toLowerCase(); // Is used for 1- Setting UI language 2- Set currency(Euro) according to user's (estimated) country.
 
 // These variables will exist both in parent html and in frame html separately at the same time.
 var userInterfaceLanguage;
@@ -29,6 +53,18 @@ switch (browserLanguage) {
     userReadsLeftToRightOrRightToLeft = "ltr";
     needLatinFonts = true;
 }
+
+/*_____HEADERS to make fetch work with txt files with non-english characters properly________*/
+var myHeaders = new Headers(); // Apache server default ayarları yüzünden böyle buna gerek var.
+//window.addEventListener('DOMContentLoaded', function(){
+//theLanguageUserIsLearningNowToSetFilePaths=="tr" || parent.theLanguageUserIsLearningNowToSetFilePaths=="tr" ??? How to add???
+  if (userInterfaceLanguage=="tr") {
+    // Çağrılan txt dosyasındaki ÇĞİÖŞÜçğıöşü'nın ��������� yerine doğru görünmesi için charset=iso-8859-9 gerek; charset=utf-8 ile olmuyor.
+    // Dikkat! Bunun doğru çalışması için çağrılan txt dosyasının UTF-8 ile kaydedilmiş olması gerek.
+    myHeaders.append('Content-Type','text/plain; charset=iso-8859-9');
+  }
+//}, { once: true });
+
 /*___________________________________*/
 // Get all the cool fonts for BOTH PARENT HTML AND IFRAME HTML
 // Use individual if()s instead of else-if()s. This way multiple fonts can be made available if it becomes necessary to do so.

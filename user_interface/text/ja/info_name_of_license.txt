@@ -1,2 +1,2 @@
-﻿このウェブアプリは使用許可が
-Good People's License v1.0 でございます
+﻿このアプリは使用許可が
+Good People's License でございます

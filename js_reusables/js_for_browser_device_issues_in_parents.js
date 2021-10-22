@@ -48,10 +48,10 @@ window.addEventListener('DOMContentLoaded', function(){
       break;
     /* __ For Edge users __ */
     case "Edge": alert("Edge ↹ Chrome");
-      break;
+      /*break;*/ // Do the defaults after alert » Don't escape with break
     /* __ For Opera users __ */
     case "Opera": alert("Opera ↹ Chrome");
-      break;
+      /*break;*/ // Do the defaults after alert » Don't escape with break
     /* __ Everything else including Firefox __ */
     default: // What to do if the browser is not whitelisted
       if (localStorage.browserIsNotWhitelistedNotificationHasAlreadyBeenDisplayed == "yes") {
@@ -122,7 +122,7 @@ window.addEventListener('DOMContentLoaded', function(){
           // Handle audio.
           // DEPRECATED: Howler._howls.forEach(function(nextAudioToFadeToSilence) {  nextAudioToFadeToSilence.fade(1, 0, 1200);  });
           // REMEMBER: On mobiles Howler.volume() always starts at 1 and is never changed. User adjusts OS volume natively with the device buttons.
-          // Custom FADE
+          // Custom FADE-DOWN for global volume
           let nineteenSteps = setInterval(littleByLittle,49);
           function littleByLittle() {
             newVolume = 1 - i*0.05; // The last one will be 1- 19*0.05 = 1 - 0.95 = 0.05
@@ -144,6 +144,7 @@ window.addEventListener('DOMContentLoaded', function(){
           // Handle audio
           // DEPRECATED: Howler._howls.forEach(function(nextAudioToFadeBackFromSilence) {  nextAudioToFadeBackFromSilence.fade(0, 1, 1200);  });
           // REMEMBER: On mobiles Howler.volume() is always 1 and is never changed. User adjusts OS volume natively with the device buttons.
+          // Custom FADE-UP for global volume
           let nineteenSteps = setInterval(littleByLittle,49);
           function littleByLittle() {
             newVolume = i*0.05; // The last one will be 0.95
@@ -188,9 +189,9 @@ window.addEventListener("load",function() {
 
   /*___________________________________*/
   // Resolve the Firefox refresh button issue... After an F5 refresh the frame is supposed to be blank but Firefox shows the last loaded html. Yet if we hit ENTER on the address bar it clears as expected. To make F5/refresh clear the frame (just like when ENTER is hit) we have to "force" it.
-  let whatTheFileNameInIframeSrcIs = iFrameScriptAccess.src.substring(iFrameScriptAccess.src.length - 10, iFrameScriptAccess.src.length - 5); // Get the name of the html file from a string like "/user_interface/blank.html"
-  if (whatTheFileNameInIframeSrcIs == "blank") {
-    setTimeout( function ()  {   iFrameScriptAccess.src="user_interface/blank.html"  },100); // Force empty! At last! Blank as it is supposed to be.
+  let whatTheFileNameInIframeSrcIs = ayFreym.src.substring(ayFreym.src.length - 10, ayFreym.src.length - 5); // Get the name of the html file from a string like "/user_interface/blank.html"
+  if (whatTheFileNameInIframeSrcIs == "blank") { // This works. HOWEVER: Could also use let result = ayFreym.src.search("blank"); if(result>=0){}
+    setTimeout( function ()  {   ayFreym.src="user_interface/blank.html"  },100); // Force empty! At last! Blank as it is supposed to be.
   }
 
 }, { once: true });

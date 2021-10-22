@@ -28,6 +28,6 @@ button{
   button{font-size: 5.5vmin; letter-spacing: 0.5vmin;}
 }
 
-.promptBoxesLikeTheOneForLoadingTheLastLesson{
+.promptBoxInParent{
   font-size: 24px;
 }

@@ -1,2 +1,2 @@
 ﻿Bu dil öğrenme uygulamasının kullanım hakları
-“Good People's License v1.0” ile belirlenmiştir
+“Good People's License” ile belirlenmiştir
