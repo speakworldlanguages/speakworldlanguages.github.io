@@ -47,8 +47,16 @@
 
     <!-- Videos -->
     <div id="containerOfVideosDivID" style="display:none;">
-      <video src="v1.webm" id="video1" autoplay muted style="height: 91vh;"></video>
-      <video src="v2.webm" id="video2" autoplay muted style="height: 62vh; display:none;"></video>
+      <video src="v1_vp9.webm" id="video1" autoplay muted style="height: 91vh;"></video>
+      <video src="v2_vp9.webm" id="video2" autoplay muted style="height: 62vh; display:none;"></video>
+      <script>
+        window.addEventListener("DOMContentLoaded",function(){
+          if (parent.detectedOS.name == "iOS" || parent.detectedBrowser.name == "Firefox") {
+            const v1 = document.getElementById('video1'); v1.src = "v1_vp8.webm";
+            const v2 = document.getElementById('video2'); v2.src = "v2_vp8.webm";
+          }
+        },{ once: true });
+      </script>
     </div>
 
     <!-- Background darkening -->
@@ -70,7 +78,7 @@
         <img src="c10.webp"  class="positionAbsoluteImg" style="visibility:hidden;">
     </div>
     <!-- SPECIAL CASE -->
-    <script type="text/javascript">
+    <script>
       window.addEventListener('load', function(){
         /* waterfall webps are 4,68MB in total,,, and a bit hard on CPU ,,, Use https://downloadtimecalculator.com */
         function getConnectionForWater() {return navigator.connection || navigator.mozConnection || navigator.webkitConnection || navigator.msConnection;}

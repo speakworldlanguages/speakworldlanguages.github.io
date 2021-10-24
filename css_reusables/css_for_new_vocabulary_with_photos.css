@@ -185,18 +185,3 @@ main{
   .longPictureDivShowWhenInLandscapeHideWhenInPortrait{display: initial;}
   .longPictureDivShowWhenInPortraitHideWhenInLandscape{display: none;}
 }
-
-
-/* For lessons with interactables alternatives of these must be put in css_for_lessons_with_interactables*/
-/*____Animation of the GIVE-UP\GO-TO-NEXT elements____*/ /* See css_for_all_iframed_lesson_htmls.css for styling */
-/* NOTICE: The “glassy-give-up-button” becomes “proceed-to-next-button” on browsers like Firefox etc that don’t support Web Speech API*/
-.glassButtonStartHidden{
-  margin-top: 1500px; /*MUST: Find out if this is OK on 4K and 8K!*/
-  transition: all 1.4s ease-in-out;
-}
-.addThisToGlassButtonToUnhide{
-  margin-top: 0px;
-}
-.addThisToGlassButtonWhenSuccessHappens{
-  margin-top: 1500px; /*MUST: Find out if this is OK on 4K and 8K!*/
-}

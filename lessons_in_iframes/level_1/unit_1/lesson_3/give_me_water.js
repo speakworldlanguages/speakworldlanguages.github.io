@@ -12,10 +12,18 @@ localStorage.setItem("memoryCard", saveJSON); // Save
 /* __ TEXT TO BE INJECTED INTO EXPLANATION BOX __ */
 const explanationPathA = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-1-3a.txt"; // The translation of what is being said, to be put into the helpbox/subtitles.
 const explanationPathB = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-1-3b.txt"; // The translation of what is being said, to be put into the helpbox/subtitles.
-let explanationA; // Warning: Returns UNDEFINED before fetch() actually gets the file.
-let explanationB; // Warning: Returns UNDEFINED before fetch() actually gets the file.
+let explanationA = "No internet connection?"; // Warning: Returns UNDEFINED before fetch() actually gets the file.
+let explanationB = "No internet connection?"; // Warning: Returns UNDEFINED before fetch() actually gets the file.
 fetch(explanationPathA,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ explanationA = contentOfTheTxtFile; });
 fetch(explanationPathB,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ explanationB = contentOfTheTxtFile; });
+/* __ TEXT TO BE INJECTED INTO iOS ALLOW deviceorientation BUTTON __ */
+const getPermissionPath = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-you_must_touch_click_allow.txt";
+const ifNoPermissionPath = "../../../../user_interface/text/"+userInterfaceLanguage+"/0-you_didnt_touch_click_allow.txt";
+let getPermission = "No internet connection?";
+let ifNoPermission = "No internet connection?";
+fetch(getPermissionPath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ getPermission = contentOfTheTxtFile; });
+fetch(ifNoPermissionPath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ ifNoPermission = contentOfTheTxtFile; });
+
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
 const say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1.mp3";
 const say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2.mp3";
@@ -59,6 +67,8 @@ if (deviceDetector.device == "tablet") {
 } else if (deviceDetector.device == "phone") {
   showTouchControlsDiv = document.getElementById("showHowToUseTouchAndTiltPHONEDivID"); // WARNING: This will be undefined unless user is on a tablet
 }
+const iOSUserTouchAndAllow = document.getElementById('iOSpermissionButtonDivID');
+
 const pictogramDiv1 = document.getElementById("pictogram1DivID");
 const movingEyesDiv1 = document.getElementById("movingEyes1DivID");
 const pictogramDiv2 = document.getElementById("pictogram2DivID");
@@ -137,13 +147,14 @@ function startTheLesson() {
   const filePathOfTheAudioFile = "../../../../audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/give.mp3";
   const wavesurferP1P2Path = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-1-3_vocabulary_p1_p2.txt";
   fetch(wavesurferP1P2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleP1P2ActualText(contentOfTheTxtFile);  });
+  // See js_for_notification_or_such_boxes » iframe-lesson level
   setTimeout(function(){    createAndHandleVocabularyBox(filePathOfTheAudioFile);    },501); // Wait for preloader to disappear or give a brief break after notification
 }
 
 function vocabluaryBoxIsClosed() { // Will fire from within createAndHandleVocabularyBox
   // Unblur
   unblurAndGetReady(); // 2500ms to complete focus
-  if (sessionStorage.giveMeWaterTries == "3" || sessionStorage.giveMeWaterTries == "5") {
+  if (sessionStorage.giveMeWaterTries == "2" || sessionStorage.giveMeWaterTries == "4" || sessionStorage.giveMeWaterTries == "5") {
     setTimeout(function(){    proceedDependingOnTheDevice();     },1500); // Try to make it less boring for those who fail
   } else {
     // Play pictogram
@@ -214,16 +225,42 @@ function playPictogramLoop() {
 
 function proceedDependingOnTheDevice() {
   if (deviceDetector.isMobile) {
-    notificationControlDevice.play();
-    showTouchControlsDiv.classList.add("toNormalOpacityAndScale");
-    /**/
-    const url = "../../../../js_reusables/tilt-to-steer.js";
-    const script = document.createElement('script');
-    script.async = true;
-    script.onload = () => getReadyToPlayTheGameOnMobileF();
-    script.src = url;
-    document.head.appendChild(script);
-  } else {
+    // iOS users must allow "Access Motion and Orientation"
+    if (parent.detectedOS.name == "iOS") {
+      // create button, inject text in UI language or smth like that
+      iOSUserTouchAndAllow.style.display="block";
+      const theButtonReads = document.getElementById('theTextInsidePermissionButtonPID');
+      theButtonReads.innerHTML = getPermission; // Inject from txt file
+      iOSUserTouchAndAllow.addEventListener("touchend",iOSPermissionHandling,{once:true});
+      function iOSPermissionHandling() {
+        iOSUserTouchAndAllow.parentNode.removeChild(iOSUserTouchAndAllow);
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+          DeviceOrientationEvent.requestPermission().then(permissionState => {
+              if (permissionState === 'granted') {
+                withOrWithoutPermission();
+              } else {
+                setTimeout(function(){        alert(ifNoPermission);         },500);
+              }
+            })
+            .catch(console.error);
+        }
+      }
+    } else { // Goodness in Android: No need to get permission on regular non iOS 13+ devices
+      withOrWithoutPermission();
+    }
+    function withOrWithoutPermission() {
+      notificationControlDevice.play();
+      showTouchControlsDiv.classList.add("toNormalOpacityAndScale");
+      /**/
+      const url = "../../../../js_reusables/tilt-to-steer.js";
+      const script = document.createElement('script');
+      script.async = true;
+      script.onload = () => getReadyToPlayTheGameOnMobileF();
+      script.onerror = () => tiltToSteerJsCouldNotBeLoaded(); // Improve later if can
+      script.src = url;
+      document.head.appendChild(script);
+    }
+  } else { // Desktops
     hideCursorPermanently(); // See js_for_disappearing_custom_cursor.js
     notificationControlDevice.play();
     chooseInputDiv.classList.add("toNormalOpacityAndScale");
@@ -237,6 +274,7 @@ var finalLeftY=0; var finalRightY=0;
 let dLeft=0; let dRight=0;
 const leftHalf = document.createElement("DIV");
 const rightHalf = document.createElement("DIV");
+function tiltToSteerJsCouldNotBeLoaded() {  alert("Connection problem!");  } // Improve later if can
 function getReadyToPlayTheGameOnMobileF() {
 
   leftHalf.classList.add("leftThumbTouchArea"); document.body.appendChild(leftHalf);
@@ -273,20 +311,20 @@ function getReadyToPlayTheGameOnMobileF() {
   rightHalf.addEventListener("touchstart", detectIfBothThumbsAreTouching1);
   function detectIfBothThumbsAreTouching1() {    //e.preventDefault(); // Necessary???
     if (leftIsTouching&&rightIsTouching) {
-      parent.swipeMenuIsDisabled = true; // CAREFUL: Don't forget to enable it at the end of the game once the conflict is over !!! !!! !!!
-      notificationCloseControlDevice.play();
-      showTouchControlsDiv.children[0].style.display = "none";
-      showTouchControlsDiv.children[1].style.display = "block";
-      if (sessionStorage.selectedInputDevice == "touchscreen") {
-        showTouchControlsDiv.children[1].classList.add("hideTiltInstructionQuick");
-      } else {
-        showTouchControlsDiv.children[1].classList.add("hideTiltInstructionSlow");
-        sessionStorage.selectedInputDevice = "touchscreen";
-      }
-      switchFromTalkingManToWatchingMan();
-      startTheGameWithTabletOrPhone();
-      leftHalf.removeEventListener("touchstart", detectIfBothThumbsAreTouching1);
-      rightHalf.removeEventListener("touchstart", detectIfBothThumbsAreTouching1);
+        parent.swipeMenuIsDisabled = true; // CAREFUL: Don't forget to enable it at the end of the game once the conflict is over !!! !!! !!!
+        notificationCloseControlDevice.play();
+        showTouchControlsDiv.children[0].style.display = "none";
+        showTouchControlsDiv.children[1].style.display = "block";
+        if (sessionStorage.selectedInputDevice == "touchscreen") {
+          showTouchControlsDiv.children[1].classList.add("hideTiltInstructionQuick");
+        } else {
+          showTouchControlsDiv.children[1].classList.add("hideTiltInstructionSlow");
+          sessionStorage.selectedInputDevice = "touchscreen";
+        }
+        switchFromTalkingManToWatchingMan();
+        startTheGameWithTabletOrPhone();
+        leftHalf.removeEventListener("touchstart", detectIfBothThumbsAreTouching1);
+        rightHalf.removeEventListener("touchstart", detectIfBothThumbsAreTouching1);
     }
   }
 }

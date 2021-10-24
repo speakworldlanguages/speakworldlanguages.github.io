@@ -28,6 +28,20 @@ aside{
   line-height: normal;
 }
 
+/*____Animation of the GIVE-UP\GO-TO-NEXT elements____*/
+/* NOTICE: The “glassy-give-up-button” becomes “proceed-to-next-button” on browsers like Firefox etc that don’t support Web Speech API*/
+.glassButtonStartHidden{
+  margin-top: 1500px; /*MUST: Find out if this is OK on 4K and 8K!*/
+  transition: all 1.4s ease-in-out;
+}
+.addThisToGlassButtonToUnhide{
+  margin-top: 0px;
+}
+.addThisToGlassButtonWhenSuccessHappens{
+  margin-top: 1500px; /*MUST: Find out if this is OK on 4K and 8K!*/
+}
+
+
 .notificationBG{
   position: fixed; top:0; left:0; width:100vw; height:100vh;
   background-color: rgba(255, 255, 255, 0.85);

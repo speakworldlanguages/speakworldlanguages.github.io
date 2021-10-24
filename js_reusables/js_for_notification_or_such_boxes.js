@@ -78,9 +78,10 @@ function createAndHandleVocabularyBox(filePathOfTheAudio) {
     putVocabularyTxtIntoThisP1.innerHTML="📄"; //📄
     putVocabularyTxtIntoThisP2.innerHTML="⏳"; //⏳
   }
-  // APPEND
-  // txt1
+
+  // APPEND txt1
   vocabularyBoxItself.appendChild(putVocabularyTxtIntoThisP1);
+
   // Wavesurfer
   const wavesurferContainer = document.createElement("DIV");
   wavesurferContainer.id = "waveform";
@@ -88,8 +89,11 @@ function createAndHandleVocabularyBox(filePathOfTheAudio) {
   vocabularyBoxItself.appendChild(wavesurferContainer);
   const wavesurfer = WaveSurfer.create({ container: '#waveform', waveColor: 'black', progressColor: '#daecfa', barWidth:3, height:60, barMinHeight:2, barGap:2, responsive:true, cursorWidth:0, hideScrollbar:true   });
   wavesurfer.load(filePathOfTheAudio); // See give_me_water.js for example
-  // txt2
+
+  // APPEND txt2
   vocabularyBoxItself.appendChild(putVocabularyTxtIntoThisP2);
+  // Try to fix Safari and Firefox as they ignore text align justify although the container div has it in its class
+  // putVocabularyTxtIntoThisP1.style.textAlign = "justify"; putVocabularyTxtIntoThisP2.style.textAlign = "justify"; // DIDN'T WORK!
 
   // buttonsUnderWavesurfer
   listenButtonOfTheVocabulary.classList.add("buttonsUnderWavesurfer");  listenButtonOfTheVocabulary.innerHTML = "&#128259; &#9658;"; // Default content is a "refresh 🔃 + play ►" mark

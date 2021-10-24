@@ -227,10 +227,12 @@ function openFirstLesson() {
   localStorage.theLanguageUserWasLearningLastTimeToSetAnnyang = theLanguageUserIsLearningNowToSetAnnyang;
   // Set language
   if (annyang) {
-      annyang.setLanguage(theLanguageUserIsLearningNowToSetAnnyang); // Firefox v60's and v70's won't let buttons function unless this is wrapped in an if (annyang){} like this.
+    annyang.setLanguage(theLanguageUserIsLearningNowToSetAnnyang); // Firefox v60's and v70's won't let buttons function unless this is wrapped in an if (annyang){} like this.
   }
 
   handleTheFirstGoingFullscreenOnMobiles();
+
+  if (canVibrate) { navigator.vibrate(10); } // Note that may make mobile Firefox ask for permission to allow vibration
 
   setTimeout(function() {
     // Hide the welcome screen ( <<choose the language you want to learn>> screen's menu-div)

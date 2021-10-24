@@ -169,20 +169,15 @@
   animation-duration: .7s
 }
 @keyframes appearAndUnblur
-{
-  0% { opacity:0; filter: blur(20px); }
-  100% { opacity:1; filter: blur(0px); }
-}
+{  0% { opacity:0; filter: blur(20px); }  100% { opacity:1; filter: blur(0px); }  }
+
 .addThisToFadeOutWithBlur{
   animation-name: disappearAndBlur;
   animation-fill-mode: forwards;
   animation-duration: .7s
 }
 @keyframes disappearAndBlur
-{
-  0% { opacity:1; filter: blur(0px); }
-  100% { opacity:0; filter: blur(20px); }
-}
+{  0% { opacity:1; filter: blur(0px); }  100% { opacity:0; filter: blur(20px); }  }
 
 .bigHandInsteadOfArrowCursorContainer{
   pointer-events: none; /* VERY IMPORTANT » otherwise it blocks the real cursor making things unclickable */
@@ -197,6 +192,7 @@
 .mixBlendSoftLight{ mix-blend-mode: soft-light; } /* See revealTheHandF() play_with_mouse.js*/
 .filterGlow{ filter: grayscale(.7) brightness(1.4); }  /*drop-shadow(0 0 2px rgba(255, 255, 255, 0.5))*/
 
+/**/
 .opacityZeroToFull{  animation: toFull 3s;  animation-fill-mode: forwards;  }
 .opacityZeroToHalf{  animation: toHalf 3s;  animation-fill-mode: forwards;  }
 .opacityZeroToQuarter{  animation: toQuarter 3s;  animation-fill-mode: forwards;  }
@@ -210,3 +206,20 @@
 @keyframes fullToZero {     0%{    opacity: 1; transform: scale(1); }   100%{    opacity: 0; transform: scale(0.01); }         }
 @keyframes halfToZero {     0%{    opacity: 0.5;  }   10%{transform: scale(1);} 100%{    opacity: 0; transform: scale(0.01); }      }
 @keyframes quarterToZero {  0%{    opacity: 0.25;  }  40%{transform: scale(1);} 100%{    opacity: 0; transform: scale(0.01); }   }
+
+/* Use before&after iOS permission dialog */
+/* rubbish?
+.blurEverythingInMain{ animation: blurMain .5s; animation-fill-mode: forwards; }
+@keyframes blurMain { 0%{  filter: blur(0px);  }  100%{   filter: blur(10px);  } }
+.unblurEverythingInMain{ animation: unblurMain .5s; animation-fill-mode: forwards; }
+@keyframes unblurMain { 0%{  filter: blur(10px);  }  100%{   filter: blur(0px);  } }
+*/
+.centerOfScreenPermissionButton{
+  position: fixed; min-width:100px; min-height: 50px;
+  left: 50%; top: 50%; transform: translate(-50%,-50%);
+  background-color:rgba(255,255,255,0.7); padding: 10px;
+  border-radius: 12px;
+}
+/* rubbish?
+.addOrRemoveToPermissionButton{ transform: translate(-50%,-50%); opacity: 1; }
+*/
