@@ -223,6 +223,3 @@
   transition-property: margin-top;  transition-duration: 1s; transition-timing-function: ease;
 }
 .marginTopZero{margin-top: 0px;}
-/* rubbish?
-.addOrRemoveToPermissionButton{ transform: translate(-50%,-50%); opacity: 1; }
-*/
