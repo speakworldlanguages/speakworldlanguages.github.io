@@ -55,6 +55,13 @@
       // UPDATE: It's now OK if the following two functions are not defined here. See js_for_all_iframed_lesson_htmls typeof conditionals
       // function unloadTheSoundsOfThisLesson() {   /*Do nothing*/   } // This used to exist here otherwise nav buttons didn't function
       // function unloadTheImagesOfThisLesson() {   /*Do nothing*/   } // This used to exist here otherwise nav buttons didn't function
+      function handleClickTouch() {
+        if (parent.detectedOS.name == "iOS" || parent.detectedOS.name == "Mac OS" || parent.detectedBrowser.name == "Firefox") {
+          window.open('../../information','_parent'); // Firefox actually allows opening a new tab with _blank but that creates a conflict with the alert-pause
+        } else {
+          window.open('../../information','_blank');
+        }
+      }
     </script>
   </head>
 
@@ -78,7 +85,7 @@
           <p id="messageAfterTheLastLessonP" class="latinTextFont" style="color:#2b3e4e ;font-size:170%; letter-spacing: -0.1vmin; white-space: pre;">...</p>
         </div>
         <img id="particularZoomOnPhonesB" src="../../user_interface/images/we_are_working.webp" alt="" style="height:38vh;">
-        <button id="goToInfoPageButton" style="mix-blend-mode: overlay; font-size:25px; white-space: pre;" onmouseup="window.open('../../information');">...</button>
+        <button id="goToInfoPageButton" style="mix-blend-mode: overlay; font-size:25px; white-space: pre;" onclick="handleClickTouch();">...</button>
         <!-- mix-blend could depend on device -->
     </main>
   </body>

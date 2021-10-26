@@ -1,1 +1,4 @@
-﻿Touch here to allow controls for the game
+﻿Touch here
+to play the game
+with tilt controls
+(Choose <strong>allow</strong>)

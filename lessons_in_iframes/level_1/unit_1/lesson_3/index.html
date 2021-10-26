@@ -127,8 +127,8 @@
     <!-- END OF MAIN -->
 
     <!-- iOS GET PERMISSION BUTTON -->
-    <section id="iOSpermissionButtonDivID" class="centerOfScreenPermissionButton" style="display:none;"> <!-- See css_for_all_iframed_lesson_htmls.css -->
-      <p id="theTextInsidePermissionButtonPID" class="" style="font-size:200%; color: #adbbc4; white-space: pre-wrap;">👆</p> <!-- See css_for_all_iframed_lesson_htmls.css -->
+    <section id="iOSpermissionButtonDivID" class="centerOfScreenPermissionButton"> <!-- See css_for_all_iframed_lesson_htmls.css -->
+        <p id="theTextInsidePermissionButtonPID" class="" style="white-space: pre-wrap; display:block;">👆 & Allow</p> <!-- See css_for_all_iframed_lesson_htmls.css -->
     </section>
     <!-- min-width:300px; min-height:200px; border-radius:30px; display:flex; justify-content: center; align-items: center; padding:20px; -->
     <!-- END OF iOS GET PERMISSION BUTTON -->
@@ -148,8 +148,10 @@
       const notNecessaryOnTABLETorPHONE = document.getElementById("chooseInputDeviceDESKTOPDivID");
       const notNecessaryOnPHONEorDESKTOP = document.getElementById("showHowToUseTouchAndTiltTABLETDivID");
       const notNecessaryOnDESKTOPorTABLET = document.getElementById("showHowToUseTouchAndTiltPHONEDivID");
+      const notNecessaryExceptOnIOS = document.getElementById("iOSpermissionButtonDivID");
       window.addEventListener('DOMContentLoaded', function(){   getRidOfUnnecessaries();   }, { once: true });
       function getRidOfUnnecessaries() {
+        // CAUTION: Do not cause double calling of removeChild... Check give_me_water.js
         if (deviceDetector.device == "phone") {
           notNecessaryOnTABLETorPHONE.parentNode.removeChild(notNecessaryOnTABLETorPHONE);
           notNecessaryOnPHONEorDESKTOP.parentNode.removeChild(notNecessaryOnPHONEorDESKTOP);
@@ -168,6 +170,9 @@
           notNecessaryOnTABLETorPHONE.children[2].src = "choose_mouse.webp";
         }
         // CAUTION: Do not cause double calling of removeChild... Check give_me_water.js
+        if (parent.detectedOS.name != "iOS") {
+          notNecessaryExceptOnIOS.parentNode.removeChild(notNecessaryExceptOnIOS);
+        }
       }
     </script>
   </body>

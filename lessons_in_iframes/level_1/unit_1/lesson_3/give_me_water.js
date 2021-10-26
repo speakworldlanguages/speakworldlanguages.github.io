@@ -67,7 +67,10 @@ if (deviceDetector.device == "tablet") {
 } else if (deviceDetector.device == "phone") {
   showTouchControlsDiv = document.getElementById("showHowToUseTouchAndTiltPHONEDivID"); // WARNING: This will be undefined unless user is on a tablet
 }
-const iOSUserTouchAndAllow = document.getElementById('iOSpermissionButtonDivID');
+let iOSUserTouchAndAllow;
+if (parent.detectedOS.name == "iOS") {
+  iOSUserTouchAndAllow = document.getElementById('iOSpermissionButtonDivID');
+}
 
 const pictogramDiv1 = document.getElementById("pictogram1DivID");
 const movingEyesDiv1 = document.getElementById("movingEyes1DivID");
@@ -225,26 +228,37 @@ function playPictogramLoop() {
 
 function proceedDependingOnTheDevice() {
   if (deviceDetector.isMobile) {
-    // iOS users must allow "Access Motion and Orientation"
+    // Check iOS as users must allow "Access Motion and Orientation" // USE: parent.detectedOS.name == "iOS"
     if (parent.detectedOS.name == "iOS") {
-      // create button, inject text in UI language or smth like that
-      iOSUserTouchAndAllow.style.display="block";
-      const theButtonReads = document.getElementById('theTextInsidePermissionButtonPID');
-      theButtonReads.innerHTML = getPermission; // Inject from txt file
-      iOSUserTouchAndAllow.addEventListener("touchend",iOSPermissionHandling,{once:true});
-      function iOSPermissionHandling() {
-        iOSUserTouchAndAllow.parentNode.removeChild(iOSUserTouchAndAllow);
-        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-          DeviceOrientationEvent.requestPermission().then(permissionState => {
-              if (permissionState === 'granted') {
-                withOrWithoutPermission();
-              } else {
-                setTimeout(function(){        alert(ifNoPermission);         },500);
-              }
-            })
-            .catch(console.error);
-        }
-      }
+      // Check localStorage to see if the permission issue is already solved
+      if (localStorage.iOSpermissionThingIsSolved != "yes") {
+        const theButtonReads = document.getElementById('theTextInsidePermissionButtonPID');
+        theButtonReads.innerHTML = getPermission; // Inject from txt file
+        /**/
+        main.classList.add("darkenEverythingInMain"); // See give_me_water.css
+        setTimeout(function(){       iOSUserTouchAndAllow.classList.add("marginTopZero");       },800); // 1s. See give_me_water.css
+        // handle as explained at https://dev.to/li/how-to-requestpermission-for-devicemotion-and-deviceorientation-events-in-ios-13-46g2
+        // also https://developer.apple.com/forums/thread/128376
+        iOSUserTouchAndAllow.addEventListener("touchend",iOSPermissionHandling,{once:true});
+        function iOSPermissionHandling() {
+          if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+            DeviceOrientationEvent.requestPermission().then(permissionState => {
+                if (permissionState === 'granted') {
+                  iOSUserTouchAndAllow.classList.remove("marginTopZero");
+                  setTimeout(function(){  iOSUserTouchAndAllow.parentNode.removeChild(iOSUserTouchAndAllow);  },1001);
+                  setTimeout(function(){  main.classList.remove("darkenEverythingInMain"); main.classList.add("undarkenEverythingInMain");  },250); // See give_me_water.css
+                  setTimeout(function(){  withOrWithoutPermission();  },1002);
+                  localStorage.iOSpermissionThingIsSolved = "yes";
+                } else {
+                  iOSUserTouchAndAllow.classList.remove("marginTopZero");
+                  setTimeout(function(){  main.classList.remove("darkenEverythingInMain"); main.classList.add("undarkenEverythingInMain");  },250); // See give_me_water.css
+                  setTimeout(function(){        alert(ifNoPermission);         },1003);
+                }
+              })
+              .catch(console.error);
+          }
+        } // END OF function definition iOSPermissionHandling
+      } // Do nothing if localStorage.iOSpermissionThingIsSolved is "yes"
     } else { // Goodness in Android: No need to get permission on regular non iOS 13+ devices
       withOrWithoutPermission();
     }

@@ -1,3 +1,8 @@
-﻿Oyunu oynayabilmek için
-buraya dokunup
-[İzin ver]i seç
+﻿Oyunu
+oynayabilmek
+için
+buraya
+dokunduktan
+sonra
+<strong>[İzin ver]</strong>i
+seç

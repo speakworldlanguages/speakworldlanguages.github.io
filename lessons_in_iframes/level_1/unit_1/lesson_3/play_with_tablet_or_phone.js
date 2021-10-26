@@ -69,7 +69,7 @@ let rotationSpeedFromTouches = 0;
 let rotationDegFromTouches = 0;
 let newRotation = 0;
 
-let xForceThrustAdjustmentForTilt = (20 + 15*howManyTries);
+let xForceThrustAdjustmentForTilt = (40 + 30*howManyTries);
 let releaseTheHandsEffect = 1;
 
 function gameLoopForPhoneOrTablet() {
@@ -102,8 +102,8 @@ function gameLoopForPhoneOrTablet() {
   xSpeedOfTray = xSpeedOfTray + xForceThrust/xForceThrustAdjustmentForTilt - xSpeedOfTray*frictionOfAir;
   xSpeedOfTray = xSpeedOfTray*releaseTheHandsEffect;
   xSpeedOfTray = Number(xSpeedOfTray.toFixed(4));
-  if (xSpeedOfTray<-25) {  xSpeedOfTray = -25;  } // Speed limit
-  if (xSpeedOfTray>25)  {  xSpeedOfTray = 25;   } // Speed limit
+  if (xSpeedOfTray<-22) {  xSpeedOfTray = -22;  } // Speed limit
+  if (xSpeedOfTray>22)  {  xSpeedOfTray = 22;   } // Speed limit
   if (Math.abs(xSpeedOfTray)<0.0005) { xSpeedOfTray = 0; } // Fix bugginess ... Is it necessary even if we did toFixed(3) instead of toFixed(4) ??? YES! Still need it.
   xPositionOfTray = xPositionOfTray + xSpeedOfTray;
   if (xPositionOfTray<-30) {  xPositionOfTray = -30;  } // Left travel limit

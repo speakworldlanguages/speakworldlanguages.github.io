@@ -47,7 +47,7 @@ button:focus {outline:0;}
 aside{ /*BUTTON: I will consider joining the crowdfunding*/
   border: .25vmin solid white;
   border-radius: 5px;
-  min-width: 75vmin;
+  min-width: 85vmin;
   min-height: 50px;
   display: flex;
   align-items: center;

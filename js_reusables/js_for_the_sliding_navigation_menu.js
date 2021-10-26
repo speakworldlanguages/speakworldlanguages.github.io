@@ -83,7 +83,8 @@ clickToFinanceDiv.appendChild(clickToFinanceImgD); // display = "none";
 
 containerDivOfTheNavigationMenu.appendChild(clickToFinanceDiv);
 
-// DEPRECATED: See js_for_all_iframed_lesson_htmls for the new thing containerDivOfTheNavigationMenu.insertBefore(clickToPauseTheAppDiv,clickToFinanceDiv); // See progress.js to find its removal AND See js_for_all_iframed_lesson_htmls to find its addition
+// DEPRECATED: See js_for_all_iframed_lesson_htmls for the new thing containerDivOfTheNavigationMenu.insertBefore(clickToPauseTheAppDiv,clickToFinanceDiv);
+// See progress.js to find its removal AND See js_for_all_iframed_lesson_htmls to find its addition
 
 // speedAdjustmentDiv and volumeAdjustmentDiv are for DESKTOPS ONLY. See the code below in window load event's desktop block.
 
@@ -179,7 +180,8 @@ let mouseIsOnMenuTriggerArea = false;
 /*---*/
 let continueAfterPauseByNavMenuPauseButton = "Paused?"; // Get the actual text from txt file and use it instead of this default.
 const filePathForResumeAfterPausedByButton = "user_interface/text/"+userInterfaceLanguage+"/0-lesson_is_paused_by_button.txt";
-fetch(filePathForResumeAfterPausedByButton,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ continueAfterPauseByNavMenuPauseButton = contentOfTheTxtFile; });// See js_for_fetch_api_character_encoding.js for the headers thingy.
+// See js_for_fetch_api_character_encoding.js for the headers thingy.
+fetch(filePathForResumeAfterPausedByButton,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ continueAfterPauseByNavMenuPauseButton = contentOfTheTxtFile; });
 /* NOTE: Looks like the function declarations could have been tidier */
 window.addEventListener("load",function() {
 
@@ -627,14 +629,16 @@ window.addEventListener("load",function() {
         annyang.abort(); // without this annyang.start() won't function. // No problem if abort() fires when annyang wasn't listening.
       }
       /**/
+      // Setting the volume to 0 and then back to 1 causes a weird muting-unmuting behavior in iOS
       let howlerVolumeWas = Howler.volume();
-      Howler.volume(0);
+      if (detectedOS.name != "iOS") {      Howler.volume(0);      } // Let it work except on iOS
       /**/
       alert(continueAfterPauseByNavMenuPauseButton);
       /**/
       setTimeout(function() {
         /*Return to normal*/
-        Howler.volume(howlerVolumeWas);
+        if (detectedOS.name != "iOS") {    Howler.volume(howlerVolumeWas);   } // Let it work except on iOS
+
         /*Continue receiving speech if it was interrupted*/
         if (wasListeningWhenUserPaused) {
           setTimeout(function() {          if (annyang){ annyang.start(); }           },1001);
@@ -646,7 +650,14 @@ window.addEventListener("load",function() {
   function openFinancialMethodsPageFunction() {
     navMenuClickSound.play();
     // stopAnnyangAndStopHowler(); // use contentWindow because the function has been moved to js_for_all_iframed_lesson_htmls.js
-    window.open("information","_blank"); // Does this make onbeforeunload fire if the link opens in a new tab??? Probably not.
+    // UNCLEAR: Does window.open() make onbeforeunload fire if the link opens in a new tab???
+    // SAFARI IGNORES: window.open() with _blank due to pop-up blocking policy
+    // EVEN THOUGH: Firefox allows _blank in window.open() we won't use it because it creates a conflict with "Continue lesson" alert as it force-focuses its tab and makes the entire Firefox flyover menu unnavigateable
+    if (detectedOS.name == "iOS" || detectedOS.name == "Mac OS" || detectedBrowser.name == "Firefox") {
+      window.open("information","_self");
+    } else {
+      window.open("information","_blank");
+    }
   }
   /*____________END OF touch and mouse events_____________*/
 },{ once: true });

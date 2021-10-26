@@ -133,7 +133,7 @@ function letTheIFrameTeachChinese(){ //See index.html to find the button that tr
 /* TR - Kişi */
 function letTheIFrameTeachTurkish(){ //See index.html to find the button that triggers this via onclick.
   theLanguageUserIsLearningNowToSetFilePaths = "tr"; //"tr" is OK with both iOS and Android
-  theLanguageUserIsLearningNowToSetAnnyang = "tr";
+  theLanguageUserIsLearningNowToSetAnnyang = "tr"; // UNCLEAR: SHOULD THIS BE tr-TR on iOS?
   if (!savedProgress.tr) { // if it doesn't exist
     savedProgress.tr = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
   } // else » don't touch the data, leave it alone, do not overwrite-erase if something already exists,, perhaps user studies more than 1 language
@@ -232,7 +232,7 @@ function openFirstLesson() {
 
   handleTheFirstGoingFullscreenOnMobiles();
 
-  if (canVibrate) { navigator.vibrate(10); } // Note that may make mobile Firefox ask for permission to allow vibration
+  if (canVibrate) { navigator.vibrate(10); } // Note that this may make mobile Firefox ask for permission to allow vibration
 
   setTimeout(function() {
     // Hide the welcome screen ( <<choose the language you want to learn>> screen's menu-div)
