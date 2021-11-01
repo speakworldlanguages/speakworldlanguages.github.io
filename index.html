@@ -22,7 +22,7 @@
 
     <link rel="icon" type="image/png" href="user_interface/icon/animated_globe_icon_39.png" id="icon" sizes="32x32"> <!-- This appears next to the title in the browser's TABS and plays as an animation. See js_for_icon_animation.js -->
     <link rel="preload" href="css_reusables/css_for_permanent_custom_cursor.css" as="style" onload=" var useThis=this; useThis.onload=null; setTimeout(function(){ useThis.rel='stylesheet'; },3000); "> <!-- DESKTOPS only! -->
-    <!-- Above line is used because 40 little png files (for custom cursors) can take too many milliseconds to download and some frames can go missing as browser's rendering starts. Note: As of 2020 Firefox doesn't support rel="preload". -->
+    <!-- Above line is used because 40 little png files (for custom cursors) can take too many milliseconds to download and some frames can go missing as browser's rendering starts. Note: In 2020 Firefox didn't support rel="preload". -->
     <link rel="stylesheet" href="css_reusables/css_for_every_single_html.css">
     <link rel="stylesheet" href="css_reusables/css_for_all_container_parent_htmls.css">
     <link rel="stylesheet" href="css_reusables/css_for_sliding_navigation_menu.css">
@@ -57,8 +57,10 @@
       gtag('config', 'G-8FWCR3LS62');
     </script>
 
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
     <script>
-      /*PLACE ANY SPECIFIC CODE HERE IF NECESSARY*/
+      if ("serviceWorker" in navigator) {   window.addEventListener("load",()=>{  navigator.serviceWorker.register("service-worker.js");  });  }
     </script>
 
   </head>

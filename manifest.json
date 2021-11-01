@@ -1,0 +1,14 @@
+{
+  "name": "Speak World Languages",
+  "short_name": "S. W. L.",
+  "icons": [{
+    "src": "icon_for_pwa_en.png",
+    "sizes": "512x512",
+    "type": "image/png"
+    }],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#adbbc4",
+  "theme_color": "#4d606f"
+}

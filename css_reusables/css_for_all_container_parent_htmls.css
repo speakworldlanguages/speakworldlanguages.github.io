@@ -1,5 +1,5 @@
 body{ /*Also see css_for_every_single_html.css*/
-  color: #34546d;
+  color: #34546d; /*???*/
   overflow:hidden;  /*This is necessary for information/index.html to be viewed properly on mobiles. (Used to be inline style)*/
   max-width:100vw;  /*This is necessary for information/index.html to be viewed properly on mobiles. (Used to be inline style)*/
   max-height:100vh; /*This is necessary for information/index.html to be viewed properly on mobiles. (Used to be inline style)*/
