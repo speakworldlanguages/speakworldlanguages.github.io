@@ -1,6 +1,8 @@
 {
-  "name": "Speak World Languages",
-  "short_name": "S. W. L.",
+  "name": "Manheart Earthman's Speak World Languages App",
+  "short_name": "Speak World Languages",
+  "author": "Manheart Earthman",
+  "description": "Listen, learn and speak into your device microphone to make things happen!",
   "icons": [{
     "src": "icon_for_pwa_en.png",
     "sizes": "512x512",
@@ -8,7 +10,6 @@
     }],
   "start_url": "index.html",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#adbbc4",
   "theme_color": "#4d606f"
 }

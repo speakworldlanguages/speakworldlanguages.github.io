@@ -1,14 +1,9 @@
+importScripts(
+  "third_party_js/devicedetector-min.js", "third_party_js/ua-parser.min.js"
+);
 /* self does not refer to the DOM window here */
 /* self is the service-worker itself */
-self.addEventListener("install", event => {
-  //console.log("SW install OK");
-  event.waitUntil(
-    caches.open(cacheName).then(cache => {
-      return cache.addAll(resourcesToPrecache);
-    })
-  );
-});
-self.addEventListener("activate", event => { console.log("SW activate OK"); });
+self.addEventListener("activate", event => { /*clear older unused stuff*/ });
 self.addEventListener("fetch", event => {
   //console.log("fetch olayı oldu, " + event.request.url);
   event.respondWith( caches.match(event.request)
@@ -29,6 +24,7 @@ const resourcesToPrecache = [
   "css_reusables/css_for_latin_font_rules.css",
 
   "third_party_js/annyang.min.js",
+  "third_party_js/devicedetector-min.js",
   "third_party_js/ua-parser.min.js",
   "third_party_js/howler.min.js",
   /* ONLY on desktops??? array push???
@@ -49,14 +45,23 @@ const resourcesToPrecache = [
   "js_reusables/js_for_the_sliding_navigation_menu.js",
 
   "user_interface/blank.html",
-  /*Fonts depending on Latin or Kanji CKJ */
+  /*Fonts depending on DOMAIN -> Latin or Kanji CKJ */
 
   /* No browser tab when opened as PWA???
   "user_interface/icon/animated_globe_icon_39.png",
   */
   "user_interface/16x16_anti_sleep_mode.mp4"
-  /*ADD: user interface images an sounds*/
+  /*ADD: user interface images and sounds*/
   /*Sounds ogg except iOS & Mac OS - mp3 only on iOS & Mac OS ??? */
 
   /*progress chart*/
 ];
+
+self.addEventListener("install", event => {
+  //console.log("SW install OK");
+  event.waitUntil(
+    caches.open(cacheName).then(cache => {
+      return cache.addAll(resourcesToPrecache);
+    })
+  );
+});

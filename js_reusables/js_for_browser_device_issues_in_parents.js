@@ -204,17 +204,25 @@ window.addEventListener("beforeinstallprompt",(e)=>{
 });
 
 function showInstallPrompt() {
-  setTimeout(timingF,2500);
+  if (deviceDetector.isMobile) {
+    if (!localStorage.installPWAPromptHasAlreadyBeenDisplayed) {
+      setTimeout(timingF,1500);
+    }
+  }
   function timingF() {
-    // Should this be Mobile-ONLY???
-    doYouWantToInstallprompt.prompt();
+    //alert("You can get notified when new lessons are released by installing the app");
+    //localStorage.installPWAPromptHasAlreadyBeenDisplayed = "yes";
+    //doYouWantToInstallprompt.prompt();
     doYouWantToInstallprompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === "accepted") {
         console.log("Add to home screen - Accepted by user");
+        // alert("Good! You can close the browser and restart the app from your Home screen");
+      } else {
+        // alert ("Find the install in ... menu to ")
       }
       doYouWantToInstallprompt = null;
     });
   }
 }
 
-window.addEventListener("appinstalled",(evt)=>{console.log("app is installed");});
+window.addEventListener("appinstalled",(evt)=>{  console.log("When actually does this [appinstalled] fire???");  });
