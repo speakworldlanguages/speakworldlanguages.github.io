@@ -225,4 +225,13 @@ function showInstallPrompt() {
   }
 }
 
-window.addEventListener("appinstalled",(evt)=>{  console.log("When actually does this [appinstalled] fire???");  });
+window.addEventListener("appinstalled",(evt)=>{
+  alert("app is installed");
+  // console.log("When actually does this [appinstalled] fire???");
+  /*
+  Notification.requestPermission(function(status) {
+    console.log('Notification permission status:', status);
+  });
+  */
+
+});
