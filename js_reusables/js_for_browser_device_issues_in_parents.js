@@ -195,3 +195,26 @@ window.addEventListener("load",function() {
   }
 
 }, { once: true });
+
+/* ____ PWA ____ */
+var doYouWantToInstallprompt;
+window.addEventListener("beforeinstallprompt",(e)=>{
+  e.preventDefault(); // Chrome 67 and earlier needs this
+  doYouWantToInstallprompt = e;
+});
+
+function showInstallPrompt() {
+  setTimeout(timingF,2500);
+  function timingF() {
+    // Should this be Mobile-ONLY???
+    doYouWantToInstallprompt.prompt();
+    doYouWantToInstallprompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === "accepted") {
+        console.log("Add to home screen - Accepted by user");
+      }
+      doYouWantToInstallprompt = null;
+    });
+  }
+}
+
+window.addEventListener("appinstalled",(evt)=>{console.log("app is installed");});
