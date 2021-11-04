@@ -9,8 +9,7 @@
     <meta name="description" content="Listen, learn and speak into your device microphone to make things happen! Use Manheart Earthman's app!">
     <meta name="author" content="Manheart Earthman">
 
-    <!-- https://pedro.agency/digital-marketing/how-to-stop-google-ignoring-your-meta-descriptions/ -->
-    <!-- https://ahrefs.com/blog/meta-robots/ -->
+    <!-- https://pedro.agency/digital-marketing/how-to-stop-google-ignoring-your-meta-descriptions/ --> <!-- https://ahrefs.com/blog/meta-robots/ -->
 
     <link rel="alternate" hreflang="ja" href="https://hanaserutoiidesuy.one">
     <!-- <link rel="alternate" hreflang="ko" href="https://???"> -->
@@ -38,7 +37,7 @@
     <!-- MOVED TO every_single_html.js <script defer src="js_reusables/js_for_fetch_api_character_encoding.js">/*Display extended latin characters (ÇĞİÖŞÜçğıöşü) correctly when using fetch to read txt files*/</script> -->
     <script defer src="js_reusables/js_for_handling_fullscreen_mode.js">/*Handle right-clicks, double-clicks...*/</script>
     <script defer src="js_reusables/js_for_all_container_parent_htmls.js">/*Fake antisleep video, be careful with iPhone fullscreen openfirstlesson, load last studied language codes...*/</script>
-    <script defer src="js_reusables/js_for_browser_device_issues_in_parents.js">/*Whitelist browsers, handling visibilitychange: what happens when user leaves the app*/</script>
+    <script defer src="js_reusables/js_for_browsers_devices_and_pwa.js">/*Whitelist browsers, handling visibilitychange: what happens when user leaves the app*/</script>
     <script defer src="js_reusables/js_for_icon_animation.js">/*A rotating globe next to the title that appears in the browser-tab*/</script>
     <script defer src="js_reusables/js_for_the_sliding_navigation_menu.js">/*NAVIGATION*/</script>
     <!-- <script defer src="js_reusables/js_object_of_all_lessons_listed.js">/*An index of lesson titles and hrefs like an app-map*/</script> -->
@@ -58,6 +57,7 @@
     </script>
 
     <!-- PWA -->
+    <!-- Idea: We could have manifest_iOS.json and manifest_default.json and set href when DOMContentLoaded happens -->
     <link rel="manifest" href="manifest.json">
     <script>
       if ("serviceWorker" in navigator) {  window.addEventListener("load",()=>{  navigator.serviceWorker.register("service-worker.js");  });  }
@@ -118,7 +118,7 @@
     <!-- </div> -->
 
     <!-- LESSONS WILL BE DISPLAYED ONE BY ONE THROUGH THIS IFRAME -->
-    <!-- Firefox refresh button's bug is solved; see js_for_browser_device_issues_in_parents.js  -->
+    <!-- Firefox refresh button's bug is solved; see js_for_browsers_devices_and_pwa.js  -->
     <iframe src="user_interface/blank.html" id="theIdOfTheIframe" allowfullscreen></iframe>
     <!-- allowfullscreen is needed to be able to call requestFullscreen on the iframe, should that be necessary -->
 
@@ -139,52 +139,6 @@
         }
       }, { once: true });
       // We don't want to complicate the GUI by adding a button to change the language of the interface.
-    </script>
-
-    <!-- Firebase claude messaging -->
-    <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging.js"></script>
-    <script>
-      // Import the functions you need from the SDKs you need
-      // import { initializeApp } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js";
-      // import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-analytics.js";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
-
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-      const firebaseConfig = {
-        apiKey: "AIzaSyAOwWE-tkgCG6ZShYOVSI5QN6TDONAIwHo",
-        authDomain: "swl-firebase.firebaseapp.com",
-        projectId: "swl-firebase",
-        storageBucket: "swl-firebase.appspot.com",
-        messagingSenderId: "419361717894",
-        appId: "1:419361717894:web:b25d27d6646a7b70cc9b07",
-        measurementId: "G-DRM4QVGLCS"
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      // const analytics = getAnalytics(app);
-
-      const messaging = firebase.messaging();
-      /*
-      // Get registration token. Initially this makes a network call, once retrieved
-      // subsequent calls to getToken will return from cache.
-      messaging.getToken({ vapidKey: 'BL_Y7OBCIOhMLpzVd-BVs463Ku6VTkdU9OwyO1SbQw1duwzHBiLoWlpGX1m9cQcYS6e7IL5ADctJEqp6XfgzOhA' }).then((currentToken) => {
-        if (currentToken) {
-          // Send the token to your server and update the UI if necessary
-          // ...
-        } else {
-          // Show permission request UI
-          console.log('No registration token available. Request permission to generate one.');
-          // ...
-        }
-      }).catch((err) => {
-        console.log('An error occurred while retrieving token. ', err);
-        // ...
-      });
-      */
     </script>
   </body>
 </html>

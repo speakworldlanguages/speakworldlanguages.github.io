@@ -210,9 +210,7 @@ function showInstallPrompt() {
     }
   }
   function timingF() {
-    //alert("You can get notified when new lessons are released by installing the app");
-    //localStorage.installPWAPromptHasAlreadyBeenDisplayed = "yes";
-    //doYouWantToInstallprompt.prompt();
+    doYouWantToInstallprompt.prompt();
     doYouWantToInstallprompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === "accepted") {
         console.log("Add to home screen - Accepted by user");
@@ -229,5 +227,8 @@ window.addEventListener("appinstalled",(evt)=>{
   /* THIS FIRES ONLY ONCE DURING THE LIFETIME OF THE APP */
   /*
   That is when the app is first installed
+  CAN WE? save appIsInstalled = "yes" to localStorage??? to hide the [INSTALL NOW] div
+  or should we go with matchMedia "standalone" ? then hide the [INSTALL NOW] div
+  will it be cleared too if browser cache is cleared? Despite being a separate app now?
   */
 });

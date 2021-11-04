@@ -3,7 +3,7 @@ importScripts(
 );
 /* self does not refer to the DOM window here */
 /* self is the service-worker itself */
-self.addEventListener("activate", event => { /*clear older unused stuff*/ });
+self.addEventListener("activate", event => { /*clear older unused stuff or handle notifications*/ });
 self.addEventListener("fetch", event => {
   //console.log("fetch olayı oldu, " + event.request.url);
   event.respondWith( caches.match(event.request)
@@ -14,6 +14,7 @@ self.addEventListener("fetch", event => {
 });
 
 const cacheName = "cache-november2021";
+/**/
 const resourcesToPrecache = [
   "/",
   "index.html",
@@ -38,7 +39,7 @@ const resourcesToPrecache = [
   "js_reusables/js_for_every_single_html.js",
   "js_reusables/js_for_handling_fullscreen_mode.js",
   "js_reusables/js_for_all_container_parent_htmls.js",
-  "js_reusables/js_for_browser_device_issues_in_parents.js",
+  "js_reusables/js_for_browsers_devices_and_pwa.js",
   /* No browser tab when opened as PWA???
   "js_reusables/js_for_icon_animation.js",
   */

@@ -29,7 +29,7 @@ function userHasClickedOrTouchedWelcomeAnswerB() { // The user has claimed that 
 var genderOfTheUser;
 var theLanguageUserIsLearningNowToSetFilePaths;
 var theLanguageUserIsLearningNowToSetAnnyang;
-var ayFreym = document.getElementById('theIdOfTheIframe'); // Access to ayFreym from » progress.js, js_for_browser_device_issues_in_parents, js_for_the_sliding_navigation_menu
+var ayFreym = document.getElementById('theIdOfTheIframe'); // Access to ayFreym from » progress.js, js_for_browsers_devices_and_pwa, js_for_the_sliding_navigation_menu
 
 window.addEventListener('DOMContentLoaded', function(){
   // Skip the crowdfunding (welcome screen) message if user says he she is a member.
@@ -279,7 +279,7 @@ setInterval( function ()
   setTimeout( function ()  {   document.title = theParentHtmlTitle   },3000);
 } , 6000);
 
-// UI sounds ... also see js_for_browser_device_issues_in_parents.js
+// UI sounds ... also see js_for_browsers_devices_and_pwa.js
 const dismissNotificationSound1 = new Howl({  src: ['user_interface/sounds/notification1_close.mp3']  });
 const hoverSound = new Howl({  src: ['user_interface/sounds/illuminant_button_hover.mp3']  }); // DESKTOP ONLY!
 const clickSound = new Howl({  src: ['user_interface/sounds/illuminant_button_click.mp3']  });
