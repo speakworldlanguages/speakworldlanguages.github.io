@@ -211,7 +211,19 @@ function testAnnyang() {
 }
 
 /* ____ PWA ____ */
-const footerAsInstallButton = document.getElementsByTagName('FOOTER')[0];
+const footerAsInstallButton = document.getElementById('footerInstallID');
+const footerAsNotificationButton = document.getElementById('footerNotificationID');
+if (deviceDetector.device == "tablet") {
+  footerAsInstallButton.children[0].style.display = "none"; footerAsInstallButton.children[1].style.display = "block"; // Tablet instead of desktop
+} else if (deviceDetector.device == "phone") {
+  footerAsInstallButton.children[0].style.display = "none"; footerAsInstallButton.children[2].style.display = "block"; // Phone instead of desktop
+}
+if (deviceDetector.isMobile) {
+  footerAsInstallButton.children[3].style.display = "none"; footerAsInstallButton.children[4].style.display = "block"; // Touch instead of click for install
+  footerAsNotificationButton.children[1].style.display = "none"; footerAsNotificationButton.children[2].style.display = "block"; // Touch instead of click for notification
+  footerAsInstallButton.classList.remove("footerDesktop"); footerAsInstallButton.classList.add("footerTabletAndPhone");
+  footerAsNotificationButton.classList.remove("footerDesktop"); footerAsNotificationButton.classList.add("footerTabletAndPhone");
+}
 const checkUrlToSeeLaunchingOrigin = window.location.href;
 const searchResult = checkUrlToSeeLaunchingOrigin.search("installed"); // The search() method returns -1 if no match is found. See manifest_**.json
 
@@ -219,7 +231,7 @@ if (searchResult != -1) {
   // Never show the install button
   footerAsInstallButton.parentNode.removeChild(footerAsInstallButton);
   // Show notification switch instead
-
+  footerAsNotificationButton.style.display = "block";
 }
 
 let installationIsSupported = false;
@@ -236,7 +248,9 @@ function showInstall_PWA_prompt() {
     doYouWantToInstallprompt.prompt();
     doYouWantToInstallprompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === "accepted") {
-        footerAsInstallButton.classList.add("footerGetLost");
+        footerAsInstallButton.children[0].style.display = "none"; footerAsInstallButton.children[1].style.display = "none"; footerAsInstallButton.children[2].style.display = "none";
+        footerAsInstallButton.children[3].style.display = "none"; footerAsInstallButton.children[4].style.display = "none";
+        footerAsInstallButton.children[6].style.display = "block"; // Reads: You can close this and start the app from Home screen
 
         // On Windows it auto closes the tab and auto switches to the new window
         // On Android it does not auto close and does not switch
@@ -249,8 +263,12 @@ function showInstall_PWA_prompt() {
     });
   } else {
     alert(detectedBrowser.name+" (ㆆ _ ㆆ)");
-    footerAsInstallButton.children[1].style.display = "none"; footerAsInstallButton.children[2].style.display = "block";
+    footerAsInstallButton.children[3].style.display = "none"; footerAsInstallButton.children[4].style.display = "none"; footerAsInstallButton.children[5].style.display = "block";
   }
+
+}
+
+function askSubscribeToNotifications() {
 
 }
 

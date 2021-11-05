@@ -5,7 +5,7 @@
     <script> var thisIsTheParentWhichContainsAllIFramedLessons = "yes"; </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"> <!-- For mobile device screens to display things properly -->
-    <title>SPEAK WORLD LANGUAGES: Use Your Voice To Play Games And Learn A New Language</title>
+    <title>SPEAK WORLD LANGUAGES: Use Your Voice To Play Games As You Learn A New Language</title>
     <meta name="description" content="Listen, learn and speak into your device microphone to make things happen! Use Manheart Earthman's app!">
     <meta name="author" content="Manheart Earthman">
 
@@ -107,10 +107,20 @@
         <!-- <button onclick="letTheIFrameTeachEnglish()">English with major accents</button> -->
         <!-- See js_for_all_container_parent_htmls.js -->
       </div>
-      <footer id="desktopInstallID" class="footerDesktop" onclick="showInstall_PWA_prompt();">
+      <footer id="footerInstallID" class="footerDesktop" onclick="showInstall_PWA_prompt();">
         <img src="user_interface/images/add_to_desktop.webp" alt="Install the app">
+        <img src="user_interface/images/add_to_home_screen_tablet.webp" alt="Install the app" style="display:none;">
+        <img src="user_interface/images/add_to_home_screen_phone.webp" alt="Install the app" style="display:none;">
         <p>Click here to install this app and add it to your desktop</p>
+        <p style="display:none;">Touch here to get the app on your Home screen</p>
         <p style="display:none;">Sorry, it looks like the app cannot install</p>
+        <p style="display:none;">Close the browser and start the app from your Home screen when ready</p>
+      </footer>
+      <footer id="footerNotificationID" class="footerDesktop" onclick="askSubscribeToNotifications();" style="display:none;">
+        <img src="user_interface/images/push_me_notification.webp" alt="Get notified about new content">
+        <p>Click here to receive a message from us when a new lesson is up</p>
+        <p style="display:none;">Touch here to receive a message from us when a new lesson is up</p>
+        <p style="display:none;">Sorry, your browser doesn't support notifications</p>
       </footer>
     </main>
     <!-- Touch here to add this app to your Home screen -->
