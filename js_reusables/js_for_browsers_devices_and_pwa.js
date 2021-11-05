@@ -211,6 +211,17 @@ function testAnnyang() {
 }
 
 /* ____ PWA ____ */
+const footerAsInstallButton = document.getElementsByTagName('FOOTER')[0];
+const checkUrlToSeeLaunchingOrigin = window.location.href;
+const searchResult = checkUrlToSeeLaunchingOrigin.search("installed"); // The search() method returns -1 if no match is found. See manifest_**.json
+
+if (searchResult != -1) {
+  // Never show the install button
+  footerAsInstallButton.parentNode.removeChild(footerAsInstallButton);
+  // Show notification switch instead
+
+}
+
 let installationIsSupported = false;
 var doYouWantToInstallprompt;
 window.addEventListener("beforeinstallprompt",(e)=>{
@@ -218,7 +229,7 @@ window.addEventListener("beforeinstallprompt",(e)=>{
   e.preventDefault(); // Chrome 67 and earlier needs this
   doYouWantToInstallprompt = e; //
 });
-const footerAsInstallButton = document.getElementsByTagName('FOOTER')[0];
+
 function showInstall_PWA_prompt() {
 
   if (installationIsSupported) {
