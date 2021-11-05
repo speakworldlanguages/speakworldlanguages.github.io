@@ -211,24 +211,30 @@ function testAnnyang() {
 }
 
 /* ____ PWA ____ */
+let installationIsSupported = false;
 var doYouWantToInstallprompt;
 window.addEventListener("beforeinstallprompt",(e)=>{
+  installationIsSupported = true;
   e.preventDefault(); // Chrome 67 and earlier needs this
-  doYouWantToInstallprompt = e;
+  doYouWantToInstallprompt = e; //
 });
 
 function showInstall_PWA_prompt() {
 
-  doYouWantToInstallprompt.prompt();
-  doYouWantToInstallprompt.userChoice.then((choiceResult) => {
-    if (choiceResult.outcome === "accepted") {
-      console.log("Add to home screen - Accepted by user");
-      // alert("Good! You can close the browser and restart the app from your Home screen");
-    } else {
-      // alert ("Find the install in ... menu to ")
-    }
-    doYouWantToInstallprompt = null;
-  });
+  if (installationIsSupported) {
+    doYouWantToInstallprompt.prompt();
+    doYouWantToInstallprompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === "accepted") {
+        console.log("Add to home screen - Accepted by user");
+        // alert("Good! You can close the browser and restart the app from your Home screen");
+      } else {
+        // alert ("Find the install in ... menu to ")
+      }
+      doYouWantToInstallprompt = null;
+    });
+  } else {
+    alert(detectedBrowser.name+" (ㆆ _ ㆆ)");
+  }
 
 }
 

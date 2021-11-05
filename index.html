@@ -92,9 +92,9 @@
 
     <!-- THE MAIN MENU -->
     <main> <!-- See css_for_all_container_parent_htmls.css & js_for_all_container_parent_htmls.js-->
-      <div class="upperHalfDiv">
+      <header>
         <p>Choose the language you want to learn</p>
-      </div>
+      </header>
       <div class="lowerHalfDiv">
         <!-- When more languages are hopefully added, we better list them with the world map order like east to west, west to east,right to left, left to right with a swipeable navigation design -->
         <!-- Initial location of that grid map can be users location via IP geolocation OR USER'S LOCAL TIME VERSUS UTC; we want to avoid asking permission for GPS location as that would be distracting or could be annoying -->
@@ -107,6 +107,10 @@
         <!-- <button onclick="letTheIFrameTeachEnglish()">English with major accents</button> -->
         <!-- See js_for_all_container_parent_htmls.js -->
       </div>
+      <footer onclick="showInstall_PWA_prompt();">
+        <p>Install</p>
+        <!-- After adding this app to your desktop you can turn on notifications to know when new lessons are ready -->
+      </footer>
     </main>
 
     <!-- get rid of this after testing the new idOfTheLoadProgressDiv -->

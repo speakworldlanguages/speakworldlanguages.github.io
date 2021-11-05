@@ -84,19 +84,24 @@ main{ /*This used to be #fullViewportPositionFixedDivAsContainerOfTheMenu */
   overflow: hidden;
 }
 
-.upperHalfDiv{
+header{ /*Choose the language you want to learn*/
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   padding-left: 15px;
   padding-right: 15px;
 }
 
 .lowerHalfDiv{
   display: flex;
+}
 
+footer{
+  position: fixed; width:339px; height: 120px;
+  top:70vh; left:50vw; transform: translateX(-50%);
+  background-color: white; border-radius: 13px;
+  font-size: 20px; color: #b0cdd1; font-weight: 400;
 }
 
 @media screen and (orientation:portrait){
