@@ -225,6 +225,8 @@ function showInstall_PWA_prompt() {
     doYouWantToInstallprompt.prompt();
     doYouWantToInstallprompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === "accepted") {
+        footerAsInstallButton.classList.add("footerGetLost");
+
         // On Windows it auto closes the tab and auto switches to the new window
         // On Android it does not auto close and does not switch
         // alert("Good! You can close the browser and restart the app from your Home screen");
