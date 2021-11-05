@@ -99,9 +99,10 @@ header{ /*Choose the language you want to learn*/
 
 footer{
   position: fixed; width:339px; height: 120px;
-  top:70vh; left:50vw; transform: translateX(-50%);
-  background-color: white; border-radius: 13px;
+  bottom:20vmin; left:50vw; transform: translateX(-50%);
+  background-color: white; border-radius: 8px;
   font-size: 20px; color: #b0cdd1; font-weight: 400;
+  text-shadow: none;
 }
 
 @media screen and (orientation:portrait){
