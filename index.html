@@ -72,7 +72,7 @@
     <div id="idOfThePreloadHandlingDiv" style="position: fixed; top:0; left:0; bottom:0; right:0; background-color: white; display: flex; justify-content: center; align-items: center; z-index: 9999;">
       <!-- The content of this div is changed via script. See js_for_preload_handling.js -->
       <!-- The style is left inline as a safe measure against slow network etc. See css_for_every_single_html.css-->
-      <img id="globeFrameZeroImgID" src="user_interface/images/rotating_globe_100x150_frame0.webp">
+      <img id="globeFrameZeroImgID" src="user_interface/images/rotating_globe_100x150_frame0.webp" alt="Loading...">
     </div>
 
     <!-- Parent HTMLs are not multilingual. The text below is translated and unique to this html just like the contents of the /user_interface/text/ folder -->
@@ -107,11 +107,14 @@
         <!-- <button onclick="letTheIFrameTeachEnglish()">English with major accents</button> -->
         <!-- See js_for_all_container_parent_htmls.js -->
       </div>
-      <footer onclick="showInstall_PWA_prompt();">
-        <p>Install</p>
-        <!-- After adding this app to your desktop you can turn on notifications to know when new lessons are ready -->
+      <footer id="desktopInstallID" class="footerDesktop" onclick="showInstall_PWA_prompt();">
+        <img src="user_interface/images/add_to_desktop.webp" alt="Install the app">
+        <p>Click here to install this app and add it to your desktop</p>
+        <p style="display:none;">Sorry, it looks like the app cannot install</p>
       </footer>
     </main>
+    <!-- Touch here to add this app to your Home screen -->
+    <!-- After that you can turn on notifications to know when new lessons are ready. -->
 
     <!-- get rid of this after testing the new idOfTheLoadProgressDiv -->
     <!-- <div id="fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt"> -->

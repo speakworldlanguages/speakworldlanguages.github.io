@@ -218,15 +218,17 @@ window.addEventListener("beforeinstallprompt",(e)=>{
   e.preventDefault(); // Chrome 67 and earlier needs this
   doYouWantToInstallprompt = e; //
 });
-
+const footerAsInstallButton = document.getElementsByTagName('FOOTER')[0];
 function showInstall_PWA_prompt() {
 
   if (installationIsSupported) {
     doYouWantToInstallprompt.prompt();
     doYouWantToInstallprompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === "accepted") {
-        console.log("Add to home screen - Accepted by user");
+        // On Windows it auto closes the tab and auto switches to the new window
+        // On Android it does not auto close and does not switch
         // alert("Good! You can close the browser and restart the app from your Home screen");
+        // localStorage the-app-has-been-installed removeChild
       } else {
         // alert ("Find the install in ... menu to ")
       }
@@ -234,6 +236,7 @@ function showInstall_PWA_prompt() {
     });
   } else {
     alert(detectedBrowser.name+" (ㆆ _ ㆆ)");
+    footerAsInstallButton.children[1].style.display = "none"; footerAsInstallButton.children[2].style.display = "block";
   }
 
 }

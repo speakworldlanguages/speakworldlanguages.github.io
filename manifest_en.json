@@ -9,7 +9,7 @@
     "type": "image/png"
     }],
   "start_url": "index.html?installed",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#adbbc4",
   "theme_color": "#4d606f"
 }

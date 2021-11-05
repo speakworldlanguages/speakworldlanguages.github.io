@@ -98,12 +98,22 @@ header{ /*Choose the language you want to learn*/
 }
 
 footer{
-  position: fixed; width:339px; height: 120px;
-  bottom:20vmin; left:50vw; transform: translateX(-50%);
+  position: fixed;
+  left:50vw; transform: translateX(-50%) scale(1);
   background-color: white; border-radius: 8px;
   font-size: 20px; color: #b0cdd1; font-weight: 400;
-  text-shadow: none;
+  display: flex;
+  padding: 10px;
+  border: 2px solid #ebf2fa;
+  transition: transform .3s;
 }
+footer:hover{ transform: translateX(-50%) scale(1.02); }
+.footerDesktop{
+  bottom:7vmin; align-items: center;
+  min-width:555px; min-height: 120px;
+}
+.footerDesktop img{  height: 100px;  }
+.footerDesktop p{  text-shadow: none;  }
 
 @media screen and (orientation:portrait){
   button{min-width: 62vmin;}
