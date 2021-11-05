@@ -118,8 +118,8 @@ function removeGoBackToPreviousButtonFromTheNavigationMenu() {
 }
 */
 // Sliding navigation menu button UI sounds
-const navMenuHoverSound = new Howl({  src: ['user_interface/sounds/ceramic_button_hover.mp3']  }); // DESKTOP ONLY. Put it here to make it global.
-const navMenuClickSound = new Howl({  src: ['user_interface/sounds/ceramic_button_click.mp3']  });
+const navMenuHoverSound = new Howl({  src: ['user_interface/sounds/ceramic_button_hover.'+audioFileExtension]  }); // DESKTOP ONLY. Put it here to make it global.
+const navMenuClickSound = new Howl({  src: ['user_interface/sounds/ceramic_button_click.'+audioFileExtension]  });
 
 var speedAdjustmentDiv = document.createElement("DIV"); // ONLY FOR DESKTOPS
 speedAdjustmentDiv.classList.add("sliderContainerDivsWillLook");

@@ -12,8 +12,8 @@ function handleOKButtonText(receivedTxt) {
   else { okButtonToCloseTheNotification.innerHTML = receivedTxt.split("|")[1]; } // Heads or tails
 }
 
-const popUpNotificationSound = new parent.Howl({  src: ['user_interface/sounds/notification1_appear.mp3']  });
-const dismissNotificationSound = new parent.Howl({  src: ['user_interface/sounds/notification1_close.mp3']  });
+const popUpNotificationSound = new parent.Howl({  src: ['user_interface/sounds/notification1_appear.'+parent.audioFileExtension]  });
+const dismissNotificationSound = new parent.Howl({  src: ['user_interface/sounds/notification1_close.'+parent.audioFileExtension]  });
 
 function createAndHandleNotificationBox() {
   popUpNotificationSound.play();
@@ -62,8 +62,8 @@ fetch(wavesurferButton1Button2Path,myHeaders).then(function(response){return res
   listenAgainButtonTxt = contentOfTheTxtFile.split("|")[1];
   startButtonTxt = contentOfTheTxtFile.split("|")[2];
 });
-const popUpVocabularySound = new parent.Howl({  src: ['user_interface/sounds/notification3_appear.mp3']  });
-const dismissVocabularySound = new parent.Howl({  src: ['user_interface/sounds/notification3_close.mp3']  });
+const popUpVocabularySound = new parent.Howl({  src: ['user_interface/sounds/notification3_appear.'+parent.audioFileExtension]  });
+const dismissVocabularySound = new parent.Howl({  src: ['user_interface/sounds/notification3_close.'+parent.audioFileExtension]  });
 
 function createAndHandleVocabularyBox(filePathOfTheAudio) {
   popUpVocabularySound.play();

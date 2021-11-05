@@ -25,18 +25,18 @@ fetch(getPermissionPath,myHeaders).then(function(response){return response.text(
 fetch(ifNoPermissionPath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ ifNoPermission = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
-const say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1.mp3";
-const say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2.mp3";
-const say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/give_me_water_3.mp3";
-const say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/give_me_water_4.mp3";
-const say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/thank_you.mp3";
+const say1Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1."+parent.audioFileExtension;
+const say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2."+parent.audioFileExtension;
+const say3Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/give_me_water_3."+parent.audioFileExtension;
+const say4Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/give_me_water_4."+parent.audioFileExtension;
+const say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/thank_you."+parent.audioFileExtension;
 
 if (parent.theLanguageUserIsLearningNowToSetFilePaths=="ar" && parent.genderOfTheUser=="female") {
-  say1Path = say1Path.split(".")[0] + "_female.mp3";
-  say2Path = say2Path.split(".")[0] + "_female.mp3";
-  say3Path = say3Path.split(".")[0] + "_female.mp3";
-  say4Path = say4Path.split(".")[0] + "_female.mp3";
-  say5Path = say5Path.split(".")[0] + "_female.mp3"; // Shukran lak-a lak-e
+  say1Path = say1Path.split(".")[0] + "_female."+parent.audioFileExtension;
+  say2Path = say2Path.split(".")[0] + "_female."+parent.audioFileExtension;
+  say3Path = say3Path.split(".")[0] + "_female."+parent.audioFileExtension;
+  say4Path = say4Path.split(".")[0] + "_female."+parent.audioFileExtension;
+  say5Path = say5Path.split(".")[0] + "_female."+parent.audioFileExtension; // Shukran lak-a lak-e
 }
 let saySlow = false;
 const say1 = new parent.Howl({  src: [say1Path]  });
@@ -45,11 +45,11 @@ const say3 = new parent.Howl({  src: [say3Path]  });
 const say4 = new parent.Howl({  src: [say4Path]  });
 const say5 = new parent.Howl({  src: [say5Path]  });
 
-const winSound = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.mp3']  });
-const glassBreak = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_3/glass_breaks_into_pieces.mp3']  });
+const winSound = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.'+parent.audioFileExtension]  });
+const glassBreak = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_3/glass_breaks_into_pieces.'+parent.audioFileExtension]  });
 
-const notificationControlDevice = new parent.Howl({  src: ['user_interface/sounds/notification2_appear.mp3']  });
-const notificationCloseControlDevice = new parent.Howl({  src: ['user_interface/sounds/notification2_close.mp3']  });
+const notificationControlDevice = new parent.Howl({  src: ['user_interface/sounds/notification2_appear.'+parent.audioFileExtension]  });
+const notificationCloseControlDevice = new parent.Howl({  src: ['user_interface/sounds/notification2_close.'+parent.audioFileExtension]  });
 /* Sounds exist on the parent. So they will NOT UNLOAD when iframe src is changed. We must manually unload them before exiting. */
 function unloadTheSoundsOfThisLesson() { // Either call this as the last thing before leaving or let it be called by window.onbeforeunload in js_for_all_iframed_lesson_htmls
   notificationCloseControlDevice.unload();
@@ -147,7 +147,7 @@ function loadingIsCompleteFunction() {
 
 function startTheLesson() {
   // User must listen to wavesurfer vocabulary box no matter what language he/she is studying
-  const filePathOfTheAudioFile = "../../../../audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/give.mp3";
+  const filePathOfTheAudioFile = "../../../../audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_3/give."+parent.audioFileExtension;
   const wavesurferP1P2Path = "../../../../user_interface/text/"+userInterfaceLanguage+"/1-1-3_vocabulary_p1_p2.txt";
   fetch(wavesurferP1P2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleP1P2ActualText(contentOfTheTxtFile);  });
   // See js_for_notification_or_such_boxes » iframe-lesson level

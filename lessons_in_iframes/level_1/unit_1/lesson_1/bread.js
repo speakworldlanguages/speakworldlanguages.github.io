@@ -18,11 +18,11 @@ const filePathForTheWordOrPhrase = "../../../../speech_recognition_dictionary/"+
 fetch(filePathForTheWordOrPhrase,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theNewWordUserIsLearningNowAndPossibleMishaps = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
-const say1say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_1/bread_1-2.mp3";
-const say3Path     = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_1/bread_3.mp3";
-const say4say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_1/bread_4-5.mp3";
-const say6Path     = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_1/bread_6.mp3";
-const say7say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_1/bread_7-8.mp3";
+const say1say2Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_1/bread_1-2."+parent.audioFileExtension;
+const say3Path     = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_1/bread_3."+parent.audioFileExtension;
+const say4say5Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_1/bread_4-5."+parent.audioFileExtension;
+const say6Path     = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_1/bread_6."+parent.audioFileExtension;
+const say7say8Path = "audio_files_for_listening/"+parent.theLanguageUserIsLearningNowToSetFilePaths+"/level_1/unit_1/lesson_1/bread_7-8."+parent.audioFileExtension;
 
 const sayAB = new parent.Howl({  src: [say1say2Path]  });
 const sayC  = new parent.Howl({  src: [say3Path]      });
@@ -30,13 +30,13 @@ const sayDE = new parent.Howl({  src: [say4say5Path]  });
 const sayF  = new parent.Howl({  src: [say6Path]      });
 const sayGH = new parent.Howl({  src: [say7say8Path]  });
 
-//const whatBreadSoundsLike1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_1.mp3']  });
-//const whatBreadSoundsLike2 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_2.mp3']  });
+//const whatBreadSoundsLike1 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_1.'+parent.audioFileExtension]  });
+//const whatBreadSoundsLike2 = new parent.Howl({  src: ['lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_2.'+parent.audioFileExtension]  });
 //3
 //4
 //5
-const successTone = new parent.Howl({  src: ['user_interface/sounds/success1.mp3']  });
-const notificationDingTone = new parent.Howl({  src: ['user_interface/sounds/ding.mp3']  });
+const successTone = new parent.Howl({  src: ['user_interface/sounds/success1.'+parent.audioFileExtension]  });
+const notificationDingTone = new parent.Howl({  src: ['user_interface/sounds/ding.'+parent.audioFileExtension]  });
 /* Sounds exist on the parent. So they will NOT UNLOAD when iframe src is changed. We must manually unload them before exiting. */
 function unloadTheSoundsOfThisLesson() { // Either call this as the last thing before leaving or let it be called by window.onbeforeunload in js_for_all_iframed_lesson_htmls
   notificationDingTone.unload();

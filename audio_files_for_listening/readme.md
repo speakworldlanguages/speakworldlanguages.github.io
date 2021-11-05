@@ -1,6 +1,6 @@
-This directory contains the sound recordings of the words and phrases from native speakers for the user to listen, learn and try to pronounce.
+This directory contains the list of filenames of sound recordings of the words and phrases from native speakers for the user to listen, learn and try to pronounce.
 
-Note: It turns out that Safari does not support ogg format (argh). Will try mp3 instead (hmph).
+This hasn't been updated for a while!
 
 ## LIST OF FILE NAMES
 > Level 1 - Unit 1

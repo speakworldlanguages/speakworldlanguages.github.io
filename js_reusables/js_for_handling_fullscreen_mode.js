@@ -1,14 +1,16 @@
 // This is included in parent htmls only. Not in lesson htmls.
 // Even though this is deferred, looks like we still need to wait for the load event before we call a function from another js file.
-var deactivationSound1 = new Howl({  src: ['user_interface/sounds/thingy_one_deactivate.mp3']  }); // Desktops: FULLSCREEN,,, Mobiles: NAVIGATION MENU
+
 // See js_for_browsers_devices_and_pwa ... Also see js_for_the_sliding_navigation_menu
-var activationSound1 = new Howl({  src: ['user_interface/sounds/thingy_one_activate.mp3']  }); // Desktops: FULLSCREEN,,, Mobiles: NAVIGATION MENU
-// See js_for_browsers_devices_and_pwa ... Also see js_for_the_sliding_navigation_menu
-var errorSound = new Howl({  src: ['user_interface/sounds/thingy_two_error.mp3']  }); // Mobiles only: Touch once - Touch twice distinction
+var deactivationSound1, activationSound1, errorSound;
 
 var hasGoneFullscreen = false;
 // Go fullscreen by touching anywhere on the screen.
 window.addEventListener("load",function() {
+  deactivationSound1 = new Howl({  src: ['user_interface/sounds/thingy_one_deactivate.'+audioFileExtension]  }); // Desktops: FULLSCREEN,,, Mobiles: NAVIGATION MENU
+  activationSound1 = new Howl({  src: ['user_interface/sounds/thingy_one_activate.'+audioFileExtension]  }); // Desktops: FULLSCREEN,,, Mobiles: NAVIGATION MENU
+  errorSound = new Howl({  src: ['user_interface/sounds/thingy_two_error.'+audioFileExtension]  }); // Mobiles only: Touch once - Touch twice distinction
+
   const iFrameLocalConst = document.getElementById('theIdOfTheIframe'); // Check js_for_all_container_parent_htmls.js prevent conflicts
   const iDoc = iFrameLocalConst.contentWindow || iFrameLocalConst.contentDocument;
 

@@ -7,8 +7,8 @@ if (parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv
 }
 
 const allNavElements = document.getElementsByTagName('NAV');
-const hoverProgress = new parent.Howl({  src: ["user_interface/sounds/progress_chart_hover.mp3"]  });
-const clickProgress = new parent.Howl({  src: ["user_interface/sounds/progress_chart_click.mp3"]  });
+const hoverProgress = new parent.Howl({  src: ["user_interface/sounds/progress_chart_hover."+parent.audioFileExtension]  });
+const clickProgress = new parent.Howl({  src: ["user_interface/sounds/progress_chart_click."+parent.audioFileExtension]  });
 let i;
 for (i = 0; i < allNavElements.length; i++)
 {

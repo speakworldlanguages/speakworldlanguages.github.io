@@ -1,8 +1,10 @@
 var isTheUsersBrowserWhitelisted = false;
 var detectedBrowser;
 var detectedOS;
-var deactivationSound2 = new Howl({  src: ['user_interface/sounds/thingy_two_deactivate.mp3']  }); // Mobiles: FULLSCREEN,,, Desktops: CHANGE BROWSER TAB
-var activationSound2 = new Howl({  src: ['user_interface/sounds/thingy_two_activate.mp3']  }); // Mobiles: FULLSCREEN,,, Desktops: CHANGE BROWSER TAB
+var audioFileExtension = "mp3"; // Default to ogg except for Safari // Ogg is better than mp3 but Safari won't play it
+
+var deactivationSound2;
+var activationSound2;
 
 window.addEventListener('DOMContentLoaded', function(){
 
@@ -10,6 +12,13 @@ window.addEventListener('DOMContentLoaded', function(){
   // Check for browser name on every device
   detectedBrowser = parser.getBrowser();
   detectedOS = parser.getOS();
+  /* DESPITE: Being sick of writing special code for Apple */
+  if (detectedOS.name == "iOS" || detectedOS.name == "Mac OS") {
+    audioFileExtension = "mp3";
+  }
+
+  deactivationSound2 = new Howl({  src: ['user_interface/sounds/thingy_two_deactivate.'+audioFileExtension]  }); // Mobiles: FULLSCREEN,,, Desktops: CHANGE BROWSER TAB
+  activationSound2 = new Howl({  src: ['user_interface/sounds/thingy_two_activate.'+audioFileExtension]  }); // Mobiles: FULLSCREEN,,, Desktops: CHANGE BROWSER TAB
   // See caniuse.com
   // Samsung Browser PROBLEM SOLVED: See js_for_the_sliding_navigation_menu.js to find the function hideOrUnhideTheNavigationMenuOnMOBILES()
   // Sliding navigation menu used to be triggered oppositely because resize and fullscreenchange events fired at different times in Chrome and in Samsung Browser.
@@ -78,27 +87,7 @@ window.addEventListener('DOMContentLoaded', function(){
   }
   /*______END OF SWITCH_______*/
 
-  // Check if Speech Recognition API is supported (AT LEAST IN THEORY because Opera, in 2020, says yes but doesn't).
-  if (annyang) {
-    // For first-time users, try to get the “allow microphone” issue solved as soon as possible.
-    if (localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed == "yes") { // There used to be a problem here like a double firing when index.html redirected to ja.html or tr.html shortly after landing because of UI language.
-      // THE REASON WHY we don't want to repeat the microphone test every time the app starts running is because it DINGS on mobiles.
-      // So start doing nothing with the 2nd visit and forever.
-    }
-    else {
-      // Make the “allow microphone” box appear for users who have arrived for the first time by a quick TURN ON AND THEN OFF thing.
-      setTimeout(function () {  annyang.start(); localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes";  },1000); // Actually any string value makes it return true but the keyword “true” does not.
-      // Thus the device shall not uselessly/purposelessly DING every time main menu is viewed.
-      // While the user is viewing the dialog box and deciding whether or not to press OK
-      let tryToAbortEveryThreeSeconds = setInterval(function () {
-        if (annyang.isListening()) {
-          annyang.abort();
-          clearInterval(tryToAbortEveryThreeSeconds);
-          //setTimeout(function () {  navigator.vibrate(1);  },4000); // This is for browsers (like Firefox Mobile) which ask the user if he/she wants to allow vibration.
-        }
-      },3000);
-    } // End of inner “else”
-  } // End of if (annyang)
+
 
   /*________________________________________*/
   // Handle lesson PAUSE with visibility change on mobile devices for return after tab navigation or when on/off button is pressed etc.
@@ -196,6 +185,31 @@ window.addEventListener("load",function() {
 
 }, { once: true });
 
+/* __Test microphone and get allowed if need be__ */
+function testAnnyang() {
+  // Check if Speech Recognition API is supported (AT LEAST IN THEORY because Opera, in 2020, says yes but doesn't).
+  if (annyang) {
+    // For first-time users, try to get the “allow microphone” issue solved as soon as possible.
+    if (localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed == "yes") { // There used to be a problem here like a double firing when index.html redirected to ja.html or tr.html shortly after landing because of UI language.
+      // THE REASON WHY we don't want to repeat the microphone test every time the app starts running is because it DINGS on mobiles.
+      // So start doing nothing with the 2nd visit and forever.
+    }
+    else {
+      // Make the “allow microphone” box appear for users who have arrived for the first time by a quick TURN ON AND THEN OFF thing.
+      setTimeout(function () {  annyang.start(); localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes";  },1000); // Actually any string value makes it return true but the keyword “true” does not.
+      // Thus the device shall not uselessly/purposelessly DING every time main menu is viewed.
+      // While the user is viewing the dialog box and deciding whether or not to press OK
+      let tryToAbortEveryThreeSeconds = setInterval(function () {
+        if (annyang.isListening()) {
+          annyang.abort();
+          clearInterval(tryToAbortEveryThreeSeconds);
+          //setTimeout(function () {  navigator.vibrate(1);  },4000); // This is for browsers (like Firefox Mobile) which ask the user if he/she wants to allow vibration.
+        }
+      },3000);
+    } // End of inner “else”
+  } // End of if (annyang)
+}
+
 /* ____ PWA ____ */
 var doYouWantToInstallprompt;
 window.addEventListener("beforeinstallprompt",(e)=>{
@@ -203,32 +217,25 @@ window.addEventListener("beforeinstallprompt",(e)=>{
   doYouWantToInstallprompt = e;
 });
 
-function showInstallPrompt() {
-  if (deviceDetector.isMobile) {
-    if (!localStorage.installPWAPromptHasAlreadyBeenDisplayed) {
-      setTimeout(timingF,1500);
+function showInstall_PWA_prompt() {
+
+  doYouWantToInstallprompt.prompt();
+  doYouWantToInstallprompt.userChoice.then((choiceResult) => {
+    if (choiceResult.outcome === "accepted") {
+      console.log("Add to home screen - Accepted by user");
+      // alert("Good! You can close the browser and restart the app from your Home screen");
+    } else {
+      // alert ("Find the install in ... menu to ")
     }
-  }
-  function timingF() {
-    doYouWantToInstallprompt.prompt();
-    doYouWantToInstallprompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === "accepted") {
-        console.log("Add to home screen - Accepted by user");
-        // alert("Good! You can close the browser and restart the app from your Home screen");
-      } else {
-        // alert ("Find the install in ... menu to ")
-      }
-      doYouWantToInstallprompt = null;
-    });
-  }
+    doYouWantToInstallprompt = null;
+  });
+
 }
 
-window.addEventListener("appinstalled",(evt)=>{
-  /* THIS FIRES ONLY ONCE DURING THE LIFETIME OF THE APP */
-  /*
-  That is when the app is first installed
-  CAN WE? save appIsInstalled = "yes" to localStorage??? to hide the [INSTALL NOW] div
-  or should we go with matchMedia "standalone" ? then hide the [INSTALL NOW] div
-  will it be cleared too if browser cache is cleared? Despite being a separate app now?
-  */
-});
+/* appinstalled FIRES ONLY ONCE DURING THE LIFETIME OF THE APP */ /* Side note: Clearing local storage from the browser will clear the app's data too */
+/* MDN says, appinstalled is deprecated and according to support table it fires only on Chrome and Edge */
+/*
+window.addEventListener("appinstalled",(evt)=>{   });
+*/
+
+// See manifest.json and use window.location.href to search() for installed

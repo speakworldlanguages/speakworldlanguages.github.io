@@ -280,9 +280,12 @@ setInterval( function ()
 } , 6000);
 
 // UI sounds ... also see js_for_browsers_devices_and_pwa.js
-const dismissNotificationSound1 = new Howl({  src: ['user_interface/sounds/notification1_close.mp3']  });
-const hoverSound = new Howl({  src: ['user_interface/sounds/illuminant_button_hover.mp3']  }); // DESKTOP ONLY!
-const clickSound = new Howl({  src: ['user_interface/sounds/illuminant_button_click.mp3']  });
+let dismissNotificationSound1, hoverSound, clickSound;
+window.addEventListener("load",function () {
+  dismissNotificationSound1 = new Howl({  src: ['user_interface/sounds/notification1_close.'+audioFileExtension]  });
+  hoverSound = new Howl({  src: ['user_interface/sounds/illuminant_button_hover.'+audioFileExtension]  }); // DESKTOP ONLY!
+  clickSound = new Howl({  src: ['user_interface/sounds/illuminant_button_click.'+audioFileExtension]  });
+},{once:true})
 
 let allParentButtonElementsAreInThisArray = document.getElementsByTagName("BUTTON"); /*All of them in container parents,,, NOT THE IFRAMED LESSON BUTTONS*/
 let i;

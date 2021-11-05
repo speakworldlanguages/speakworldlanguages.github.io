@@ -5,7 +5,6 @@ importScripts(
 /* self is the service-worker itself */
 self.addEventListener("activate", event => { /*clear older unused stuff or handle notifications*/ });
 self.addEventListener("fetch", event => {
-  //console.log("fetch olayı oldu, " + event.request.url);
   event.respondWith( caches.match(event.request)
     .then( cachedResponse => {
       return cachedResponse || fetch(event.request);
@@ -14,7 +13,11 @@ self.addEventListener("fetch", event => {
 });
 
 const cacheName = "cache-november2021";
-/**/
+// get OS name
+if (true) {
+  // iOS Mac OS no ogg no vp9-webm
+}
+/* resourcesToPrecache , resourcesToPrecacheApple, resourcesToPrecacheDefault*/
 const resourcesToPrecache = [
   "/",
   "index.html",
