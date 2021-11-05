@@ -228,18 +228,27 @@ const checkUrlToSeeLaunchingOrigin = window.location.href;
 const searchResult = checkUrlToSeeLaunchingOrigin.search("installed"); // The search() method returns -1 if no match is found. See manifest_**.json
 
 if (searchResult != -1) {
+  switchFromInstallToNotification(); // The app has been started from Desktop OR Homescreen via manifest
+} else { // The app is in the browser, not in standalone mode
+  if (localStorage.appInstallationAccepted) { // But is it despite being installed? If so then...
+    switchFromInstallToNotification(); // for some reason user is viewing the app on the browser even though he/she could have used the desktop or Homescreen version
+  }
+}
+
+function switchFromInstallToNotification() {
   // Never show the install button
   footerAsInstallButton.parentNode.removeChild(footerAsInstallButton);
   // Show notification switch instead
   footerAsNotificationButton.style.display = "block";
 }
-
+/* __ PWA __ install prompt __ */
 let installationIsSupported = false;
 var doYouWantToInstallprompt;
-window.addEventListener("beforeinstallprompt",(e)=>{
+window.addEventListener("beforeinstallprompt",(e)=>{ // This should have been called caninstallprompt
   installationIsSupported = true;
   e.preventDefault(); // Chrome 67 and earlier needs this
-  doYouWantToInstallprompt = e; //
+  doYouWantToInstallprompt = e;
+  // Guess this won't fire anymore once the app is installed
 });
 
 function showInstall_PWA_prompt() {
@@ -248,22 +257,29 @@ function showInstall_PWA_prompt() {
     doYouWantToInstallprompt.prompt();
     doYouWantToInstallprompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === "accepted") {
+        // On desktops there is a special case for the very first install
+        // In this case the app doesn't actually restart but is just detached as an independent tab from the main window
         footerAsInstallButton.children[0].style.display = "none"; footerAsInstallButton.children[1].style.display = "none"; footerAsInstallButton.children[2].style.display = "none";
         footerAsInstallButton.children[3].style.display = "none"; footerAsInstallButton.children[4].style.display = "none";
-        footerAsInstallButton.children[6].style.display = "block"; // Reads: You can close this and start the app from Home screen
+        if (deviceDetector.device == "desktop") {
+          switchFromInstallToNotification();
+        } else {
+          footerAsInstallButton.children[6].style.display = "block"; // Reads: You can close this and start the app from Home screen
+        }
+
+        localStorage.appInstallationAccepted = "yes";
 
         // On Windows it auto closes the tab and auto switches to the new window
         // On Android it does not auto close and does not switch
-        // alert("Good! You can close the browser and restart the app from your Home screen");
-        // localStorage the-app-has-been-installed removeChild
+
       } else {
-        // alert ("Find the install in ... menu to ")
+        // No need to change anything if user [cancel]s (does not allow the installation)
       }
       doYouWantToInstallprompt = null;
     });
   } else {
-    alert(detectedBrowser.name+" (ㆆ _ ㆆ)");
-    footerAsInstallButton.children[3].style.display = "none"; footerAsInstallButton.children[4].style.display = "none"; footerAsInstallButton.children[5].style.display = "block";
+      alert(detectedBrowser.name+" (ㆆ _ ㆆ)");
+      footerAsInstallButton.children[3].style.display = "none"; footerAsInstallButton.children[4].style.display = "none"; footerAsInstallButton.children[5].style.display = "block"; // Sorry you have to do a manual install
   }
 
 }
