@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-analytics.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-database.js"; // No need: get, child, update, remove
-import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js";
 
 const brokenApiKey = "IzaSyDYBQrC1GFMYtsWtR8tOTanfE09I4alX50";
 // Your web app's Firebase configuration
@@ -21,9 +21,9 @@ const firebaseConfig = {
 // let app, analytics, messaging, db;
 // window.addEventListener("load",startFirebase,{once:true});
 // function startFirebase() {
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const messaging = getMessaging();
+const firebaseApp = initializeApp(firebaseConfig);
+const analytics = getAnalytics(firebaseApp);
+const messaging = getMessaging(firebaseApp);
 const db = getDatabase();
 // }
 var index = new Date();
@@ -49,6 +49,8 @@ function subscribeUser() {
   });
 }
 
-messaging.onMessage(res=>{
-  alert(res);
+onMessage(messaging, (payload) => {
+  alert("Zarf")
+  console.log('Message received. ', payload);
+  // ...
 });
