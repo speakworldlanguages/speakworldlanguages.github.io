@@ -227,10 +227,10 @@ if (deviceDetector.isMobile) {
 const checkUrlToSeeLaunchingOrigin = window.location.href;
 const searchResult = checkUrlToSeeLaunchingOrigin.search("installed"); // The search() method returns -1 if no match is found. See manifest_**.json
 
-if (searchResult != -1) {
-  switchFromInstallToNotification(); // The app has been started from Desktop OR Homescreen via manifest
+if (searchResult != -1) { // The app is running standalone
+  switchFromInstallToNotification(); // The app has been started from Desktop OR Homescreen // See manifest_**.json start_url
 } else { // The app is in the browser, not in standalone mode
-  if (localStorage.appInstallationAccepted) { // But is it despite being installed? If so then...
+  if (localStorage.appInstallationAccepted) { // App is installed BUT
     switchFromInstallToNotification(); // for some reason user is viewing the app on the browser even though he/she could have used the desktop or Homescreen version
   }
 }
@@ -245,6 +245,7 @@ function switchFromInstallToNotification() {
   // Show notification switch instead
   footerAsNotificationButton.style.display = "block";
 }
+
 /* __ PWA __ install prompt __ */
 let installationIsSupported = false;
 var doYouWantToInstallprompt;
@@ -254,6 +255,7 @@ window.addEventListener("beforeinstallprompt",(e)=>{ // This should have been ca
   doYouWantToInstallprompt = e;
   // Guess this won't fire anymore once the app is installed
 });
+
 
 function showInstall_PWA_prompt() {
 
@@ -289,15 +291,10 @@ function showInstall_PWA_prompt() {
 
 }
 
-// function askSubscribeToNotifications() {
-//   alert("ok now what")
-//   subscribeUser(); // See db_**.js
-// }
-
 /* appinstalled FIRES ONLY ONCE DURING THE LIFETIME OF THE APP */ /* Side note: Clearing local storage from the browser will clear the app's data too */
 /* MDN says, appinstalled is deprecated and according to support table it fires only on Chrome and Edge */
 /*
 window.addEventListener("appinstalled",(evt)=>{   });
 */
 
-// See manifest.json and use window.location.href to search() for installed
+// See manifest_**.json and use window.location.href to search() for installed

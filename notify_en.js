@@ -31,7 +31,8 @@ const brokenVapidKey = "B7_p1Mfhfo4YbGkmKRDjemU0tPEGcZ3zzysITjcrPMzjR3x38cKyRmzG
 
 const clickToSubscribe = document.getElementById('footerNotificationID');
 clickToSubscribe.addEventListener("click",subscribeUser); // Do we need once:true???
-
+const reg = await getSW();
+function getSW() {  return navigator.serviceWorker.getRegistration('service-worker.js');  }
 function subscribeUser() {
   Notification.requestPermission().then(permission=>{
     if (permission == "granted") {
@@ -41,7 +42,9 @@ function subscribeUser() {
       getToken(messaging, {vapidKey:"B"+brokenVapidKey}).then((currentToken) => {
         tokenToBeSaved = currentToken;
         insertData();
-        var notification = new Notification('Great', { body: "You will be notified when new lessons are online", icon: "icon_for_pwa_en.png" });
+        // var notification = new Notification('Great', { body: "You will be notified when new lessons are online", icon: "icon_for_pwa_en.png" }); // THIS DOESN'T WORK!
+        reg.showNotification('Great', { body: "You will be notified when new lessons are online", icon: "icon_for_pwa_en.png" });
+
       }).catch((err) => {
         console.log('An error occurred while retrieving token. ', err);
       });
