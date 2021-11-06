@@ -285,7 +285,7 @@ function showInstall_PWA_prompt() {
 }
 
 function askSubscribeToNotifications() {
-
+  subscribeUser(); // See db_**.js
 }
 
 /* appinstalled FIRES ONLY ONCE DURING THE LIFETIME OF THE APP */ /* Side note: Clearing local storage from the browser will clear the app's data too */
