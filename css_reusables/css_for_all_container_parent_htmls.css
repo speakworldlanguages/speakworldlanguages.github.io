@@ -120,7 +120,7 @@ footer:active{   transform: translateX(-50%) scale(0.98); }
 .footerTabletAndPhone{
   bottom:33vmin; align-items: center;
   min-width:350px; height: 100px;
-  max-width: 90vmin;
+  max-width: 92vmin;
 }
 .footerTabletAndPhone img{  height: 80px;  }
 .footerTabletAndPhone p{  text-shadow: none;  }

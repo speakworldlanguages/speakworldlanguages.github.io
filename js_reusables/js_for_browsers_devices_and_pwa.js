@@ -256,7 +256,6 @@ window.addEventListener("beforeinstallprompt",(e)=>{ // This should have been ca
   // Guess this won't fire anymore once the app is installed
 });
 
-
 function showInstall_PWA_prompt() {
 
   if (installationIsSupported) {
