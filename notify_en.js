@@ -33,13 +33,13 @@ function insertData() {
 }
 const brokenVapidKey = "B7_p1Mfhfo4YbGkmKRDjemU0tPEGcZ3zzysITjcrPMzjR3x38cKyRmzG1T7ID3YdXC-QqSRgxLntBmAJ8tkn04";
 
-const clickToSubscrise = document.getElementById('footerNotificationID');
-clickToSubscrise.addEventListener("click",subscribeUser); // Do we need once:true???
+const clickToSubscribe = document.getElementById('footerNotificationID');
+clickToSubscribe.addEventListener("click",subscribeUser); // Do we need once:true???
 
 function subscribeUser() {
   Notification.requestPermission().then(permission=>{
     if (permission == "granted") {
-      clickToSubscrise.classList.add("footerGetLost");
+      clickToSubscribe.classList.add("footerGetLost");
       getToken(messaging, {vapidKey:"B"+brokenVapidKey}).then((currentToken) => {
         tokenToBeSaved = currentToken;
         insertData();
