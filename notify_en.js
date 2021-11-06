@@ -18,13 +18,13 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-let app, analytics, messaging, db;
+// let app, analytics, messaging, db;
 // window.addEventListener("load",startFirebase,{once:true});
 // function startFirebase() {
-  app = initializeApp(firebaseConfig);
-  analytics = getAnalytics(app);
-  messaging = getMessaging();
-  db = getDatabase();
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const messaging = getMessaging();
+const db = getDatabase();
 // }
 var index = new Date();
 var tokenToBeSaved = "0";
