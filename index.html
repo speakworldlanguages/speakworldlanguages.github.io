@@ -162,22 +162,11 @@
       // We don't want to complicate the GUI by adding a button to change the language of the interface.
     </script>
     <!-- Firebase -->
-    <script type="module" src="db_en.js"></script>
-    <script>
-      const clickToSubscrise = document.getElementById('footerNotificationID');
-      clickToSubscrise.addEventListener("click",subscribeUser); // Do we need once:true???
-      function subscribeUser() {
-        Notification.requestPermission().then(permission=>{
-          if (permission == "granted") {
-            getToken(messaging, {vapidKey:"B"+brokenVapidKey}).then((currentToken) => {
-              tokenToBeSaved = currentToken;
-              insertData();
-            }).catch((err) => {
-              console.log('An error occurred while retrieving token. ', err);
-            });
-          }
-        });
-      }
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.3.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.3.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js"></script>
+    <script defer src="notify_en.js"></script>
+
   </body>
 </html>

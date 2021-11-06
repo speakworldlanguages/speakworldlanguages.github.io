@@ -1,8 +1,8 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-analytics.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-database.js"; // No need: get, child, update, remove
-import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js";
+// MODULE OR NO MODULE ???
+// import { initializeApp } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-app.js";
+// import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-analytics.js";
+// import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-database.js"; // No need: get, child, update, remove
+// import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js";
 
 const brokenApiKey = "IzaSyDYBQrC1GFMYtsWtR8tOTanfE09I4alX50";
 // Your web app's Firebase configuration
@@ -28,3 +28,19 @@ function insertData() {
   set(ref(db,"en/"+index.toUTCString()),{"Token":tokenToBeSaved}).then(()=>{console.log("token is saved");}).catch((error)=>{console.log("couldn't save token: "+error);});
 }
 const brokenVapidKey = "B7_p1Mfhfo4YbGkmKRDjemU0tPEGcZ3zzysITjcrPMzjR3x38cKyRmzG1T7ID3YdXC-QqSRgxLntBmAJ8tkn04";
+
+const clickToSubscrise = document.getElementById('footerNotificationID');
+clickToSubscrise.addEventListener("click",subscribeUser); // Do we need once:true???
+
+function subscribeUser() {
+  Notification.requestPermission().then(permission=>{
+    if (permission == "granted") {
+      getToken(messaging, {vapidKey:"B"+brokenVapidKey}).then((currentToken) => {
+        tokenToBeSaved = currentToken;
+        insertData();
+      }).catch((err) => {
+        console.log('An error occurred while retrieving token. ', err);
+      });
+    }
+  });
+}
