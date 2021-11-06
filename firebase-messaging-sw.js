@@ -1,13 +1,13 @@
-// importScripts("https://www.gstatic.com/firebasejs/9.3.0/firebase-app.js");
-// importScripts("https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js");
+importScripts("third_party_js/firebase-app.js");
+importScripts("third_party_js/firebase-messaging.js");
 // importScripts("https://www.gstatic.com/firebasejs/9.3.0/firebase-analytics.js");
 // // importScripts("https://www.gstatic.com/firebasejs/9.3.0/firebase-database.js"); // Don't need the database
 //
 
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-app.js";
-import { getMessaging } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js";
-import { onBackgroundMessage } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js";
+// import { initializeApp } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-app.js";
+// import { getMessaging } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js";
+// import { onBackgroundMessage } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js";
 //
 const brokenApiKey = "IzaSyDYBQrC1GFMYtsWtR8tOTanfE09I4alX50";
 // Your web app's Firebase configuration
