@@ -284,9 +284,10 @@ function showInstall_PWA_prompt() {
 
 }
 
-function askSubscribeToNotifications() {
-  subscribeUser(); // See db_**.js
-}
+// function askSubscribeToNotifications() {
+//   alert("ok now what")
+//   subscribeUser(); // See db_**.js
+// }
 
 /* appinstalled FIRES ONLY ONCE DURING THE LIFETIME OF THE APP */ /* Side note: Clearing local storage from the browser will clear the app's data too */
 /* MDN says, appinstalled is deprecated and according to support table it fires only on Chrome and Edge */
