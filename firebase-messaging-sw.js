@@ -1,5 +1,5 @@
-importScripts("third_party_js/firebase-app.js");
-importScripts("third_party_js/firebase-messaging.js");
+// importScripts("third_party_js/firebase-app.js");
+// importScripts("third_party_js/firebase-messaging.js");
 // importScripts("https://www.gstatic.com/firebasejs/9.3.0/firebase-analytics.js");
 // // importScripts("https://www.gstatic.com/firebasejs/9.3.0/firebase-database.js"); // Don't need the database
 //
