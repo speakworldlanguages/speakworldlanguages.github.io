@@ -50,7 +50,7 @@ function subscribeUser() {
 }
 
 onMessage(messaging, (payload) => {
-  alert("Zarf")
+  alert("Zarf");
   console.log('Message received. ', payload);
   // ...
 });
