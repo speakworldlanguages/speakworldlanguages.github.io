@@ -23,7 +23,7 @@ const resourcesToPrecache = [
   "index.html",
   /*custom cursor if desktop??? array push???*/
   "css_reusables/css_for_every_single_html.css",
-  "css_reusables/css_for_all_container_parent_htmls.css",
+  // "css_reusables/css_for_all_container_parent_htmls.css",
   "css_reusables/css_for_sliding_navigation_menu.css",
   "css_reusables/css_for_latin_font_rules.css",
 
@@ -42,7 +42,7 @@ const resourcesToPrecache = [
   "js_reusables/js_for_every_single_html.js",
   "js_reusables/js_for_handling_fullscreen_mode.js",
   "js_reusables/js_for_all_container_parent_htmls.js",
-  "js_reusables/js_for_browsers_devices_and_pwa.js",
+  // "js_reusables/js_for_browsers_devices_and_pwa.js",
   /* No browser tab when opened as PWA???
   "js_reusables/js_for_icon_animation.js",
   */
