@@ -108,7 +108,7 @@ footer{
   transition: transform .3s, opacity .25s;
 }
 footer:hover{   transform: translateX(-50%) scale(1.02); }
-footer:active{   transform: translateX(-50%) scale(0.98); }
+footer:active{  transform: translateX(-50%) scale(0.98); }
 .footerGetLost{ transform: translateX(-50%) scale(0.0001); opacity: 0;}
 .footerDesktop{
   bottom:7vmin; align-items: center;
