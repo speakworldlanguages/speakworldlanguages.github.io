@@ -48,3 +48,7 @@ function subscribeUser() {
     }
   });
 }
+
+messaging.onMessage(res=>{
+  alert(res);
+});
