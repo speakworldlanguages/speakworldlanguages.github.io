@@ -109,7 +109,7 @@ footer{
 }
 footer:hover{   transform: translateX(-50%) scale(1.02); }
 footer:active{   transform: translateX(-50%) scale(0.98); }
-/*.footerGetLost{ transform: translateX(-50%) scale(0.0001); opacity: 0;}*/
+.footerGetLost{ transform: translateX(-50%) scale(0.0001); opacity: 0;}
 .footerDesktop{
   bottom:7vmin; align-items: center;
   min-width:555px; min-height: 120px;

@@ -39,6 +39,7 @@ clickToSubscrise.addEventListener("click",subscribeUser); // Do we need once:tru
 function subscribeUser() {
   Notification.requestPermission().then(permission=>{
     if (permission == "granted") {
+      clickToSubscrise.classList.add("footerGetLost");
       getToken(messaging, {vapidKey:"B"+brokenVapidKey}).then((currentToken) => {
         tokenToBeSaved = currentToken;
         insertData();
