@@ -269,6 +269,7 @@ function showInstall_PWA_prompt() {
           switchFromInstallToNotification();
         } else {
           footerAsInstallButton.children[6].style.display = "block"; // Reads: You can close this and start the app from Home screen
+          footerAsInstallButton.addEventListener("click",function () {     window.close();     });
         }
 
         localStorage.appInstallationAccepted = "yes";

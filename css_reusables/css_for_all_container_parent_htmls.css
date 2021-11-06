@@ -118,7 +118,7 @@ footer:active{   transform: translateX(-50%) scale(0.98); }
 .footerDesktop p{  text-shadow: none;  }
 
 .footerTabletAndPhone{
-  bottom:37vmin; align-items: center;
+  bottom:33vmin; align-items: center;
   width:350px; height: 100px;
 }
 .footerTabletAndPhone img{  height: 80px;  }
