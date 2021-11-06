@@ -5,9 +5,9 @@
 //
 
 
-import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging";
-import { onBackgroundMessage } from "firebase/messaging/sw";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-app.js";
+import { getMessaging } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js";
+import { onBackgroundMessage } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js";
 //
 const brokenApiKey = "IzaSyDYBQrC1GFMYtsWtR8tOTanfE09I4alX50";
 // Your web app's Firebase configuration
