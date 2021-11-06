@@ -235,6 +235,10 @@ if (searchResult != -1) {
   }
 }
 
+if (localStorage.isSubscribedToNotifications) {
+  footerAsNotificationButton.parentNode.removeChild(footerAsNotificationButton);
+}
+
 function switchFromInstallToNotification() {
   // Never show the install button
   footerAsInstallButton.parentNode.removeChild(footerAsInstallButton);

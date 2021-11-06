@@ -17,15 +17,11 @@ const firebaseConfig = {
   measurementId: "G-C23BKN622X"
 };
 
-// Initialize Firebase
-// let app, analytics, messaging, db;
-// window.addEventListener("load",startFirebase,{once:true});
-// function startFirebase() {
 const firebaseApp = initializeApp(firebaseConfig);
 const analytics = getAnalytics(firebaseApp);
 const messaging = getMessaging(firebaseApp);
 const db = getDatabase();
-// }
+
 var index = new Date();
 var tokenToBeSaved = "0";
 function insertData() {
@@ -40,9 +36,12 @@ function subscribeUser() {
   Notification.requestPermission().then(permission=>{
     if (permission == "granted") {
       clickToSubscribe.classList.add("footerGetLost");
+      setTimeout(function () { clickToSubscribe.parentNode.removeChild(clickToSubscribe); },500);
+      localStorage.isSubscribedToNotifications = "yes";
       getToken(messaging, {vapidKey:"B"+brokenVapidKey}).then((currentToken) => {
         tokenToBeSaved = currentToken;
         insertData();
+        var notification = new Notification('Great', { body: "You will be notified when new lessons are online", icon: "icon_for_pwa_en.png" });
       }).catch((err) => {
         console.log('An error occurred while retrieving token. ', err);
       });
@@ -51,7 +50,6 @@ function subscribeUser() {
 }
 
 onMessage(messaging, (payload) => {
-  alert("Zarf");
-  console.log('Message received. ', payload);
-  // ...
+  // What to do if notification arrives when user is active and playing a game
+  // Nothing or wait until user is idle
 });
