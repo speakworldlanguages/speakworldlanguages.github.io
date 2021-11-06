@@ -40,3 +40,5 @@ function subscribeUser() {
     }
   });
 }
+const clickToSubscrise = document.getElementById('footerNotificationID');
+clickToSubscrise.addEventListener("click",subscribeUser); // Do we need once:true???
