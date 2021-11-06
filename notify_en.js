@@ -1,8 +1,8 @@
 // MODULE OR NO MODULE ???
-// import { initializeApp } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-app.js";
-// import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-analytics.js";
-// import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-database.js"; // No need: get, child, update, remove
-// import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-analytics.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-database.js"; // No need: get, child, update, remove
+import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js";
 
 const brokenApiKey = "IzaSyDYBQrC1GFMYtsWtR8tOTanfE09I4alX50";
 // Your web app's Firebase configuration
@@ -19,13 +19,13 @@ const firebaseConfig = {
 
 // Initialize Firebase
 let app, analytics, messaging, db;
-window.addEventListener("load",startFirebase,{once:true});
-function startFirebase() {
+// window.addEventListener("load",startFirebase,{once:true});
+// function startFirebase() {
   app = initializeApp(firebaseConfig);
   analytics = getAnalytics(app);
   messaging = getMessaging();
   db = getDatabase();
-}
+// }
 var index = new Date();
 var tokenToBeSaved = "0";
 function insertData() {
