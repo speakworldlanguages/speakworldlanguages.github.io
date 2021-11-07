@@ -116,7 +116,7 @@ footer:active{  transform: translateX(-50%) scale(0.98); }
   font-size: 19px;
 }
 .footerDesktop img{  height: 100px;  }
-.footerDesktop p{  text-shadow: none; width: 400px; }
+.footerDesktop p{  text-shadow: none; width: 380px; }
 
 .footerTabletAndPhone{
   bottom:29vmin; align-items: center;
