@@ -3,7 +3,7 @@
 // );
 /* self does not refer to the DOM window here */
 /* self is the service-worker itself */
-self.addEventListener("activate", event => { /*clear older unused stuff or handle notifications*/ });
+self.addEventListener("activate", event => { console.log("SW activate fired!"); /*clear older unused stuff or handle notifications*/ });
 self.addEventListener("fetch", event => {
   event.respondWith( caches.match(event.request)
     .then( cachedResponse => {
