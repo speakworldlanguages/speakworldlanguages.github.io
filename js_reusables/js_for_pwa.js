@@ -12,6 +12,7 @@ if (deviceDetector.isMobile) {
   footerAsInstallButton.classList.remove("footerDesktop"); footerAsInstallButton.classList.add("footerTabletAndPhone");
   footerAsNotificationButton.classList.remove("footerDesktop"); footerAsNotificationButton.classList.add("footerTabletAndPhone");
 }
+
 const checkUrlToSeeLaunchingOrigin = window.location.href;
 const searchResult = checkUrlToSeeLaunchingOrigin.search("installed"); // The search() method returns -1 if no match is found. See manifest_**.json
 
@@ -24,11 +25,7 @@ if (searchResult != -1) { // The app is running standalone
 }
 
 if (localStorage.isSubscribedToNotifications) {
-  footerAsNotificationButton.parentNode.removeChild(footerAsNotificationButton);
-}
-
-if ('Notification' in window) {  /* API supported*/  } else {
-  footerAsNotificationButton.parentNode.removeChild(footerAsNotificationButton);
+  footerAsNotificationButton.parentNode.removeChild(footerAsNotificationButton); // Could this ever cause an IT DOESN'T EXIST error?
 }
 
 function switchFromInstallToNotification() {
@@ -36,21 +33,31 @@ function switchFromInstallToNotification() {
   footerAsInstallButton.parentNode.removeChild(footerAsInstallButton);
   // Show notification switch instead
   footerAsNotificationButton.style.display = "block";
+  // But if notifications API is not supported show nothing at all -> leave the user with the browser
+  if ('Notification' in window) {  /* API supported*/  } else {
+    footerAsNotificationButton.parentNode.removeChild(footerAsNotificationButton);
+  }
 }
 
 /* __ PWA __ install prompt __ */
 let installationIsSupported = false;
 var doYouWantToInstallprompt;
-window.addEventListener("beforeinstallprompt",(e)=>{ // This should have been called caninstallprompt
-  installationIsSupported = true;
+window.addEventListener("beforeinstallprompt",(e)=>{ // This doesn't fire on phone???
+  installationIsSupported = true; // beforeinstallprompt doesn't always fire or maybe fires only once in a lifetime ???
   e.preventDefault(); // Chrome 67 and earlier needs this
   doYouWantToInstallprompt = e;
   // Guess this won't fire anymore once the app is installed
 });
 
+window.addEventListener("load",checkInstallabilityF,{once:true}); // Hopefully this will fire AFTER beforeinstallprompt
+function checkInstallabilityF() {
+  if (!installationIsSupported) {
+    switchFromInstallToNotification();
+  }
+}
+
 function showInstall_PWA_prompt() {
 
-  if (installationIsSupported) {
     doYouWantToInstallprompt.prompt();
     doYouWantToInstallprompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === "accepted") {
@@ -58,27 +65,24 @@ function showInstall_PWA_prompt() {
         // In this case the app doesn't actually restart but is just detached as an independent tab from the main window
         footerAsInstallButton.children[0].style.display = "none"; footerAsInstallButton.children[1].style.display = "none"; footerAsInstallButton.children[2].style.display = "none";
         footerAsInstallButton.children[3].style.display = "none"; footerAsInstallButton.children[4].style.display = "none";
-        if (deviceDetector.device == "desktop") {
+        if (deviceDetector.device == "desktop") { // Desktop Chrome automatically switches to standalone mode.
           switchFromInstallToNotification();
-        } else {
-          footerAsInstallButton.children[6].style.display = "block"; // Reads: You can close this and start the app from Home screen
-          footerAsInstallButton.addEventListener("click",function () {     window.close();     });
+        } else { // Mobile Chrome doesn't.
+          footerAsInstallButton.children[5].style.display = "block"; // Reads: You can close this and start the app from Home screen
+          footerAsInstallButton.onclick = function(){ window.close(); }; // Overwrite default onclick -> showInstall_PWA_prompt()
         }
 
-        localStorage.appInstallationAccepted = "yes";
+        localStorage.appInstallationAccepted = "yes"; // Use this to check if user is viewing the app in a browser tab DESPITE having installed it
 
         // On Windows it auto closes the tab and auto switches to the new window
         // On Android it does not auto close and does not switch
 
       } else {
-        // No need to change anything if user [cancel]s (does not allow the installation)
+        // If user [cancel]s (does not allow the installation)
+        switchFromInstallToNotification();
       }
       doYouWantToInstallprompt = null;
     });
-  } else {
-      alert(detectedBrowser.name+" (ㆆ _ ㆆ)");
-      footerAsInstallButton.children[3].style.display = "none"; footerAsInstallButton.children[4].style.display = "none"; footerAsInstallButton.children[5].style.display = "block"; // Sorry you have to do a manual install
-  }
 
 }
 

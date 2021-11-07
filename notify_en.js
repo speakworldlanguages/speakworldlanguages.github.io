@@ -36,9 +36,9 @@ function getSW() {  return navigator.serviceWorker.getRegistration('service-work
 function subscribeUser() {
   Notification.requestPermission().then(permission=>{
     if (permission == "granted") {
-      clickToSubscribe.classList.add("footerGetLost");
-      setTimeout(function () { clickToSubscribe.parentNode.removeChild(clickToSubscribe); },500);
-      localStorage.isSubscribedToNotifications = "yes";
+      clickToSubscribe.classList.add("footerGetLost"); // Disappear animation via transition (not keyframes)
+      setTimeout(function () { clickToSubscribe.parentNode.removeChild(clickToSubscribe); },500); // Remove it from DOM once animation is finished
+      localStorage.isSubscribedToNotifications = "yes"; // Used in js_for_pwa.js
       getToken(messaging, {vapidKey:"B"+brokenVapidKey}).then((currentToken) => {
         tokenToBeSaved = currentToken;
         insertData();
