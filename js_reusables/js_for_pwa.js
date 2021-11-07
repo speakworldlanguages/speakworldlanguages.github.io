@@ -42,15 +42,15 @@ function switchFromInstallToNotification() {
 /* __ PWA __ install prompt __ */
 let installationIsSupported = false;
 var doYouWantToInstallprompt;
-window.addEventListener("beforeinstallprompt",(e)=>{ // This doesn't fire on phone???
-  installationIsSupported = true; // beforeinstallprompt doesn't always fire or maybe fires only once in a lifetime ???
+window.addEventListener("beforeinstallprompt",(e)=>{
+  installationIsSupported = true; // It will be too late when this is set to true
   e.preventDefault(); // Chrome 67 and earlier needs this
   doYouWantToInstallprompt = e;
   // Guess this won't fire anymore once the app is installed
   console.log("beforeinstallprompt fired");
 });
 
-window.addEventListener("load",checkInstallabilityF,{once:true}); // Hopefully this will fire AFTER beforeinstallprompt
+window.addEventListener("load",checkInstallabilityF,{once:true}); // This happens too early! When installation
 function checkInstallabilityF() {
   if (!installationIsSupported) {
     switchFromInstallToNotification();

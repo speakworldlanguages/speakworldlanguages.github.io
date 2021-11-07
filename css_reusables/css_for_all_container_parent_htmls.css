@@ -113,11 +113,11 @@ footer:active{  transform: translateX(-50%) scale(0.98); }
 .footerDesktop{
   display: flex; flex-direction: row;
   bottom:7vmin; align-items: center; justify-content: center;
-  width:540px; height: 120px; /*100+10+10*/
-  font-size: 19px;
+  width:540px; height: 130px; /*100+10+10*/
+  font-size: 19px; border: 1px solid black;
 }
-.footerDesktop img{  height: 100px; border: 1px dotted black; }
-.footerDesktop p{  text-shadow: none; width: 380px;}
+.footerDesktopImg{  height: 100px; border: 1px dotted black; }
+.footerDesktopP{  text-shadow: none; width: 350px;}
 
 .footerTabletAndPhone{
   bottom:29vmin; align-items: center;
