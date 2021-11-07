@@ -12,7 +12,7 @@ self.addEventListener("fetch", event => {
   );
 });
 
-const cacheName = "cache-november2021";
+const cacheName = "cache-7thOfNovember2021";
 // get OS name
 if (true) {
   // iOS Mac OS no ogg no vp9-webm
