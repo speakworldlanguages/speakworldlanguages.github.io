@@ -107,19 +107,22 @@
         <!-- <button onclick="letTheIFrameTeachEnglish()">English with major accents</button> -->
         <!-- See js_for_all_container_parent_htmls.js -->
       </div>
-      <footer id="footerInstallID" class="footerDesktop" onclick="showInstall_PWA_prompt();">
-        <img src="user_interface/images/add_to_desktop.webp" alt="Install the app">
-        <img src="user_interface/images/add_to_home_screen_tablet.webp" alt="Install the app" style="display:none;">
-        <img src="user_interface/images/add_to_home_screen_phone.webp" alt="Install the app" style="display:none;">
-        <p style="display:block;">Click here to install this app and add it to your desktop</p>
-        <p style="display:none;">Touch here to get the app on your Home screen</p>
-        <p style="display:none;">Close the browser and start the app from your Home screen when ready</p>
+      <footer class="footerDesktop">
+        <div id="footerInstallID" style="display:none;">
+          <img src="user_interface/images/add_to_desktop.webp" alt="Install the app">
+          <img src="user_interface/images/add_to_home_screen_tablet.webp" alt="Install the app" style="display:none;">
+          <img src="user_interface/images/add_to_home_screen_phone.webp" alt="Install the app" style="display:none;">
+          <p style="display:block;">Click here to install this app<br>and add it to your desktop</p>
+          <p style="display:none;">Touch here to get the app on your Home screen</p>
+          <p style="display:none;">Close the browser and start the app<br>from your Home screen when ready</p>
+        </div>
+        <div id="footerNotificationID" style="display:flex;">
+          <img src="user_interface/images/push_me_notification.webp" alt="Get notified about new content">
+          <p style="display:block;">Click here to receive messages from us<br>when new lessons are up</p>
+          <p style="display:none;">Touch here to receive messages from us<br>when new lessons are up</p>
+        </div>
       </footer>
-      <div id="footerNotificationID" class="footerDesktop" style="display:none;">
-        <img class="footerDesktopImg" src="user_interface/images/push_me_notification.webp" alt="Get notified about new content">
-        <p class="footerDesktopP" style="display:block;">Click here to receive messages from us when new lessons are up</p>
-        <p class="footerDesktopP" style="display:none;">Touch here to receive messages from us when new lessons are up</p>
-      </div>
+
     </main>
 
     <!-- get rid of this after testing the new idOfTheLoadProgressDiv -->

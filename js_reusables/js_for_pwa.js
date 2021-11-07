@@ -1,59 +1,65 @@
 /* ____ PWA ____ */
-const footerAsInstallButton = document.getElementById('footerInstallID');
-const footerAsNotificationButton = document.getElementById('footerNotificationID');
+const installButton = document.getElementById('footerInstallID');
+const allowNotificationButton = document.getElementById('footerNotificationID'); // Same thing is named clickToSubscribe in notify_**.js
+const containerFooter = document.getElementsByTagName('FOOTER')[0];
 if (deviceDetector.device == "tablet") {
-  footerAsInstallButton.children[0].style.display = "none"; footerAsInstallButton.children[1].style.display = "block"; // Tablet instead of desktop
+  installButton.children[0].style.display = "none"; installButton.children[1].style.display = "block"; // Tablet img instead of desktop
 } else if (deviceDetector.device == "phone") {
-  footerAsInstallButton.children[0].style.display = "none"; footerAsInstallButton.children[2].style.display = "block"; // Phone instead of desktop
+  installButton.children[0].style.display = "none"; installButton.children[2].style.display = "block"; // Phone img instead of desktop
 }
 if (deviceDetector.isMobile) {
-  footerAsInstallButton.children[3].style.display = "none"; footerAsInstallButton.children[4].style.display = "block"; // Touch instead of click for install
-  footerAsNotificationButton.children[1].style.display = "none"; footerAsNotificationButton.children[2].style.display = "block"; // Touch instead of click for notification
-  footerAsInstallButton.classList.remove("footerDesktop"); footerAsInstallButton.classList.add("footerTabletAndPhone");
-  footerAsNotificationButton.classList.remove("footerDesktop"); footerAsNotificationButton.classList.add("footerTabletAndPhone");
+  installButton.children[3].style.display = "none"; installButton.children[4].style.display = "block"; // Touch txt instead of click for install
+  allowNotificationButton.children[1].style.display = "none"; allowNotificationButton.children[2].style.display = "block"; // Touch txt instead of click for notification
+  containerFooter.classList.remove("footerDesktop"); containerFooter.classList.add("footerTabletAndPhone");
 }
+
+// Convert from Notification to Installation IF CAN INSTALL
+// WATCH: display flex
+let doYouWantToInstallprompt;
+window.addEventListener("beforeinstallprompt",(e)=>{
+  e.preventDefault(); // Chrome 67 and earlier needs this
+  doYouWantToInstallprompt = e;
+  allowNotificationButton.style.display = "none";
+  installButton.style.display = "flex";
+  console.log("beforeinstallprompt fired");
+});
+
 
 const checkUrlToSeeLaunchingOrigin = window.location.href;
 const searchResult = checkUrlToSeeLaunchingOrigin.search("installed"); // The search() method returns -1 if no match is found. See manifest_**.json
 
 if (searchResult != -1) { // The app is running standalone
-  switchFromInstallToNotification(); // The app has been started from Desktop OR Homescreen // See manifest_**.json start_url
+  // switchFromInstallToNotification(); // The app has been started from Desktop OR Homescreen // See manifest_**.json start_url
 } else { // The app is in the browser; not in standalone mode
   if (localStorage.appInstallationAccepted) { // App is installed BUT
-    switchFromInstallToNotification(); // for some reason user is viewing the app on the browser even though he/she could have used the desktop or Homescreen version
+    // switchFromInstallToNotification(); // for some reason user is viewing the app on the browser even though he/she could have used the desktop or Homescreen version
   }
 }
 
 if (localStorage.isSubscribedToNotifications) {
-  footerAsNotificationButton.parentNode.removeChild(footerAsNotificationButton); // Could this ever cause an IT DOESN'T EXIST error?
+  // allowNotificationButton.parentNode.removeChild(allowNotificationButton); // Could this ever cause an IT DOESN'T EXIST error?
 }
 
 function switchFromInstallToNotification() {
   // Never show the install button
-  footerAsInstallButton.parentNode.removeChild(footerAsInstallButton);
+  // installButton.parentNode.removeChild(installButton);
   // Show notification switch instead
-  footerAsNotificationButton.style.display = "block";
+  // allowNotificationButton.style.display = "block";
   // But if notifications API is not supported show nothing at all -> leave the user with the browser
   if ('Notification' in window) {  /* API supported*/  } else {
-    footerAsNotificationButton.parentNode.removeChild(footerAsNotificationButton);
+    // allowNotificationButton.parentNode.removeChild(allowNotificationButton);
   }
 }
 
 /* __ PWA __ install prompt __ */
 let installationIsSupported = false;
-var doYouWantToInstallprompt;
-window.addEventListener("beforeinstallprompt",(e)=>{
-  installationIsSupported = true; // It will be too late when this is set to true
-  e.preventDefault(); // Chrome 67 and earlier needs this
-  doYouWantToInstallprompt = e;
-  // Guess this won't fire anymore once the app is installed
-  console.log("beforeinstallprompt fired");
-});
+
+
 
 window.addEventListener("load",checkInstallabilityF,{once:true}); // This happens too early! When installation
 function checkInstallabilityF() {
   if (!installationIsSupported) {
-    switchFromInstallToNotification();
+    // switchFromInstallToNotification();
   }
 }
 
@@ -64,13 +70,13 @@ function showInstall_PWA_prompt() {
       if (choiceResult.outcome === "accepted") {
         // On desktops there is a special case for the very first install
         // In this case the app doesn't actually restart but is just detached as an independent tab from the main window
-        footerAsInstallButton.children[0].style.display = "none"; footerAsInstallButton.children[1].style.display = "none"; footerAsInstallButton.children[2].style.display = "none";
-        footerAsInstallButton.children[3].style.display = "none"; footerAsInstallButton.children[4].style.display = "none";
+        installButton.children[0].style.display = "none"; installButton.children[1].style.display = "none"; installButton.children[2].style.display = "none";
+        installButton.children[3].style.display = "none"; installButton.children[4].style.display = "none";
         if (deviceDetector.device == "desktop") { // Desktop Chrome automatically switches to standalone mode.
-          switchFromInstallToNotification();
+          // switchFromInstallToNotification();
         } else { // Mobile Chrome doesn't.
-          footerAsInstallButton.children[5].style.display = "block"; // Reads: You can close this and start the app from Home screen
-          footerAsInstallButton.onclick = function(){ window.close(); }; // Overwrite default onclick -> showInstall_PWA_prompt()
+          installButton.children[5].style.display = "block"; // Reads: You can close this and start the app from Home screen
+          installButton.onclick = function(){ window.close(); }; // Overwrite default onclick -> showInstall_PWA_prompt()
         }
 
         localStorage.appInstallationAccepted = "yes"; // Use this to check if user is viewing the app in a browser tab DESPITE having installed it
@@ -80,7 +86,7 @@ function showInstall_PWA_prompt() {
 
       } else {
         // If user [cancel]s (does not allow the installation)
-        switchFromInstallToNotification();
+        // switchFromInstallToNotification();
       }
       doYouWantToInstallprompt = null;
     });
