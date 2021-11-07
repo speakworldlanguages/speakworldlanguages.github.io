@@ -1,6 +1,6 @@
-importScripts(
-  "third_party_js/devicedetector-min.js", "third_party_js/ua-parser.min.js"
-);
+// importScripts(
+//   "third_party_js/devicedetector-min.js", "third_party_js/ua-parser.min.js"
+// );
 /* self does not refer to the DOM window here */
 /* self is the service-worker itself */
 self.addEventListener("activate", event => { /*clear older unused stuff or handle notifications*/ });
@@ -123,7 +123,7 @@ const resourcesToPrecache = [
 ];
 
 self.addEventListener("install", event => {
-  //console.log("SW install OK");
+  console.log("SW install OK");
   event.waitUntil(
     caches.open(cacheName).then(cache => {
       return cache.addAll(resourcesToPrecache);
