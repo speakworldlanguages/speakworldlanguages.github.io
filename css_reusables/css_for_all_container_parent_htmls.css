@@ -111,11 +111,12 @@ footer:hover{   transform: translateX(-50%) scale(1.02); }
 footer:active{  transform: translateX(-50%) scale(0.98); }
 .footerGetLost{ transform: translateX(-50%) scale(0.0001); opacity: 0;}
 .footerDesktop{
+  display: flex; flex-direction: row;
   bottom:7vmin; align-items: center; justify-content: center;
   width:540px; height: 120px; /*100+10+10*/
   font-size: 19px;
 }
-.footerDesktop img{  height: 100px;  }
+.footerDesktop img{  height: 100px; border: 1px dotted black; }
 .footerDesktop p{  text-shadow: none; width: 380px;}
 
 .footerTabletAndPhone{
