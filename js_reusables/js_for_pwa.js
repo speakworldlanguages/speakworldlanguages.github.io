@@ -47,6 +47,7 @@ window.addEventListener("beforeinstallprompt",(e)=>{ // This doesn't fire on pho
   e.preventDefault(); // Chrome 67 and earlier needs this
   doYouWantToInstallprompt = e;
   // Guess this won't fire anymore once the app is installed
+  console.log("beforeinstallprompt fired");
 });
 
 window.addEventListener("load",checkInstallabilityF,{once:true}); // Hopefully this will fire AFTER beforeinstallprompt

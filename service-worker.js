@@ -3,6 +3,7 @@
 // );
 /* self does not refer to the DOM window here */
 /* self is the service-worker itself */
+/* install and activate fire only on the first visit*/
 self.addEventListener("activate", event => { console.log("SW activate fired!"); /*clear older unused stuff or handle notifications*/ });
 self.addEventListener("fetch", event => {
   event.respondWith( caches.match(event.request)

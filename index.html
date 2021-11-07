@@ -64,7 +64,7 @@
     <link rel="apple-touch-icon" href="icon_for_pwa_en.png">
     <link rel="manifest" href="manifest_en.json">
     <script>
-      if ("serviceWorker" in navigator) {  window.addEventListener("DOMContentLoaded",()=>{  navigator.serviceWorker.register("service-worker.js");  });  }
+      if ("serviceWorker" in navigator) {  window.addEventListener("DOMContentLoaded",()=>{  navigator.serviceWorker.register("service-worker.js");  });  } // Takes too long compared to window load (almost a second)
     </script>
 
   </head>
