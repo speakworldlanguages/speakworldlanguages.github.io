@@ -37,10 +37,10 @@
     <!-- MOVED TO every_single_html.js <script defer src="js_reusables/js_for_fetch_api_character_encoding.js">/*Display extended latin characters (ÇĞİÖŞÜçğıöşü) correctly when using fetch to read txt files*/</script> -->
     <script defer src="js_reusables/js_for_handling_fullscreen_mode.js">/*Handle right-clicks, double-clicks...*/</script>
     <script defer src="js_reusables/js_for_all_container_parent_htmls.js">/*Fake antisleep video, be careful with iPhone fullscreen openfirstlesson, load last studied language codes...*/</script>
-    <script defer src="js_reusables/js_for_browsers_devices_and_pwa.js">/*Whitelist browsers, handling visibilitychange: what happens when user leaves the app*/</script>
+    <script defer src="js_reusables/js_for_different_browsers_and_devices.js">/*Whitelist browsers, handling visibilitychange: what happens when user leaves the app*/</script>
     <script defer src="js_reusables/js_for_icon_animation.js">/*A rotating globe next to the title that appears in the browser-tab*/</script>
     <script defer src="js_reusables/js_for_the_sliding_navigation_menu.js">/*NAVIGATION*/</script>
-    <!-- <script defer src="js_reusables/js_object_of_all_lessons_listed.js">/*An index of lesson titles and hrefs like an app-map*/</script> -->
+    <script defer src="js_reusables/js_for_pwa.js">/*Progressive Web App - Handle installation*/</script>
 
     <!-- Uncomment the following to be able to use the browser console on mobile devices -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/1.5.8/eruda.min.js"></script> -->
@@ -120,11 +120,8 @@
         <img src="user_interface/images/push_me_notification.webp" alt="Get notified about new content">
         <p>Click here to receive messages from us when new lessons are up</p>
         <p style="display:none;">Touch here to receive messages from us when new lessons are up</p>
-        <p style="display:none;">Sorry, your browser doesn't support notifications</p>
       </footer>
     </main>
-    <!-- Touch here to add this app to your Home screen -->
-    <!-- After that you can turn on notifications to know when new lessons are ready. -->
 
     <!-- get rid of this after testing the new idOfTheLoadProgressDiv -->
     <!-- <div id="fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt"> -->

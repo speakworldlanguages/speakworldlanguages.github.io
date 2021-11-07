@@ -37,10 +37,10 @@
     <!-- MOVED TO every_single_html.js <script defer src="js_reusables/js_for_fetch_api_character_encoding.js">/*Display extended latin characters (ÇĞİÖŞÜçğıöşü) correctly when using fetch to read txt files*/</script> -->
     <script defer src="js_reusables/js_for_handling_fullscreen_mode.js">/*Handle right-clicks, double-clicks...*/</script>
     <script defer src="js_reusables/js_for_all_container_parent_htmls.js">/*Fake antisleep video, be careful with iPhone fullscreen openfirstlesson, load last studied language codes...*/</script>
-    <script defer src="js_reusables/js_for_browsers_devices_and_pwa.js">/*Whitelist browsers, handling visibilitychange: what happens when user leaves the app*/</script>
+    <script defer src="js_reusables/js_for_different_browsers_and_devices.js">/*Whitelist browsers, handling visibilitychange: what happens when user leaves the app*/</script>
     <script defer src="js_reusables/js_for_icon_animation.js">/*A rotating globe next to the title that appears in the browser-tab*/</script>
     <script defer src="js_reusables/js_for_the_sliding_navigation_menu.js">/*NAVIGATION*/</script>
-    <!-- <script defer src="js_reusables/js_object_of_all_lessons_listed.js">/*An index of lesson titles and hrefs like an app-map*/</script> -->
+    <script defer src="js_reusables/js_for_pwa.js">/*Progressive Web App - Handle installation*/</script>
     <script defer src="js_reusables/js_for_odtu.js">/*---*/</script>
 
     <!-- Uncomment the following to be able to use the browser console on mobile devices -->
@@ -123,6 +123,7 @@
       // See js_for_every_single_html.js to find UI language settings.
       // Wait for DOMContentLoaded to be able to use the “browserLanguage” variable from the js file.
       window.addEventListener('DOMContentLoaded', function(){
+        // THIS IS NOT NECESSARY! - Yanlışlıkla Türkçe sayfa başlığına tıkladığı halde aslında başka sayfaya gitmesi gereken birileri olmadıkça
         /*switch (browserLanguage) {
           case "tr": break; // For TR stay here in the tr_clone of the app
           //case "??": window.open("https://???", "_top"); break; // For ??
