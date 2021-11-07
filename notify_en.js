@@ -31,8 +31,8 @@ const brokenVapidKey = "B7_p1Mfhfo4YbGkmKRDjemU0tPEGcZ3zzysITjcrPMzjR3x38cKyRmzG
 
 const clickToSubscribe = document.getElementById('footerNotificationID');
 clickToSubscribe.addEventListener("click",subscribeUser); // Do we need once:true???
-const reg = await getSW();
-function getSW() {  return navigator.serviceWorker.getRegistration('service-worker.js');  }
+// const reg = await getSW();
+// function getSW() {  return navigator.serviceWorker.getRegistration('service-worker.js');  }
 function subscribeUser() {
   Notification.requestPermission().then(permission=>{
     if (permission == "granted") {
