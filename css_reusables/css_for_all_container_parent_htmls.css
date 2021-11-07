@@ -111,12 +111,12 @@ footer:hover{   transform: translateX(-50%) scale(1.02); }
 footer:active{  transform: translateX(-50%) scale(0.98); }
 .footerGetLost{ transform: translateX(-50%) scale(0.0001); opacity: 0;}
 .footerDesktop{
-  bottom:7vmin; align-items: center; justify-content: space-between;
-  min-width:567px; height: 120px; /*100+10+10*/
+  bottom:7vmin; align-items: center; justify-content: center;
+  width:540px; height: 120px; /*100+10+10*/
   font-size: 19px;
 }
 .footerDesktop img{  height: 100px;  }
-.footerDesktop p{  text-shadow: none;  }
+.footerDesktop p{  text-shadow: none; width: 400px; }
 
 .footerTabletAndPhone{
   bottom:29vmin; align-items: center;
