@@ -1,7 +1,7 @@
 // This is included in parent htmls only. Not in lesson htmls.
 // Even though this is deferred, looks like we still need to wait for the load event before we call a function from another js file.
 
-// See js_for_browsers_devices_and_pwa ... Also see js_for_the_sliding_navigation_menu
+// See js_for_different_browsers_and_devices ... Also see js_for_the_sliding_navigation_menu
 var deactivationSound1, activationSound1, errorSound;
 
 var hasGoneFullscreen = false;

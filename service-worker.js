@@ -39,7 +39,7 @@ const resourcesToPrecache = [
   /*_JS BY AUTHOR_*/
   "js_reusables/js_for_all_container_parent_htmls.js",
   "js_reusables/js_for_all_iframed_lesson_htmls.js",
-  "js_reusables/js_for_browsers_devices_and_pwa.js",
+  "js_reusables/js_for_different_browsers_and_devices.js",
   // "js_reusables/js_for_disappearing_custom_cursor.js",
   "js_reusables/js_for_every_single_html.js",
   "js_reusables/js_for_handling_fullscreen_mode.js",
@@ -50,6 +50,7 @@ const resourcesToPrecache = [
   "js_reusables/js_for_notification_or_such_boxes.js",
   // "js_reusables/js_for_odtu.js",
   "js_reusables/js_for_preload_handling.js",
+  // "js_reusables/js_for_pwa.js",
   "js_reusables/js_for_the_sliding_navigation_menu.js",
   // "js_reusables/tilt-to-steer.js",
 
@@ -123,7 +124,7 @@ const resourcesToPrecache = [
 ];
 
 self.addEventListener("install", event => {
-  console.log("SW install OK");
+  console.log("SW install fired!");
   event.waitUntil(
     caches.open(cacheName).then(cache => {
       return cache.addAll(resourcesToPrecache);
