@@ -102,7 +102,6 @@ footer{
   left:50vw; transform: translateX(-50%) scale(1);
   background-color: white; border-radius: 8px;
   color: #b0cdd1; font-weight: 400;
-  /*display: flex;*/
   padding: 10px;
   border: 2px solid #ebf2fa;
   transition: transform .3s, opacity .25s;

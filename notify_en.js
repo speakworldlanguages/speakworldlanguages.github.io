@@ -30,14 +30,17 @@ function insertData() {
 const brokenVapidKey = "B7_p1Mfhfo4YbGkmKRDjemU0tPEGcZ3zzysITjcrPMzjR3x38cKyRmzG1T7ID3YdXC-QqSRgxLntBmAJ8tkn04";
 
 const clickToSubscribe = document.getElementById('footerNotificationID');
+const containerOfSubscribe = document.getElementsByTagName('FOOTER')[0];
 // clickToSubscribe.addEventListener("click",subscribeUser); // Do we need once:true???
+// On the very first visit serviceWorker registration happens about 1 second after page load
+// In this case do we need to check and wait until serviceWorker fires activate ???
 const reg = "?"; //await getSW();
 // function getSW() {  return navigator.serviceWorker.getRegistration('service-worker.js');  }
 function subscribeUser() {
   Notification.requestPermission().then(permission=>{
-    if (permission == "granted") {
-      clickToSubscribe.classList.add("footerGetLost"); // Disappear animation via transition (not keyframes)
-      setTimeout(function () { clickToSubscribe.parentNode.removeChild(clickToSubscribe); },500); // Remove it from DOM once animation is finished
+    if (permission == "granted") { // User clicks/touches [ALLOW]
+      containerOfSubscribe.classList.add("footerGetLost"); // Disappear animation via transition (not keyframes)
+      setTimeout(function () { containerOfSubscribe.parentNode.removeChild(containerOfSubscribe); },500);
       localStorage.isSubscribedToNotifications = "yes"; // Used in js_for_pwa.js
       getToken(messaging, {vapidKey:"B"+brokenVapidKey}).then((currentToken) => {
         tokenToBeSaved = currentToken;
