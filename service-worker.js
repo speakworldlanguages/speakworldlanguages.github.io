@@ -14,9 +14,9 @@ self.addEventListener("fetch", event => {
 
 const cacheName = "cache-7thOfNovember2021";
 // get OS name
-if (true) {
-  // iOS Mac OS no ogg no vp9-webm
-}
+// if (true) {
+//   // iOS Mac OS no ogg no vp9-webm
+// }
 /* resourcesToPrecache , resourcesToPrecacheApple, resourcesToPrecacheDefault*/
 
 // Outcommented files must be cached conditionally
