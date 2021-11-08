@@ -5,6 +5,8 @@ var thisLessonHasBeenLoadedFresh = true; // Access this from js_for_the_sliding_
 
 /**/
 window.onload = function() { // DANGER: Do not use window.onload anywhere else. Use addEventListener "load" instead in order to avoid overwriting.
+  // console.log(parent.ayFreym.src); // November2021: Can't detect progress_chart because progress_chart/index.html doesn't load js_for_all_iframed_lesson_htmls -> CHANGE???
+
   /* Handle Fade To&From Black Screen */
   if (parent.wasViewingProgressChart) {
     // fade from black
@@ -25,7 +27,7 @@ window.onload = function() { // DANGER: Do not use window.onload anywhere else. 
   parent.preloadHandlingDiv.classList.remove("addThisClassToRevealThePreloader"); // See css_for_every_single_html
   parent.preloadHandlingDiv.classList.add("addThisClassToHideThePreloader"); // See css_for_every_single_html
   // BETTER: if typeof checkTimeoutIfLoadingIsTooSlow == ... clearTimeout
-  setTimeout(function () { thisLessonHasBeenLoadedFresh = false; },8000); // The CAR MOVING BACKWARDS button is no more a go-back button and becomes a refresh button.
+  setTimeout(function () { thisLessonHasBeenLoadedFresh = false; },8000); // DEPRECATED??? The CAR MOVING BACKWARDS button is no more a go-back button and becomes a refresh button.
 };
 
 window.addEventListener('DOMContentLoaded', function(){

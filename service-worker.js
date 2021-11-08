@@ -1,6 +1,10 @@
 // importScripts(
-//   "third_party_js/devicedetector-min.js", "third_party_js/ua-parser.min.js" /* service-workers CANNOT access DOM*/
+//   "third_party_js/devicedetector-min.js", "third_party_js/ua-parser.min.js" /* service-workers CANNOT access DOM or localStorage*/
 // );
+// BUT can access IndexedDB
+// https://www.py4u.net/discuss/316681
+// https://github.com/localForage/localForage
+
 /* self does not refer to the DOM window here */
 /* self is the service-worker itself */
 /* install and activate fire only on the first visit*/
