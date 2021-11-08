@@ -112,7 +112,7 @@ footer:active{  transform: translateX(-50%) scale(0.98); }
 .footerGetLost{ transform: translateX(-50%) scale(0.0001); opacity: 0;}
 .footerSlideDown{margin-bottom:-60vmin;} /*ADJUST animation time, change it from .01s to a nice value when ready*/
 .footerSlideUpMobile{margin-bottom:55vh;} /*!!! Add to bottom:27vmin;*/
-.footerSlideUpDesktop{margin-bottom:-2vmin;} /*!!! Add to bottom:3.3vmin;*/
+.footerSlideUpDesktop{margin-bottom:0vmin;} /*!!! Add to bottom:3.3vmin;*/
 
 .footerDesktop{ bottom:3.3vmin; }
 .footerDesktop div{display: flex; align-items: center; justify-content: center; min-width:240px; height: 100px;}

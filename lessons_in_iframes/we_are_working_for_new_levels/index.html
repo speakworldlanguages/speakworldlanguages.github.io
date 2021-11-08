@@ -30,10 +30,18 @@
     100%{transform: scale(0.9); /*font-size:300%; letter-spacing: 1vmin;*/}
       }
       .latinTextFont{font-family:'Kanit';} /*REMOVE THIS IF User Interface is in non-Latin like Kanji etc*/
-
+      .nudgeDesktop{padding-bottom: 100px;}
+      .nudgeMobile{padding-top: 30px;}
     </style>
     <script>
       window.addEventListener('DOMContentLoaded', function(){
+        const main = document.getElementById('thisContainsEverything');
+        if (deviceDetector.isMobile) {
+          main.classList.add("nudgeMobile");
+        } else {
+          main.classList.add("nudgeDesktop");
+        }
+
         const notificationButtonInParent = window.parent.document.getElementsByTagName('FOOTER')[0];
         if (deviceDetector.isMobile) {
           notificationButtonInParent.classList.add("footerSlideUpMobile"); /*The style rules must exist in the parent; NOT IN iFRAME*/
@@ -51,7 +59,7 @@
         fetch(filePathForMessageText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ document.getElementById('messageAfterTheLastLessonP').innerHTML = contentOfTheTxtFile; });
         fetch(filePathForButtonText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ document.getElementById('goToInfoPageButton').innerHTML = contentOfTheTxtFile; });
 
-        //const zoomable = document.getElementById('thisContainsEverything');
+
         if (deviceDetector.device == "phone") {
           document.getElementById('particularZoomOnPhonesA').classList.add("zoomInForLastNoticeAtTheEndPhones");
           document.getElementById('particularZoomOnPhonesB').classList.add("zoomInForLastNoticeAtTheEnd");
