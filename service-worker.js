@@ -1,9 +1,10 @@
 // importScripts(
-//   "third_party_js/devicedetector-min.js", "third_party_js/ua-parser.min.js"
+//   "third_party_js/devicedetector-min.js", "third_party_js/ua-parser.min.js" /* service-workers CANNOT access DOM*/
 // );
 /* self does not refer to the DOM window here */
 /* self is the service-worker itself */
 /* install and activate fire only on the first visit*/
+
 self.addEventListener("activate", event => { /*console.log("SW activate fired!");*/ /*clear older unused stuff or handle notifications*/ });
 self.addEventListener("fetch", event => {
   event.respondWith( caches.match(event.request)
@@ -121,7 +122,7 @@ const resourcesToPrecache = [
   /*ADD: user interface images and sounds*/
   /*Sounds ogg except iOS & Mac OS - mp3 only on iOS & Mac OS ??? */
 
-  /*progress chart*/
+
 ];
 
 self.addEventListener("install", event => {
