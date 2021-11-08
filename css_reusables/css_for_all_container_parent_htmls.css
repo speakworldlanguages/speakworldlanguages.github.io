@@ -111,7 +111,7 @@ footer:hover{   transform: translateX(-50%) scale(1.02); }
 footer:active{  transform: translateX(-50%) scale(0.98); }
 .footerGetLost{ transform: translateX(-50%) scale(0.0001); opacity: 0;}
 .footerSlideDown{margin-bottom:-60vmin;} /*ADJUST animation time, change it from .01s to a nice value when ready*/
-.footerSlideUpMobile{margin-bottom:55vh;} /*!!! Add to bottom:27vmin;*/
+.footerSlideUpMobile{margin-bottom:60vh;} /*!!! Add to bottom:27vmin;*/
 .footerSlideUpDesktop{margin-bottom:0vmin;} /*!!! Add to bottom:3.3vmin;*/
 
 .footerDesktop{ bottom:3.3vmin; }
