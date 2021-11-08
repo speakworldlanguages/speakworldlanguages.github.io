@@ -5,6 +5,7 @@ var audioFileExtension = "mp3"; // Default to ogg except for Safari // Ogg is be
 
 var deactivationSound2;
 var activationSound2;
+var customCursorThatWeDontNeedOnTouchscreens;
 
 window.addEventListener('DOMContentLoaded', function(){
 
@@ -100,6 +101,9 @@ window.addEventListener('DOMContentLoaded', function(){
   // Note: Annyang's behaviour is similar to the "visibilitychange" event. That is different from window "blur/focus" event. See https://stackoverflow.com/questions/58148482/document-visibilitychange-versus-window-blur-focus-what-is-the-difference-when/58148483#58148483
   if (deviceDetector.isMobile) {
     // ON MOBILES
+    customCursorThatWeDontNeedOnTouchscreens = document.getElementById('saveLoadTimeOnMobileID');
+    customCursorThatWeDontNeedOnTouchscreens.parentNode.removeChild(customCursorThatWeDontNeedOnTouchscreens);
+    /**/
     let wasListeningJustBeforeUserLeft = false;
     document.addEventListener("visibilitychange", handleVisibilityChangeOnMobilesFunction);
     function handleVisibilityChangeOnMobilesFunction()

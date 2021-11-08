@@ -111,7 +111,7 @@ footer:hover{   transform: translateX(-50%) scale(1.02); }
 footer:active{  transform: translateX(-50%) scale(0.98); }
 .footerGetLost{ transform: translateX(-50%) scale(0.0001); opacity: 0;}
 
-.footerDesktop{ bottom:7vmin;  }
+.footerDesktop{ bottom:3.3vmin;  }
 .footerDesktop div{display: flex; align-items: center; justify-content: center; min-width:240px; height: 100px;}
 .footerDesktop img{  height: 100px; }
 .footerDesktop p{  text-shadow: none; min-width: 150px;  }
@@ -119,7 +119,7 @@ footer:active{  transform: translateX(-50%) scale(0.98); }
 .footerTabletAndPhone{ bottom:27vmin;  }
 .footerTabletAndPhone div{display: flex; align-items: center; justify-content: center; max-width:90vmin; height: 80px;}
 .footerTabletAndPhone img{  height: 80px; }
-.footerTabletAndPhone p{  text-shadow: none; min-width: 190px; line-height: 24px;}
+.footerTabletAndPhone p{  text-shadow: none; min-width: 190px; line-height: 23px;}
 
 @media screen and (orientation:portrait){
   button{min-width: 62vmin;}
