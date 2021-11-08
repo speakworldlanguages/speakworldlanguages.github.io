@@ -31,11 +31,11 @@ const brokenVapidKey = "B7_p1Mfhfo4YbGkmKRDjemU0tPEGcZ3zzysITjcrPMzjR3x38cKyRmzG
 
 const clickToSubscribe = document.getElementById('footerNotificationID');
 const containerOfSubscribe = document.getElementsByTagName('FOOTER')[0];
-// clickToSubscribe.addEventListener("click",subscribeUser); // Do we need once:true???
+clickToSubscribe.addEventListener("click",subscribeUser,{once:true}); // Do we need once:true? Probably yes
 // On the very first visit serviceWorker registration happens about 1 second after page load
 // In this case do we need to check and wait until serviceWorker fires activate ???
-const reg = "?"; //await getSW();
-// function getSW() {  return navigator.serviceWorker.getRegistration('service-worker.js');  }
+const reg = await getSW();
+function getSW() {  return navigator.serviceWorker.getRegistration('service-worker.js');  }
 function subscribeUser() {
   Notification.requestPermission().then(permission=>{
     if (permission == "granted") { // User clicks/touches [ALLOW]
