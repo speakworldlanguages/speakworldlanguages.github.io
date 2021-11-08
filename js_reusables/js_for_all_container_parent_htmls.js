@@ -280,15 +280,6 @@ function handleTheFirstGoingFullscreenOnMobiles() { // This fires if 1- User sel
   } // END OF Try to go fullscreen on mobile ...
 }
 
-// Dynamic titles are cool!
-const theParentHtmlTitle = document.title;
-setInterval( function ()
-{
-  if (ayFreym.contentWindow.document.title) {
-    document.title = ayFreym.contentWindow.document.title;
-  }
-  setTimeout( function ()  {   document.title = theParentHtmlTitle   },3000);
-} , 6000);
 
 // UI sounds ... also see js_for_different_browsers_and_devices.js
 let dismissNotificationSound1, hoverSound, clickSound;

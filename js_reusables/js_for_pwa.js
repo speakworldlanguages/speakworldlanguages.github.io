@@ -87,11 +87,15 @@ function showInstall_PWA_prompt() {
 /*_CHECK IF APP IS RUNNING STANDALONE OR IS HOSTED BY THE BROWSER TAB_*/
 const checkUrlToSeeLaunchingOrigin = window.location.href;
 const searchResult = checkUrlToSeeLaunchingOrigin.search("installed"); // The search() method returns -1 if no match is found. See manifest_**.json -> start_url
+
 window.addEventListener("DOMContentLoaded",whetherTheAppIsRunningStandaloneF,{once:true});
 function whetherTheAppIsRunningStandaloneF() {
   if (searchResult != -1) { // The app is running standalone
-    /*We don' want any install prompts anymore: Don't know if this is really necessary but can't be too safe*/
+    /*We don' want any install prompts anymore: Not certain whether this is really necessary but can't be too safe*/
     window.removeEventListener("beforeinstallprompt",turnNotificationIntoInstallation);
+    /*We don't need the rotating-globe tab-icon animation*/
+    const titleAnimationIsUnnecessaryForStandalone = document.getElementById('removeIfStandaloneID');
+    titleAnimationIsUnnecessaryForStandalone.parentNode.removeChild(titleAnimationIsUnnecessaryForStandalone);
     // If this is the first time in standalone mode we should let user see the notifications button
     // Otherwise remove the button completely
     if (localStorage.isSubscribedToNotifications) {

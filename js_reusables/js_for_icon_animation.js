@@ -1,3 +1,16 @@
+// Dynamic titles are cool!
+window.addEventListener("load",dynamicTitleF,{once:true});
+function dynamicTitleF() {
+  const theParentHtmlTitle = document.title;
+  setInterval( function ()
+  {
+    if (ayFreym.contentWindow.document.title) {
+      document.title = ayFreym.contentWindow.document.title;
+    }
+    setTimeout( function ()  {   document.title = theParentHtmlTitle   },3000);
+  } , 6000);
+}
+
 //Animated favicon
 const iconElement = document.getElementById("icon");
 
