@@ -31,16 +31,14 @@
       }
       .latinTextFont{font-family:'Kanit';} /*REMOVE THIS IF User Interface is in non-Latin like Kanji etc*/
 
-      .footerSlideUpMobile{margin-bottom:55vh;} /*!!! Add to bottom:27vmin;*/
-      .footerSlideUpDesktop{margin-bottom:0vh;} /*!!! Add to bottom:3.3vmin;*/
     </style>
     <script>
       window.addEventListener('DOMContentLoaded', function(){
         const notificationButtonInParent = window.parent.document.getElementsByTagName('FOOTER')[0];
         if (deviceDetector.isMobile) {
-          notificationButtonInParent.classList.add("footerSlideUp");
+          notificationButtonInParent.classList.add("footerSlideUpMobile"); /*The style rules must exist in the parent; NOT IN iFRAME*/
         } else {
-          notificationButtonInParent.classList.add("footerSlideUp");
+          notificationButtonInParent.classList.add("footerSlideUpDesktop"); /*The style rules must exist in the parent; NOT IN iFRAME*/
         }
         /**/
         if (userInterfaceLanguage=="ja") {
