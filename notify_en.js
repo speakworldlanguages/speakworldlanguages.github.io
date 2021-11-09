@@ -4,7 +4,8 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-database.js"; // No need: get, child, update, remove
 import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-messaging.js";
 
-const brokenApiKey = "IzaSyDYBQrC1GFMYtsWtR8tOTanfE09I4alX50";
+var brokenApiKey = "IzaSyDYBQrC1GFMYtsWtR8tOTanfE09I4alX50"; // See if can hide this using glitch or heroku
+// fetch()
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "A"+brokenApiKey,

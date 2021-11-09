@@ -57,10 +57,18 @@
       gtag('config', 'G-8FWCR3LS62');
     </script>
 
+    <!-- PWA -->
+    <!-- Idea: We could have manifest_iOS.json and manifest_default.json and set href when DOMContentLoaded happens -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Bir Dil Daha Öğren">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#4d606f">
+    <link rel="apple-touch-icon" href="icon_for_pwa_tr.png">
+    <link rel="manifest" href="manifest_tr.json">
     <script>
-      /*PLACE ANY SPECIFIC CODE HERE IF NECESSARY*/
+      if ("serviceWorker" in navigator) {  window.addEventListener("DOMContentLoaded",()=>{  navigator.serviceWorker.register("service-worker.js");  });  } // Takes too long compared to window load (almost a second)
     </script>
 
+    <!--  -->
   </head>
   <body>
     <div id="idOfThePreloadHandlingDiv" style="position: fixed; top:0; left:0; bottom:0; right:0; background-color: white; display: flex; justify-content: center; align-items: center; z-index: 9999;">
@@ -86,9 +94,9 @@
 
     <!-- THE MAIN MENU -->
     <main> <!-- See css_for_all_container_parent_htmls.css & js_for_all_container_parent_htmls.js -->
-      <div class="upperHalfDiv">
+      <header>
         <p>Öğrenmek istediğin dili seç</p>
-      </div>
+      </header>
       <div class="lowerHalfDiv">
         <!-- When more languages are hopefully added, we better list them with the world map order like east to west, west to east,right to left, left to right with a swipeable navigation design -->
         <!-- Initial location of that grid map can be users location via IP geolocation; we want to avoid asking permission for GPS location as that would be distracting or could be annoying -->
@@ -101,6 +109,21 @@
         <!-- <button onclick="letTheIFrameTeachEnglish()">Piypıl Dili (İngilizce)</button> -->
         <!-- See js_for_all_container_parent_htmls.js -->
       </div>
+      <footer class="footerDesktop">
+        <div id="footerInstallID" style="display:none;">
+          <img src="user_interface/images/add_to_desktop.webp" alt="Uygulamayı indir">
+          <img src="user_interface/images/add_to_home_screen_tablet.webp" alt="Uygulamayı indir" style="display:none;">
+          <img src="user_interface/images/add_to_home_screen_phone.webp" alt="Uygulamayı indir" style="display:none;">
+          <p style="display:block;">Uygulamayı masaüstüne indir</p>
+          <p style="display:none;">Uygulamayı ana ekrana ekle</p>
+          <p style="display:none;">Artık tarayıcıyı kapatıp<br>uygulamayı ana ekrandan çalıştırabilirsin</p>
+        </div>
+        <div id="footerNotificationID" style="display:flex;">
+          <img src="user_interface/images/push_me_notification.webp" alt="Yeni bölümler hazır olunca haber ver">
+          <p style="display:block;">Yeni bölümler hazır olunca<br>haber almak için tıkla</p>
+          <p style="display:none;">Yeni bölümler hazır olunca haber almak için dokun</p>
+        </div>
+      </footer>
     </main>
 
     <!-- get rid of this after testing the new idOfTheLoadProgressDiv -->
@@ -109,14 +132,16 @@
         <!-- <p>Kaldığın bölüme dön</p> -->
         <!-- <div style="width:10px;height:10px;">          -->
           <!-- Empty little box to adjust the line height -->
-         <!-- </div> -->
+        <!-- </div> -->
         <!-- <button onclick="whenLoadLastLessonOkButtonIsClickedOrTapped()">Tamam</button> -->
         <!-- See js_for_all_container_parent_htmls.js -->
       <!-- </div> -->
     <!-- </div> -->
 
     <!-- LESSONS WILL BE DISPLAYED ONE BY ONE THROUGH THIS IFRAME -->
+    <!--  -->
     <iframe src="user_interface/blank.html" id="theIdOfTheIframe" allowfullscreen></iframe>
+    <!--  -->
 
     <!-- REDIRECT AND SET GUI LANGUAGE ACCORDING TO THE BROWSER LANGUAGE -->
     <script>
@@ -132,6 +157,7 @@
       }, { once: true });
       // We don't want to complicate the GUI by adding a button to change the language of the interface.
     </script>
-
+    <!-- Firebase -->
+    <script type="module" src="notify_tr.js"></script>
   </body>
 </html>
