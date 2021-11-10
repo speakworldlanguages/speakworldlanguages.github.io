@@ -22,19 +22,17 @@ function handleDesktopTabletPhoneETC() {
     containerFooter.parentNode.removeChild(containerFooter);
   }
 
-  if ('Notification' in window) { canShowNotification = true; } else {
-    allowNotificationButton.parentNode.removeChild(allowNotificationButton);
-    // As of 2021 all browsers that support beforeinstallprompt also support Notification
-  }
+  if ('Notification' in window) { canShowNotification = true; }
+  else {  allowNotificationButton.parentNode.removeChild(allowNotificationButton);  }
+  // As of 2021 all browsers that support beforeinstallprompt also support Notification
+
   /**/
 }
-
 
 function revealNotificationInstallationButton() {
   const main = document.getElementsByTagName('MAIN')[0];
   const footer = document.getElementsByTagName('FOOTER')[0];
   if (main.contains(footer)) {
-    // console.log("Ok this happens"); // Tested and yes it fires
     if (deviceDetector.isMobile) {
       footer.classList.add("footerSlideAppearMobile");
     } else {
@@ -42,6 +40,19 @@ function revealNotificationInstallationButton() {
     }
   }
 }
+
+function hideNotificationInstallationButton() {
+  const main = document.getElementsByTagName('MAIN')[0];
+  const footer = document.getElementsByTagName('FOOTER')[0];
+  if (main.contains(footer)) {
+    if (deviceDetector.isMobile) {
+      footer.classList.remove("footerSlideAppearMobile");
+    } else {
+      footer.classList.remove("footerSlideAppearDesktop");
+    }
+  }
+}
+
 // Convert from Notification to Installation IF CAN INSTALL
 // WATCH: display flex
 let doYouWantToInstallprompt;
