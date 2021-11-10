@@ -122,9 +122,8 @@ footer{ /* Contains INSTALL THE APP - GET NOTIFICATIONS button */
 }
 footer:hover{   transform: translateX(-50%) scale(1.02); }
 footer:active{  transform: translateX(-50%) scale(0.98); }
-.footerGetLost{ transform: translateX(-50%) scale(0.0001); opacity: 0; }
-.footerSlideAppearDesktop{margin-top:-19.7vh;}
-.footerSlideAppearMobile{margin-top:120px;}
+.footerGetLost{ transform: translateX(-50%) scale(0.0001); opacity: 0; }/*??? where exactly*/
+
 /* .footerSlideUpMobile{margin-top:-100vmin;}  */ /*WE ARE WORKING!!!*/
 /* .footerSlideUpDesktop{margin-top:0vmin;} */
 
@@ -132,11 +131,13 @@ footer:active{  transform: translateX(-50%) scale(0.98); }
 .footerDesktop div{display: flex; align-items: center; justify-content: center; min-width:240px; height: 100px;}
 .footerDesktop img{ height: 100px; }
 .footerDesktop p{ text-shadow: none; min-width: 150px; }
+.footerSlideAppearDesktop{margin-top:-19.7vh;}
 
 .footerTabletAndPhone{ top:-120px; }
-.footerTabletAndPhone div{ display: flex; align-items: center; justify-content: center; max-width:90vmin; height: 90px; }
+.footerTabletAndPhone div{ display: flex; align-items: center; justify-content: center; max-width:90vmin; height: 75px; }
 .footerTabletAndPhone img{ height: 70px; }
 .footerTabletAndPhone p{ text-shadow: none; min-width: 190px; line-height: 23px; }
+.footerSlideAppearMobile{margin-top:130px;}
 
 /**/
 .youMustAllowMicrophone{
