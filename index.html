@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="css_reusables/css_for_all_container_parent_htmls.css">
     <link rel="stylesheet" href="css_reusables/css_for_sliding_navigation_menu.css">
     <link rel="stylesheet" href="css_reusables/css_for_latin_font_rules.css">
+    <link rel="stylesheet" href="css_reusables/css_loading_animation_orbiting_circles.css">
 
     <script src="third_party_js/annyang.min.js">/*Speech Recognition library by Tal Ater - Github: TalAter*/</script>
     <script src="third_party_js/ua-parser.min.js">/*JS library for getting the browser and OS names by Faisal Salman - Github: faisalman*/</script>
@@ -74,6 +75,12 @@
       <!-- The content of this div is changed via script. See js_for_preload_handling.js -->
       <!-- The style is left inline as a safe measure against slow network etc. See css_for_every_single_html.css-->
       <img id="globeFrameZeroImgID" src="user_interface/images/rotating_globe_100x150_frame0.webp" alt="Loading...">
+    </div>
+
+    <div id="orbitingCirclesDivID" class="orbitingCirclesTopContainer" style="display:none;">
+      <div class="loadingio-spinner-interwind-f4cl6mjzf0h"><div class="ldio-d52i6xebzgm">
+      <div><div><div><div></div></div></div><div><div><div></div></div></div></div>
+      </div></div>
     </div>
 
     <div data-nosnippet id="allowMicrophoneDivID" class="youMustAllowMicrophone">
