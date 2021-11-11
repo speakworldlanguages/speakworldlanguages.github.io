@@ -242,6 +242,7 @@ function testAnnyang() {
     } else {
       // Make the “allow microphone” box appear for users who have arrived for the first time by a quick TURN ON AND THEN OFF thing.
       const httpORhttps = window.location.protocol;
+      alert(httpORhttps);
       if (httpORhttps == "https") {        allowMicrophoneBlinker.classList.add("letYouMustAllowMicrophoneDialogAppear");      } // prevent when testing on http://localhost
       setTimeout(function () {
         annyang.start();
