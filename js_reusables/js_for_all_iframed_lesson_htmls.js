@@ -21,6 +21,7 @@ window.onload = function() { // DANGER: Do not use window.onload anywhere else. 
     parent.hideNotificationInstallationButton();
     /* Handle NAV MENU - Add PAUSE THE APP ceramic button */
     if (!parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) { //
+      alert("...");
       parent.containerDivOfTheNavigationMenu.insertBefore(parent.clickToPauseTheAppDiv,parent.clickToFinanceDiv); //
     }
   } // Progress from one lesson to the next with the rotating-globe-preloader of parent
