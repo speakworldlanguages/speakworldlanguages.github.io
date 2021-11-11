@@ -117,7 +117,8 @@ const searchResult = checkUrlToSeeLaunchingOrigin.search("installed"); // The se
 
 window.addEventListener("DOMContentLoaded",whetherTheAppIsRunningStandaloneF,{once:true});
 function whetherTheAppIsRunningStandaloneF() {
-  // Either standalone or inside browser tab; first check if notifications are allowed as soon as DOMContentLoaded
+  alert("geçiş olunca 2nciye");
+  // Standalone or inside browser tab; either way, first check if notifications are allowed as soon as DOMContentLoaded
   if ("permissions" in navigator) {
     const notificationPermissionPromise = navigator.permissions.query({name:'notifications'});
     notificationPermissionPromise.then(function(result) {
