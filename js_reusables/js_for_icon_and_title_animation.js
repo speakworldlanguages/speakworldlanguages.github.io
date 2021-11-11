@@ -12,8 +12,7 @@ function dynamicTitleF() {
   } , 6000);
 }
 function fixedTitleWhenStandalone() { // js_for_pwa.js
-  clearInterval(stopItWhenStandalone);
-  document.title = theParentHtmlTitle;
+  window.removeEventListener("load",dynamicTitleF);
 }
 //Animated favicon
 const iconElement = document.getElementById("icon");

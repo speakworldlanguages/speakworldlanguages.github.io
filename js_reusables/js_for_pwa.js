@@ -131,13 +131,14 @@ function whetherTheAppIsRunningStandaloneF() {
   }
 
   if (searchResult != -1) { // The app is running standalone
-    alert("STANDALONE");
-    fixedTitleWhenStandalone(); // See js_for_icon_animation
+    //
     /*We don' want any install prompts anymore: Not certain whether this is really necessary but can't be too safe*/
     window.removeEventListener("beforeinstallprompt",turnNotificationIntoInstallation);
     /*We don't need the rotating-globe tab-icon animation*/
     const titleAnimationIsUnnecessaryForStandalone = document.getElementById('removeIfStandaloneID');
-    titleAnimationIsUnnecessaryForStandalone.parentNode.removeChild(titleAnimationIsUnnecessaryForStandalone);
+    console.log(titleAnimationIsUnnecessaryForStandalone);
+    fixedTitleWhenStandalone(); // See js_for_icon_animation
+    //titleAnimationIsUnnecessaryForStandalone.parentNode.removeChild(titleAnimationIsUnnecessaryForStandalone);
     // If this is the first time in standalone mode we should let user see the notifications button
     // Otherwise remove the button completely
     if (localStorage.isSubscribedToNotifications) {
