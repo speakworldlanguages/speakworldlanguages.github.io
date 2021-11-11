@@ -132,6 +132,7 @@ function whetherTheAppIsRunningStandaloneF() {
 
   if (searchResult != -1) { // The app is running standalone
     alert("STANDALONE");
+    fixedTitleWhenStandalone(); // See js_for_icon_animation
     /*We don' want any install prompts anymore: Not certain whether this is really necessary but can't be too safe*/
     window.removeEventListener("beforeinstallprompt",turnNotificationIntoInstallation);
     /*We don't need the rotating-globe tab-icon animation*/
