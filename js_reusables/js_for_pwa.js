@@ -117,13 +117,13 @@ const searchResult = checkUrlToSeeLaunchingOrigin.search("installed"); // The se
 
 window.addEventListener("DOMContentLoaded",whetherTheAppIsRunningStandaloneF,{once:true});
 function whetherTheAppIsRunningStandaloneF() {
+  // REGARDLESS OF HOW THE APP IS STARTED
   // Standalone or inside browser tab; either way, first check if notifications are allowed as soon as DOMContentLoaded
-  if (false) { // localStorage.isSubscribedToNotifications
+  if (localStorage.isSubscribedToNotifications) { //
     containerFooter.parentNode.removeChild(containerFooter);
   } else if ("permissions" in navigator) {
     const notificationPermissionPromise = navigator.permissions.query({name:'notifications'});
     notificationPermissionPromise.then(function(result) {
-      console.log(result);
       if (result.state == 'granted') {
         localStorage.isSubscribedToNotifications = "yes"; // Actually set in notify_**.js
         containerFooter.parentNode.removeChild(containerFooter); // Can't subscribe without installing the app
@@ -132,7 +132,7 @@ function whetherTheAppIsRunningStandaloneF() {
       console.log(err);
     });
   }
-
+  // DEPENDING ON HOW THE APP IS STARTED
   if (searchResult != -1) { // The app is running standalone
     // TRIED: getElementById('id') to get the script and remove it but that didn't work with DOMContentLoaded -> Maybe it would with "load" but that's too late to save download time
     localStorage.appInstallationWasAccepted = "absolutely"; // This opens a door to cheating -> If a first time user typed "index.html?installed" into the browser's address bar, the app would falsely accept itself as installed. But we don't expect that to happen.
