@@ -10,6 +10,7 @@ window.onload = function() { // DANGER: Do not use window.onload anywhere else. 
   // progress_chart
   const whereAreWe = window.location.pathname;
   if (whereAreWe.search("progress_chart") != -1) { // This means we have landed on the progress_chart
+    alert(whereAreWe+" ????????");
     // Bring the installation&notification-subscription button (footer in parent)
     parent.revealNotificationInstallationButton();
     /* Handle NAV MENU - Remove PAUSE THE APP ceramic button */
@@ -21,7 +22,7 @@ window.onload = function() { // DANGER: Do not use window.onload anywhere else. 
     parent.hideNotificationInstallationButton();
     /* Handle NAV MENU - Add PAUSE THE APP ceramic button */
     if (!parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) { //
-      alert(whereAreWe+" ?");
+      alert(whereAreWe+" !!!!!!!!");
       parent.containerDivOfTheNavigationMenu.insertBefore(parent.clickToPauseTheAppDiv,parent.clickToFinanceDiv); //
     }
   } // Progress from one lesson to the next with the rotating-globe-preloader of parent
