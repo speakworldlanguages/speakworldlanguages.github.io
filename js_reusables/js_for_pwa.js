@@ -125,7 +125,7 @@ function whetherTheAppIsRunningStandaloneF() {
     const notificationPermissionPromise = navigator.permissions.query({name:'notifications'});
     notificationPermissionPromise.then(function(result) {
       if (result.state == 'granted') {
-        localStorage.isSubscribedToNotifications = "yes"; // Actually set in notify_**.js
+        localStorage.isSubscribedToNotifications = "yes"; // This should have been set in notify_**.js already but just in case something broke
         containerFooter.parentNode.removeChild(containerFooter); // Can't subscribe without installing the app
       }
     }).catch((err) => {
