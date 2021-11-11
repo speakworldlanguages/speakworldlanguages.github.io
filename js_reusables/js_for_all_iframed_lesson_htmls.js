@@ -10,7 +10,6 @@ window.onload = function() { // DANGER: Do not use window.onload anywhere else. 
   // progress_chart
   const whereAreWe = window.location.pathname;
   if (whereAreWe.search("progress_chart") != -1) { // This means we have landed on the progress_chart
-    alert(whereAreWe+" ????????");
     // Bring the installation&notification-subscription button (footer in parent)
     parent.revealNotificationInstallationButton();
     /* Handle NAV MENU - Remove PAUSE THE APP ceramic button */
@@ -24,7 +23,6 @@ window.onload = function() { // DANGER: Do not use window.onload anywhere else. 
     setTimeout(afterATinyDelay,100); // So that it won't come before HOME button
     function afterATinyDelay() {
       if (!parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) { //
-        alert(whereAreWe+" !!!!!!!!");
         parent.containerDivOfTheNavigationMenu.insertBefore(parent.clickToPauseTheAppDiv,parent.clickToFinanceDiv); //
       }
     }
