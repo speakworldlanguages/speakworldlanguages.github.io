@@ -95,6 +95,7 @@ async function cacheCoreAssetsOfTheApp() {
 
     /*_USER INTERFACE - SOUNDS_*/
     // ogg or mp3
+    /*
     "user_interface/sounds/ceramic_button_click."+audioFileExtension,
     "user_interface/sounds/ceramic_button_hover."+audioFileExtension,
     "user_interface/sounds/ding."+audioFileExtension,
@@ -120,7 +121,7 @@ async function cacheCoreAssetsOfTheApp() {
     "user_interface/sounds/thingy_two_activate."+audioFileExtension,
     "user_interface/sounds/thingy_two_deactivate."+audioFileExtension,
     "user_interface/sounds/thingy_two_error."+audioFileExtension,
-
+    */
     /*_USER INTERFACE_*/
     "user_interface/16x16_anti_sleep_mode.mp4",
     "user_interface/blank.html"
