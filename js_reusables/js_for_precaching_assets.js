@@ -206,44 +206,46 @@ async function cacheAssetsOfLevel_111() {
 async function cacheAssetsOfLevel_112() { // Call this as soon as window load happens in lessons_in_iframes/level_1/unit_1/lesson_1/index.html
   const cacheName = "app-lesson-1-1-2-cache";
   const resourcesToPrecache = [
-    "lessons_in_iframes/level_1/unit_1/lesson_1/1.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/2.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/3.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/4.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/5.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/6.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/c1.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/c2.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/c3.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/c4.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/c5.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/c6.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/c7.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/c8.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/c9.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/c10.webp",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/index.html",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/water.js"
+    "lessons_in_iframes/level_1/unit_1/lesson_2/1.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/2.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/3.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/4.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/5.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/6.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/c1.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/c2.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/c3.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/c4.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/c5.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/c6.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/c7.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/c8.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/c9.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/c10.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/index.html",
+    "lessons_in_iframes/level_1/unit_1/lesson_2/water.js"
   ];
   // if iOS or Mac OS mp4 else webm // if iOS or Mac OS mp3 else ogg
   if (isApple) {
     resourcesToPrecache.push(
-      "lessons_in_iframes/level_1/unit_1/lesson_1/v1_h264.mp4",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/v2_h264.mp4",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_1.mp3",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_2.mp3",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_3.mp3",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_4.mp3",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_5.mp3");
+      "lessons_in_iframes/level_1/unit_1/lesson_2/v1_h264.mp4",
+      "lessons_in_iframes/level_1/unit_1/lesson_2/v2_h264.mp4",
+      "lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_1.mp3",
+      "lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_2.mp3",
+      "lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_3.mp3",
+      "lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_4.mp3",
+      "lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_5.mp3"
+    );
   } else {
     resourcesToPrecache.push(
-      "lessons_in_iframes/level_1/unit_1/lesson_1/v1_vp9.webm",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/v2_vp9.webm",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_1.ogg",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_2.ogg",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_3.ogg",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_4.ogg",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_5.ogg");
+      "lessons_in_iframes/level_1/unit_1/lesson_2/v1_vp9.webm",
+      "lessons_in_iframes/level_1/unit_1/lesson_2/v2_vp9.webm",
+      "lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_1.ogg",
+      "lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_2.ogg",
+      "lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_3.ogg",
+      "lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_4.ogg",
+      "lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_5.ogg"
+    );
   }
   const cache = await caches.open(cacheName);
   await cache.addAll(resourcesToPrecache);
