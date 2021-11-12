@@ -65,6 +65,7 @@ async function cacheCoreAssetsOfTheApp() {
     "user_interface/16x16_anti_sleep_mode.mp4",
     "user_interface/blank.html"
   ];
+  //---
   if (deviceDetector.device == "desktop") {
     resourcesToPrecache.push(
       "user_interface/images/add_to_desktop.webp",
@@ -75,16 +76,19 @@ async function cacheCoreAssetsOfTheApp() {
       "user_interface/images/reveal_help_desktop_teacher_on.webp",
       "user_interface/images/right_click_go_for_fullscreen.webp",
       "user_interface/images/right_click_no_more_fullscreen.webp"
-      );
-  } else {
+    );
+  } else { // Both tablet & phone
     resourcesToPrecache.push(
       "js_reusables/tilt-to-steer.js",
-      "user_interface/images/add_to_home_screen_phone.webp",
-      "user_interface/images/add_to_home_screen_tablet.webp",
       "user_interface/images/touch_and_drag_man_2x_scale.webp"
-      );
+    );
+    if (deviceDetector.device == "phone") {
+      resourcesToPrecache.push(        "user_interface/images/add_to_home_screen_phone.webp"      ); // Phone only
+    } else {
+      resourcesToPrecache.push(        "user_interface/images/add_to_home_screen_tablet.webp"      ); // Tablet only
+    }
   }
-
+  //---
   if (isApple) { // See js_for_different_browsers_and_devices.js
     resourcesToPrecache.push(
       "user_interface/sounds/ceramic_button_click.mp3",
@@ -142,7 +146,6 @@ async function cacheCoreAssetsOfTheApp() {
       "user_interface/sounds/thingy_two_error.ogg"
       );
   }
-  */
   const cache = await caches.open(cacheName);
   await cache.addAll(resourcesToPrecache);
 }
