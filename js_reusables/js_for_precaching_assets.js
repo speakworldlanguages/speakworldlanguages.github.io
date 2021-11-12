@@ -331,11 +331,13 @@ async function cacheAssetsOfLevel_113() { // Call this as soon as window load ha
   if (isApple) {
     resourcesToPrecache.push(
       "lessons_in_iframes/level_1/unit_1/lesson_3/glass_breaks_into_pieces.mp3",
-      "lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.mp3");
+      "lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.mp3"
+    );
   } else {
     resourcesToPrecache.push(
       "lessons_in_iframes/level_1/unit_1/lesson_3/glass_breaks_into_pieces.ogg",
-      "lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.ogg");
+      "lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.ogg"
+    );
   }
 }
 /**/
