@@ -158,8 +158,6 @@ async function cacheCoreAssetsOfTheApp() {
       );
   }
   */
-
-
   const cache = await caches.open(cacheName);
   await cache.addAll(resourcesToPrecache);
 }
