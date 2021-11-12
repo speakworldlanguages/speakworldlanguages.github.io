@@ -339,7 +339,10 @@ async function cacheAssetsOfLevel_113() { // Call this as soon as window load ha
       "lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.ogg"
     );
   }
+  const cache = await caches.open(cacheName);
+  await cache.addAll(resourcesToPrecache);
 }
+
 /**/
 async function cacheAssetsOfLevel_114(){
 
