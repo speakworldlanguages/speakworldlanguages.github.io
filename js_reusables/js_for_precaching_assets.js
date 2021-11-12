@@ -1,4 +1,11 @@
 /**/
+window.addEventListener("load",theVeryFirstCachingF,{once:true}); // Run only after DOMContentLoaded because -> js_for_different_browsers_and_devices.js
+function theVeryFirstCachingF() {
+  if (!localStorage.thisIsNotTheFirstTimeEver) {
+    cacheCoreAssetsOfTheApp(); cacheAssetsOfLevel_111(); cacheAssetsOfProgressChart();
+    localStorage.thisIsNotTheFirstTimeEver = "right"; // Never try to re-cache or overwrite anything. Not sure if this is necessary but can't be too safe.
+  }
+}
 // Call these when it is time to get the files ready
 async function cacheCoreAssetsOfTheApp() {
   const cacheName = "app-core-cache";
@@ -346,12 +353,4 @@ async function cacheAssetsOfLevel_113() { // Call this as soon as window load ha
 /**/
 async function cacheAssetsOfLevel_114(){
 
-}
-
-window.addEventListener("load",theVeryFirstCachingF,{once:true}); // Run only after DOMContentLoaded because -> js_for_different_browsers_and_devices.js
-function theVeryFirstCachingF() {
-  if (!localStorage.thisIsNotTheFirstTimeEver) {
-    cacheCoreAssetsOfTheApp(); cacheAssetsOfLevel_111(); cacheAssetsOfProgressChart();
-    localStorage.thisIsNotTheFirstTimeEver = "right"; // Never try to re-cache or overwrite anything. Not sure if this is necessary but can't be too safe.
-  }
 }
