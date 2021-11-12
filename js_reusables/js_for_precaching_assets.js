@@ -67,7 +67,7 @@ async function cacheCoreAssetsOfTheApp() {
   ];
   if (deviceDetector.device == "desktop") {
     resourcesToPrecache.push(
-      "add_to_desktop.webp",
+      "user_interface/images/add_to_desktop.webp",
       "css_reusables/css_for_disappearing_custom_cursor.css",
       "css_reusables/css_for_permanent_custom_cursor.css",
       "js_reusables/js_for_disappearing_custom_cursor.js",
@@ -79,48 +79,67 @@ async function cacheCoreAssetsOfTheApp() {
   } else {
     resourcesToPrecache.push(
       "js_reusables/tilt-to-steer.js",
-      "add_to_home_screen_phone.webp",
-      "add_to_home_screen_tablet.webp",
+      "user_interface/images/add_to_home_screen_phone.webp",
+      "user_interface/images/add_to_home_screen_tablet.webp",
       "user_interface/images/touch_and_drag_man_2x_scale.webp"
       );
   }
-  /*
-  "user_interface/sounds/ceramic_button_click."+audioFileExtension,
-  "user_interface/sounds/ceramic_button_hover."+audioFileExtension,
-  "user_interface/sounds/ding."+audioFileExtension,
-  "user_interface/sounds/financial_thirdparty_click."+audioFileExtension,
-  "user_interface/sounds/glass_button_click."+audioFileExtension,
-  "user_interface/sounds/glass_button_hover."+audioFileExtension,
-  "user_interface/sounds/illuminant_button_click."+audioFileExtension,
-  "user_interface/sounds/illuminant_button_hover."+audioFileExtension,
-  "user_interface/sounds/notification1_appear."+audioFileExtension,
-  "user_interface/sounds/notification1_close."+audioFileExtension,
-  "user_interface/sounds/notification2_appear."+audioFileExtension,
-  "user_interface/sounds/notification2_close."+audioFileExtension,
-  "user_interface/sounds/notification3_appear."+audioFileExtension,
-  "user_interface/sounds/notification3_close."+audioFileExtension,
-  "user_interface/sounds/proceed_to_next_click."+audioFileExtension,
-  "user_interface/sounds/proceed_to_next_hover."+audioFileExtension,
-  "user_interface/sounds/progress_chart_click."+audioFileExtension,
-  "user_interface/sounds/progress_chart_hover."+audioFileExtension,
-  "user_interface/sounds/success1."+audioFileExtension,
-  "user_interface/sounds/success2."+audioFileExtension,
-  "user_interface/sounds/thingy_one_activate."+audioFileExtension,
-  "user_interface/sounds/thingy_one_deactivate."+audioFileExtension,
-  "user_interface/sounds/thingy_two_activate."+audioFileExtension,
-  "user_interface/sounds/thingy_two_deactivate."+audioFileExtension,
-  "user_interface/sounds/thingy_two_error."+audioFileExtension,
-  */
-  /*
+
   if (isApple) { // See js_for_different_browsers_and_devices.js
     resourcesToPrecache.push(
-      "",
-      ""
+      "user_interface/sounds/ceramic_button_click.mp3",
+      "user_interface/sounds/ceramic_button_hover.mp3",
+      "user_interface/sounds/ding.mp3",
+      "user_interface/sounds/financial_thirdparty_click.mp3",
+      "user_interface/sounds/glass_button_click.mp3",
+      "user_interface/sounds/glass_button_hover.mp3",
+      "user_interface/sounds/illuminant_button_click.mp3",
+      "user_interface/sounds/illuminant_button_hover.mp3",
+      "user_interface/sounds/notification1_appear.mp3",
+      "user_interface/sounds/notification1_close.mp3",
+      "user_interface/sounds/notification2_appear.mp3",
+      "user_interface/sounds/notification2_close.mp3",
+      "user_interface/sounds/notification3_appear.mp3",
+      "user_interface/sounds/notification3_close.mp3",
+      "user_interface/sounds/proceed_to_next_click.mp3",
+      "user_interface/sounds/proceed_to_next_hover.mp3",
+      "user_interface/sounds/progress_chart_click.mp3",
+      "user_interface/sounds/progress_chart_hover.mp3",
+      "user_interface/sounds/success1.mp3",
+      "user_interface/sounds/success2.mp3",
+      "user_interface/sounds/thingy_one_activate.mp3",
+      "user_interface/sounds/thingy_one_deactivate.mp3",
+      "user_interface/sounds/thingy_two_activate.mp3",
+      "user_interface/sounds/thingy_two_deactivate.mp3",
+      "user_interface/sounds/thingy_two_error.mp3"
       );
   } else {
     resourcesToPrecache.push(
-      "",
-      ""
+      "user_interface/sounds/ceramic_button_click.ogg",
+      "user_interface/sounds/ceramic_button_hover.ogg",
+      "user_interface/sounds/ding.ogg",
+      "user_interface/sounds/financial_thirdparty_click.ogg",
+      "user_interface/sounds/glass_button_click.ogg",
+      "user_interface/sounds/glass_button_hover.ogg",
+      "user_interface/sounds/illuminant_button_click.ogg",
+      "user_interface/sounds/illuminant_button_hover.ogg",
+      "user_interface/sounds/notification1_appear.ogg",
+      "user_interface/sounds/notification1_close.ogg",
+      "user_interface/sounds/notification2_appear.ogg",
+      "user_interface/sounds/notification2_close.ogg",
+      "user_interface/sounds/notification3_appear.ogg",
+      "user_interface/sounds/notification3_close.ogg",
+      "user_interface/sounds/proceed_to_next_click.ogg",
+      "user_interface/sounds/proceed_to_next_hover.ogg",
+      "user_interface/sounds/progress_chart_click.ogg",
+      "user_interface/sounds/progress_chart_hover.ogg",
+      "user_interface/sounds/success1.ogg",
+      "user_interface/sounds/success2.ogg",
+      "user_interface/sounds/thingy_one_activate.ogg",
+      "user_interface/sounds/thingy_one_deactivate.ogg",
+      "user_interface/sounds/thingy_two_activate.ogg",
+      "user_interface/sounds/thingy_two_deactivate.ogg",
+      "user_interface/sounds/thingy_two_error.ogg"
       );
   }
   */
