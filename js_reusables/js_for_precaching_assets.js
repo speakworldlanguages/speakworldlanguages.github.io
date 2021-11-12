@@ -252,21 +252,91 @@ async function cacheAssetsOfLevel_112() { // Call this as soon as window load ha
 }
 /**/
 async function cacheAssetsOfLevel_113() { // Call this as soon as window load happens in lessons_in_iframes/level_1/unit_1/lesson_2/index.html
-  /*const cacheName = "app-lesson-1-1-3-cache";
+  const cacheName = "app-lesson-1-1-3-cache";
   const resourcesToPrecache = [
-    "lessons_in_iframes/level_1/unit_1/lesson_1/",
-    "lessons_in_iframes/level_1/unit_1/lesson_1/"
+    "lessons_in_iframes/level_1/unit_1/lesson_3/-0p5_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/-1_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/-1p5_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/-2_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/-3_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/-4_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/-5_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/-6_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/-7_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/-8_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/-9_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/0_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/0p5_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/1_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/1p5_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/2_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/3_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/4_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/5_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/6_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/7_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/8_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/9_glass.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/breaking_glass_fallen_from_center.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/breaking_glass_fallen_from_left.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/breaking_glass_fallen_from_right.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/choose_gamepad.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/choose_mouse.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/eyes_blinking_naturally.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/eyes_happy_blinking.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/eyes_see_falling_object.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/eyes_squint_its_broken.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/eyes_watching.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/gamepad_or_mouse.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/give_me_water_state_a.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/give_me_water_state_b0.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/give_me_water_state_b1.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/give_me_water_state_b2.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/give_me_water_state_c.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/give_me_water_state_d.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/give_me_water.css",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/give_me_water.js",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/index.html",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/play_with_gamepad.js",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/play_with_mouse.js",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/play_with_tablet_or_phone.js",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/speech_bubble_hand_give_me.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/speech_bubble_slow_down.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/speech_bubble_water.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/the_ground_repeat_x.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/the_table.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/tray_with_hand.webp",
+    "lessons_in_iframes/level_1/unit_1/lesson_3/tray_without_hand.webp"
   ];
+  //---
+  if (deviceDetector.device == "desktop") {
+    resourcesToPrecache.push(
+      "lessons_in_iframes/level_1/unit_1/lesson_3/hand_cursor.webp",
+      "lessons_in_iframes/level_1/unit_1/lesson_3/move_the_mouse.webp"
+    );
+  } else { // tablet & phone
+    if (deviceDetector.device == "phone") {
+      resourcesToPrecache.push(
+        "lessons_in_iframes/level_1/unit_1/lesson_3/tilt_phone.webp",
+        "lessons_in_iframes/level_1/unit_1/lesson_3/touch_phone.webp"
+      ); // Phone only
+    } else {
+      resourcesToPrecache.push(
+        "lessons_in_iframes/level_1/unit_1/lesson_3/tilt_tablet.webp",
+        "lessons_in_iframes/level_1/unit_1/lesson_3/touch_tablet.webp"
+      ); // Tablet only
+    }
+  }
   // if iOS or Mac OS mp4 else webm // if iOS or Mac OS mp3 else ogg
   if (isApple) {
     resourcesToPrecache.push(
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_1.mp3",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_2.mp3");
+      "lessons_in_iframes/level_1/unit_1/lesson_3/glass_breaks_into_pieces.mp3",
+      "lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.mp3");
   } else {
     resourcesToPrecache.push(
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_1.ogg",
-      "lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_2.ogg");
-  }*/
+      "lessons_in_iframes/level_1/unit_1/lesson_3/glass_breaks_into_pieces.ogg",
+      "lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.ogg");
+  }
 }
 /**/
 async function cacheAssetsOfLevel_114(){
