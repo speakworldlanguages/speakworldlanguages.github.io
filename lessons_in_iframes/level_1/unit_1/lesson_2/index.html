@@ -58,8 +58,9 @@
         },{ once: true });
         window.addEventListener("load",startDownloadingLesson113,{once:true});
         function startDownloadingLesson113() {
+          console.log("will it fire?");
           if (!localStorage.thisIsNotTheFirstTime112) {
-            console.log("ok this works?");
+            console.log("this works?");
             parent.cacheAssetsOfLevel_113(); // See js_for_precaching_assets.js
             localStorage.thisIsNotTheFirstTime112 = "right"; // Never try to re-cache or overwrite anything. Not sure if this is necessary but can't be too safe.
           }
