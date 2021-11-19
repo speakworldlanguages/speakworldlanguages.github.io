@@ -69,7 +69,7 @@ function fixGimbalLock() { // NOTE THAT THIS IS NOT A PERFECT SOLUTION!
 function handleTilt(event) {
 
   b = event.beta;  // Cannot use raw data from deviceorientation becuse it jumps like +180/-180 at certain points
-  g = event.gamma; // Cannot use raw data from deviceorientation becuse it jumps from plus to minus at certain points and there is the gimbal-lock issue
+  g = event.gamma; // Cannot use raw data from deviceorientation becuse it jumps from plus to minus at certain points and also there is the gimbal-lock issue
 
   /* TURN RAW DATA INTO USEFUL DATA */
   if (theDeviceIsRotated == "no") {
