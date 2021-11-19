@@ -54,10 +54,10 @@ function startTheGameWithTabletOrPhone() {
   // According to tests: It could take a moment for beta and gamma to NOT RETURN null. Not sure how many milliseconds actually.
   setTimeout(function () {
     // Check Availability Of Tilt
-      if (b == null && g == null) { // b & g are declared in tilt-to-steer.js
+      if (b == null && g == null) { // b & g are declared in tilt-to-steer.js // Note that (0 == null) returns false // (undefined == null) returns true
         parent.swipeMenuIsDisabled = false;
         const internationalErrorMsg = "↺ ❌\n↻ ❌\n:-(\n❌😞📱\n(-_-)\n" + parent.detectedBrand;
-        //alert(internationalErrorMsg);
+        alert(internationalErrorMsg);
         setTimeout(function () {  parent.ayFreym.src = 'progress_chart';  },1000);
       } else {
         gameLoopForPhoneOrTablet();
