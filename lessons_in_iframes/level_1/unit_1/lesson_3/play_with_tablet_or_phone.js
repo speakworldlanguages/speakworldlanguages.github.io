@@ -52,7 +52,7 @@ function startTheGameWithTabletOrPhone() {
 
   startReadingTilt(); // As of 2021 there may still be devices that won't read deviceorientation such as a Samsung phone »»» gamma and beta return null
   setTimeout(function () {
-    alert(b + "\n" + g);
+    alert(b + "\n" + g); //
     //setTimeout(checkAvailabilityOfTilt,100);
     //function checkAvailabilityOfTilt() {
       if (b == null && g == null) { // b & g are declared in tilt-to-steer.js
