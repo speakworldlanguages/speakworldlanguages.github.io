@@ -50,21 +50,22 @@ function startTheGameWithTabletOrPhone() {
     xPositionOfTray = 50; /* Fixed because now 100vw = 100vmin */
   }
 
+  startReadingTilt(); // As of 2021 there may still be devices that won't read deviceorientation such as a Samsung phone »»» gamma and beta return null
   setTimeout(function () {
-    startReadingTilt(); // As of 2021 there may still be devices that won't read deviceorientation such as a Samsung phone »»» gamma and beta return null
-    setTimeout(checkAvailabilityOfTilt,100);
-    function checkAvailabilityOfTilt() {
+    alert(b + "\n" + g);
+    //setTimeout(checkAvailabilityOfTilt,100);
+    //function checkAvailabilityOfTilt() {
       if (b == null && g == null) { // b & g are declared in tilt-to-steer.js
         parent.swipeMenuIsDisabled = false;
         const internationalErrorMsg = "↺ ❌\n↻ ❌\n:-(\n❌😞📱\n(-_-)\n" + parent.detectedBrand;
-        alert(internationalErrorMsg);
+        //alert(internationalErrorMsg);
         setTimeout(function () {  parent.ayFreym.src = 'progress_chart';  },1000);
       } else {
         gameLoopForPhoneOrTablet();
         leftHalf.addEventListener("touchstart", detectIfBothThumbsAreTouching2);
         rightHalf.addEventListener("touchstart", detectIfBothThumbsAreTouching2);
       }
-    }
+    //}
   },5000);
 }
 
