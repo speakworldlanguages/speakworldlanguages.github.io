@@ -164,10 +164,7 @@ async function loadFilesDuringWelcomeScreen() {
     "/user_interface/sounds/user_is_back."+audioFileExtension
   ];
   fourthGroup.push(
-    "/user_interface/text/"+userInterfaceLanguage+"/0-about_saving_loading_users_progress.txt"/*,
-    "/user_interface/text/"+userInterfaceLanguage+"/.txt",
-    "/user_interface/text/"+userInterfaceLanguage+"/.txt",
-    "/user_interface/text/"+userInterfaceLanguage+"/.txt"*/
+    "/user_interface/text/"+userInterfaceLanguage+"/0-about_saving_loading_users_progress.txt"
   );
   /*if (isApple) {
     fourthGroup.push(
