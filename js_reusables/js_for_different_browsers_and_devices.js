@@ -103,11 +103,14 @@ window.addEventListener('DOMContentLoaded', function(){
       console.log("This is a good browser that supports permissions API along with microphone permissions");
       if (result.state == 'granted') {
         willUserTalkToSpeechRecognition = true;
+        console.log("Microphone permission already granted previously");
       } else if (result.state == 'denied') {
         willUserTalkToSpeechRecognition = false;
+        console.log("Microphone permission is already set to DENIED");
       } else {
         // Use if needed: if (result.state == 'prompt') // Please allow will be showing unless removed
         localStorage.removeItem("allowMicrophoneDialogHasAlreadyBeenDisplayed");
+        console.log("Microphone permission must be taken");
       }
     }).catch(function () { // Handle Firefox ...hopefully
       // User's browser has permissions API but it does not let us check microphone permissions!
@@ -301,6 +304,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
             micPermissionPromise.then(function(result) { // Handle Windows & Android ...mainly Chrome
               console.log("...yes and that is good.");
               if (result.state == 'granted') {
+                console.log("So let's start the app");
                 removeAllowMicrophoneBlinkerForcedly(); // Immediate HARD REMOVE » Never let anything appear
                 startTeaching(nameOfButtonIsWhatWillBeTaught);
               } else {
@@ -311,8 +315,8 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
                 if (result.state == 'prompt') {} // Is this ever possible in any browser?
                 else { // Was either allowed or denied
                   localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes"; // Will work only on Windows & Android
-                  if (result.state == 'granted') { willUserTalkToSpeechRecognition = true; } // In case user is on an unknown browser that supports "Speech Recognition"
-                  if (result.state == 'denied') { willUserTalkToSpeechRecognition = false; } // Even if user's browser supports it
+                  if (result.state == 'granted') { willUserTalkToSpeechRecognition = true; console.log("User has chosen OK for microphone"); } // In case user is on an unknown browser that supports "Speech Recognition"
+                  if (result.state == 'denied') { willUserTalkToSpeechRecognition = false; console.log("User has chosen NO for microphone "); } // Even if user's browser supports it
                 }
                 // When the setting is changed anyhow
                 removeAllowMicrophoneBlinkerSoftly(); // With nice animation » Should work both on mobile and desktop
