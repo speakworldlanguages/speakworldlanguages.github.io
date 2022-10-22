@@ -125,6 +125,7 @@ function setLangCodeForFilePathsOfTeachingAssets(idOfTheButtonThatWasClickedOrTo
 /*What language will be taught via the iframe*/
 /* JA - Hito */
 function letTheIFrameTeachJapanese(){ //See index.html to find the button that triggers this via onclick.
+  console.log("Creating a save slot for "+ langCodeForTeachingFilePaths);
   //cleanup//langCodeForTeachingFilePaths = "ja"; //"ja" seemed to be OK with both iOS and Android in summer 2021
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "ja";
@@ -142,6 +143,7 @@ function letTheIFrameTeachJapanese(){ //See index.html to find the button that t
 }
 /* ZH - Renmen */
 function letTheIFrameTeachChinese(){ //See index.html to find the button that triggers this via onclick.
+  console.log("Creating a save slot for "+ langCodeForTeachingFilePaths);
   //cleanup//langCodeForTeachingFilePaths = "zh";
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "zh"; // Don't know if we have to pass "zh" instead of "zh-CN" or "zh-TW" or vice-versa on Android and Windows. Because Android turns the mic on and off too quickly in some less supported languages.
@@ -159,6 +161,7 @@ function letTheIFrameTeachChinese(){ //See index.html to find the button that tr
 }
 /* TR - Kişi */
 function letTheIFrameTeachTurkish(){ //See index.html to find the button that triggers this via onclick.
+  console.log("Creating a save slot for "+ langCodeForTeachingFilePaths);
   //cleanup//langCodeForTeachingFilePaths = "tr"; //"tr" is OK with both iOS and Android
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "tr"; // UNCLEAR: SHOULD THIS BE tr-TR on iOS? // or tr-tr?
@@ -176,6 +179,7 @@ function letTheIFrameTeachTurkish(){ //See index.html to find the button that tr
 }
 /* AR Arabic */
 function letTheIFrameTeachArabic(){ //See index.html to find the button that triggers this via onclick.
+  console.log("Creating a save slot for "+ langCodeForTeachingFilePaths);
   //cleanup//langCodeForTeachingFilePaths = "ar"; // Android is OK with "ar" and according to https://www.ibabbleon.com/iOS-Language-Codes-ISO-639.html iOS shouldn't need "ar-SA" or "ar-QA" etc, no???
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "ar"; // We still want "ar" instead of "ar-SA" on Android for better performance (frequency of the mic turn on&off thing).
@@ -247,6 +251,7 @@ function letTheIFrameTeachArabic(){ //See index.html to find the button that tri
 /* EN - People */
 // LET'S TRY AND CREATE TWO DIFFERENT BUTTONS AND TEACH AMERICAN AND BRITISH separately
 function letTheIFrameTeachBritishEnglish(){ //See index.html to find the button that triggers this via onclick.
+  console.log("Creating a save slot for "+ langCodeForTeachingFilePaths);
   //cleanup//langCodeForTeachingFilePaths = "en_east"; // "en" alone works well both on Android and iOS. No need for "en-US" or "en-GB"
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "en-GB";
@@ -261,6 +266,7 @@ function letTheIFrameTeachBritishEnglish(){ //See index.html to find the button 
 }
 
 function letTheIFrameTeachAmericanEnglish(){ //See index.html to find the button that triggers this via onclick.
+  console.log("Creating a save slot for "+ langCodeForTeachingFilePaths);
   //cleanup//langCodeForTeachingFilePaths = "en_west"; // "en" alone works well both on Android and iOS. No need for "en-US" or "en-GB"
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "en-US"; // According to https://www.ibabbleon.com/iOS-Language-Codes-ISO-639.html it should be "en" only instead of en-US on iOS
@@ -278,6 +284,7 @@ function letTheIFrameTeachAmericanEnglish(){ //See index.html to find the button
 }
 
 function startTeaching(usersChoice) { // Called from within testAnnyangAndAllowMic() » See js_for_different_browsers_and_devices
+  console.log("startTeaching() fired; will now proceed to letTheIframeTeach...()");
   switch (usersChoice) {
     case "hito": letTheIFrameTeachJapanese();
       break;
@@ -294,6 +301,7 @@ function startTeaching(usersChoice) { // Called from within testAnnyangAndAllowM
 
 /*___________Navigate to first lesson_____________*/
 function openFirstLesson(freshNewOrReturning) {
+  console.log("openFirstLesson() fired - iframe src will now be changed in order to navigate to...");
   ////startTheTimerToSeeIfNextLessonLoadsFastEnough(); // Don't need this because blank.html beforeunload will handle it instead
   // DEPRECATED: hideNotificationAndInstallation_2in1_button(); // See js_for_pwa
   // Save language choice
@@ -371,8 +379,9 @@ function mouseDownMenuButtonF(event) { event.preventDefault();
       // Use the app's modal box instead of the browser's native confirm box » reason1 it's much nicer, reason2 Safari mutes unmutes sound after native alert/confirm boxes
       // See js_for_info_boxes_in_parent
       createAndHandleGoBackOrProceedBox().then(function () { // This threw an error when removeChild was used the second time, said: Failed to execute 'removeChild' on 'Node'
-        //console.log("promise resolved"); // Works OK
+        //console.log("promise resolved");
         setTimeout(function () { testAnnyangAndAllowMic(userWantsToLearnWhichLanguage); },700); // 300+1501=1801ms??? See js_for_different_browsers_and_devices
+        // blockOtherWelcomeScreenButtonsUntilItIsSafe will be set to false bl user_interface/blank.html onbeforeunload
       }).catch(function () {
         //console.log("promise rejected"); // Works OK
         blockOtherWelcomeScreenButtonsUntilItIsSafe = false; // User changed his/her mind and wants to stay
@@ -396,6 +405,7 @@ function touchEndMenuButtonF(event) { event.preventDefault();
         // See js_for_info_boxes_in_parent
         createAndHandleGoBackOrProceedBox().then(function () {
           setTimeout(function () { testAnnyangAndAllowMic(theThingThatWasChosen.name); },500); // See js_for_different_browsers_and_devices
+          // blockOtherWelcomeScreenButtonsUntilItIsSafe will be set to false bl user_interface/blank.html when beforeunload fires
         }).catch(function () {
           blockOtherWelcomeScreenButtonsUntilItIsSafe = false; // User changed his/her mind and wants to stay
         });

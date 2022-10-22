@@ -304,7 +304,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
             micPermissionPromise.then(function(result) { // Handle Windows & Android ...mainly Chrome
               console.log("...yes and that is good.");
               if (result.state == 'granted') {
-                console.log("So let's start the app");
+                console.log("Already granted so let's start the app");
                 removeAllowMicrophoneBlinkerForcedly(); // Immediate HARD REMOVE » Never let anything appear
                 startTeaching(nameOfButtonIsWhatWillBeTaught);
               } else {
