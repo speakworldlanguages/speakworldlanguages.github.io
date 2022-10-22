@@ -100,6 +100,7 @@ window.addEventListener('DOMContentLoaded', function(){
     // Read the last setting
     const micPermissionPromise = navigator.permissions.query({name:'microphone'});
     micPermissionPromise.then(function(result) { // Handle Windows & Android ...mainly Chrome
+      console.log("This is a good browser that supports permissions API along with microphone permissions");
       if (result.state == 'granted') {
         willUserTalkToSpeechRecognition = true;
       } else if (result.state == 'denied') {
@@ -110,9 +111,11 @@ window.addEventListener('DOMContentLoaded', function(){
       }
     }).catch(function () { // Handle MacOS & iOS ...hopefully
       // User's browser has permissions API but it does not let us check microphone permissions!
+      console.log("This browser supports permissions API but microphone permissions are not available");
     });
   } else {
     // User's browser doesn't have permissions API at all.
+    console.log("This browser doesn't have permissions API at all");
   }
 
 
@@ -290,8 +293,10 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
         // ---Permission handling---
         // These will be executed only when testAnnyangAndAllowMic is called » Two ways: 1- On Apple right after window load 2- On everywhere (including Apple) when a welcome screen button is touched/clicked
         if ("permissions" in navigator) { // As of 2022 Safari 16.0 has permissions API BUT IT DOESN'T HAVE MICROPHONE
+            console.log("Can we check microphone permission state...?");
             const micPermissionPromise = navigator.permissions.query({name:'microphone'});
             micPermissionPromise.then(function(result) { // Handle Windows & Android ...mainly Chrome
+              console.log("...yes and that is good.");
               if (result.state == 'granted') {
                 removeAllowMicrophoneBlinkerForcedly(); // Immediate HARD REMOVE » Never let anything appear
                 startTeaching(nameOfButtonIsWhatWillBeTaught);
@@ -312,6 +317,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
                 setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
               };
             }).catch(function () { // Handle MacOS & iOS ...hopefully
+              console.log("...no, even though support for permissons API exists.");
               if (nameOfButtonIsWhatWillBeTaught) { // This is expected to be executed when a language button is clicked/touched on Apple devices
                 removeAllowMicrophoneBlinkerForcedly(); // Immediate HARD REMOVE » Never let anything appear
                 startTeaching(nameOfButtonIsWhatWillBeTaught); // Start the app // See js_for_app_initialization_in_parent
@@ -321,6 +327,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
               }
             });
         } else { // permissions query not supported at all but annyang exists
+          console.log("No permissions API... What do we do now?");
           // What browser could be handled here???
           // According to caniuse July 2022, browsers that have no permissions API: IE & QQ Browser & Baidu browser & Opera Mobile
           setTimeout(function () {    removeAllowMicrophoneBlinkerSoftly();    },3000);
@@ -337,6 +344,10 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
           if (annyang.isListening()) {
             annyang.abort();
             clearInterval(tryToAbortEveryThreeSeconds);
+            // SAFARI: Try to remove the allowMicrophoneBlinker and allowMicDesktopBackground if was visible
+            if (document.body.contains(blockAllClicksAndHoversDIV)) {
+                removeAllowMicrophoneBlinkerSoftly();
+            }
           }
         },3000);
     } // End of what to do for fresh users who have seen the app first time ever
