@@ -1,11 +1,12 @@
 "use strict";
 var willUserTalkToSpeechRecognition = false;
-var detectedBrowser;
+var detectedBrowser, detectedBrowserName;
 var detectedOS;
 var detectedBrand, detectedBrandName;
 var audioFileExtension = "ogg"; // Default to ogg except for Safari // Ogg is better than mp3 but Safari won't play it.
 var isApple = false;
 var isAndroid = false;
+var isWebViewOnAndroid = false;
 let wasListeningJustBeforeUserLeft = false; // annyang mic input
 //var deactivationSound2;
 //var activationSound2;
@@ -15,13 +16,20 @@ window.addEventListener('DOMContentLoaded', function(){
 
   var parser = new UAParser();
   // Check for browser name on every device
-  detectedBrowser = parser.getBrowser();
+  detectedBrowser = parser.getBrowser(); detectedBrowserName = detectedBrowser.name;
   detectedOS = parser.getOS();
   detectedBrand = parser.getDevice();  detectedBrandName = detectedBrand.vendor;
   /* DESPITE: Being sick of writing special code for Apple */
   if (detectedOS.name == "iOS" || detectedOS.name == "Mac OS" || detectedBrandName == "Apple") {
     audioFileExtension = "mp3";
+    Howler.usingWebAudio = false; // force html5
+    Howler.html5PoolSize = 40;
     isApple=true;
+  }
+
+  // Android Chrome and Webview on Android are different // Like support for change event is not the same in 2022 >>> https://developer.mozilla.org/en-US/docs/Web/API/PermissionStatus/change_event
+  if (detectedBrowserName.search("WebView") >= 0) {
+    isWebViewOnAndroid = true;
   }
 
   const searchable_OS_name = detectedOS.name;
@@ -298,7 +306,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
         // ---Permission handling---
         // These will be executed only when testAnnyangAndAllowMic is called » when a welcome screen button is touched/clicked
         // UPDATE: As of late 2022 Safari 16.0 finally has full support for permissions API, phew!
-        let weHaveToDoTheAppleCase = false;
+        let changeEventIsNotSupported = false;
         if ("permissions" in navigator) {
             console.log("Can we check microphone permission state...?");
             const micPermissionPromise = navigator.permissions.query({name:'microphone'});
@@ -313,9 +321,11 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
                 // Use if needed: if (result2.state == 'denied') // Please allow will be showing unless removed
 
                 // SAFARI ignores onchange
+                // https://developer.mozilla.org/en-US/docs/Web/API/PermissionStatus/change_event
+                // According to mozilla Android Webview also acts like Safari rather than Chrome
                 // So let's try to make it handleable
-                if (isApple) { // IT WOULD BE BETTER IF we could detect if browser supports change event!!!
-                  weHaveToDoTheAppleCase = true;
+                if (isApple || isWebViewOnAndroid) { // IT WOULD BE BETTER IF we could actually detect if browser supports change event!!!
+                  changeEventIsNotSupported = true;
                 }
               }
 
@@ -362,9 +372,12 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
         // While the user is viewing the dialog box and deciding whether or not to press OK
         let tryToAbortEveryThreeSeconds = setInterval(function () {
           if (annyang.isListening()) {
-            annyang.abort();
+            // On Apple we must keep the mic ON, otherwise it will continue asking "Do you want to allow" everytime the mic is turned ON again
+            if (!isApple) {
+              annyang.abort();
+            }
             clearInterval(tryToAbortEveryThreeSeconds);
-            if (weHaveToDoTheAppleCase) {
+            if (changeEventIsNotSupported) {
               const micPermissionPromise = navigator.permissions.query({name:'microphone'});
               micPermissionPromise.then(function(result3) { // Handle Windows & Android ...mainly Chrome
                 console.log("User's answer was NOT detected by any change event but a timeout");

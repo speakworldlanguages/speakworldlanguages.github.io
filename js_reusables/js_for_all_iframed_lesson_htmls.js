@@ -109,11 +109,11 @@ window.onload = function() { // DANGER: Do not use window.onload anywhere else. 
     /* Handle NAV MENU - Add PAUSE THE APP ceramic button */
     setTimeout(afterATinyDelay,100); // So that it won't come before HOME button // NOTE: The number in we_are_working page must be greater than 100
     function afterATinyDelay() {
-      if (!parent.isApple) { // Alert boxes on Safari mutes and unmutes sounds,,, so apple user's won't be able to use the pause feature
-        if (!parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) { //
-          parent.containerDivOfTheNavigationMenu.insertBefore(parent.clickToPauseTheAppDiv,parent.clickToFinanceDiv); //
+      // LET'S TRY HTML5 audio // if (!parent.isApple) { // Alert boxes on Safari mutes and unmutes sounds,,, so apple user's won't be able to use the pause feature
+        if (!parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) {
+          parent.containerDivOfTheNavigationMenu.insertBefore(parent.clickToPauseTheAppDiv,parent.clickToFinanceDiv);
         }
-      }
+      // LET'S TRY HTML5 audio // }
     }
   } // Progress from one lesson to the next with the rotating-globe-preloader of parent
 

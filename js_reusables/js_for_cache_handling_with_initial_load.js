@@ -3,6 +3,34 @@
 // Some of the caching below is to shorten the waiting time between lessons
 // And some are only for offline mode or to make the app start faster at the second visit/run
 /*https://stackoverflow.com/questions/73237370/how-to-chain-caching-cache-your-assets-set-by-set-according-to-their-priority*/
+window.addEventListener("DOMContentLoaded",getTheseSoundsReadyFirst,{once:true});
+async function getTheseSoundsReadyFirst() {
+  const urgentCache = await caches.open('asap');
+  const topPriorityfiles = [
+    "/user_interface/sounds/ceramic_button_click."+audioFileExtension,
+    "/user_interface/sounds/ceramic_button_hover."+audioFileExtension,
+    "/user_interface/sounds/fullscreen_exit."+audioFileExtension,
+    "/user_interface/sounds/fullscreen_open."+audioFileExtension,
+    "/user_interface/sounds/illuminant_button_click."+audioFileExtension,
+    "/user_interface/sounds/notification3_appear."+audioFileExtension,
+    "/user_interface/sounds/notification3_close."+audioFileExtension,
+    "/user_interface/sounds/user_is_away."+audioFileExtension,
+    "/user_interface/sounds/user_is_back."+audioFileExtension
+  ];
+  let errorHappened = false;
+  try {
+    console.log("Begin caching the most urgent assets");
+    await urgentCache.addAll(topPriorityfiles);
+  } catch(err) {
+    console.error(err);
+    errorHappened = true;
+  } finally {
+    if (!errorHappened) {
+      console.log("Urgent assets cached successfully");
+      localStorage.mustBeLoadedASAPFilesCachedSuccessfully = "cool"; // UNCLEAR will the browser redownload the set of files even if the files are there and we still try to addAll() // Do we need adderAll() by Talat Er???
+    }
+  }
+}
 window.addEventListener("load",welcomeScreenCacheHandling,{once:true}); // Run at least after DOMContentLoaded because -> js_for_different_browsers_and_devices.js
 function welcomeScreenCacheHandling() {
   setTimeout(afterSomeMilliseconds,500);
@@ -138,93 +166,33 @@ async function loadFilesDuringWelcomeScreen() {
   let fourthGroup = [
     "/user_interface/sounds/address_as_button_click."+audioFileExtension,
     "/user_interface/sounds/address_as_button_hover."+audioFileExtension,
-    "/user_interface/sounds/ceramic_button_click."+audioFileExtension,
-    "/user_interface/sounds/ceramic_button_hover."+audioFileExtension,
+
+
     "/user_interface/sounds/ding."+audioFileExtension,
     "/user_interface/sounds/financial_thirdparty_click."+audioFileExtension,
-    "/user_interface/sounds/fullscreen_exit."+audioFileExtension,
-    "/user_interface/sounds/fullscreen_open."+audioFileExtension,
+
+
     "/user_interface/sounds/glass_button_click."+audioFileExtension,
     "/user_interface/sounds/glass_button_hover."+audioFileExtension,
-    "/user_interface/sounds/illuminant_button_click."+audioFileExtension,
+
     "/user_interface/sounds/looping_bgm_stereo_therapy."+audioFileExtension,
     "/user_interface/sounds/notification1_appear."+audioFileExtension,
     "/user_interface/sounds/notification1_close."+audioFileExtension,
     "/user_interface/sounds/notification2_appear."+audioFileExtension,
     "/user_interface/sounds/notification2_close."+audioFileExtension,
-    "/user_interface/sounds/notification3_appear."+audioFileExtension,
-    "/user_interface/sounds/notification3_close."+audioFileExtension,
+
+
     "/user_interface/sounds/progress_chart_click."+audioFileExtension,
     "/user_interface/sounds/progress_chart_hover."+audioFileExtension,
     "/user_interface/sounds/section_as_button_click."+audioFileExtension,
     "/user_interface/sounds/section_as_button_hover."+audioFileExtension,
     "/user_interface/sounds/success1."+audioFileExtension,
-    "/user_interface/sounds/success2."+audioFileExtension,
-    "/user_interface/sounds/user_is_away."+audioFileExtension,
-    "/user_interface/sounds/user_is_back."+audioFileExtension
+    "/user_interface/sounds/success2."+audioFileExtension
   ];
   fourthGroup.push(
     "/user_interface/text/"+userInterfaceLanguage+"/0-about_saving_loading_users_progress.txt"
   );
-  /*if (isApple) {
-    fourthGroup.push(
-      "/user_interface/sounds/address_as_button_click.mp3",
-      "/user_interface/sounds/address_as_button_hover.mp3",
-      "/user_interface/sounds/ceramic_button_click.mp3",
-      "/user_interface/sounds/ceramic_button_hover.mp3",
-      "/user_interface/sounds/ding.mp3",
-      "/user_interface/sounds/financial_thirdparty_click.mp3",
-      "/user_interface/sounds/fullscreen_exit.mp3",
-      "/user_interface/sounds/fullscreen_open.mp3",
-      "/user_interface/sounds/glass_button_click.mp3",
-      "/user_interface/sounds/glass_button_hover.mp3",
-      "/user_interface/sounds/illuminant_button_click.mp3",
-      "/user_interface/sounds/looping_bgm_stereo_therapy.mp3",
-      "/user_interface/sounds/notification1_appear.mp3",
-      "/user_interface/sounds/notification1_close.mp3",
-      "/user_interface/sounds/notification2_appear.mp3",
-      "/user_interface/sounds/notification2_close.mp3",
-      "/user_interface/sounds/notification3_appear.mp3",
-      "/user_interface/sounds/notification3_close.mp3",
-      "/user_interface/sounds/progress_chart_click.mp3",
-      "/user_interface/sounds/progress_chart_hover.mp3",
-      "/user_interface/sounds/section_as_button_click.mp3",
-      "/user_interface/sounds/section_as_button_hover.mp3",
-      "/user_interface/sounds/success1.mp3",
-      "/user_interface/sounds/success2.mp3",
-      "/user_interface/sounds/user_is_away.mp3",
-      "/user_interface/sounds/user_is_back.mp3"
-    );
-  } else {
-    fourthGroup.push(
-      "/user_interface/sounds/address_as_button_click.ogg",
-      "/user_interface/sounds/address_as_button_hover.ogg",
-      "/user_interface/sounds/ceramic_button_click.ogg",
-      "/user_interface/sounds/ceramic_button_hover.ogg",
-      "/user_interface/sounds/ding.ogg",
-      "/user_interface/sounds/financial_thirdparty_click.ogg",
-      "/user_interface/sounds/fullscreen_exit.ogg",
-      "/user_interface/sounds/fullscreen_open.ogg",
-      "/user_interface/sounds/glass_button_click.ogg",
-      "/user_interface/sounds/glass_button_hover.ogg",
-      "/user_interface/sounds/illuminant_button_click.ogg",
-      "/user_interface/sounds/looping_bgm_stereo_therapy.ogg",
-      "/user_interface/sounds/notification1_appear.ogg",
-      "/user_interface/sounds/notification1_close.ogg",
-      "/user_interface/sounds/notification2_appear.ogg",
-      "/user_interface/sounds/notification2_close.ogg",
-      "/user_interface/sounds/notification3_appear.ogg",
-      "/user_interface/sounds/notification3_close.ogg",
-      "/user_interface/sounds/progress_chart_click.ogg",
-      "/user_interface/sounds/progress_chart_hover.ogg",
-      "/user_interface/sounds/section_as_button_click.ogg",
-      "/user_interface/sounds/section_as_button_hover.ogg",
-      "/user_interface/sounds/success1.ogg",
-      "/user_interface/sounds/success2.ogg",
-      "/user_interface/sounds/user_is_away.ogg",
-      "/user_interface/sounds/user_is_back.ogg"
-    );
-  }*/
+
 
   const p = "/user_interface/images/scrolly_globe_frames/250px_white_globe_";
   let fifthGroup = [
