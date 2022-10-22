@@ -81,7 +81,7 @@
     <link rel="apple-touch-icon" href="/user_interface/homescreen_icon/icon_for_pwa_en.png">
     <link rel="manifest" href="/manifest_en.json">
     <script>
-      //if ("serviceWorker" in navigator) {  window.addEventListener("DOMContentLoaded",()=>{  navigator.serviceWorker.register("service-worker.js");  });  } // Takes too long compared to window load (almost a second)
+      if ("serviceWorker" in navigator) {  window.addEventListener("DOMContentLoaded",()=>{  navigator.serviceWorker.register("service-worker.js");  });  } // Takes too long compared to window load (almost a second)
     </script>
 
     <!-- Inline style is for the pre-preloader dialog modal box only -->
