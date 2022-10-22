@@ -12,7 +12,7 @@ function getUserInterfaceTextsReadyF() {
 async function cacheUI_textsAndFonts() {
   const cacheName = "user-interface-cache-Nov19th2021";
   const resourcesToPrecache = [
-    "/css_reusables/css_for_hitoic_kanji_font_rules.css",
+    ////"/css_reusables/css_for_hitoic_kanji_font_rules.css",
     "/user_interface/fonts/KosugiMaru-Regular.ttf",
     "/user_interface/text/ja/0-allow_microphone.txt",
     "/user_interface/text/ja/0-author_gives_sleep_advice.txt",
@@ -21,7 +21,7 @@ async function cacheUI_textsAndFonts() {
     "/user_interface/text/ja/0-do_you_want_to_reset.txt",
     "/user_interface/text/ja/0-give_up_and_skip.txt",
     "/user_interface/text/ja/0-if_speech_recognition_is_not_working.txt",
-    "/user_interface/text/ja/0-if_the_browser_does_not_support.txt",
+    "/user_interface/text/ja/0-if_browser_support_is_unknown.txt",
     "/user_interface/text/ja/0-learn_another_language.txt",
     "/user_interface/text/ja/0-lesson_is_paused_by_button.txt",
     "/user_interface/text/ja/0-network_connection_too_slow.txt",

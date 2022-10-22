@@ -2,7 +2,7 @@
 
 .wavesurferMicrophoneDiv{
   position: fixed;
-  z-index: 87; /*Give up button is 88 in css_for_new_vocabulary_with_photos.css*/
+  z-index: 87; /*Give up button is 88 in css_for_photos_and_videos_teach_a_new_word.css*/
   box-sizing: border-box;
   width: 50%;
   height:100px;
@@ -33,3 +33,5 @@
     visibility: visible;
   }
 }
+
+/* Immediate removal is good. Do not fade to zero opacity */

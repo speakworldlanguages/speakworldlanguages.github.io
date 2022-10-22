@@ -6,9 +6,11 @@ a.openAboutPageAnchor:link, a.openAboutPageAnchor:visited{color: white; text-dec
 a.openAboutPageAnchor:hover{text-decoration: none;}
 a.openAboutPageAnchor:active{}
 .letterSpacingAnimation{letter-spacing: 0.8px; transition: all 1.8s ease-out}
-.letterSpacingAnimation:hover{letter-spacing: 3px;}
+.letterSpacingAnimation:hover{letter-spacing: 4px;}
 
-.alegreya{font-family: 'Alegreya Sans SC', 'Titillium Web Light', sans-serif; font-size: 2.25vh;}
+/*Kanit font is loaded via "about.js"*/
+.patua{font-family: 'patua', 'Titillium Web Light', sans-serif; font-size: 2.25vh;} /*Patua is loaded by "js_for_every_single_html.js"*/
+
 /* width */
 ::-webkit-scrollbar {
   width: 6px;
@@ -36,4 +38,27 @@ a.openAboutPageAnchor:active{}
 @keyframes niceFadeInFast {
   0%{opacity:0.05;}
 100%{opacity:1;}
+}
+
+.explainer{
+  color: #526e85;
+  text-shadow:none;
+  font-family:'kanit', sans-serif; /*Kanit font is loaded via "about.js"*/
+  font-size:115%;
+  max-width:95vmin;
+  margin-top:6vh;
+}
+.linksContainer{
+  background-color: rgba(191,220,238,0.5);
+  border: 2px solid rgba(255,255,255,0.5);
+  border-radius:10px;
+  padding:20px;
+  max-width:62vmin;
+  margin-top:2vh;
+}
+@media (max-width: 440px) {
+  .linksContainer{max-width:85vmin;}
+}
+@media (max-width: 380px) {
+  .linksContainer{max-width:90vmin;}
 }

@@ -1,151 +1,109 @@
 <!DOCTYPE html>
 <html>
   <head>
-
+    <!-- ⁞ AUTHOR'S FIRST NOTICE ⁞ -->
+    <title>✋ 💬</title>
     <meta charset="utf-8">
     <meta name="robots" content="noindex" />
-    <!-- THIS IS DESIGNED TO BE DISPLAYED VIA AN iFrame; therefore meta viewport and icon are not necessary here as long as the parent html has them. -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">  --> <!-- For mobile devices-->
-    <script>    localStorage.theLastCheckpointSavedInLocalStorage = self.location.href; /*Save checkpoint*/    </script>
-    <!-- We want the “car going backwards” button in the nav menu to be functional by using the title as a string-->
-    <title>✋</title> <!-- See js_object_of_all_lessons_listed.js -->
 
-    <link rel="stylesheet" href="../../../../css_reusables/css_for_custom_cursor.css">
-    <link rel="stylesheet" href="../../../../css_reusables/css_for_every_single_html.css">
-    <link rel="stylesheet" href="../../../../css_reusables/css_for_all_iframed_lesson_htmls.css"> <!-- Necessary for background gradient. -->
-    <link rel="stylesheet" href="../../../../css_reusables/css_for_new_vocabulary_with_photos.css"> <!-- For bread photo -->
-    <link rel="stylesheet" href="../../../../css_reusables/css_for_lessons_with_interactables.css"> <!-- For the postloader with the faster fade -->
+    <!-- Make this notice skippable after 1-1-4 -->
+    <script> localStorage.breadBakedByAuthorNoticeHasBeenDisplayedAlready = "yes"; /*So that user will see this screen only once » See take_bread.js*/ </script>
+
+    <link rel="stylesheet" href="/css_reusables/css_for_every_single_html.css">
+    <link rel="stylesheet" href="/css_reusables/css_for_all_iframed_lesson_htmls.css"> <!-- line height for P elements -->
+    <link rel="stylesheet" href="/css_reusables/css_for_photos_and_videos_teach_a_new_word.css"> <!-- For bread photo -->
+    <link rel="stylesheet" href="/css_reusables/css_for_proceed_buttons.css"> <!-- SECTION element is turned into a button -->
     <link rel="stylesheet" href="notice.css">
 
-    <script defer src="../../../../js_reusables/js_for_every_single_html.js">/*Get fonts*/</script>
-    <script defer src="../../../../js_reusables/js_for_all_iframed_lesson_htmls.js">/*Make buttons work*/</script>
-    <script defer src="../../../../js_reusables/js_for_fetch_api_character_encoding.js">/*Display non-english characters correctly*/</script>
-    <script src="notice.js">/*What to do here*/</script>
-    <style>
-    .nearZeroOpacity{opacity:0.01;}
-    .fadeIn{animation-name: niceFadeIn; animation-duration: 1s; animation-fill-mode: forwards;}
-    @keyframes niceFadeIn {
-        0%{opacity:0.01;}
-        100%{opacity:1;}
-      }
-    .fadeOut{animation-name: niceFadeOut; animation-duration: 2s; animation-fill-mode: forwards;}
-    @keyframes niceFadeOut {
-        0%{opacity:1;}
-        100%{opacity:0;}
-      }
-    </style>
-  </head>
-  <body>
+    <script defer src="/js_reusables/js_for_every_single_html.js">/*Get fonts*/</script>
+    <script defer src="/js_reusables/js_for_all_iframed_lesson_htmls.js">/*Handle preloader, detect location, handle nav menu buttons, handle unloading*/</script>
+    <script defer src="/js_reusables/js_for_proceed_buttons.js">/*Hover click touch sounds*/</script>
+    <script defer src="notice.js">/*What to do here*/</script>
 
-    <main> </main> <!-- Provides background gradient and doesn't contain anything here. -->
+  </head>
+  <body class="defaultCursor">
+
+    <!-- No main element used here: A darker version of the standard background gradient is set in notice.css class cinematicViewport -->
+
+    <div class="upperDarkness">
+      <!-- Portrait2 only -->
+      <div class="oneOfTheTwoDivsThatContainSquarePictures portraitBread">
+        <img src="baked_by_the_author_himself.webp" draggable="false">
+      </div>
+      <section class="startHidden">...</section>
+    </div>
+    <div class="cinematicViewport">
+      <div class="leftOrLowerDivision">
+        <div class="speechBubble"><p id="putTheWordsInHereP"></p></div>
+        <svg id="arrow_under_speech_bubble" x="0px" y="0px" width="100px" height="100px" viewBox="0 0 100 100" xml:space="preserve" style="">
+        <path id="arrow" fill="#FFFFFF" d="M76.778,34H23.222c-8.8,0-10.497,4.577-3.771,10.252l23.671,19.94
+        	c3.783,3.192,9.974,3.175,13.757-0.017L80.55,44.26C87.275,38.585,85.578,34,76.778,34z"/>
+        </svg>
+        <img src="earthman_topraksoy_tsuchimoto.webp" draggable="false">
+        <svg version="1.2" baseProfile="tiny" style="position:absolute; opacity:0;" id="antigoof" x="0px" y="0px" width="800px" height="800px" viewBox="0 0 800 800" xml:space="preserve">
+          <path style="cursor:none;" d="M785.349,760C772.458,696.575,751.541,623.056,704,583.516c-38.501-32.021-200.69-75.861-180.64-133.304c31.617-90.58,60.743-223.24,7.002-296.569c-23.409-31.94-62.54-52.624-124.036-53.669c-3.694-0.063-24.428,0.572-30.577,1.231c-33.357,3.575-58.939,14.585-78.248,30.857c-78.833,66.434-53.074,220.578-24.798,314.504c23.258,77.256-180.469,99.611-217.157,173.202C33.862,663.263,20.898,711.96,10.371,760H0v40h800v-40H785.349z"/>
+        </svg>
+      </div>
+      <div class="rightOrUpperDivision">
+        <!-- Landscape only -->
+        <div class="oneOfTheTwoDivsThatContainSquarePictures landscapeBread">
+          <img src="baked_by_the_author_himself.webp" draggable="false">
+        </div>
+
+        <section class="startHidden">...</section>
+      </div>
+    </div>
+    <div class="lowerDarkness"></div>
 
     <!-- FOR DESKTOPS -->
-    <div id="thisDivContainsEverythingThatWillBeDisplayedOnDesktops" class="nearZeroOpacity"> <!-- Use remove() or removeChild()  on tablets and phones -->
-      <!-- Photo of the author -->
-      <img src="earthman_topraksoy_tsuchimoto.webp" class="positionFixedBottomZero" style="height: 44vmax; left: 5vw; filter: drop-shadow(0px 0px 10px #ffffff);">
-      <!-- Antigoofing -->
-      <div class="positionFixedBottomZero" style="width:17vmax; height:22vmax; left: 5vw; transform: translate(14vw,-15vmax); cursor:none;"></div>
-      <!-- Photo of the bread -->
-      <div class="oneOfTheTwoDivsThatContainSquarePictures classForTheBreadOnDesktops" style=" position:fixed; top: 6.7vmax;  width: 32vmax; height: 32vmax; padding: 11px;">
-        <img src="baked_by_the_author_himself.webp">
-      </div>
-      <!-- Speech bubble -->
-      <div id="addAlignmentIfKanjiDIV" class="classForSpeechBubbleOnDesktops" style="position: fixed; min-height: 150px; background-color:white; border-radius:8px; padding-left:15px; padding-right:15px; padding-top:12px; padding-bottom:12px;">
-        <p id="putTheWordsInHereP" class="" style="text-align: justify; font-size: 2.5vh; letter-spacing: 1px; /*line-height: 122%;*/ white-space: pre-wrap;">
-        </p>
-      </div>
-      <div id="hideThisWhenVeryNarrow" class="classForSpeechBubbleOnDesktops" style="position: fixed; width: 150px; transform: scaleX(-1) translate(85px,-1px);">
-        <svg height="150" width="40">		    <polygon points="0,0 0,150 40,150" style="fill: white;"/>	     </svg>
-      </div>
-      <!-- Go to next button -->
-      <div id="moveThisWhenVeryNarrow" class="classForSpeechBubbleOnDesktops proceedToNextButton115AppearFadeIn" style="position: fixed; mix-blend-mode:overlay; transform:  translate(-6px,120px); ">
-        <button id="putTextIntoThisGoToNextButton" onclick="proceedToNextLesson115();" style="position: relative; color:white; width:100%; ">»»»</button>
-      </div>
-      <!-- End of contents for desktops -->
-    </div>
+    <!-- <div id="thisDivContainsEverythingThatWillBeDisplayedOnDesktops" class="nearZeroOpacity"> -->
+
+    <!-- </div> -->
     <!-- END OF DESKTOPS -->
 
-    <!-- FOR TABLETS --> <!-- Note: Firefox Mobile misidentifies a tablet as a phone! -->
-    <div id="thisDivContainsEverythingThatWillBeDisplayedOnTablets" class="nearZeroOpacity"> <!-- Use remove() or removeChild()  on desktops and phones -->
-      <!-- Photo of the author -->
-      <img src="earthman_topraksoy_tsuchimoto.webp" class="positionFixedBottomZero classForAuthorsPhotoOnTablets" style="z-index:9; filter: drop-shadow(0px 0px 10px #ffffff);">
-      <!-- Photo of the bread -->
-      <div class="oneOfTheTwoDivsThatContainSquarePictures classForTheBreadOnTablets" style="position:fixed; margin: 0px;/*padding: 11px;*/">
-        <img src="baked_by_the_author_himself.webp" style="/*transform: scale(1.03); -webkit-clip-path: inset(2% 2% 2% 2% round 10px); clip-path: inset(2% 2% 2% 2% round 10px);*/">
-      </div>
-      <!-- Speech bubble -->
-      <div class="classForSpeechBubbleElementsOnTablets" style="z-index:99; bottom: 78vmin; width:24px; height:24px; margin-bottom: -22px;">
-        <svg height="15" width="30" class="nudgeTheLittleTriangleOnTablets" style="">		    <polygon points="0,0 15,15 30,0" style="fill: rgba(255,255,255,0.9);"/>	     </svg>
-      </div>
-      <div class="classForSpeechBubbleElementsOnTablets" style="z-index:100; bottom: 78vmin; min-width:82vmin; min-height:30px; background-color:rgba(255,255,255,0.9); border-radius:8px; padding-left:15px; padding-right:15px; padding-top:12px; padding-bottom:12px;">
-        <p id="putTheWordsInHereP" class="classForSpeechBubbleTextOnTablets" style="text-align: justify; text-shadow: none; letter-spacing: 1px;">
-        </p>
-      </div>
-      <!-- Go to next button -->
-      <div class="proceedToNextButton115AppearFadeIn classForButton115OrientationalPositioningOnTablets" style="mix-blend-mode: hard-light;">
-        <button id="putTextIntoThisGoToNextButton" onclick="proceedToNextLesson115();" style="color:white; min-width:58vmin; opacity:0.9;">»»»</button>
-      </div>
-      <!-- End of contents for tablets -->
-    </div>
-    <!-- END OF TABLETS -->
+    <!-- FOR MOBILES --> <!-- Note: Firefox Mobile misidentifies a tablet as a phone! -->
+    <!-- <div id="thisDivContainsEverythingThatWillBeDisplayedOnMobiles" class="nearZeroOpacity"> -->
 
-    <!-- FOR PHONES --> <!-- Note: Firefox Mobile misidentifies a tablet as a phone! -->
-    <div id="thisDivContainsEverythingThatWillBeDisplayedOnPhones" class="nearZeroOpacity"> <!-- Use remove() or removeChild()  on desktops and tablets -->
-      <!-- Photo of the author -->
-      <img src="earthman_topraksoy_tsuchimoto.webp" class="positionFixedBottomZero classForAuthorsPhotoOnPhones" style="z-index:9; filter: drop-shadow(0px 0px 10px #ffffff);">
-      <!-- Photo of the bread -->
-      <div class="oneOfTheTwoDivsThatContainSquarePictures classForTheBreadOnPhones" style="position:fixed; margin: 0px;/*padding: 11px;*/">
-        <img src="baked_by_the_author_himself.webp" style="/*transform: scale(1.03); -webkit-clip-path: inset(2% 2% 2% 2% round 10px); clip-path: inset(2% 2% 2% 2% round 10px);*/">
-      </div>
-      <!-- Speech bubble -->
-      <div class="classForSpeechBubbleElementsOnPhones" style="z-index:99; width:17px; height:17px; margin-bottom: -15px;">
-        <svg height="15" width="30" class="nudgeTheLittleTriangleOnPhones" style="">		    <polygon points="0,0 15,15 30,0" style="fill: rgba(255,255,255,0.9);"/>	     </svg>
-      </div>
-      <div class="classForSpeechBubbleElementsOnPhones" style="z-index:100; min-width:82vmin; min-height:30px; background-color:rgba(255,255,255,0.9); border-radius:8px; padding-left:15px; padding-right:15px; padding-top:12px; padding-bottom:12px;">
-        <p id="putTheWordsInHereP" class="classForSpeechBubbleTextOnPhones" style="text-align: justify; text-shadow: none; letter-spacing: 1px;">
-        </p>
-      </div>
-      <!-- Go to next button -->
-      <div class="proceedToNextButton115AppearFadeIn classForButton115OrientationalPositioningOnPhones" style="mix-blend-mode: hard-light;">
-        <button id="putTextIntoThisGoToNextButton" onclick="proceedToNextLesson115();" style="color:white; min-width:58vmin; opacity:0.9;">»»»</button>
-      </div>
-      <!-- End of contents for phones -->
-    </div>
-    <!-- END OF PHONES -->
+    <!-- </div> -->
+    <!-- END OF MOBILES -->
+
+
   </body>
   <script>
     /*_________UI HANDLING__________*/
-    var desktopDisplay = document.getElementById('thisDivContainsEverythingThatWillBeDisplayedOnDesktops');
-    var tabletDisplay = document.getElementById('thisDivContainsEverythingThatWillBeDisplayedOnTablets');
-    var phoneDisplay = document.getElementById('thisDivContainsEverythingThatWillBeDisplayedOnPhones');
+    ////const desktopDisplay = document.getElementById('thisDivContainsEverythingThatWillBeDisplayedOnDesktops');
+    ////const mobileDisplay = document.getElementById('thisDivContainsEverythingThatWillBeDisplayedOnMobiles');
 
     window.addEventListener('DOMContentLoaded', function(){
-      // DETECT DEVICE AND DISPLAY ACCORDINGLY
-      if (deviceDetector.device == "tablet") {
-          // ON TABLETS leave only the tablet div
-          desktopDisplay.parentNode.removeChild(desktopDisplay);
-          phoneDisplay.parentNode.removeChild(phoneDisplay);
+      if (needLatinFonts) {
+        /*GET FONTS*/
+        let speechBubbleFontFont;
+        speechBubbleFontFont = new FontFace('speechBubbleFont', "url(/user_interface/fonts/RussoOne-Regular.ttf)");
+        speechBubbleFontFont.load().then(function(loaded_face) {
+            document.fonts.add(loaded_face);
+        }).catch(function(error) {    console.error("Unable to get the font: " + error);  });
+        document.getElementById('putTheWordsInHereP').style.fontFamily = "speechBubbleFont";
       }
-      else if (deviceDetector.device == "phone") {
-          // ON PHONES leave only the phone div
+      /*
+      // DETECT DEVICE AND DISPLAY ACCORDINGLY
+      if (deviceDetector.isMobile) {
           desktopDisplay.parentNode.removeChild(desktopDisplay);
-          tabletDisplay.parentNode.removeChild(tabletDisplay);
       }
       else {
           // ON DESKTOPS leave only the desktop div
-          tabletDisplay.parentNode.removeChild(tabletDisplay);
-          phoneDisplay.parentNode.removeChild(phoneDisplay);
+          mobileDisplay.parentNode.removeChild(mobileDisplay);
       }
+      */
       /*For Motoya Kosugi Font*/
-      if (userInterfaceLanguage=="ja") {
-        if (deviceDetector.isMobile) {
-            document.getElementById('putTheWordsInHereP').classList.add("forKanjiOnMobiles");
-        }
-        else {
-          document.getElementById("addAlignmentIfKanjiDIV").classList.add("alignContentsRightWithFlexForKanjiOnDesktops");
-          document.getElementById("putTheWordsInHereP").classList.add("verticalTextForKanji");
-        }
-      }
+      // if (userInterfaceLanguage=="ja") {
+      //   if (deviceDetector.isMobile) {
+      //       document.getElementById('putTheWordsInHereP').classList.add("forKanjiOnMobiles");
+      //   }
+      //   else {
+      //     document.getElementById("addAlignmentIfKanjiDIV").classList.add("alignContentsRightWithFlexForKanjiOnDesktops");
+      //     document.getElementById("putTheWordsInHereP").classList.add("verticalTextForKanji");
+      //   }
+      // }
     }, { once: true });
   </script>
 </html>

@@ -1,65 +1,90 @@
-// TEXT TO BE INJECTED “SLOWLY” INTO P ELEMENTS
-let whatTheAuthorHasToSay115 = " "; // CAUTION & WARNING: If fetch() is delayed because of slow network this would be UNDEFINED for a while unless set to empty space!
-// NOTE: DEPRECATED! » “myHeaders” variable exists in "../../../../js_reusables/js_for_fetch_api_character_encoding.js"
-// NOTE: “userInterfaceLanguage” variable exists in "../../../../js_reusables/js_for_every_single_html.js"
-let filePathForAuthorsMessage;
-let filePathForWhatToPutIntoTheButton;
+"use strict";
+let whatTheAuthorHasToSay = " ";
+let clonedButtons0, clonedButtons1;
+let speechMustStartImmediately = false;
 
-// Wait until all images and other js variables are ready with the 'load' event.
-// ESPECIALLY wait for userInterfaceLanguage in js_for_every_single_html.js
-window.addEventListener('load', function(){
-  if (deviceDetector.device == "tablet") {
-      tabletDisplay.classList.add("fadeIn");
-  }
-  else if (deviceDetector.device == "phone") {
-      phoneDisplay.classList.add("fadeIn");
-  }
-  else {
-      desktopDisplay.classList.add("fadeIn");
-  }
-  /*_________END OF UI HANDLING__________*/
-  filePathForAuthorsMessage  = "/user_interface/text/"+userInterfaceLanguage+"/1-1-5_author_says.txt";
+window.addEventListener('DOMContentLoaded', function(){
+  clonedButtons0 = document.getElementsByTagName('SECTION')[0];
+  clonedButtons1 = document.getElementsByTagName('SECTION')[1];
+
+  const filePathForAuthorsMessage = "/user_interface/text/"+userInterfaceLanguage+"/1-1-notice_author_says.txt";
+  const filePathForWhatToPutIntoTheButton = "/user_interface/text/"+userInterfaceLanguage+"/0-continue_to_next.txt";
   fetch(filePathForAuthorsMessage,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-    whatTheAuthorHasToSay115 = contentOfTheTxtFile;
+    whatTheAuthorHasToSay = contentOfTheTxtFile;
     // ANIMATE TEXT
     let i = 1;
-    function updateTheTextFunction115() {
-        let visibleText = whatTheAuthorHasToSay115.substring(0, i); // CAUTION & WARNING: If fetch() is delayed because of slow network “whatTheAuthorHasToSay115” could be UNDEFINED for a while!
+    function updateTheTextFunction() {
+        let visibleText = whatTheAuthorHasToSay.substring(0, i); // CAUTION & WARNING: If fetch() is delayed because of slow network “whatTheAuthorHasToSay” could be UNDEFINED for a while!
         document.getElementById("putTheWordsInHereP").innerHTML = visibleText;
     }
-    let timer115 = setInterval(function(){
-        updateTheTextFunction115();
-        if (i >= whatTheAuthorHasToSay115.length) {
-          clearInterval(timer115);
-        }
-        i++;
-    }, 60);
+    function startPrintingLetters() {
+      let timer = setInterval(function(){
+          updateTheTextFunction();
+          if (i >= whatTheAuthorHasToSay.length) {
+            clearInterval(timer);
+            clonedButtons0.classList.add("revealButton");
+            clonedButtons1.classList.add("revealButton");
+          }
+          i++;
+      }, 60);
+    }
+    if (speechMustStartImmediately) {
+      startPrintingLetters();
+    } else {
+      setTimeout(function () { startPrintingLetters(); }, 4000);
+    }
   });
-  // TRICK: Although the same ID is used three times, the removal of two of them will already have taken place by the time fetch() gets the file.
-  filePathForWhatToPutIntoTheButton  = "/user_interface/text/"+userInterfaceLanguage+"/0-continue_to_next.txt";
-  fetch(filePathForWhatToPutIntoTheButton,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  document.getElementById('putTextIntoThisGoToNextButton').innerHTML = contentOfTheTxtFile; });
+
+  fetch(filePathForWhatToPutIntoTheButton,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+    clonedButtons0.innerHTML = contentOfTheTxtFile;
+    clonedButtons1.innerHTML = contentOfTheTxtFile;
+  });
 
 }, { once: true });
-// The 1-1-5.txt file should read one of the following (depending on the UI language)
-//TR: "Az önce gördüğün bu ekmeği evde kendim pişirdim.";
-//EN: "I baked this bread myself at home.";
-//JA: "先に見えたそのパンは私が家で作りました。";
 
+let bgmSound, hoverSound, clickSound;
+window.addEventListener('load', function(){
+  bgmSound = new parent.Howl({ src: ["/user_interface/sounds/looping_bgm_stereo_therapy."+parent.audioFileExtension], loop: true });
+  bgmSound.once('load', function(){
+    setTimeout(function () {   bgmSound.play(); bgmSound.fade(0,0.4,15000);   }, 4000);
+    setTimeout(function () {   bgmSound.fade(0.4,0,15000);   }, 27000);
+  });
+  hoverSound = new parent.Howl({  src: ["/user_interface/sounds/section_as_button_hover."+parent.audioFileExtension]  });
+  clickSound = new parent.Howl({  src: ["/user_interface/sounds/section_as_button_click."+parent.audioFileExtension]  });
 
-//function unloadTheSoundsOfThisLesson() {  /*Nothing to do*/  } // This has to exist here.
-//function unloadTheImagesOfThisLesson() {  /*Could try to unload the bread webp and tsuchimoto webp if necessary*/  } // This has to exist here.
+  if (deviceDetector.isMobile) {
+    clonedButtons0.addEventListener("touchstart",function (event) { event.preventDefault(); event.stopPropagation(); hoverSound.play(); });
+    clonedButtons1.addEventListener("touchstart",function (event) { event.preventDefault(); event.stopPropagation(); hoverSound.play(); });
+    clonedButtons0.addEventListener("touchend",continueWithTheNextLesson,{once:true});
+    clonedButtons1.addEventListener("touchend",continueWithTheNextLesson,{once:true});
+  } else {
+    clonedButtons0.addEventListener("mouseenter",function () { hoverSound.play(); });
+    clonedButtons1.addEventListener("mouseenter",function () { hoverSound.play(); });
+    clonedButtons0.addEventListener("mousedown",continueWithTheNextLesson,{once:true});
+    clonedButtons1.addEventListener("mousedown",continueWithTheNextLesson,{once:true});
+  }
+  setTimeout(function () { speechMustStartImmediately = true; }, 4000);
+}, { once: true });
 
-function proceedToNextLesson115() { /*This is called with an inline onclick inside the button element. See notice_0/index.html */
-  document.querySelector('.nearZeroOpacity').classList.add("fadeOut"); // 2 second fadeout
-  /* END OF ACTIVITY */
-  /* GET READY TO EXIT THIS LESSON */
-  setTimeout(function() {
-    parent.preloadHandlingDiv.classList.remove("addThisClassToHideThePreloader");
-    parent.preloadHandlingDiv.classList.add("addThisClassToRevealThePreloader");
-  },1500); // 3000-1500 = 1500 See css_for_every_single_html
-  /*setTimeout(function() {
-    unloadTheSoundsOfThisLesson();
-    unloadTheImagesOfThisLesson();
-  },2900); // Also see js_for_all_iframed_lesson_htmls about unloadTheSoundsOfThisLesson() unloadTheImagesOfThisLesson()*/
-  setTimeout(function () { parent.ayFreym.src = "/lessons_in_iframes/level_1/unit_2/lesson_1/index.html"; },3000);
+function continueWithTheNextLesson(event) { event.preventDefault(); event.stopPropagation();
+  bgmSound.stop(); clickSound.play();
+  clonedButtons0.classList.remove("revealButton"); clonedButtons0.classList.remove("startHidden");
+  clonedButtons1.classList.remove("revealButton"); clonedButtons1.classList.remove("startHidden");
+  setTimeout(function () {
+    clonedButtons0.classList.add("addThisToAButtonForPlayStationStyleClick");
+    clonedButtons1.classList.add("addThisToAButtonForPlayStationStyleClick");
+  }, 50);
+
+  setTimeout(function () {
+    showPreloaderBeforeExit(); // 1500ms » See js_for_all_iframed_lesson_htmls AND See css_for_preloader_and_orbiting_circles
+    setTimeout(function () {   parent.ayFreym.src = "/lessons_in_iframes/level_1/unit_2/lesson_1/index.html";   }, 1500);
+  },1400); // Let the button disappear completely before preloader starts appearing
+}
+
+function unloadTheSoundsOfThisLesson() { // Standard function called by beforeunload in js_for_all_iframed_lesson_htmls
+  bgmSound.unload();
+  hoverSound.unload();
+  // CANNOT unload click sound even if we do setTimeout(function () {  clickSound.unload();  }, 3000);
+  // DOESN'T WORK EITHER: clickSound.on('end', function(){ clickSound.unload(); console.log("does clickSound.unload fire?"); });
+  parent.unloadThatLastSoundWhichCannotBeUnloadedNormally(clickSound); // Exists in js_for_app_initialization_in_parent,,, unloads the sound after 5s
 }

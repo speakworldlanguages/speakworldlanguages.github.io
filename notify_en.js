@@ -30,8 +30,8 @@ function insertData() {
 }
 const brokenVapidKey = "B7_p1Mfhfo4YbGkmKRDjemU0tPEGcZ3zzysITjcrPMzjR3x38cKyRmzG1T7ID3YdXC-QqSRgxLntBmAJ8tkn04";
 
-const clickToSubscribe = document.getElementById('footerNotificationID');
-const containerOfSubscribe = document.getElementsByTagName('FOOTER')[0];
+const clickToSubscribe = document.getElementById('footerNotificationID'); // OUTDATED
+const containerOfSubscribe = document.getElementsByTagName('FOOTER')[0]; // OUTDATED
 clickToSubscribe.addEventListener("click",subscribeUser,{once:true}); // Do we need once:true? Probably yes
 // On the very first visit serviceWorker registration happens about 1 second after page load
 // In this case do we need to check and wait until serviceWorker fires activate ???
@@ -46,9 +46,9 @@ function subscribeUser() {
       getToken(messaging, {vapidKey:"B"+brokenVapidKey}).then((currentToken) => {
         tokenToBeSaved = currentToken;
         insertData();
-        // var notification = new Notification('Great', { body: "You will be notified when new lessons are online", icon: "icon_for_pwa_en.png" }); // THIS DOESN'T WORK!
+        // var notification = new Notification('Great', { body: "You will be notified when new lessons are online", icon: "user_interface/homescreen_icon/icon_for_pwa_en.png" }); // THIS DOESN'T WORK!
         reg.showNotification('Great',
-        { body: "You will be notified when new lessons are online", badge: "notification/badge.png", icon: "icon_for_pwa_en.png", image: "notification/notification_image.jpg" });
+        { body: "You will be notified when new lessons are online", badge: "user_interface/images/push_notification/badge.png", icon: "user_interface/homescreen_icon/icon_for_pwa_en.png", image: "user_interface/images/push_notification/notification_image.jpg" });
 
       }).catch((err) => {
         console.log('An error occurred while retrieving token. ', err);

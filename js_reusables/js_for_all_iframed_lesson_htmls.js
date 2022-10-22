@@ -1,65 +1,39 @@
+"use strict";
 // CAREFUL! DEFER or NOT DEFER
-// Is iFrameLoadHasHappenedThisManyTimes TOTALLY USELESS???
+
+// The following can be used to prompt the user to add the app to HOMESCREEN and/or get Push Notifications AS SOON AS he/she seems to be seriously using the app
+/*
 if (sessionStorage.iFrameLoadHasHappenedThisManyTimes) {  sessionStorage.iFrameLoadHasHappenedThisManyTimes = Number(sessionStorage.iFrameLoadHasHappenedThisManyTimes) + 1;  }
 else {  sessionStorage.iFrameLoadHasHappenedThisManyTimes = 1;  } // CAN: Use modulus to repeat things every two or three times.
-var thisLessonHasBeenLoadedFresh = true; // Access this from js_for_the_sliding_navigation_menu to switch the function of the goBackOrRefreshButton
+
+// REMEMBER: Store user's choice in localStorage if he/she accepts and never propmt again » If he/she rejects do not prompt until next session
+*/
+
+function lockOrientation() { // Better if this exists here and is not placed in js_for_every_single_html, yes or no? Probably yes.
+  setTimeout(function () {
+    if (screen.orientation) { // HOPEFULLY mobile user didn't exit fullscreen mode » TRY ANYHOW
+      // Is mozilla.org WRONG? https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation/lock
+      // Is mozilla.org WRONG? https://developer.mozilla.org/en-US/docs/Web/API/Screen/orientation
+      const lastOrientation = screen.orientation.type; // This works on Windows and Android » it returns a string
+      parent.window.screen.orientation.lock(lastOrientation); // Works! // Unlocking is in js_for_all_iframed_lesson_htmls
+      // console.log("lockOrientation fires correctly, no?"); // IT DOUBLE FIRES after window resize (see 1-1-4) is triggered BUT does not create a major problem
+    } else {
+      // Maybe transform rotate(90deg) scale(...) etc to imitate screen locking on Safari
+    }
+  }, 100); // Small delay as a safety measure
+}
+
+function showPreloaderBeforeExit() { // Call this at the end of every lesson
+  parent.preloadHandlingDiv.classList.remove("addThisClassToHideThePreloader"); // 1500 ms » See css_for_preloader_and_orbiting_circles
+  parent.preloadHandlingDiv.classList.add("addThisClassToRevealThePreloader"); // 1500 ms » See css_for_preloader_and_orbiting_circles
+}
 
 /**/
-window.onload = function() { // DANGER: Do not use window.onload anywhere else. Use addEventListener "load" instead in order to avoid overwriting.
-
-  // progress_chart
-  const whereAreWe = window.location.pathname;
-  if (whereAreWe.search("progress_chart") != -1) { // This means we have landed on the progress_chart
-    // Bring the installation&notification-subscription button (footer in parent)
-    parent.revealNotificationAndInstallation_2in1_button();
-    /* Handle NAV MENU - Remove PAUSE THE APP ceramic button */
-    if (parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) { // Used to be in progress.js
-      parent.containerDivOfTheNavigationMenu.removeChild(parent.clickToPauseTheAppDiv); //
-    }
-  } else if (whereAreWe.search("information") != -1) { // information
-    if (deviceDetector.isMobile) {
-      setTimeout(function () {   parent.makeTheNavMenuGoDownOnMobiles();   },500); // See js_for_the_sliding_navigation_menu // The function checks if the menu was up
-    }
-    // Hide the installation&notification-subscription button (footer in parent)
-    parent.hideNotificationAndInstallation_2in1_button();
-    if (parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) { // Used to be in progress.js
-      parent.containerDivOfTheNavigationMenu.removeChild(parent.clickToPauseTheAppDiv); //
-    }
-  } else { // We have landed on a lesson
-    if (deviceDetector.isMobile) {
-      setTimeout(function () {   parent.makeTheNavMenuGoDownOnMobiles();   },1500); // See js_for_the_sliding_navigation_menu // The function checks if the menu was up
-    }
-    // Hide the installation&notification-subscription button (footer in parent)
-    parent.hideNotificationAndInstallation_2in1_button();
-    /* Handle NAV MENU - Add PAUSE THE APP ceramic button */
-    setTimeout(afterATinyDelay,100); // So that it won't come before HOME button
-    function afterATinyDelay() {
-      if (!parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) { //
-        parent.containerDivOfTheNavigationMenu.insertBefore(parent.clickToPauseTheAppDiv,parent.clickToFinanceDiv); //
-      }
-    }
-  } // Progress from one lesson to the next with the rotating-globe-preloader of parent
-
-  /* Handle NAV MENU - HOME OF PROGRESS ceramic button */
-  if (!parent.containerDivOfTheNavigationMenu.contains(parent.clickToGoToMainMenuDiv)) { // If never existed in the beginning or perhaps was removed
-    if (!parent.containerDivOfTheNavigationMenu.contains(parent.clickToGoToPreviousDiv)) { // If user is not coming directly from [Choose the language you want to learn] screen
-      parent.containerDivOfTheNavigationMenu.insertBefore(parent.clickToGoToMainMenuDiv,parent.clickToFinanceDiv); // TESTED: Looks like it’s working.
-    }
-  }
-
-
-  // Hide the preloader whenever a new lesson is ready to be shown through the iFrame
-  parent.preloadHandlingDiv.classList.remove("addThisClassToRevealThePreloader"); // See css_for_every_single_html
-  parent.preloadHandlingDiv.classList.add("addThisClassToHideThePreloader"); // See css_for_every_single_html
-  // BETTER: if typeof checkTimeoutIfLoadingIsTooSlow == ... clearTimeout
-  setTimeout(function () { thisLessonHasBeenLoadedFresh = false; },8000); // DEPRECATED??? The CAR MOVING BACKWARDS button is no more a go-back button and becomes a refresh button.
-};
-
 window.addEventListener('DOMContentLoaded', function(){
   function getConnection() {return navigator.connection || navigator.mozConnection || navigator.webkitConnection || navigator.msConnection;}
   var internet = getConnection();
   if(internet){ // Chrome, Edge, Opera, SamsungInternet » Check how fast the internet is now, thanks to the NetworkInformation API
-    if(internet.downlink<1.2){ // Too slow,, Get ready to let the user know that Speech Recognition may not work
+    if(internet.downlink<0.5){ // Too slow,, Get ready to let the user know that Speech Recognition may not work
       if (sessionStorage.internetIsTooSlowNotificationHasBeenDisplayed) {
         // Do nothing. Connection is still slow but the user has already been notified.
       } else {
@@ -71,7 +45,98 @@ window.addEventListener('DOMContentLoaded', function(){
       }
     }
   } else {  } // Firefox, Safari » No information about network speed ,,, NetworkInformation API is not supported
+
+  const whereAreWe = window.location.pathname;
+  if (whereAreWe.search("progress_chart") != -1) { parent.userIsOrWasJustViewing = "progress-chart"; } // See blank.html
+  else if (whereAreWe.search("information") != -1) { parent.userIsOrWasJustViewing = "info-screen"; } // See blank.html
+  else { parent.userIsOrWasJustViewing = "some-lesson"; } // See blank.html
+
 }, { once: true });
+
+/**/
+window.onload = function() { // DANGER: Do not use window.onload anywhere else. Use addEventListener "load" instead in order to avoid overwriting.
+  // Clear timeout for [would you like to wait or refresh] box
+  parent.stopTheTimerToSeeIfNextLessonLoadedFastEnough();
+
+  // Restart anti sleep timer
+  if (deviceDetector.isMobile) {
+    setTimeout(function () { parent.resetSleepCountdown(); }, 111); // See sleep-control.js
+  }
+  // ---
+  if (parent.topContainerDivOfTheSlidingNavMenuForMobiles) { // Check if it exists like this or use deviceDetector.isMobile
+    parent.topContainerDivOfTheSlidingNavMenuForMobiles.style.visibility = "visible"; // In case it was hidden by inline script in /about/index.html
+  }
+  // --- DETECT WHAT IS BEING SHOWN THROUGH THE FRAME
+  const whereAreWe = window.location.pathname;
+  // progress_chart
+  if (whereAreWe.search("progress_chart") != -1) { // This means we have landed on the progress_chart
+    if (deviceDetector.isMobile) {
+      setTimeout(function () { parent.handleMenuUpDownStateOnMobiles(); },500); // See js_for_the_sliding_navigation_menu
+    }
+    ////DEPRECATE sessionStorage.lastKnownLocation = "progressChart";
+    ////parent.theStudyHasStarted = true;
+    // DEPRECATED or OUTDATED: Bring the PWA installation&notification-subscription button (footer in parent)
+    // parent.revealNotificationAndInstallation_2in1_button();
+
+    /* Handle NAV MENU - Remove PAUSE THE APP ceramic button */
+    if (parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) { // Used to be in progress.js
+      parent.containerDivOfTheNavigationMenu.removeChild(parent.clickToPauseTheAppDiv); //
+    }
+
+  // information
+  } else if (whereAreWe.search("information") != -1) { // information means author's photo and Good People's License
+    if (deviceDetector.isMobile) {
+      setTimeout(function () { parent.handleMenuUpDownStateOnMobiles(); },500); // See js_for_the_sliding_navigation_menu
+    }
+    ////DEPRECATE sessionStorage.lastKnownLocation = "information";
+    //// To handle native back button of browser (see blank.html) we detect where user came from (welcome screen or a lesson or progress_chart) via theStudyHasStarted from js_for_app_initialization_in_parent
+
+    // DEPRECATED or OUTDATED: Hide the PWA installation&notification-subscription button (footer in parent)
+    // parent.hideNotificationAndInstallation_2in1_button();
+
+    if (parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) { // Used to be in progress.js
+      parent.containerDivOfTheNavigationMenu.removeChild(parent.clickToPauseTheAppDiv); // Should we use display none instead???
+    }
+  } else { // We have landed on a lesson // REMEMBER: blank.html does not link to this js_for_all_iframed_lesson_htmls
+    ////DEPRECATE sessionStorage.lastKnownLocation = "lesson";
+    ////parent.theStudyHasStarted = true;
+    // It is better not to see the slidingNavMenu every time a new lesson is opened » so don't use parent.handleMenuUpDownStateOnMobiles();
+    // Instead just hide the slidingNavMenu if it was visible (like when starting 1-1-1 bread)
+    setTimeout(function () { parent.makeTheNavMenuGoDownOnMobiles("slow"); },1500); // See js_for_the_sliding_navigation_menu
+    // DEPRECATED or OUTDATED: Hide the PWA installation&notification-subscription button (footer in parent)
+    // parent.hideNotificationAndInstallation_2in1_button();
+
+    /* Handle NAV MENU - Add PAUSE THE APP ceramic button */
+    setTimeout(afterATinyDelay,100); // So that it won't come before HOME button // NOTE: The number in we_are_working page must be greater than 100
+    function afterATinyDelay() {
+      if (!parent.isApple) { // Alert boxes on Safari mutes and unmutes sounds,,, so apple user's won't be able to use the pause feature
+        if (!parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) { //
+          parent.containerDivOfTheNavigationMenu.insertBefore(parent.clickToPauseTheAppDiv,parent.clickToFinanceDiv); //
+        }
+      }
+    }
+  } // Progress from one lesson to the next with the rotating-globe-preloader of parent
+
+
+  // What to do with window.load continued
+  /* Handle NAV MENU - HOME OF PROGRESS ceramic button */
+  if (!parent.containerDivOfTheNavigationMenu.contains(parent.clickToGoToMainMenuDiv)) { // If never existed in the beginning or perhaps was removed
+    if (!parent.containerDivOfTheNavigationMenu.contains(parent.clickToGoToPreviousDiv)) { // If user is not coming directly from [Choose the language you want to learn] screen
+      parent.containerDivOfTheNavigationMenu.insertBefore(parent.clickToGoToMainMenuDiv,parent.clickToFinanceDiv); // TESTED: Looks like it’s working.
+    }
+  }
+
+
+  // Hide the preloader whenever a new lesson is ready to be shown through the iFrame
+  parent.preloadHandlingDiv.classList.remove("addThisClassToRevealThePreloader"); // See css_for_the_container_parent_html
+  parent.preloadHandlingDiv.classList.add("addThisClassToHideThePreloader"); // See css_for_the_container_parent_html
+  // BETTER: if typeof checkTimeoutIfLoadingIsTooSlow == ... clearTimeout
+  // DEPRECATED: setTimeout(function () { thisLessonHasBeenLoadedFresh = false; },8000); // The idea was to change CAR MOVING BACKWARDS button from a go-back button into a refresh button.
+};
+
+
+
+/* SAFETY MEASURE */
 // CHECK IF ACCESS IS GOOD and block (or just fix) direct linking!
 // MUST REVIEW if masked forwarding is implemented.
 if (parent.thisIsTheParentWhichContainsAllIFramedLessons == "yes") {
@@ -86,7 +151,7 @@ if (parent.thisIsTheParentWhichContainsAllIFramedLessons == "yes") {
 }
 
 // HANDLE PAGE UNLOAD IF THE BROWSER'S “BACK” BUTTON IS USED
-// WARNING: onbeforeunload doesn't fire when src of the iframe changes nor does hashchange on mobile chrome
+// WARNING: onbeforeunload doesn't fire when src of the iframe changes nor does hashchange on mobile chrome (or are we misunderstanding something?)
 window.onbeforeunload = function() {
   // PROBLEM: When user makes progress and then clicks the browser's REFRESH button and then clicks the browser's BACK button the last lesson starts playing hidden behind the main menu.
   // console.log("iframe onbeforeunload has been fired -> js_for_all_iframed..."); // TESTED: It works on desktop Chrome // Why does this not show in eruda // LATER: because eruda must be a frame-level-eruda not parent-level-eruda
@@ -105,76 +170,16 @@ window.onbeforeunload = function() {
   if (typeof unloadTheSoundsOfThisLesson === "function") {
     unloadTheSoundsOfThisLesson(); // Every time defined with a different list in the lesson. See the unique js file of each lesson.
   }
+
+  // Unlock swipe menu if it was locked
+  parent.swipeNavMenuIsLocked = false; // As of September 2022 it's only locked by bigSlideTowardsLeft in information.js
+  // Unlock screen orientation if it was locked
+  if (screen.orientation) {
+    parent.window.screen.orientation.unlock();
+  }
+  //---
+  parent.startTheTimerToSeeIfNextLessonLoadsFastEnough(); // Also fires from openFirstLesson() in js_for_app_initialization_in_parent
 };
 
-// BUTTON TYPE 1: Classical with playstation style
-const hoverSoundForProceedToNextButton115 = new parent.Howl({  src: ["/user_interface/sounds/proceed_to_next_hover."+parent.audioFileExtension]  }); // DESKTOPS ONLY! Could add code to disable it on mobile but guess it just works when left like this.
-const clickSoundForProceedToNextButton115 = new parent.Howl({  src: ["/user_interface/sounds/proceed_to_next_click."+parent.audioFileExtension]  });
-let allLessonButtonElementsAreInThisArray = document.getElementsByTagName("BUTTON");
-let i;
-for (i = 0; i < allLessonButtonElementsAreInThisArray.length; i++)
-{
-  /* The styles are standard for all devices. See css_for_all_iframed_lesson_htmls.css */
-  /* Playstation style disappear */
-  allLessonButtonElementsAreInThisArray[i].addEventListener("click", clickClassical);
-  /* Classical sounds for hover and click */
-  allLessonButtonElementsAreInThisArray[i].addEventListener("mousedown", mouseDownClassical);
-  if (deviceDetector.device == "desktop") {
-    allLessonButtonElementsAreInThisArray[i].addEventListener("mouseenter", mouseEnterClassical);
-  }
-}
-
-function clickClassical(event) {
-  event.target.classList.add('addThisToAButtonForPlayStationStyleClick');
-}
-function mouseEnterClassical() {
-  hoverSoundForProceedToNextButton115.play();
-}
-function mouseDownClassical() {
-  clickSoundForProceedToNextButton115.play();
-}
-
-// BUTTON TYPE 2: Glassy button with glassy sounds
-const hoverSoundForGlassyButtons = new parent.Howl({  src: ["/user_interface/sounds/glass_button_hover."+parent.audioFileExtension]  }); // DESKTOPS ONLY! Could add code to disable it on mobile but guess it just works when left like this.
-const clickSoundForGlassyButtons = new parent.Howl({  src: ["/user_interface/sounds/glass_button_click."+parent.audioFileExtension]  });
-/* Use ASIDE elements as a second type of button */
-let allLessonAsideElementsAreInThisArray = document.getElementsByTagName("ASIDE");
-let j;
-for (j = 0; j < allLessonAsideElementsAreInThisArray.length; j++)
-{
-  /* GLASSMORPHISM visual style depends on the device and browser because mobiles need more readability */
-  /* See @supports in css_for_all_iframed_lesson_htmls.css to find how alternative rules replace defaults in browsers like Firefox2021 */
-  if (deviceDetector.isMobile) {
-    allLessonAsideElementsAreInThisArray[j].classList.add('glassmorphismOnMobiles'); /*See css_for_all_iframed_lesson_htmls.css*/
-  } else {
-    allLessonAsideElementsAreInThisArray[j].classList.add('glassmorphismOnDesktops'); /*See css_for_all_iframed_lesson_htmls.css*/
-  }
-  /* Click makes it explode. Touch makes it fade out */
-  allLessonAsideElementsAreInThisArray[j].addEventListener("click", clickGlassy);
-  /* Glassy sounds for hover and click */
-  if (deviceDetector.device == "desktop") { // Desktops
-    allLessonAsideElementsAreInThisArray[j].addEventListener("mouseenter", mouseEnterGlassy);
-    allLessonAsideElementsAreInThisArray[j].addEventListener("mousedown", mouseDownOrTouchStartGlassy, { once: true });
-  }
-  else { // Mobiles
-    allLessonAsideElementsAreInThisArray[j].addEventListener("touchstart", mouseDownOrTouchStartGlassy, { once: true });
-  }
-}
-
-function clickGlassy(event) {
-  if (deviceDetector.isMobile) { // Mobiles
-    event.target.parentNode.classList.add('addThisToTheButtonWhenItIsTouchedOnMobiles'); //See css_for_all_iframed_lesson_htmls.css
-    //event.target.removeEventListener("touchstart", mouseDownOrTouchStartGlassy);
-  }
-  else { // Desktops
-    event.target.parentNode.classList.add('addThisToTheButtonWhenItIsClickedOnDesktops'); //See css_for_all_iframed_lesson_htmls.css
-    event.target.removeEventListener("mouseenter", mouseEnterGlassy);
-    //event.target.removeEventListener("mousedown", mouseDownOrTouchStartGlassy);
-  }
-}
-function mouseEnterGlassy() {
-  hoverSoundForGlassyButtons.play();
-}
-function mouseDownOrTouchStartGlassy() {
-  clickSoundForGlassyButtons.play();
-}
+/* See usage of ASIDE element as another type of button in js_for_handling_speech_give_up */
+/* See usage of SECTION & ADDRESS elements as other types of buttons in js_for_proceed_buttons.js */

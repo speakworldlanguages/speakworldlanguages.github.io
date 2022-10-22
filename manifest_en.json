@@ -1,23 +1,19 @@
 {
   "lang": "en",
-  "name": "Manheart Earthman's Speak World Languages App",
+  "name": "Speak World Languages",
   "short_name": "Speak World Languages",
   "author": "Manheart Earthman",
-  "description": "Listen, learn and speak into your device microphone to make things happen!",
+  "description": "Listen, learn and speak into your device microphone to make things happen as you acquire a new language!",
   "icons": [{
-    "src": "icon_for_pwa_en.png",
-    "sizes": "512x512",
-    "type": "image/png"
+    "src": "user_interface/homescreen_icon/icon_for_pwa_en.png",    "sizes": "512x512",    "type": "image/png"
     }],
-  "start_url": "index.html?installed",
+  "start_url": "index.html?homescreen",
+  "id": "SWL_APP_IN_ENGLISH_USER_INTERFACE",
   "display": "fullscreen",
   "background_color": "#adbbc4",
   "theme_color": "#4d606f",
   "screenshots": [
-    {
-      "src": "user_interface/images/screenshot.jpg",
-      "type": "image/jpg",
-      "sizes": "320x160"
-    }
+    {      "src": "user_interface/images/screenshot1.jpg",      "type": "image/jpg",      "sizes": "512x512"    },
+    {      "src": "user_interface/images/screenshot2.jpg",      "type": "image/jpg",      "sizes": "512x320"    }
   ]
 }

@@ -12,7 +12,7 @@ function getUserInterfaceTextsReadyF() {
 async function cacheUI_textsAndFonts() {
   const cacheName = "user-interface-cache-Nov19th2021";
   const resourcesToPrecache = [
-    "/css_reusables/css_for_latin_font_rules.css",
+    ////"/css_reusables/css_for_latin_font_rules.css",
     "/user_interface/fonts/TitilliumWeb-Light.ttf",
     "/user_interface/fonts/Oxanium-SemiBold.ttf",
     "/user_interface/text/tr/0-allow_microphone.txt",
@@ -22,7 +22,7 @@ async function cacheUI_textsAndFonts() {
     "/user_interface/text/tr/0-do_you_want_to_reset.txt",
     "/user_interface/text/tr/0-give_up_and_skip.txt",
     "/user_interface/text/tr/0-if_speech_recognition_is_not_working.txt",
-    "/user_interface/text/tr/0-if_the_browser_does_not_support.txt",
+    "/user_interface/text/tr/0-if_browser_support_is_unknown.txt",
     "/user_interface/text/tr/0-learn_another_language.txt",
     "/user_interface/text/tr/0-lesson_is_paused_by_button.txt",
     "/user_interface/text/tr/0-network_connection_too_slow.txt",

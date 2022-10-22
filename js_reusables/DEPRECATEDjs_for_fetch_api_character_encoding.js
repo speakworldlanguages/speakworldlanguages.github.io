@@ -8,7 +8,7 @@
 
 var myHeaders = new Headers();
 // Apache server default ayarları yüzünden böyle buna gerek var.
-if (parent.theLanguageUserIsLearningNowToSetFilePaths=="tr" || userInterfaceLanguage=="tr") {
+if (parent.langCodeForTeachingFilePaths=="tr" || userInterfaceLanguage=="tr") {
   // Çağrılan txt dosyasındaki ÇĞİÖŞÜçğıöşü'nın ��������� yerine doğru görünmesi için charset=iso-8859-9 gerek; charset=utf-8 ile olmuyor.
   // Dikkat! Bunun doğru çalışması için çağrılan txt dosyasının UTF-8 ile kaydedilmiş olması gerek.
   myHeaders.append('Content-Type','text/plain; charset=iso-8859-9');

@@ -1,2 +1,2 @@
-﻿Slow internet connection.
+﻿Internet connection is slow.
 The speech recognition feature may or may not function properly.

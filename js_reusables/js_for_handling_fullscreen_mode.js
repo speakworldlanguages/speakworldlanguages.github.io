@@ -1,16 +1,17 @@
+"use strict";
 // This is included in parent htmls only. Not in lesson htmls.
 // Even though this is deferred, looks like we still need to wait for the load event before we call a function from another js file.
 // iPhone-Safari won't allow fullscreen as of 2021
 // See js_for_different_browsers_and_devices ... Also see js_for_the_sliding_navigation_menu
-let enterSound, exitSound, rightClickSound, touchstartSound;
+let enterSound, exitSound, touchstartSound; // DEPRECATED: let rightClickSound;
 
 var hasGoneFullscreen = false;
 // Go fullscreen by touching anywhere on the screen.
 window.addEventListener("load",function() {
-  enterSound = new Howl({  src: ["/user_interface/sounds/touchend_and_open_fullscreen."+audioFileExtension]  });
-  exitSound = new Howl({  src: ["/user_interface/sounds/exit_fullscreen."+audioFileExtension]  });
+  enterSound = new Howl({  src: ["/user_interface/sounds/fullscreen_open."+audioFileExtension]  });
+  exitSound = new Howl({  src: ["/user_interface/sounds/fullscreen_exit."+audioFileExtension]  });
 
-  const iFrameLocalConst = document.getElementsByTagName('IFRAME')[0]; // Used to be .getElementById('theIdOfTheIframe'); // Check js_for_all_container_parent_htmls.js prevent conflicts
+  const iFrameLocalConst = document.getElementsByTagName('IFRAME')[0]; // Used to be .getElementById('theIdOfTheIframe'); // Check js_for_app_initialization_in_parent.js prevent conflicts
   const iDocWindow = iFrameLocalConst.contentWindow || iFrameLocalConst.contentDocument;
 
   // HOW TO GO AND STAY IN FULLSCREEN ON MOBILES
@@ -18,23 +19,27 @@ window.addEventListener("load",function() {
   // So here is how we do it...
 
   if (deviceDetector.isMobile) {
-    touchstartSound = new Howl({  src: ["/user_interface/sounds/touchstart_for_fullscreen."+audioFileExtension]  });
+    // TABLETS&PHONES TABLETS&PHONES TABLETS&PHONES TABLETS&PHONES TABLETS&PHONES
+    touchstartSound = new Howl({  src: ["/user_interface/sounds/fullscreen_exit."+audioFileExtension]  }); // There used to be a different touchstart_for_fullscreen sound. New fullscreen_exit sound is also suitable as the touchstart sound.
     // We cannot directly add an event listener for touchstart/mousedown on the iframe. So instead add it to the documentSmthSmth in the iFrame.
     iFrameLocalConst.addEventListener("load",iframeHasBeenLoadedOnMobileBrowser); // MUST NOT use once:true as with every new html the DOM within the iframe is destroyed and rebuilt
     function iframeHasBeenLoadedOnMobileBrowser() {
       // Try touchend instead of touchstart to see if it will fix the console error » "fullscreen error"
       // ANSWER: Yes, it looks like trying to go fullscreen with touchstart was the cause of that error which made fullscreen work only with a double tap
+      window.document.addEventListener("touchend", handleTouchForFullscreen);
+      window.document.addEventListener("touchstart", handleTouchSoundBeforeFullscreen);
       iDocWindow.document.addEventListener("touchend", handleTouchForFullscreen);
       iDocWindow.document.addEventListener("touchstart", handleTouchSoundBeforeFullscreen);
     }
     function handleTouchForFullscreen() {
-      if (!hasGoneFullscreen){  openFullscreen();  }
+      if (!hasGoneFullscreen){ openFullscreen(); }
     }
     function handleTouchSoundBeforeFullscreen() {
-      if (detectedOS.name != "iOS" && !hasGoneFullscreen) { touchstartSound.play(); }
+      if (detectedOS.name != "iOS" && !hasGoneFullscreen) { touchstartSound.play(); } // iPhones as of 2022 (Safari 16.0) still don't allow fullscreen.
     }
   } else {
-    rightClickSound = new Howl({  src: ["/user_interface/sounds/right_click_for_fullscreen."+audioFileExtension]  });
+    // DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS
+    // DEPRECATED: rightClickSound = new Howl({  src: ["/user_interface/sounds/right_click_for_fullscreen."+audioFileExtension]  });
     // THE RIGHT CLICK METHOD ON DESKTOPS
     var currentSrcParsed;
     // Every time the iframe is loaded, add the custom context menu to either the parent document or the framed document.
@@ -43,7 +48,7 @@ window.addEventListener("load",function() {
       // DEPRECATED: currentSrcParsed = iFrameLocalConst.src.substring(iFrameLocalConst.src.length - 10, iFrameLocalConst.src.length-5); // Get the name of the html file from a string like "/user_interface/blank.html"
       const currentSrc = iFrameLocalConst.src;
       // When user is viewing the main menu
-      if (currentSrc.search("blank.html") >= 0) {
+      if (currentSrc.search("blank.html") >= 0) { // At the welcome screen
         document.addEventListener('contextmenu', rightClickHandlerFunction);
         document.addEventListener('mousedown', coordinatesF);
         window.onkeyup = function(e) {  if ( e.keyCode === 27 ) {    toggleRightClickMenuOff();   }  }; // When the “Esc”ape key is hit
@@ -67,8 +72,8 @@ var rightClickMenu = document.createElement("DIV");
 var goFullscreenWebp = document.createElement("IMG");
 var exitFullscreenWebp = document.createElement("IMG");
 // AVOID: Do not use reference to root with "/" as it could be uncertain what the root is in case of deep-iframing for domain masking.
-goFullscreenWebp.src = "/user_interface/images/right_click_go_for_fullscreen.webp";
-exitFullscreenWebp.src = "/user_interface/images/right_click_no_more_fullscreen.webp";
+goFullscreenWebp.src = "/user_interface/images/right_click_go_for_fullscreen.webp";    goFullscreenWebp.classList.add("openFullscreenCursor");
+exitFullscreenWebp.src = "/user_interface/images/right_click_no_more_fullscreen.webp"; exitFullscreenWebp.classList.add("exitFullscreenCursor");
 rightClickMenu.appendChild(goFullscreenWebp);
 rightClickMenu.appendChild(exitFullscreenWebp);
 rightClickMenu.classList.add("rightClickMenuWithWebpsInside"); // See css_for_every_single_html.css
@@ -79,7 +84,7 @@ var x,y;
 function coordinatesF(event) {   x=event.clientX;  y=event.clientY;     }
 
 function rightClickHandlerFunction(event) {
-  rightClickSound.play();
+  // DEPRECATED: rightClickSound.play();
   event.preventDefault();
   if (!hasGoneFullscreen) {
     goFullscreenWebp.style.display = "block";
@@ -140,51 +145,58 @@ function closeFullscreen() {
   }
 }
 
-function handleEnterSoundEtc() {
+function handleChangeToFullscreen() { // Fires both desktop and mobile » See the fullscreenchange event below
   enterSound.play();
-}
-function handleExitSoundEtc() {
-  exitSound.play();
-  if (typeof swipeMenuIsDisabled == "boolean") { // Check if it exists even though they are both at parent level
-    swipeMenuIsDisabled = false; // Enable it (it could have been disabled because of a game-input-conflict) See js_for_the_sliding_navigation_menu.js
+  if (deviceDetector.isMobile) { // No need to handle iOS - Android differently » iPhones (as of 2022) never fire fullscreenchange event
+    // Give extra height to sliding-nav-menu to avoid overlap with native Android buttons
+    addExtraHeightToNavMenuEtc(); // See js_for_the_sliding_navigation_menu
   }
 }
+// var exitingFullscreenShouldReleaseTheSwipeMenu = false; // CAN CONTROL THIS from js_for_all_iframed_lesson_htmls
+function handleChangeBackToVisibleAddressBar() { // Fires both desktop and mobile » See the fullscreenchange event below
+  exitSound.play();
+  if (deviceDetector.isMobile) { // No need to handle iOS - Android differently » iPhones (as of 2022) never fire fullscreenchange event
+    // Remove extra height from sliding-nav-menu
+    removeExtraHeightFromNavMenuEtc(); // See js_for_the_sliding_navigation_menu
+  }
+}
+
 /* Change boolean hasGoneFullscreen every time fullscreen is opened or closed*/
 document.addEventListener("fullscreenchange", function() {
   if (!hasGoneFullscreen) {
     hasGoneFullscreen = true;
-    handleEnterSoundEtc();
+    handleChangeToFullscreen();
     // console.log("fullscreenchange event fired! and now it is fullscreen");
   } else {
     hasGoneFullscreen = false;
-    handleExitSoundEtc();
+    handleChangeBackToVisibleAddressBar();
     // console.log("fullscreenchange event fired! and now it is back to default view");
   }
 });
 document.addEventListener("mozfullscreenchange", function() {
   if (!hasGoneFullscreen) {
     hasGoneFullscreen = true;
-    handleEnterSoundEtc();
+    handleChangeToFullscreen();
   } else {
     hasGoneFullscreen = false;
-    handleExitSoundEtc();
+    handleChangeBackToVisibleAddressBar();
   }
 });
 document.addEventListener("webkitfullscreenchange", function() {
   if (!hasGoneFullscreen) {
     hasGoneFullscreen = true;
-    handleEnterSoundEtc();
+    handleChangeToFullscreen();
   } else {
     hasGoneFullscreen = false;
-    handleExitSoundEtc();
+    handleChangeBackToVisibleAddressBar();
   }
 });
 document.addEventListener("msfullscreenchange", function() {
   if (!hasGoneFullscreen) {
     hasGoneFullscreen = true;
-    handleEnterSoundEtc();
+    handleChangeToFullscreen();
   } else {
     hasGoneFullscreen = false;
-    handleExitSoundEtc();
+    handleChangeBackToVisibleAddressBar();
   }
 });

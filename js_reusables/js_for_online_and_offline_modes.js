@@ -1,3 +1,6 @@
+"use strict";
+// THIS IS A DRAFT
+// if this starts being used in the future then consider updating js_for_handling_cache.js and add its path to the list in « const groupZero »
 function updateOnlineStatus() {
 
     if( navigator.onLine ){
@@ -14,5 +17,5 @@ function updateOnlineStatus() {
 
 window.addEventListener('online',  updateOnlineStatus );
 window.addEventListener('offline', updateOnlineStatus );
-window.addEventListener("DOMContentLoaded",updateOnlineStatus,{once:true});
+//window.addEventListener("DOMContentLoaded",updateOnlineStatus,{once:true});
 // See js_for_handling_speech_give_up

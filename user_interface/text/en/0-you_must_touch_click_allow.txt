@@ -1,4 +1,4 @@
 ﻿Touch here
 to play the game
-with tilt controls
+with device tilt
 (Choose <strong>[Allow]</strong>)

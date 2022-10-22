@@ -1,3 +1,4 @@
+"use strict";
 // AUDIO INPUT WAVEFORM VISUALIZATION IS CPU INTENSIVE AND GOOD ON DESKTOPS ONLY. On mobile devices it is either too slow or incompatible with working together along with speech recognition.
 // DEPRECATED: During early stages of UI design, 2 or 4 instances of wavesurfer were running at the same time but in that case too much CPU was used.
 // ALSO: There is a problem with making wavesurfer canvas width 100% on 1920x1080 desktop resolution. Use 50% and scaleX(2) instead!
@@ -12,6 +13,11 @@ var wavesurfer;
 if (deviceDetector.device=="desktop") {
   document.body.appendChild(waveformContainerDiv);
   wavesurfer = WaveSurfer.create({container:'#waveform',waveColor:'white',barWidth:'3',barGap:'3',barHeight:'3',interact:false,cursorWidth:0,height:'100', plugins:[WaveSurfer.microphone.create()]});
+} else {
+  if (parent.isApple) { // iPhone and iPad
+    document.body.appendChild(waveformContainerDiv);
+    wavesurfer = WaveSurfer.create({container:'#waveform',waveColor:'white',barWidth:'3',barGap:'3',barHeight:'3',interact:false,cursorWidth:0,height:'100', plugins:[WaveSurfer.microphone.create()]});
+  }
 }
 
 /* ______ Functions to start-stop ______ */
@@ -28,23 +34,32 @@ function startAudioInputVisualization() {
     else {
       // Let defaults be if
       // [A]- User's browser doesn't support hardwareConcurrency
-      // [B]- User's machine has 2 or 3 cores
+      // [B]- User's machine has 2 or 3 cores » average power; not too weak and not too strong
     }
     // Start and fade in.
     wavesurfer.microphone.start();
     waveformContainerDiv.classList.add("addThisToMakeItFadeIn"); // See css_for_wavesurfer_microphone_divs.css
   } else {
-    // Android can not handle both annyang and wavesurfer mic at the same time.
-    // MUST: Test on iPhones and iPads
+    // Android CANNOT handle both annyang and wavesurfer mic at the same time.
+    // iOS,,, MUST: Test on iPhones and iPads
+    if (parent.isApple) {
+      // Start and fade in.
+      wavesurfer.microphone.start();
+      waveformContainerDiv.classList.add("addThisToMakeItFadeIn"); // See css_for_wavesurfer_microphone_divs.css
+    }
   }
 }
 
 function stopAudioInputVisualization() {
   if (deviceDetector.device=="desktop") {
     wavesurfer.microphone.stop();
-    waveformContainerDiv.classList.remove("addThisToMakeItFadeIn"); // See css_for_wavesurfer_microphone_divs.css
+    waveformContainerDiv.classList.remove("addThisToMakeItFadeIn"); // Immediate disappearance is OK » See css_for_wavesurfer_microphone_divs.css
   } else {
     // Android can not handle both annyang and wavesurfer mic at the same time.
-    // MUST: Test on iPhones and iPads
+    // iOS,,, MUST: Test on iPhones and iPads
+    if (parent.isApple) {
+      wavesurfer.microphone.stop();
+      waveformContainerDiv.classList.remove("addThisToMakeItFadeIn"); // Immediate disappearance is OK » See css_for_wavesurfer_microphone_divs.css
+    }
   }
 }

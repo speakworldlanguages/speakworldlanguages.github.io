@@ -1,3 +1,5 @@
+"use strict";
+// THIS IS TOTALLY OUTDATED and DEPRECATED
 /* ____ PWA ____ */
 const installButton = document.getElementById('footerInstallID');
 const allowNotificationButton = document.getElementById('footerNotificationID'); // Same thing is named clickToSubscribe in notify_**.js
@@ -29,7 +31,7 @@ function handleDesktopTabletPhoneETC() {
   /**/
 }
 
-function revealNotificationAndInstallation_2in1_button() {
+function revealNotificationAndInstallation_2in1_button() { /*!!! This function used to be triggered from js_for_all_iframed_lesson_htmls.js*/
   const main = document.getElementsByTagName('MAIN')[0];
   const footer = document.getElementsByTagName('FOOTER')[0];
   if (main.contains(footer)) {
@@ -113,7 +115,7 @@ function showInstall_PWA_prompt() {
 
 /*_CHECK IF APP IS RUNNING STANDALONE OR IS HOSTED BY THE BROWSER TAB_*/
 const checkUrlToSeeLaunchingOrigin = window.location.href;
-const searchResult = checkUrlToSeeLaunchingOrigin.search("installed"); // The search() method returns -1 if no match is found. See manifest_**.json -> start_url
+const searchResult = checkUrlToSeeLaunchingOrigin.search("homescreen"); // The search() method returns -1 if no match is found. See manifest_**.json -> start_url
 
 window.addEventListener("DOMContentLoaded",whetherTheAppIsRunningStandaloneF,{once:true});
 function whetherTheAppIsRunningStandaloneF() {
@@ -135,7 +137,7 @@ function whetherTheAppIsRunningStandaloneF() {
   // DEPENDING ON HOW THE APP IS STARTED
   if (searchResult != -1) { // The app is running standalone
     // TRIED: getElementById('id') to get the script and remove it but that didn't work with DOMContentLoaded -> Maybe it would with "load" but that's too late to save download time
-    localStorage.appInstallationWasAccepted = "absolutely"; // This opens a door to cheating -> If a first time user typed "index.html?installed" into the browser's address bar, the app would falsely accept itself as installed. But we don't expect that to happen.
+    localStorage.appInstallationWasAccepted = "absolutely"; // This opens a door to cheating -> If a first time user typed "index.html?homescreen" into the browser's address bar, the app would falsely accept itself as installed. But we don't expect that to happen.
     /*We don' want any install prompts anymore: Not certain whether this is really necessary but can't be too safe*/
     window.removeEventListener("beforeinstallprompt",turnNotificationIntoInstallation);
     /*We don't need the rotating-globe tab-icon animation*/

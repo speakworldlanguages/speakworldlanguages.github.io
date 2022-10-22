@@ -5,7 +5,7 @@
 "0-do_you_want_to_reset.txt",
 "0-give_up_and_skip.txt",
 "0-if_speech_recognition_is_not_working.txt",
-"0-if_the_browser_does_not_support.txt",
+"0-if_browser_support_is_unknown.txt",
 "0-learn_another_language.txt",
 "0-lesson_is_paused_by_button.txt",
 "0-network_connection_too_slow.txt",
