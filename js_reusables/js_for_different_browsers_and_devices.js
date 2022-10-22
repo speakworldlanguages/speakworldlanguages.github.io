@@ -348,9 +348,9 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
             annyang.abort();
             clearInterval(tryToAbortEveryThreeSeconds);
             // DOUBLE check -> IN CASE some weird BROWSER NEEDS THIS: Try to remove the allowMicrophoneBlinker and allowMicDesktopBackground if was visible
-            if (document.body.contains(blockAllClicksAndHoversDIV)) {
-                removeAllowMicrophoneBlinkerSoftly();
-            }
+            /* if (document.body.contains(blockAllClicksAndHoversDIV)) {
+                removeAllowMicrophoneBlinkerSoftly(); // On Chrome: It looks like this fires twice and throws an error: Cannot read properties of null (reading 'removeChild')
+            }*/
           }
         },3000);
     } // End of what to do for fresh users who have seen the app first time ever
