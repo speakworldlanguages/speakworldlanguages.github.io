@@ -244,9 +244,11 @@ window.addEventListener("load",function() {
   const filePathForAllowMicrophoneText = "/user_interface/text/"+userInterfaceLanguage+"/0-allow_microphone.txt";
   fetch(filePathForAllowMicrophoneText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ allowMicrophoneBlinker.children[1].innerHTML =  contentOfTheTxtFile; });
   //PROBABLY BETTER WITHOUT:  checkMicPermission(); // check it even if user has landed on progress chart
+  /* UPDATE : Safari 16 finally has full support for permissions including microphone, phew!
   if (isApple) { // As of Safari 16.0 we cannot react to user's choice: "Don't allow" "Allow" // Check caniuse permissions microphone
     setTimeout(function () { testAnnyangAndAllowMic(); },1111); // So we trigger the prompt at the beginning right after landing
   }
+  */
 }, { once: true });
 
 const blockAllClicksAndHoversDIV = document.createElement("DIV"); // During mic permission prompt
@@ -291,8 +293,9 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
 
         //
         // ---Permission handling---
-        // These will be executed only when testAnnyangAndAllowMic is called » Two ways: 1- On Apple right after window load 2- On everywhere (including Apple) when a welcome screen button is touched/clicked
-        if ("permissions" in navigator) { // As of 2022 Safari 16.0 has permissions API BUT IT DOESN'T HAVE MICROPHONE
+        // These will be executed only when testAnnyangAndAllowMic is called » when a welcome screen button is touched/clicked
+        // UPDATE: As of late 2022 Safari 16.0 finally has full support for permissions API, phew!
+        if ("permissions" in navigator) {
             console.log("Can we check microphone permission state...?");
             const micPermissionPromise = navigator.permissions.query({name:'microphone'});
             micPermissionPromise.then(function(result) { // Handle Windows & Android ...mainly Chrome
@@ -344,7 +347,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
           if (annyang.isListening()) {
             annyang.abort();
             clearInterval(tryToAbortEveryThreeSeconds);
-            // SAFARI: Try to remove the allowMicrophoneBlinker and allowMicDesktopBackground if was visible
+            // DOUBLE check -> IN CASE some weird BROWSER NEEDS THIS: Try to remove the allowMicrophoneBlinker and allowMicDesktopBackground if was visible
             if (document.body.contains(blockAllClicksAndHoversDIV)) {
                 removeAllowMicrophoneBlinkerSoftly();
             }
