@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', function(){
   if (detectedOS.name == "iOS" || detectedOS.name == "Mac OS" || detectedBrandName == "Apple") {
     audioFileExtension = "mp3";
     Howler.usingWebAudio = false; // force html5
-    Howler.html5PoolSize = 40;
+    Howler.html5PoolSize = 60;
     isApple=true;
   }
 
