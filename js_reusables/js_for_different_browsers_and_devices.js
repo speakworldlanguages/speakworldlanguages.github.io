@@ -99,16 +99,16 @@ window.addEventListener('DOMContentLoaded', function(){
   if ("permissions" in navigator) {
     // Read the last setting
     const micPermissionPromise = navigator.permissions.query({name:'microphone'});
-    micPermissionPromise.then(function(result) { // Handle Windows & Android ...mainly Chrome
+    micPermissionPromise.then(function(result1) { // Handle Windows & Android ...mainly Chrome
       console.log("This is a good browser that supports permissions API along with microphone permissions");
-      if (result.state == 'granted') {
+      if (result1.state == 'granted') {
         willUserTalkToSpeechRecognition = true;
         console.log("Microphone permission already granted previously");
-      } else if (result.state == 'denied') {
+      } else if (result1.state == 'denied') {
         willUserTalkToSpeechRecognition = false;
         console.log("Microphone permission is already set to DENIED");
       } else {
-        // Use if needed: if (result.state == 'prompt') // Please allow will be showing unless removed
+        // Use if needed: if (result1.state == 'prompt') // Please allow will be showing unless removed
         localStorage.removeItem("allowMicrophoneDialogHasAlreadyBeenDisplayed");
         console.log("Microphone permission must be taken");
       }
@@ -298,31 +298,36 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
         // ---Permission handling---
         // These will be executed only when testAnnyangAndAllowMic is called » when a welcome screen button is touched/clicked
         // UPDATE: As of late 2022 Safari 16.0 finally has full support for permissions API, phew!
+        let weHaveToDoTheAppleCase = false;
         if ("permissions" in navigator) {
             console.log("Can we check microphone permission state...?");
             const micPermissionPromise = navigator.permissions.query({name:'microphone'});
-            micPermissionPromise.then(function(result) { // Handle mic permission
+            micPermissionPromise.then(function(result2) { // Handle mic permission
               console.log("...yes and that is good.");
-              if (result.state == 'granted') {
+              if (result2.state == 'granted') {
                 console.log("Already granted so let's start the app");
                 removeAllowMicrophoneBlinkerForcedly(); // Immediate HARD REMOVE » Never let anything appear
                 startTeaching(nameOfButtonIsWhatWillBeTaught);
               } else {
-                // Use if needed: if (result.state == 'prompt') // Please allow will be showing unless removed
-                // Use if needed: if (result.state == 'denied') // Please allow will be showing unless removed
+                // Use if needed: if (result2.state == 'prompt') // Please allow will be showing unless removed
+                // Use if needed: if (result2.state == 'denied') // Please allow will be showing unless removed
 
                 // SAFARI ignores onchange
-
+                // So let's try to make it handleable
+                if (isApple) { // IT WOULD BE BETTER IF we could detect if browser supports change event!!!
+                  weHaveToDoTheAppleCase = true;
+                }
               }
 
-              result.addEventListener('change', ifUsersAnswerIsDetectableThenDoThese);
-              function ifUsersAnswerIsDetectableThenDoThese(event) {
-                console.log("Waiting for user’s answer");
-                if (result.state == 'prompt') {} // Is this ever possible in any browser?
+              result2.addEventListener('change', proceedAccordingToUsersChoiceAboutMicPermission);
+              function proceedAccordingToUsersChoiceAboutMicPermission(event) {
+                if (event) { console.log("User's answer was detected by listening to the CHANGE event"); }
+
+                if (result2.state == 'prompt') {} // Is this ever possible in any browser? It could be in Safari 16.0 if proceedAccordingToUsersChoiceAboutMicPermission is called without the CHANGE event and no answer is given
                 else { // Was either allowed or denied
                   localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes";
-                  if (result.state == 'granted') { willUserTalkToSpeechRecognition = true; console.log("User has chosen OK for microphone"); } // In case user is on an unknown browser that supports "Speech Recognition"
-                  if (result.state == 'denied') { willUserTalkToSpeechRecognition = false; console.log("User has chosen NO for microphone "); } // Even if user's browser supports it
+                  if (result2.state == 'granted') { willUserTalkToSpeechRecognition = true; console.log("User has chosen OK for microphone"); } // In case user is on an unknown browser that supports "Speech Recognition"
+                  if (result2.state == 'denied') { willUserTalkToSpeechRecognition = false; console.log("User has chosen NO for microphone "); } // Even if user's browser supports it
                 }
                 // When the setting is changed anyhow
                 removeAllowMicrophoneBlinkerSoftly(); // With nice animation » Should work both on mobile and desktop
@@ -330,9 +335,6 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
                 setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
               }
 
-              // // result.onchange = function() { // What to do as soon as user makes a choice
-              // //
-              // // };
 
             }).catch(function () { // Handle exceptional browsers ...hopefully
               console.log("...no, even though support for permissons API exists."); // Firefox???
@@ -362,10 +364,21 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
           if (annyang.isListening()) {
             annyang.abort();
             clearInterval(tryToAbortEveryThreeSeconds);
-            // DOUBLE check -> IN CASE some weird BROWSER NEEDS THIS: Try to remove the allowMicrophoneBlinker and allowMicDesktopBackground if was visible
-            /* if (document.body.contains(blockAllClicksAndHoversDIV)) {
-                removeAllowMicrophoneBlinkerSoftly(); // On Chrome: It looks like this fires twice and throws an error: Cannot read properties of null (reading 'removeChild')
-            }*/
+            if (weHaveToDoTheAppleCase) {
+              const micPermissionPromise = navigator.permissions.query({name:'microphone'});
+              micPermissionPromise.then(function(result3) { // Handle Windows & Android ...mainly Chrome
+                console.log("User's answer was NOT detected by any change event but a timeout");
+                if (result3.state == 'prompt') { console.log("User did not answer"); }
+                else { // Was either allowed or denied
+                  localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes";
+                  if (result3.state == 'granted') { willUserTalkToSpeechRecognition = true; console.log("User has chosen OK for microphone"); } // In case user is on an unknown browser that supports "Speech Recognition"
+                  if (result3.state == 'denied') { willUserTalkToSpeechRecognition = false; console.log("User has chosen NO for microphone "); } // Even if user's browser supports it
+                }
+                removeAllowMicrophoneBlinkerSoftly(); // With nice animation » Should work both on mobile and desktop
+                // The first lesson may start in 1502ms
+                setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
+              });
+            }
           }
         },3000);
     } // End of what to do for fresh users who have seen the app first time ever
