@@ -117,7 +117,8 @@ function setLangCodeForFilePathsOfTeachingAssets(idOfTheButtonThatWasClickedOrTo
   console.log("On welcome screen user has chosen: "+idOfTheButtonThatWasClickedOrTouched);
   langCodeForTeachingFilePaths = idOfTheButtonThatWasClickedOrTouched;
   if (!localStorage.lesson111VoiceFilesCachedSuccessfully) {
-    loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice for the very first lesson » See js_for_cache_handling_with_initial_load
+    if (typeof loadTheVoiceOfTheTeacherInLesson111 === "function") { loadTheVoiceOfTheTeacherInLesson111(); }
+    // Cache the audio files that contain the teacher's voice for the very first lesson » See js_for_cache_handling_with_initial_load
   }
 }
 

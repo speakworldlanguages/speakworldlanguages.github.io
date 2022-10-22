@@ -109,7 +109,7 @@ window.addEventListener('DOMContentLoaded', function(){
         // Use if needed: if (result.state == 'prompt') // Please allow will be showing unless removed
         localStorage.removeItem("allowMicrophoneDialogHasAlreadyBeenDisplayed");
       }
-    }).catch(function () { // Handle MacOS & iOS ...hopefully
+    }).catch(function () { // Handle Firefox ...hopefully
       // User's browser has permissions API but it does not let us check microphone permissions!
       console.log("This browser supports permissions API but microphone permissions are not available");
     });
