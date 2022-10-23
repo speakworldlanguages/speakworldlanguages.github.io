@@ -1,10 +1,9 @@
 "use strict";
 // We don't want appearance sounds for any of these boxes,,, see each note below
-const closeTheBoxSound = new Howl({}); //({  src: ["/user_interface/sounds/notification3_close."+parent.audioFileExtension]  });
-if (isSafari) {  closeTheBoxSound.preload = false; }
+const closeTheBoxSound = new Howl({  src: ["/user_interface/sounds/notification3_close."+parent.audioFileExtension]  });
+if (isSafari) { closeTheBoxSound.preload = false; closeTheBoxSound.unload(); }
 window.addEventListener("load",function() {
-  closeTheBoxSound.src = "/user_interface/sounds/notification3_close."+parent.audioFileExtension;
-  closeTheBoxSound.load(); // Try to make it work in Safari
+  if (isSafari) { closeTheBoxSound.load(); } // Try to make it work in Safari
 }, { once: true });
 
 // --- Notes shown through P elements

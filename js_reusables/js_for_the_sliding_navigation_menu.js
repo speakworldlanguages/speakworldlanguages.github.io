@@ -252,8 +252,8 @@ fetch(filePathForResumeAfterPausedByButton,myHeaders).then(function(response){re
 /* NOTE: Looks like the function declarations could have been tidier */
 
 // Sliding navigation menu button UI sounds
-const navMenuHoverSound = new Howl({  src: ["/user_interface/sounds/ceramic_button_hover."+audioFileExtension]  }); // DESKTOP ONLY. Put it here to make it global.
-const navMenuClickSound = new Howl({  src: ["/user_interface/sounds/ceramic_button_click."+audioFileExtension]  }); // See js_for_different_browsers_and_devices
+const navMenuHoverSound = new Howl({  src: ["/user_interface/sounds/ceramic_button_hover."+audioFileExtension], preload:false;  }); // Normally doesn't work in Safari 16.0
+const navMenuClickSound = new Howl({  src: ["/user_interface/sounds/ceramic_button_click."+audioFileExtension], preload:false;  }); // Normally doesn't work in Safari 16.0 // See js_for_different_browsers_and_devices
 // MAYBE BETTER WITHOUT: const specialClickOnBalanceScale = new Howl({  src: ["/user_interface/sounds/special_click."+audioFileExtension]  });
 
 // MAY BE READOPTED IN FUTURE: let swipeUpSound, swipeDownSound;
@@ -262,7 +262,8 @@ var itIsCertainlyNotTheNativeGoBackButtonThatIsNavigating = false; // See blank.
 let theTimeoutThatMustBeStopped;
 
 window.addEventListener("load",function() {
-
+  navMenuHoverSound.load(); // Will this make it work on Safari 16.0?
+  navMenuClickSound.load(); // Will this make it work on Safari 16.0?
   // What to do on MOBILE DEVICES
   // Use ayFreym from js_for_app_initialization_in_parent
   // What to do on MOBILES
