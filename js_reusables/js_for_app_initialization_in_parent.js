@@ -321,6 +321,9 @@ function openFirstLesson(freshNewOrReturning) {
       // Display the first lesson
       if (isSafari && !localStorage.safariHowToPermanentlyAllowMicAlertIsAlreadyDisplayed) {
         //DEPRECATED createAndHandleSafariNeedsOneMoreStepBox().then(function () {  ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";  });
+        // HANDLE LATER: When iPhone user runs the app from his homescreen THERE IS NO ADDRESS BAR and it's FULLSCREEN
+        // So THE MESSAGE MUST NOT be about specific single web site mic allow method
+        // Another way to permanently allow mic is by going to iPhone device settings->Safari settings->Microphone and allowing mic for all web sites
         alert(safariHowToPermanentlyAllowMicP.innerHTML); // See js_for_info_boxes_in_parent
         localStorage.safariHowToPermanentlyAllowMicAlertIsAlreadyDisplayed = "yes";
         ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";
