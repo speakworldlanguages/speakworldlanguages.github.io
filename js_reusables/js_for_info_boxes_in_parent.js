@@ -1,15 +1,13 @@
 "use strict";
 // We don't want appearance sounds for any of these boxes,,, see each note below
 const closeTheBoxSound = new Howl({  src: ["/user_interface/sounds/notification3_close."+parent.audioFileExtension]  });
-if (isSafari) {
-  closeTheBoxSound.preload = "metadata";
-}
+
 // --- Notes shown through P elements
 const willTryToSaveYourProgressNoteP = document.createElement("P"); willTryToSaveYourProgressNoteP.innerHTML = "...";
 const yourProgressWasSuccessfullyLoadedNoteP = document.createElement("P"); yourProgressWasSuccessfullyLoadedNoteP.innerHTML = "...";
 const maybeYouShouldReloadNoteP = document.createElement("P"); maybeYouShouldReloadNoteP.innerHTML = "...";
 const neverMindThisBoxNoteP = document.createElement("P"); neverMindThisBoxNoteP.innerHTML = "...";
-const safariHowToPermanentlyAllowMicP = document.createElement("P"); safariHowToPermanentlyAllowMicP.innerHTML = "...";
+var safariHowToPermanentlyAllowMicP = document.createElement("P"); safariHowToPermanentlyAllowMicP.innerHTML = "...";
 // --- Buttons made of DIV elements
 const cancelButtonToCloseTheWillSaveBoxDIV = document.createElement("DIV");
 cancelButtonToCloseTheWillSaveBoxDIV.innerHTML = "&#10062;"; // Default content of the OK box is a "cross ❎" mark
@@ -263,6 +261,7 @@ function loadWasSuccessfulDespiteTakingTooLong() {
 
 /*-- Your progress has been loaded box --*/
 // We don't want an appearance sound because sound is not unlocked yet but will be so with the first user gesture on this box
+/*
 const safariPermanentlyAllowBoxContainerDIV = document.createElement("DIV");
 const safariPermanentlyAllowBoxItselfDIV = document.createElement("DIV");
 function createAndHandleSafariNeedsOneMoreStepBox() { // Called if memoryCard exists in localStorage » See js_for_app_init
@@ -299,3 +298,4 @@ function createAndHandleSafariNeedsOneMoreStepBox() { // Called if memoryCard ex
   }); // END OF return new Promise
 
 }
+*/

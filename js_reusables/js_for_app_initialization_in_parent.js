@@ -324,7 +324,9 @@ function openFirstLesson(freshNewOrReturning) {
     } else {
       // Display the first lesson
       if (isSafari) {
-        createAndHandleSafariNeedsOneMoreStepBox().then(function () {  ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";  });
+        //createAndHandleSafariNeedsOneMoreStepBox().then(function () {  ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";  });
+        alert(safariHowToPermanentlyAllowMicP);
+        ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";
       } else {
         ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";
       }
