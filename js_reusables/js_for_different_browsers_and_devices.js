@@ -132,6 +132,12 @@ window.addEventListener('DOMContentLoaded', function(){
   } else {
     // User's browser doesn't have permissions API at all.
     console.log("This browser doesn't have permissions API at all");
+    // During tests, an iPad with Safari 15.6 fell here in October 2022
+    // Show an alert box is if speech recognition is not supported.
+    setTimeout(function () {
+      const filePath = "/user_interface/text/"+userInterfaceLanguage+"/0-if_something_is_not_working.txt"; // A plain [Better if you use Chrome on a PC] msg
+      fetch(filePath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  alert(contentOfTheTxtFile.split("|")[1]);  });
+    },500);
   }
 
 
@@ -400,10 +406,10 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
     } // End of what to do for fresh users who have seen the app first time ever
   } // End of if (annyang)
   else { // No annyang,,, REMEMBER: Opera and Edge lie and return true even though they don't support it (2022).
-    // A crude alert box is shown if speech recognition is not supported.
+    // Show an alert box is if speech recognition is not supported.
     setTimeout(function () {
-      const filePath = "/user_interface/text/"+userInterfaceLanguage+"/0-if_speech_recognition_is_not_working.txt"; // "Better if you use Chrome" msg
-      fetch(filePath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  alert(contentOfTheTxtFile);  });
+      const filePath = "/user_interface/text/"+userInterfaceLanguage+"/0-if_something_is_not_working.txt"; // Because speech recognition is not available "It's better if you use Chrome" msg
+      fetch(filePath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  alert(contentOfTheTxtFile.split("|")[0]);  });
     },500);
     // New policy: The app won't proceed without annyang (except for the two liars i.e. Opera and Edge)
   }

@@ -1,2 +1,0 @@
-﻿Speech recognition is not working.
-Try using Chrome on Windows or Android.

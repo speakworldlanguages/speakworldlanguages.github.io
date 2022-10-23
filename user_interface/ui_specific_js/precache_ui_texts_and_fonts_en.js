@@ -21,7 +21,7 @@ async function cacheUI_textsAndFonts() {
     "/user_interface/text/en/0-continue_to_next.txt",
     "/user_interface/text/en/0-do_you_want_to_reset.txt",
     "/user_interface/text/en/0-give_up_and_skip.txt",
-    "/user_interface/text/en/0-if_speech_recognition_is_not_working.txt",
+    "/user_interface/text/en/0-if_something_is_not_working.txt",
     "/user_interface/text/en/0-if_browser_support_is_unknown.txt",
     "/user_interface/text/en/0-learn_another_language.txt",
     "/user_interface/text/en/0-lesson_is_paused_by_button.txt",
