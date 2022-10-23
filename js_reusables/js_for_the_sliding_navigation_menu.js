@@ -262,8 +262,8 @@ var itIsCertainlyNotTheNativeGoBackButtonThatIsNavigating = false; // See blank.
 let theTimeoutThatMustBeStopped;
 
 window.addEventListener("load",function() {
-  navMenuHoverSound = new Howl({  src: ["/user_interface/sounds/ceramic_button_hover."+audioFileExtension]  });
-  navMenuClickSound = new Howl({  src: ["/user_interface/sounds/ceramic_button_click."+audioFileExtension]  });
+  navMenuHoverSound = new Howl({  src: ["/user_interface/sounds/ceramic_button_hover.webm"]  });
+  navMenuClickSound = new Howl({  src: ["/user_interface/sounds/ceramic_button_click.webm"]  });
   // What to do on MOBILE DEVICES
   // Use ayFreym from js_for_app_initialization_in_parent
   // What to do on MOBILES

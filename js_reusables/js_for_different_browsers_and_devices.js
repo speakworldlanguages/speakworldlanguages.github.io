@@ -42,8 +42,8 @@ window.addEventListener('DOMContentLoaded', function(){
     isAndroid=true; // Primary use case: In lesson 1-1-1 bread.js to notify user about microphone timing
   }
 
-  userIsAwaySound = new Howl({  src: ["/user_interface/sounds/user_is_away."+audioFileExtension]  });
-  userIsBackSound = new Howl({  src: ["/user_interface/sounds/user_is_back."+audioFileExtension]  });
+  userIsAwaySound = new Howl({  src: ["/user_interface/sounds/user_is_away.webm"]  });
+  userIsBackSound = new Howl({  src: ["/user_interface/sounds/user_is_back.webm"]  });
 
   // See caniuse.com
   // Samsung Browser PROBLEM SOLVED: See js_for_the_sliding_navigation_menu.js to find the function hideOrUnhideTheNavigationMenuOnMOBILES()

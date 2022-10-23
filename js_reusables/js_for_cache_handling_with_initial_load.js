@@ -7,15 +7,15 @@ window.addEventListener("DOMContentLoaded",getTheseSoundsReadyFirst,{once:true})
 async function getTheseSoundsReadyFirst() {
   const urgentCache = await caches.open('asap');
   const topPriorityfiles = [
-    "/user_interface/sounds/ceramic_button_click."+audioFileExtension,
-    "/user_interface/sounds/ceramic_button_hover."+audioFileExtension,
-    "/user_interface/sounds/fullscreen_exit."+audioFileExtension,
-    "/user_interface/sounds/fullscreen_open."+audioFileExtension,
-    "/user_interface/sounds/illuminant_button_click."+audioFileExtension,
-    "/user_interface/sounds/notification3_appear."+audioFileExtension,
-    "/user_interface/sounds/notification3_close."+audioFileExtension,
-    "/user_interface/sounds/user_is_away."+audioFileExtension,
-    "/user_interface/sounds/user_is_back."+audioFileExtension
+    "/user_interface/sounds/ceramic_button_click.webm",
+    "/user_interface/sounds/ceramic_button_hover.webm",
+    "/user_interface/sounds/fullscreen_exit.webm",
+    "/user_interface/sounds/fullscreen_open.webm",
+    "/user_interface/sounds/illuminant_button_click.webm",
+    "/user_interface/sounds/notification3_appear.webm",
+    "/user_interface/sounds/notification3_close.webm",
+    "/user_interface/sounds/user_is_away.webm",
+    "/user_interface/sounds/user_is_back.webm"
   ];
   let errorHappened = false;
   try {
@@ -120,8 +120,8 @@ async function loadFilesDuringWelcomeScreen() {
     "/lessons_in_iframes/level_1/unit_1/lesson_1/c9.webp",
     "/lessons_in_iframes/level_1/unit_1/lesson_1/c10.webp",
     "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html",
-    "/lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_1."+audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_2."+audioFileExtension
+    "/lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_1.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_2.webm"
   ];
   if (isApple || detectedBrowser.name == "Firefox") {
     firstGroup.push(
@@ -164,30 +164,30 @@ async function loadFilesDuringWelcomeScreen() {
   ];
 
   let fourthGroup = [
-    "/user_interface/sounds/address_as_button_click."+audioFileExtension,
-    "/user_interface/sounds/address_as_button_hover."+audioFileExtension,
+    "/user_interface/sounds/address_as_button_click.webm",
+    "/user_interface/sounds/address_as_button_hover.webm",
 
 
-    "/user_interface/sounds/ding."+audioFileExtension,
-    "/user_interface/sounds/financial_thirdparty_click."+audioFileExtension,
+    "/user_interface/sounds/ding.webm",
+    "/user_interface/sounds/financial_thirdparty_click.webm",
 
 
-    "/user_interface/sounds/glass_button_click."+audioFileExtension,
-    "/user_interface/sounds/glass_button_hover."+audioFileExtension,
+    "/user_interface/sounds/glass_button_click.webm",
+    "/user_interface/sounds/glass_button_hover.webm",
 
-    "/user_interface/sounds/looping_bgm_stereo_therapy."+audioFileExtension,
-    "/user_interface/sounds/notification1_appear."+audioFileExtension,
-    "/user_interface/sounds/notification1_close."+audioFileExtension,
-    "/user_interface/sounds/notification2_appear."+audioFileExtension,
-    "/user_interface/sounds/notification2_close."+audioFileExtension,
+    "/user_interface/sounds/looping_bgm_stereo_therapy.webm",
+    "/user_interface/sounds/notification1_appear.webm",
+    "/user_interface/sounds/notification1_close.webm",
+    "/user_interface/sounds/notification2_appear.webm",
+    "/user_interface/sounds/notification2_close.webm",
 
 
-    "/user_interface/sounds/progress_chart_click."+audioFileExtension,
-    "/user_interface/sounds/progress_chart_hover."+audioFileExtension,
-    "/user_interface/sounds/section_as_button_click."+audioFileExtension,
-    "/user_interface/sounds/section_as_button_hover."+audioFileExtension,
-    "/user_interface/sounds/success1."+audioFileExtension,
-    "/user_interface/sounds/success2."+audioFileExtension
+    "/user_interface/sounds/progress_chart_click.webm",
+    "/user_interface/sounds/progress_chart_hover.webm",
+    "/user_interface/sounds/section_as_button_click.webm",
+    "/user_interface/sounds/section_as_button_hover.webm",
+    "/user_interface/sounds/success1.webm",
+    "/user_interface/sounds/success2.webm"
   ];
   fourthGroup.push(
     "/user_interface/text/"+userInterfaceLanguage+"/0-about_saving_loading_users_progress.txt"
@@ -241,11 +241,11 @@ async function loadTheVoiceOfTheTeacherInLesson111() { // See setLangCodeForFile
   const myCache = await caches.open('secondary-assets-for-1-1-1'); // Create a new slot
 
   const listOfFiles = [
-    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_1-2."+audioFileExtension,
-    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_3."+audioFileExtension,
-    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_4-5."+audioFileExtension,
-    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_6."+audioFileExtension,
-    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_7-8."+audioFileExtension
+    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_1-2.webm",
+    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_3.webm",
+    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_4-5.webm",
+    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_6.webm",
+    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_7-8.webm"
   ];
   /*if (isApple) {
     listOfFiles.push(

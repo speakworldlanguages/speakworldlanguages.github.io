@@ -8,8 +8,8 @@ let enterSound, exitSound, touchstartSound; // DEPRECATED: let rightClickSound;
 var hasGoneFullscreen = false;
 // Go fullscreen by touching anywhere on the screen.
 window.addEventListener("load",function() {
-  enterSound = new Howl({  src: ["/user_interface/sounds/fullscreen_open."+audioFileExtension]  });
-  exitSound = new Howl({  src: ["/user_interface/sounds/fullscreen_exit."+audioFileExtension]  });
+  enterSound = new Howl({  src: ["/user_interface/sounds/fullscreen_open.webm"]  });
+  exitSound = new Howl({  src: ["/user_interface/sounds/fullscreen_exit.webm"]  });
 
   const iFrameLocalConst = document.getElementsByTagName('IFRAME')[0]; // Used to be .getElementById('theIdOfTheIframe'); // Check js_for_app_initialization_in_parent.js prevent conflicts
   const iDocWindow = iFrameLocalConst.contentWindow || iFrameLocalConst.contentDocument;
@@ -20,7 +20,7 @@ window.addEventListener("load",function() {
 
   if (deviceDetector.isMobile) {
     // TABLETS&PHONES TABLETS&PHONES TABLETS&PHONES TABLETS&PHONES TABLETS&PHONES
-    touchstartSound = new Howl({  src: ["/user_interface/sounds/fullscreen_exit."+audioFileExtension]  }); // There used to be a different touchstart_for_fullscreen sound. New fullscreen_exit sound is also suitable as the touchstart sound.
+    touchstartSound = new Howl({  src: ["/user_interface/sounds/fullscreen_exit.webm"]  }); // There used to be a different touchstart_for_fullscreen sound. New fullscreen_exit sound is also suitable as the touchstart sound.
     // We cannot directly add an event listener for touchstart/mousedown on the iframe. So instead add it to the documentSmthSmth in the iFrame.
     iFrameLocalConst.addEventListener("load",iframeHasBeenLoadedOnMobileBrowser); // MUST NOT use once:true as with every new html the DOM within the iframe is destroyed and rebuilt
     function iframeHasBeenLoadedOnMobileBrowser() {

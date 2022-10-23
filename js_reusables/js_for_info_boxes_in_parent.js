@@ -27,8 +27,8 @@ okLetsTryRefreshingTheBrowserBoxDIV.innerHTML = "&#9989;"; // Default content of
 
 // ---
 window.addEventListener("DOMContentLoaded",function() {
-  
-  closeTheBoxSound = new Howl({  src: ["/user_interface/sounds/notification3_close."+parent.audioFileExtension]  });
+
+  closeTheBoxSound = new Howl({  src: ["/user_interface/sounds/notification3_close.webm"]  });
 
   const pathOfSaveLoadInfoNoticeTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-about_saving_loading_users_progress.txt";
   const pathOfThreeBoxClosingTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-cancel_proceed_good.txt";
