@@ -11,7 +11,7 @@ const willTryToSaveYourProgressNoteP = document.createElement("P"); willTryToSav
 const yourProgressWasSuccessfullyLoadedNoteP = document.createElement("P"); yourProgressWasSuccessfullyLoadedNoteP.innerHTML = "...";
 const maybeYouShouldReloadNoteP = document.createElement("P"); maybeYouShouldReloadNoteP.innerHTML = "...";
 const neverMindThisBoxNoteP = document.createElement("P"); neverMindThisBoxNoteP.innerHTML = "...";
-// DEPRECATED, USE alert box instead: var safariHowToPermanentlyAllowMicP = document.createElement("P"); safariHowToPermanentlyAllowMicP.innerHTML = "...";
+var safariHowToPermanentlyAllowMicP = document.createElement("P"); safariHowToPermanentlyAllowMicP.innerHTML = "..."; // See the alert() in js_for_app_initialization_in_parent
 // --- Buttons made of DIV elements
 const cancelButtonToCloseTheWillSaveBoxDIV = document.createElement("DIV");
 cancelButtonToCloseTheWillSaveBoxDIV.innerHTML = "&#10062;"; // Default content of the OK box is a "cross ❎" mark
@@ -37,12 +37,11 @@ window.addEventListener("DOMContentLoaded",function() {
   fetch(pathOfSaveLoadInfoNoticeTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleInfoNoticeTexts(contentOfTheTxtFile);    });
   fetch(pathOfThreeBoxClosingTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){     handleBoxClosingTexts(contentOfTheTxtFile);    });
   fetch(pathOfKeepWaitingOrReloadTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ handleReloadDialogTexts(contentOfTheTxtFile);  });
-  /* DEPRECATE, USE alert instead:
-  if (isSafari) {
+  if (isSafari) { // Get the needed string for the alert box
     const pathOfHowToAllowMicPermanentlyOnSafariTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-allow_microphone_permanently_on_safari.txt";
     fetch(pathOfHowToAllowMicPermanentlyOnSafariTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ handleSafariMicHowToTexts(contentOfTheTxtFile);  });
   }
-  */
+
 }, { once: true });
 
 function handleInfoNoticeTexts(receivedTxt) {
@@ -60,12 +59,11 @@ function handleReloadDialogTexts(receivedTxt) {
   okLetsTryRefreshingTheBrowserBoxDIV.innerHTML = receivedTxt.split("|")[2];
   neverMindThisBoxNoteP.innerHTML = receivedTxt.split("|")[3];
 }
-/* DEPRECATE, USE alert instead:
+
 function handleSafariMicHowToTexts(receivedTxt) {
-  safariHowToPermanentlyAllowMicP.innerHTML = receivedTxt.split("|")[0];
-  understoodButtonUnderSafariPermanentMicDIV.innerHTML = receivedTxt.split("|")[1];
+  safariHowToPermanentlyAllowMicP.innerHTML = receivedTxt; // Get ready to put it into the alert box in js_for_app_initialization_in_parent
 }
-*/
+
 /*-- Your progress will be saved box --*/
 // We don't want an appearance sound because another button sound is already playing as this appears
 const saveLoadInfoBoxContainerDIV = document.createElement("DIV");
