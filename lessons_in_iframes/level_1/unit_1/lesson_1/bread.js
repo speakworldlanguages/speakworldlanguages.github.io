@@ -346,9 +346,8 @@ function speakToTheMic() {
     setTimeout(function() {  parent.annyang.start();  },500);
     setTimeout(function() {  startAudioInputVisualization();  },600); // Will work only on desktops. See js_for_microphone_input_visualization.js // Must test and see if it works on iOS.
     // For debugging
-    annyang.addCallback('result', function(phrases) {
-      console.log('Speech recognized. Possible sentences said:');
-      console.log(phrases);
+    parent.annyang.addCallback('result', function(phrases) {
+      parent.console.log('Speech recognized. Possible sentences said: '+phrases);
     });
   }
 
