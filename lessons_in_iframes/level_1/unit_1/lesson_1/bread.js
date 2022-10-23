@@ -352,7 +352,7 @@ function speakToTheMic() {
       let j;
       for(j=0;j<eachWordArray.length;j++)
       {
-        if (phrase.search(eachWordArray[j]) >= 0) {
+        if (phrase[0].search(eachWordArray[j]) >= 0) {
           alert("aha");
         }
       }
