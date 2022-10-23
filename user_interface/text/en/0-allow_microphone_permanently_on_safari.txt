@@ -1,4 +1,4 @@
-﻿In Safari, to make the “allow microphone setting” PERMANENT
-you must use the mic 🎙️ icon in the address bar and
-|set it to [ALWAYS ALLOW]
-|go to settings/preferences and change it from [Ask] to [Allow]
+﻿In Safari you can make the “allow microphone setting” PERMANENT
+by using the mic 🎙️ icon in the address bar
+|and settting it to [ALWAYS ALLOW]
+|to go to settings/preferences and change it from [Ask] to [Allow]
