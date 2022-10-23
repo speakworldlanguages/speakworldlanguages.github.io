@@ -333,6 +333,7 @@ function speakToTheMic() {
   {
     let oneOfTheWords = eachWordArray[i];
     commands[oneOfTheWords] = stopListeningAndProceedToNext;
+    parent.console.log("Speech recognition will accept "+i+": "+oneOfTheWords);
   }
 
   if (parent.annyang) {

@@ -147,9 +147,7 @@ function letTheIFrameTeachChinese(){ //See index.html to find the button that tr
   //cleanup//langCodeForTeachingFilePaths = "zh";
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "zh"; // "zh" alone works on Android. Would it still be better with "zh-CN" or "zh-TW" or vice-versa on Android and Windows. Because Android turns the mic on and off too quickly in some less supported languages.
-  // if (isApple) { // Android is OK with "zh" but iOS is maybe not?
-  //   langCodeForAnnyang = "zh-Hans"; // Overwrite zh-Hans // Is this relevant? https://www.w3.org/International/articles/bcp47/
-  // }
+  // Mac Safari works with zh only // Does not work with "zh-Hans"!
   if (!savedProgress.zh) { // if it doesn't exist
     savedProgress.zh = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
     saveJSON = JSON.stringify(savedProgress);
@@ -183,9 +181,9 @@ function letTheIFrameTeachArabic(){ //See index.html to find the button that tri
   //cleanup//langCodeForTeachingFilePaths = "ar"; // Android is OK with "ar" and according to https://www.ibabbleon.com/iOS-Language-Codes-ISO-639.html iOS shouldn't need "ar-SA" or "ar-QA" etc, no???
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "ar"; // We still want "ar" instead of "ar-SA" on Android for better performance (frequency of the mic turn on&off thing).
-  if (isApple) {
-    langCodeForAnnyang = "ar-SA"; // Overwrite... Don't know which is better: ar-SA ar-JO ar-KW ar-QA
-  }
+  // if (isApple) {
+  //   langCodeForAnnyang = "ar-SA"; // "ar-SA" did not fix Safari issue
+  // }
   if (!savedProgress.ar) { // if it doesn't exist
     savedProgress.ar = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
     saveJSON = JSON.stringify(savedProgress);
@@ -323,9 +321,10 @@ function openFirstLesson(freshNewOrReturning) {
       goToProgressChart();
     } else {
       // Display the first lesson
-      if (isSafari) {
-        //createAndHandleSafariNeedsOneMoreStepBox().then(function () {  ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";  });
-        alert(safariHowToPermanentlyAllowMicP.innerHTML);
+      if (isSafari && !localStorage.safariHowToPermanentlyAllowMicAlertIsAlreadyDisplayed) {
+        //DEPRECATED createAndHandleSafariNeedsOneMoreStepBox().then(function () {  ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";  });
+        alert(safariHowToPermanentlyAllowMicP.innerHTML); // See js_for_info_boxes_in_parent
+        localStorage.safariHowToPermanentlyAllowMicAlertIsAlreadyDisplayed = "yes";
         ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";
       } else {
         ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";
