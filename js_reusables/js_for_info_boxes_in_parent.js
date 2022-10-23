@@ -1,13 +1,18 @@
 "use strict";
 // We don't want appearance sounds for any of these boxes,,, see each note below
-const closeTheBoxSound = new Howl({  src: ["/user_interface/sounds/notification3_close."+parent.audioFileExtension]  });
+const closeTheBoxSound = new Howl({}); //({  src: ["/user_interface/sounds/notification3_close."+parent.audioFileExtension]  });
+if (isSafari) {  closeTheBoxSound.preload = false; }
+window.addEventListener("load",function() {
+  closeTheBoxSound.src = "/user_interface/sounds/notification3_close."+parent.audioFileExtension;
+  closeTheBoxSound.load(); // Try to make it work in Safari
+}, { once: true });
 
 // --- Notes shown through P elements
 const willTryToSaveYourProgressNoteP = document.createElement("P"); willTryToSaveYourProgressNoteP.innerHTML = "...";
 const yourProgressWasSuccessfullyLoadedNoteP = document.createElement("P"); yourProgressWasSuccessfullyLoadedNoteP.innerHTML = "...";
 const maybeYouShouldReloadNoteP = document.createElement("P"); maybeYouShouldReloadNoteP.innerHTML = "...";
 const neverMindThisBoxNoteP = document.createElement("P"); neverMindThisBoxNoteP.innerHTML = "...";
-var safariHowToPermanentlyAllowMicP = document.createElement("P"); safariHowToPermanentlyAllowMicP.innerHTML = "...";
+// DEPRECATED, USE alert box instead: var safariHowToPermanentlyAllowMicP = document.createElement("P"); safariHowToPermanentlyAllowMicP.innerHTML = "...";
 // --- Buttons made of DIV elements
 const cancelButtonToCloseTheWillSaveBoxDIV = document.createElement("DIV");
 cancelButtonToCloseTheWillSaveBoxDIV.innerHTML = "&#10062;"; // Default content of the OK box is a "cross ❎" mark
@@ -22,8 +27,8 @@ keepWaitingButtonInTheReloadBoxDIV.innerHTML = "&#10062;"; // Default content of
 const okLetsTryRefreshingTheBrowserBoxDIV = document.createElement("DIV");
 okLetsTryRefreshingTheBrowserBoxDIV.innerHTML = "&#9989;"; // Default content of the OK box is a "tick ✅" mark
 //-
-const understoodButtonUnderSafariPermanentMicDIV = document.createElement("DIV");
-understoodButtonUnderSafariPermanentMicDIV.innerHTML = "&#9989;"; // Default content of the OK box is a "tick ✅" mark
+// DEPRECATE, USE alert instead: const understoodButtonUnderSafariPermanentMicDIV = document.createElement("DIV");
+// DEPRECATE, USE alert instead: understoodButtonUnderSafariPermanentMicDIV.innerHTML = "&#9989;"; // Default content of the OK box is a "tick ✅" mark
 
 // ---
 window.addEventListener("DOMContentLoaded",function() {
@@ -33,10 +38,12 @@ window.addEventListener("DOMContentLoaded",function() {
   fetch(pathOfSaveLoadInfoNoticeTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleInfoNoticeTexts(contentOfTheTxtFile);    });
   fetch(pathOfThreeBoxClosingTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){     handleBoxClosingTexts(contentOfTheTxtFile);    });
   fetch(pathOfKeepWaitingOrReloadTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ handleReloadDialogTexts(contentOfTheTxtFile);  });
+  /* DEPRECATE, USE alert instead:
   if (isSafari) {
     const pathOfHowToAllowMicPermanentlyOnSafariTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-allow_microphone_permanently_on_safari.txt";
     fetch(pathOfHowToAllowMicPermanentlyOnSafariTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ handleSafariMicHowToTexts(contentOfTheTxtFile);  });
   }
+  */
 }, { once: true });
 
 function handleInfoNoticeTexts(receivedTxt) {
@@ -54,10 +61,12 @@ function handleReloadDialogTexts(receivedTxt) {
   okLetsTryRefreshingTheBrowserBoxDIV.innerHTML = receivedTxt.split("|")[2];
   neverMindThisBoxNoteP.innerHTML = receivedTxt.split("|")[3];
 }
+/* DEPRECATE, USE alert instead:
 function handleSafariMicHowToTexts(receivedTxt) {
   safariHowToPermanentlyAllowMicP.innerHTML = receivedTxt.split("|")[0];
   understoodButtonUnderSafariPermanentMicDIV.innerHTML = receivedTxt.split("|")[1];
 }
+*/
 /*-- Your progress will be saved box --*/
 // We don't want an appearance sound because another button sound is already playing as this appears
 const saveLoadInfoBoxContainerDIV = document.createElement("DIV");

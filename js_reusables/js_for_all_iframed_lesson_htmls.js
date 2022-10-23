@@ -157,9 +157,10 @@ window.onbeforeunload = function() {
   // console.log("iframe onbeforeunload has been fired -> js_for_all_iframed..."); // TESTED: It works on desktop Chrome // Why does this not show in eruda // LATER: because eruda must be a frame-level-eruda not parent-level-eruda
   // Turn OFF annyang if it was ON
   if (parent.annyang) { // DO NOT OMIT! Firefox and other no-speech browsers need this "if (parent.annyang)" to let the app work without Web Speech API.
+    // This is like a "making it double-safe" thing // stopListeningAndProceedToNext() already has parent.annyang.abort();
     if (parent.annyang.isListening()) {
       // DEPRECATE parent.annyang.removeCommands();
-      if (!parent.isApple) {  parent.annyang.abort();  }
+      parent.annyang.abort(); // OR // if (!parent.isApple) {  parent.annyang.abort();  }
     }
   }
   // Check if the functions exist in the lessons own js (like bread.js, water.js etc) before trying to call them.

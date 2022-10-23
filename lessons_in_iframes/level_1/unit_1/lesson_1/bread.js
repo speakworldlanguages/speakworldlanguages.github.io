@@ -356,7 +356,7 @@ function speakToTheMic() {
       {
         let k;
         for (k = 0; k < phrasesArray.length; k++) {
-          if (phrasesArray[k].search(eachWordArray[j]) >= 0) {
+          if (phrasesArray[k].toLowerCase().search(eachWordArray[j].toLowerCase()) >= 0) {
             stopListeningAndProceedToNext();
           }
         }
@@ -380,7 +380,7 @@ function stopListeningAndProceedToNext() {
   // Stop all microphone activity as soon as success happens and don’t wait until “beforeunload” fires. See js_for_all_iframed_lesson_htmls to find what happens with window.onbeforeunload
   if (parent.annyang) { // As of 2021, Firefox says annyang is undefined. But the app still has to work without Web Speech API so the code must be wrapped in if(parent.annyang).
     // DEPRECATE parent.annyang.removeCommands();
-    if (!parent.isApple) {  parent.annyang.abort();  }
+    parent.annyang.abort(); // OR should we??? //if (!parent.isApple) {  parent.annyang.abort();  }
 
   }
   // Stop Wavesurfer microphone: Don't wait for "beforeunload" and kill it immediately even though it will fire one more time with window.onbeforeunload » user could navigate away in the middle of mic session

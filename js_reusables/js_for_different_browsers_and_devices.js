@@ -174,7 +174,7 @@ window.addEventListener('DOMContentLoaded', function(){
           // Handle microphone
           if (annyang) {
             wasListeningJustBeforeUserLeft = annyang.isListening();
-            if (!isApple) {  annyang.abort();  } // without this annyang.start() won't function.
+            annyang.abort(); // OR should we??? // if (!isApple) {  annyang.abort();  } // without this annyang.start() won't function.
           }
           // Try to make the app pause when ON/OFF button of the phone/tablet is pressed, but do not block annyang restart.
           if (!isApple) { // WEIRD: alert boxes mute and unmute sounds and keep toggling in Safari
@@ -378,7 +378,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
         let tryToAbortEveryThreeSeconds = setInterval(function () {
           if (annyang.isListening()) {
             // On Apple we must keep the mic ON, otherwise it will continue asking "Do you want to allow" everytime the mic is turned ON again
-            if (!isApple) {   annyang.abort();  }
+            annyang.abort(); // OR should we??? // if (!isApple) {   annyang.abort();  }
             clearInterval(tryToAbortEveryThreeSeconds);
             if (changeEventIsNotSupported) {
               const micPermissionPromise = navigator.permissions.query({name:'microphone'});
