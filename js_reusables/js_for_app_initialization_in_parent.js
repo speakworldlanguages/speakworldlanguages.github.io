@@ -125,7 +125,7 @@ function setLangCodeForFilePathsOfTeachingAssets(idOfTheButtonThatWasClickedOrTo
 /*What language will be taught via the iframe*/
 /* JA - Hito */
 function letTheIFrameTeachJapanese(){ //See index.html to find the button that triggers this via onclick.
-  console.log("Creating a save slot for "+ langCodeForTeachingFilePaths);
+  console.log("Create or read a save slot for "+ langCodeForTeachingFilePaths);
   //cleanup//langCodeForTeachingFilePaths = "ja"; //"ja" seemed to be OK with both iOS and Android in summer 2021
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "ja";
@@ -143,13 +143,13 @@ function letTheIFrameTeachJapanese(){ //See index.html to find the button that t
 }
 /* ZH - Renmen */
 function letTheIFrameTeachChinese(){ //See index.html to find the button that triggers this via onclick.
-  console.log("Creating a save slot for "+ langCodeForTeachingFilePaths);
+  console.log("Create or read a save slot for "+ langCodeForTeachingFilePaths);
   //cleanup//langCodeForTeachingFilePaths = "zh";
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
-  langCodeForAnnyang = "zh"; // Don't know if we have to pass "zh" instead of "zh-CN" or "zh-TW" or vice-versa on Android and Windows. Because Android turns the mic on and off too quickly in some less supported languages.
-  if (isApple) { // Android is OK with "zh" but iOS is maybe not?
-    langCodeForAnnyang = "zh-Hans"; // Overwrite // Is this relevant? https://www.w3.org/International/articles/bcp47/
-  }
+  langCodeForAnnyang = "zh"; // "zh" alone works on Android. Would it still be better with "zh-CN" or "zh-TW" or vice-versa on Android and Windows. Because Android turns the mic on and off too quickly in some less supported languages.
+  // if (isApple) { // Android is OK with "zh" but iOS is maybe not?
+  //   langCodeForAnnyang = "zh-Hans"; // Overwrite zh-Hans // Is this relevant? https://www.w3.org/International/articles/bcp47/
+  // }
   if (!savedProgress.zh) { // if it doesn't exist
     savedProgress.zh = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
     saveJSON = JSON.stringify(savedProgress);
@@ -161,7 +161,7 @@ function letTheIFrameTeachChinese(){ //See index.html to find the button that tr
 }
 /* TR - Kişi */
 function letTheIFrameTeachTurkish(){ //See index.html to find the button that triggers this via onclick.
-  console.log("Creating a save slot for "+ langCodeForTeachingFilePaths);
+  console.log("Create or read a save slot for "+ langCodeForTeachingFilePaths);
   //cleanup//langCodeForTeachingFilePaths = "tr"; //"tr" is OK with both iOS and Android
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "tr"; // UNCLEAR: SHOULD THIS BE tr-TR on iOS? // or tr-tr?
@@ -179,13 +179,13 @@ function letTheIFrameTeachTurkish(){ //See index.html to find the button that tr
 }
 /* AR Arabic */
 function letTheIFrameTeachArabic(){ //See index.html to find the button that triggers this via onclick.
-  console.log("Creating a save slot for "+ langCodeForTeachingFilePaths);
+  console.log("Create or read a save slot for "+ langCodeForTeachingFilePaths);
   //cleanup//langCodeForTeachingFilePaths = "ar"; // Android is OK with "ar" and according to https://www.ibabbleon.com/iOS-Language-Codes-ISO-639.html iOS shouldn't need "ar-SA" or "ar-QA" etc, no???
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "ar"; // We still want "ar" instead of "ar-SA" on Android for better performance (frequency of the mic turn on&off thing).
-  /*if (isApple) {
+  if (isApple) {
     langCodeForAnnyang = "ar-SA"; // Overwrite... Don't know which is better: ar-SA ar-JO ar-KW ar-QA
-  }*/
+  }
   if (!savedProgress.ar) { // if it doesn't exist
     savedProgress.ar = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
     saveJSON = JSON.stringify(savedProgress);
@@ -251,7 +251,7 @@ function letTheIFrameTeachArabic(){ //See index.html to find the button that tri
 /* EN - People */
 // LET'S TRY AND CREATE TWO DIFFERENT BUTTONS AND TEACH AMERICAN AND BRITISH separately
 function letTheIFrameTeachBritishEnglish(){ //See index.html to find the button that triggers this via onclick.
-  console.log("Creating a save slot for "+ langCodeForTeachingFilePaths);
+  console.log("Create or read a save slot for "+ langCodeForTeachingFilePaths);
   //cleanup//langCodeForTeachingFilePaths = "en_east"; // "en" alone works well both on Android and iOS. No need for "en-US" or "en-GB"
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "en-GB";
@@ -266,7 +266,7 @@ function letTheIFrameTeachBritishEnglish(){ //See index.html to find the button 
 }
 
 function letTheIFrameTeachAmericanEnglish(){ //See index.html to find the button that triggers this via onclick.
-  console.log("Creating a save slot for "+ langCodeForTeachingFilePaths);
+  console.log("Create or read a save slot for "+ langCodeForTeachingFilePaths);
   //cleanup//langCodeForTeachingFilePaths = "en_west"; // "en" alone works well both on Android and iOS. No need for "en-US" or "en-GB"
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "en-US"; // According to https://www.ibabbleon.com/iOS-Language-Codes-ISO-639.html it should be "en" only instead of en-US on iOS
@@ -323,7 +323,12 @@ function openFirstLesson(freshNewOrReturning) {
       goToProgressChart();
     } else {
       // Display the first lesson
-      ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";
+      if (isSafari) {
+        createAndHandleSafariNeedsOneMoreStepBox().then(function () {  ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";  });
+      } else {
+        ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";
+      }
+
     }
   },50); // Unnoticable tiny delay
 

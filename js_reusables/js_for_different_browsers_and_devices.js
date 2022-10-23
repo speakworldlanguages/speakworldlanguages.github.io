@@ -5,6 +5,7 @@ var detectedOS;
 var detectedBrand, detectedBrandName;
 var audioFileExtension = "ogg"; // Default to ogg except for Safari // Ogg is better than mp3 but Safari won't play it.
 var isApple = false;
+var isSafari = false;
 var isAndroid = false;
 var isWebViewOnAndroid = false;
 let wasListeningJustBeforeUserLeft = false; // annyang mic input
@@ -25,6 +26,10 @@ window.addEventListener('DOMContentLoaded', function(){
     Howler.usingWebAudio = false; // force html5
     // Howler.html5PoolSize = 60; // Is it because it's too late???
     isApple=true;
+  }
+
+  if (detectedBrowserName.search("Safari") >= 0) {
+    isSafari = true;
   }
 
   // Android Chrome and Webview on Android are different // Like support for change event is not the same in 2022 >>> https://developer.mozilla.org/en-US/docs/Web/API/PermissionStatus/change_event

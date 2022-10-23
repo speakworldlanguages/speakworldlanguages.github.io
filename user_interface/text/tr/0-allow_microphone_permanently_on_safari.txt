@@ -1,0 +1,1 @@
+﻿Safari’de mikrofon iznini kalıcı hale getirmek için adres çubuğundaki <span style="color:darkred;">&#127897;</span> simgesini kullanıp [Her zaman izin ver]i seçmelisin|Anladım
