@@ -181,9 +181,7 @@ function letTheIFrameTeachArabic(){ //See index.html to find the button that tri
   //cleanup//langCodeForTeachingFilePaths = "ar"; // Android is OK with "ar" and according to https://www.ibabbleon.com/iOS-Language-Codes-ISO-639.html iOS shouldn't need "ar-SA" or "ar-QA" etc, no???
   //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "ar"; // We still want "ar" instead of "ar-SA" on Android for better performance (frequency of the mic turn on&off thing).
-  // if (isApple) {
-  //   langCodeForAnnyang = "ar-SA"; // "ar-SA" did not fix Safari issue
-  // }
+  // Weird Safari problem with ar: the word is detected correctly and matches the answer key but for some reason the function still won't fire 
   if (!savedProgress.ar) { // if it doesn't exist
     savedProgress.ar = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
     saveJSON = JSON.stringify(savedProgress);

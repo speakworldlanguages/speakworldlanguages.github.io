@@ -329,7 +329,7 @@ function speakToTheMic() {
   var commands = {};
   const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_answer_key must be written with the | (bar) character as the separator between phrases.
   parent.console.log("Speech recognition will accept: "+eachWordArray[0]);
-  let i; // 8 Eylül 2022'de let i; satırının unutulduğunu farkettik - peki Safarinin tek derdi bu muymuş?
+  let i;
   for(i=0;i<eachWordArray.length;i++)
   {
     let oneOfTheWords = eachWordArray[i];
@@ -346,8 +346,16 @@ function speakToTheMic() {
     setTimeout(function() {  parent.annyang.start();  },500);
     setTimeout(function() {  startAudioInputVisualization();  },600); // Will work only on desktops. See js_for_microphone_input_visualization.js // Must test and see if it works on iOS.
     // For debugging
-    parent.annyang.addCallback('result', function(phrases) {
-      parent.console.log('Speech recognized. Possible sentences said: '+phrases);
+    parent.annyang.addCallback('result', function(phrase) {
+      parent.console.log('Speech recognized. Possible sentences said: '+phrase);
+      // Check if there is a match // Maybe this is better thatn adding commands, no?
+      let j;
+      for(j=0;j<eachWordArray.length;j++)
+      {
+        if (phrase.search(eachWordArray[j]) >= 0) {
+          alert("aha");
+        }
+      }
     });
   }
 
