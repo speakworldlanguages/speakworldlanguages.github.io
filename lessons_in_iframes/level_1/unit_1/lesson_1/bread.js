@@ -315,6 +315,7 @@ function showSinglesOneByOne() {
 /* ___SPEECH RECOGNITION___ */
 var userHasGivenUp = false;
 var preventGiveUpButtonIfSuccessHappens;
+let aMatchWasFound = false;
 function speakToTheMic() {
 
   setTimeout(function () {
@@ -325,7 +326,7 @@ function speakToTheMic() {
     },countdownForGiveUpSkipOrGoToNext); // This must start ticking only after countdownForGiveUpSkipOrGoToNext is updated.
   },120);
 
-  // NOTE: To find “what language the browser will listen to (via annyang)” see the code in /js_reusables/js_for_app_initialization_in_parent.js
+  // setLanguage() for annyang is in /js_reusables/js_for_app_initialization_in_parent.js
   // DEPRECATE var commands = {};
   const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_answer_key must be written with the | (bar) character as the separator between phrases.
   parent.console.log("Speech recognition will accept: "+eachWordArray[0]);
@@ -339,15 +340,15 @@ function speakToTheMic() {
   */
 
   if (parent.annyang) {
-    // Add commands to annyang
+    // October 2022 policy change: Stop using commands object with annyang
     // DEPRECATE parent.annyang.addCommands(commands);
     if (!parent.isAndroid) { // See js_for_different_browsers_and_devices
         notificationDingTone.play(); // Android has its native DING tone. So let this DING tone play on desktops and iOS devices.
     }
     // Start listening.
     setTimeout(function() {  parent.annyang.start();  },500);
-    setTimeout(function() {  startAudioInputVisualization();  },600); // Will work everywhere except Android. See js_for_microphone_input_visualization.js
-    // For debugging
+    setTimeout(function() {  startAudioInputVisualization();  },600); // Will work everywhere except on Android. See js_for_microphone_input_visualization.js
+    // New method of detecting matches
     parent.annyang.addCallback('result', function(phrasesArray) {
       parent.console.log('Speech recognized. Possible sentences said: '+phrasesArray);
       // Check if there is a match // Maybe this is better than adding commands, no?
@@ -357,11 +358,17 @@ function speakToTheMic() {
         let k;
         for (k = 0; k < phrasesArray.length; k++) {
           if (phrasesArray[k].toLowerCase().search(eachWordArray[j].toLowerCase()) >= 0) {
-            stopListeningAndProceedToNext();
+            if (!aMatchWasFound) {
+              aMatchWasFound = true;
+              stopListeningAndProceedToNext();
+            } else {
+              // Prevent double firing by doing nothing
+            }
           }
         }
       }
     });
+    // End of addCallback
   }
 
 } /* END OF speakToTheMic */
@@ -379,9 +386,8 @@ function stopListeningAndProceedToNext() {
   }
   // Stop all microphone activity as soon as success happens and don’t wait until “beforeunload” fires. See js_for_all_iframed_lesson_htmls to find what happens with window.onbeforeunload
   if (parent.annyang) { // As of 2021, Firefox says annyang is undefined. But the app still has to work without Web Speech API so the code must be wrapped in if(parent.annyang).
-    // DEPRECATE parent.annyang.removeCommands();
+    parent.annyang.removeCallback(); // Remove all script activity // Instead of DEPRECATED parent.annyang.removeCommands();
     parent.annyang.abort(); // OR should we??? //if (!parent.isApple) {  parent.annyang.abort();  }
-
   }
   // Stop Wavesurfer microphone: Don't wait for "beforeunload" and kill it immediately even though it will fire one more time with window.onbeforeunload » user could navigate away in the middle of mic session
   stopAudioInputVisualization();

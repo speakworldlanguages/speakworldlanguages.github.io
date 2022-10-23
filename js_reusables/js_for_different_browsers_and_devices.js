@@ -378,7 +378,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
         let tryToAbortEveryThreeSeconds = setInterval(function () {
           if (annyang.isListening()) {
             // On Apple we must keep the mic ON, otherwise it will continue asking "Do you want to allow" everytime the mic is turned ON again
-            annyang.abort(); // OR should we??? // if (!isApple) {   annyang.abort();  }
+            if (!isApple) {   annyang.abort();  } // In this case we don't want the mic to be turned off in Safari + possibly MacOS Chrome BECAUSE we wan't to let the user click the mic icon in the address bar to choose [Always Allow]
             clearInterval(tryToAbortEveryThreeSeconds);
             if (changeEventIsNotSupported) {
               const micPermissionPromise = navigator.permissions.query({name:'microphone'});
