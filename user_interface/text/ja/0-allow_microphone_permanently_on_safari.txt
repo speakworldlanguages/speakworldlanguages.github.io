@@ -1,1 +1,1 @@
-﻿許可<span style="color:darkred;">&#127897;</span> icon in the address bar and choose [Always allow]|Wakarimashita
+﻿Safariではマイクの許可を永続にするために 🎙️ アイコンを使って [いつも許可する]を選んでください
