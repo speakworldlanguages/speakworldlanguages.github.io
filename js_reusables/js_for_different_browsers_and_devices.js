@@ -23,9 +23,11 @@ window.addEventListener('DOMContentLoaded', function(){
   /* DESPITE: Being sick of writing special code for Apple */
   if (detectedOS.name == "iOS" || detectedOS.name == "Mac OS" || detectedBrandName == "Apple") {
     audioFileExtension = "mp3";
-    Howler.usingWebAudio = false; // force html5
-    // Howler.html5PoolSize = 60; // Is it because it's too late???
     isApple=true;
+  }
+
+  if (detectedOS.name == "Mac OS") {
+    Howler.usingWebAudio = false; // force html5
   }
 
   if (detectedBrowserName.search("Safari") >= 0) {
