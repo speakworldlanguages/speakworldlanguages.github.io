@@ -60,7 +60,12 @@ function handleReloadDialogTexts(receivedTxt) {
 }
 
 function handleSafariMicHowToTexts(receivedTxt) {
-  safariHowToPermanentlyAllowMicP.innerHTML = receivedTxt; // Get ready to put it into the alert box in js_for_app_initialization_in_parent
+  safariHowToPermanentlyAllowMicP.innerHTML = receivedTxt.split("|")[0]; // Get ready to put it into the alert box in js_for_app_initialization_in_parent
+  if (deviceDetector.device == "desktop") {
+    safariHowToPermanentlyAllowMicP.innerHTML += receivedTxt.split("|")[1];
+  } else {
+    safariHowToPermanentlyAllowMicP.innerHTML += receivedTxt.split("|")[2];
+  }
 }
 
 /*-- Your progress will be saved box --*/

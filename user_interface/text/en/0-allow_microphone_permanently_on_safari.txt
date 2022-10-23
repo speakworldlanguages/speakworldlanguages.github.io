@@ -1,2 +1,4 @@
 ﻿There is one more step in Safari to allow microphone PERMANENTLY
-You must use the mic 🎙️ icon in the address bar and choose [Always allow]
+You must use the mic 🎙️ icon in the address bar and
+|set it to [Always allow]
+|go to settings/preferences and change it from [Ask] to [Allow]
