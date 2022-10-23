@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded', function(){
   detectedBrand = parser.getDevice();  detectedBrandName = detectedBrand.vendor;
   /* DESPITE: Being sick of writing special code for Apple */
   if (detectedOS.name == "iOS" || detectedOS.name == "Mac OS" || detectedBrandName == "Apple") {
-    //Howler.usingWebAudio = false; // force html5
+    Howler.usingWebAudio = false; // force html5 // Otherwise every alert mutes and unmutes all the sounds and keeps toggling
     audioFileExtension = "mp3";
     isApple=true;
   }
