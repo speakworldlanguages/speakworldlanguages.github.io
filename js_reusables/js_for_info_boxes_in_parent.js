@@ -1,10 +1,6 @@
 "use strict";
 // We don't want appearance sounds for any of these boxes,,, see each note below
-const closeTheBoxSound = new Howl({  src: ["/user_interface/sounds/notification3_close."+parent.audioFileExtension]  });
-if (isSafari) { closeTheBoxSound.unload(); }
-window.addEventListener("load",function() {
-  if (isSafari) { closeTheBoxSound.load(); } // Try to make it work in Safari
-}, { once: true });
+let closeTheBoxSound;
 
 // --- Notes shown through P elements
 const willTryToSaveYourProgressNoteP = document.createElement("P"); willTryToSaveYourProgressNoteP.innerHTML = "...";
@@ -31,6 +27,9 @@ okLetsTryRefreshingTheBrowserBoxDIV.innerHTML = "&#9989;"; // Default content of
 
 // ---
 window.addEventListener("DOMContentLoaded",function() {
+  
+  closeTheBoxSound = new Howl({  src: ["/user_interface/sounds/notification3_close."+parent.audioFileExtension]  });
+
   const pathOfSaveLoadInfoNoticeTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-about_saving_loading_users_progress.txt";
   const pathOfThreeBoxClosingTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-cancel_proceed_good.txt";
   const pathOfKeepWaitingOrReloadTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-wait_or_reload.txt";
