@@ -329,7 +329,7 @@ function speakToTheMic() {
   // setLanguage() for annyang is in /js_reusables/js_for_app_initialization_in_parent.js
   // DEPRECATE var commands = {};
   const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_answer_key must be written with the | (bar) character as the separator between phrases.
-  parent.console.log("Speech recognition will accept: "+eachWordArray[0]);
+  parent.console.log("Speech recognition is waiting for: "+eachWordArray[0]);
   /* DEPRECATE
   let i;
   for(i=0;i<eachWordArray.length;i++)

@@ -111,7 +111,7 @@
     <img id="nowYouSayItIMG" src="/user_interface/images/now_you_say_it_to_speech_recognition.webp" style="display:none;">
     <script>
     window.addEventListener("DOMContentLoaded",function(){
-      if (window.parent.isApple) { // Override webp,,, force gif,,, until Safari's webp bug is hopefully fixed by someone in Apple
+      if (window.parent.isApple && deviceDetector.isMobile) { // Override webp,,, force gif,,, until Safari's webp bug is hopefully fixed by someone in Apple
         const nowYouSayIt = document.getElementById('nowYouSayItIMG'); nowYouSayIt.src = "/user_interface/images/now_you_say_it_to_speech_recognition.gif";
       } // Looks like gif animation does not start playing before display is changed from none to block, which is what we want.
     },{ once: true });

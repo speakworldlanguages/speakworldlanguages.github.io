@@ -126,7 +126,7 @@
     <img id="nowYouSayItIMG" src="/user_interface/images/now_you_say_it_to_speech_recognition.webp" style="display:none;">
     <script>
     window.addEventListener("DOMContentLoaded",function(){
-      if (window.parent.isApple) {
+      if (window.parent.isApple && deviceDetector.isMobile) {
         const nowYouSayIt = document.getElementById('nowYouSayItIMG'); nowYouSayIt.src = "/user_interface/images/now_you_say_it_to_speech_recognition.gif";
       }
     },{ once: true });
