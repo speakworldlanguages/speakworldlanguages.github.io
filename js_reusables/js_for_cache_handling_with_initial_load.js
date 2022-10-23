@@ -241,11 +241,11 @@ async function loadTheVoiceOfTheTeacherInLesson111() { // See setLangCodeForFile
   const myCache = await caches.open('secondary-assets-for-1-1-1'); // Create a new slot
 
   const listOfFiles = [
-    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_1-2.webm",
-    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_3.webm",
-    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_4-5.webm",
-    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_6.webm",
-    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_7-8.webm"
+    // fix this after tests // "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_1-2.webm",
+    // fix this after tests // "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_3.webm",
+    // fix this after tests // "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_4-5.webm",
+    // fix this after tests // "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_6.webm",
+    // fix this after tests // "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_7-8.webm"
   ];
   /*if (isApple) {
     listOfFiles.push(
