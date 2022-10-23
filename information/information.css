@@ -3,6 +3,9 @@
 .authorsNameOnDesktops{font-size: 2.2vh; line-height: 3vh; font-weight: bold; padding-bottom: 12px;}
 .authorsNameOnTablets{font-size: 3vmin; line-height: 4vmin; font-weight: bold; padding-bottom: 9px;}
 .authorsNameOnPhones{font-size: 3.6vmin; line-height: 4.4vmin; font-weight: bold; padding-bottom: 7px;}
+@media (max-width: 400px){
+  .authorsNameOnPhones{letter-spacing: -1px;}
+}
 .monthlyButtonOnPhones:focus {outline: none; user-select: none;} .monthlyButtonOnPhones:active {outline: none; user-select: none;}
 .monthlyButtonOnTablets:focus {outline: none; user-select: none;} .monthlyButtonOnTablets:active {outline: none; user-select: none;}
 @media (orientation: portrait) {
