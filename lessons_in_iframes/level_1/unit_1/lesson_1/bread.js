@@ -326,34 +326,39 @@ function speakToTheMic() {
   },120);
 
   // NOTE: To find “what language the browser will listen to (via annyang)” see the code in /js_reusables/js_for_app_initialization_in_parent.js
-  var commands = {};
+  // DEPRECATE var commands = {};
   const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_answer_key must be written with the | (bar) character as the separator between phrases.
   parent.console.log("Speech recognition will accept: "+eachWordArray[0]);
+  /* DEPRECATE
   let i;
   for(i=0;i<eachWordArray.length;i++)
   {
     let oneOfTheWords = eachWordArray[i];
     commands[oneOfTheWords] = stopListeningAndProceedToNext;
   }
+  */
 
   if (parent.annyang) {
     // Add commands to annyang
-    parent.annyang.addCommands(commands);
+    // DEPRECATE parent.annyang.addCommands(commands);
     if (!parent.isAndroid) { // See js_for_different_browsers_and_devices
         notificationDingTone.play(); // Android has its native DING tone. So let this DING tone play on desktops and iOS devices.
     }
     // Start listening.
     setTimeout(function() {  parent.annyang.start();  },500);
-    setTimeout(function() {  startAudioInputVisualization();  },600); // Will work only on desktops. See js_for_microphone_input_visualization.js // Must test and see if it works on iOS.
+    setTimeout(function() {  startAudioInputVisualization();  },600); // Will work everywhere except Android. See js_for_microphone_input_visualization.js
     // For debugging
-    parent.annyang.addCallback('result', function(phrase) {
-      parent.console.log('Speech recognized. Possible sentences said: '+phrase);
-      // Check if there is a match // Maybe this is better thatn adding commands, no?
+    parent.annyang.addCallback('result', function(phrasesArray) {
+      parent.console.log('Speech recognized. Possible sentences said: '+phrasesArray);
+      // Check if there is a match // Maybe this is better than adding commands, no?
       let j;
       for(j=0;j<eachWordArray.length;j++)
       {
-        if (phrase[0].search(eachWordArray[j]) >= 0) {
-          alert("aha");
+        let k;
+        for (k = 0; k < phrasesArray.length; k++) {
+          if (phrasesArray[k].search(eachWordArray[j]) >= 0) {
+            stopListeningAndProceedToNext();
+          }
         }
       }
     });
@@ -361,8 +366,8 @@ function speakToTheMic() {
 
 } /* END OF speakToTheMic */
 
-// stopListeningAndProceedToNext
-var stopListeningAndProceedToNext = function () {
+// stopListeningAndProceedToNext >>> Used to be: var stopListeningAndProceedToNext = function () {};
+function stopListeningAndProceedToNext() {
   if (!userHasGivenUp) { // Real success of speech recognition
     successTone.play(); fullVpDarkBlue.style.animationPlayState = "running"; containerOfSingles.classList.add("brightenUp");
     if (canVibrate) {  navigator.vibrate([14, 133, 12, 111, 12, 133, 20]);  } // See js_for_every_single_html.js for canVibrate
@@ -374,8 +379,9 @@ var stopListeningAndProceedToNext = function () {
   }
   // Stop all microphone activity as soon as success happens and don’t wait until “beforeunload” fires. See js_for_all_iframed_lesson_htmls to find what happens with window.onbeforeunload
   if (parent.annyang) { // As of 2021, Firefox says annyang is undefined. But the app still has to work without Web Speech API so the code must be wrapped in if(parent.annyang).
-    parent.annyang.removeCommands();
-    parent.annyang.abort();
+    // DEPRECATE parent.annyang.removeCommands();
+    if (!parent.isApple) {  parent.annyang.abort();  }
+
   }
   // Stop Wavesurfer microphone: Don't wait for "beforeunload" and kill it immediately even though it will fire one more time with window.onbeforeunload » user could navigate away in the middle of mic session
   stopAudioInputVisualization();
@@ -389,4 +395,4 @@ var stopListeningAndProceedToNext = function () {
   parent.savedProgress[studiedLang].lesson_BREAD_IsCompleted=true; // WATCH THE NAME OF THE LESSON!!!
   parent.saveJSON = JSON.stringify(parent.savedProgress); // Convert
   localStorage.setItem("memoryCard", parent.saveJSON); // Save
-};
+}

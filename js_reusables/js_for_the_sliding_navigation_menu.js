@@ -761,7 +761,7 @@ DEPRECATED
       let wasListeningWhenUserPaused = false;
       if (annyang) {
         wasListeningWhenUserPaused = annyang.isListening();
-        annyang.abort(); // without this annyang.start() won't function. // No problem if abort() fires when annyang wasn't listening.
+        if (!isApple) {   annyang.abort();  } // without this annyang.start() won't function. // No problem if abort() fires when annyang wasn't listening.
       }
       /**/
       // Setting the volume to 0 and then back to 1 causes a weird muting-unmuting behavior on iOS

@@ -158,8 +158,8 @@ window.onbeforeunload = function() {
   // Turn OFF annyang if it was ON
   if (parent.annyang) { // DO NOT OMIT! Firefox and other no-speech browsers need this "if (parent.annyang)" to let the app work without Web Speech API.
     if (parent.annyang.isListening()) {
-      parent.annyang.removeCommands();
-      parent.annyang.abort();
+      // DEPRECATE parent.annyang.removeCommands();
+      if (!parent.isApple) {  parent.annyang.abort();  }
     }
   }
   // Check if the functions exist in the lessons own js (like bread.js, water.js etc) before trying to call them.
