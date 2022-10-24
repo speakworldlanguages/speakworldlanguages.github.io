@@ -1,0 +1,1 @@
+toLowerCase() Ýngilizce'de olmayan ÞÐ gibi harfleri normalde küçültmüyor
