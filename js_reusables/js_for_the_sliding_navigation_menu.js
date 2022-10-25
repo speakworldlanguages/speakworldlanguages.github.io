@@ -148,10 +148,11 @@ var topContainerDivOfTheSlidingNavMenuForMobiles = document.createElement("DIV")
 /* AS OF September 2022 we are switching to stopPropagation method to resolve the touch conflicts since it's just neater to do so */
 // BUT IN CASE stopPropagation can not be used on an element that has a touch listener (for whatever reason), this can still be a solution
 // As of September 2022 preventTouchConflictWithTheSlidingNavMenu is not called by anything
+/*
 let resetReleaseTime;
 function preventTouchConflictWithTheSlidingNavMenu(elementThatWasTouched) {
   swipeNavMenuIsLocked = true; // Prevents makeTheNavMenuComeUpOnMobiles() and interrupts process in getY1() » We wouldn't need this if release time was 3801 (or longer),,, it just had to get complicated.
-  if (resetReleaseTime) { clearTimeout(resetReleaseTime); } // Restart properly if a second touch happens before 1001ms
+  if (resetReleaseTime) { clearTimeout(resetReleaseTime); resetReleaseTime = 0; } // Restart properly if a second touch happens before 1001ms
   topContainerDivOfTheSlidingNavMenuForMobiles.style.bottom = "-50vh"; // Push it away where it will never pop from bottom
   ////ayFreymWindow.addEventListener("touchend",releaseTheNavMenu); // Avoid using {once:true} ,,, consider the case of multiple touches
   elementThatWasTouched.addEventListener("touchend",releaseTheNavMenu);
@@ -166,38 +167,8 @@ function preventTouchConflictWithTheSlidingNavMenu(elementThatWasTouched) {
       },1250); //Must be long enough » Consider not only the "slow" parameter in makeTheNavMenuGoDownOnMobiles for margin-bottom transition » See makeTheNavMenuComeUpOnMobiles() 3800ms
     }
   }
-  //-- Extra task » touch events will not fire on window element if event.stopPropagation(); is used for listeners on divs, buttons etc
-  ////resetSleepCountdown(); // Therefore we reset it manually just in case
 }
-
-
-// A BETTER SOLUTION - July 2022 quit using keyframes animation only use marginBottom transition
-// DEPRECATED
-// function make-TheNavMenuGoDownOnMobiles() {
-//   // Watch what's happening with swipe-Nav-MenuIsLocked
-//     if (nav-Menu-IsUpAndVisible /*&& !navMenuIsMoving*/) { // It really was up
-//       topContainerDivOfTheSlidingNavMenuForMobiles.classList.remove("addThisForAnimationAppearFromBottom");
-//       topContainerDivOfTheSlidingNavMenuForMobiles.classList.add("addThisForAnimationSinkAndDisappear"); // See css_for_sliding_navigation_menu.css
-//       //swipeDownSound.play();
-//       nav-Menu-IsUpAndVisible = false;
-//       /*navMenuIsMoving = true;
-//       setTimeout(function () {   navMenuIsMoving = false;   },750);*/
-//     }
-//   // ---
-// }
-//
-// function make-TheNavMenuComeUpOnMobiles() {
-//   if (!swipe-Nav-MenuIsLocked) {
-//     if (!nav-Menu-IsUpAndVisible /*&& !navMenuIsMoving*/) { // It really was down
-//       topContainerDivOfTheSlidingNavMenuForMobiles.classList.remove("addThisForAnimationSinkAndDisappear");
-//       topContainerDivOfTheSlidingNavMenuForMobiles.classList.add("addThisForAnimationAppearFromBottom"); // See css_for_sliding_navigation_menu.css
-//       //swipeUpSound.play();
-//       nav-Menu-IsUpAndVisible = true;
-//       /*navMenuIsMoving = true;
-//       setTimeout(function () {   navMenuIsMoving = false;   },750);*/
-//     }
-//   }
-// }
+*/
 
 function makeTheNavMenuGoDownOnMobiles(fastOrSlow) { // NEW! // Called at the beginning of every single lesson via js_for_all_iframed_lesson_htmls
   if (fastOrSlow == "slow") {
@@ -223,7 +194,7 @@ function makeTheNavMenuComeUpOnMobiles() { // NEW! // Also called from blank.htm
   }
 }
 function stopSlidingNavMenuCountdownToDisappearance() { // Called from here [see -> goToPreviousFunction] & blank.html too
-  clearTimeout(preventAutoDisappear);
+  if (preventAutoDisappear) {  clearTimeout(preventAutoDisappear); preventAutoDisappear = 0;  }
 }
 function handleMenuUpDownStateOnMobiles() { // 2 cases in js_for_all_iframed_lesson_htmls » progress_chart, information // 0 cases here?
   if (navMenuIsUpAndVisible) {
@@ -351,7 +322,7 @@ window.addEventListener("load",function() {
     }
     function getY2(event) { event.preventDefault(); event.stopPropagation(); // Even though there isn't a container that the frame window can propagate up to
       //console.log("getY2 fired");
-      if (theTimeoutThatMustBeStopped) { clearTimeout(theTimeoutThatMustBeStopped); }
+      if (theTimeoutThatMustBeStopped) { clearTimeout(theTimeoutThatMustBeStopped); theTimeoutThatMustBeStopped=0;}
       // Check if finger was removed before threshold and move it back to where it was
       if (newMarginBottom<-14 && !navMenuIsUpAndVisible) {
         topContainerDivOfTheSlidingNavMenuForMobiles.style.marginBottom = "calc(-22vmin - 48px)"; // Back to where it was
@@ -510,7 +481,7 @@ window.addEventListener("load",function() {
     },240); // Consider what will happen if the mouse leaves too quickly, like less than 240ms
   }
   function goToPreviousExitHoverFunction() {
-    clearTimeout(preventMistakeForPreviousButton);
+    clearTimeout(preventMistakeForPreviousButton); preventMistakeForPreviousButton = 0;
     clickToGoToPreviousImgA.style.display = "none";
     clickToGoToPreviousImgB.style.display = "none"; resetCarAndArrowButtonImgB();
     clickToGoToPreviousImgC.style.display = "none";
@@ -543,7 +514,7 @@ window.addEventListener("load",function() {
     },240); // Consider what will happen if the mouse leaves too quickly, like less than 240ms
   }
   function goToMainMenuExitHoverFunction() {
-    clearTimeout(preventMistakeForHomeButton);
+    clearTimeout(preventMistakeForHomeButton); preventMistakeForHomeButton = 0;
     clickToGoToMainMenuImgA.style.display = "none";
     clickToGoToMainMenuImgB.style.display = "none"; resetHomeButtonImgB();
     clickToGoToMainMenuImgC.style.display = "none";
@@ -576,7 +547,7 @@ window.addEventListener("load",function() {
     },240); // Consider what will happen if the mouse leaves too quickly, like less than 240ms
   }
   function clickToPauseTheAppExitHoverFunction() {
-    clearTimeout(preventMistakeForProgressButton);
+    clearTimeout(preventMistakeForProgressButton); preventMistakeForProgressButton = 0;
     clickToPauseTheAppImgA.style.display = "none";
     clickToPauseTheAppImgB.style.display = "none"; resetPauseButtonImgB();
     clickToPauseTheAppImgC.style.display = "none";
@@ -609,7 +580,7 @@ window.addEventListener("load",function() {
     },240); // Consider what will happen if the mouse leaves too quickly, like less than 240ms
   }
   function clickToFinanceExitHoverFunction() {
-    clearTimeout(preventMistakeForNgoButton);
+    clearTimeout(preventMistakeForNgoButton); preventMistakeForNgoButton = 0;
     clickToFinanceImgA.style.display = "none";
     clickToFinanceImgB.style.display = "none"; resetFinanceNgoButtonImgB();
     clickToFinanceImgC.style.display = "none";

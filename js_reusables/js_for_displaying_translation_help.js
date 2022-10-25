@@ -45,7 +45,6 @@ window.addEventListener('DOMContentLoaded', function(){
     /**/
     touchAndDragThisDiv.addEventListener("touchstart",function (event) { event.preventDefault(); event.stopPropagation();
       toggleTranslationOnMobiles();
-      parent.resetSleepCountdown(); // See sleep-control.js
       // Q: CORRECT OR NOT? A: YES. As long as there is stopPropagation WE DON'T NEED parent.preventTouchConflictWithTheSlidingNavMenu(touchAndDragThisDiv); // Exists in js_for_the_sliding_navigation_menu
     });
     touchAndDragThisDiv.addEventListener("touchend",function (event) { event.preventDefault(); event.stopPropagation();

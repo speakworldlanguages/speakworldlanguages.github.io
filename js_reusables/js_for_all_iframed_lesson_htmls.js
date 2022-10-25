@@ -56,11 +56,13 @@ window.addEventListener('DOMContentLoaded', function(){
 /**/
 window.onload = function() { // DANGER: Do not use window.onload anywhere else. Use addEventListener "load" instead in order to avoid overwriting.
   // Clear timeout for [would you like to wait or refresh] box
-  parent.stopTheTimerToSeeIfNextLessonLoadedFastEnough();
+  // WORKS MOST OF THE TIME BUT occasionally it either doesn't fire or fire too soon.
+  setTimeout(function () { parent.stopTheTimerToSeeIfNextLessonLoadedFastEnough(); }, 1000); // A small delay: Try to fix beforeunload from previous lesson firing too late
 
   // Restart anti sleep timer
   if (deviceDetector.isMobile) {
-    setTimeout(function () { parent.resetSleepCountdown(); }, 111); // See sleep-control.js
+    // DEPRECATED setTimeout(function () { parent.resetSleepCountdown(); }, 111); // See sleep-control.js
+    if ('wakeLock' in navigator) {  parent.tryToKeepTheScreenON();  } // See js_for_different_browsers_and_devices
   }
   // ---
   if (parent.topContainerDivOfTheSlidingNavMenuForMobiles) { // Check if it exists like this or use deviceDetector.isMobile
@@ -130,7 +132,7 @@ window.onload = function() { // DANGER: Do not use window.onload anywhere else. 
   // Hide the preloader whenever a new lesson is ready to be shown through the iFrame
   parent.preloadHandlingDiv.classList.remove("addThisClassToRevealThePreloader"); // See css_for_the_container_parent_html
   parent.preloadHandlingDiv.classList.add("addThisClassToHideThePreloader"); // See css_for_the_container_parent_html
-  // BETTER: if typeof checkTimeoutIfLoadingIsTooSlow == ... clearTimeout
+
   // DEPRECATED: setTimeout(function () { thisLessonHasBeenLoadedFresh = false; },8000); // The idea was to change CAR MOVING BACKWARDS button from a go-back button into a refresh button.
 };
 

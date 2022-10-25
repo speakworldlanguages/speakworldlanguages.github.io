@@ -21,6 +21,7 @@ function stopTheTimerToSeeIfNextLessonLoadedFastEnough() { // See blank.html AND
   if (checkIfLoadingIsTakingTooLongTimeout) {
     //console.log("trying to clear the timeout before it's too late"); // Tested: Works OK
     clearTimeout(checkIfLoadingIsTakingTooLongTimeout);
+    checkIfLoadingIsTakingTooLongTimeout = 0;
   }
   // If it was too late and the box has been displayed but is no longer necessary because window did load after all, phew!
   if (maybeYouShouldReloadBoxIsNowBeingDisplayed) {

@@ -13,6 +13,18 @@ let wasListeningJustBeforeUserLeft = false; // annyang mic input
 //var activationSound2;
 let userIsAwaySound, userIsBackSound;
 
+// Prevent screen dimming -> handles the Android case -> doesn't work on iOS as of Oct 2022
+// See https://w3c.github.io/screen-wake-lock/ AND ALSO See https://web.dev/wake-lock/
+const stayAwakeForThisManyMinutes = 3;
+function tryToKeepTheScreenON() {
+  navigator.wakeLock.request("screen").then(lock => {
+    setTimeout(() => lock.release(), stayAwakeForThisManyMinutes * 60000);
+  }).catch(error => {console.log(error);});
+}
+
+if ('wakeLock' in navigator) {  tryToKeepTheScreenON();  }
+// Also see visibilitychange below to see how wake-lock is reacquired after being lost due to tab navigation or pressing the OFF button
+
 window.addEventListener('DOMContentLoaded', function(){
 
   var parser = new UAParser();
@@ -113,6 +125,8 @@ window.addEventListener('DOMContentLoaded', function(){
     const micPermissionPromise = navigator.permissions.query({name:'microphone'});
     micPermissionPromise.then(function(result1) { // Handle Windows & Android ...mainly Chrome
       console.log("This is a good browser that supports permissions API along with microphone permissions");
+      // Mac OS Safari 16.0 falls in here but it doesn't support the onchange event, so we cannot immediately react to user's choice
+      // In that case, instead of onchange, we can check if the permission-state has actually changed with a setInterval and then clearInterval once user's answer is detected.
       if (result1.state == 'granted') {
         willUserTalkToSpeechRecognition = true;
         console.log("Microphone permission already granted previously");
@@ -120,11 +134,11 @@ window.addEventListener('DOMContentLoaded', function(){
         willUserTalkToSpeechRecognition = false;
         console.log("Microphone permission is already set to DENIED");
       } else {
-        // Use if needed: if (result1.state == 'prompt') // Please allow will be showing unless removed
+        // Which means (result1.state == 'prompt') // Please allow will be showing unless removed
         localStorage.removeItem("allowMicrophoneDialogHasAlreadyBeenDisplayed");
         console.log("Microphone permission must be taken");
       }
-    }).catch(function () { // Handle Firefox ...hopefully
+    }).catch(function () { // Handle Firefox? ...hopefully
       // User's browser has permissions API but it does not let us check microphone permissions!
       console.log("This browser supports permissions API but microphone permissions are not available");
     });
@@ -132,7 +146,7 @@ window.addEventListener('DOMContentLoaded', function(){
     // User's browser doesn't have permissions API at all.
     console.log("This browser doesn't have permissions API at all");
     // During tests, an iPad with Safari 15.6 fell here in October 2022
-    // Show an alert box is if speech recognition is not supported.
+    // Best practice seems to be: Show an alert box that tells the user to open the app on a PC with Chrome.
     setTimeout(function () {
       const filePath = "/user_interface/text/"+userInterfaceLanguage+"/0-if_something_is_not_working.txt"; // A plain [Better if you use Chrome on a PC] msg
       fetch(filePath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  alert(contentOfTheTxtFile.split("|")[1]);  });
@@ -161,7 +175,7 @@ window.addEventListener('DOMContentLoaded', function(){
     {
       let newVolume;
       let i = 1;
-      if (document.hidden) {
+      if (document.visibilityState === 'hidden') { // document.hidden is historical??? https://developer.mozilla.org/en-US/docs/Web/API/Document/hidden
           // console.log("hidden means user is gone"); // This fires when ON-OFF button of the device is pressed.
           userIsAwaySound.play(); // It can't flood can it?
           // Handle audio.
@@ -183,19 +197,20 @@ window.addEventListener('DOMContentLoaded', function(){
           }
           // Try to make the app pause when ON/OFF button of the phone/tablet is pressed, but do not block annyang restart.
           if (!isApple) { // WEIRD: alert boxes mute and unmute sounds and keep toggling in Safari
+            // MUST WATCH THE LATEST updates in Safari and iOS
             setTimeout(function() { alert(continueAfterPauseMsgFromTxtFileInUILanguage); },999);
           }
-          /*SHOULD THIS BE DEPRECATED? MAYBE YES -> setTimeout(function() {          alert(continueAfterPauseMsgFromTxtFileInUILanguage);         },999);*/
-          // Either find a solution or notify iPhone (and maybe iPad users too) about the muting and unmuting effect of alert boxes.
+
       } else {
           // console.log("visible means user is back");
           // WARNING: Returning from AUTO-SLEEP DOES NOT MAKE THIS FIRE! (It is not like user pressing ON/OFF button twice)
           // AUTO-SLEEP is not counted as user being away according to document.hidden
           // This works only in case user presses ON/OFF button twice
-          setTimeout(function () { resetSleepCountdown(); }, 111); // See sleep-control.js
+          // MUST CHECK IF that is still the case with document.visibilityState === 'hidden' instead of document.hidden
+          // DEPRECATED: setTimeout(function () { resetSleepCountdown(); }, 111); // See sleep-control.js
+          if ('wakeLock' in navigator) {  tryToKeepTheScreenON();  }
 
           // Handle audio
-          // DEPRECATED: Howler._howls.forEach(function(nextAudioToFadeBackFromSilence) {  nextAudioToFadeBackFromSilence.fade(0, 1, 1200);  });
           // REMEMBER: On mobiles Howler.volume() is always 1 and is never changed. User adjusts OS volume natively with the device buttons.
           // Custom FADE-UP for global volume
           let nineteenSteps = setInterval(littleByLittle,10);
@@ -335,7 +350,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
                 // According to mozilla Android Webview also acts like Safari rather than Chrome
                 // So let's try to make it handleable
                 if (isApple || isWebViewOnAndroid) { // IT WOULD BE BETTER IF we could actually detect if browser supports change event!!!
-                  changeEventIsNotSupported = true;
+                  changeEventIsNotSupported = true; // So that, when user has made a choice, we can use the setInterval to detect it
                 }
               }
 
@@ -405,12 +420,13 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
     } // End of what to do for fresh users who have seen the app first time ever
   } // End of if (annyang)
   else { // No annyang,,, REMEMBER: Opera and Edge lie and return true even though they don't support it (2022).
-    // Show an alert box is if speech recognition is not supported.
+    // Show an alert box if speech recognition is not supported.
     setTimeout(function () {
       const filePath = "/user_interface/text/"+userInterfaceLanguage+"/0-if_something_is_not_working.txt"; // Because speech recognition is not available "It's better if you use Chrome" msg
       fetch(filePath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  alert(contentOfTheTxtFile.split("|")[0]);  });
     },500);
-    // New policy: The app won't proceed without annyang (except for the two liars i.e. Opera and Edge)
+    // Policy: The app won't proceed without annyang (except for the two liars i.e. Opera and Edge)
   }
 }
-/**/
+
+/*THE END of this js file*/
