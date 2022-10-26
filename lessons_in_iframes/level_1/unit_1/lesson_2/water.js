@@ -309,9 +309,9 @@ function speakToTheMic() {
     setTimeout(function() {  parent.annyang.start();  },500);
     setTimeout(function() {  startAudioInputVisualization();  },600); // Will work everywhere except on Android. See js_for_microphone_input_visualization.js
     // New method of detecting matches
-    parent.annyang.addCallback('result', function(phrasesArray) {
-      parent.console.log('Speech recognized. Possible sentences said: '+phrasesArray);
-      // Check if there is a match // Maybe this is better than adding commands, no?
+    parent.annyang.addCallback('result', compareAndSeeIfTheAnswerIsCorrect);
+    function compareAndSeeIfTheAnswerIsCorrect(phrasesArray) {
+      parent.console.log('Speech recognized. Possibly said: '+phrasesArray);
       let j;
       for(j=0;j<eachWordArray.length;j++)
       {
@@ -327,13 +327,11 @@ function speakToTheMic() {
           }
         }
       }
-    });
-    // End of addCallback
+    }
   }
 
 } /* END OF speakToTheMic */
 
-// stopListeningAndProceedToNext >>> Used to be: var stopListeningAndProceedToNext = function () {};
 function stopListeningAndProceedToNext() {
   if (!userHasGivenUp) { // Real success of speech recognition
     successTone.play(); fullVpDarkBlue.style.animationPlayState = "running"; containerOfSingles.classList.add("brightenUp");

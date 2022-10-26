@@ -9,8 +9,6 @@ var isSafari = false;
 var isAndroid = false;
 var isWebViewOnAndroid = false;
 let wasListeningJustBeforeUserLeft = false; // annyang mic input
-//var deactivationSound2;
-//var activationSound2;
 let userIsAwaySound, userIsBackSound;
 
 // Prevent screen dimming -> handles the Android case -> doesn't work on iOS as of Oct 2022
@@ -18,7 +16,7 @@ let userIsAwaySound, userIsBackSound;
 const stayAwakeForThisManyMinutes = 3;
 function tryToKeepTheScreenON() {
   navigator.wakeLock.request("screen").then(lock => {
-    setTimeout(() => lock.release(), stayAwakeForThisManyMinutes * 60000);
+    setTimeout(() => lock.release(), stayAwakeForThisManyMinutes * 60000); // Looks like it's working
   }).catch(error => {console.log(error);});
 }
 
@@ -59,7 +57,7 @@ window.addEventListener('DOMContentLoaded', function(){
   // See caniuse.com
   // Samsung Browser PROBLEM SOLVED: See js_for_the_sliding_navigation_menu.js to find the function hideOrUnhideTheNavigationMenuOnMOBILES()
   // Sliding navigation menu used to be triggered oppositely because resize and fullscreenchange events fired at different times in Chrome and in Samsung Browser.
-  // The solution was introducing a small delay with setTimeout() so that events fire in the same order.
+  // The solution was introducing a small delay with setTimeout() so that events fire in the same order on different devices/browsers.
 
   /*______SWITCH_______*/
   switch (detectedBrowser.name) { // See https://github.com/faisalman/ua-parser-js
@@ -93,8 +91,8 @@ window.addEventListener('DOMContentLoaded', function(){
     case "IEMobile": alert("(⊙_⊙)\nWhat? Internet Explorer?\nThis device is like a software museum!"); willUserTalkToSpeechRecognition = false;
       break;
     /* __ For Edge users __ */
-    case "Edge": // willUserTalkToSpeechRecognition = true;
-      // break; // NOTE-THAT: Skipping break will make defaults fire in any case
+    case "Edge": willUserTalkToSpeechRecognition = true;
+      break;
     /* __ For Opera users __ */
     case "Opera": // alert("Opera ↹ Chrome");
       /*break;*/ // NOTE-THAT: Skipping break will make defaults fire in any case
@@ -111,8 +109,9 @@ window.addEventListener('DOMContentLoaded', function(){
           // A crude alert box is shown if the user's browser is not Chrome or another Web Speech API compatible one.
           const filePath = "/user_interface/text/"+userInterfaceLanguage+"/0-if_browser_support_is_unknown.txt";
           fetch(filePath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-            // Display in UI language: “X browser did not support speech features last time we checked. Try using Chrome if it still doesn't.”
+            // Display in UI language: “You are using X browser... Let's see if it can do speech recognition”
             alert(detectedBrowser.name+contentOfTheTxtFile);
+            // See line 420~430 below to see what msg is displayed like: Oh no, your browser does not support speech recognition
           });
         },1500);
       }
@@ -179,7 +178,6 @@ window.addEventListener('DOMContentLoaded', function(){
           // console.log("hidden means user is gone"); // This fires when ON-OFF button of the device is pressed.
           userIsAwaySound.play(); // It can't flood can it?
           // Handle audio.
-          // DEPRECATED: Howler._howls.forEach(function(nextAudioToFadeToSilence) {  nextAudioToFadeToSilence.fade(1, 0, 1200);  });
           // REMEMBER: On mobiles Howler.volume() always starts at 1 and is never changed. User adjusts OS volume natively with the device buttons.
           // Custom FADE-DOWN for global volume
           let nineteenSteps = setInterval(littleByLittle,49);
@@ -196,6 +194,8 @@ window.addEventListener('DOMContentLoaded', function(){
             annyang.abort(); // OR should we??? // if (!isApple) {  annyang.abort();  } // without this annyang.start() won't function.
           }
           // Try to make the app pause when ON/OFF button of the phone/tablet is pressed, but do not block annyang restart.
+          // MAYBE IT'S OK TO USE alert-pausing on Apple too now that we use html5 audio on Howler with Safari
+          // MUST TEST on iOS LATER
           if (!isApple) { // WEIRD: alert boxes mute and unmute sounds and keep toggling in Safari
             // MUST WATCH THE LATEST updates in Safari and iOS
             setTimeout(function() { alert(continueAfterPauseMsgFromTxtFileInUILanguage); },999);
@@ -207,7 +207,6 @@ window.addEventListener('DOMContentLoaded', function(){
           // AUTO-SLEEP is not counted as user being away according to document.hidden
           // This works only in case user presses ON/OFF button twice
           // MUST CHECK IF that is still the case with document.visibilityState === 'hidden' instead of document.hidden
-          // DEPRECATED: setTimeout(function () { resetSleepCountdown(); }, 111); // See sleep-control.js
           if ('wakeLock' in navigator) {  tryToKeepTheScreenON();  }
 
           // Handle audio
@@ -245,7 +244,7 @@ window.addEventListener('DOMContentLoaded', function(){
     document.addEventListener("visibilitychange", handleVisibilityChangeOnDesktopsFunction);
     function handleVisibilityChangeOnDesktopsFunction()
           {
-            if (document.hidden) {
+            if (document.visibilityState === 'hidden') {
                 // console.log("hidden means user is gone");
                 if (firstUserGestureHasUnleashedAudio) { userIsAwaySound.play(); }
             } else {
@@ -262,15 +261,9 @@ window.addEventListener('DOMContentLoaded', function(){
 /*________________window LOAD___________________*/
 let allowMicrophoneBlinker;
 
-
-
 window.addEventListener("load",function() {
-
-
   /*
-  // DISABLED THIS BECAUSE of suspected service worker miscaching -> Why does blank.html appear in dynamic caching despite being listed in static resources
-  // CHECK IF WE STILL NEED THIS: Maybe this is not necessary anymore since iframe src is now assigned after parent level window load event
-  // Resolve the Firefox refresh button issue... After an F5 refresh the frame is supposed to be blank but Firefox shows the last loaded html. Yet if we hit ENTER on the address bar it clears as expected. To make F5/refresh clear the frame (just like when ENTER is hit) we have to "force" it.
+  // ONCE UPON A TIME: There was a Firefox refresh button issue... After an F5 refresh the frame is supposed to be blank but Firefox shows the last loaded html. Yet if we hit ENTER on the address bar it clears as expected. To make F5/refresh clear the frame (just like when ENTER is hit) we have to "force" it.
   let whatTheFileNameInIframeSrcIs = ayFreym.src.substring(ayFreym.src.length - 10, ayFreym.src.length - 5); // Get the name of the html file from a string like "/user_interface/blank.html"
   if (whatTheFileNameInIframeSrcIs == "blank") { // This works. HOWEVER: Could also use let result = ayFreym.src.search("blank"); if(result>=0){}
     setTimeout(function () {  ayFreym.src="/user_interface/blank.html"  },100); // Force empty! At last! Blank as it is supposed to be.
@@ -279,11 +272,8 @@ window.addEventListener("load",function() {
   allowMicrophoneBlinker = document.getElementById('allowMicrophoneDivID');
   const filePathForAllowMicrophoneText = "/user_interface/text/"+userInterfaceLanguage+"/0-allow_microphone.txt";
   fetch(filePathForAllowMicrophoneText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ allowMicrophoneBlinker.children[1].innerHTML =  contentOfTheTxtFile; });
-  //PROBABLY BETTER WITHOUT:  checkMicPermission(); // check it even if user has landed on progress chart
-  /* UPDATE : Safari 16 finally has full support for permissions including microphone, phew! */
-  // if (isApple) { // As of Safari 16.0 we cannot react to user's choice: "Don't allow" "Allow" // Check caniuse permissions microphone
-  //   setTimeout(function () { testAnnyangAndAllowMic(); },1111); // So we trigger the prompt at the beginning right after landing
-  // }
+  /* UPDATE : Safari 16 finally has almost-full support for permissions including microphone, phew! */
+  // HOWEVER: Safari still ignores the eventlistener for a change event -> WORKAROUND: Use setInterval/clearInterval to detect
 
 }, { once: true });
 
@@ -382,7 +372,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) {
               }
             });
         } else { // permissions query not supported at all but annyang exists
-          console.log("No permissions API... What do we do now?");
+          console.log("No permissions API... Even though speech recognition is supported!");
           // What browser could be handled here???
           // According to caniuse July 2022, browsers that have no permissions API: IE & QQ Browser & Baidu browser & Opera Mobile
           setTimeout(function () {    removeAllowMicrophoneBlinkerSoftly();    },3000);

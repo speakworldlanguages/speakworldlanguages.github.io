@@ -1,12 +1,10 @@
 "use strict";
-﻿// This is deferred.
-////var theStudyHasStarted = false;
 // See js_for_all_iframed_lesson_htmls AND blank.html
 var userIsOrWasJustViewing = "welcome-screen"; // First time users will stay at welcome-screen,,, continuing user's will teleport to progress-chart
 //
 var checkIfLoadingIsTakingTooLongTimeout; // See openFirstLesson below
 var maybeYouShouldReloadBoxIsNowBeingDisplayed = false;
-// moved itIsAlreadyCertainThatUserWantsToReload to inline in index.html
+// moved the declaration of itIsAlreadyCertainThatUserWantsToReload to inline in index.html
 function startTheTimerToSeeIfNextLessonLoadsFastEnough() { // Called by either beforeunload in blank.html OR by onbeforeunload in js_for_all_iframed_lesson_htmls OR beforeunload in about.js
   //console.log("window load timeout started ticking"); // Works OK
   checkIfLoadingIsTakingTooLongTimeout = setTimeout(function () {
@@ -70,7 +68,7 @@ function handleFadingAndNavigation(srcPath) { // This used to be in DEPRECATEDjs
     setTimeout(function() {   ayFreym.src = srcPath;  },100);
     function frameIsLoadedByProgressChartNav() {
       orbitingCircles.style.display = "none";
-      ayFreym.classList.remove("everyThingFadesToBlack");  ayFreym.classList.add("everyThingComesFromBlack");
+      ayFreym.classList.remove("everyThingFadesToBlack");  ayFreym.classList.add("everyThingComesFromBlack");  // Exists in css_for_preloader_and_orbiting_circles
       setTimeout(function() {   ayFreym.classList.remove("everyThingComesFromBlack");   },2701); // 701ms was not enough???
     }
   },750);
@@ -127,12 +125,7 @@ function setLangCodeForFilePathsOfTeachingAssets(idOfTheButtonThatWasClickedOrTo
 /* JA - Hito */
 function letTheIFrameTeachJapanese(){ //See index.html to find the button that triggers this via onclick.
   console.log("Create or read a save slot for "+ langCodeForTeachingFilePaths);
-  //cleanup//langCodeForTeachingFilePaths = "ja"; //"ja" seemed to be OK with both iOS and Android in summer 2021
-  //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "ja";
-  /*if (isApple) { // See js_for_different_browsers_and_devices
-    langCodeForAnnyang = "ja-JP"; // Overwrite // NO - ACCORDING TO https://www.ibabbleon.com/iOS-Language-Codes-ISO-639.html
-  }*/
   if (!savedProgress.ja) { // if it doesn't exist
     savedProgress.ja = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
     saveJSON = JSON.stringify(savedProgress); // See js_for_every_single_html
@@ -145,8 +138,6 @@ function letTheIFrameTeachJapanese(){ //See index.html to find the button that t
 /* ZH - Renmen */
 function letTheIFrameTeachChinese(){ //See index.html to find the button that triggers this via onclick.
   console.log("Create or read a save slot for "+ langCodeForTeachingFilePaths);
-  //cleanup//langCodeForTeachingFilePaths = "zh";
-  //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "zh"; // "zh" alone works on Android. Would it still be better with "zh-CN" or "zh-TW" or vice-versa on Android and Windows. Because Android turns the mic on and off too quickly in some less supported languages.
   // Mac Safari works with zh only // Does not work with "zh-Hans"!
   if (!savedProgress.zh) { // if it doesn't exist
@@ -161,12 +152,7 @@ function letTheIFrameTeachChinese(){ //See index.html to find the button that tr
 /* TR - Kişi */
 function letTheIFrameTeachTurkish(){ //See index.html to find the button that triggers this via onclick.
   console.log("Create or read a save slot for "+ langCodeForTeachingFilePaths);
-  //cleanup//langCodeForTeachingFilePaths = "tr"; //"tr" is OK with both iOS and Android
-  //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
-  langCodeForAnnyang = "tr"; // UNCLEAR: SHOULD THIS BE tr-TR on iOS? // or tr-tr?
-  /*if (isApple) {
-    langCodeForAnnyang = "tr-TR"; // Overwrite
-  }*/
+  langCodeForAnnyang = "tr";
   if (!savedProgress.tr) { // if it doesn't exist
     savedProgress.tr = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
     saveJSON = JSON.stringify(savedProgress);
@@ -179,10 +165,8 @@ function letTheIFrameTeachTurkish(){ //See index.html to find the button that tr
 /* AR Arabic */
 function letTheIFrameTeachArabic(){ //See index.html to find the button that triggers this via onclick.
   console.log("Create or read a save slot for "+ langCodeForTeachingFilePaths);
-  //cleanup//langCodeForTeachingFilePaths = "ar"; // Android is OK with "ar" and according to https://www.ibabbleon.com/iOS-Language-Codes-ISO-639.html iOS shouldn't need "ar-SA" or "ar-QA" etc, no???
-  //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
   langCodeForAnnyang = "ar"; // We still want "ar" instead of "ar-SA" on Android for better performance (frequency of the mic turn on&off thing).
-  // Weird Safari problem with ar: the word is detected correctly and matches the answer key but for some reason the function still won't fire
+  // SOLVED: Safari problem with ar: the word is detected correctly and matches the answer key but for some reason the commands object still won't fire the default annyang function
   if (!savedProgress.ar) { // if it doesn't exist
     savedProgress.ar = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
     saveJSON = JSON.stringify(savedProgress);
@@ -249,9 +233,7 @@ function letTheIFrameTeachArabic(){ //See index.html to find the button that tri
 // LET'S TRY AND CREATE TWO DIFFERENT BUTTONS AND TEACH AMERICAN AND BRITISH separately
 function letTheIFrameTeachBritishEnglish(){ //See index.html to find the button that triggers this via onclick.
   console.log("Create or read a save slot for "+ langCodeForTeachingFilePaths);
-  //cleanup//langCodeForTeachingFilePaths = "en_east"; // "en" alone works well both on Android and iOS. No need for "en-US" or "en-GB"
-  //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
-  langCodeForAnnyang = "en-GB";
+  langCodeForAnnyang = "en";
   if (!savedProgress.en_east) { // if it doesn't exist » CAUTION: The key name must match langCodeForTeachingFilePaths
     savedProgress.en_east = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
     saveJSON = JSON.stringify(savedProgress);
@@ -264,12 +246,7 @@ function letTheIFrameTeachBritishEnglish(){ //See index.html to find the button 
 
 function letTheIFrameTeachAmericanEnglish(){ //See index.html to find the button that triggers this via onclick.
   console.log("Create or read a save slot for "+ langCodeForTeachingFilePaths);
-  //cleanup//langCodeForTeachingFilePaths = "en_west"; // "en" alone works well both on Android and iOS. No need for "en-US" or "en-GB"
-  //cleanup//loadTheVoiceOfTheTeacherInLesson111(); // Cache the audio files that contain the teacher's voice » See js_for_initial_cache_handling
-  langCodeForAnnyang = "en-US"; // According to https://www.ibabbleon.com/iOS-Language-Codes-ISO-639.html it should be "en" only instead of en-US on iOS
-  if (isApple) { // Let's believe ibabbleon
-    langCodeForAnnyang = "en"; // Overwrite
-  }
+  langCodeForAnnyang = "en";
   if (!savedProgress.en_west) { // if it doesn't exist » CAUTION: The key name must match langCodeForTeachingFilePaths
     savedProgress.en_west = {}; // Create an object to fill and save later ,,, Will exist AT PARENT LEVEL unless passed and shared via localStorage!
     saveJSON = JSON.stringify(savedProgress);
@@ -300,7 +277,6 @@ function startTeaching(usersChoice) { // Called from within testAnnyangAndAllowM
 function openFirstLesson(freshNewOrReturning) {
   console.log("openFirstLesson() fired - iframe src will now be changed in order to navigate to...");
   ////startTheTimerToSeeIfNextLessonLoadsFastEnough(); // Don't need this because blank.html beforeunload will handle it instead
-  // DEPRECATED: hideNotificationAndInstallation_2in1_button(); // See js_for_pwa
   // Save language choice
   localStorage.theLanguageUserWasLearningLastTimeToSetFilePaths = langCodeForTeachingFilePaths;
   localStorage.theLanguageUserWasLearningLastTimeToSetAnnyang = langCodeForAnnyang;
@@ -308,9 +284,6 @@ function openFirstLesson(freshNewOrReturning) {
   if (annyang) {
     annyang.setLanguage(langCodeForAnnyang); // Firefox v60's and v70's won't let buttons function unless this is wrapped in an if (annyang){} like this.
   }
-
-  // WHAT IS THE BEST WAY TO do the first test vibration??? Probably: let the give me water easy game "LISTEN" button be the first button that all must touch
-  // if (canVibrate) { navigator.vibrate(10); } // See js_for_every_single_html // Note that this may make mobile Firefox ask for permission to allow vibration
 
   setTimeout(function() {
     // Hide the welcome screen ( <<choose the language you want to learn>> screen's menu-div)
@@ -321,10 +294,9 @@ function openFirstLesson(freshNewOrReturning) {
     } else {
       // Display the first lesson
       if (isSafari && !localStorage.safariHowToPermanentlyAllowMicAlertIsAlreadyDisplayed) {
-        //DEPRECATED createAndHandleSafariNeedsOneMoreStepBox().then(function () {  ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";  });
         // HANDLE LATER: When iPhone user runs the app from his homescreen THERE IS NO ADDRESS BAR and it's FULLSCREEN
         // So THE MESSAGE MUST NOT be about specific single web site mic allow method
-        // Another way to permanently allow mic is by going to iPhone device settings->Safari settings->Microphone and allowing mic for all web sites
+        // Another way to permanently allow mic is by going to iPhone device settings->Safari settings->Microphone and allowing mic for all web sites BUT THAT'S TROUBLESOME
         alert(safariHowToPermanentlyAllowMicP.innerHTML); // See js_for_info_boxes_in_parent
         localStorage.safariHowToPermanentlyAllowMicAlertIsAlreadyDisplayed = "yes";
         ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_1/index.html";
@@ -338,7 +310,6 @@ function openFirstLesson(freshNewOrReturning) {
   // Make the loading animation appear (i.e. bring the preloader) immediately
   // add("addThisClassToRevealThePreloader") is not used here because user is about to see the very first lesson (bread) and we want that to happen asap (not after 1.5s of animation time)
   preloadHandlingDiv.classList.remove("addThisClassToHideThePreloader"); // It was added with window.load See css_for_the_container_parent_html,,, Should be 500ms if not changed.
-  // PROBABLY: Not necessary anymore,,, setPreloadCoverIsShowingNowToTrue(); // See js_for_preload_handling
 }
 
 
@@ -351,7 +322,6 @@ function unloadThatLastSoundWhichCannotBeUnloadedNormally(passItToMe) {
 let dismissNotificationSound1, clickSound; /*hoverSound,*/
 window.addEventListener("load",function () { // HEY!!! THERE ALREADY IS A WINDOW LOAD UP ABOVE HERE
   dismissNotificationSound1 = new Howl({  src: ["/user_interface/sounds/notification1_close.webm"]  });
-  /* DEPRECATED hoverSound = new Howl({  src: ["/user_interface/sounds/illuminant_button_hover."+audioFileExtension]  });*/ // DESKTOP ONLY!
   clickSound = new Howl({  src: ["/user_interface/sounds/illuminant_button_click.webm"]  });
 },{once:true})
 
@@ -437,109 +407,3 @@ window.addEventListener('beforeunload', (event) => { // See » https://stackover
     event.returnValue = '';
   }
 });
-
-
-/* DEPRECATED: We don't want to kill any of the good mood of the user by showing a crowdfunding prompt immediately
-const welcomeMessageDiv = document.getElementById('idOfTheWelcomeMenuDiv');
-function userHasClickedOrTouchedWelcomeAnswerA() {
-  // Remove the element but display it again next time
-  welcomeMessageDiv.classList.add("addThisToAButtonForPlayStationStyleClick"); // this is a generic animation, it is not only for this button
-  setTimeout(function () {     welcomeMessageDiv.parentNode.removeChild(welcomeMessageDiv);    },1000);
-}
-function userHasClickedOrTouchedWelcomeAnswerB() { // The user has claimed that he/she is a member of the crowd.
-  // Remove the element and don't display it anymore
-  welcomeMessageDiv.classList.add("addThisToAButtonForPlayStationStyleClick"); // this is a generic animation, it is not only for this button
-  setTimeout(function () {     welcomeMessageDiv.parentNode.removeChild(welcomeMessageDiv);    },1000);
-  localStorage.theUserHasSaidHeOrSheIsAMemberOfTheCrowd = "yes";
-}*/
-
-/* DEPRECATED
-window.addEventListener('DOMContentLoaded', function(){
-  // Skip the crowdfunding (welcome screen) message if user says he she is a member.
-  if (localStorage.theUserHasSaidHeOrSheIsAMemberOfTheCrowd == "yes") {
-    welcomeMessageDiv.parentNode.removeChild(welcomeMessageDiv);
-  }
-}, { once: true });*/
-
-
-
-/*_____*/
-//
-// HANDLE: addHomeButtonToTheNavigationMenu(); addGoBackToPreviousButtonToTheNavigationMenu(); handleTheFirstGoingFullscreenOnMobiles();
-// HANDLE: preloadHandlingDiv setPreloadCoverIsShowingNowToTrue();
-
-// DEPRECATED CODE
-// function whenLoadLastLessonOkButtonIsClickedOrTapped() { // See a parent document like index.html, ja.html, tr.html to find that button.
-//       // Used to be document.getElementById('fullViewportPositionFixedDivAsContainerOfTheMenu').style.left = "8000px";
-//   ayFreym.src = localStorage.theLastCheckpointSavedInLocalStorage;
-//   //document.getElementById('fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt').classList.add("addThisForOpacityAnimationFadeOut");
-//   // Small navigation menu buttons... See js_for_the_sliding_navigation_menu.js
-//   if (ayFreym.src.substring(ayFreym.src.length - 34, ayFreym.src.length)=="level_1/unit_1/lesson_1/index.html") {
-//     // add only HOME button to the left when going to the first lesson
-//     addHomeButtonToTheNavigationMenu(); // WITH PROGRESS CHART: this must be moved to progress.js
-//   } else {
-//     // add both home and go back buttons when going to any lesson except for the very first (i.e. bread)
-//     addHomeButtonToTheNavigationMenu(); // WITH PROGRESS CHART: this must be moved to progress.js
-//     addGoBackToPreviousButtonToTheNavigationMenu(); // WITH PROGRESS CHART: this must be moved to progress.js
-//   }
-//   handleTheFirstGoingFullscreenOnMobiles(); // WITH PROGRESS CHART: this must be moved to progress.js
-//
-//   // Make the loading animation appear (i.e. bring the preloader)
-//   preloadHandlingDiv.classList.remove("addThisClassToHideThePreloader"); // See css_for_every_single_html,,, Should be 500ms if not changed.
-//   setPreloadCoverIsShowingNowToTrue(); // See js_for_preload_handling
-// }
-
-/*____*/
-// DEPRECATED: function handleTheFirstGoingFullscreenOnMobiles() { // This fires if 1- User selects a language to learn 2- User returns to the last saved point
-//   // Try to go fullscreen on mobile devices. Note the exception of iPhones!
-//   if (deviceDetector.isMobile) {
-//     // Going fullscreen on mobiles will make the nav menu sink down and disappear because
-//     // as you can find in js_for_the_sliding_navigation_menu.js -> the resize event triggers DEPRECATED: hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen()
-//     o-p-e-n-F-u-l-l-s-c-r-e-e-n(); // See js_for_handling_fullscreen_mode.js
-//     // WARNING: iPhone's Safari won't allow fullscreen! caniuse.com says it is allowed on iPads but wasn't able to test it as of July 2021.
-//     // So since resize doesn't happen on iPhones we must manually do the first sinking of the nav menu like this.
-//     // BETTER SOLUTION: Move the m-a-k-eTheNavMenuGoDownOnMobiles() function call to iframe.onload and check if landing is a lesson html (not progress_chart)
-//     /*if (deviceDetector.device == "phone" && detectedOS.name == "iOS") {
-//       // Just hide the nav menu since we are unable to go fullscreen on an iPhone
-//       // INSTEAD OF THIS: setTimeout(function () {      m-a-k-eTheNavMenuGoDownOnMobiles();      },3500); // See js_for_the_sliding_navigation_menu
-//       // WE MUST: wait until preloadCoverIsShowingNow is set to false. That change happens in js_for_app_initialization_in_parent
-//       let checkEvery350msOrSo = setInterval(isThePreloaderDoneYet, 350);
-//       function isThePreloaderDoneYet() {
-//         if (preloadCoverIsShowingNow == false) { // Yes, it is now done.
-//           clearInterval(checkEvery350msOrSo); // Stop the timer.
-//           m-a-k-eTheNavMenuGoDownOnMobiles(); // Safely hide the nav menu as soon as possible now. // See js_for_the_sliding_navigation_menu
-//         }
-//       }
-//     }*/
-//   } // END OF Try to go fullscreen on mobile ...
-// }
-
-
-/*___*/
-/* DEPRECATED: ASIDE - I will consider joining
-let allParentAsideElementsAreInThisArray = document.getElementsByTagName("ASIDE"); // All of them in container parents,,, NOT THE IFRAMED LESSON BUTTONS
-let j;
-for (j = 0; j < allParentAsideElementsAreInThisArray.length; j++)
-{
-  if (deviceDetector.device == "desktop"){
-    allParentAsideElementsAreInThisArray[j].addEventListener("mousedown", mouseDownAsideAsButtonF); // When the [OK I will consider joining...] box is closed.
-  } else {
-    allParentAsideElementsAreInThisArray[j].addEventListener("touchstart", mouseDownAsideAsButtonF); // When the [OK I will consider joining...] box is closed.
-  }
-}*/
-
-// Detect first click/first user gesture that unlocks sounds
-// REMEMBER: Sliding menu buttons also need this. Handle separately. See js_for_the_sliding_navigation_menu.js
-
-/*function mouseEnterMenuButtonF() {
-  if (firstUserGestureHasUnleashedAudio) {
-    hoverSound.play(); // If we don't wrap this in such an if() what can happen: The user can hover many times before the sound is unlocked which then EXPLODES when sound is unlocked.
-  }
-}*/
-
-/*____*/
-/* DEPRECATED
-function mouseDownAsideAsButtonF() {
-  dismissNotificationSound1.play();
-}
-*/

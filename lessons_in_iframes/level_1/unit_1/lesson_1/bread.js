@@ -327,10 +327,10 @@ function speakToTheMic() {
   },120);
 
   // setLanguage() for annyang is in /js_reusables/js_for_app_initialization_in_parent.js
-  // DEPRECATE var commands = {};
+  // DEPRECATED var commands = {}; // Let's keep the older code for reference only here in bread.js to remember how we started out
   const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_answer_key must be written with the | (bar) character as the separator between phrases.
   parent.console.log("Speech recognition is waiting for: "+eachWordArray[0]);
-  /* DEPRECATE
+  /* DEPRECATED // Let's keep the older code for reference only here in bread.js to remember how we started out
   let i;
   for(i=0;i<eachWordArray.length;i++)
   {
@@ -341,7 +341,7 @@ function speakToTheMic() {
 
   if (parent.annyang) {
     // October 2022 policy change: Stop using commands object with annyang
-    // DEPRECATE parent.annyang.addCommands(commands);
+    // DEPRECATED parent.annyang.addCommands(commands);
     if (!parent.isAndroid) { // See js_for_different_browsers_and_devices
         notificationDingTone.play(); // Android has its native DING tone. So let this DING tone play on desktops and iOS devices.
     }
@@ -349,14 +349,25 @@ function speakToTheMic() {
     setTimeout(function() {  parent.annyang.start();  },500);
     setTimeout(function() {  startAudioInputVisualization();  },600); // Will work everywhere except on Android. See js_for_microphone_input_visualization.js
     // New method of detecting matches
-    parent.annyang.addCallback('result', function(phrasesArray) {
-      parent.console.log('Speech recognized. Possible sentences said: '+phrasesArray);
+    parent.annyang.addCallback('result', compareAndSeeIfTheAnswerIsCorrect);
+    function compareAndSeeIfTheAnswerIsCorrect(phrasesArray) {
+      parent.console.log('Speech recognized. Possibly said: '+phrasesArray);
       // Check if there is a match // Maybe this is better than adding commands, no?
       let j;
       for(j=0;j<eachWordArray.length;j++)
       {
         let k;
         for (k = 0; k < phrasesArray.length; k++) {
+          // BULGULAR: toLowerCase() Windows'ta büyük Ş yi küçük ş ye çeviriyor ama Mac OS üzerinde çevirmiyor
+          // Onun yerine toLocaleLowerCase() kullanılırsa büyük I İngilizcedeki gibi küçük i ye dönüşmek yerine küçük ı ya dönüşüyor
+          // Seçenek1: toLocaleLowerCase() KULLANMAYIP speech_recognition_answer_key içindeki cevapları buna dikkat ederek girmek
+          // Seçenek2: tr için özel koşul yazmak -> OLMADI NEDEN ÇÜNKÜ büyük [İ] yi [i̇] ye yanlış dönüştürüyor. İki farklı küçük i çıkıyor ve ("i̇" == "i") false veriyor
+          /* Doğru çevirseydi şöyle bir şey yapabilirdik
+          let searchResult;
+          if (parent.langCodeForTeachingFilePaths == "tr") { searchResult = phrasesArray[k].toLocaleLowerCase().search(eachWordArray[j].toLocaleLowerCase()); }
+          else { searchResult = phrasesArray[k].toLowerCase().search(eachWordArray[j].toLowerCase()); }
+          */
+          // Note: We don't need toLocaleLowerCase() for Cyrillic script (confirmed on Windows), toLowerCase() does the job right already
           if (phrasesArray[k].toLowerCase().search(eachWordArray[j].toLowerCase()) >= 0) {
             if (!aMatchWasFound) {
               aMatchWasFound = true;
@@ -367,8 +378,7 @@ function speakToTheMic() {
           }
         }
       }
-    });
-    // End of addCallback
+    }
   }
 
 } /* END OF speakToTheMic */
@@ -387,9 +397,10 @@ function stopListeningAndProceedToNext() {
   // Stop all microphone activity as soon as success happens and don’t wait until “beforeunload” fires. See js_for_all_iframed_lesson_htmls to find what happens with window.onbeforeunload
   if (parent.annyang) { // As of 2021, Firefox says annyang is undefined. But the app still has to work without Web Speech API so the code must be wrapped in if(parent.annyang).
     parent.annyang.removeCallback(); // Remove all script activity // Instead of DEPRECATED parent.annyang.removeCommands();
-    parent.annyang.abort(); // OR should we??? //if (!parent.isApple) {  parent.annyang.abort();  }
+    parent.annyang.abort(); // OR should we??? //if (!parent.isApple) {  parent.annyang.abort();  } // ISSUE THAT NEEDS SERIOUS CARE: Safari doesn't allow mic permanently; it allows for only 1 listening session and prompts for permission everytime mic restarts
   }
-  // Stop Wavesurfer microphone: Don't wait for "beforeunload" and kill it immediately even though it will fire one more time with window.onbeforeunload » user could navigate away in the middle of mic session
+  // Stop Wavesurfer microphone: Don't wait for "beforeunload" and kill it immediately even though it will fire one more time with window.onbeforeunload
+  // SINCE: user could navigate away in the middle of mic session » it has to exist both in js_for_all_iframed_lesson_htmls and here
   stopAudioInputVisualization();
   /* GET READY TO EXIT THIS LESSON */
   let endTime;

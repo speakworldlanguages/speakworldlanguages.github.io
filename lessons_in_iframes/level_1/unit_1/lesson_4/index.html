@@ -27,7 +27,7 @@
       window.addEventListener("load",startDownloadingTheNextLesson,{once:true});
       function startDownloadingTheNextLesson() {
         if (!localStorage.loadFiles11nAnd121WasSuccessful) {
-          setTimeout(function () { const delayedScript = document.createElement("script"); delayedScript.type = "text/javascript"; delayedScript.src = "/js_reusables/caching_functions_for_each_lesson/11notice_and_121.js"; document.body.appendChild(delayedScript); },3000);
+          setTimeout(function () { const delayedScript = document.createElement("script"); delayedScript.type = "text/javascript"; delayedScript.src = "/js_reusables/caching_functions_for_each_lesson/11notice_and_121.js"; document.body.appendChild(delayedScript); },6000);
         } // Why wait for three seconds? Is it totally meaningless? We want to prioritize howler sounds of this lesson to be loaded before the files of the next lesson, but will it have any effect?
       }
     </script>

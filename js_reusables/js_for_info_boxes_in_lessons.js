@@ -52,7 +52,7 @@ function createAndHandleInfoBoxType1(isAmidLessonOrNot) {
       }
     });
 
-  } else { // Without "amid" closing the info box will start the lesson
+  } else { // Without "amid" closing the info box will start the lesson immediately
 
     if (deviceDetector.isMobile) { okButtonToCloseTheNotification.addEventListener("touchstart",okButtonIsClickedToStartLesson); }
     else { okButtonToCloseTheNotification.addEventListener("mousedown",okButtonIsClickedToStartLesson); }

@@ -1,12 +1,9 @@
-/* main{  flex-direction: column; } */
-
 nav:hover{ cursor: url("/user_interface/images/cursor/default_cursor.png") 16 4,auto; }
 .allUnitsInALevelContainer{ /*centered by main-flexbox*/
   width:100vw; height: 100%;
   display: flex; flex-direction: column; align-items: center;
   overflow-y: auto;
   color: white; /* text color,,, in case text is added */
-  /* border: 1px dotted black; */
 }
 .allUnitsInALevelContainerDESKTOP{
   margin-top: 150px;

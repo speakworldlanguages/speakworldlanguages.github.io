@@ -55,25 +55,11 @@
     </div>
     <div class="lowerDarkness"></div>
 
-    <!-- FOR DESKTOPS -->
-    <!-- <div id="thisDivContainsEverythingThatWillBeDisplayedOnDesktops" class="nearZeroOpacity"> -->
-
-    <!-- </div> -->
-    <!-- END OF DESKTOPS -->
-
-    <!-- FOR MOBILES --> <!-- Note: Firefox Mobile misidentifies a tablet as a phone! -->
-    <!-- <div id="thisDivContainsEverythingThatWillBeDisplayedOnMobiles" class="nearZeroOpacity"> -->
-
-    <!-- </div> -->
-    <!-- END OF MOBILES -->
-
+    <!-- Wow! We did it without writing separate code for desktops and mobiles -->
 
   </body>
   <script>
     /*_________UI HANDLING__________*/
-    ////const desktopDisplay = document.getElementById('thisDivContainsEverythingThatWillBeDisplayedOnDesktops');
-    ////const mobileDisplay = document.getElementById('thisDivContainsEverythingThatWillBeDisplayedOnMobiles');
-
     window.addEventListener('DOMContentLoaded', function(){
       if (needLatinFonts) {
         /*GET FONTS*/
@@ -84,26 +70,6 @@
         }).catch(function(error) {    console.error("Unable to get the font: " + error);  });
         document.getElementById('putTheWordsInHereP').style.fontFamily = "speechBubbleFont";
       }
-      /*
-      // DETECT DEVICE AND DISPLAY ACCORDINGLY
-      if (deviceDetector.isMobile) {
-          desktopDisplay.parentNode.removeChild(desktopDisplay);
-      }
-      else {
-          // ON DESKTOPS leave only the desktop div
-          mobileDisplay.parentNode.removeChild(mobileDisplay);
-      }
-      */
-      /*For Motoya Kosugi Font*/
-      // if (userInterfaceLanguage=="ja") {
-      //   if (deviceDetector.isMobile) {
-      //       document.getElementById('putTheWordsInHereP').classList.add("forKanjiOnMobiles");
-      //   }
-      //   else {
-      //     document.getElementById("addAlignmentIfKanjiDIV").classList.add("alignContentsRightWithFlexForKanjiOnDesktops");
-      //     document.getElementById("putTheWordsInHereP").classList.add("verticalTextForKanji");
-      //   }
-      // }
     }, { once: true });
   </script>
 </html>

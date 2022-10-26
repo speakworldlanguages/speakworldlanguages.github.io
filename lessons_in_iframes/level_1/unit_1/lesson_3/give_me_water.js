@@ -484,12 +484,13 @@ function whatToDoWhenWinHappens() {
     pictogramDiv1.children[6].style.display = "block";
     say5.play();
     injectTextIntoTheHelpBoxP.innerHTML = explanationB; // Thank you translation
+    makeTranslationHelpBlink();
   }
 
   setTimeout(function () {  main.classList.remove("noCursor");  main.classList.add("defaultCursor");  }, proceedTime*1.6+1600);  // Back to normal cursor
   setTimeout(displayNoteAtTheEndOfLesson,proceedTime*1.8+3500);
   function displayNoteAtTheEndOfLesson() {
-      // See js_for_info_boxes_in_lessons.js
+      // See js_for_info_boxes_in_lessons.js // Oct 2022: There seems to be a glitch perhaps only with Arabic?
       createAndHandleInfoBoxType1("amid").then(function(){ goToTheNextLesson(); });
       putNotificationTxtIntoThisP.innerHTML = goodByeMessage; // This line must come after calling createAndHandleInfoBoxType1() otherwise putNotificationTxtIntoThisP will be undefined
   }

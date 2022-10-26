@@ -78,25 +78,21 @@ clickToFinanceDiv.appendChild(clickToFinanceImgA); // display = "block";
 clickToFinanceDiv.appendChild(clickToFinanceImgB); // display = "none";
 clickToFinanceDiv.appendChild(clickToFinanceImgC); // display = "none";
 clickToFinanceDiv.appendChild(clickToFinanceImgD); // display = "none";
-/* “clickToGoToMainMenu” and “clickToGoToPrevious” will be added conditionally from within the iframe; see bread.js in 1-1-1 and water.js in 1-1-2 */
-/* Touching/Clicking the "Return to last checkpoint" box's “OK” button must also add “clickToGoToMainMenu” and “clickToGoToPrevious” button images */
-/* See js_for_app_initialization_in_parent.js and find whenLoadLastLessonOkButtonIsClickedOrTapped() function */
 
 containerDivOfTheNavigationMenu.appendChild(clickToFinanceDiv); // When app first starts i.e. welcome screen only clickToFinanceDiv is visible
 
+/* “clickToGoToMainMenu” and “clickToGoToPrevious” are added conditionally from within the iframe; See js_for_all_iframed_lesson_htmls */
 function addClickToFinanceButtonToTheNavigationMenu() {
   containerDivOfTheNavigationMenu.appendChild(clickToFinanceDiv);
 }
 function removeClickToFinanceButtonFromTheNavigationMenu() {
   containerDivOfTheNavigationMenu.removeChild(clickToFinanceDiv);
 }
-// DEPRECATED: See js_for_all_iframed_lesson_htmls for the new thing containerDivOfTheNavigationMenu.insertBefore(clickToPauseTheAppDiv,clickToFinanceDiv);
-// See progress.js to find its removal AND See js_for_all_iframed_lesson_htmls to find its addition
+// See js_for_all_iframed_lesson_htmls and find how .contains() and .insertBefore() are used with containerDivOfTheNavigationMenu
 
 // speedAdjustmentDiv and volumeAdjustmentDiv are for DESKTOPS ONLY. See the code below in window load event's desktop block.
 
-// In the future, use a condition like if(userInterfaceDirection=="ltr") {} for a user interface that reads from right to left like Arabic.
-// Don't forget to check whenLoadLastLessonOkButtonIsClickedOrTapped() inside js_for_app_initialization_in_parent.js // EDIT: That doesn't exist anymore
+// In the future, we can use a condition like if(userInterfaceDirection=="ltr") {} for a user interface that reads from right to left like Arabic.
 
 function addGoBackToPreviousButtonToTheNavigationMenu() {
   if (userReadsLeftToRightOrRightToLeft == "rtl") {
@@ -129,7 +125,7 @@ var volumeSlider = document.createElement("INPUT");
 volumeSlider.type = "range";
 volumeSlider.min = "1";
 volumeSlider.max = "100";
-// Use localStorage.volumeWasAtThisLevel to set volumeSlider.value = "??";
+// See code below to find how volumeSlider.value is either loaded from localStorage or starts with 50%
 volumeAdjustmentDiv.appendChild(volumeSlider);
 volumeSlider.classList.add("bothSlidersAppearance");
 volumeSlider.classList.add("volumeSliderAppearance");
@@ -139,10 +135,8 @@ var speedAdjustmentSetting = "normal"; // SLOW, NORMAL, FAST // REMEMBER: This i
 // Variables for detecting the swipe
 var swipeNavMenuIsLocked = false; // information.js:162 information.js:176 ,,, User for permanently locking swipe menu while reading Good People's License // Unlocking also exists in js_for_all_iframed_lesson_htmls as a precaution
 let touchStartY=0, newYCoord=0, newMarginBottom=0, swipeDifferenceY=0;
-// Not necessary anymore: let touchEndY;
 var navMenuIsUpAndVisible = true; // Nav menu is visible at first when the app starts. // Also see information.js bigSlideTowardsLeft()
 let preventAutoDisappear;
-// DEPRECATED let navMenuIsMoving = false;
 var topContainerDivOfTheSlidingNavMenuForMobiles = document.createElement("DIV"); // Use in inline script in parent index.html - Android only
 
 /* AS OF September 2022 we are switching to stopPropagation method to resolve the touch conflicts since it's just neater to do so */
@@ -225,9 +219,7 @@ fetch(filePathForResumeAfterPausedByButton,myHeaders).then(function(response){re
 // Sliding navigation menu button UI sounds
 let navMenuHoverSound;
 let navMenuClickSound;
-// MAYBE BETTER WITHOUT: const specialClickOnBalanceScale = new Howl({  src: ["/user_interface/sounds/special_click."+audioFileExtension]  });
-
-// MAY BE READOPTED IN FUTURE: let swipeUpSound, swipeDownSound;
+// Note: UX is better without a swipeUpSound and a swipeDownSound
 
 var itIsCertainlyNotTheNativeGoBackButtonThatIsNavigating = false; // See blank.html
 let theTimeoutThatMustBeStopped;
@@ -239,8 +231,6 @@ window.addEventListener("load",function() {
   // Use ayFreym from js_for_app_initialization_in_parent
   // What to do on MOBILES
   if (deviceDetector.isMobile){
-    // IT'S BETTER UX WITHOUT SOUND, NO? » swipeUpSound = new Howl({  src: ["/user_interface/sounds/swipe_up."+audioFileExtension]  }); // See js_for_different_browsers_and_devices
-    // IT'S BETTER UX WITHOUT SOUND, NO? » swipeDownSound = new Howl({  src: ["/user_interface/sounds/swipe_down."+audioFileExtension]  }); // See js_for_different_browsers_and_devices
     // If something blocks the clickablity of any other element use pointerEvents = "none";
     containerDivOfTheNavigationMenu.classList.add("theSmallNavigationMenuMOBILEStyling"); // See css_for_sliding_navigation_menu.css
 
@@ -274,25 +264,12 @@ window.addEventListener("load",function() {
         }
       }
       // Q: WHAT IF touchmove never happens! A: getY2 will fire eventually and stop the timeout
-      ////ayFreymWindow.addEventListener("touchend", whatIfTouchEndHappensBeforeTouchMove,{once:true});
       // Start listening for touch end now
       ayFreymWindow.addEventListener("touchend", getY2,{once:true});
     }
-    /*
-    function whatIfTouchEndHappensBeforeTouchMove(event) { event.preventDefault(); event.stopPropagation(); // Even though there isn't a container that the frame window can propagate up to
-      ayFreymWindow.removeEventListener("touchend", getY2,{once:true});
-      // console.log("touchend fired whatIfTouchEndHappensBeforeTouchMove");
-      setTimeout(justWaitThisMuch,165);
-      function justWaitThisMuch() {
-        // console.log("165ms later popping was UNDONE");
-        topContainerDivOfTheSlidingNavMenuForMobiles.style.marginBottom = "calc(-22vmin - 48px)"; // False alarm go back
-        newMarginBottom = -22; // hidden
-      }
-    }
-    */
+
     function asTheFingerMovesUp(event) { event.preventDefault(); event.stopPropagation(); // Even though there isn't a container that the frame window can propagate up to
       // console.log("touchmove fired asTheFingerMovesUp");
-      ////ayFreymWindow.removeEventListener("touchend", whatIfTouchEndHappensBeforeTouchMove);
       swipeDifferenceY = newYCoord - Math.round(event.changedTouches[0].screenY) ; // UP swipe yields positive value, DOWN swipe yields negative value.
       newYCoord = Math.round(event.changedTouches[0].screenY);
       swipeDifferenceY = swipeDifferenceY*100/screen.height;
@@ -307,7 +284,6 @@ window.addEventListener("load",function() {
     }
     function asTheFingerMovesDown(event) { event.preventDefault(); event.stopPropagation(); // Even though there isn't a container that the frame window can propagate up to
       // console.log("touchmove fired asTheFingerMovesDown");
-      ////ayFreymWindow.removeEventListener("touchend", whatIfTouchEndHappensBeforeTouchMove);
       swipeDifferenceY = newYCoord - Math.round(event.changedTouches[0].screenY) ; // UP swipe yields positive value, DOWN swipe yields negative value.
       newYCoord = Math.round(event.changedTouches[0].screenY);
       swipeDifferenceY = swipeDifferenceY*100/screen.height;
@@ -599,19 +575,6 @@ window.addEventListener("load",function() {
     containerDivOfTheNavigationMenu.classList.add("hideWithSlowTransition");
   }
 
-/* A BETTER SOLUTION - July 2022 quit using keyframes animation only use marginBottom transition
-DEPRECATED
-  // SWIPE UP-DOWN TO SEE-HIDE THE NAV MENU
-  function handleSwipeGesture() {
-    if ((touchStartY-touchEndY)>55) {
-      // console.log("a swipe up happened");
-      make-TheNavMenuComeUpOnMobiles();
-    }
-    else if ((touchStartY-touchEndY)<-40) {
-      // console.log("a swipe down happened");
-      make-TheNavMenuGoDownOnMobiles();
-    }
-  }*/
 
   /*____________TOUCH AND MOUSE EVENTS_____________*/
   if (deviceDetector.isMobile) { // Touch
@@ -703,7 +666,7 @@ DEPRECATED
     let result = searchAndDetectLocation.search("progress_chart");
     if (result < 0) { // iFrame was showing a lesson or the goodbye screen; it was not showing the progress_chart
       // fade
-      ayFreym.classList.add("everyThingFadesToBlack"); // Should take 700ms // Exists in css_for_sliding_navigation_menu
+      ayFreym.classList.add("everyThingFadesToBlack"); // Should take 700ms // Exists in css_for_preloader_and_orbiting_circles
       const orbitingCircles = document.getElementById('orbitingCirclesDivID');
       setTimeout(function () {   orbitingCircles.style.display = "flex";   },701);
       setTimeout(function() {
@@ -711,7 +674,7 @@ DEPRECATED
         setTimeout(function() {  ayFreym.src = "/progress_chart/index.html";  },100);
         function frameIsLoadedByHomeButton() {
           orbitingCircles.style.display = "none";
-          ayFreym.classList.remove("everyThingFadesToBlack"); ayFreym.classList.add("everyThingComesFromBlack"); // Exists in css_for_sliding_navigation_menu
+          ayFreym.classList.remove("everyThingFadesToBlack"); ayFreym.classList.add("everyThingComesFromBlack"); // Exists in css_for_preloader_and_orbiting_circles
           setTimeout(function() {  ayFreym.classList.remove("everyThingComesFromBlack");  },2701); // 701ms was not enough???
         }
       },750); // 701ms was not enough???

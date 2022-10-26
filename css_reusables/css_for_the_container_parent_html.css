@@ -13,8 +13,7 @@ body{ /*Also see css_for_every_single_html.css*/
 main{
   display: flex; flex-direction: column; align-items: center;
   z-index: 999; /* Preloader is 9999 */
-  background-image: linear-gradient(0deg, #d6f8fd 0%, #adf2f9 28%, #8ee4f7 55%, #4dc8f6 100%); /*DO NOT JUST COPY IT, OK? THAT WOULD BE LIKE STEALING*/
-  /*OLD: linear-gradient(#becbd5, #dbe2e8);*/
+  background-image: linear-gradient(0deg, #d6f8fd 0%, #a9f1f9 28%, #84dff5 55%, #43bbf1 100%);
   line-height: 2rem; /*Is set to zero at body level. See css_for_every_single_html*/
   transition: filter 0.4s;
 }
@@ -27,7 +26,7 @@ main{
 }
 /*Not too bad*/
 .mainChangeBrightness{
-  filter: brightness(0.83) contrast(1.33) hue-rotate(6deg);
+  filter: brightness(0.82) contrast(1.35) hue-rotate(6deg);
 }
 
 iframe{
@@ -40,7 +39,6 @@ iframe{
 
 p{
   line-height: normal; /*Set it back to normal because it was set to ZERO in css_for_every_single_html.css*/
-  /*text-shadow: 0px -0.5vmin 0.8vmin rgba(123,145,158,0.45), 0px -0.2vmin 0.4vmin rgba(123,145,158,0.65);*/
   letter-spacing: 1px;
   padding-left:7px;
   padding-right:7px;
@@ -49,7 +47,7 @@ p{
 /*select the language you want to learn BUTTONS*/
 button{
   line-height: normal; /*Just to be safe: Set it back to normal because it was set to ZERO in css_for_every_single_html.css*/
-  background-color: rgba(255,255,255,0.4); /*used to be #4d606f*/
+  background-color: rgba(255,255,255,0.3);
   border: 3px solid rgba(255,255,255,0.5);
   color: white;
   border-radius: 19px;
@@ -68,8 +66,7 @@ button:focus {outline:0;}
 .simulatedHover{
   color: #92d7e7;  background-color: rgba(255,255,255,1);  box-shadow: 0px 0px 4px white;  transform: scale(1.03);
 }
-.afterHover{}
-.buttonMobile:focus{}/*Reaction time is too slow*/
+.buttonMobile:focus{}/*Let it be; better not try to do something like a desktop hover thing: Reaction time is too slow*/
 
 .buttonMousedownOrTouchend{
   animation-name: buttonBlink;
@@ -94,46 +91,13 @@ button:focus {outline:0;}
   99%{background-color: #5b8eb3;  color: #ffffff;}
   100%{background-color: rgba(255,255,255,1); color: #92d7e7;}
 }
-/*All aside elements are to be used as just another type of button if necessary*/
-/*The font will depend on UI language so is set in js js_for_every_single_html*/
-/*These will apply to parent level ASIDEs only,,, NOT THE LESSON-iFrame LEVEL*/
-/*DEPRECATED BUTTON: I will consider joining the crowdfunding*/
-/*
-aside{
-  line-height: normal;
-  border: .25vmin solid white;
-  border-radius: 5px;
-  min-width: 85vmin;
-  min-height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  margin: 0.5vmin; --Space between two buttons--
-  background-color: #4d606f;
-  color: white;
-  transition-duration: 0.06s;
-}
-aside:hover{
-  background-color: black;
-}
-aside:focus {outline:0;}
-@media (max-width: 600px) { aside { font-size: 3.7vmin; } }
-@media (max-width: 500px) { aside { font-size: 3.9vmin; } }
-@media (max-width: 400px) { aside { font-size: 4.1vmin; } }
-*/
-/* A Samsung Mobile phone has 412 px width in portrait mode*/
-
-
 
 /*header contains [Choose the language you want to learn]*/
 header{
   display: flex; flex-direction: column; justify-content: center; align-items: center;
   font-size: 2rem; /* !!! ATTENTION: works for Latin fonts but what about Asian fonts and other fonts??? */
-  /*font-weight: 200;*/ /*necessary for baiJamjuree font !!! Don't know what this will do to KosugiMaru,, Better set in js_for_every_single_html*/
   color: white;
   text-shadow: 0 0 2px white;
-  /* border: 1px dotted lightgray; */
 }
 .headerDesktop{ /*See @media below for Phone and Tablet*/
   height: 140px; /*Must match the value in css_for_sliding_navigation_menu.css*/
@@ -208,7 +172,6 @@ footer{
 @media screen and (orientation:portrait){
   .headerPhoneOrTablet{   height: 23.6vmin;  }
   .articlePhoneOrTablet{   height: calc(100vh - 70.6vmin);  } /*23.6+22+10=55.6 sliding nav menu height is 22vmin in css_for_sliding_navigation_menu*/
-  /* .footerPhoneOrTablet{   height: 10vmin;  } */
   article{flex-direction: column;}
   /*Desktops - PORTRAIT*/
   .layerA1_desktop{ width:var(--desktopWidth); height: 65%; border-radius: 14px 14px 0px 0px; background-color: rgba(255,255,255,0.15); padding:12px 12px 6px 12px;}
@@ -217,10 +180,10 @@ footer{
   .layerB2_desktop{ width:100%; height: 100%; border-radius: 12px; background-color: rgba(255,255,255,0.25); }
   .canvasDesktop{ transform: scale(0.4); }
   /*Phones - PORTRAIT*/
-  .layerA1_mobile{ width:94vw; height: 65%; border-radius: 14px 14px 0px 0px; background-color: rgba(255,255,255,0.15); padding:12px 12px 6px 12px;}
-  .layerB1_mobile{ width:94vw; height: 35%; border-radius: 0px 0px 14px 14px; background-color: rgba(255,255,255,0.15); padding:6px 12px 12px 12px;}
-  .layerA2_mobile{ width:100%; height: 100%; border-radius: 12px; background-color: rgba(255,255,255,0.25); }
-  .layerB2_mobile{ width:100%; height: 100%; border-radius: 12px; background-color: rgba(255,255,255,0.25); }
+  .layerA1_mobile{ width:94vw; height: 65%; border-radius: 14px 14px 0px 0px; background-color: rgba(255,255,255,0.14); padding:12px 12px 6px 12px;}
+  .layerB1_mobile{ width:94vw; height: 35%; border-radius: 0px 0px 14px 14px; background-color: rgba(255,255,255,0.14); padding:6px 12px 12px 12px;}
+  .layerA2_mobile{ width:100%; height: 100%; border-radius: 12px; background-color: rgba(255,255,255,0.23); }
+  .layerB2_mobile{ width:100%; height: 100%; border-radius: 12px; background-color: rgba(255,255,255,0.23); }
   /*Tablets (or huge phones)- PORTRAIT*/
   @media screen and (min-width: 500px){
     .layerA1_mobile{width:80vw;}
@@ -231,7 +194,6 @@ footer{
 @media screen and (orientation:landscape){
   .headerPhoneOrTablet{   height: 14.6vmin;  }
   .articlePhoneOrTablet{   height: calc(100vh - 60vmin - 5px);  }
-  /* .footerPhoneOrTablet{   height: 6.2vmin;  } */
   article{flex-direction: row;}
   /*Desktops - LANDSCAPE*/
   .layerA1_desktop{ width:var(--desktopWidth); height: 100%; border-radius: 14px 0px 0px 14px; background-color: rgba(255,255,255,0.15); padding:12px 6px 12px 12px;}
@@ -240,47 +202,16 @@ footer{
   .layerB2_desktop{ width:100%; height: 100%; border-radius: 12px; background-color: rgba(255,255,255,0.25); }
   .canvasDesktop{ transform: scale(1); }
   /*Phones - LANDSCAPE*/
-  .layerA1_mobile{ width:57%; height: 100%; border-radius: 14px 0px 0px 14px; background-color: rgba(255,255,255,0.15); padding:12px 6px 12px 12px;}
-  .layerB1_mobile{ width:40%; height: 100%; border-radius: 0px 14px 14px 0px; background-color: rgba(255,255,255,0.15); padding:12px 12px 12px 6px;}
-  .layerA2_mobile{ width:100%; height: 100%; border-radius: 12px; background-color: rgba(255,255,255,0.25); }
-  .layerB2_mobile{ width:100%; height: 100%; border-radius: 12px; background-color: rgba(255,255,255,0.25); }
+  .layerA1_mobile{ width:57%; height: 100%; border-radius: 14px 0px 0px 14px; background-color: rgba(255,255,255,0.14); padding:12px 6px 12px 12px;}
+  .layerB1_mobile{ width:40%; height: 100%; border-radius: 0px 14px 14px 0px; background-color: rgba(255,255,255,0.14); padding:12px 12px 12px 6px;}
+  .layerA2_mobile{ width:100%; height: 100%; border-radius: 12px; background-color: rgba(255,255,255,0.23); }
+  .layerB2_mobile{ width:100%; height: 100%; border-radius: 12px; background-color: rgba(255,255,255,0.23); }
   /*Tablets or huge phones - LANDSCAPE*/
   @media screen and (min-width: 900px){
     .layerA1_mobile{width:46%;}
     .layerB1_mobile{width:37%;}
   }
 }
-
-
-/* DEPRECATED OLD FOOTER USAGE
-footer{ --Contains INSTALL THE APP - GET NOTIFICATIONS button--
-  position: fixed;
-  left:50vw; transform: translateX(-50%) scale(1);
-  background-color: white; border-radius: 8px;
-  color: #b0cdd1; font-weight: 400;
-  padding: 10px;
-  border: 2px solid #ebf2fa;
-  transition: transform .3s, opacity .25s, margin-top 1s; --use margin-top when using top, margin-bottom when using bottom--
-  font-size: 19px;
-}*/
-/* footer:hover{   transform: translateX(-50%) scale(1.02); } */
-/* footer:active{  transform: translateX(-50%) scale(0.98); } */
-/*.footerGetLost{ transform: translateX(-50%) scale(0.0001); opacity: 0; }*//* In notify_**.js add when notification is accepted or in js_for_pwa if installation was accepted but notification isn't supported*/
-
-/* .footerDesktop{ top:100vh; } */
-/* .footerDesktop div{display: flex; align-items: center; justify-content: center; min-width:240px; height: 100px;} */
-/* .footerDesktop img{ height: 100px; } */
-/* .footerDesktop p{ text-shadow: none; min-width: 150px; } */
-/* .footerSlideAppearDesktop{margin-top:-19.7vh;} */
-
-/*OUTDATED! See js_for_pwa.js*/
-/* .footerTabletAndPhone{ top:-120px; } */
-/* .footerTabletAndPhone div{ display: flex; align-items: center; justify-content: center; max-width:90vmin; height: 72px; } */
-/* .footerTabletAndPhone img{ height: 70px; } */
-/* .footerTabletAndPhone p{ text-shadow: none; min-width: 190px; line-height: 23px; } */
-/* @media (orientation: landscape) {  .footerTabletAndPhone {    display: none;   }   } */
-/* @media (orientation: portrait)  {  .footerTabletAndPhone {    display: block;  }   } */
-/* .footerSlideAppearMobile{margin-top:133px;} */
 
 /**/
 .allowMicDesktopBackground{ /*Don't need this on Android as it is done automatically*/
@@ -312,23 +243,6 @@ footer{ --Contains INSTALL THE APP - GET NOTIFICATIONS button--
 .letYouMustAllowMicrophoneDialogAppearDesktop{margin-top: calc(50vh + 50px);}
 .letYouMustAllowMicrophoneDialogDisappear{margin-top:-222px;}
 @keyframes flashBlink {  0%{ filter: contrast(1); } 45%{ filter: contrast(1); } 55%{ filter: contrast(1.25); } 100%{ filter: contrast(1.25); }  }
-
-/* DEPRECATED: Will you buy us... Vakfımız bu uygulamanın... このアプリは無料... */
-/*.promptBoxInParent{
-  min-width: 20%;  min-height: 10%;  max-width: 95vw;  -For phones-
-  background-color: white;  color: rgb(36,41,46);  border-radius: 2vmin;
-  display: flex;  flex-direction: column;  justify-content:  center;  align-items: center;
-  padding: 3vmin;
-  box-shadow: 0 -13px 29px -12px rgba(67,80,89,0.3), 0 -3px 19px -9px rgba(67,80,89,0.4), 0 -8px 18px -15px rgba(67,80,89,0.5), 0 13px 8px -16px rgba(67,80,89,1);
-}*/
-
-/* DEPRECATED: Will you buy us... Vakfımız bu uygulamanın... このアプリは無料... */
-/*.getSmallOnPhones{  font-size: 100%;  }
-@media screen and (max-width: 600px) {
-  .getSmallOnPhones{  font-size: 80%;  }
-}*/
-
-
 
 /* _Glassmorphist background blur used for PLEASE DISCLOSE YOUR GENDER_ */
 .darkenTheWholeViewportClass{ /*Used by letTheIFrameTeachArabic() in js_for_app_initialization_in_parent*/

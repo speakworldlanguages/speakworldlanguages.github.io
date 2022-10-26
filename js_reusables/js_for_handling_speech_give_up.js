@@ -1,4 +1,5 @@
 "use strict";
+// ASIDE elements are used as a new/other TYPE OF BUTTON
 window.addEventListener('DOMContentLoaded', function(){
 
   const theButtonForSkippingSpeechInputVocabularyTest = document.getElementById('theTextInsideSkipNextButtonID');
@@ -6,12 +7,10 @@ window.addEventListener('DOMContentLoaded', function(){
   const filePathForNextButtonInnerHTML = "/user_interface/text/"+userInterfaceLanguage+"/0-continue_to_next.txt"; // Seems to be OK without DOMContentLoaded
 
   // Let “no web-speech browser” users quickly skip to the speech recognition cancellation
-  //var howLongBeforeGiveUpButtonAppears; // This used to be accessed from bread.js, water.js etc // DEPRECATION: Move this to each lesson’s own js
+  // See each lesson’s own js to find how long the app will wait before displaying the give-up-skip button -> Find countdownForGiveUpSkipOrGoToNext
   if (parent.willUserTalkToSpeechRecognition) { // See js_for_different_browsers_and_devices
-    //howLongBeforeGiveUpButtonAppears = 33000; // For Chrome and other full-feature, white-listed browsers // DEPRECATION: Move this to each lesson’s own js
     fetch(filePathForGiveUpButtonInnerHTML,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theButtonForSkippingSpeechInputVocabularyTest.innerHTML = contentOfTheTxtFile; }); // See js_for_every_single_html for headers
   } else {
-    //howLongBeforeGiveUpButtonAppears = 3300; // DEPRECATION: Move this to each lesson’s own js
     fetch(filePathForNextButtonInnerHTML,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theButtonForSkippingSpeechInputVocabularyTest.innerHTML = contentOfTheTxtFile; }); // See js_for_every_single_html for headers
   }
 

@@ -56,12 +56,12 @@ window.addEventListener('DOMContentLoaded', function(){
 /**/
 window.onload = function() { // DANGER: Do not use window.onload anywhere else. Use addEventListener "load" instead in order to avoid overwriting.
   // Clear timeout for [would you like to wait or refresh] box
-  // WORKS MOST OF THE TIME BUT occasionally it either doesn't fire or fire too soon.
-  setTimeout(function () { parent.stopTheTimerToSeeIfNextLessonLoadedFastEnough(); }, 1000); // A small delay: Try to fix beforeunload from previous lesson firing too late
+  // WORKS MOST OF THE TIME BUT occasionally it either doesn't fire or fire too soon. Try adding a small delay to solve that.
+  // Try to make sure beforeunload from previous html doesn't get late and fire after the load event of this html
+  setTimeout(function () { parent.stopTheTimerToSeeIfNextLessonLoadedFastEnough(); }, 1000); // A small delay: Try to fix beforeunload from previous lesson (probably) firing too late
 
   // Restart anti sleep timer
   if (deviceDetector.isMobile) {
-    // DEPRECATED setTimeout(function () { parent.resetSleepCountdown(); }, 111); // See sleep-control.js
     if ('wakeLock' in navigator) {  parent.tryToKeepTheScreenON();  } // See js_for_different_browsers_and_devices
   }
   // ---
@@ -75,10 +75,6 @@ window.onload = function() { // DANGER: Do not use window.onload anywhere else. 
     if (deviceDetector.isMobile) {
       setTimeout(function () { parent.handleMenuUpDownStateOnMobiles(); },500); // See js_for_the_sliding_navigation_menu
     }
-    ////DEPRECATE sessionStorage.lastKnownLocation = "progressChart";
-    ////parent.theStudyHasStarted = true;
-    // DEPRECATED or OUTDATED: Bring the PWA installation&notification-subscription button (footer in parent)
-    // parent.revealNotificationAndInstallation_2in1_button();
 
     /* Handle NAV MENU - Remove PAUSE THE APP ceramic button */
     if (parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) { // Used to be in progress.js
@@ -90,23 +86,15 @@ window.onload = function() { // DANGER: Do not use window.onload anywhere else. 
     if (deviceDetector.isMobile) {
       setTimeout(function () { parent.handleMenuUpDownStateOnMobiles(); },500); // See js_for_the_sliding_navigation_menu
     }
-    ////DEPRECATE sessionStorage.lastKnownLocation = "information";
-    //// To handle native back button of browser (see blank.html) we detect where user came from (welcome screen or a lesson or progress_chart) via theStudyHasStarted from js_for_app_initialization_in_parent
-
-    // DEPRECATED or OUTDATED: Hide the PWA installation&notification-subscription button (footer in parent)
-    // parent.hideNotificationAndInstallation_2in1_button();
+    // To handle native back button of browser what do we do?
 
     if (parent.containerDivOfTheNavigationMenu.contains(parent.clickToPauseTheAppDiv)) { // Used to be in progress.js
       parent.containerDivOfTheNavigationMenu.removeChild(parent.clickToPauseTheAppDiv); // Should we use display none instead???
     }
   } else { // We have landed on a lesson // REMEMBER: blank.html does not link to this js_for_all_iframed_lesson_htmls
-    ////DEPRECATE sessionStorage.lastKnownLocation = "lesson";
-    ////parent.theStudyHasStarted = true;
     // It is better not to see the slidingNavMenu every time a new lesson is opened » so don't use parent.handleMenuUpDownStateOnMobiles();
     // Instead just hide the slidingNavMenu if it was visible (like when starting 1-1-1 bread)
     setTimeout(function () { parent.makeTheNavMenuGoDownOnMobiles("slow"); },1500); // See js_for_the_sliding_navigation_menu
-    // DEPRECATED or OUTDATED: Hide the PWA installation&notification-subscription button (footer in parent)
-    // parent.hideNotificationAndInstallation_2in1_button();
 
     /* Handle NAV MENU - Add PAUSE THE APP ceramic button */
     setTimeout(afterATinyDelay,100); // So that it won't come before HOME button // NOTE: The number in we_are_working page must be greater than 100
@@ -155,18 +143,20 @@ if (parent.thisIsTheParentWhichContainsAllIFramedLessons == "yes") {
 // HANDLE PAGE UNLOAD IF THE BROWSER'S “BACK” BUTTON IS USED
 // WARNING: onbeforeunload doesn't fire when src of the iframe changes nor does hashchange on mobile chrome (or are we misunderstanding something?)
 window.onbeforeunload = function() {
-  // PROBLEM: When user makes progress and then clicks the browser's REFRESH button and then clicks the browser's BACK button the last lesson starts playing hidden behind the main menu.
-  // console.log("iframe onbeforeunload has been fired -> js_for_all_iframed..."); // TESTED: It works on desktop Chrome // Why does this not show in eruda // LATER: because eruda must be a frame-level-eruda not parent-level-eruda
+  // parent.console.log("iframe onbeforeunload has been fired -> js_for_all_iframed_lesson_htmls");
+
+  // CAUTION: THESE ARE MAINLY FOR THE CASE WHERE USER NAVIGATES AWAY FROM THE LESSON WITHOUT NEITHER SUCCESS NOR GIVEUPSKIP
+  // (like using the HOME button to go to progress chart or browser's back button)
   // Turn OFF annyang if it was ON
+  // ISSUE THAT NEEDS SERIOUS CARE: Safari doesn't allow mic permanently; it allows for only 1 listening session and prompts for permission everytime mic restarts
   if (parent.annyang) { // DO NOT OMIT! Firefox and other no-speech browsers need this "if (parent.annyang)" to let the app work without Web Speech API.
     // This is like a "making it double-safe" thing // stopListeningAndProceedToNext() already has parent.annyang.abort();
     if (parent.annyang.isListening()) {
-      // DEPRECATE parent.annyang.removeCommands();
+      parent.annyang.removeCallback();
       parent.annyang.abort(); // OR // if (!parent.isApple) {  parent.annyang.abort();  }
     }
   }
   // Check if the functions exist in the lessons own js (like bread.js, water.js etc) before trying to call them.
-  // NOTE: These are for the possibility of browser's back button being used or iFrame src change via nav menu buttons etc.
   if (typeof stopAudioInputVisualization === "function") {
     stopAudioInputVisualization(); // Stop Wavesurfer and turn off the microphone. See js_for_microphone_input...
   }
@@ -174,7 +164,7 @@ window.onbeforeunload = function() {
     unloadTheSoundsOfThisLesson(); // Every time defined with a different list in the lesson. See the unique js file of each lesson.
   }
 
-  // Unlock swipe menu if it was locked
+  // Unlock swipe menu in case it was locked
   parent.swipeNavMenuIsLocked = false; // As of September 2022 it's only locked by bigSlideTowardsLeft in information.js
   // Unlock screen orientation if it was locked
   if (screen.orientation) {

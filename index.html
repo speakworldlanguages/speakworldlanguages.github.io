@@ -20,8 +20,6 @@
     <link rel="alternate" hreflang="en" href="https://speakworldlanguages.app">
 
     <link rel="icon" type="image/png" href="/user_interface/html_icon/animated_globe_icon_39.png" id="icon" sizes="32x32"> <!-- This appears next to the title in the browser's TABS and plays as an animation. See js_for_icon_and_title_animation.js -->
-    <!-- DEPRECATED: <link id="saveLoadTimeOnMobileID" rel="preload" href="/css_reusables/css_for_permanent_custom_cursor.css" as="style" onload=" var useThis=this; useThis.onload=null; setTimeout(function(){ useThis.rel='stylesheet'; },3000); ">  --><!-- DESKTOPS only! -->
-    <!-- Above line is used because 40 little png files (for custom cursors) can take too many milliseconds to download and some frames can go missing as browser's rendering starts. Note: In 2020 Firefox didn't support rel="preload". -->
     <link rel="stylesheet" href="/css_reusables/css_for_every_single_html.css">
     <link rel="stylesheet" href="/css_reusables/css_for_the_container_parent_html.css">
     <link rel="stylesheet" href="/css_reusables/css_for_sliding_navigation_menu.css">
@@ -31,12 +29,9 @@
 
     <script src="/third_party_js/annyang.min.js">/*Speech Recognition library by Tal Ater - Github: TalAter*/</script>
     <script src="/third_party_js/ua-parser.min.js">/*JS library for getting the browser and OS names by Faisal Salman - Github: faisalman*/</script>
-    <!-- MOVED TO every_single_html.js <script src="/third_party_js/devicedetector-min.js">/*A device detector by Maarten Belmans - Github: PoeHaH*/</script> --><!-- copy-paste devicedetector into js_for_every_single_html.js -->
+    <!-- IN THE PAST HERE WAS <script src="/third_party_js/devicedetector-min.js">/*BUT WAS MOVED TO every_single_html.js - A device detector by Maarten Belmans - Github: PoeHaH*/</script> -->
     <script src="/third_party_js/howler.min.js">/*An audio handler - Github: goldfire*/</script>
-    <!-- <script> Howler.html5PoolSize = 50; /*Does this do any good to anything?*/ </script> -->
-    <!-- <script src="/third_party_js/localforage.min.js">/*Use indexedDB; store large blobs like recorded audio or pass data to the service worker*/</script> -->
-
-    <!-- DEPRECATED <script src="/js_reusables/js_for_preload_handling.js">/* INCLUSION PRIORITIZED: Measure time between "DOMContentLoaded" and "load" */</script> -->
+    <!-- <script src="/third_party_js/localforage.min.js">/*IN THE FUTURE: Use indexedDB; store large blobs like recorded audio or pass data to the service worker*/</script> -->
 
     <script defer src="/js_reusables/js_for_every_single_html.js">/*Memory card, userInterfaceLanguage, fetch headers, fonts*/</script>
     <script defer src="/js_reusables/js_for_redirection_to_the_proper_domain.js">/*Check if UI language and browser language match, protection against unauthorized embedding*/</script>
@@ -44,15 +39,12 @@
     <script defer src="/js_reusables/js_for_app_initialization_in_parent.js">/*Fake antisleep video, be careful with iPhone fullscreen openfirstlesson, load last studied language codes...*/</script>
     <script defer src="/js_reusables/js_for_hover_simulation_and_scrollglobe.js">/*Hover simulation for touch devices and rotatable globe with unique drag scrolling*/</script>
     <script defer src="/js_reusables/js_for_different_browsers_and_devices.js">/*Whitelist browsers, handling visibilitychange: what happens when user leaves the app*/</script>
-    <!--DEPRECATED: Use wake-lock API instead <script defer src="/js_reusables/sleep-control.js">/*Prevent screen sleep timeout*/</script> -->
     <script defer src="/js_reusables/js_for_icon_and_title_animation.js">/*A rotating globe next to the title that appears in the browser-tab*/</script>
     <script defer src="/js_reusables/js_for_the_sliding_navigation_menu.js">/*NAVIGATION*/</script>
     <script defer src="/js_reusables/js_for_info_boxes_in_parent.js">/*[Your progress will be saved] box and [Your progress has been loaded] box*/</script>
-    <script defer src="/js_reusables/js_for_cache_handling_with_initial_load.js">/*Get the files in advance to minimize waiting time*/</script>
-    <!-- The latter caching will be handled from within each iframed html -->
-    <!-- <script defer src="/user_interface/ui_specific_js/precache_ui_texts_and_fonts_en.js">/* NEEDS TO BE REVIEWED and UPDATED or CANCELLED*/</script> -->
-    <!-- <script src="/js_reusables/js_for_online_and_offline_modes.js">/* As of 2022 this still is a futuristic idea only: Detect and handle online offline mode */</script> -->
-    <!-- <script defer src="/js_reusables/js_for_pwa.js">/*Progressive Web App - Handle installation*/</script> -->
+    <script defer src="/js_reusables/js_for_cache_handling_with_initial_load.js">/*Get the files in advance to minimize waiting time - The latter caching will be handled from within each iframed html*/</script>
+    <!-- <script src="/js_reusables/js_for_online_and_offline_modes.js">/*IN THE FUTURE: As of 2022 this still is a futuristic idea only: Detect and handle online offline mode */</script> -->
+    <!-- <script defer src="/js_reusables/js_for_pwa.js">/*IN THE FUTURE: Progressive Web App - Handle installation*/</script> -->
     <!--  -->
 
     <!-- THERE SEEMS TO BE A CONFLICT between eruda and the canvas element, but it's still usable -->
@@ -61,17 +53,15 @@
     <!-- <script>eruda.init();</script> -->
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async id="letItGoOnlyAfterWindowLoadID"></script>
     <script>
-      //window.addEventListener("load",function(){   startTracking();   }, { once: true });
-      //function startTracking() {
-        //const tracker = getElementById('letItGoOnlyAfterWindowLoadID');
-        //window.dataLayer = window.dataLayer || [];
-        //function gtag(){dataLayer.push(arguments);}
-        //gtag('js', new Date());
-        //gtag('config', 'G-8FWCR3LS62');
-        //tracker.src = "https://www.googletagmanager.com/gtag/js?id=G-8FWCR3LS62";
-      //}
+      window.addEventListener("load",function(){   startTracking();   }, { once: true });
+      function startTracking() {
+        setTimeout(function () { const delayedScript = document.createElement("script"); delayedScript.type = "text/javascript"; delayedScript.src = "https://www.googletagmanager.com/gtag/js?id=G-8FWCR3LS62"; document.body.appendChild(delayedScript); },6000);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-8FWCR3LS62');
+      }
     </script>
 
     <!-- PWA -->
@@ -137,19 +127,6 @@
       <!-- VERY IMPORTANT: p element must be the second child in the div so that it can be selected with children[1],,, See js_for_different_browsers_and_devices -->
     </div>
 
-    <!-- Parent HTMLs are not multilingual. The text below is translated and unique to this html just like the contents of the /user_interface/text/ folder -->
-    <!-- <div data-nosnippet id="idOfTheWelcomeMenuDiv" style="position: fixed; top:0; left:0; bottom:0; right:0; background-color: rgba(255, 255, 255, 0.5); display: flex; justify-content: center; align-items: center; z-index: 9998;"> -->
-      <!-- <div class="promptBoxInParent"> --> <!-- See css_for_the_container_parent_html -->
-        <!-- <p class="getSmallOnPhones">Please use the <i>balance scale</i> button to see how you can join the crowdfunding.</p> --> <!-- See css_for_the_container_parent_html -->
-        <!-- <div style="width:10px;height:10px;">                  </div> -->
-        <!-- Empty little box to adjust the line height -->
-        <!-- <aside onclick="userHasClickedOrTouchedWelcomeAnswerA(); testAnnyangAndAllowMic();">I will consider joining the crowdfunding</aside> -->
-        <!-- See js_for_app_initialization_in_parent.js ,,, js_for_different_browsers_and_devices.js -->
-        <!-- <aside onclick="userHasClickedOrTouchedWelcomeAnswerB(); testAnnyangAndAllowMic();">Hey, I am a member of the crowdfunding</aside> -->
-        <!-- See js_for_app_initialization_in_parent.js ,,, js_for_different_browsers_and_devices.js -->
-      <!-- </div> -->
-    <!-- </div> -->
-
     <!-- Let the [Your progress has been loaded] box be in progress_chart -->
 
     <!-- THE MAIN MENU -->
@@ -181,24 +158,6 @@
       </article>
       <footer><p>A project by <span style="white-space:nowrap;">Manheart Earthman</span></p>
       </footer>
-      <!-- OUTDATED: See js_for_pwa.js -->
-      <!-- Must rewrite js_for_pwa.js !!! CHROME 106 handles things differently, Add to home screen option is automatically shown???
-      <footer class="footerDesktop">
-        <div id="footerInstallID" style="display:none;">
-          <img id="desktopImgID" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Install the app">
-          <img id="tabletImgID" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Install the app" style="display:none;">
-          <img id="phoneImgID" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Install the app" style="display:none;">
-          <p style="display:block;">Click here to install this app<br>and add it to your desktop</p>
-          <p style="display:none;">Touch here to get the app on your <span style="white-space:nowrap;">Home screen</span></p>
-          <p style="display:none;">Close the browser and start the app<br>from your Home screen when ready</p>
-        </div>
-        <div id="footerNotificationID" style="display:flex;">
-          <img id="pushNotificationImgID" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Get notified about new content">
-          <p style="display:block;">Click here to receive messages from us<br>when new lessons are up</p>
-          <p style="display:none;">Touch here to receive messages from us when new lessons are up</p>
-        </div>
-      </footer>
-      -->
     </main>
     <!-- MAKE THE APP LOAD slightly FASTER BY ASSIGNING src OF THE IMAGE FILES AFTER window load -->
     <script>
@@ -209,18 +168,9 @@
         preloadGlobeImg.src = "/user_interface/images/preload_globe_100x150.webp"; // Change the 16KB single frame webp with the animated one 449KB one. Which will probably be ready until user chooses a language to learn.
         preloadHandlingDiv = document.getElementById('idOfThePreloadHandlingDiv');
         preloadHandlingDiv.classList.add("addThisClassToHideThePreloader"); // See css_for_the_container_parent_html
-        // DEPRECATED old stuff kept here for reference and ease of maintenance in future
-        // const desktopImg = document.getElementById('desktopImgID');
-        // const tabletImg = document.getElementById('tabletImgID');
-        // const phoneImg = document.getElementById('phoneImgID');
-        // const pushNotificationImg = document.getElementById('pushNotificationImgID');
-        // pushNotificationImg.src = "/user_interface/images/push_me_notification.webp";
-        // if (deviceDetector.device == "desktop") { desktopImg.src = "/user_interface/images/add_to_desktop.webp"; }
-        // else if (deviceDetector.device == "tablet") { tabletImg.src = "/user_interface/images/add_to_home_screen_tablet.webp"; }
-        // else { phoneImg.src = "/user_interface/images/add_to_home_screen_phone.webp"; }
         //---
         const frame = document.getElementsByTagName('IFRAME')[0];
-        frame.src = "/user_interface/blank.html"; // it is only 1 kb but maybe it safer for ayFreym.addEventListener('load',...) in js_for_app_initialization_in_parent
+        frame.src = "/user_interface/blank.html"; // it is only 1 kb -> REMEMBER: ayFreym.addEventListener('load',...) in js_for_app_initialization_in_parent
         //---
         const main = document.getElementsByTagName('MAIN')[0];
         const header = document.getElementsByTagName('HEADER')[0];
@@ -268,22 +218,9 @@
       }
     </script>
 
-    <!-- get rid of this after testing the new idOfTheLoadProgressDiv -->
-    <!-- <div id="fullViewportPositionFixedDivAsContainerOfLoadCheckpointPrompt"> -->
-      <!-- <div class="promptBoxInParent"> -->
-        <!-- <p>Continue from where you were</p> -->
-        <!-- <div style="width:10px;height:10px;">          -->
-          <!-- Empty little box to adjust the line height -->
-        <!-- </div> -->
-        <!-- <button onclick="whenLoadLastLessonOkButtonIsClickedOrTapped()">OK</button> -->
-        <!-- See js_for_app_initialization_in_parent.js -->
-      <!-- </div> -->
-    <!-- </div> -->
-
     <!-- LESSONS WILL BE DISPLAYED ONE BY ONE THROUGH THIS IFRAME -->
-    <!-- Firefox refresh button's bug is solved; see js_for_different_browsers_and_devices.js  -->
     <iframe src="" allowfullscreen></iframe>
-    <!-- allowfullscreen is needed to be able to call requestFullscreen on the iframe, should that be necessary -->
+    <!-- allowfullscreen is needed to be able to call requestFullscreen on the iframe, even though, as of Oct 2022 such a call never happens. See js_for_handling_fullscreen_mode -->
 
     <!-- Firebase : WARN-ING Code is outdated -->
     <!-- <script type="module" src="notify_en.js"></script> -->

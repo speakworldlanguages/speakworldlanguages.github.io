@@ -19,7 +19,7 @@ aside:hover{
 }
 
 /*____Animation of the GIVE-UP\GO-TO-NEXT elements____*/
-/* NOTICE: The “glassy-give-up-button” becomes “proceed-to-next-button” on browsers like Firefox etc that don’t support Web Speech API*/
+/* Note that: The “glassy-give-up-button” becomes “proceed-to-next-button” on browsers like Firefox etc that don’t support Web Speech API*/
 .glassButtonStartHidden{
   margin-top: 1500px; /*MUST: Find out if this is OK on 4K and 8K!*/
   transition: margin-top 1.4s ease-in-out;
@@ -61,7 +61,6 @@ aside:hover{
 }
 
 /* CSS to provide fallback alternative for Firefox in 2021 and other less incapable browsers */
-/* WAIT:Could this be the reason why the SONY phone doesn't honor it »» Maybe misreports itself as if it didn't support even though it did. TEST: No, it must be something else */
 /*
 @supports not ( ( -webkit-backdrop-filter: blur(9px) ) or ( backdrop-filter: blur(9px) ) ) {
   .glassmorphismOnMobiles{color: rgba(255,255,255,0.7); background-color: rgba( 188, 188, 188, 0.4 ); text-shadow: 0px 0px 2px rgba(222,222,222,0.85);}

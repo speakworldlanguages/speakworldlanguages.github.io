@@ -17,8 +17,6 @@
     window.addEventListener("DOMContentLoaded",function() {
       // Handle the case when browser's BACK button is used
       // slidingNavMenu MUST NOT cause conflict!!!-
-      //// DEPRECATE parent.theStudyHasStarted // See js_for_app_initialization_in_parent AND js_for_the_bilingual_return_button AND js_for_all_iframed_lesson_htmls
-      //// DEPRECATE sessionStorage.lastKnownLocation
       switch (parent.userIsOrWasJustViewing) { // See js_for_all_iframed_lesson_htmls
         case "info-screen": // Case-1 If user came to blank.html from information (only possible if the STUDY HAS NOT STARTED)
         // Which means new user had gone to information page immediately after first app load, before starting lessons

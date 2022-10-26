@@ -14,7 +14,6 @@
     <script defer src="/js_reusables/js_for_every_single_html.js">/*Memory card, userInterfaceLanguage, fetch headers, fonts*/</script>
     <script defer src="/js_reusables/js_for_all_iframed_lesson_htmls.js">/*Handle preloader, detect location, handle nav menu buttons, handle unloading*/</script>
     <!-- MOVED DEVICEDETECTOR TO js_for_every_single_html.js <script defer src="/third_party_js/devicedetector-min.js"></script> -->
-    <!-- <script defer src="/third_party_js/howler.min.js">/*UPDATE: Sounds are now handled globally from parent*/</script> -->
     <script defer src="information.js">/*What to do here*/</script>
 
     <!-- Uncomment the following to be able to use the browser console on mobile devices -->
@@ -233,18 +232,6 @@
             tabletDisplay.parentNode.removeChild(tabletDisplay);
             phoneDisplay.parentNode.removeChild(phoneDisplay);
         }
-        // Extra line height for Kanji
-        /*
-        if (userInterfaceLanguage=="ja") {
-          document.getElementById('idOfMonthlyOptionP').classList.add("moreLineHeight");
-          //document.getElementById('idOfOneTimeOptionP').classList.add("moreLineHeight");
-          document.getElementById('aboutLicenseP').classList.add("moreLineHeight");
-          if (deviceDetector.device=="phone") {
-            document.getElementById('idOfMonthlyOptionP').classList.add("lessLetterSpacing");
-            //document.getElementById('idOfOneTimeOptionP').classList.add("lessLetterSpacing");
-          }
-        }
-        */
       }, { once: true });
       window.addEventListener('load', function(){
         if (deviceDetector.device == "tablet") {

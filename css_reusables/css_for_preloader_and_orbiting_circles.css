@@ -74,8 +74,6 @@
 }
 .loadingio-spinner-interwind-f4cl6mjzf0h {
   z-index: 1050; /*welcome menu is 9998*/ /*sliding nav menu is 1111*/
-  position: fixed;
-  /* top:50vh; left:50vw; transform: translate(-50%,-50%); */
   width: 193px;  height: 193px;
   display: block;
   overflow: hidden;

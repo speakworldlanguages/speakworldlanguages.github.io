@@ -1,5 +1,7 @@
 "use strict";
-// USE SECTION & ADDRESS elements as a TYPE OF BUTTON
+// USE SECTION & ADDRESS elements as new/other TYPES OF BUTTONS
+/* ADDRESS element is turned into the button for [See how you can help] in we_are_working_for_new_levels */
+/* SECTION element is turned into the button for [Next] in author's notice */
 window.addEventListener('DOMContentLoaded', function(){
 
   const hoverSoundForAddressElementAsButton = new parent.Howl({  src: ["/user_interface/sounds/address_as_button_hover."+parent.audioFileExtension]  });
@@ -34,3 +36,5 @@ window.addEventListener('DOMContentLoaded', function(){
   function mouseDownOrTouchEnd() {  clickSoundForAddressElementAsButton.play();  }
 
 }, { once: true });
+
+// See notice.js to find what section button does in that case

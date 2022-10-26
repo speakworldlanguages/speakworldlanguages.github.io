@@ -3,10 +3,11 @@
 // Some of the caching below is to shorten the waiting time between lessons
 // And some are only for offline mode or to make the app start faster at the second visit/run
 /*https://stackoverflow.com/questions/73237370/how-to-chain-caching-cache-your-assets-set-by-set-according-to-their-priority*/
-window.addEventListener("DOMContentLoaded",getTheseSoundsReadyFirst,{once:true});
-async function getTheseSoundsReadyFirst() {
+window.addEventListener("DOMContentLoaded",getTheseReadyFirst,{once:true});
+async function getTheseReadyFirst() {
   const urgentCache = await caches.open('asap');
   const topPriorityfiles = [
+    "/user_interface/images/scrolly_globe_frames/250px_white_globe_60.webp",
     "/user_interface/sounds/ceramic_button_click.webm",
     "/user_interface/sounds/ceramic_button_hover.webm",
     "/user_interface/sounds/fullscreen_exit.webm",
@@ -202,10 +203,10 @@ async function loadFilesDuringWelcomeScreen() {
     p+"30.webp",p+"31.webp",p+"32.webp",p+"33.webp",p+"34.webp",p+"35.webp",p+"36.webp",p+"37.webp",p+"38.webp",p+"39.webp",
     p+"40.webp",p+"41.webp",p+"42.webp",p+"43.webp",p+"44.webp",p+"45.webp",p+"46.webp",p+"47.webp",p+"48.webp",p+"49.webp",
     p+"50.webp",p+"51.webp",p+"52.webp",p+"53.webp",p+"54.webp",p+"55.webp",p+"56.webp",p+"57.webp",p+"58.webp",p+"59.webp",
-    p+"60.webp",p+"61.webp",p+"62.webp",p+"63.webp",p+"64.webp",p+"65.webp",p+"66.webp",p+"67.webp",p+"68.webp",p+"69.webp",
+                p+"61.webp",p+"62.webp",p+"63.webp",p+"64.webp",p+"65.webp",p+"66.webp",p+"67.webp",p+"68.webp",p+"69.webp",
     p+"70.webp",p+"71.webp",p+"72.webp",p+"73.webp",p+"74.webp",p+"75.webp",p+"76.webp",p+"77.webp",p+"78.webp",p+"79.webp"
   ];
-
+  // frame60 is loaded asap, see above
   try {
     console.log("loadFilesDuringWelcomeScreen() will try to cache 6 groups of files...");
     // load group zero first

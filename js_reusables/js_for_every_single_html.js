@@ -55,6 +55,8 @@ if (domainNameOfTheClone.search("hanaserutoii") >= 0) {
 
 /*_____HEADERS to make fetch work with txt files with non-english characters properly________*/
 var myHeaders = new Headers(); // Apache server default ayarları yüzünden böyle buna gerek var.
+// ASLINDA: langCodeForTeachingFilePaths değişkeninin tr olma olasılığı var ki hatta userInterfaceLanguage tr olmasa bile.
+// AMA HER NASILSA DOĞRU ÇALIŞIYOR: Ş ğ are somehow displayed correctly even though the text file is called without charset=iso-8859-9 from js_for_the_bilingual_return_button
 if (userInterfaceLanguage=="tr") { // PLACE IT RIGHT AFTER userInterfaceLanguage ASSIGNMENTS
   // Çağrılan txt dosyasındaki ÇĞİÖŞÜçğıöşü'nın ��������� yerine doğru görünmesi için charset=iso-8859-9 gerek; charset=utf-8 ile olmuyor.
   // Dikkat! Bunun doğru çalışması için çağrılan txt dosyasının UTF-8 ile kaydedilmiş olması gerek.

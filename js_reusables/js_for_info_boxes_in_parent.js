@@ -22,8 +22,6 @@ keepWaitingButtonInTheReloadBoxDIV.innerHTML = "&#10062;"; // Default content of
 const okLetsTryRefreshingTheBrowserBoxDIV = document.createElement("DIV");
 okLetsTryRefreshingTheBrowserBoxDIV.innerHTML = "&#9989;"; // Default content of the OK box is a "tick ✅" mark
 //-
-// DEPRECATE, USE alert instead: const understoodButtonUnderSafariPermanentMicDIV = document.createElement("DIV");
-// DEPRECATE, USE alert instead: understoodButtonUnderSafariPermanentMicDIV.innerHTML = "&#9989;"; // Default content of the OK box is a "tick ✅" mark
 
 // ---
 window.addEventListener("DOMContentLoaded",function() {
@@ -67,6 +65,7 @@ function handleSafariMicHowToTexts(receivedTxt) {
     safariHowToPermanentlyAllowMicP.innerHTML += receivedTxt.split("|")[2];
   }
 }
+
 
 /*-- Your progress will be saved box --*/
 // We don't want an appearance sound because another button sound is already playing as this appears
@@ -144,8 +143,6 @@ function createAndHandleGoBackOrProceedBox() {
 } // END OF createAndHandleGoBackOrProceedBox
 
 
-
-
 /*-- Your progress has been loaded box --*/
 // We don't want an appearance sound because sound is not unlocked yet but will be so with the first user gesture on this box
 const progressLoadOkNoticeBoxContainerDIV = document.createElement("DIV");
@@ -179,8 +176,6 @@ function createAndHandleProgressHasBeenLoadedBox() { // Called if memoryCard exi
     setTimeout(function () { document.body.removeChild(progressLoadOkNoticeBoxContainerDIV); },333); // And it will never reappear until another session
   }
 }
-
-
 
 
 /*-- Maybe you should reload the app box box --*/
@@ -244,7 +239,7 @@ function createAndHandleMaybeYouShouldReloadBox() {
     closeTheBoxSound.play();
     // Play disappear animation and remove and REFRESH
     hideWouldYouLikeToRestartTheAppBox();
-    setTimeout(function () {  itIsAlreadyCertainThatUserWantsToReload = true;  location.reload();  }, 350); // Better if onbeforeunload is bypassed in this case
+    setTimeout(function () {  itIsAlreadyCertainThatUserWantsToReload = true;  location.reload();  }, 350); // See js_for_app_initialization_in_parent » Better if onbeforeunload is bypassed in this case
   }
 
 }
@@ -266,46 +261,3 @@ function loadWasSuccessfulDespiteTakingTooLong() {
     hideWouldYouLikeToRestartTheAppBox();
   }, 2000); // Let user read the [Never mind] statement for a moment
 }
-
-
-
-/*-- Your progress has been loaded box --*/
-// We don't want an appearance sound because sound is not unlocked yet but will be so with the first user gesture on this box
-/*
-const safariPermanentlyAllowBoxContainerDIV = document.createElement("DIV");
-const safariPermanentlyAllowBoxItselfDIV = document.createElement("DIV");
-function createAndHandleSafariNeedsOneMoreStepBox() { // Called if memoryCard exists in localStorage » See js_for_app_init
-
-  safariPermanentlyAllowBoxContainerDIV.classList.add("fullViewportBackgroundForSaveLoadBoxes"); // See css_for_info_boxes_in_parent
-  document.body.appendChild(safariPermanentlyAllowBoxContainerDIV);
-  safariPermanentlyAllowBoxItselfDIV.classList.add("saveLoadRoundedInfoBox"); // See css_for_info_boxes_in_parent
-  safariPermanentlyAllowBoxContainerDIV.appendChild(safariPermanentlyAllowBoxItselfDIV);
-  safariPermanentlyAllowBoxItselfDIV.appendChild(safariHowToPermanentlyAllowMicP);
-
-  understoodButtonUnderSafariPermanentMicDIV.classList.add("buttonsUnderSaveLoadInfo"); // See css_for_info_boxes_in_parent
-  if (needLatinFonts) {
-    understoodButtonUnderSafariPermanentMicDIV.style.fontFamily = '"Oxanium SemiBold", sans-serif'; // Not the default UI font » Titillium
-  }
-
-  safariPermanentlyAllowBoxItselfDIV.appendChild(understoodButtonUnderSafariPermanentMicDIV);
-
-  return new Promise(function (resolve, reject) {
-    if (deviceDetector.isMobile) {
-      understoodButtonUnderSafariPermanentMicDIV.addEventListener("touchend",understoodButtonIsClicked); // Clickable only once in a session
-    }
-    else {
-      understoodButtonUnderSafariPermanentMicDIV.addEventListener("mouseup",understoodButtonIsClicked); // Clickable only once in a session
-    }
-
-    function understoodButtonIsClicked() {
-      closeTheBoxSound.play();
-      // Play disappear animation and remove and do nothing
-      safariPermanentlyAllowBoxContainerDIV.style.animationName = "theBlueBackgroundAndTheContentsDisappear"; // Should take 330ms » See css_for_info_boxes_in_parent
-      setTimeout(function () { document.body.removeChild(safariPermanentlyAllowBoxContainerDIV); },333); // And it will never reappear until another session
-      setTimeout(function () { resolve(true); },350); // Let the .then().catch() fire in js_for_app_init
-    }
-
-  }); // END OF return new Promise
-
-}
-*/

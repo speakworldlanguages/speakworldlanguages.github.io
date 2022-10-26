@@ -46,8 +46,8 @@ let bgmSound, hoverSound, clickSound;
 window.addEventListener('load', function(){
   bgmSound = new parent.Howl({ src: ["/user_interface/sounds/looping_bgm_stereo_therapy."+parent.audioFileExtension], loop: true });
   bgmSound.once('load', function(){
-    setTimeout(function () {   bgmSound.play(); bgmSound.fade(0,0.4,15000);   }, 4000);
-    setTimeout(function () {   bgmSound.fade(0.4,0,15000);   }, 27000);
+    setTimeout(function () {   bgmSound.play(); bgmSound.fade(0,0.6,15000);   }, 4000);
+    setTimeout(function () {   bgmSound.fade(0.6,0,15000);   }, 27000);
   });
   hoverSound = new parent.Howl({  src: ["/user_interface/sounds/section_as_button_hover."+parent.audioFileExtension]  });
   clickSound = new parent.Howl({  src: ["/user_interface/sounds/section_as_button_click."+parent.audioFileExtension]  });

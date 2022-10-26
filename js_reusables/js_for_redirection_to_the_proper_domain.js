@@ -41,23 +41,29 @@ switch (window.location.hostname) {
 }
 
 function whatIfUserInterfaceLangAndBrowserLangAreDifferent() {
-  // Check if there is an available domain where UI language is user's browser language
-  switch (browserLanguage) {
-    case "en":
-      // Ask if user wants to go to speakworldlanguages.app or stay
-      break;
-    case "tr":
-      // Ask if user wants to go to dilogrenherkeslekonus.com or stay // Soru: Türkçe + UI language » Seçenekler: Örneğin UI "en" imişse 1-[No, don't change](UI) 2-[Evet, Türkçe olsun](browser)
-      break;
-    case "ja":
-      // Ask if user wants to go to hanaserutoiidesuy.one or stay
-      break;
-    case "zh": // TAIWAN is zh-TW, no?
-      // Ask if user wants to go to tingdongshijiederenmen.com or stay
-      break;
+  if (!localStorage.userHasAlreadyChosenNotToChangeUILanguage) {
+    // Check if there is an available domain where UI language is user's browser language
+    switch (browserLanguage) {
+      case "en":
+        // Ask if user wants to go to speakworldlanguages.app or stay
+        if (confirm("Would you like to view the app in English?") == true) { top.location.assign("https://speakworldlanguages.app"); }
+        else { localStorage.userHasAlreadyChosenNotToChangeUILanguage = "yes"; }
+        break;
+      case "tr":
+        // Ask if user wants to go to dilogrenherkeslekonus.com or stay
+        break;
+      case "ja":
+        // Ask if user wants to go to hanaserutoiidesuy.one or stay
+        if (confirm("アプリを八島語（＝日本語）で開けましょうか？") == true) { top.location.assign("https://hanaserutoiidesuy.one"); }
+        else { localStorage.userHasAlreadyChosenNotToChangeUILanguage = "yes"; }
+        break;
+      case "zh": // TAIWAN is zh-TW, no?
+        // Ask if user wants to go to tingdongshijiederenmen.com or stay
+        break;
 
-    default:
-      // A clone in user's browser language is not available yet; so do nothing and stay
+      default:
+        // A clone in user's browser language is not available yet; so do nothing and stay
+    }
   }
 }
 
@@ -70,7 +76,7 @@ if (self === top) {
     document.body.style.opacity = "0.1";
     setTimeout(function () {
       if (confirm("(×_×) → (⌒▽⌒) ?")) {
-        top.location = self.location;
+        top.location.assign(self.location.href);
       }
     },7000);
 }

@@ -1,5 +1,6 @@
 "use strict";
 // THIS IS TOTALLY OUTDATED and DEPRECATED
+// MUST BE WRITTEN FROM SCRATCH
 /* ____ PWA ____ */
 const installButton = document.getElementById('footerInstallID');
 const allowNotificationButton = document.getElementById('footerNotificationID'); // Same thing is named clickToSubscribe in notify_**.js
@@ -140,8 +141,7 @@ function whetherTheAppIsRunningStandaloneF() {
     localStorage.appInstallationWasAccepted = "absolutely"; // This opens a door to cheating -> If a first time user typed "index.html?homescreen" into the browser's address bar, the app would falsely accept itself as installed. But we don't expect that to happen.
     /*We don' want any install prompts anymore: Not certain whether this is really necessary but can't be too safe*/
     window.removeEventListener("beforeinstallprompt",turnNotificationIntoInstallation);
-    /*We don't need the rotating-globe tab-icon animation*/
-    fixedTitleWhenStandalone(); // See js_for_icon_and_title_animation
+
     //titleAnimationIsUnnecessaryForStandalone.parentNode.removeChild(titleAnimationIsUnnecessaryForStandalone);
     // If this is the first time in standalone mode we should let user see the notifications button
   } else { // The app is in the browser; not in standalone mode

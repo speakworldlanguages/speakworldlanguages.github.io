@@ -1,8 +1,6 @@
 main{
-  /*The exact same gradient with the OLD parent-main-menu background*/
   background-image: linear-gradient(#becbd5,#dbe2e8); /* We need this in photo-pair lessons. BUT WE NEED A FLAT COLOR in interactables */
   /*Also see css_for_lessons_with_interactables*/
-  /*FIND THE top:0; left:0; bottom:0; right:0; TECHNIQUE in css_for_all_iframed_lesson_htmls*/
 }
 
 /* -- PHOTO PAIRS -- */
@@ -72,7 +70,7 @@ main{
 #video1, #video2{
   border-radius: 15px;
   border: 10px solid white;
-  /* height: 62vh; */ /*Set width or height inline for each and perhaps set verticals accordingly */
+  /*Set width or height inline for each and perhaps set verticals accordingly */
 }
 /*Changing animationPlayState to "paused" is NOT ACCURATE ENOUGH: Pausing-unpausing in the middle is too unreliable on mobiles*/
 .videoAppearsOverPhotos{  animation-name: videoAppearAnim; animation-timing-function: ease; animation-fill-mode: forwards;  }

@@ -1,10 +1,17 @@
 "use strict";
+/*
+function preventIconAndTitleAnimation() { // Usable in case it becomes necessary
+  window.removeEventListener("load",dynamicTitleF);
+  window.removeEventListener("load",startAndLoopTheAnimationOfIcon);
+}
+*/
+
 // Dynamic titles are cool!
 window.addEventListener("load",dynamicTitleF,{once:true});
-let stopItWhenStandalone; // As of july 2022 there has been no use case for clearInterval(stopItWhenStandalone);
+let theTickerThatChangesTheTitle;
 const theParentHtmlTitle = document.title;
 function dynamicTitleF() {
-  stopItWhenStandalone = setInterval( function ()
+  theTickerThatChangesTheTitle = setInterval( function ()
   {
     if (ayFreym.contentWindow.document.title) {
       document.title = ayFreym.contentWindow.document.title;
@@ -12,10 +19,7 @@ function dynamicTitleF() {
     setTimeout( function ()  {   document.title = theParentHtmlTitle;   },3000);
   } , 6000);
 }
-function fixedTitleWhenStandalone() { // js_for_pwa.js
-  window.removeEventListener("load",dynamicTitleF);
-  window.removeEventListener("load",startAndLoopTheAnimationOfIcon);
-}
+
 //Animated favicon
 const iconElement = document.getElementById("icon");
 

@@ -23,14 +23,14 @@
 @media (orientation:portrait) {
   .containerOfBilingualLongButtonMOBILE{width: 90vw;}
   .containerOfBilingualLongButtonDESKTOP{width: 90vw;}
-@media (max-width: 799px) { .bilingualLongButton{font-size: 17px;} /*.containerOfBilingualLongButton{bottom:28vmin;}*/ }
-@media (max-width: 599px) { .bilingualLongButton{font-size: 15px;} /*.containerOfBilingualLongButton{bottom:32vmin;}*/ }
+@media (max-width: 799px) { .bilingualLongButton{font-size: 17px;} }
+@media (max-width: 599px) { .bilingualLongButton{font-size: 15px;} }
 }
 @media (orientation:landscape) {
   .containerOfBilingualLongButtonMOBILE{width: 70vw;}
   .containerOfBilingualLongButtonDESKTOP{width: 70vw;}
-@media (max-height: 799px) { .bilingualLongButton{font-size: 17px;} /*.containerOfBilingualLongButton{bottom:28vmin;}*/ }
-@media (max-height: 599px) { .bilingualLongButton{font-size: 15px;} /*.containerOfBilingualLongButton{bottom:32vmin;}*/ }
+@media (max-height: 799px) { .bilingualLongButton{font-size: 17px;} }
+@media (max-height: 599px) { .bilingualLongButton{font-size: 15px;} }
 }
 
 .leftHalf{

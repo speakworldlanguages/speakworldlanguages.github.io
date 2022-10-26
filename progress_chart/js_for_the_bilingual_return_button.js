@@ -43,13 +43,7 @@ if (deviceDetector.isMobile) {
   function eitherTouch2F() {
     setTimeout(function () { goBackToWelcomeScreenLanguageSelection();  }, 75); // Confirm box must not block touchend in preventTouchConflictWithTheSlidingNavMenu
   }
-  /* Don't need these when using stopPropagation INLINE
-  leftText1.parentNode.addEventListener("touchstart",preventConflict);
-  rightText1.parentNode.addEventListener("touchstart",preventConflict);
-  function preventConflict(event) { event.preventDefault(); event.stopPropagation(); // CAN: Quit using event.stopPropagation(); if it must bubble
-    // Solve touch conflict with INLINE stopPropagation instead of parent.preventTouchConflictWithTheSlidingNavMenu(leftText1.parentNode); // Either is OK, since they are parented by the same thing. See js_for_the_sliding_navigation_menu
-  }
-  */
+
 } else {
   /*DESKTOPS*/
   document.getElementById('containerID').addEventListener("mouseenter",eitherHoverF); // Parent of parent
@@ -69,6 +63,9 @@ if (deviceDetector.isMobile) {
   }
 }
 
+// 700ms "everyThingFadesToBlack" css class must exist at parent level » NOT in this document's css
+// So it exists in css_for_preloader_and_orbiting_circles
+// ALSO SEE handleFadingAndNavigation in progress.js and js_for_app_initialization_in_parent
 function goBackToWelcomeScreenLanguageSelection() {
   /* Remove THE HOME ceramic nav button */
   if (parent.containerDivOfTheNavigationMenu.contains(parent.clickToGoToMainMenuDiv)) { // Guarantee that the app won't break
@@ -83,22 +80,12 @@ function goBackToWelcomeScreenLanguageSelection() {
 
       parent.ayFreym.src = "/user_interface/blank.html";
       parent.document.getElementsByTagName('MAIN')[0].style.left = "0px"; // Was hidden with 8000px
-      ////parent.theStudyHasStarted = false;
 
-      // We must bring the sliding nav menu back to its initial FIXED state
-      // It looks like confirm box was creating a conflict with touchend in preventTouchConflictWithTheSlidingNavMenu
-      // so we were (then) fixing that manually
-      /*
-      Probably don't need these when using stopPropagation method instead of preventTouchConflictWithTheSlidingNavMenu
-      parent.topContainerDivOfTheSlidingNavMenuForMobiles.style.bottom = "0vh";
-      ////parent.swipeNavMenuIsLocked = false;
-      */
-      // ALSO DON'T NEED this because it is handled by blank.html » parent.makeTheNavMenuComeUpOnMobiles(); // Function checks if the menu was up already,,, so it's safe
-      // Sliding nav menu will be fixed (i.e. it won't move) on welcome screen as there are no touch listeners on parent.window
-    },1111); // Should we wait long enough to allow touchend to happen in preventTouchConflictWithTheSlidingNavMenu???
+      // DON'T NEED this because it is handled by blank.html » parent.makeTheNavMenuComeUpOnMobiles(); // Note that, the function checks if the menu was up already,,, so it's safe to call
+      // Sliding nav menu will be fixed (i.e. it won't move) on welcome screen as there are no touch listeners on parent.window i.e. swipes only work on the iframe window
+    },1111);
 
   } else {
-    // Canceled » User changed his/her mind and wants to stay
+    // confirm box was canceled » User changed his/her mind and wants to stay
   }
-
 }

@@ -25,8 +25,9 @@ window.addEventListener('DOMContentLoaded', function(){
 
 // REMEMBER: Wait for “userInterfaceLanguage” variable to be ready. See js_for_every_single_html.js
 window.addEventListener('load', function(){
-
-  parent.stopTheTimerToSeeIfNextLessonLoadedFastEnough(); // We have to do it manually here because about/index.html does not include js_for_all_iframed_lesson_htmls as an EXCEPTION » See js_for_app_initialization_in_parent
+  setTimeout(function () {
+    parent.stopTheTimerToSeeIfNextLessonLoadedFastEnough(); // We have to do it manually here because about/index.html does not include js_for_all_iframed_lesson_htmls as an EXCEPTION » See js_for_app_initialization_in_parent
+  }, 1000); // Try to make sure beforeunload from previous html doesn't get late and fire after the load event of this html
 
   if (needLatinFonts) {
     if (deviceDetector.device == "desktop") {

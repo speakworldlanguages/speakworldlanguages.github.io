@@ -314,7 +314,7 @@ function playPictogramLoop() { // Fires when blur has 55% cleared towards focus 
                 },(changeTime-400)); // back to start
               },(changeTime-600)); // Back to initial pose
             },(changeTime+3000)); // Bubble disappears
-          },(changeTime+3300+waitTime)); // From bubble 1 to bubble 2
+          },(changeTime+4900+waitTime)); // From bubble 1 to bubble 2
         },(changeTime-300)); // Bubble 1 appears
       },(changeTime-100)); // Look at the camera again
     },(changeTime+100)); // Arm does its second pointing movement

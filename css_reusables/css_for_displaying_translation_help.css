@@ -24,8 +24,6 @@
 }
 .theMobilesKanjiFontAdjustP{ /*-*/
   font-size: 22px;
-  font-weight: bold;
-  -webkit-text-stroke: .5px #a6c6de;
 }
 /* DESKTOPS */
 .translationBoxOnDesktopsSizePosition{pointer-events: none; position:fixed; left:0px; top:83vh; width:100vw; height:120px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .3s;} /*-*/

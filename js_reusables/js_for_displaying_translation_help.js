@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', function(){
     injectTextIntoTheHelpBoxP.classList.add("thetranslationAssistanceOnMobilesP"); // See css_for_displaying_translation_help.css
     letTheUserSeeTheTranslation.appendChild(injectTextIntoTheHelpBoxP);
     if (userInterfaceLanguage == "ja") {
-      injectTextIntoTheHelpBoxP.classList.add("theMobilesKanjiFontAdjustP");
+      injectTextIntoTheHelpBoxP.classList.add("theMobilesKanjiFontAdjustP"); // See css_for_displaying_translation_help.css
     }
     /**/
     imgInsideTouchableArea = document.createElement("IMG"); imgInsideTouchableArea.setAttribute('draggable', false); // Disable HTML dragging,,, not touchstrat dragging!
@@ -61,7 +61,7 @@ window.addEventListener('DOMContentLoaded', function(){
     injectTextIntoTheHelpBoxP.classList.add("thetranslationAssistanceOnDesktopsP"); // See css_for_displaying_translation_help.css
     letTheUserSeeTheTranslation.appendChild(injectTextIntoTheHelpBoxP);
     if (userInterfaceLanguage == "ja") {
-      injectTextIntoTheHelpBoxP.classList.add("theDesktopsKanjiFontAdjustP");
+      injectTextIntoTheHelpBoxP.classList.add("theDesktopsKanjiFontAdjustP"); // See css_for_displaying_translation_help.css
     }
     /**/
     layerOfGlassmorphism = document.createElement("DIV");

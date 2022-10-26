@@ -1,7 +1,7 @@
 "use strict";
 // This is included in parent htmls only. Not in lesson htmls.
 // Even though this is deferred, looks like we still need to wait for the load event before we call a function from another js file.
-// iPhone-Safari won't allow fullscreen as of 2021
+// iPhone-Safari won't allow fullscreen as of 2022 UNLESS the app is added to HOMESCREEN and started from there
 // See js_for_different_browsers_and_devices ... Also see js_for_the_sliding_navigation_menu
 let enterSound, exitSound, touchstartSound; // DEPRECATED: let rightClickSound;
 
@@ -129,7 +129,6 @@ function openFullscreen() {
     theWholeDocument = window.top.document.body; //To break out of frame in IE
     theWholeDocument.msRequestFullscreen();
   }
-  /* DEPRECATED: Used to handle audio on mobile with RESIZE*/ // See js_for_the_sliding_navigation_menu.js //
 }
 
 /* Function to close fullscreen mode */
@@ -152,7 +151,7 @@ function handleChangeToFullscreen() { // Fires both desktop and mobile » See th
     addExtraHeightToNavMenuEtc(); // See js_for_the_sliding_navigation_menu
   }
 }
-// var exitingFullscreenShouldReleaseTheSwipeMenu = false; // CAN CONTROL THIS from js_for_all_iframed_lesson_htmls
+
 function handleChangeBackToVisibleAddressBar() { // Fires both desktop and mobile » See the fullscreenchange event below
   exitSound.play();
   if (deviceDetector.isMobile) { // No need to handle iOS - Android differently » iPhones (as of 2022) never fire fullscreenchange event

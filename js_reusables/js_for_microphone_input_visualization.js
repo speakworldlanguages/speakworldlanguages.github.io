@@ -51,6 +51,7 @@ function startAudioInputVisualization() {
 }
 
 function stopAudioInputVisualization() {
+  // ISSUE THAT NEEDS SERIOUS CARE: Safari doesn't allow mic permanently; it allows for only 1 listening session and prompts for permission everytime mic restarts
   if (deviceDetector.device=="desktop") {
     wavesurfer.microphone.stop();
     waveformContainerDiv.classList.remove("addThisToMakeItFadeIn"); // Immediate disappearance is OK » See css_for_wavesurfer_microphone_divs.css

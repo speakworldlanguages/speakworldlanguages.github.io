@@ -24,10 +24,8 @@ a.openAboutPageAnchor:active{}
 /* Handle */
 ::-webkit-scrollbar-thumb {
   width: 8px;
-  /* background: rgba(229,245,255,0.95); */
   background: rgba(82,110,133,0.4);
   border-radius: 3px;
-  /* box-shadow: 0 0 2px rgba(217,238,252,0.9); */
   box-shadow: inset 0 0 2px rgba(229,245,255,0.95);
 }
 /* Handle on hover */
