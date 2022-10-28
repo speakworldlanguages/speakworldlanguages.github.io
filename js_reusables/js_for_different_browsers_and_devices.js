@@ -3,7 +3,7 @@ var willUserTalkToSpeechRecognition = false;
 var detectedBrowser, detectedBrowserName;
 var detectedOS;
 var detectedBrand, detectedBrandName;
-var audioFileExtension = "ogg"; // Default to ogg except for Safari // Ogg is better than mp3 but Safari won't play it.
+// DEPRECATED var audioFileExtension = "ogg"; // Default to ogg except for Safari // Ogg is better than mp3 but Safari won't play it.
 var isApple = false;
 var isSafari = false;
 var isAndroid = false;
@@ -20,7 +20,7 @@ function tryToKeepTheScreenON() {
   }).catch(error => {console.log(error);});
 }
 
-if ('wakeLock' in navigator) {  tryToKeepTheScreenON();  }
+if ('wakeLock' in navigator) {  tryToKeepTheScreenON();  } // Also see js_for_all_iframed_lesson_htmls and find window.onload
 // Also see visibilitychange below to see how wake-lock is reacquired after being lost due to tab navigation or pressing the OFF button
 
 window.addEventListener('DOMContentLoaded', function(){
@@ -33,7 +33,7 @@ window.addEventListener('DOMContentLoaded', function(){
   /* DESPITE: Being sick of writing special code for Apple */
   if (detectedOS.name == "iOS" || detectedOS.name == "Mac OS" || detectedBrandName == "Apple") {
     Howler.usingWebAudio = false; // force html5 // Otherwise every alert mutes and unmutes all the sounds and it keeps toggling like that
-    audioFileExtension = "mp3";
+    // DEPRECATED audioFileExtension = "mp3";
     isApple=true;
   }
 

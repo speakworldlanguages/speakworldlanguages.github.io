@@ -26,8 +26,8 @@ window.addEventListener('DOMContentLoaded', function(){
   }
 
   // Glassy sounds for hover and click
-  const hoverSoundForGlassyButtons = new parent.Howl({  src: ["/user_interface/sounds/glass_button_hover."+parent.audioFileExtension]  }); // DESKTOPS ONLY! Could add code to disable it on mobile but guess it just works when left like this.
-  const clickSoundForGlassyButtons = new parent.Howl({  src: ["/user_interface/sounds/glass_button_click."+parent.audioFileExtension]  });
+  const hoverSoundForGlassyButtons = new parent.Howl({  src: ["/user_interface/sounds/glass_button_hover.webm"]  }); // DESKTOPS ONLY! Could add code to disable it on mobile but guess it just works when left like this.
+  const clickSoundForGlassyButtons = new parent.Howl({  src: ["/user_interface/sounds/glass_button_click.webm"]  });
 
   function mouseEnterGlassy() {
     hoverSoundForGlassyButtons.play();

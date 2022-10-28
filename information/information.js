@@ -35,7 +35,7 @@ window.addEventListener('DOMContentLoaded', function(){
     }
   }
 
-  clickSound = new parent.Howl({  src: ["/user_interface/sounds/financial_thirdparty_click."+parent.audioFileExtension]  }); // 1.3s is the climax and 2.6 is end of excitement
+  clickSound = new parent.Howl({  src: ["/user_interface/sounds/financial_thirdparty_click.webm"]  }); // 1.3s is the climax and 2.6 is end of excitement
   // ------- Fill the divs with text depending on the user interface language --------
   const filePathForLicense = "/LICENSE";
   fetch(filePathForLicense,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ const keepTheNiceLineBreaks = contentOfTheTxtFile.replace(/\n\s*/g, "<br>"); document.getElementById('putTheLicenseIntoThisP').innerHTML = keepTheNiceLineBreaks; });
@@ -143,7 +143,7 @@ function handleNavigationToPatreon() {
   }
   if (needLatinFonts) { firstLine.style.fontFamily = 'manheart, serif'; secondLine.style.fontFamily = 'manheart, serif'; }
   if (needHitoicJapaneseFonts) { firstLine.style.fontFamily = 'DFKai-SB, serif'; secondLine.style.fontFamily = 'DFKai-SB, serif'; } // kaiu.ttf exists in windows fonts by default, no?
-  
+  //---
   setTimeout(function(){ markContainerDIV.appendChild(firstLine); markContainerDIV.appendChild(secondLine); },4000);
   setTimeout(function(){ firstLine.style.opacity = "1";  },4500);
   setTimeout(function(){ secondLine.style.opacity = "1";  },6500);

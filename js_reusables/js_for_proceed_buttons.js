@@ -4,8 +4,8 @@
 /* SECTION element is turned into the button for [Next] in author's notice */
 window.addEventListener('DOMContentLoaded', function(){
 
-  const hoverSoundForAddressElementAsButton = new parent.Howl({  src: ["/user_interface/sounds/address_as_button_hover."+parent.audioFileExtension]  });
-  const clickSoundForAddressElementAsButton = new parent.Howl({  src: ["/user_interface/sounds/address_as_button_click."+parent.audioFileExtension]  });
+  const hoverSoundForAddressElementAsButton = new parent.Howl({  src: ["/user_interface/sounds/address_as_button_hover.webm"]  });
+  const clickSoundForAddressElementAsButton = new parent.Howl({  src: ["/user_interface/sounds/address_as_button_click.webm"]  });
   const allAddressButtonElementsAreInThisArray = document.getElementsByTagName("ADDRESS");
   let i;
   for (i = 0; i < allAddressButtonElementsAreInThisArray.length; i++)

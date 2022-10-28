@@ -1,8 +1,8 @@
 "use strict";
 
 const allNavElements = document.getElementsByTagName('NAV');
-const hoverProgress = new parent.Howl({  src: ["/user_interface/sounds/progress_chart_hover."+parent.audioFileExtension]  });
-const clickProgress = new parent.Howl({  src: ["/user_interface/sounds/progress_chart_click."+parent.audioFileExtension]  });
+const hoverProgress = new parent.Howl({  src: ["/user_interface/sounds/progress_chart_hover.webm"]  });
+const clickProgress = new parent.Howl({  src: ["/user_interface/sounds/progress_chart_click.webm"]  });
 let local_i_in_progress; // var i was already or could be declared somewhere else
 for (local_i_in_progress = 0; local_i_in_progress < allNavElements.length; local_i_in_progress++)
 {

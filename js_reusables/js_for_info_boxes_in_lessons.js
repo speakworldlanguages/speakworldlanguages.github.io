@@ -16,8 +16,8 @@ function handleOKButtonText(receivedTxt) {
   else { okButtonToCloseTheNotification.innerHTML = receivedTxt.split("|")[1]; } // Heads or tails
 }
 
-const popUpNotificationSound = new parent.Howl({  src: ["/user_interface/sounds/notification1_appear."+parent.audioFileExtension]  });
-const dismissNotificationSound = new parent.Howl({  src: ["/user_interface/sounds/notification1_close."+parent.audioFileExtension]  });
+const popUpNotificationSound = new parent.Howl({  src: ["/user_interface/sounds/notification1_appear.webm"]  });
+const dismissNotificationSound = new parent.Howl({  src: ["/user_interface/sounds/notification1_close.webm"]  });
 
 /*FUNCTION DECLARATION*/
 function createAndHandleInfoBoxType1(isAmidLessonOrNot) {
@@ -94,8 +94,8 @@ fetch(wavesurferButton1Button2Path,myHeaders).then(function(response){return res
   listenAgainButtonTxt = contentOfTheTxtFile.split("|")[1];
   startButtonTxt = contentOfTheTxtFile.split("|")[2];
 });
-const popUpVocabularySound = new parent.Howl({  src: ["/user_interface/sounds/notification3_appear."+parent.audioFileExtension]  });
-const dismissVocabularySound = new parent.Howl({  src: ["/user_interface/sounds/notification3_close."+parent.audioFileExtension]  });
+const popUpVocabularySound = new parent.Howl({  src: ["/user_interface/sounds/notification3_appear.webm"]  });
+const dismissVocabularySound = new parent.Howl({  src: ["/user_interface/sounds/notification3_close.webm"]  });
 
 /*FUNCTION DECLARATION*/
 function createAndHandleListenManyTimesBox(filePathOfTheAudio) {

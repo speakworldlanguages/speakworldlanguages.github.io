@@ -44,13 +44,13 @@ window.addEventListener('DOMContentLoaded', function(){
 
 let bgmSound, hoverSound, clickSound;
 window.addEventListener('load', function(){
-  bgmSound = new parent.Howl({ src: ["/user_interface/sounds/looping_bgm_stereo_therapy."+parent.audioFileExtension], loop: true });
+  bgmSound = new parent.Howl({ src: ["/user_interface/sounds/looping_bgm_stereo_therapy.webm"], loop: true });
   bgmSound.once('load', function(){
     setTimeout(function () {   bgmSound.play(); bgmSound.fade(0,0.6,15000);   }, 4000);
     setTimeout(function () {   bgmSound.fade(0.6,0,15000);   }, 27000);
   });
-  hoverSound = new parent.Howl({  src: ["/user_interface/sounds/section_as_button_hover."+parent.audioFileExtension]  });
-  clickSound = new parent.Howl({  src: ["/user_interface/sounds/section_as_button_click."+parent.audioFileExtension]  });
+  hoverSound = new parent.Howl({  src: ["/user_interface/sounds/section_as_button_hover.webm"]  });
+  clickSound = new parent.Howl({  src: ["/user_interface/sounds/section_as_button_click.webm"]  });
 
   if (deviceDetector.isMobile) {
     clonedButtons0.addEventListener("touchstart",function (event) { event.preventDefault(); event.stopPropagation(); hoverSound.play(); });
