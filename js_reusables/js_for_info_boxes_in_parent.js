@@ -125,7 +125,7 @@ function createAndHandleGoBackOrProceedBox() {
     }
     function proceedButtonIsClicked() {
       closeTheBoxSound.play();
-      // Play disappear animation and remove and proceed (long gone the deprecated alert box)
+      // Play disappear animation and remove and proceed
       hideTheSaveLoadBoxAndDismissTheNotice();
       // WHY? IT WORKED BUT » document.body.removeChild(saveLoadInfoBoxContainerDIV); was causing an error after its first usage (from 2nd time and on)
       setTimeout(function () { resolve(true); },350); // Let the .then().catch() fire in js_for_app_init

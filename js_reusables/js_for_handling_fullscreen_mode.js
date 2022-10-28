@@ -3,7 +3,7 @@
 // Even though this is deferred, looks like we still need to wait for the load event before we call a function from another js file.
 // iPhone-Safari won't allow fullscreen as of 2022 UNLESS the app is added to HOMESCREEN and started from there
 // See js_for_different_browsers_and_devices ... Also see js_for_the_sliding_navigation_menu
-let enterSound, exitSound, touchstartSound; // DEPRECATED: let rightClickSound;
+let enterSound, exitSound, touchstartSound;
 
 var hasGoneFullscreen = false;
 // Go fullscreen by touching anywhere on the screen.
@@ -39,13 +39,11 @@ window.addEventListener("load",function() {
     }
   } else {
     // DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS
-    // DEPRECATED: rightClickSound = new Howl({  src: ["/user_interface/sounds/right_click_for_fullscreen."+audioFileExtension]  });
     // THE RIGHT CLICK METHOD ON DESKTOPS
     var currentSrcParsed;
     // Every time the iframe is loaded, add the custom context menu to either the parent document or the framed document.
     iFrameLocalConst.addEventListener("load",iframeHasBeenLoadedOnDesktopBrowser); // MUST NOT use once:true as with every new html the DOM within the iframe is destroyed and rebuilt
     function iframeHasBeenLoadedOnDesktopBrowser() {
-      // DEPRECATED: currentSrcParsed = iFrameLocalConst.src.substring(iFrameLocalConst.src.length - 10, iFrameLocalConst.src.length-5); // Get the name of the html file from a string like "/user_interface/blank.html"
       const currentSrc = iFrameLocalConst.src;
       // When user is viewing the main menu
       if (currentSrc.search("blank.html") >= 0) { // At the welcome screen
@@ -84,7 +82,6 @@ var x,y;
 function coordinatesF(event) {   x=event.clientX;  y=event.clientY;     }
 
 function rightClickHandlerFunction(event) {
-  // DEPRECATED: rightClickSound.play();
   event.preventDefault();
   if (!hasGoneFullscreen) {
     goFullscreenWebp.style.display = "block";

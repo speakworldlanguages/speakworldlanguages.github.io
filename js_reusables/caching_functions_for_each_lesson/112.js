@@ -24,60 +24,33 @@ async function cacheAssetsOfLesson112() {
     "/lessons_in_iframes/level_1/unit_1/lesson_2/c10.webp",
     "/lessons_in_iframes/level_1/unit_1/lesson_2/index.html",
     "/lessons_in_iframes/level_1/unit_1/lesson_2/water.js",
-    "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_1."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_2."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_3."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_4."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_5."+parent.audioFileExtension
+    "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_1.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_2.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_3.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_4.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_5.webm"
   ];
   if (parent.isApple || parent.detectedBrowser.name == "Firefox") {
     firstList.push(
       "/lessons_in_iframes/level_1/unit_1/lesson_2/v1_h264.mp4",
-      "/lessons_in_iframes/level_1/unit_1/lesson_2/v2_h264.mp4"/*,
-      "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_1.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_2.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_3.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_4.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_5.mp3"*/
+      "/lessons_in_iframes/level_1/unit_1/lesson_2/v2_h264.mp4"
     );
   } else {
     firstList.push(
       "/lessons_in_iframes/level_1/unit_1/lesson_2/v1_vp9.webm",
-      "/lessons_in_iframes/level_1/unit_1/lesson_2/v2_vp9.webm"/*,
-      "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_1.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_2.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_3.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_4.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_5.ogg"*/
+      "/lessons_in_iframes/level_1/unit_1/lesson_2/v2_vp9.webm"
     );
   }
 
   const secondList = [
-    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_1-2."+parent.audioFileExtension,
-    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_3."+parent.audioFileExtension,
-    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_4-5."+parent.audioFileExtension,
-    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_6."+parent.audioFileExtension,
-    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_7-8."+parent.audioFileExtension,
+    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_1-2.webm",
+    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_3.webm",
+    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_4-5.webm",
+    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_6.webm",
+    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_7-8.webm",
     "/lessons_in_iframes/level_1/unit_1/lesson_2/waterfall1.webp",
     "/lessons_in_iframes/level_1/unit_1/lesson_2/waterfall2.webp"
   ];
-  /*if (isApple) {
-    secondList.push(
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_1-2.mp3",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_3.mp3",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_4-5.mp3",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_6.mp3",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_7-8.mp3"
-    );
-  } else {
-    secondList.push(
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_1-2.ogg",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_3.ogg",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_4-5.ogg",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_6.ogg",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_7-8.ogg"
-    );
-  }*/
 
   let errorHappened = false;
   try {
@@ -97,5 +70,6 @@ async function cacheAssetsOfLesson112() {
 } // END OF cacheAssetsOfLesson112
 
 cacheAssetsOfLesson112();
+// CANNOT GO MODULAR (not a big problem) BECAUSE
 // Turns out async functions cannot be exported anyway but still note that
 // Android webview doesn't support the [default] keyword with export -> that is -> according to https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export

@@ -26,67 +26,30 @@ async function cacheAssetsOfLesson113() {
     "/lessons_in_iframes/level_1/unit_1/lesson_3/the_ground_repeat_x.webp",
     "/lessons_in_iframes/level_1/unit_1/lesson_3/the_table.webp",
     "/lessons_in_iframes/level_1/unit_1/lesson_3/tray_without_hand.webp",
-    "/lessons_in_iframes/level_1/unit_1/lesson_3/drag_the_glass_loop_1."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_3/drag_the_glass_loop_2."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_3/glass_on_porcelain."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_3/hover_on_the_glass."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_3/mousedown_touchstart."+parent.audioFileExtension
+    "/lessons_in_iframes/level_1/unit_1/lesson_3/drag_the_glass_loop_1.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_3/drag_the_glass_loop_2.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_3/glass_on_porcelain.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_3/hover_on_the_glass.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_3/mousedown_touchstart.webm"
   ];
-  /*if (isApple) {
-    firstList.push(
-      "/lessons_in_iframes/level_1/unit_1/lesson_3/drag_the_glass_loop_1.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_3/drag_the_glass_loop_2.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_3/glass_on_porcelain.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_3/hover_on_the_glass.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_3/mousedown_touchstart.mp3"
-    );
-  } else {
-    firstList.push(
-      "/lessons_in_iframes/level_1/unit_1/lesson_3/drag_the_glass_loop_1.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_3/drag_the_glass_loop_2.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_3/glass_on_porcelain.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_3/hover_on_the_glass.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_3/mousedown_touchstart.ogg"
-    );
-  }*/
-  let item1 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1_normal."+parent.audioFileExtension;
-  let item2 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1_slow."+parent.audioFileExtension;
-  let item3 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2_normal."+parent.audioFileExtension;
-  let item4 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2_slow."+parent.audioFileExtension;
-  let item5 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/thank_you."+parent.audioFileExtension;
+
+  let item1 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1_normal.webm";
+  let item2 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1_slow.webm";
+  let item3 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2_normal.webm";
+  let item4 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2_slow.webm";
+  let item5 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/thank_you.webm";
   if (parent.mustUseFemaleConjugationForCommandVerbs) { // See js_for_app_initialization_in_parent
-    item1 = item1.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-    item2 = item2.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-    item3 = item3.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-    item4 = item4.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-    item5 = item5.split(".")[0] + "_tofemale."+parent.audioFileExtension;
+    item1 = item1.split(".")[0] + "_tofemale.webm";
+    item2 = item2.split(".")[0] + "_tofemale.webm";
+    item3 = item3.split(".")[0] + "_tofemale.webm";
+    item4 = item4.split(".")[0] + "_tofemale.webm";
+    item5 = item5.split(".")[0] + "_tofemale.webm";
   }
   const secondList = [
     item1,    item2,    item3,    item4,    item5,
-    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give."+parent.audioFileExtension
+    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give.webm"
   ];
-  /*if (isApple) {
-    secondList.push(
-      "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1_normal.mp3",
-      "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1_slow.mp3",
-      "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2_normal.mp3",
-      "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2_slow.mp3",
-      "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give.mp3",
-      "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/thank_you.mp3"
-    );
-  } else {
-    secondList.push(
-      "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1_normal.ogg",
-      "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1_slow.ogg",
-      "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2_normal.ogg",
-      "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2_slow.ogg",
-      "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give.ogg",
-      "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/thank_you.ogg"
-    );
-  }*/
 
   let errorHappened = false;
   try {

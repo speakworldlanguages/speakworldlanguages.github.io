@@ -3,17 +3,19 @@
 // Some of the caching below is to shorten the waiting time between lessons
 // And some are only for offline mode or to make the app start faster at the second visit/run
 /*https://stackoverflow.com/questions/73237370/how-to-chain-caching-cache-your-assets-set-by-set-according-to-their-priority*/
+
+// UNCERTAIN: Can we expect this getTheseReadyFirst cache to actually speed up anything during the first fresh run?
 window.addEventListener("DOMContentLoaded",getTheseReadyFirst,{once:true});
 async function getTheseReadyFirst() {
   const urgentCache = await caches.open('asap');
   const topPriorityfiles = [
+    "/user_interface/html_icon/animated_globe_icon_39.png",
     "/user_interface/images/scrolly_globe_frames/250px_white_globe_60.webp",
     "/user_interface/sounds/ceramic_button_click.webm",
     "/user_interface/sounds/ceramic_button_hover.webm",
     "/user_interface/sounds/fullscreen_exit.webm",
     "/user_interface/sounds/fullscreen_open.webm",
     "/user_interface/sounds/illuminant_button_click.webm",
-    "/user_interface/sounds/notification3_appear.webm",
     "/user_interface/sounds/notification3_close.webm",
     "/user_interface/sounds/user_is_away.webm",
     "/user_interface/sounds/user_is_back.webm"
@@ -32,7 +34,10 @@ async function getTheseReadyFirst() {
     }
   }
 }
-window.addEventListener("load",welcomeScreenCacheHandling,{once:true}); // Run at least after DOMContentLoaded because -> js_for_different_browsers_and_devices.js
+
+// Variables from other js files are used below
+// therefore it must fire at least after DOMContentLoaded,,, See -> js_for_different_browsers_and_devices.js
+window.addEventListener("load",welcomeScreenCacheHandling,{once:true});
 function welcomeScreenCacheHandling() {
   setTimeout(afterSomeMilliseconds,500);
   function afterSomeMilliseconds() {
@@ -58,7 +63,8 @@ async function loadFilesDuringWelcomeScreen() {
   const groupZero = [
     // "/", // New buttons are expected to be added so we want the latest thing to show i.e. don't keep serving a stale outdated version while a fresh thing is available
     // "/index.html", // New buttons are expected to be added so we want the latest thing to show i.e. don't keep serving a stale outdated version while a fresh thing is available
-    "/user_interface/html_icon/animated_globe_icon_39.png",
+
+    // CSS files
     "/css_reusables/css_for_all_iframed_lesson_htmls.css",
     "/css_reusables/css_for_displaying_translation_help.css",
     "/css_reusables/css_for_every_single_html.css",
@@ -73,6 +79,7 @@ async function loadFilesDuringWelcomeScreen() {
     "/css_reusables/css_for_the_glassy_give_up_button.css",
     "/css_reusables/css_for_wavesurfer_microphone_divs.css",
 
+    // JS files
     // CONSIDER: if these js files are mature enough to be cached then cache them,,, otherwise let the browser get the latest/freshest version from the server
     // If frequently updated files must be cached for offline support then we must use cache versioning and delete the older ones
 
@@ -127,19 +134,16 @@ async function loadFilesDuringWelcomeScreen() {
   if (isApple || detectedBrowser.name == "Firefox") {
     firstGroup.push(
       "/lessons_in_iframes/level_1/unit_1/lesson_1/v1_h264.mp4",
-      "/lessons_in_iframes/level_1/unit_1/lesson_1/v2_h264.mp4"/*,
-      "/lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_1.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_2.mp3"*/
+      "/lessons_in_iframes/level_1/unit_1/lesson_1/v2_h264.mp4"
     );
   } else {
     firstGroup.push(
       "/lessons_in_iframes/level_1/unit_1/lesson_1/v1_vp9.webm",
-      "/lessons_in_iframes/level_1/unit_1/lesson_1/v2_vp9.webm"/*,
-      "/lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_1.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_1/what_bread_sounds_like_2.ogg"*/
+      "/lessons_in_iframes/level_1/unit_1/lesson_1/v2_vp9.webm"
     );
   }
 
+  // INFORMATION & ABOUT
   const secondGroup = [
     "/information/index.html",
     "/information/information.css",
@@ -152,6 +156,7 @@ async function loadFilesDuringWelcomeScreen() {
     "/LICENSE"
   ];
 
+  // PROGRESS CHART
   const thirdGroup = [
     "/progress_chart/images/bread.webp",
     "/progress_chart/images/givemewater1.webp",
@@ -164,6 +169,7 @@ async function loadFilesDuringWelcomeScreen() {
     // "/progress_chart/progress.js" -> We don't want to cache this as it is expected to be updated regularly
   ];
 
+  // UI SOUNDS & TEXTS
   let fourthGroup = [
     "/user_interface/sounds/address_as_button_click.webm",
     "/user_interface/sounds/address_as_button_hover.webm",
@@ -181,7 +187,7 @@ async function loadFilesDuringWelcomeScreen() {
     "/user_interface/sounds/notification1_close.webm",
     "/user_interface/sounds/notification2_appear.webm",
     "/user_interface/sounds/notification2_close.webm",
-
+    "/user_interface/sounds/notification3_appear.webm",
 
     "/user_interface/sounds/progress_chart_click.webm",
     "/user_interface/sounds/progress_chart_hover.webm",
@@ -190,11 +196,62 @@ async function loadFilesDuringWelcomeScreen() {
     "/user_interface/sounds/success1.webm",
     "/user_interface/sounds/success2.webm"
   ];
+  const o = "/user_interface/text/"+userInterfaceLanguage;
   fourthGroup.push(
-    "/user_interface/text/"+userInterfaceLanguage+"/0-about_saving_loading_users_progress.txt"
+    o+"/0-about_saving_loading_users_progress.txt",
+    o+"/0-allow_microphone_permanently_on_safari.txt",
+    o+"/0-allow_microphone.txt",
+    o+"/0-android_speech_timing.txt",
+    o+"/0-author_gives_sleep_advice.txt",
+    o+"/0-before_leaving_the_app_to_donate.txt",
+    o+"/0-cancel_proceed_good.txt",
+    o+"/0-continue_to_next.txt",
+    o+"/0-give_up_and_skip.txt",
+    o+"/0-if_browser_support_is_unknown.txt",
+    o+"/0-if_something_is_not_working.txt",
+    o+"/0-learn_another_language.txt",
+    o+"/0-network_connection_too_slow.txt",
+    o+"/0-ok_i_understand.txt",
+    o+"/0-paused_by_document_hidden.txt",
+    o+"/0-paused_by_the_pause_button.txt",
+    o+"/0-vocabulary_button1_button2.txt",
+    o+"/0-wait_or_reload.txt",
+    o+"/0-you_are_learning_ar.txt",
+    o+"/0-you_are_learning_en.txt",
+    o+"/0-you_are_learning_ja.txt",
+    o+"/0-you_are_learning_tr.txt",
+    o+"/0-you_are_learning_zh.txt",
+    //o+"/0-you_didnt_touch_click_allow.txt",
+    //o+"/0-you_must_touch_click_allow.txt",
+    o+"/1-1-1_arabic_tanween.txt",
+    o+"/1-1-1_british_vs_american.txt",
+    o+"/1-1-1_ren_intonation.txt",
+    o+"/1-1-2_hito_mizu_omizu.txt",
+    o+"/1-1-3_arabic_male_female.txt",
+    o+"/1-1-3_end_of_lesson_note.txt",
+    o+"/1-1-3_vocabulary_p1_p2.txt",
+    o+"/1-1-3a.txt",
+    o+"/1-1-3b.txt",
+    o+"/1-1-4_special_case_for_zh.txt",
+    o+"/1-1-4_vocabulary_p1_p2.txt",
+    o+"/1-1-4a.txt",
+    o+"/1-1-4b.txt",
+    o+"/1-1-notice_author_says.txt",
+
+
+
+    o+"/after_last_lesson_button.txt",
+    o+"/after_last_lesson_message.txt",
+    o+"/info_about_resources.txt",
+    o+"/info_go_back_button.txt",
+    o+"/info_index_html_title.txt",
+    o+"/info_monthly_option_base_usd.txt",
+    o+"/info_name_of_author.txt",
+    o+"/info_name_of_license.txt",
+    o+"/info_view_license_button.txt"
   );
 
-
+  // SCROLLY GLOBE - these will not quicken the load time in the first session but maybe in the second session and afterwards. May also be necessary for offline support if that ever happens.
   const p = "/user_interface/images/scrolly_globe_frames/250px_white_globe_";
   let fifthGroup = [
     p+"00.webp",p+"01.webp",p+"02.webp",p+"03.webp",p+"04.webp",p+"05.webp",p+"06.webp",p+"07.webp",p+"08.webp",p+"09.webp",
@@ -206,7 +263,7 @@ async function loadFilesDuringWelcomeScreen() {
                 p+"61.webp",p+"62.webp",p+"63.webp",p+"64.webp",p+"65.webp",p+"66.webp",p+"67.webp",p+"68.webp",p+"69.webp",
     p+"70.webp",p+"71.webp",p+"72.webp",p+"73.webp",p+"74.webp",p+"75.webp",p+"76.webp",p+"77.webp",p+"78.webp",p+"79.webp"
   ];
-  // frame60 is loaded asap, see above
+  // Note: frame60 (the first visible frame) is loaded asap, see above
   try {
     console.log("loadFilesDuringWelcomeScreen() will try to cache 6 groups of files...");
     // load group zero first
@@ -242,29 +299,13 @@ async function loadTheVoiceOfTheTeacherInLesson111() { // See setLangCodeForFile
   const myCache = await caches.open('secondary-assets-for-1-1-1'); // Create a new slot
 
   const listOfFiles = [
-    // fix this after tests // "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_1-2.webm",
-    // fix this after tests // "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_3.webm",
-    // fix this after tests // "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_4-5.webm",
-    // fix this after tests // "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_6.webm",
-    // fix this after tests // "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_7-8.webm"
+    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_1-2.webm",
+    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_3.webm",
+    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_4-5.webm",
+    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_6.webm",
+    "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_7-8.webm"
   ];
-  /*if (isApple) {
-    listOfFiles.push(
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_1-2.mp3",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_3.mp3",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_4-5.mp3",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_6.mp3",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_7-8.mp3"
-    );
-  } else {
-    listOfFiles.push(
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_1-2.ogg",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_3.ogg",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_4-5.ogg",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_6.ogg",
-      "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/bread_7-8.ogg"
-    );
-  }*/
+
   let errorHappened = false;
   try {
     console.log("Begin caching secondary-assets-for-1-1-1");

@@ -18,11 +18,11 @@ const filePathForTheWordOrPhrase = "/speech_recognition_answer_key/"+parent.lang
 fetch(filePathForTheWordOrPhrase,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theNewWordUserIsLearningNowAndPossibleMishaps = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
-const say1say2Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_1-2."+parent.audioFileExtension;
-const say3Path     = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_3."+parent.audioFileExtension;
-const say4say5Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_4-5."+parent.audioFileExtension;
-const say6Path     = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_6."+parent.audioFileExtension;
-const say7say8Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_7-8."+parent.audioFileExtension;
+const say1say2Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_1-2.webm";
+const say3Path     = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_3.webm";
+const say4say5Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_4-5.webm";
+const say6Path     = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_6.webm";
+const say7say8Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/water_7-8.webm";
 
 const sayAB = new parent.Howl({  src: [say1say2Path]  });
 const sayC  = new parent.Howl({  src: [say3Path]      });
@@ -30,13 +30,13 @@ const sayDE = new parent.Howl({  src: [say4say5Path]  });
 const sayF  = new parent.Howl({  src: [say6Path]      });
 const sayGH = new parent.Howl({  src: [say7say8Path]  });
 
-const whatWaterSoundsLike1 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_1."+parent.audioFileExtension]  });
-const whatWaterSoundsLike2 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_2."+parent.audioFileExtension]  });
-const whatWaterSoundsLike3 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_3."+parent.audioFileExtension]  });
-const whatWaterSoundsLike4 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_4."+parent.audioFileExtension]  });
-const whatWaterSoundsLike5 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_5."+parent.audioFileExtension]  });
-const successTone = new parent.Howl({  src: ["/user_interface/sounds/success2."+parent.audioFileExtension]  });
-const notificationDingTone = new parent.Howl({  src: ["/user_interface/sounds/ding."+parent.audioFileExtension]  });
+const whatWaterSoundsLike1 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_1.webm"]  });
+const whatWaterSoundsLike2 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_2.webm"]  });
+const whatWaterSoundsLike3 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_3.webm"]  });
+const whatWaterSoundsLike4 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_4.webm"]  });
+const whatWaterSoundsLike5 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_2/what_water_sounds_like_5.webm"]  });
+const successTone = new parent.Howl({  src: ["/user_interface/sounds/success2.webm"]  });
+const notificationDingTone = new parent.Howl({  src: ["/user_interface/sounds/ding.webm"]  });
 /* Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload. */
 function unloadTheSoundsOfThisLesson() {
   notificationDingTone.unload();

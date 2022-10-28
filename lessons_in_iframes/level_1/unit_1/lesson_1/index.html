@@ -86,26 +86,6 @@
         <img src="c9.webp"   class="positionAbsoluteImg" style="visibility:hidden;">
         <img src="c10.webp"   class="positionAbsoluteImg" style="visibility:hidden;">
     </div>
-    <!-- SKIP LOADING OF BIGGER FILES IF CONNECTION IS SLOW -->
-    <script>
-    /* DEPRECATED
-      window.addEventListener('DOMContentLoaded', function(){
-        // towards_bread.webp is 3,68MB,,,
-        function getConnectionForBread() {return navigator.connection || navigator.mozConnection || navigator.webkitConnection || navigator.msConnection;}
-        var internetForBread = getConnectionForBread();
-        if(internetForBread){ // Chrome, Edge, Opera, SamsungInternet » Check how fast the internet is right now (the moment of page load), thanks to NetworkInformation API
-          if(internetForBread.downlink>=2){ // Fast enough: Let it load and display
-            // Nothing to intervene
-          } else { removeTheBiggerFileFromTheList(); } // Too slow: Loading of file won't make it in time
-        } else {  } // Firefox, Safari » No information about network speed ,,, NetworkInformation API is not supported » Try to display the thing anyway
-
-      }, { once: true });
-
-      function removeTheBiggerFileFromTheList() { // Skip the big nice bread coming towards you img
-        const doWithout = document.getElementById('removeIfConnectionIsTooSlowID'); doWithout.parentNode.removeChild(doWithout);
-      }
-    */
-    </script>
 
     <!-- “Now it’s your turn” animation 5100ms -->
     <img id="nowYouSayItIMG" src="/user_interface/images/now_you_say_it_to_speech_recognition.webp" style="display:none;">

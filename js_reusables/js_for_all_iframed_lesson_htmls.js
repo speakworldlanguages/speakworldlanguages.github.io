@@ -121,7 +121,6 @@ window.onload = function() { // DANGER: Do not use window.onload anywhere else. 
   parent.preloadHandlingDiv.classList.remove("addThisClassToRevealThePreloader"); // See css_for_the_container_parent_html
   parent.preloadHandlingDiv.classList.add("addThisClassToHideThePreloader"); // See css_for_the_container_parent_html
 
-  // DEPRECATED: setTimeout(function () { thisLessonHasBeenLoadedFresh = false; },8000); // The idea was to change CAR MOVING BACKWARDS button from a go-back button into a refresh button.
 };
 
 

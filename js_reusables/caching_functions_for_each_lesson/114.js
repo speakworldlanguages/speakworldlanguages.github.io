@@ -37,60 +37,37 @@ async function cacheAssetsOfLesson114() {
     "/lessons_in_iframes/level_1/unit_1/lesson_4/the_ground_repeat_x.webp",
     "/lessons_in_iframes/level_1/unit_1/lesson_4/the_table.webp",
     "/lessons_in_iframes/level_1/unit_1/lesson_4/tray_without_hand.webp",
-    "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_0."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_1."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_2."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_3."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_4/user_contacts_bread."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_4/user_has_eaten_bread."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_4/user_starts_dragging_bread."+parent.audioFileExtension,
-    "/lessons_in_iframes/level_1/unit_1/lesson_4/user_takes_the_bread."+parent.audioFileExtension
+    "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_0.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_1.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_2.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_3.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_4/user_contacts_bread.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_4/user_has_eaten_bread.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_4/user_starts_dragging_bread.webm",
+    "/lessons_in_iframes/level_1/unit_1/lesson_4/user_takes_the_bread.webm"
   ];
-  /*if (isApple) {
-    firstList.push(
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_0.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_1.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_2.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_3.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/user_contacts_bread.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/user_has_eaten_bread.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/user_starts_dragging_bread.mp3",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/user_takes_the_bread.mp3"
-    );
-  } else {
-    firstList.push(
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_0.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_1.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_2.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/bite_3.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/user_contacts_bread.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/user_has_eaten_bread.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/user_starts_dragging_bread.ogg",
-      "/lessons_in_iframes/level_1/unit_1/lesson_4/user_takes_the_bread.ogg"
-    );
-  }*/
 
-  let item1 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_1_normal."+parent.audioFileExtension;
-  let item2 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_1_slow."+parent.audioFileExtension;
-  let item3 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_2_normal."+parent.audioFileExtension;
-  let item4 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_2_slow."+parent.audioFileExtension;
-  let item5 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_normal."+parent.audioFileExtension;
-  let item6 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_bread_normal."+parent.audioFileExtension;
-  let item7 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_slow."+parent.audioFileExtension;
-  let item8 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_bread_slow."+parent.audioFileExtension;
+  let item1 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_1_normal.webm";
+  let item2 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_1_slow.webm";
+  let item3 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_2_normal.webm";
+  let item4 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_2_slow.webm";
+  let item5 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_normal.webm";
+  let item6 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_bread_normal.webm";
+  let item7 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_slow.webm";
+  let item8 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_bread_slow.webm";
   if (parent.mustUseFemaleConjugationForCommandVerbs) { // See js_for_app_initialization_in_parent
-    item1 = item1.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-    item2 = item2.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-    item3 = item3.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-    item4 = item4.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-    item5 = item5.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-    item6 = item6.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-    item7 = item7.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-    item8 = item8.split(".")[0] + "_tofemale."+parent.audioFileExtension;
+    item1 = item1.split(".")[0] + "_tofemale.webm";
+    item2 = item2.split(".")[0] + "_tofemale.webm";
+    item3 = item3.split(".")[0] + "_tofemale.webm";
+    item4 = item4.split(".")[0] + "_tofemale.webm";
+    item5 = item5.split(".")[0] + "_tofemale.webm";
+    item6 = item6.split(".")[0] + "_tofemale.webm";
+    item7 = item7.split(".")[0] + "_tofemale.webm";
+    item8 = item8.split(".")[0] + "_tofemale.webm";
   }
   const secondList = [
     item1,    item2,    item3,    item4,    item5,    item6,    item7,    item8,
-    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take."+parent.audioFileExtension
+    "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take.webm"
   ];
 
   let errorHappened = false;

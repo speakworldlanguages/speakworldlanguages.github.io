@@ -129,7 +129,7 @@ if (needLatinFonts) {
 }
 
 if (needHitoicJapaneseFonts) {
-    /*GET FONTS*/
+    /*GET FONTS - REMEMBER: Kanji font files are not small like latin fonts. They are about 1.5MB each*/
     let kosugiFont;
     kosugiFont = new FontFace('Kosugi Maru', "url(/user_interface/fonts/KosugiMaru-Regular.ttf)"); // NOTE: File size is about 2.5 MB
     kosugiFont.load().then(function(loaded_face) {

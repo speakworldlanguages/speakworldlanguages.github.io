@@ -157,9 +157,9 @@ window.addEventListener('DOMContentLoaded', function(){
   // Handle lesson PAUSE with visibility change on mobile devices for return after tab navigation or when on/off button is pressed etc.
   // Use “var” (not “const”) for things that need to be accessible from elsewhere.
 
-  /* MAYBE this should be deprecated */
-  let continueAfterPauseMsgFromTxtFileInUILanguage = "Continue?"; // Get the actual text from txt file and use it instead of this default.
-  const filePathForTheContinueLessonText = "/user_interface/text/"+userInterfaceLanguage+"/0-continue_after_pause.txt";
+  /* Using alert() to pause the app when OFF button is pressed: It breaks down Firefox Mobile, but other browsers seem to be OK */
+  let continueAfterPauseMsgFromTxtFileInUILanguage = "Continue?"; // Or maybe something like WELCOME BACK can also work: Get the actual text from .txt file and use it instead of this default.
+  const filePathForTheContinueLessonText = "/user_interface/text/"+userInterfaceLanguage+"/0-paused_by_document_hidden.txt";
   fetch(filePathForTheContinueLessonText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ continueAfterPauseMsgFromTxtFileInUILanguage = contentOfTheTxtFile; }); // See js_for_every_single_html.js for the headers thingy.
 
 

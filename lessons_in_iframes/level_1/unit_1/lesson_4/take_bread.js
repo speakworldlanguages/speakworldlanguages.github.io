@@ -18,24 +18,24 @@ fetch(explanationPathA,myHeaders).then(function(response){return response.text()
 fetch(explanationPathB,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ explanationB = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
-let say1Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_1_normal."+parent.audioFileExtension;
-let say2Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_1_slow."+parent.audioFileExtension;
-let say3Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_2_normal."+parent.audioFileExtension;
-let say4Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_2_slow."+parent.audioFileExtension;
-let say5Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_normal."+parent.audioFileExtension;
-let say6Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_bread_normal."+parent.audioFileExtension;
-let say7Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_slow."+parent.audioFileExtension;
-let say8Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_bread_slow."+parent.audioFileExtension;
+let say1Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_1_normal.webm";
+let say2Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_1_slow.webm";
+let say3Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_2_normal.webm";
+let say4Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take_bread_2_slow.webm";
+let say5Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_normal.webm";
+let say6Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_bread_normal.webm";
+let say7Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_slow.webm";
+let say8Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/eat_bread_slow.webm";
 
 if (parent.mustUseFemaleConjugationForCommandVerbs) { // See js_for_app_initialization_in_parent
-  say1Path = say1Path.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-  say2Path = say2Path.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-  say3Path = say3Path.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-  say4Path = say4Path.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-  say5Path = say5Path.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-  say6Path = say6Path.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-  say7Path = say7Path.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-  say8Path = say8Path.split(".")[0] + "_tofemale."+parent.audioFileExtension;
+  say1Path = say1Path.split(".")[0] + "_tofemale.webm";
+  say2Path = say2Path.split(".")[0] + "_tofemale.webm";
+  say3Path = say3Path.split(".")[0] + "_tofemale.webm";
+  say4Path = say4Path.split(".")[0] + "_tofemale.webm";
+  say5Path = say5Path.split(".")[0] + "_tofemale.webm";
+  say6Path = say6Path.split(".")[0] + "_tofemale.webm";
+  say7Path = say7Path.split(".")[0] + "_tofemale.webm";
+  say8Path = say8Path.split(".")[0] + "_tofemale.webm";
 }
 let saySecondSet = false; // First set is say1 + say2,,, second set is say3 + say4
 const say1 = new parent.Howl({  src: [say1Path]  });
@@ -47,14 +47,14 @@ const say6 = new parent.Howl({  src: [say6Path]  });
 const say7 = new parent.Howl({  src: [say7Path]  });
 const say8 = new parent.Howl({  src: [say8Path]  });
 
-const touchClickBreadSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/user_contacts_bread."+parent.audioFileExtension]  });
-const startDraggingBreadSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/user_starts_dragging_bread."+parent.audioFileExtension]  });
-const bitingSound0 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/bite_0."+parent.audioFileExtension]  });
-const bitingSound1 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/bite_1."+parent.audioFileExtension]  });
-const bitingSound2 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/bite_2."+parent.audioFileExtension]  });
-const bitingSound3 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/bite_3."+parent.audioFileExtension]  });
-const winSound1 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/user_takes_the_bread."+parent.audioFileExtension]  });
-const finalSuccessSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/user_has_eaten_bread."+parent.audioFileExtension]  });
+const touchClickBreadSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/user_contacts_bread.webm"]  });
+const startDraggingBreadSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/user_starts_dragging_bread.webm"]  });
+const bitingSound0 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/bite_0.webm"]  });
+const bitingSound1 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/bite_1.webm"]  });
+const bitingSound2 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/bite_2.webm"]  });
+const bitingSound3 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/bite_3.webm"]  });
+const winSound1 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/user_takes_the_bread.webm"]  });
+const finalSuccessSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_4/user_has_eaten_bread.webm"]  });
 
 /* Sound init code is linked on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload. */
 function unloadTheSoundsOfThisLesson() {
@@ -159,7 +159,7 @@ function loadingIsCompleteFunction() {
 
 function startTheLesson() {
   // User must listen to wavesurfer vocabulary box no matter what language he/she is studying
-  const filePathOfTheAudioFile = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take."+parent.audioFileExtension;  // In case of "ar" wavesurfer box will play the verb root in male conjugation even if the user is female
+  const filePathOfTheAudioFile = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_4/take.webm";  // In case of "ar" wavesurfer box will play the verb root in male conjugation even if the user is female
   const wavesurferP1P2Path = "/user_interface/text/"+userInterfaceLanguage+"/1-1-4_vocabulary_p1_p2.txt"; // UI lang depends on domain (hostname) » See js_for_every_single_html
   fetch(wavesurferP1P2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleP1P2ActualText(contentOfTheTxtFile);  });
   // See js_for_info_boxes_in_lessons » iframe-lesson level
@@ -432,7 +432,6 @@ function updateTheBreadTaking(event) { // No need to stopPropagation of touchmov
 
   goodNumberInVhOrVmins = goodNumberInVhOrVmins/2;
   breadsFarAndNearDiv.children[0].style.marginTop = goodNumberInVhOrVmins + "vmin"; // children[1] is position relative so its marginTop will follow children[0] // Try vmin instead of vh
-  ////breadsFarAndNearDiv.style.marginLeft = ((goodNumberInPixels/244.352)*(-25)).toFixed(2) + "vmin";// left 50vw + width 50vmin // must go from 0 to -25 // OLD VERSION deprecated
   breadsFarAndNearDiv.children[0].style.opacity = farBreadOpacity.toFixed(1);
   breadsFarAndNearDiv.children[1].style.opacity = nearBreadOpacity.toFixed(1);
   breadsFarAndNearDiv.children[0].style.transform = "scale("+(100 + (goodNumberInPixels/244.352)*203.03).toFixed(2)+"%)";
@@ -479,7 +478,6 @@ function handleLettingGoBeforeSuccess() { // Allow propagation in this case so t
   }
   //---
   breadsFarAndNearDiv.children[0].style.marginTop = "0vmin"; // Try vmin instead of vh
-  ////breadsFarAndNearDiv.style.marginLeft = "0vmin"; // old version, deprecated
   breadsFarAndNearDiv.children[0].style.transform = "scale(100%)";
   breadsFarAndNearDiv.children[1].style.transform = "scale(33%)";
   breadsFarAndNearDiv.children[0].style.opacity = "1";

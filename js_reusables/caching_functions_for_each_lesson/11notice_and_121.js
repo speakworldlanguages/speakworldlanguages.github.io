@@ -35,4 +35,3 @@ async function cacheAssetsOfLesson11noticeAnd121() {
 } // END OF cacheAssetsOfLesson11noticeAnd121
 
 cacheAssetsOfLesson11noticeAnd121();
-// Android webview doesn't support the [default] keyword -> that is -> according to https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export

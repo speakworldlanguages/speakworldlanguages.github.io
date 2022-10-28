@@ -24,7 +24,7 @@ function touchEndProgressF(event)   { event.preventDefault(); // See stopPropaga
 }
 
 /* ---
-DON'T UNLOAD: In this case click sound needs time to finish playing. So what we must not do is,
+DON'T UNLOAD: In this case click sound needs time to finish playing. So what we must NOT do is,
 window.addEventListener("beforeunload",unloadSoundsF);
 function unloadSoundsF() { hoverProgress.unload(); clickProgress.unload(); }
 --- */

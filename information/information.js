@@ -143,7 +143,7 @@ function handleNavigationToPatreon() {
   }
   if (needLatinFonts) { firstLine.style.fontFamily = 'manheart, serif'; secondLine.style.fontFamily = 'manheart, serif'; }
   if (needHitoicJapaneseFonts) { firstLine.style.fontFamily = 'DFKai-SB, serif'; secondLine.style.fontFamily = 'DFKai-SB, serif'; } // kaiu.ttf exists in windows fonts by default, no?
-  //if (needHitoicJapaneseFonts) { }
+  
   setTimeout(function(){ markContainerDIV.appendChild(firstLine); markContainerDIV.appendChild(secondLine); },4000);
   setTimeout(function(){ firstLine.style.opacity = "1";  },4500);
   setTimeout(function(){ secondLine.style.opacity = "1";  },6500);

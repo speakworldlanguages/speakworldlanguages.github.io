@@ -1,8 +1,7 @@
 "use strict";
-// AUDIO INPUT WAVEFORM VISUALIZATION IS CPU INTENSIVE AND GOOD ON DESKTOPS ONLY. On mobile devices it is either too slow or incompatible with working together along with speech recognition.
-// DEPRECATED: During early stages of UI design, 2 or 4 instances of wavesurfer were running at the same time but in that case too much CPU was used.
+// AUDIO INPUT WAVEFORM VISUALIZATION IS CPU INTENSIVE. On Android devices it is either too slow or incompatible ->  Won't work together with speech recognition.
 // ALSO: There is a problem with making wavesurfer canvas width 100% on 1920x1080 desktop resolution. Use 50% and scaleX(2) instead!
-// NOTE: wavesurfer.js is on iframed lesson htmls and not on the container parent htmls.
+// NOTE: wavesurfer.js is included and run by iframed lesson htmls where necessary. It is not included by the container parent html.
 
 const waveformContainerDiv = document.createElement("DIV");
 waveformContainerDiv.id="waveform";

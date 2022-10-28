@@ -211,7 +211,7 @@ function removeExtraHeightFromNavMenuEtc() { // Triggered by exiting fullscreen 
 let mouseIsOnMenuTriggerArea = false;
 /*---*/
 let continueAfterPauseByNavMenuPauseButton = "Paused?"; // Get the actual text from txt file and use it instead of this default.
-const filePathForResumeAfterPausedByButton = "/user_interface/text/"+userInterfaceLanguage+"/0-lesson_is_paused_by_button.txt";
+const filePathForResumeAfterPausedByButton = "/user_interface/text/"+userInterfaceLanguage+"/0-paused_by_the_pause_button.txt";
 // See js_for_every_single_html.js for the headers thingy.
 fetch(filePathForResumeAfterPausedByButton,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ continueAfterPauseByNavMenuPauseButton = contentOfTheTxtFile; });
 /* NOTE: Looks like the function declarations could have been tidier */
@@ -239,7 +239,6 @@ window.addEventListener("load",function() {
     topContainerDivOfTheSlidingNavMenuForMobiles.appendChild(containerDivOfTheNavigationMenu);
     // SOLVED: Samsung Browser and Chrome were firing fullscreenchange and resize differently. 100ms delay before the boolean operations did the trick.
     // The Navigation Menu must appear only when user exits fullscreen. It MUST NOT APPEAR when device orientation is changed.
-    // DEPRECATED: window.addEventListener('resize', hideOrUnhideTheNavigationMenuOnMobilesDependingOnFullscreen);
     // SWIPE FROM BELOW TO BRING THE NAV MENU
 
     /* LET'S: Always show the swipe menu on the welcome screen (Choose the language you want to learn) */
@@ -660,7 +659,7 @@ window.addEventListener("load",function() {
 
   }
 
-  function goToMainMenuFunction() { // Actually to progress chart; not the starting screen // See progress.js and DEPRECATEDjs_for_preload_handling.js for other fade-navigation handling
+  function goToMainMenuFunction() { // Main menu = progress_chart
 
     let searchAndDetectLocation = ayFreym.src;
     let result = searchAndDetectLocation.search("progress_chart");

@@ -20,18 +20,18 @@ fetch(explanationPathA,myHeaders).then(function(response){return response.text()
 fetch(explanationPathB,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ explanationB = contentOfTheTxtFile; });
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
-let say1Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1_normal."+parent.audioFileExtension;
-let say2Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1_slow."+parent.audioFileExtension;
-let say3Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2_normal."+parent.audioFileExtension;
-let say4Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2_slow."+parent.audioFileExtension;
-let say5Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/thank_you."+parent.audioFileExtension;
+let say1Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1_normal.webm";
+let say2Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_1_slow.webm";
+let say3Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2_normal.webm";
+let say4Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give_me_water_2_slow.webm";
+let say5Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/thank_you.webm";
 
 if (parent.mustUseFemaleConjugationForCommandVerbs) { // See js_for_app_initialization_in_parent
-  say1Path = say1Path.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-  say2Path = say2Path.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-  say3Path = say3Path.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-  say4Path = say4Path.split(".")[0] + "_tofemale."+parent.audioFileExtension;
-  say5Path = say5Path.split(".")[0] + "_tofemale."+parent.audioFileExtension; // Shukran lak-a lak-e
+  say1Path = say1Path.split(".")[0] + "_tofemale.webm";
+  say2Path = say2Path.split(".")[0] + "_tofemale.webm";
+  say3Path = say3Path.split(".")[0] + "_tofemale.webm";
+  say4Path = say4Path.split(".")[0] + "_tofemale.webm";
+  say5Path = say5Path.split(".")[0] + "_tofemale.webm"; // Shukran lak-a lak-e
 }
 let saySecondSet = false;
 const say1 = new parent.Howl({  src: [say1Path]  });
@@ -40,12 +40,12 @@ const say3 = new parent.Howl({  src: [say3Path]  });
 const say4 = new parent.Howl({  src: [say4Path]  });
 const say5 = new parent.Howl({  src: [say5Path]  });
 
-const hoverSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_3/hover_on_the_glass."+parent.audioFileExtension]  });
-const mouseDownTouchStartSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_3/mousedown_touchstart."+parent.audioFileExtension]  });
-const disconnectionFromPlateSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_3/glass_on_porcelain."+parent.audioFileExtension]  });
-const draggingTheGlassSound1 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_3/drag_the_glass_loop_1."+parent.audioFileExtension] , loop:true });
-const draggingTheGlassSound2 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_3/drag_the_glass_loop_2."+parent.audioFileExtension] , loop:true });
-const winSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water."+parent.audioFileExtension]  });
+const hoverSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_3/hover_on_the_glass.webm"]  });
+const mouseDownTouchStartSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_3/mousedown_touchstart.webm"]  });
+const disconnectionFromPlateSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_3/glass_on_porcelain.webm"]  });
+const draggingTheGlassSound1 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_3/drag_the_glass_loop_1.webm"] , loop:true });
+const draggingTheGlassSound2 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_3/drag_the_glass_loop_2.webm"] , loop:true });
+const winSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_3/he_gets_the_water.webm"]  });
 /* Sound init code is linked on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload. */
 function unloadTheSoundsOfThisLesson() {
   winSound.unload();
@@ -116,7 +116,7 @@ function loadingIsCompleteFunction() {
 
 function startTheLesson() {
   // User must listen to wavesurfer vocabulary box no matter what language he/she is studying
-  const filePathOfTheAudioFile = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give."+parent.audioFileExtension; // In case of "ar" wavesurfer box will play the verb root in male conjugation even if the user is female
+  const filePathOfTheAudioFile = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_3/give.webm"; // In case of "ar" wavesurfer box will play the verb root in male conjugation even if the user is female
   const wavesurferP1P2Path = "/user_interface/text/"+userInterfaceLanguage+"/1-1-3_vocabulary_p1_p2.txt"; // UI lang depends on domain (hostname) » See js_for_every_single_html
   fetch(wavesurferP1P2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleP1P2ActualText(contentOfTheTxtFile);  });
   // See js_for_info_boxes_in_lessons » iframe-lesson level
