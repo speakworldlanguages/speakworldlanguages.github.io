@@ -13,16 +13,15 @@ let okTexts = "&#10004;|&#10004;"; // Default content of the OK box is a "tick â
 okButtonToCloseTheNotification1.innerHTML = okTexts.split("|")[0];
 okButtonToCloseTheNotification2.innerHTML = okTexts.split("|")[1];
 const pathOfOkCloseTheBox = "/user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
-fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ okTexts=contentOfTheTxtFile; });
+fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ okTexts=contentOfTheTxtFile; assignOKButtonText(); });
 function assignOKButtonText() {
-  if(Math.random()<0.5) {
+  if(Math.random()<0.5) { // Heads or tails
     okButtonToCloseTheNotification1.innerHTML = okTexts.split("|")[0];
     okButtonToCloseTheNotification2.innerHTML = okTexts.split("|")[1];
-  } // Heads or tails
-  else {
+  } else {
     okButtonToCloseTheNotification1.innerHTML = okTexts.split("|")[1];
     okButtonToCloseTheNotification2.innerHTML = okTexts.split("|")[0];
-  } // Heads or tails
+  }
 }
 
 const popUpNotificationSound = new parent.Howl({  src: ["/user_interface/sounds/notification1_appear.webm"]  });
@@ -40,7 +39,6 @@ function createAndHandleInfoBoxType1BeforeLessonStarts() {
 
   notificationBoxItself.appendChild(putNotificationTxtIntoThisP1);
 
-  assignOKButtonText();
   okButtonToCloseTheNotification1.classList.add("okButtonUnderNotification"); // See css_for_info_boxes_in_lessons
   if (needLatinFonts) {
     okButtonToCloseTheNotification1.style.fontFamily = '"Oxanium SemiBold", sans-serif';
@@ -71,7 +69,6 @@ function createAndHandleInfoBoxType1AmidLesson() {
 
   notificationBoxItself2.appendChild(putNotificationTxtIntoThisP2);
 
-  assignOKButtonText();
   okButtonToCloseTheNotification2.classList.add("okButtonUnderNotification"); // See css_for_info_boxes_in_lessons
   if (needLatinFonts) {
     okButtonToCloseTheNotification2.style.fontFamily = '"Oxanium SemiBold", sans-serif';

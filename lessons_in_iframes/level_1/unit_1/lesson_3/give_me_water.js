@@ -491,19 +491,21 @@ function whatToDoWhenWinHappens() {
   setTimeout(displayNoteAtTheEndOfLesson,proceedTime*1.8+3500);
   function displayNoteAtTheEndOfLesson() { // All languages
       putNotificationTxtIntoThisP2.innerHTML = goodByeMessage;
-      function continueLesson() {        goToTheNextLesson();      }
+
       createAndHandleInfoBoxType1AmidLesson(); // Needs the function called continueLesson() that will fire when OK button is clicked or touched
   }
 
-  // Finally go to next lesson when [OK] is touched or clicked
-  function goToTheNextLesson() {
-    setTimeout(function () {
-      showPreloaderBeforeExit(); // 1500ms » See js_for_all_iframed_lesson_htmls AND See css_for_preloader_and_orbiting_circles
-      setTimeout(function () {   parent.ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_4/index.html";   }, 1500);
-    },proceedTime/7+250); // Let dialog box disappear completely before preloader starts appearing
-  }
   /* Save progress */
   parent.savedProgress[studiedLang].lesson_GIVEMEWATER_IsCompleted=true; // WATCH THE NAME OF THE LESSON!!!
   parent.saveJSON = JSON.stringify(parent.savedProgress); // Convert
   localStorage.setItem("memoryCard", parent.saveJSON); // Save
+}
+
+function continueLesson() {        goToTheNextLesson();      }
+// Finally go to next lesson when [OK] is touched or clicked
+function goToTheNextLesson() {
+  setTimeout(function () {
+    showPreloaderBeforeExit(); // 1500ms » See js_for_all_iframed_lesson_htmls AND See css_for_preloader_and_orbiting_circles
+    setTimeout(function () {   parent.ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_4/index.html";   }, 1500);
+  },proceedTime/7+250); // Let dialog box disappear completely before preloader starts appearing
 }
