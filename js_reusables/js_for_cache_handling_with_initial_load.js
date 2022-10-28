@@ -224,7 +224,7 @@ async function loadFilesDuringWelcomeScreen() {
     //o+"/0-you_didnt_touch_click_allow.txt",
     //o+"/0-you_must_touch_click_allow.txt",
     o+"/1-1-1_arabic_tanween.txt",
-    o+"/1-1-1_british_vs_american.txt",
+    //o+"/1-1-1_british_vs_american.txt",
     o+"/1-1-1_ren_intonation.txt",
     o+"/1-1-2_hito_mizu_omizu.txt",
     o+"/1-1-3_arabic_male_female.txt",

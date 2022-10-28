@@ -135,12 +135,12 @@ function loadingIsCompleteFunction() {
   if (parent.langCodeForTeachingFilePaths == "ar") { // Display an info box about gender difference in Arabic.
     const pathOfNotificationAboutMaleFemaleCommand = "/user_interface/text/"+userInterfaceLanguage+"/1-1-3_arabic_male_female.txt";
     fetch(pathOfNotificationAboutMaleFemaleCommand,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      setTimeout(function(){ createAndHandleInfoBoxType1(); putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
-      // createAndHandleInfoBoxType1 will fire startTheLesson 1.5 seconds after its OK button is clicked/touched
+      setTimeout(function(){ createAndHandleInfoBoxType1BeforeLessonStarts(); putNotificationTxtIntoThisP1.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
+      // createAndHandleInfoBoxType1BeforeLessonStarts will fire startTheLesson 1.5 seconds after its OK button is clicked/touched
     });
   }
   else {
-    startTheLesson(); // This can also be called from within createAndHandleInfoBoxType1() in js_for_all_iframed_lesson_htmls.js
+    startTheLesson(); // This can also be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_all_iframed_lesson_htmls.js
   }
 }
 

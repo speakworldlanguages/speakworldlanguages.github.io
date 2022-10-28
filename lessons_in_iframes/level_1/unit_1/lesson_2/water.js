@@ -78,12 +78,12 @@ function loadingIsCompleteFunction()
   if (parent.langCodeForTeachingFilePaths == "ja") { // Display the explanation about "mizu" and "omizu".
     const pathOfNotificationAboutMizuOmizu = "/user_interface/text/"+userInterfaceLanguage+"/1-1-2_hito_mizu_omizu.txt"; // See js_for_every_single_html to find userInterfaceLanguage
     fetch(pathOfNotificationAboutMizuOmizu,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      setTimeout(function(){ createAndHandleInfoBoxType1(); putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
-      // createAndHandleInfoBoxType1() will fire startTheLesson() 1.5 seconds after its OK button is clicked/touched
+      setTimeout(function(){ createAndHandleInfoBoxType1BeforeLessonStarts(); putNotificationTxtIntoThisP1.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
+      // createAndHandleInfoBoxType1BeforeLessonStarts() will fire startTheLesson() 1.5 seconds after its OK button is clicked/touched
     });
   }
   else {
-    startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1() in js_for_all_iframed_lesson_htmls.js
+    startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_all_iframed_lesson_htmls.js
   }
 }
 // NOTE: The preloader disappears in 500ms » See css_for_preloader_and_orbiting_circles

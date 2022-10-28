@@ -100,12 +100,12 @@ function loadingIsCompleteFunction() {
   if (parent.langCodeForTeachingFilePaths == "ar") { // Display an info box about gender difference in Arabic.
     const pathOfNotificationAboutMaleFemaleCommand = "/user_interface/text/"+userInterfaceLanguage+"/1-1-3_arabic_male_female.txt";
     fetch(pathOfNotificationAboutMaleFemaleCommand,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      setTimeout(function(){ createAndHandleInfoBoxType1(); putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
-      // createAndHandleInfoBoxType1 will fire startTheLesson 1.5 seconds after its OK button is clicked/touched
+      setTimeout(function(){ createAndHandleInfoBoxType1BeforeLessonStarts(); putNotificationTxtIntoThisP1.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
+      // createAndHandleInfoBoxType1BeforeLessonStarts will fire startTheLesson 1.5 seconds after its OK button is clicked/touched
     });
   }
   else {
-    startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1() in js_for_all_iframed_lesson_htmls.js
+    startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_all_iframed_lesson_htmls.js
   }
   //--- By the way: Get the goodbye text ready
   const pathOfLessonNoteAboutExpressingGratitude = "/user_interface/text/"+userInterfaceLanguage+"/1-1-3_end_of_lesson_note.txt";
@@ -489,11 +489,12 @@ function whatToDoWhenWinHappens() {
 
   setTimeout(function () {  main.classList.remove("noCursor");  main.classList.add("defaultCursor");  }, proceedTime*1.6+1600);  // Back to normal cursor
   setTimeout(displayNoteAtTheEndOfLesson,proceedTime*1.8+3500);
-  function displayNoteAtTheEndOfLesson() {
-      // See js_for_info_boxes_in_lessons.js // Oct 2022: There seems to be a glitch perhaps only with Arabic?
-      createAndHandleInfoBoxType1("amid").then(function(){ goToTheNextLesson(); });
-      putNotificationTxtIntoThisP.innerHTML = goodByeMessage; // This line must come after calling createAndHandleInfoBoxType1() otherwise putNotificationTxtIntoThisP will be undefined
+  function displayNoteAtTheEndOfLesson() { // All languages
+      putNotificationTxtIntoThisP2.innerHTML = goodByeMessage;
+      function continueLesson() {        goToTheNextLesson();      }
+      createAndHandleInfoBoxType1AmidLesson(); // Needs the function called continueLesson() that will fire when OK button is clicked or touched
   }
+
   // Finally go to next lesson when [OK] is touched or clicked
   function goToTheNextLesson() {
     setTimeout(function () {

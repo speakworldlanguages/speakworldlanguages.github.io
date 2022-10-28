@@ -68,7 +68,7 @@ const nowYouSayIt = document.getElementById('nowYouSayItIMG');
 const containerOfSingles = document.getElementById('singlesDivID');
 
 const giveUpAndContinueButtonASIDE = document.getElementsByTagName('ASIDE')[0];
-
+let androidSpeechTimingInfoTxt = "…";
 /* ___PROGRESSION___ */
 window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, { once: true });
 // Desktop users can change the speed; mobile users can't. Because the mobile GUI has to stay simple.
@@ -78,26 +78,33 @@ function loadingIsCompleteFunction()
   if (parent.langCodeForTeachingFilePaths == "en") { // Display the explanation about accents for users who want to learn English.
     const pathOfNotificationAboutBritishVsAmerican = "/user_interface/text/"+userInterfaceLanguage+"/1-1-1_british_vs_american.txt";
     fetch(pathOfNotificationAboutBritishVsAmerican,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      setTimeout(function(){ createAndHandleInfoBoxType1(); putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
-      // createAndHandleInfoBoxType1() will fire startTheLesson() 1.5 seconds after its OK button is clicked/touched
+      setTimeout(function(){ createAndHandleInfoBoxType1BeforeLessonStarts(); putNotificationTxtIntoThisP1.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
+      // createAndHandleInfoBoxType1BeforeLessonStarts() will fire startTheLesson() 1.5 seconds after its OK button is clicked/touched
     });
   }
   else if (parent.langCodeForTeachingFilePaths == "zh") { // Display the warning about intonations to users who want to learn the Ren language.
     const pathOfNotificationAboutRenIntonation = "/user_interface/text/"+userInterfaceLanguage+"/1-1-1_ren_intonation.txt";
     fetch(pathOfNotificationAboutRenIntonation,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      setTimeout(function(){ createAndHandleInfoBoxType1(); putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
-      // createAndHandleInfoBoxType1() will fire startTheLesson() 1.5 seconds after its OK button is clicked/touched
+      setTimeout(function(){ createAndHandleInfoBoxType1BeforeLessonStarts(); putNotificationTxtIntoThisP1.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
+      // createAndHandleInfoBoxType1BeforeLessonStarts() will fire startTheLesson() 1.5 seconds after its OK button is clicked/touched
     });
   }
   else if (parent.langCodeForTeachingFilePaths == "ar") { // Display the warning about TANWEEN to users who want to learn the Standard Arabic.
     const pathOfNotificationAboutTanween = "/user_interface/text/"+userInterfaceLanguage+"/1-1-1_arabic_tanween.txt";
     fetch(pathOfNotificationAboutTanween,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      setTimeout(function(){ createAndHandleInfoBoxType1(); putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
-      // createAndHandleInfoBoxType1() will fire startTheLesson() 1.5 seconds after its OK button is clicked/touched
+      setTimeout(function(){ createAndHandleInfoBoxType1BeforeLessonStarts(); putNotificationTxtIntoThisP1.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
+      // createAndHandleInfoBoxType1BeforeLessonStarts() will fire startTheLesson() 1.5 seconds after its OK button is clicked/touched
     });
   }
   else {
-    startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1() in js_for_all_iframed_lesson_htmls.js
+    startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
+  }
+  //--- By the way: Get the android-speech-timing-notification text ready
+  if (parent.isAndroid) {
+    const pathOfNotificationAboutAndroidTiming = "/user_interface/text/"+userInterfaceLanguage+"/0-android_speech_timing.txt";
+    fetch(pathOfNotificationAboutAndroidTiming,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      androidSpeechTimingInfoTxt = contentOfTheTxtFile;
+    });
   }
 }
 // NOTE: The preloader disappears in 500ms » See css_for_preloader_and_orbiting_circles
@@ -107,7 +114,7 @@ function startTheLesson()
   let sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
     case "slow": sayTime = 3300; proceedTime = 9500; break;
-    case "fast": sayTime = 500; proceedTime = 6500; break;
+    case "fast": sayTime = 500;  proceedTime = 6500; break;
     default:     sayTime = 1500; proceedTime = 8100;
   }
   // No fade time for fx sound
@@ -122,8 +129,8 @@ function blurABandBringVid1OverAB() {
   let blurTime, startTime, sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
     case "slow": blurTime = 4.60; startTime = 0; sayTime = 7000; proceedTime = 10000;  break; // proceedTime must depend on video length
-    case "fast": blurTime = 2.00; startTime = 2; sayTime = 5000; proceedTime = 7000;   break; // proceedTime must depend on video length
-    default:     blurTime = 3.30; startTime = 1; sayTime = 6000; proceedTime = 9000;   // proceedTime must depend on video length
+    case "fast": blurTime = 2.00; startTime = 2; sayTime = 4500; proceedTime = 7000;   break; // proceedTime must depend on video length
+    default:     blurTime = 3.30; startTime = 1; sayTime = 5500; proceedTime = 9000;   // proceedTime must depend on video length
   }
 
   main.style.animationDuration = String(blurTime)+"s"; // Blur+Unblur paused at mid » See css_for_photos_and_videos_teach_a_new_word
@@ -167,7 +174,7 @@ function goFromABtoCD() {
   switch (parent.speedAdjustmentSetting) {
     case "slow": changeTime = 3; sayTime = 3500; proceedTime = 9500;  break;
     case "fast": changeTime = 1; sayTime = 1500; proceedTime = 6500;  break;
-    default:     changeTime = 2; sayTime = 2400; proceedTime = 8100;
+    default:     changeTime = 2; sayTime = 2800; proceedTime = 8100;
   }
   // No fade time
   imgA.classList.add("makePhotosDisappear");  imgA.style.animationDuration = String(changeTime)+"s";
@@ -251,16 +258,16 @@ function goFromCDtoEF() {
   setTimeout(function () {
     // Special situation for Android users when viewing the first lesson (bread.js)
     if (parent.isAndroid) { // Android
-      const pathOfNotificationAboutAndroidTiming = "/user_interface/text/"+userInterfaceLanguage+"/0-android_speech_timing.txt";
-      fetch(pathOfNotificationAboutAndroidTiming,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-        // See js_for_info_boxes_in_lessons.js
-        createAndHandleInfoBoxType1("amid").then(function(){ display_nowItsYourTurn_animation(); /*No sfx to fade to zero-volume*/ });
-        putNotificationTxtIntoThisP.innerHTML = contentOfTheTxtFile; // This line must come after calling createAndHandleInfoBoxType1() otherwise putNotificationTxtIntoThisP will be undefined
-      });
+      putNotificationTxtIntoThisP2.innerHTML = androidSpeechTimingInfoTxt;
+      createAndHandleInfoBoxType1AmidLesson(); // continueLesson() will be fired from within -> See js_for_info_boxes_in_lessons
     } else { // Not Android
-      display_nowItsYourTurn_animation(); /*No sfx to fade to zero-volume*/
+      continueLesson();
     }
   }, changeTime*500 + proceedTime);
+}
+
+function continueLesson() {
+  display_nowItsYourTurn_animation();
 }
 
 /* Get ready for speech recognition */

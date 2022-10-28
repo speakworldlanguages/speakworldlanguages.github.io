@@ -4,23 +4,32 @@
 
 // Function that creates a div for [special case/unique feature/untranslatable thing] info NOTIFICATIONS
 /* VARIABLES AND CONSTANTS*/
-var putNotificationTxtIntoThisP;
-const okButtonToCloseTheNotification = document.createElement("DIV");
-okButtonToCloseTheNotification.innerHTML = "&#10004;"; // Default content of the OK box is a "tick ✔" mark
-
+const putNotificationTxtIntoThisP1 = document.createElement("P");
+const putNotificationTxtIntoThisP2 = document.createElement("P");
+const okButtonToCloseTheNotification1 = document.createElement("DIV");
+const okButtonToCloseTheNotification2 = document.createElement("DIV");
 // Put something like [OK], [Got it], [I see], [Oh really?], [Wow], [That's interesting] etc into the button.
+let okTexts = "&#10004;|&#10004;"; // Default content of the OK box is a "tick ✔" mark to be shown in case fetch fails
+okButtonToCloseTheNotification1.innerHTML = okTexts.split("|")[0];
+okButtonToCloseTheNotification2.innerHTML = okTexts.split("|")[1];
 const pathOfOkCloseTheBox = "/user_interface/text/"+userInterfaceLanguage+"/0-ok_i_understand.txt";
-fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleOKButtonText(contentOfTheTxtFile);  });
-function handleOKButtonText(receivedTxt) {
-  if(Math.random()<0.5) { okButtonToCloseTheNotification.innerHTML = receivedTxt.split("|")[0]; } // Heads or tails
-  else { okButtonToCloseTheNotification.innerHTML = receivedTxt.split("|")[1]; } // Heads or tails
+fetch(pathOfOkCloseTheBox,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ okTexts=contentOfTheTxtFile; });
+function assignOKButtonText() {
+  if(Math.random()<0.5) {
+    okButtonToCloseTheNotification1.innerHTML = okTexts.split("|")[0];
+    okButtonToCloseTheNotification2.innerHTML = okTexts.split("|")[1];
+  } // Heads or tails
+  else {
+    okButtonToCloseTheNotification1.innerHTML = okTexts.split("|")[1];
+    okButtonToCloseTheNotification2.innerHTML = okTexts.split("|")[0];
+  } // Heads or tails
 }
 
 const popUpNotificationSound = new parent.Howl({  src: ["/user_interface/sounds/notification1_appear.webm"]  });
 const dismissNotificationSound = new parent.Howl({  src: ["/user_interface/sounds/notification1_close.webm"]  });
 
-/*FUNCTION DECLARATION*/
-function createAndHandleInfoBoxType1(isAmidLessonOrNot) {
+/*Info box with only one [OK] button*/
+function createAndHandleInfoBoxType1BeforeLessonStarts() {
   popUpNotificationSound.play();
   const notificationBoxContainer = document.createElement("DIV");
   notificationBoxContainer.classList.add("notificationBG"); // See css_for_info_boxes_in_lessons
@@ -29,43 +38,55 @@ function createAndHandleInfoBoxType1(isAmidLessonOrNot) {
   notificationBoxItself.classList.add("notificationRoundedBox"); // See css_for_info_boxes_in_lessons
   notificationBoxContainer.appendChild(notificationBoxItself);
 
-  putNotificationTxtIntoThisP = document.createElement("P");
-  notificationBoxItself.appendChild(putNotificationTxtIntoThisP);
+  notificationBoxItself.appendChild(putNotificationTxtIntoThisP1);
 
-  okButtonToCloseTheNotification.classList.add("okButtonUnderNotification"); // See css_for_info_boxes_in_lessons
+  assignOKButtonText();
+  okButtonToCloseTheNotification1.classList.add("okButtonUnderNotification"); // See css_for_info_boxes_in_lessons
   if (needLatinFonts) {
-    okButtonToCloseTheNotification.style.fontFamily = '"Oxanium SemiBold", sans-serif';
+    okButtonToCloseTheNotification1.style.fontFamily = '"Oxanium SemiBold", sans-serif';
   }
-  notificationBoxItself.appendChild(okButtonToCloseTheNotification);
+  notificationBoxItself.appendChild(okButtonToCloseTheNotification1);
 
 
-  if (isAmidLessonOrNot=="amid") { // Make the function thenable if it is called with the argument "amid"
+  if (deviceDetector.isMobile) { okButtonToCloseTheNotification1.addEventListener("touchstart",okButtonIsClickedToStartLesson); }
+  else { okButtonToCloseTheNotification1.addEventListener("mousedown",okButtonIsClickedToStartLesson); }
+  function okButtonIsClickedToStartLesson(event) { event.preventDefault(); event.stopPropagation();
+    dismissNotificationSound.play();
+    notificationBoxContainer.classList.add("addThisToAButtonForPlayStationStyleClick"); // See css_for_every_single_html_css
+    setTimeout(function () {     notificationBoxContainer.parentNode.removeChild(notificationBoxContainer);     },1000); // The animation completes in 600ms
+    if (typeof startTheLesson === "function") {
+      setTimeout(function () {     startTheLesson();     }, 1500);
+    } else { console.error("Error: createAndHandleInfoBoxType1BeforeLessonStarts() needs startTheLesson() function which doesn't exist???"); }
+  }
+}
 
-    return new Promise(function(resolve, reject) {
-      if (deviceDetector.isMobile) { okButtonToCloseTheNotification.addEventListener("touchstart",okButtonIsClickedToContinueLesson); }
-      else { okButtonToCloseTheNotification.addEventListener("mousedown",okButtonIsClickedToContinueLesson); }
-      function okButtonIsClickedToContinueLesson(event) { event.preventDefault(); event.stopPropagation();
-        // Use stopPropagation instead of parent.preventTouchConflictWithTheSlidingNavMenu(okButtonToCloseTheNotification); // Exists in js_for_the_sliding_navigation_menu
-        dismissNotificationSound.play();
-        notificationBoxContainer.classList.add("addThisToAButtonForPlayStationStyleClick"); // See css_for_every_single_html_css
-        setTimeout(function () {     notificationBoxContainer.parentNode.removeChild(notificationBoxContainer);  resolve(true);   },1300); // The animation completes in 600ms
-      }
-    });
+function createAndHandleInfoBoxType1AmidLesson() {
+  popUpNotificationSound.play();
+  const notificationBoxContainer2 = document.createElement("DIV");
+  notificationBoxContainer2.classList.add("notificationBG"); // See css_for_info_boxes_in_lessons
+  document.body.appendChild(notificationBoxContainer2);
+  const notificationBoxItself2 = document.createElement("DIV");
+  notificationBoxItself2.classList.add("notificationRoundedBox"); // See css_for_info_boxes_in_lessons
+  notificationBoxContainer2.appendChild(notificationBoxItself2);
 
-  } else { // Without "amid" closing the info box will start the lesson immediately
+  notificationBoxItself2.appendChild(putNotificationTxtIntoThisP2);
 
-    if (deviceDetector.isMobile) { okButtonToCloseTheNotification.addEventListener("touchstart",okButtonIsClickedToStartLesson); }
-    else { okButtonToCloseTheNotification.addEventListener("mousedown",okButtonIsClickedToStartLesson); }
-    function okButtonIsClickedToStartLesson(event) { event.preventDefault(); event.stopPropagation();
-      // Use stopPropagation instead of parent.preventTouchConflictWithTheSlidingNavMenu(okButtonToCloseTheNotification); // Exists in js_for_the_sliding_navigation_menu
-      dismissNotificationSound.play();
-      notificationBoxContainer.classList.add("addThisToAButtonForPlayStationStyleClick"); // See css_for_every_single_html_css
-      setTimeout(function () {     notificationBoxContainer.parentNode.removeChild(notificationBoxContainer);     },1000); // The animation completes in 600ms
-      if (typeof startTheLesson === "function") {
-        setTimeout(function () {     startTheLesson();     }, 1500);
-      } else { console.error("Error: createAndHandleInfoBoxType1() needs startTheLesson() function which doesn't exist???"); }
-    }
+  assignOKButtonText();
+  okButtonToCloseTheNotification2.classList.add("okButtonUnderNotification"); // See css_for_info_boxes_in_lessons
+  if (needLatinFonts) {
+    okButtonToCloseTheNotification2.style.fontFamily = '"Oxanium SemiBold", sans-serif';
+  }
+  notificationBoxItself2.appendChild(okButtonToCloseTheNotification2);
 
+  if (deviceDetector.isMobile) { okButtonToCloseTheNotification2.addEventListener("touchstart",okButtonIsClickedToContinueLesson); }
+  else { okButtonToCloseTheNotification2.addEventListener("mousedown",okButtonIsClickedToContinueLesson); }
+  function okButtonIsClickedToContinueLesson(event) { event.preventDefault(); event.stopPropagation();
+    dismissNotificationSound.play();
+    notificationBoxContainer2.classList.add("addThisToAButtonForPlayStationStyleClick"); // See css_for_every_single_html_css
+    setTimeout(function () {     notificationBoxContainer2.parentNode.removeChild(notificationBoxContainer2);  },1000); // The animation completes in 600ms
+    if (typeof continueLesson === "function") {
+      setTimeout(function () {     continueLesson();     }, 1500);
+    } else { console.error("Error: createAndHandleInfoBoxType1AmidLesson() needs continueLesson() function which doesn't exist???"); }
   }
 }
 
