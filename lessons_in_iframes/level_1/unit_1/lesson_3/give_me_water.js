@@ -504,6 +504,7 @@ function whatToDoWhenWinHappens() {
 function continueLesson() {        goToTheNextLesson();      }
 // Finally go to next lesson when [OK] is touched or clicked
 function goToTheNextLesson() {
+  let proceedTime;  switch (parent.speedAdjustmentSetting) {  case "slow": proceedTime = 5000; break;  case "fast": proceedTime = 2000; break;  default: proceedTime = 3500;  }
   setTimeout(function () {
     showPreloaderBeforeExit(); // 1500ms » See js_for_all_iframed_lesson_htmls AND See css_for_preloader_and_orbiting_circles
     setTimeout(function () {   parent.ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_4/index.html";   }, 1500);
