@@ -108,7 +108,7 @@ function startTheLesson()
   switch (parent.speedAdjustmentSetting) {
     case "slow": sayTime = 3500; proceedTime = 9500; break;
     case "fast": sayTime = 1500; proceedTime = 6500; break;
-    default:     sayTime = 2400; proceedTime = 8100;
+    default:     sayTime = 2100; proceedTime = 8100;
   }
   // No fade time for fx sound
   // No SFX
