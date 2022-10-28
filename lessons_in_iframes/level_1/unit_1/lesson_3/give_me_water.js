@@ -504,9 +504,9 @@ function whatToDoWhenWinHappens() {
 function continueLesson() {        goToTheNextLesson();      }
 // Finally go to next lesson when [OK] is touched or clicked
 function goToTheNextLesson() {
-  let proceedTime;  switch (parent.speedAdjustmentSetting) {  case "slow": proceedTime = 5000; break;  case "fast": proceedTime = 2000; break;  default: proceedTime = 3500;  }
+  let proceedTime;  switch (parent.speedAdjustmentSetting) {  case "slow": proceedTime = 1500; break;  case "fast": proceedTime = 500; break;  default: proceedTime = 1000;  }
   setTimeout(function () {
     showPreloaderBeforeExit(); // 1500ms » See js_for_all_iframed_lesson_htmls AND See css_for_preloader_and_orbiting_circles
     setTimeout(function () {   parent.ayFreym.src = "/lessons_in_iframes/level_1/unit_1/lesson_4/index.html";   }, 1500);
-  },proceedTime/7+250); // Let dialog box disappear completely before preloader starts appearing
+  },proceedTime); // Let dialog box disappear completely before preloader starts appearing
 }
