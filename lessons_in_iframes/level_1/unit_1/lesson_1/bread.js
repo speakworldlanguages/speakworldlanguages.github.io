@@ -106,9 +106,9 @@ function startTheLesson()
 {
   let sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": sayTime = 3500; proceedTime = 9500; break;
-    case "fast": sayTime = 1500; proceedTime = 6500; break;
-    default:     sayTime = 2100; proceedTime = 8100;
+    case "slow": sayTime = 3300; proceedTime = 9500; break;
+    case "fast": sayTime = 500; proceedTime = 6500; break;
+    default:     sayTime = 1500; proceedTime = 8100;
   }
   // No fade time for fx sound
   // No SFX
@@ -123,7 +123,7 @@ function blurABandBringVid1OverAB() {
   switch (parent.speedAdjustmentSetting) {
     case "slow": blurTime = 4.60; startTime = 0; sayTime = 7000; proceedTime = 10000;  break; // proceedTime must depend on video length
     case "fast": blurTime = 2.00; startTime = 2; sayTime = 5000; proceedTime = 7000;   break; // proceedTime must depend on video length
-    default:     blurTime = 3.30; startTime = 1; sayTime = 6500; proceedTime = 9000;   // proceedTime must depend on video length
+    default:     blurTime = 3.30; startTime = 1; sayTime = 6000; proceedTime = 9000;   // proceedTime must depend on video length
   }
 
   main.style.animationDuration = String(blurTime)+"s"; // Blur+Unblur paused at mid » See css_for_photos_and_videos_teach_a_new_word
