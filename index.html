@@ -106,7 +106,7 @@
       let auditTheVeryFirstLoadTimeout;
       document.addEventListener('readystatechange', (event) => {
         if (event.target.readyState === 'interactive') { auditTheVeryFirstLoadTimeout = setTimeout(function () { document.getElementsByTagName('dialog')[0].showModal(); }, 8000); } // 8s should be good » Lesson reload box (not this dialog) appears if load still hasn't happened in 14s~20s,,, js_for_app_init AND js_for_info_boxes_in_parent
-        // else if (event.target.readyState === 'complete') { clearTimeout(auditTheVeryFirstLoadTimeout); document.getElementsByTagName('dialog')[0].close(); }
+        else if (event.target.readyState === 'complete') { clearTimeout(auditTheVeryFirstLoadTimeout); document.getElementsByTagName('dialog')[0].close(); }
       });
     </script>
     <!-- Preloader with beautiful globe -->
