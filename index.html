@@ -2,16 +2,18 @@
 <html lang="en">
   <head> <!-- This is the default landing page for speakworldlanguages.app -->
 
-    <script> var thisIsTheParentWhichContainsAllIFramedLessons = "yes"; </script>
+    <script> var thisIsTheParentWhichContainsAllIFramedLessons = "yes"; /*See js_for_all_iframed_lesson_htmls*/ </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable = no"> <!-- For mobile device screens to display things properly. As of 2022 Safari ignores this. -->
-    <title>SPEAK WORLD LANGUAGES: Use Your Voice To Play Games As You Learn A New Language</title>
-    <meta name="description" content="Listen and speak into your device microphone to make things happen!">
+    <title>SPEAK WORLD LANGUAGES: Play games with voice commands as you acquire a new language</title>
+    <meta name="description" content="Talk to the app! Play speech controlled games! Listen, learn and never forget!">
     <meta name="author" content="Manheart Earthman">
 
     <!-- https://pedro.agency/digital-marketing/how-to-stop-google-ignoring-your-meta-descriptions/ --> <!-- https://ahrefs.com/blog/meta-robots/ -->
 
-    <link rel="alternate" hreflang="ja" href="https://hanaserutoiidesuy.one">
+    <script src="/js_reusables/js_for_online_and_offline_modes.js">/* Before trying to load a new lesson or attempting to cache files we can check if internet is ON and working */</script>
+
+    <!-- <link rel="alternate" hreflang="ja" href="https://???hanaserutoiiy.one" "//???syabererutoiiy.one"> -->
     <!-- <link rel="alternate" hreflang="ko" href="https://???"> -->
     <!-- <link rel="alternate" hreflang="zh" href="https://???"> -->
     <!-- <link rel="alternate" hreflang="ms" href="https://???"> -->
@@ -26,36 +28,37 @@
     <link rel="stylesheet" href="/css_reusables/css_for_preloader_and_orbiting_circles.css"><!-- Contains globe preloader hide-reveal classes -->
     <link rel="stylesheet" href="/css_reusables/css_for_info_boxes_in_parent.css"><!-- Visual style of save/load info boxes -->
 
-    <script src="/third_party_js/annyang.min.js">/*Speech Recognition library by Tal Ater - Github: TalAter*/</script>
+    <script src="/third_party_js/annyang.js">/*Speech Recognition library by Tal Ater - Github: TalAter*/</script>
     <script src="/third_party_js/ua-parser.min.js">/*JS library for getting the browser and OS names by Faisal Salman - Github: faisalman*/</script>
-    <!-- IN THE PAST HERE WAS <script src="/third_party_js/devicedetector-min.js">/*BUT WAS MOVED TO every_single_html.js - A device detector by Maarten Belmans - Github: PoeHaH*/</script> -->
     <script src="/third_party_js/howler.min.js">/*An audio handler - Github: goldfire*/</script>
     <!-- <script src="/third_party_js/localforage.min.js">/*IN THE FUTURE: Use indexedDB; store large blobs like recorded audio or pass data to the service worker*/</script> -->
 
-    <script defer src="/js_reusables/js_for_every_single_html.js">/*Memory card, userInterfaceLanguage, fetch headers, fonts*/</script>
-    <script defer src="/js_reusables/js_for_redirection_to_the_proper_domain.js">/*Check if UI language and browser language match, protection against unauthorized embedding*/</script>
-    <script defer src="/js_reusables/js_for_handling_fullscreen_mode.js">/*Handle right-clicks, double-clicks...*/</script>
-    <script defer src="/js_reusables/js_for_app_initialization_in_parent.js">/*Fake antisleep video, be careful with iPhone fullscreen openfirstlesson, load last studied language codes...*/</script>
+    <script defer src="/js_reusables/js_for_every_single_html.js">/*LET userInterfaceLanguage DEPEND ON DOMAIN NAME, fetch headers, fonts, resetWebp, canVibrate, defaultCursor*/</script>
+    <script defer src="/js_reusables/js_for_the_parent_all_browsers_all_devices.js">/*Memory card, LOAD-SAVE: openfirstlesson, load last studied language codes...*/</script>
+    <script defer src="/js_reusables/js_for_different_browsers_and_devices.js">/*UA-parser, deviceDetector, Microphone permissions, Whitelisted browsers*/</script>
+    <script defer src="/js_reusables/js_for_navigation_handling.js">/*Handle visibilitychange: what happens when user leaves the app*/</script>
+    <script defer src="/js_reusables/js_for_redirection_to_the_proper_domain.js">/*MAKE SURE THIS IS LISTED AFTER js_for_every_single_html » Check if UI language and browser language match, protection against unauthorized embedding*/</script>
+    <script defer src="/js_reusables/js_for_handling_fullscreen_mode.js">/*Handle right-clicks, double-clicks..., Be careful with iPhone not allowing fullscreen*/</script>
     <script defer src="/js_reusables/js_for_hover_simulation_and_scrollglobe.js">/*Hover simulation for touch devices and rotatable globe with unique drag scrolling*/</script>
-    <script defer src="/js_reusables/js_for_different_browsers_and_devices.js">/*Whitelist browsers, handling visibilitychange: what happens when user leaves the app*/</script>
     <script defer src="/js_reusables/js_for_icon_and_title_animation.js">/*A rotating globe next to the title that appears in the browser-tab*/</script>
-    <script defer src="/js_reusables/js_for_the_sliding_navigation_menu.js">/*NAVIGATION*/</script>
+    <script defer src="/js_reusables/js_for_the_sliding_navigation_menu.js">/*NAVIGATION INSIDE THE APP, PAUSING-UNPAUSING THE APP*/</script>
     <script defer src="/js_reusables/js_for_info_boxes_in_parent.js">/*[Your progress will be saved] box and [Your progress has been loaded] box*/</script>
-    <script defer src="/js_reusables/js_for_cache_handling_with_initial_load.js">/*Get the files in advance to minimize waiting time - The latter caching will be handled from within each iframed html*/</script>
-    <!-- <script src="/js_reusables/js_for_online_and_offline_modes.js">/*IN THE FUTURE: As of 2022 this still is a futuristic idea only: Detect and handle online offline mode */</script> -->
+    <script defer src="/js_for_cache_handling/0_parent_initial_load_and_111.js">/*Get the files in advance to minimize waiting time - The latter caching will be handled from within each iframed html*/</script>
+
     <!-- <script defer src="/js_reusables/js_for_pwa.js">/*IN THE FUTURE: Progressive Web App - Handle installation*/</script> -->
     <!--  -->
-
-    <!-- THERE SEEMS TO BE A CONFLICT between eruda and the canvas element, but it's still usable -->
-    <!-- Uncomment the following to be able to use the browser console on mobile devices -->
-    <!-- <script src="third_party_js/eruda.min.js"></script> -->
-    <!-- <script>eruda.init();</script> -->
-
     <!-- Firebase : WARN-ING Code is outdated -->
     <!-- <script type="module" src="notify_en.js"></script> -->
+    <!--  -->
+    <!-- SOLVED: THERE USED TO BE A CONFLICT between eruda and the canvas element, probably because they both used "ctx" as the variable name -->
+    <!-- Uncomment the following to be able to use the browser console on mobile devices -->
+    <script src="third_party_js/eruda.js"></script>
+    <script>eruda.init();</script>
+
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script>
+    /*
       window.addEventListener("load",function(){   startTracking();   }, { once: true });
       function startTracking() {
         setTimeout(function () { const delayedScript = document.createElement("script"); delayedScript.type = "text/javascript"; delayedScript.src = "https://www.googletagmanager.com/gtag/js?id=G-8FWCR3LS62"; document.body.appendChild(delayedScript); },6000);
@@ -64,6 +67,7 @@
         gtag('js', new Date());
         gtag('config', 'G-8FWCR3LS62');
       }
+    */
     </script>
 
     <!-- PWA -->
@@ -74,7 +78,7 @@
     <link rel="apple-touch-icon" href="/user_interface/homescreen_icon/icon_for_pwa_en.png">
     <link rel="manifest" href="/manifest_en.json">
     <script>
-      if ("serviceWorker" in navigator) {  window.addEventListener("DOMContentLoaded",()=>{  navigator.serviceWorker.register("service-worker.js");  });  } // Takes too long compared to window load (almost a second)
+      if ("serviceWorker" in navigator) {  window.addEventListener("DOMContentLoaded",()=>{  navigator.serviceWorker.register("service-worker.js");  },{once:true});  } // Forgot what this means: Takes too long compared to window load (almost a second)
     </script>
 
     <!-- Inline style is for the pre-preloader dialog modal box only -->
@@ -102,10 +106,10 @@
     </dialog>
     <script>
       // Code for pre-preloader
-      var itIsAlreadyCertainThatUserWantsToReload = false; // In this case we want to skip the "Are you sure" prompt caused by beforeunload in js_for_app_init,,, Must always be false except the info box case in in js_for_info_boxes_in_parent and the dialog element here where user obviously sure as he/himself or she/herself makes the choice
+      var itIsAlreadyCertainThatUserWantsToReload = false; // In this case we want to skip the "Are you sure" prompt caused by beforeunload in js_for_the_parent_all_browsers_all_devices,,, Must always be false except the info box case in in js_for_info_boxes_in_parent and the dialog element here where user obviously sure as he/himself or she/herself makes the choice
       let auditTheVeryFirstLoadTimeout;
       document.addEventListener('readystatechange', (event) => {
-        if (event.target.readyState === 'interactive') { auditTheVeryFirstLoadTimeout = setTimeout(function () { document.getElementsByTagName('dialog')[0].showModal(); }, 8000); } // 8s should be good » Lesson reload box (not this dialog) appears if load still hasn't happened in 14s~20s,,, js_for_app_init AND js_for_info_boxes_in_parent
+        if (event.target.readyState === 'interactive') { auditTheVeryFirstLoadTimeout = setTimeout(function () { document.getElementsByTagName('dialog')[0].showModal(); }, 8000); } // 8s should be good » Lesson reload box (not this dialog) appears if load still hasn't happened in 14s~20s,,, js_for_the_parent_all_browsers_all_devices AND js_for_info_boxes_in_parent
         else if (event.target.readyState === 'complete') { clearTimeout(auditTheVeryFirstLoadTimeout); document.getElementsByTagName('dialog')[0].close(); }
       });
     </script>
@@ -129,21 +133,27 @@
     </div>
 
     <!-- THE MAIN MENU -->
-    <main> <!-- See css_for_the_container_parent_html.css & js_for_app_initialization_in_parent.js-->
+    <main> <!-- See css_for_the_container_parent_html.css & js_for_the_parent_all_browsers_all_devices.js-->
       <header> <!-- Font setting is in js_for_every_single_html -->
         <p>Choose the language <span style="white-space:nowrap;">you want to learn</span></p>
       </header>
       <article>
         <div id="layerA1_ID">
           <div id="layerA2_ID">
-            <!-- See js_for_app_initialization_in_parent.js and find mouseDownMenuButtonF touchEndMenuButtonF -->
-
-            <button name="hito"       id="ja">Hito Language (Japanese)</button>
-            <button name="renmen"     id="zh">Renmen Language (Chinese)</button>
-            <button name="kishi"      id="tr">Kishi Language (Turkish)</button>
-            <button name="3rabiyyah"  id="ar">Annaas Language (Arabic)</button>
-
-            <!-- MUST UPDATE function startTeaching(usersChoice) in js_for_app_initialization_in_parent when new buttons are added -->
+            <!-- See js_for_the_parent_all_browsers_all_devices.js and find mouseDownMenuButtonF touchEndMenuButtonF -->
+            <!-- Observe what names and ids do -->
+            <!-- If more than one dialect|accent is available, better if we prompt and ask which one user wants to hear -->
+            <button name="ja"  id="standardDialectOnly">Hito Language (Japanese)</button>
+            <!-- <button name="ko"  id="standardDialectOnly">Saram Language (Korean)</button> -->
+            <button name="zh"  id="userMustChooseOneOfTheDialects">Renmen Language (Chinese)</button> <!-- As of 2023 putongnua dialect chosen automatically -->
+            <button name="tr"  id="userMustChooseOneOfTheDialects">Kishi Language (Turkish)</button> <!-- As of 2023 istanbul dialect chosen automatically -->
+            <button name="ar"  id="standardDialectOnly">Annaas Language (Arabic)</button>
+            <!-- <button name="de"  id="standardDialectOnly">Leute Language (German)</button> -->
+            <!-- <button name="fr"  id="standardDialectOnly">Gens Language (French)</button> -->
+            <!-- <button name="en"  id="userMustChooseOneOfTheDialects">Eastern or Western English</button> -->
+            <!-- WHEN NEW BUTTONS ARE ADDED -->
+            <!-- MUST UPDATE function startTeaching(usersChoice) in js_for_the_parent_all_browsers_all_devices -->
+            <!-- Also check letUserChooseAnAccentOrDialect -->
           </div>
         </div>
         <div id="layerB1_ID">
@@ -153,9 +163,10 @@
             <img src="/user_interface/images/arrow_right.webp" alt="Rotate right" draggable="false">
           </div>
         </div>
-
       </article>
       <footer><p>A project by <span style="white-space:nowrap;">Manheart Earthman</span></p>
+        <!-- Understanding the world is good -->
+        <!-- Reunion of humankind is good -->
       </footer>
     </main>
 
@@ -174,7 +185,7 @@
         preloadHandlingDiv.classList.add("addThisClassToHideThePreloader"); // See css_for_the_container_parent_html
         //---
         const frame = document.getElementsByTagName('IFRAME')[0];
-        frame.src = "/user_interface/blank.html"; // it is only 1 kb -> REMEMBER: ayFreym.addEventListener('load',...) in js_for_app_initialization_in_parent
+        frame.src = "/user_interface/blank.html"; // it is only 1 kb -> REMEMBER: ayFreym.addEventListener('load',...) in js_for_the_parent_all_browsers_all_devices
         //---
         const main = document.getElementsByTagName('MAIN')[0];
         const header = document.getElementsByTagName('HEADER')[0];
@@ -209,7 +220,7 @@
           b2.classList.add("layerB2_mobile");
           canvas.classList.add("canvasPhoneOrTablet");
           let i; for (i = 0; i < buttons.length; i++) { buttons[i].classList.add("buttonMobile"); }
-          footer.classList.add("footerPhoneOrTablet");
+          footer.classList.add("footerPhoneOrTablet"); // See css_for_the_container_parent_html
           if (!isApple) { // Android
             topContainerDivOfTheSlidingNavMenuForMobiles.appendChild(footer);
             footer.style.position = "absolute";
@@ -222,11 +233,11 @@
     </script>
 
     <!-- WHAT TO DISPLAY DURING APP MAINTENANCE :: UNCOMMENT WHEN NECESSARY -->
-    <div data-nosnippet id="removeThisID" onmouseup="adminAccess()" style="position: fixed; z-index:50000; width:100vw; height:100%; background-color:white; display:flex; align-items:center; justify-content:center; flex-direction: column;">
+    <div data-nosnippet id="removeThisID" onmouseup="adminAccess()" style="position: fixed; z-index:50000; width:100vw; width:100dvw; height:100%; height:100dvh; background-color:white; display:flex; align-items:center; justify-content:center; flex-direction: column;">
       <img data-nosnippet src="/user_interface/images/maintenance.png" alt="...">
       <p data-nosnippet style="color:#040a17;">Sorry, we are performing app maintenance<br>Please check back later</p>
     </div>
-    <script>let secretCounter=0; function adminAccess() { secretCounter++; if (secretCounter>7) { document.body.removeChild(document.getElementById('removeThisID')); } }</script>
+    <script>let secretCounter=0; function adminAccess() { secretCounter++; if (secretCounter>4) { document.body.removeChild(document.getElementById('removeThisID')); } }</script>
     <!-- END OF WHAT TO DISPLAY DURING APP MAINTENANCE -->
 
   </body>

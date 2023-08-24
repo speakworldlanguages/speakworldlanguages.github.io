@@ -3,7 +3,7 @@
   "name": "Speak World Languages",
   "short_name": "Speak World Languages",
   "author": "Manheart Earthman",
-  "description": "Listen, learn and speak into your device microphone to make things happen as you acquire a new language!",
+  "description": "Play games with voice commands as you acquire a new language!",
   "icons": [{
     "src": "user_interface/homescreen_icon/icon_for_pwa_en.png",    "sizes": "512x512",    "type": "image/png"
     }],
