@@ -288,7 +288,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
                 // Get all event names for the given element
                 const eventNames = getAllEventNames(result2);
-
+                console.log(result2);
                 console.log(eventNames);
                 /*
                 if (isSafari) {
