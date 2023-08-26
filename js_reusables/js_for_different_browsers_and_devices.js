@@ -270,26 +270,18 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
               // Special workaround method is required for Safari 16.0 ~ 16.3
               // Here is what chat-g-p-t suggested for trying to dynamically check if the change event is supported
               if (typeof result2.addEventListener === 'function') {
-                result2.addEventListener('change', proceedAccordingToUsersChoiceAboutMicPermission);
+                // result2.addEventListener('change', proceedAccordingToUsersChoiceAboutMicPermission);
+                result2.onchange = function(event) {    proceedAccordingToUsersChoiceAboutMicPermission();    };
                 // UPDATE: Tested Safari 16.6 and it did not respond to the change!!!
-
-                // Function to get all event names for a given object
-                function getAllEventNames(obj) {
-                  const eventNames = [];
-
-                  for (const prop in obj) {
-                    if (prop.startsWith('on') && typeof obj[prop] === 'function') {
-                      eventNames.push(prop.substring(2));
-                    }
-                  }
-
-                  return eventNames;
-                }
-
                 // Get all event names for the given element
-                const eventNames = getAllEventNames(result2);
                 console.log(result2);
+                let eventNames = Object.getOwnPropertyNames(result2);
                 console.log(eventNames);
+                if (eventNames.includes("onchange") || eventNames.includes("change")) {
+                  console.log("onchange seems to be supported.");
+                } else {
+                  console.log("onchange is not supported");
+                }
                 /*
                 if (isSafari) {
                   console.warn("If this is Safari 16.0 ~ 16.3 and you are still seeing this msg then the app needs version bugfix");
@@ -303,7 +295,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
               } else { // Older browsers, that don't feature adding event listeners to permission queries at all, will fall here
                 tellTheUserToChangeOrUpdateTheBrowser();
                 // Note that Safari 15.x and earlier cannot fall here because this is inside an if ("permissions" in navigator) block
-                console.warn('Change event not supported for PermissionStatus object as there is no addEventListener function in it.');
+                console.warn('addEventListener function is not supported for PermissionStatus object.');
                 // Handle the case where the change event is not supported
                 changeEventIsSupported = false; // So that, when user has made a choice, we can use the setInterval to detect it
               }
