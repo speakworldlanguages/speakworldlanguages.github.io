@@ -271,13 +271,20 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
               // Here is what chat-g-p-t suggested for trying to dynamically check if the change event is supported
               if (typeof result2.addEventListener === 'function') {
                 // result2.addEventListener('change', proceedAccordingToUsersChoiceAboutMicPermission);
-                result2.onchange = function(event) {    proceedAccordingToUsersChoiceAboutMicPermission(event);    };
+                try {
+                  result2.onchange = function(event) {    proceedAccordingToUsersChoiceAboutMicPermission(event);  return true;  };
+                } catch (e) {
+                  console.error("Couldn't add event listener for mic permission change: " + e);
+                } finally {
+
+                }
+
                 // UPDATE: Tested Safari 16.6 and it did not respond to the change!!!
                 // Get all event names for the given element
                 console.log(result2);
-                let eventNames = Object.getOwnPropertyNames(result2);
-                console.log(eventNames);
-                if (eventNames.includes("onchange") || eventNames.includes("change")) {
+                //let eventNames = Object.getOwnPropertyNames(result2); // returns empty array
+                console.log(result2.onchange);
+                if (result2.onchange) {
                   console.log("onchange seems to be supported.");
                 } else {
                   console.log("onchange is not supported");
