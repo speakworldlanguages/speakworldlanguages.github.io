@@ -271,7 +271,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
               // Here is what chat-g-p-t suggested for trying to dynamically check if the change event is supported
               if (typeof result2.addEventListener === 'function') {
                 // result2.addEventListener('change', proceedAccordingToUsersChoiceAboutMicPermission);
-                result2.onchange = function(event) {    proceedAccordingToUsersChoiceAboutMicPermission();    };
+                result2.onchange = function(event) {    proceedAccordingToUsersChoiceAboutMicPermission(event);    };
                 // UPDATE: Tested Safari 16.6 and it did not respond to the change!!!
                 // Get all event names for the given element
                 console.log(result2);
