@@ -407,7 +407,7 @@ function speakToTheMic() {
           for (z = 0; z < fromPhraseToSingleWords.length; z++) {
             // Now we can reject 'underwater' and accept 'under water' // NOTE: With interimResults enabled it’s probably impossible to reject 'watermelon'
             let searchResult = false;
-            if (fromPhraseToSingleWords[z].toLowerCase() == eachWordArray[j].toLowerCase()) { searchResult = true; } // For some reason this fails for Arabic in Safari
+            if (fromPhraseToSingleWords[z].toLowerCase() == eachWordArray[j].toLowerCase()) { searchResult = true; } // For some reason this fails for Arabic in Safari >>> No problems in Chrome though
             else if (isApple) {
               if (parent.annyang.getSpeechRecognizer().lang == "ar") { console.warn("Listening for Arabic on Safari/Apple");
                 // Use string search to try and find it within the phrase and not individual words
