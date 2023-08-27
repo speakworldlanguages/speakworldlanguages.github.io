@@ -373,7 +373,7 @@ function speakToTheMic() {
         notificationDingTone.play(); // Android has its native DING tone. So let this DING tone play on desktops and iOS devices.
     }
     // Start listening.
-    new SuperTimeout(function() {  parent.annyang.start();  },500);
+    new SuperTimeout(function() {  parent.annyang.start();  },500); // NOTE: annyang.resume() equals annyang.start()
     new SuperTimeout(function() {  startAudioInputVisualization();  },600); // Will work everywhere except on Android. See js_for_microphone_input_visualization.js
     // New method of detecting matches
     parent.annyang.addCallback('result', compareAndSeeIfTheAnswerIsCorrect);
@@ -382,6 +382,12 @@ function speakToTheMic() {
       // Check if there is a match
       let j;
       for(j=0;j<eachWordArray.length;j++) {
+
+        // NOTE THAT: There is also the option of using includes() like,
+        /*
+        if (array.includes(searchString)) {            console.log(`${searchString} exists in the array.`);
+        } else {            console.log(`${searchString} does not exist in the array.`);        }
+        */
         let k;
         for (k = 0; k < phrasesArray.length; k++) {
           // Which method is better?
@@ -401,7 +407,14 @@ function speakToTheMic() {
           for (z = 0; z < fromPhraseToSingleWords.length; z++) {
             // Now we can reject 'underwater' and accept 'under water' // NOTE: With interimResults enabled it’s probably impossible to reject 'watermelon'
             let searchResult = false;
-            if (fromPhraseToSingleWords[z].toLowerCase() == eachWordArray[j].toLowerCase()) { searchResult = true; }
+            if (fromPhraseToSingleWords[z].toLowerCase() == eachWordArray[j].toLowerCase()) { searchResult = true; } // For some reason this fails for Arabic in Safari
+            else if (isApple) {
+              if (parent.annyang.getSpeechRecognizer().lang == "ar") { console.warn("Listening for Arabic on Safari/Apple");
+                // Use string search to try and find it within the phrase and not individual words
+                if (phrasesArray[k].search(eachWordArray[j]) >= 0) { searchResult = true; }
+              }
+            }
+            // -
             if (!aMatchWasFound && searchResult) {
               aMatchWasFound = true; // Using this, we make sure that stopListeningAndProceedToNext fires only and only once
               if (parent.annyang.getSpeechRecognizer().interimResults) { console.log("Correct answer detected with interimResults enabled");
@@ -414,6 +427,8 @@ function speakToTheMic() {
             }
           } // End of for z
         } // End of for k
+
+
       } // End of for j
     } // END OF compareAndSeeIfTheAnswerIsCorrect
   }
