@@ -356,6 +356,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
           // 28 Ağustos 2023 İstanbul: iPad buraya düşüyor
           // İlerletmeyi deneyelim - çalışacak mı?
+          // Ve evet çalıştı
           removeAllowMicrophoneBlinkerForcedly();
           setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
         }
