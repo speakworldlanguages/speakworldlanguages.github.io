@@ -56,7 +56,7 @@
 
       <!-- THE SCENE -->
       <div class="putThingsAtBottomCenter">
-        <img draggable="false" src="/lessons_in_iframes/level_1/unit_3/lesson_2/background.avif" style="height:100vmin;">
+        <img draggable="false" src="/lessons_in_iframes/level_1/unit_3/lesson_2/background.avif" style="height:100vmin;" id="fixSafariBackgroundID">
       </div>
 
       <!-- THE WATERFALL -->
@@ -194,6 +194,11 @@
           keyboardInstructionPart1.style.width = "55vmin"; // Override value in css ... Looks good enough
           keyboardInstructionPart2.style.width = "55vmin"; // Default css value is greater
           keyboardInstructionPart3.style.width = "55vmin"; // Default value will be applied on mobiles
+        }
+
+        // ---
+        if (isApple) {
+          const buggyBackground = document.getElementById('fixSafariBackgroundID');
         }
       } // END OF whatMustBeDoneAtFirstOnThisDevice()
     </script>
