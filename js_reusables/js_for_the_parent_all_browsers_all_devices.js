@@ -48,8 +48,9 @@ let clickSound; //BETTER WITHOUT: hoverSound
 window.addEventListener("load",function () {
 
   if (deviceDetector.isMobile) {
-    Howler.autoUnlock = false; // Çakışma mı vardı acaba
+    //Howler.autoUnlock = false; // Çakışma mı vardı acaba
     window.addEventListener("touchend",function () {  firstUserGestureHasUnleashedAudio = true;
+/*
       // Create the audio element
       var audioElement = new Audio();
 
@@ -58,7 +59,7 @@ window.addEventListener("load",function () {
 
       // Play the audio
       audioElement.play(); // try to manually unlock
-
+*/
     }, {once:true}); // Prevent sound flooding (otherwise hover sounds that accumulate may explode with the first user gesture).
   } else {
     window.addEventListener("mouseup",function () {  firstUserGestureHasUnleashedAudio = true;  }, {once:true}); // Prevent sound flooding (otherwise hover sounds that accumulate may explode with the first user gesture).
@@ -81,7 +82,8 @@ window.addEventListener("load",function () {
 
   // ---
   dismissNotificationSound1 = new Howl({  src: ["/user_interface/sounds/notification1_close.webm"]  });
-  clickSound = new Howl({  src: ["/user_interface/sounds/illuminant_button_click.webm"]  });
+  //clickSound = new Howl({  src: ["/user_interface/sounds/illuminant_button_click.webm"]  });
+  clickSound = new Howl({  src: ["/user_interface/sounds/test.mp3"]  });
   // ---
 
   // Skip the welcome screen and continue progress from last unit / last saved position
