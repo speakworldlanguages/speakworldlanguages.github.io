@@ -267,28 +267,30 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
               // https://developer.mozilla.org/en-US/docs/Web/API/PermissionStatus/change_event
               // According to mozilla Android Webview cannot fall here because Permissions API is not supported at all in WebView Android
 
-              // Special workaround method is required for Safari 16.0 ~ 16.3
-              // Here is what chat-g-p-t suggested for trying to dynamically check if the change event is supported
-              if (typeof result2.addEventListener === 'function') {
-                // result2.addEventListener('change', proceedAccordingToUsersChoiceAboutMicPermission);
-                try {
-                  result2.onchange = function(event) {    proceedAccordingToUsersChoiceAboutMicPermission(event);  return true;  };
-                } catch (e) {
-                  console.error("Couldn't add event listener for mic permission change: " + e);
-                } finally {
-
-                }
-
-                // UPDATE: Tested Safari 16.6 and it did not respond to the change!!!
-                // Get all event names for the given element
-                console.log(result2);
-                //let eventNames = Object.getOwnPropertyNames(result2); // returns empty array
-                console.log(result2.onchange);
+              // Special workaround method is required for Safari 16.0 ~ 16.3 according to caniuse: Check Safari versions that support onchange
+              try {
+                result2.onchange = function(event) {    proceedAccordingToUsersChoiceAboutMicPermission(event);  return true;  };
+              } catch (e) {
+                console.error("Couldn't add event listener for mic permission via onchange: " + e);
+              } finally {
                 if (result2.onchange) {
-                  console.log("onchange seems to be supported.");
+                  console.log("onchange appears to be supported");
+                  // INDEED: Tested Safari 16.6 and it did not respond to the change when [allow] button was clicked!!!
+                  if (isSafari) { console.log("but this is Safari and it could be lying");
+                    changeEventIsSupported = false;
+                  }
                 } else {
                   console.log("onchange is not supported");
+                  tellTheUserToChangeOrUpdateTheBrowser();
+                  // Note that Safari 15.x and earlier cannot fall here because this is inside an if ("permissions" in navigator) block
+                  console.warn('addEventListener function is not supported for PermissionStatus object.');
+                  // Handle the case where the change event is not supported
+                  changeEventIsSupported = false; // So that, when user has made a choice, we can use the setInterval to detect it
                 }
+              }
+
+
+
                 /*
                 if (isSafari) {
                   console.warn("If this is Safari 16.0 ~ 16.3 and you are still seeing this msg then the app needs version bugfix");
@@ -299,13 +301,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                   }
                 }
                 */
-              } else { // Older browsers, that don't feature adding event listeners to permission queries at all, will fall here
-                tellTheUserToChangeOrUpdateTheBrowser();
-                // Note that Safari 15.x and earlier cannot fall here because this is inside an if ("permissions" in navigator) block
-                console.warn('addEventListener function is not supported for PermissionStatus object.');
-                // Handle the case where the change event is not supported
-                changeEventIsSupported = false; // So that, when user has made a choice, we can use the setInterval to detect it
-              }
+
 
               // _______
 
@@ -370,6 +366,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
           if (changeEventIsSupported) {
             // Do nothing and let proceedAccordingToUsersChoiceAboutMicPermission() react to the user's answer
           } else {
+            // Handle the case in which change event is not actually suppırted
             if ("permissions" in navigator) {
               let previousState, currentState;
               const micPermissionPromiseInit = navigator.permissions.query({name:'microphone'});
