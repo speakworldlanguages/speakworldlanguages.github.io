@@ -277,7 +277,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                   console.log("onchange appears to be supported");
                   // INDEED: Tested Safari 16.6 and it did not respond to the change when [allow] button was clicked!!!
                   if (isSafari) { console.log("but this is Safari and it could be lying");
-                    changeEventIsSupported = false;
+                    changeEventIsSupported = false; // Thankfully We can still react to user's choice
                   }
                 } else {
                   console.log("onchange is not supported");
@@ -288,20 +288,6 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                   changeEventIsSupported = false; // So that, when user has made a choice, we can use the setInterval to detect it
                 }
               }
-
-
-
-                /*
-                if (isSafari) {
-                  console.warn("If this is Safari 16.0 ~ 16.3 and you are still seeing this msg then the app needs version bugfix");
-                  // The problem can be solved by uncommenting
-                  if (detectedBrowserVersion >= 160 && detectedBrowserVersion <= 163 ) {
-                    changeEventIsSupported = false; console.warn("bugfix applied");
-                    tellTheUserToChangeOrUpdateTheBrowser();
-                  }
-                }
-                */
-
 
               // _______
 
