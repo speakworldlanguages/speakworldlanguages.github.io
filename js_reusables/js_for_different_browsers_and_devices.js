@@ -171,9 +171,9 @@ window.addEventListener('DOMContentLoaded', function(){
       // Opera 30 to 50
       // Samsung 4 to 9.1
       // NOTE THAT Safari will never fall here because with 16.0 Permissions API came with microphone included.
-      if (!annyang) {
-        tellTheUserToChangeOrUpdateTheBrowser();
-      }
+
+      tellTheUserToChangeOrUpdateTheBrowser();
+
     });
   } else {
     // User's browser doesn't have permissions API at all which happens on
@@ -184,9 +184,9 @@ window.addEventListener('DOMContentLoaded', function(){
     // EVEN THOUGH Safari started supporting speech recognition with 14.1 on Mac and 14.5 on iOS, it didn't support PermissionStatus API until 16.0 and it didn't support change event before 16.4
     // As a result, an iPad with Safari 15.6 fell here in October 2022. Note that desktop Safari and mobile Safari are different.
     // Best practice seems to be: Show an alert box that tells the user to either update his/her browser or open the app on a Windows/Android device with Chrome.
-    if (!annyang) {
-      tellTheUserToChangeOrUpdateTheBrowser();
-    }
+
+    tellTheUserToChangeOrUpdateTheBrowser();
+
     // Safari 15.x does not support avif files so those will be notified here
     // Safari has partially started supporting avif files during 16.0~16.3 and full support came with 16.4
     // So it is necessary to warn older Safari users and force them to update
@@ -356,8 +356,10 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
           // 28 Ağustos 2023 İstanbul: iPad buraya düşüyor
           // İlerletmeyi deneyelim - çalışacak mı?
-          // Ve evet çalıştı
+          // Ve evet çalıştı - konuşma algılandı
+          //AMA rotating globe preloader kaybolmuyor - BELKİ DE AVIF desteği olmadığı için olabilir
           removeAllowMicrophoneBlinkerForcedly();
+          // Bu şekilde hemen startTeaching çağırmak yerine dah mantıklı birşey yapılabilir mi ???  ???  ???  ???
           setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
         }
         // END OF ---Permission handling---
