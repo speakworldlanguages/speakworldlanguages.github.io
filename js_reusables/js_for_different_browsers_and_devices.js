@@ -8,6 +8,7 @@ let detectedBrowserVersion = 0;
 var detectedOS_name;
 var detectedBrandName = "unknown manufacturer";
 var deviceDetector = {device:"desktop",isMobile:false}; // Defaults
+// var isSamsung = false;
 var isApple = false;
 var isSafari = false;
 var soundFileFormat = "____";
@@ -16,7 +17,7 @@ var isWebViewOnAndroid = false; // Even though it is never used as of August 202
 var isFirefox = false;
 let isUnknownBrowserInTermsOfSpeechRecognition = false;
 
-// annyang.debug(); // Uncomment to activate debug mode for speech recogntion
+annyang.debug(); // Uncomment to activate debug mode for speech recogntion
 
 
 // Prevent screen dimming -> handles the Android case -> Starting with Safari 16.4 it is supported on iOS too
@@ -37,18 +38,21 @@ window.addEventListener('DOMContentLoaded', function(){
   const parser = new UAParser(ua);
   // Check for browser name on every device
   detectedBrowserName = parser.getBrowser().name.toLowerCase();
+  // Manipulate the browser version string so that "greater than" (>) and "smaller than" (<) comparison operators can be used
   if (parser.getBrowser().version) {
-    let versionString = parser.getBrowser().version;
+    const versionString = parser.getBrowser().version;
     function removeNonNumbersAndKeepDot(inputString) {    return inputString.replace(/[^0-9.]/g, '');    }
-    let versionNumberWithDots = removeNonNumbersAndKeepDot(versionString);
+    let versionNumberWithDots = 0.0;
+    if (versionString) { versionNumberWithDots = removeNonNumbersAndKeepDot(versionString); }
+    // NOTE_THAT: Number() returns 0 when the string is empty
     if (typeof versionNumberWithDots.split(".")[1] === 'undefined') {
-      if (typeof versionNumberWithDots.split(".")[0] === 'undefined') {
+      if (typeof versionNumberWithDots.split(".")[0] === 'undefined') { // Example: The string contains no numbers but is only "." or is empty
         detectedBrowserVersion = 0;
-      } else {
-        detectedBrowserVersion = Number(  versionNumberWithDots.split(".")[0]  ); // Number() returns 0 when the string is empty
+      } else { // Example: If "15" then assume that it is "15.0" so » 150
+        detectedBrowserVersion = Number(  versionNumberWithDots.split(".")[0]  )*10;
       }
-    } else {
-      detectedBrowserVersion = Number(  versionNumberWithDots.split(".")[0]+versionNumberWithDots.split(".")[1]  );
+    } else { // Example: If "15.6" then » 156 ,,, If "15.78" then ignore the less significant digits » 157
+      detectedBrowserVersion = Number(  versionNumberWithDots.split(".")[0]  )*10 + Number(  versionNumberWithDots.split(".")[1].substring(0,1)  );
     }
   }
   detectedOS_name = parser.getOS().name.toLowerCase();
