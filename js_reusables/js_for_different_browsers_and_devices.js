@@ -365,9 +365,14 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                 // Samsung Browser skips the annyang.abort() that exists in handleMicFirstTurnOn function
                 // Handle that and any possibly similar browser
                 setTimeout(function () {
-                  if (annyang.isListening()) { console.warn("annyang isListening returned true when mic-permission-prompt was closed");
+                  //if (annyang.isListening()) { console.warn("annyang isListening returned true when mic-permission-prompt was closed"); // Never fires in Samsung Browser
+                  if (isSamsungBrowser) { console.warn("SAMSUNG BROWSER: Try to abort annyang to avoid already started error");
                     annyang.abort();
+                    // Or maybe
+                    // let recog = annyang.getSpeechRecognizer(); recog.interimResults = false;
                   }
+
+                  //}
                 }, 500);
 
                 // The first lesson may start in 1502ms
