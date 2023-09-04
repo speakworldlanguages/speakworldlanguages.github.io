@@ -8,9 +8,9 @@ let detectedBrowserVersion = 0;
 var detectedOS_name;
 var detectedBrandName = "unknown manufacturer";
 var deviceDetector = {device:"desktop",isMobile:false}; // Defaults
-// var isSamsung = false;
 var isApple = false;
 var isSafari = false;
+var isSamsungBrowser = false;
 var soundFileFormat = "____";
 var isAndroid = false;
 var isWebViewOnAndroid = false; // Even though it is never used as of August 2023
@@ -103,6 +103,10 @@ window.addEventListener('DOMContentLoaded', function(){
 
   if (detectedBrowserName.search("safari") >= 0) {
     isSafari = true;
+  }
+
+  if (detectedBrowserName.search("samsung") >= 0) {
+    isSamsungBrowser = true; // Necessary for preventing fullscreen mode before mic permission prompt shows otherwise fullscreen blocks the prompt
   }
 
   if (detectedBrowserName.search("firefox") >= 0) {
@@ -296,7 +300,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
         // Safari 16.4 has full support with the change event
         let changeEventIsSupported = true;
         if ("permissions" in navigator) {
-            console.log("Both SpeechRecogntion and PermissionStatus are supported");
+            console.log("Both SpeechRecognition and PermissionStatus are supported");
             const micPermissionPromise = navigator.permissions.query({name:'microphone'});
             micPermissionPromise.then(function(result2) { // Handle mic permission
 
@@ -326,7 +330,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                   console.log("onchange appears to be supported");
                   // INDEED: Tested Safari 16.6 and it did not respond to the change when [allow] button was clicked!!!
                   if (isSafari) { console.log("but this is Safari and it could be lying");
-                    changeEventIsSupported = false; // Thankfully We can still react to user's choice
+                    changeEventIsSupported = false; // Thankfully: We can still react to user's choice
                   }
                 } else {
                   console.warn("onchange is not supported for PermissionStatus object");
@@ -358,19 +362,27 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
                 // When the setting is changed anyhow
                 removeAllowMicrophoneBlinkerSoftly(); // With nice animation » Should work both on mobile and desktop
+                // Samsung Browser skips the annyang.abort() that exists in handleMicFirstTurnOn function
+                // Handle that and any possibly similar browser
+                setTimeout(function () {
+                  if (annyang.isListening()) { console.warn("annyang isListening returned true when mic-permission-prompt was closed");
+                    annyang.abort();
+                  }
+                }, 500);
+
                 // The first lesson may start in 1502ms
                 setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
               }
             // END OF micPermissionPromise.then
 
             }).catch(function () {
-              // User's browser has both SpeechRecogntion API and Permissions API but it does not let us check microphone permissions!
+              // User's browser has both SpeechRecognition API and Permissions API but it does not let us check microphone permissions!
               // According to caniuse the browsers that will fall here are,
               // Chrome 43 to 63
               // Opera desktop 30 to 50
               // Samsung 4 to 9.1
               // NOTE THAT Safari will never fall here because with 16.0 Permissions API came with microphone included.
-              // In this case Firefox also cannot fall here as it never supported SpeechRecogntion API (as of August 2023)
+              // In this case Firefox also cannot fall here as it never supported SpeechRecognition API (as of August 2023)
               // ---
               // Notification for users with these very old browsers already handled above
             });
@@ -398,11 +410,21 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
         // END OF ---Permission handling---
 
         // Make the “allow microphone” box appear for fresh new users
-        // Here we know that SpeechRecogntion is supported
+        // Here we know that SpeechRecognition is supported
         // To make the mic permission prompt appear we do a quick TURN ON AND THEN OFF
         // Either with or without permissions API
         // UNCERTAIN: We don't know if a browser would pause the script execution during a permission prompt similar to the way it pauses during an alert.
-        // THEREFORE: We start the setInterval before the prompt appears so that it doesn't matter even if its ticking is paused by the permission box.
+        // LATER: Yes it looks like Samsung Browser ignores the annyang.abort() inside handleMicFirstTurnOn
+        // IN CASE: onchange isn't really supported (like Safari 16.x), we start a setInterval before the prompt appears and as a result it doesn't matter if its ticking is paused by the permission box or not.
+        // BUT: On Samsung Browser onchange works fine so we don't use the setInterval » so better try calling annyang.abort() shortly after onchange fires
+        // SEE: proceedAccordingToUsersChoiceAboutMicPermission() function above
+        if (isSamsungBrowser || false || false) { // In Samsung Browser the [Would you like to allow] prompt gets hidden under the fullscreened document element
+          if (hasGoneFullscreen) { // To reveal the prompt we have to exit fullscreen temporarily
+            console.warn("Unblocking the permission prompt in Samsung Browser");
+            setTimeout(function () { closeFullscreen(); }, 750); // See js_for_handling_fullscreen_mode
+          }
+        }
+        // ---
         setTimeout(function () {  handleMicFirstTurnOn();  annyang.start();  },1750); // This will make the prompt box appear for allowing microphone usage
         // Note that proceedAccordingToUsersChoiceAboutMicPermission will be armed and ready to fire startTeaching() IF AND ONLY IF change event is supported
         function handleMicFirstTurnOn() {
