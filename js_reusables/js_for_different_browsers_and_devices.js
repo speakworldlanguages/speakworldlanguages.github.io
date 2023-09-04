@@ -362,16 +362,15 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
                 // When the setting is changed anyhow
                 removeAllowMicrophoneBlinkerSoftly(); // With nice animation » Should work both on mobile and desktop
-                // Samsung Browser skips the annyang.abort() that exists in handleMicFirstTurnOn function
-                // Handle that and any possibly similar browser
+                // Samsung Browser throws an error -> Can not start speech recognition, has already started.
+                // Try to handle that
                 setTimeout(function () {
                   //if (annyang.isListening()) { console.warn("annyang isListening returned true when mic-permission-prompt was closed"); // Never fires in Samsung Browser
-                  if (isSamsungBrowser) { console.warn("SAMSUNG BROWSER: Try to abort annyang to avoid already started error");
-                    annyang.abort();
+                  if (isSamsungBrowser) { console.warn("SAMSUNG BROWSER: Will now turn off interim results to try and avoid already started error");
+                    //annyang.abort(); // DID NOT WORK
                     // Or maybe
-                    // let recog = annyang.getSpeechRecognizer(); recog.interimResults = false;
+                    let recog = annyang.getSpeechRecognizer(); recog.interimResults = false;
                   }
-
                   //}
                 }, 500);
 

@@ -121,6 +121,9 @@ async function makeProgressChartOfflineCompatible() {
       console.log("...all files for progress chart have been cached successfully");
       localStorage.setItem("progressChartShouldBeOfflineCompatibleNow", "verygood");
       // Anything else to do?
+    } else {
+      // Try again
+      setTimeout(function () { makeProgressChartOfflineCompatible(); }, 4000);
     }
   } // End of try-catch-finally
 }
@@ -233,6 +236,9 @@ async function cacheCommonJSandCSSfilesForAllLessons() {
       console.log("all js&css for lessons have been cached successfully");
       localStorage.setItem("commonJSandCSSfilesForAllLessonsCachedSuccessfully", "verygood");
       // Anything else to do?
+    } else {
+      // Try again
+      setTimeout(function () { cacheCommonJSandCSSfilesForAllLessons(); }, 4000);
     }
   } // End of try-catch-finally
 
@@ -310,6 +316,9 @@ async function cacheLesson111CommonAssetsForAllLanguages() {
       console.log("...and all groups have been cached successfully");
       localStorage.setItem("lesson111CommonFilesCachedSuccessfully", "great"); // OR localStorage.lesson111CommonFilesCachedSuccessfully = "cool";
       // Anything else to do?
+    } else {
+      // Try again
+      setTimeout(function () { cacheLesson111CommonAssetsForAllLanguages(); }, 4000);
     }
   } // End of try-catch-finally
 
@@ -366,6 +375,9 @@ async function cacheLesson111AssetsForTheTargetLanguage() {
         console.log("... and files for 1-1-1 "+langCodeForTeachingFilePaths+" are ready");
         // So that it will skip cache search and never recache
         localStorage.setItem("lesson111FilesFor-"+langCodeForTeachingFilePaths+"-CachedSuccessfully", "cool"); // CANNOT USE THE DOT NOTATION localStorage.lesson111FilesForTargetLanguageCachedSuccessfully = "cool";
+      } else {
+        // Try again
+        setTimeout(function () { cacheLesson111AssetsForTheTargetLanguage(); }, 4000);
       }
     } // End of try-catch-finally
 
