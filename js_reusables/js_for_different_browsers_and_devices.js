@@ -17,7 +17,9 @@ var isWebViewOnAndroid = false; // Even though it is never used as of August 202
 var isFirefox = false;
 let isUnknownBrowserInTermsOfSpeechRecognition = false;
 
-annyang.debug(); // Uncomment to activate debug mode for speech recogntion
+if (annyang) {
+  annyang.debug(); // Uncomment to activate debug mode for speech recognition
+}
 
 
 // Prevent screen dimming -> handles the Android case -> Starting with Safari 16.4 it is supported on iOS too
@@ -362,18 +364,6 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
                 // When the setting is changed anyhow
                 removeAllowMicrophoneBlinkerSoftly(); // With nice animation » Should work both on mobile and desktop
-                // Samsung Browser throws an error -> Can not start speech recognition, has already started.
-                // Try to handle that
-                setTimeout(function () {
-                  //if (annyang.isListening()) { console.warn("annyang isListening returned true when mic-permission-prompt was closed"); // Never fires in Samsung Browser
-                  if (isSamsungBrowser) { console.warn("SAMSUNG BROWSER: Will now turn off interim results to try and avoid already started error");
-                    //annyang.abort(); // DID NOT WORK
-                    // Or maybe
-                    let recog = annyang.getSpeechRecognizer(); recog.interimResults = false;
-                  }
-                  //}
-                }, 500);
-
                 // The first lesson may start in 1502ms
                 setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
               }
@@ -427,6 +417,9 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
             console.warn("Unblocking the permission prompt in Samsung Browser");
             setTimeout(function () { closeFullscreen(); }, 750); // See js_for_handling_fullscreen_mode
           }
+          // Samsung Browser throws an error -> Failed to execute 'start' on 'SpeechRecognition', recognition has already started.
+          console.warn("SAMSUNG BROWSER: Will now turn off interim results to try and avoid already started error");
+          let recog = annyang.getSpeechRecognizer(); recog.interimResults = false;
         }
         // ---
         setTimeout(function () {  handleMicFirstTurnOn();  annyang.start();  },1750); // This will make the prompt box appear for allowing microphone usage

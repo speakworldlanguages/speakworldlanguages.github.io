@@ -277,11 +277,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     },
 
 
-    abort: function abort() { //console.log("annyang.js » The abort function of annyang fired");
+    abort: function abort() {
       autoRestart = false;
       autoRestartCount = 0;
       if (isInitialized()) {
-        recognition.abort();
+        recognition.abort(); console.log("annyang.js » recognition.abort() was successful");
       } else {
          console.warn("CANNOT abort because annyang isInitialized returned false");
       }
