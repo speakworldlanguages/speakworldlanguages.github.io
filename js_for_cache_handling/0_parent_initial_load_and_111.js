@@ -19,8 +19,8 @@ async function welcomeScreenCacheHandling() {
   // ---
   if (localStorage.getItem("progressChartShouldBeOfflineCompatibleNow")) {
     // Previously cached » BUT! If it needs to be updated then uncomment the following
-    // const august2023cacheIsDeleted = await caches.delete('progress-chart-assets-August2023'); // Uncomment if update is necessary
-    if (false /* When new files are ready, replace false with august2023cacheIsDeleted */) {
+    // const september2023cacheIsDeleted = await caches.delete('progress-chart-assets-September2023'); // Uncomment if update is necessary
+    if (false /* When new files are ready, replace false with september2023cacheIsDeleted */) {
       // So that the browser will NOT display files from the outdated cache to returning users.
       localStorage.removeItem("progressChartShouldBeOfflineCompatibleNow");
       makeProgressChartOfflineCompatible(); // Recache with the new files
@@ -35,8 +35,8 @@ async function welcomeScreenCacheHandling() {
   // ---
   if (localStorage.getItem("commonJSandCSSfilesForAllLessonsCachedSuccessfully")) {
     // Previously cached » BUT! If it needs to be updated then uncomment the following
-    // const august2023cacheIsDeleted = await caches.delete('common-js-css-txt-used-by-lessons-August2023'); // Uncomment if update is necessary
-    if (false /* When new files are ready, replace false with august2023cacheIsDeleted */) {
+    // const september2023cacheIsDeleted = await caches.delete('common-js-css-txt-used-by-lessons-September2023'); // Uncomment if update is necessary
+    if (false /* When new files are ready, replace false with september2023cacheIsDeleted */) {
       // So that the browser will NOT display files from the outdated cache to returning users.
       localStorage.removeItem("commonJSandCSSfilesForAllLessonsCachedSuccessfully");
       cacheCommonJSandCSSfilesForAllLessons(); // Recache with the new files
@@ -51,9 +51,9 @@ async function welcomeScreenCacheHandling() {
   // ---
   if (localStorage.getItem("lesson111CommonFilesCachedSuccessfully")) { // Condition: Either no previous attempt exists or none of the previous attempts were successful
     // Previously cached » BUT! If it needs to be updated then uncomment the following
-    // const august2023primaryCacheIsDeleted = await caches.delete('1-1-1-primary-assets-for-all-languages-August2023');
-    // const august2023secondaryCacheIsDeleted = await caches.delete('1-1-1-secondary-assets-for-all-languages-August2023');
-    if (false /* When new files are ready, replace false with august2023primaryCacheIsDeleted || august2023secondaryCacheIsDeleted*/) {
+    // const september2023primaryCacheIsDeleted = await caches.delete('1-1-1-primary-assets-for-all-languages-September2023');
+    // const september2023secondaryCacheIsDeleted = await caches.delete('1-1-1-secondary-assets-for-all-languages-September2023');
+    if (false /* When new files are ready, replace false with september2023primaryCacheIsDeleted || september2023secondaryCacheIsDeleted*/) {
       // So that the browser will NOT display files from the outdated cache to returning users.
       localStorage.removeItem("lesson111CommonFilesCachedSuccessfully");
       cacheLesson111CommonAssetsForAllLanguages(); // Recache with the new files
@@ -67,8 +67,8 @@ async function welcomeScreenCacheHandling() {
   // ---
   if (localStorage.getItem("lesson111FilesFor-"+langCodeForTeachingFilePaths+"-CachedSuccessfully")) {
     // Previously cached » BUT! If it needs to be updated then uncomment the following
-    // const august2023cacheIsDeleted = caches.delete('1-1-1-assets-for-'+langCodeForTeachingFilePaths+'-August2023');
-    if (false /* When new files are ready, replace false with august2023cacheIsDeleted */) {
+    // const september2023cacheIsDeleted = caches.delete('1-1-1-assets-for-'+langCodeForTeachingFilePaths+'-September2023');
+    if (false /* When new files are ready, replace false with september2023cacheIsDeleted */) {
       // So that the browser will NOT display files from the outdated cache to returning users.
       if (langCodeForTeachingFilePaths) { // If exists and is ready (will be so for returning users)
         localStorage.removeItem("lesson111FilesFor-"+langCodeForTeachingFilePaths+"-CachedSuccessfully")
@@ -88,7 +88,7 @@ async function welcomeScreenCacheHandling() {
 // ____________
 async function makeProgressChartOfflineCompatible() {
   // Create the folder-like storage slots
-  const cacheForTheProgressChart = await caches.open('progress-chart-assets-August2023');
+  const cacheForTheProgressChart = await caches.open('progress-chart-assets-September2023');
   const listOfEverythingInProgressChart = [
     "/progress_chart/images/1_1_1_water.webp",
     "/progress_chart/images/1_1_2_givemewater.webp",
@@ -100,6 +100,7 @@ async function makeProgressChartOfflineCompatible() {
     "/progress_chart/images/1_2_4_eatwithspoon.webp",
     "/progress_chart/images/1_3_1_fish.webp",
     "/progress_chart/images/1_3_2_thereexists.webp",
+    "/progress_chart/images/1_3_3_tree.webp",
     "/progress_chart/images/not_published_yet.webp",
     "/progress_chart/bilinguals.css",
     "/progress_chart/index.html",
@@ -130,7 +131,7 @@ async function makeProgressChartOfflineCompatible() {
 
 async function cacheCommonJSandCSSfilesForAllLessons() {
   // Create the folder-like storage slots
-  const cacheForCommonJSandCSSandTXTfilesUsedByLessonHTMLs = await caches.open('common-js-css-txt-used-by-lessons-August2023');
+  const cacheForCommonJSandCSSandTXTfilesUsedByLessonHTMLs = await caches.open('common-js-css-txt-used-by-lessons-September2023');
   const u = "/user_interface/text/"+userInterfaceLanguage; // See js_for_every_single_html
   // ---
   // soundFileFormat exists in js_for_different_browsers_and_devices
@@ -233,7 +234,7 @@ async function cacheCommonJSandCSSfilesForAllLessons() {
     errorHappened = true;
   } finally {
     if (!errorHappened) {
-      console.log("all js&css for lessons have been cached successfully");
+      console.log("...all js&css for lessons have been cached successfully");
       localStorage.setItem("commonJSandCSSfilesForAllLessonsCachedSuccessfully", "verygood");
       // Anything else to do?
     } else {
@@ -247,8 +248,8 @@ async function cacheCommonJSandCSSfilesForAllLessons() {
 // ____________
 async function cacheLesson111CommonAssetsForAllLanguages() {
   // Create the folder-like storage slots
-  const primaryCacheForLesson_1_1_1 = await caches.open('1-1-1-primary-assets-for-all-languages-August2023');
-  const secondaryCacheForLesson_1_1_1 = await caches.open('1-1-1-secondary-assets-for-all-languages-August2023');
+  const primaryCacheForLesson_1_1_1 = await caches.open('1-1-1-primary-assets-for-all-languages-September2023');
+  const secondaryCacheForLesson_1_1_1 = await caches.open('1-1-1-secondary-assets-for-all-languages-September2023');
 
   // --------
   let listOfPrimaryAssetsForLesson_1_1_1 = [
@@ -333,7 +334,7 @@ async function cacheLesson111AssetsForTheTargetLanguage() {
     // Already cached
   } else {
 
-    const cacheForTargetLanguage_1_1_1 = await caches.open('1-1-1-assets-for-'+langCodeForTeachingFilePaths+'-August2023'); // Create a new slot
+    const cacheForTargetLanguage_1_1_1 = await caches.open('1-1-1-assets-for-'+langCodeForTeachingFilePaths+'-September2023'); // Create a new slot
     // soundFileFormat exists in js_for_different_browsers_and_devices
     let listOfFilesForTargetLanguage_1_1_1 = [
       "/audio_files_for_listening/"+langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/water_1-2."+soundFileFormat,
@@ -372,7 +373,7 @@ async function cacheLesson111AssetsForTheTargetLanguage() {
       errorHappened = true;
     } finally {
       if (!errorHappened) {
-        console.log("... and files for 1-1-1 "+langCodeForTeachingFilePaths+" are ready");
+        console.log("...and files for 1-1-1 "+langCodeForTeachingFilePaths+" are ready");
         // So that it will skip cache search and never recache
         localStorage.setItem("lesson111FilesFor-"+langCodeForTeachingFilePaths+"-CachedSuccessfully", "cool"); // CANNOT USE THE DOT NOTATION localStorage.lesson111FilesForTargetLanguageCachedSuccessfully = "cool";
       } else {
@@ -413,7 +414,7 @@ const groupZero = [
   // If frequently updated files must be cached for offline support then we must use cache versioning and delete the older ones
 
   // "/js_reusables/js_for_the_parent_all_browsers_all_devices.js", // Could be updated frequently
-  // WARNING: NEVER CACHE THE js_for_handling_cache.js FILE and such files!!!
+  // WARNING: NEVER CACHE THE js_for_cache_handling.js FILE and such files!!!
   // "/js_reusables/js_for_different_browsers_and_devices.js", // Could be updated even though rarely
 
   "/js_reusables/js_for_handling_fullscreen_mode.js",
