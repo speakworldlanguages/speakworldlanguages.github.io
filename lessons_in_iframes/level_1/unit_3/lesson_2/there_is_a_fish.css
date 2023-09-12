@@ -65,6 +65,15 @@
 @keyframes simpleAppear { 0%{ opacity: 0; }  100%{ opacity: 1; } }
 .itDisappears{ animation: simpleDisappear 1.5s;  animation-fill-mode: forwards; }
 @keyframes simpleDisappear { 0%{ opacity: 1; }  100%{ opacity: 0; visibility: hidden; } }
+.itBlinks{animation: blinker;  animation-fill-mode: forwards; animation-timing-function: linear; /*steps(6,jump-none);*/}
+@keyframes blinker {
+  0%{ opacity: 0; }
+  20%{ opacity: 1; }
+  40%{ opacity: 0; }
+  60%{ opacity: 1; }
+  80%{ opacity: 0; }
+  100%{ opacity: 1; }
+}
 
 .touchControlsLineHeight{ height: 90px; }
 #swimLeftButtonID{transform: rotate(-90deg);}
