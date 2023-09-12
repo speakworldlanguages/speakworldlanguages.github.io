@@ -296,9 +296,9 @@ let countdownForGiveUpSkipOrGoToNext = 3300; // This value is for non-whiteliste
 function display_nowItsYourTurn_animation() {
   let changeTime, dingTimeMeansProceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": changeTime = 3; dingTimeMeansProceedTime = 4600; break;
-    case "fast": changeTime = 1; dingTimeMeansProceedTime = 3000; break;
-    default:     changeTime = 2; dingTimeMeansProceedTime = 3600;
+    case "slow": changeTime = 3; dingTimeMeansProceedTime = 2500; break;
+    case "fast": changeTime = 1; dingTimeMeansProceedTime = 1500; break;
+    default:     changeTime = 2; dingTimeMeansProceedTime = 2000;
   }
   containerOfDoubles.classList.add("makePhotosDisappear"); containerOfDoubles.style.animationDuration = String(changeTime)+"s";
   new SuperTimeout(function(){ containerOfDoubles.parentNode.removeChild(containerOfDoubles); }, changeTime*1000 + 250); // Remove shortly after opacity hits zero
@@ -319,7 +319,7 @@ function display_nowItsYourTurn_animation() {
   new SuperTimeout(function(){
     containerOfSingles.style.display = "block"; containerOfSingles.classList.add("singlesContainerAppears"); // Fixed animation duration (1.5s) to avoid conflict
     new SuperTimeout(function(){ showSinglesOneByOne(); }, 1500);
-  }, dingTimeMeansProceedTime + changeTime*200);
+  }, dingTimeMeansProceedTime + changeTime*300);
 }
 
 function showSinglesOneByOne() {
@@ -382,7 +382,7 @@ function speakToTheMic() {
         notificationDingTone.play(); // Android has its native DING tone. So let this DING tone play on desktops and iOS devices.
     }
     // Start listening.
-    new SuperTimeout(function() {  parent.annyang.start({ autoRestart: true });  },500); // NOTE: annyang.resume() equals annyang.start()
+    new SuperTimeout(function() {  parent.annyang.start({ autoRestart: true });  },300); // NOTE: annyang.resume() equals annyang.start()
     new SuperTimeout(function() {  startAudioInputVisualization();  },600); // Will work only on devices that can handle it. See js_for_microphone_input_visualization.js
     // New method of detecting matches
     parent.annyang.addCallback('result', compareAndSeeIfTheAnswerIsCorrect);
