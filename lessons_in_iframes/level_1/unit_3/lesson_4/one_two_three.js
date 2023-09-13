@@ -181,7 +181,6 @@ function activateMicrophone() { parent.console.log("activating microphone");
                   measurePerformanceStartTime = performance.now();
                   worker.postMessage({ data: dataArray, task: 'filterAndCalculate' });
                   // RAF, recursion, loop
-                  //console.log(workerResponseTime);
                   responseMeter.innerHTML = "response time: " + workerResponseTime.toFixed(1);
                   requestAnimationFrame(updateAmplitude);
                   // -
