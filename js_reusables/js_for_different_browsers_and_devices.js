@@ -115,15 +115,19 @@ window.addEventListener('DOMContentLoaded', function(){
     isFirefox = true;
   }
   // Android Chrome and Webview on Android are different // Like support for change event is not the same in 2022 >>> https://developer.mozilla.org/en-US/docs/Web/API/PermissionStatus/change_event
+  // UNCERTAIN: What would the detectedBrowserName be on iOS if it was installed as PWA or was downloaded as standalone from app store?
   if (detectedBrowserName.search("webview") >= 0) {
     isWebViewOnAndroid = true; // Even though it is never used as of August 2023
-    if (annyang) {    annyangRestartDelayTime = 2500;    } // Override the default value of 100
-    else {console.warn("annyang doesn't exist???");}
   }
 
   if (detectedOS_name.search("android") >= 0) {
     isAndroid=true; // Primary use case: In lesson 1-1-1 lesson.js to notify user about microphone timing
-    if (annyang) {    annyangRestartDelayTime = 2500;    } // Override the default value of 100
+    if (annyang) {
+      annyangRestartDelayTime = 3000;
+      let recog = annyang.getSpeechRecognizer(); recog.interimResults = false; // Turn off interimResults on all Android devices regardless of browser
+      // NOTE: When interimResults are ON, speech recognition throws an error on Samsung Browser, says it has already started.
+      // NOTE: Chrome actually DOES NOT throw an error but it looks like it starts later than expected when interimResults are ON.
+    } // Override the default value of 100
     else {console.warn("annyang doesn't exist???");}
   }
 
@@ -422,8 +426,8 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
             setTimeout(function () { closeFullscreen(); }, 750); // See js_for_handling_fullscreen_mode
           }
           // Samsung Browser throws an error -> Failed to execute 'start' on 'SpeechRecognition', recognition has already started.
-          console.warn("SAMSUNG BROWSER: Will now turn off interim results to avoid already started error");
-          let recog = annyang.getSpeechRecognizer(); recog.interimResults = false;
+          // Chrome on Android can function with interimResults but it looks like it causes a delay with annyang.start
+          // console.warn("SAMSUNG BROWSER: Will now turn off interim results to avoid already started error");
         }
         // ---
         setTimeout(function () {  handleMicFirstTurnOn();  annyang.start({ autoRestart: false });  },1750); // This will make the prompt box appear for allowing microphone usage

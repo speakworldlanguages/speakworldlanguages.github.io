@@ -338,7 +338,7 @@ function showHowToSwimMOBILE() {
 function showHowToJumpMOBILE(option) {
   let blinkTime;  switch (parent.speedAdjustmentSetting) {  case "slow": blinkTime = 4; break;  case "fast": blinkTime = 2; break;  default: blinkTime = 3;  }
   fishJumpButton.style.visibility = "visible";
-  if (option == "shorter_blink") { fishJumpButton.classList.add("itBlinks"); fishJumpButton.style.animationDuration = String(blinkTime/2) + "s"; }
+  if (option == "shorter_blink") { fishJumpButton.classList.add("itBlinks"); fishJumpButton.style.animationDuration = String(blinkTime*0.75) + "s"; }
   else {                           fishJumpButton.classList.add("itBlinks"); fishJumpButton.style.animationDuration = String(blinkTime) + "s";   }
   fishJumpButton.onanimationend = () => {  fishJumpButton.classList.remove("itBlinks");  };
 }
