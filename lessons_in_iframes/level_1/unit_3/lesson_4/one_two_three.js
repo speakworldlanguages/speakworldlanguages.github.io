@@ -2,7 +2,12 @@
 
 // Too bad workers cannot access navigator.mediaDevices
 var worker = new Worker('/lessons_in_iframes/level_1/unit_3/lesson_4/worker.js');
+let measurePerformanceStartTime = 0;
+//let measurePerformanceEndTime = 0;
+let workerResponseTime = 0;
 worker.onmessage = function (event) {
+    //measurePerformanceEndTime = performance.now(); // Stop the timer
+    workerResponseTime = performance.now() - measurePerformanceStartTime; // Calculate response time
     const message = event.data;
     switch (message.type) {
         case 'ready':
@@ -47,6 +52,7 @@ let isRecordingRightNow = false;
 const amplitudeMeter = document.getElementById('amplitude-meter');
 const amplitudeBar = document.getElementById('amplitude-bar');
 const monitor = document.getElementById('monitorID');
+const responseMeter = document.getElementById('responseID');
 const audioPlayer = document.getElementById('audioPlayerID');
 
 
@@ -172,8 +178,11 @@ function activateMicrophone() { parent.console.log("activating microphone");
                   // -
                   analyser.getByteFrequencyData(dataArray);
                   // Calculate the average amplitude from the specified frequency range
+                  measurePerformanceStartTime = performance.now();
                   worker.postMessage({ data: dataArray, task: 'filterAndCalculate' });
                   // RAF, recursion, loop
+                  //console.log(workerResponseTime);
+                  responseMeter.innerHTML = "response time: " + workerResponseTime.toFixed(1);
                   requestAnimationFrame(updateAmplitude);
                   // -
               }
