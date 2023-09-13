@@ -182,7 +182,11 @@ function activateMicrophone() { parent.console.log("activating microphone");
                   worker.postMessage({ data: dataArray, task: 'filterAndCalculate' });
                   // RAF, recursion, loop
                   responseMeter.innerHTML = "response time: " + workerResponseTime.toFixed(1);
-                  requestAnimationFrame(updateAmplitude);
+                  if (workerResponseTime>16.66) {
+                    requestAnimationFrame(function () { requestAnimationFrame(updateAmplitude); }); // Skip a frame
+                  } else {
+                    requestAnimationFrame(updateAmplitude);
+                  }
                   // -
               }
 
