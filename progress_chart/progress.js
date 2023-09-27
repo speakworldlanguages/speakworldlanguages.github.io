@@ -119,8 +119,8 @@ if (parent.savedProgress[studiedLangCode].lesson_THEREISAFISHINTHEWATER_IsViewed
 if (parent.savedProgress[studiedLangCode].lesson_THEREISAFISHINTHEWATER_IsCompleted) {  lesson132.classList.add("thisLessonHasBeenCompleted");  }
 if (parent.savedProgress[studiedLangCode].lesson_TREE_IsViewed) {  lesson133.classList.add("thisLessonHasBeenViewedButNotCompleted");  }
 if (parent.savedProgress[studiedLangCode].lesson_TREE_IsCompleted) {  lesson133.classList.add("thisLessonHasBeenCompleted");  }
-if (parent.savedProgress[studiedLangCode].lesson_ONETWOTHREE_IsViewed) {  lesson134.classList.add("thisLessonHasBeenViewedButNotCompleted");  }
-if (parent.savedProgress[studiedLangCode].lesson_ONETWOTHREE_IsCompleted) {  lesson134.classList.add("thisLessonHasBeenCompleted");  }
+if (parent.savedProgress[studiedLangCode].lesson_PRIMARYCOLORS_IsViewed) {  lesson134.classList.add("thisLessonHasBeenViewedButNotCompleted");  }
+if (parent.savedProgress[studiedLangCode].lesson_PRIMARYCOLORS_IsCompleted) {  lesson134.classList.add("thisLessonHasBeenCompleted");  }
 // --------
 
 // handleFadingAndNavigation exists in js_for_the_parent_all_browsers_all_devices

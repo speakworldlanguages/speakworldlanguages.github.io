@@ -767,13 +767,13 @@ function pauseTheAppFunction(reasonWhy) { // As of September 2023 reasonWhy is e
       // Note that: No problem if abort() fires when annyang wasn't listening.
     }
 
-    // STOP WAVESURFER
+    // STOP AUDIOMETER
     let audioMeterWasListeningWhenUserPaused = false;
     // See js_for_microphone_input_visualization
     if (iFrameWindowInPauseTheAppFunction.audioMeterIsListening) { iFrameWindowInPauseTheAppFunction.stopAudioInputVisualization(); audioMeterWasListeningWhenUserPaused = true; }
     else {
-      // DO NOTHING CASE 1: wavesurfer mic does not exist because it's not used in this lesson
-      // DO NOTHING CASE 2: wavesurfer mic exists but it was not started yet
+      // DO NOTHING CASE 1: audiometer mic does not exist because it's not used in this lesson
+      // DO NOTHING CASE 2: audiometer mic exists but it was not started yet
     }
 
     // PAUSE ALL TIMERS
@@ -802,7 +802,7 @@ function pauseTheAppFunction(reasonWhy) { // As of September 2023 reasonWhy is e
       }
     }
     else {  console.warn("listOfAllSoundsInThisLesson doesn't exist???");   }
-    // SHOULD WE ALSO TURN OFF WAVESURFER MIC???
+    // SHOULD WE ALSO TURN OFF AUDIOMETER MIC???
 
     // ---
     if (typeof iFrameWindowInPauseTheAppFunction.pauseCSSAnimations === "function") { // If there exists such a function » example 1-3-2 [there is a fish]

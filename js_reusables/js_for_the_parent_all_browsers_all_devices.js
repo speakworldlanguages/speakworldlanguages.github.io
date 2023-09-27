@@ -3,8 +3,8 @@
 // This file MAY NOT BE MODIFIED by unauthorized people = This file may be modified by AUTHORIZED PEOPLE ONLY
 
 // DYNAMIC WINDOW SIZE: Needed by game levels
-var lastRecordedWindowWidth = window.innerWidth; var lastRecordedWindowHeight = window.innerHeight;
-var lastRecordedScreenWidth = window.screen.width; var lastRecordedScreenHeight = window.screen.height;
+var lastRecordedWindowWidth = window.innerWidth; var lastRecordedWindowHeight = window.innerHeight; // Dimensions of the browser's display area
+var lastRecordedScreenWidth = window.screen.width; var lastRecordedScreenHeight = window.screen.height; // Dimensions of the USER'S desktop
 window.addEventListener('resize', updateWindowProperties);
 function updateWindowProperties() {
   lastRecordedWindowWidth = window.innerWidth; lastRecordedWindowHeight = window.innerHeight; // Update the values
@@ -17,7 +17,17 @@ function updateWindowProperties() {
 
 // See js_for_all_iframed_lesson_htmls AND blank.html
 var userIsOrWasJustViewing = "welcome-screen"; // First time users will stay at welcome-screen,,, continuing user's will teleport to progress-chart
-//
+
+// See » https://developer.mozilla.org/en-US/docs/Web/API/StorageManager/persist
+if (navigator.storage && navigator.storage.persist) {
+  navigator.storage.persist().then((persistent) => {
+    if (persistent) {
+      console.log("Storage persistence is allowed » data will not be cleared except by explicit user action");
+    } else {
+      console.warn("Storage persistence is NOT ALLOWED » data may be cleared by the UA under storage pressure.");
+    }
+  });
+}
 
 /*________________LOAD/SAVE___________________*/
 var savedProgress; // This used to be in js_for_every_single_html BUT it made two DANGEROUS DUPLICATE vars exist [1- container parent level] [2- iframed lesson level] // LET'S avoid trouble

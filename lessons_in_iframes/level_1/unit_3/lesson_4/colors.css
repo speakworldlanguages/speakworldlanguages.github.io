@@ -1,0 +1,77 @@
+.moveUpAndGoBeyondScreenLimit{
+  animation-name: flyAwayUpwards;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+@keyframes flyAwayUpwards {
+  0% {margin-top: 0vh;}
+  100% {margin-top: -100vh;}
+}
+
+.allOfTheGame{
+  perspective: 1000px;
+  position: fixed;
+  left: 50%; top:50%;
+  transform: translate(-50%,-50%) scale(1.0);
+  margin-top: 100vh;
+  overflow: visible;
+  border: 1px dotted black;
+}
+@media (orientation:portrait) {
+  .allOfTheGame{width:360px; height:540px;}
+  @media (max-width: 600px) {  .allOfTheGame{transform: translate(-50%,-50%) scale(0.9);}  }
+  @media (max-width: 500px) {  .allOfTheGame{transform: translate(-50%,-50%) scale(0.8);}  }
+  @media (max-width: 400px) {  .allOfTheGame{transform: translate(-50%,-50%) scale(0.7);}  }
+  @media (max-width: 300px) {  .allOfTheGame{transform: translate(-50%,-50%) scale(0.6);}  }
+}
+@media (orientation:landscape) {
+  .allOfTheGame{height:360px; width:540px;}
+  @media (max-height: 600px) {  .allOfTheGame{transform: translate(-50%,-50%) scale(0.9);}  }
+  @media (max-height: 500px) {  .allOfTheGame{transform: translate(-50%,-50%) scale(0.8);}  }
+  @media (max-height: 400px) {  .allOfTheGame{transform: translate(-50%,-50%) scale(0.7);}  }
+  @media (max-height: 300px) {  .allOfTheGame{transform: translate(-50%,-50%) scale(0.6);}  }
+}
+
+
+.containerForOneOfSixPieces{
+  transform-style: preserve-3d;
+  /* perspective: 1000px; */
+  overflow: visible;
+  position: absolute;
+  width:180px; height:180px;
+  left:calc(50% - 90px);
+  top:calc(50% - 90px);
+  transform: translateX(0vw) translateY(0vh);
+  /* transition: left 0.7s, top 0.7s, transform 0.7s; */
+  transition-property: left, top, transform;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-out;
+}
+
+.moveUpAndComeToTheCenterOfScreen{
+  animation-name: flyInFromDownwards;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+@keyframes flyInFromDownwards {
+  0% {margin-top: 100vh;}
+  100% {margin-top: 0vh;}
+}
+
+.theCards{
+  transform-style: preserve-3d;
+  position: relative;
+  left: 15px; top:15px;
+  width:150px; height:150px;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  background-color: ivory;
+  animation: spin 16s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
