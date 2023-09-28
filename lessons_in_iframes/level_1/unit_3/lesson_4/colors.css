@@ -10,14 +10,17 @@
 }
 
 .allOfTheGame{
-  perspective: 1000px;
+  /* perspective: 1000px; */
   position: fixed;
   left: 50%; top:50%;
   transform: translate(-50%,-50%) scale(1.0);
   margin-top: 100vh;
   overflow: visible;
   border: 1px dotted black;
+  cursor: url("/user_interface/images/cursor/default_cursor.png") 16 4,auto;
 }
+.allOfTheGame:hover{ cursor: url("/user_interface/images/cursor/default_cursor.png") 16 4,auto; }
+
 @media (orientation:portrait) {
   .allOfTheGame{width:360px; height:540px;}
   @media (max-width: 600px) {  .allOfTheGame{transform: translate(-50%,-50%) scale(0.9);}  }
@@ -35,8 +38,8 @@
 
 
 .containerForOneOfSixPieces{
-  transform-style: preserve-3d;
-  /* perspective: 1000px; */
+  /* transform-style: preserve-3d; */
+  perspective: 1000px;
   overflow: visible;
   position: absolute;
   width:180px; height:180px;
@@ -60,18 +63,29 @@
   100% {margin-top: 0vh;}
 }
 
+#white{background-color: white;}
+#green{background-color: green;}
+#blue{background-color: blue;}
+#yellow{background-color: yellow;}
+#red{background-color: red;}
+#black{background-color: black;}
+
 .theCards{
   transform-style: preserve-3d;
   position: relative;
   left: 15px; top:15px;
   width:150px; height:150px;
   border-radius: 10px;
-  backface-visibility: hidden;
-  background-color: ivory;
-  animation: spin 16s linear infinite;
+  /* backface-visibility: hidden; */
+
+  /* animation: spin 2s linear; */
+  scale: 1;
+  transition: scale 0.3s;
 }
+.theCards:hover{ cursor: url("/user_interface/images/cursor/button_cursor.png") 16 4,auto; }
+.scaleUp{ scale: 1.12; }
 
 @keyframes spin {
   0% { transform: rotateY(0deg); }
-  100% { transform: rotateY(360deg); }
+  100% { transform: rotateY(180deg); }
 }

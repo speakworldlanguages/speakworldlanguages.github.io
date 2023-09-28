@@ -101,6 +101,7 @@ async function makeProgressChartOfflineCompatible() {
     "/progress_chart/images/1_3_1_fish.webp",
     "/progress_chart/images/1_3_2_thereexists.webp",
     "/progress_chart/images/1_3_3_tree.webp",
+    "/progress_chart/images/1_3_4_palette.webp",
     "/progress_chart/images/not_published_yet.webp",
     "/progress_chart/bilinguals.css",
     "/progress_chart/index.html",

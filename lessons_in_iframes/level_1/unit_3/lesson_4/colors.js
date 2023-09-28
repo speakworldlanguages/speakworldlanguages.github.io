@@ -80,93 +80,217 @@ const fullVpDarkBlue = document.getElementById('fullVpDarkBlueDivID');
 const containerOfSingles = document.getElementById('singlesDivID');
 const allSingles = containerOfSingles.children; // Use children instead of childNodes to ignore HTML comments
 const containerOfTheWholeGame = document.getElementById('allOfTheGameDivID');
-const allMemoryPieces = document.querySelectorAll(".containerForOneOfSixPieces");; // Use children instead of childNodes to ignore HTML comments
+const allMemoryPieces = document.querySelectorAll(".containerForOneOfSixPieces");
+const allCards = document.querySelectorAll(".theCards");
 
 /* ___PROGRESSION___ */
 window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, { once: true });
 // Desktop users can change the speed; mobile users can't. Because the mobile GUI has to stay simple.
 function loadingIsCompleteFunction()
 {
-  // Stop and notify the user if necessary; otherwise just continue.
-  startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
+  if (studiedLang == "ar") { // Display the note about adjectives' GENDER in Arabic.
+    const pathOfNotificationAboutGender = "/user_interface/text/"+userInterfaceLanguage+"/1-3-4_arabic_gender.txt";
+    fetch(pathOfNotificationAboutGender,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      new SuperTimeout(function(){ createAndHandleInfoBoxType1BeforeLessonStarts(); putNotificationTxtIntoThisP1.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
+      // createAndHandleInfoBoxType1BeforeLessonStarts() will fire startTheLesson() 1.5 seconds after its OK button is clicked/touched
+    });
+  } else {
+    startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
+  }
 }
 
 function startTheLesson()
 {
   // White is the first color then comes green » blue » yellow » red » black
-  new SuperTimeout(showGreen, 1500);
+  // Give time to the preloader to clear
+  let sayTime; let proceedTime;
+  switch (parent.speedAdjustmentSetting) {
+    case "slow": sayTime = 5000; proceedTime = 11000; break;
+    case "fast": sayTime = 2000; proceedTime = 6000;  break;
+    default:     sayTime = 3500; proceedTime = 8500;
+  }
+  new SuperTimeout(function () { sayWhite1.play(); }, sayTime/5);
+  new SuperTimeout(showGreen, proceedTime/5);
 }
 
 function showGreen() {
   allSingles[0].style.visibility = "hidden";
   allSingles[1].style.visibility = "visible"; // Sudden change actually looks good in this case
-  new SuperTimeout(showBlue, 1000);
+  let sayTime; let proceedTime;
+  switch (parent.speedAdjustmentSetting) {
+    case "slow": sayTime = 4000; proceedTime = 10000; break;
+    case "fast": sayTime = 1000; proceedTime = 5000;  break;
+    default:     sayTime = 2500; proceedTime = 7500;
+  }
+  new SuperTimeout(function () { sayGreen1.play(); }, sayTime/5);
+  new SuperTimeout(showBlue, proceedTime/5);
 }
 
 function showBlue() {
   allSingles[1].style.visibility = "hidden";
   allSingles[2].style.visibility = "visible"; // Sudden change actually looks good in this case
-  new SuperTimeout(showYellow, 1000);
+  let sayTime; let proceedTime;
+  switch (parent.speedAdjustmentSetting) {
+    case "slow": sayTime = 4000; proceedTime = 10000; break;
+    case "fast": sayTime = 1000; proceedTime = 5000;  break;
+    default:     sayTime = 2500; proceedTime = 7500;
+  }
+  new SuperTimeout(function () { sayBlue1.play(); }, sayTime/5);
+  new SuperTimeout(showYellow, proceedTime/5);
 }
 
 function showYellow() {
   allSingles[2].style.visibility = "hidden";
   allSingles[3].style.visibility = "visible"; // Sudden change actually looks good in this case
-  new SuperTimeout(showRed, 1000);
+  let sayTime; let proceedTime;
+  switch (parent.speedAdjustmentSetting) {
+    case "slow": sayTime = 4000; proceedTime = 10000; break;
+    case "fast": sayTime = 1000; proceedTime = 5000;  break;
+    default:     sayTime = 2500; proceedTime = 7500;
+  }
+  new SuperTimeout(function () { sayYellow1.play(); }, sayTime/5);
+  new SuperTimeout(showRed, proceedTime/5);
 }
 
 function showRed() {
   allSingles[3].style.visibility = "hidden";
   allSingles[4].style.visibility = "visible"; // Sudden change actually looks good in this case
-  new SuperTimeout(showBlack, 1000);
+  let sayTime; let proceedTime;
+  switch (parent.speedAdjustmentSetting) {
+    case "slow": sayTime = 4000; proceedTime = 10000; break;
+    case "fast": sayTime = 1000; proceedTime = 5000;  break;
+    default:     sayTime = 2500; proceedTime = 7500;
+  }
+  new SuperTimeout(function () { sayRed1.play(); }, sayTime/5);
+  new SuperTimeout(showBlack, proceedTime/5);
 }
 
 function showBlack() {
   allSingles[4].style.visibility = "hidden";
   allSingles[5].style.visibility = "visible"; // Sudden change actually looks good in this case
-  new SuperTimeout(bringTheGameToTheScene, 1000);
+  let sayTime; let proceedTime;
+  switch (parent.speedAdjustmentSetting) {
+    case "slow": sayTime = 4000; proceedTime = 10000; break;
+    case "fast": sayTime = 1000; proceedTime = 5000;  break;
+    default:     sayTime = 2500; proceedTime = 7500;
+  }
+  new SuperTimeout(function () { sayBlack1.play(); }, sayTime/5);
+  sendTheCardsToTheirNewPositions();
+  new SuperTimeout(bringTheGameToTheScene, proceedTime/5);
 }
 
 function bringTheGameToTheScene() {
-  containerOfSingles.classList.add("moveUpAndGoBeyondScreenLimit");
-  //disperse();
-  containerOfTheWholeGame.classList.add("moveUpAndComeToTheCenterOfScreen");
-  setTimeout(function () {
-    disperse();
-    //sendTheCardsToTheirNewPositions();
-  }, 3000);
-  setTimeout(function () {
-    undoTheDispersion();
-  }, 5000);
-  setInterval(function () {
-    sendTheCardsToTheirNewPositions();
-  }, 7000);
+  containerOfSingles.classList.add("moveUpAndGoBeyondScreenLimit"); // Standard 2s animation » See colors.css
+  containerOfTheWholeGame.classList.add("moveUpAndComeToTheCenterOfScreen"); // Standard 2s animation » See colors.css
+
+  // new SuperTimeout(function () {  }, 3000);
+  if (deviceDetector.isMobile) {
+
+  } else { // Desktop
+    allCards.forEach((element) => {  element.addEventListener("mouseenter",addClassWhenHovered); element.addEventListener("mouseleave",removeClassWhenUnhovered);  });
+    function addClassWhenHovered(event) { // console.log("Hover detected"); // Works OK
+      event.target.classList.add("scaleUp");
+    }
+    function removeClassWhenUnhovered(event) { // console.log("Unhover detected"); // Works OK
+      event.target.classList.remove("scaleUp");
+    }
+  }
+
 }
 
-const minVwOrVh = -33;
-const maxVwOrVh = 33;
+const minVwOrVh = -30;
+const maxVwOrVh = 30;
+const minDifference = 8; // Minimum difference between accepted values
+let generatedValuesForLEFT = [];
+let generatedValuesForTOP = [];
+function generateRandomNumber() { // Generate a random number between minVwOrVh and maxVwOrVh (inclusive of minVwOrVh and maxVwOrVh)
+  let randomNumber = Math.floor(Math.random() * (maxVwOrVh - minVwOrVh + 1)) + minVwOrVh;
+  return randomNumber;
+}
+function isValidRandomNumberForLEFT(randomNumber) { // Check if the difference between the new randomNumber and all previously generated values is at least minDifference
+  for (const value of generatedValuesForLEFT) {
+    if (Math.abs(randomNumber - value) < minDifference) {    return false;    }
+  }
+  return true;
+}
+function isValidRandomNumberForTOP(randomNumber) { // Check if the difference between the new randomNumber and all previously generated values is at least minDifference
+  for (const value of generatedValuesForTOP) {
+    if (Math.abs(randomNumber - value) < minDifference) {    return false;    }
+  }
+  return true;
+}
+// ---
+/*
+let boundaries = [];
+function checkOverlap() {
+  boundaries = [];
+  allMemoryPieces.forEach((element) => {  const square = element.getBoundingClientRect();  boundaries.push(square);  });
+  let overlappingPairs = [];
+  for (let i = 0; i < boundaries.length - 1; i++) {
+    for (let j = i + 1; j < boundaries.length; j++) {
+      const rect1 = boundaries[i];
+      const rect2 = boundaries[j];
+      // Check if the two rectangles overlap in both the X and Y axes
+      if ( rect1.left < rect2.right && rect1.right > rect2.left && rect1.top < rect2.bottom && rect1.bottom > rect2.top ) {
+        console.log("overlap detected: "+i+"&"+j);
+        if (!overlappingPairs.includes(i)) { overlappingPairs.push(i); }
+        if (!overlappingPairs.includes(j)) { overlappingPairs.push(j); }
+      }
+    }
+  }
+  if (overlappingPairs.length === 0) {  return false; console.log("NO OVERLAPS");  }
+  else {    return overlappingPairs;  }
+}
+*/
+let attempts = 0;
 function disperse() {
   allMemoryPieces.forEach((element) => {
-    // Generate a random number between minVwOrVh and maxVwOrVh (inclusive of minVwOrVh and maxVwOrVh)
-    const randomNumber1 = Math.floor(Math.random() * (maxVwOrVh - minVwOrVh + 1)) + minVwOrVh;
-    const randomNumber2 = Math.floor(Math.random() * (maxVwOrVh - minVwOrVh + 1)) + minVwOrVh;
-    element.style.transform = "translateX("+randomNumber1+"vw) translateY("+randomNumber2+"vh)" ;
+    let randomNumber1; let randomNumber2;
+    do { randomNumber1 = generateRandomNumber(); attempts++; } while (!isValidRandomNumberForLEFT(randomNumber1) && attempts < 50);
+    generatedValuesForLEFT.push(randomNumber1); attempts = 0;
+    do { randomNumber2 = generateRandomNumber(); attempts++; } while (!isValidRandomNumberForTOP(randomNumber2) && attempts < 50);
+    generatedValuesForTOP.push(randomNumber2); attempts = 0;
+    element.style.transform = "translateX("+randomNumber1+"vw) translateY("+randomNumber2+"vh)";
   });
+  generatedValuesForLEFT = []; generatedValuesForTOP = []; // Reset
+  /*
+  setTimeout(function () {
+    if (checkOverlap()) {
+      allMemoryPieces[checkOverlap()[0]].style.transform = "translateX(-30vw) translateY(-30vh)";
+      setTimeout(function () {
+        if (checkOverlap()) {
+          allMemoryPieces[checkOverlap()[0]].style.transform = "translateX(30vw) translateY(-30vh)";
+          setTimeout(function () {
+            if (checkOverlap()) {
+              allMemoryPieces[checkOverlap()[0]].style.transform = "translateX(-30vw) translateY(30vh)";
+              setTimeout(function () {
+                if (checkOverlap()) {
+                  allMemoryPieces[checkOverlap()[0]].style.transform = "translateX(30vw) translateY(30vh)";
+                }
+              }, 750);
+            }
+          }, 750);
+        }
+      }, 750);
+    }
+  }, 750);
+  */
 }
+// --
 function undoTheDispersion() {
   allMemoryPieces.forEach((element) => {
     element.style.transform = "translateX("+0+"vw) translateY("+0+"vh)" ;
   });
 }
-
+// -----
+// Fit in the box with a different order
+const xLandscape_yPortrait = [0,180,360]; const yLandscape_xPortrait = [0,180];
 // Function to generate a random integer from an array of values
 function getRandomFromArray(arr) {
   const randomIndex = Math.floor(Math.random() * arr.length);
   return arr[randomIndex];
 }
-
-const xLandscape_yPortrait = [0,180,360]; const yLandscape_xPortrait = [0,180];
-
+// -
 function sendTheCardsToTheirNewPositions() {
   const uniqueCoordinates = []; // Initialize an array to store unique coordinates
   // Generate 6 random and unique coordinates
@@ -201,7 +325,7 @@ console.log("lastRecordedWindowHeight "+lastRecordedWindowHeight);
 let landscapeOrPortrait = null;
 if (lastRecordedWindowWidth>lastRecordedWindowHeight) {
   landscapeOrPortrait = "landscape"; console.log("Starting the game in LANDSCAPE");
-} else {
+} else { // Let a square window be treated as portrait
   landscapeOrPortrait = "portrait"; console.log("Starting the game in PORTRAIT");
 }
 window.addEventListener('resize', updateWindowProperties);
@@ -217,6 +341,4 @@ function updateWindowProperties() {
     }
   },100); // Wait for retarded browsers
 }
-function handleOrientationChange() {
-  sendTheCardsToTheirNewPositions();
-}
+function handleOrientationChange() {  sendTheCardsToTheirNewPositions();  }
