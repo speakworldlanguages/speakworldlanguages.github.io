@@ -12,6 +12,7 @@ parent.savedProgress[studiedLang].lesson_PRIMARYCOLORS_IsViewed=true; // Create 
 parent.saveJSON = JSON.stringify(parent.savedProgress); // Convert
 localStorage.setItem("memoryCard", parent.saveJSON); // Save
 
+
 // All settings here will depend on the content of the lesson
 let answerWhite,answerGreen,answerBlue,answerYellow,answerRed,answerBlack; // Get them from txt files
 // CAUTION: parent.langCodeForTeachingFilePaths variable depends on localStorage data being available. See js_for_the_parent_all_browsers_all_devices.js
@@ -57,6 +58,10 @@ const sayYellow2 = new parent.Howl({ src: [sayYellow2Path] });
 const sayRed2    = new parent.Howl({ src: [sayRed2Path]    });
 const sayBlack2  = new parent.Howl({ src: [sayBlack2Path]  });
 
+const mouseEnterTouchStartSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/mouseenter_touchstart."+soundFileFormat]  });
+const mouseDownTouchEndSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/mousedown_touchend."+soundFileFormat]  });
+const turnSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/turn."+soundFileFormat]  });
+const failSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/fail."+soundFileFormat]  });
 const finalWinSound = new parent.Howl({  src: ["/user_interface/sounds/success1b."+soundFileFormat]  });
 
 /* Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload. */
@@ -73,15 +78,43 @@ function unloadTheSoundsOfThisLesson() { // See onbeforeunload in js_for_all_ifr
   parent.unloadThatLastSoundWhichCannotBeUnloadedNormally(finalWinSound); // Exists in js_for_navigation_handling,,, unloads the sound after 5s
 }
 
+// List of backside visuals
+const imageFiles = [
+  '/lessons_in_iframes/level_1/unit_3/lesson_4/fish.avif',
+  '/lessons_in_iframes/level_1/unit_3/lesson_4/bird.avif',
+  '/lessons_in_iframes/level_1/unit_3/lesson_4/water.avif',
+  '/lessons_in_iframes/level_1/unit_3/lesson_4/fish.avif',
+  '/lessons_in_iframes/level_1/unit_3/lesson_4/bird.avif',
+  '/lessons_in_iframes/level_1/unit_3/lesson_4/water.avif'
+];
 
 /* __CONTAINER DIVS__ */
 // Use if needed » const main = document.getElementsByTagName('MAIN')[0];
-const fullVpDarkBlue = document.getElementById('fullVpDarkBlueDivID');
+const fullVpDarkBlue = document.getElementById('coverForTheUnchosenOnesID');
 const containerOfSingles = document.getElementById('singlesDivID');
 const allSingles = containerOfSingles.children; // Use children instead of childNodes to ignore HTML comments
 const containerOfTheWholeGame = document.getElementById('allOfTheGameDivID');
-const allMemoryPieces = document.querySelectorAll(".containerForOneOfSixPieces");
-const allCards = document.querySelectorAll(".theCards");
+const allSixPerfectFitSquares = document.querySelectorAll(".containerForOneOfSixPerfectFitPieces");
+const allBackFaces = document.querySelectorAll(".theCardsBackFace");
+const allCards = document.querySelectorAll(".containerForRoundedColorCards");
+
+window.addEventListener("DOMContentLoaded",function(){   assignVisualsFunction();   }, { once: true });
+function assignVisualsFunction() {
+  // Shuffle the imagePairs array to randomize the assignment.
+  // console.log(imageFiles); // Works OK
+  shuffleArray(imageFiles);
+  // console.log(imageFiles); // Works OK
+  // Function to shuffle an array using the Fisher-Yates algorithm.
+  function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+      }
+  }
+  for (let i = 0; i < 6; i++) {
+    allBackFaces[i].src = imageFiles[i];
+  }
+}
 
 /* ___PROGRESSION___ */
 window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, { once: true });
@@ -110,7 +143,8 @@ function startTheLesson()
     default:     sayTime = 3500; proceedTime = 8500;
   }
   new SuperTimeout(function () { sayWhite1.play(); }, sayTime/5);
-  new SuperTimeout(showGreen, proceedTime/5);
+  // new SuperTimeout(showGreen, proceedTime/5); // Uncomment after tests
+  setTimeout(bringTheGameToTheScene, proceedTime/5);
 }
 
 function showGreen() {
@@ -175,29 +209,105 @@ function showBlack() {
     default:     sayTime = 2500; proceedTime = 7500;
   }
   new SuperTimeout(function () { sayBlack1.play(); }, sayTime/5);
-  sendTheCardsToTheirNewPositions();
-  new SuperTimeout(bringTheGameToTheScene, proceedTime/5);
+  // sendTheCardsToTheirNewPositions();
+  // new SuperTimeout(bringTheGameToTheScene, proceedTime/5);
 }
+
 
 function bringTheGameToTheScene() {
   containerOfSingles.classList.add("moveUpAndGoBeyondScreenLimit"); // Standard 2s animation » See colors.css
   containerOfTheWholeGame.classList.add("moveUpAndComeToTheCenterOfScreen"); // Standard 2s animation » See colors.css
 
-  // new SuperTimeout(function () {  }, 3000);
-  if (deviceDetector.isMobile) {
+  setTimeout(function () { sendTheCardsToTheirNewPositions(); }, 2000);
 
-  } else { // Desktop
-    allCards.forEach((element) => {  element.addEventListener("mouseenter",addClassWhenHovered); element.addEventListener("mouseleave",removeClassWhenUnhovered);  });
-    function addClassWhenHovered(event) { // console.log("Hover detected"); // Works OK
-      event.target.classList.add("scaleUp");
-    }
-    function removeClassWhenUnhovered(event) { // console.log("Unhover detected"); // Works OK
-      event.target.classList.remove("scaleUp");
-    }
+  if (deviceDetector.isMobile) { // Phones and tablets
+    acceptAndHandleScreenTouches(); // See mobile.js
+  } else { // Desktops
+    acceptAndHandleMouseClicks(); // See desktop.js
   }
-
 }
 
+let theFirstChoice = null;
+let original_zIndex1 = null;
+function whenCorrectColorIsUtteredForThe_FIRST_Card(theChosenCard,saveThis_zIndex1) {
+  turnSound.play();
+  theChosenCard.classList.add("colorCardFlip"); // Name of class already applied » containerForRoundedColorCards
+  theChosenCard.firstElementChild.firstElementChild.classList.add("appearAtFiftyPercent");
+  theFirstChoice = theChosenCard; // Store
+  console.log("the first choice src is " + theFirstChoice.firstElementChild.firstElementChild.src);
+  theChosenCard.addEventListener("animationend", (event) => {
+    fullVpDarkBlue.onanimationend = () => {
+      fullVpDarkBlue.classList.remove("darkenLightenBackground"); // Clean up and get ready to restart
+      original_zIndex1 = saveThis_zIndex1; // Only save, will revert after the second piece is checked
+      // Add event listeners to the remaining elements
+      if (deviceDetector.isMobile) { // Phones and tablets
+        acceptAndHandleScreenTouches(theChosenCard); // See mobile.js
+      } else { // Desktops
+        acceptAndHandleMouseClicks(theChosenCard); // See desktop.js
+      }
+    };
+    fullVpDarkBlue.style.animationPlayState = "running"; // The darkening layer disappears
+  });
+}
+function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertToThis_zIndex2) {
+  turnSound.play();
+  theOtherChosenCard.classList.add("colorCardFlip"); // Name of class already applied » containerForRoundedColorCards
+  theOtherChosenCard.firstElementChild.firstElementChild.classList.add("appearAtFiftyPercent");
+  console.log("the second choice src is " + theOtherChosenCard.firstElementChild.firstElementChild.src);
+  theOtherChosenCard.addEventListener("animationend", (event) => {
+    fullVpDarkBlue.onanimationend = () => {
+      fullVpDarkBlue.classList.remove("darkenLightenBackground"); // Clean up and get ready to restart
+      theFirstChoice.parentNode.style.zIndex = original_zIndex1; // Push back to initial layer order
+      theOtherChosenCard.parentNode.style.zIndex = revertToThis_zIndex2; // Push back to initial layer order
+      console.log("TIME TO CHECK IF PAIRS MATCH");
+      if (theOtherChosenCard.firstElementChild.firstElementChild.src == theFirstChoice.firstElementChild.firstElementChild.src) {
+        console.log("CORRECT");
+        // play partial success sound
+      } else {
+        console.log("TRY AGAIN");
+        failSound.play();
+        // Reset classes
+        theFirstChoice.classList.remove("scaleUp");
+        theOtherChosenCard.classList.remove("scaleUp");
+        theFirstChoice.classList.remove("whenItIsClicked");
+        theOtherChosenCard.classList.remove("whenItIsClicked");
+        theFirstChoice.classList.remove("colorCardFlip");
+        theOtherChosenCard.classList.remove("colorCardFlip");
+        // Return to normal
+        theFirstChoice.classList.add("returnToNormal");
+        theOtherChosenCard.classList.add("returnToNormal");
+        theFirstChoice.firstElementChild.firstElementChild.classList.remove("appearAtFiftyPercent");
+        theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("appearAtFiftyPercent");
+        theFirstChoice.firstElementChild.firstElementChild.classList.add("disappearAtFiftyPercent");
+        theOtherChosenCard.firstElementChild.firstElementChild.classList.add("disappearAtFiftyPercent");
+
+        // Shuffle the cards
+        setTimeout(function () {
+          disperse();
+          setTimeout(function () {
+            collectAllCardsAtTheCenter();
+          }, 300);
+        }, 2500);
+        setTimeout(function () {
+          undoTheDispersion();
+          setTimeout(function () {
+            sendTheCardsToTheirNewPositions();
+          }, 300);
+        }, 3500);
+      }
+      // Add event listeners to the remaining elements
+      // if (deviceDetector.isMobile) { // Phones and tablets
+      //   acceptAndHandleScreenTouches(theChosenCard); // See mobile.js
+      // } else { // Desktops
+      //   acceptAndHandleMouseClicks(theChosenCard); // See desktop.js
+      // }
+    };
+    fullVpDarkBlue.style.animationPlayState = "running"; // The darkening layer disappears
+  });
+}
+
+
+// ----
 const minVwOrVh = -30;
 const maxVwOrVh = 30;
 const minDifference = 8; // Minimum difference between accepted values
@@ -224,7 +334,7 @@ function isValidRandomNumberForTOP(randomNumber) { // Check if the difference be
 let boundaries = [];
 function checkOverlap() {
   boundaries = [];
-  allMemoryPieces.forEach((element) => {  const square = element.getBoundingClientRect();  boundaries.push(square);  });
+  allSixPerfectFitSquares.forEach((element) => {  const square = element.getBoundingClientRect();  boundaries.push(square);  });
   let overlappingPairs = [];
   for (let i = 0; i < boundaries.length - 1; i++) {
     for (let j = i + 1; j < boundaries.length; j++) {
@@ -244,7 +354,7 @@ function checkOverlap() {
 */
 let attempts = 0;
 function disperse() {
-  allMemoryPieces.forEach((element) => {
+  allSixPerfectFitSquares.forEach((element) => {
     let randomNumber1; let randomNumber2;
     do { randomNumber1 = generateRandomNumber(); attempts++; } while (!isValidRandomNumberForLEFT(randomNumber1) && attempts < 50);
     generatedValuesForLEFT.push(randomNumber1); attempts = 0;
@@ -256,16 +366,16 @@ function disperse() {
   /*
   setTimeout(function () {
     if (checkOverlap()) {
-      allMemoryPieces[checkOverlap()[0]].style.transform = "translateX(-30vw) translateY(-30vh)";
+      allSixPerfectFitSquares[checkOverlap()[0]].style.transform = "translateX(-30vw) translateY(-30vh)";
       setTimeout(function () {
         if (checkOverlap()) {
-          allMemoryPieces[checkOverlap()[0]].style.transform = "translateX(30vw) translateY(-30vh)";
+          allSixPerfectFitSquares[checkOverlap()[0]].style.transform = "translateX(30vw) translateY(-30vh)";
           setTimeout(function () {
             if (checkOverlap()) {
-              allMemoryPieces[checkOverlap()[0]].style.transform = "translateX(-30vw) translateY(30vh)";
+              allSixPerfectFitSquares[checkOverlap()[0]].style.transform = "translateX(-30vw) translateY(30vh)";
               setTimeout(function () {
                 if (checkOverlap()) {
-                  allMemoryPieces[checkOverlap()[0]].style.transform = "translateX(30vw) translateY(30vh)";
+                  allSixPerfectFitSquares[checkOverlap()[0]].style.transform = "translateX(30vw) translateY(30vh)";
                 }
               }, 750);
             }
@@ -278,11 +388,12 @@ function disperse() {
 }
 // --
 function undoTheDispersion() {
-  allMemoryPieces.forEach((element) => {
+  allSixPerfectFitSquares.forEach((element) => {
     element.style.transform = "translateX("+0+"vw) translateY("+0+"vh)" ;
   });
 }
-// -----
+
+// ---- SHUFFLE AND SEND THE CARDS TO THEIR NEW POSITIONS ----
 // Fit in the box with a different order
 const xLandscape_yPortrait = [0,180,360]; const yLandscape_xPortrait = [0,180];
 // Function to generate a random integer from an array of values
@@ -313,11 +424,19 @@ function sendTheCardsToTheirNewPositions() {
   for (let i = 0; i < 6; i++) {
     const leftValue = uniqueCoordinates[i].split(",")[0];
     const topValue = uniqueCoordinates[i].split(",")[1];
-    allMemoryPieces[i].style.left = leftValue+"px";
-    allMemoryPieces[i].style.top  = topValue+"px";
+    allSixPerfectFitSquares[i].style.left = leftValue+"px";
+    allSixPerfectFitSquares[i].style.top  = topValue+"px";
   }
 }
+function collectAllCardsAtTheCenter() {
+  for (let i = 0; i < 6; i++) {
+    allSixPerfectFitSquares[i].style.left = "calc(50% - 90px)";
+    allSixPerfectFitSquares[i].style.top  = "calc(50% - 90px)";
+  }
 
+}
+
+// ---- LANDSCAPE «-» PORTRAIT ----
 // Detect orientation change using resize
 let lastRecordedWindowWidth = window.innerWidth; let lastRecordedWindowHeight = window.innerHeight;
 console.log("lastRecordedWindowWidth "+lastRecordedWindowWidth);

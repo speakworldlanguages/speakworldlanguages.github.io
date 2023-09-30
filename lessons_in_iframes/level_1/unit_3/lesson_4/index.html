@@ -22,6 +22,8 @@
     <script defer src="/js_reusables/supertimeout.js">/*Pausable timeouts and intervals*/</script>
     <!-- Set paths relative to root so that caches.match() can do its job in service-worker -->
     <script defer src="/lessons_in_iframes/level_1/unit_3/lesson_4/colors.js">/*Progress handling for this lesson*/</script>
+    <script defer src="/lessons_in_iframes/level_1/unit_3/lesson_4/desktop.js">/*Progress handling for this lesson*/</script>
+    <script defer src="/lessons_in_iframes/level_1/unit_3/lesson_4/mobile.js">/*Progress handling for this lesson*/</script>
     <!-- Empty line 1 -->
     <!-- Uncomment to use the console on mobiles -->
     <!-- <script src="/third_party_js/eruda.js"></script> -->
@@ -53,8 +55,7 @@
 
     <!-- No videos in this lesson -->
 
-    <!-- Background darkening -->
-    <div id="fullVpDarkBlueDivID" style="display:none;"> </div>
+
 
     <!-- Audio input visualization :: Implement unique method for this particular lesson -->
 
@@ -69,17 +70,62 @@
     </div>
 
     <div id="allOfTheGameDivID" class="allOfTheGame">
-      <div class="containerForOneOfSixPieces" style="border: 2px dotted blue;">   <div id="white"  class='theCards'>0</div> </div>
-      <div class="containerForOneOfSixPieces" style="border: 2px dotted green;">  <div id="green"  class='theCards'>1</div> </div>
-      <div class="containerForOneOfSixPieces" style="border: 2px dotted red;">    <div id="blue"   class='theCards'>2</div> </div>
-      <div class="containerForOneOfSixPieces" style="border: 2px dotted white;">  <div id="yellow" class='theCards'>3</div> </div>
-      <div class="containerForOneOfSixPieces" style="border: 2px dotted yellow;"> <div id="red"    class='theCards'>4</div> </div>
-      <div class="containerForOneOfSixPieces" style="border: 2px dotted cyan;">   <div id="black"  class='theCards'>5</div> </div>
+      <div class="containerForOneOfSixPerfectFitPieces" style="z-index:20;">
+        <div class="containerForRoundedColorCards">
+          <div class="roundedColorCards" id="white" style="background-image: url('/lessons_in_iframes/level_1/unit_3/lesson_4/white.avif');">
+            <img id="0"  draggable="false" src=""  class='theCardsBackFace'>
+          </div>
+        </div>
+      </div>
+      <div class="containerForOneOfSixPerfectFitPieces" style="z-index:21;">
+        <div class="containerForRoundedColorCards">
+          <div class="roundedColorCards" id="green" style="background-image: url('/lessons_in_iframes/level_1/unit_3/lesson_4/green.avif');">
+            <img id="1"  draggable="false" src=""  class='theCardsBackFace'>
+          </div>
+        </div>
+      </div>
+      <div class="containerForOneOfSixPerfectFitPieces" style="z-index:22;">
+        <div class="containerForRoundedColorCards">
+          <div class="roundedColorCards" id="blue" style="background-image: url('/lessons_in_iframes/level_1/unit_3/lesson_4/blue.avif');">
+            <img id="2"  draggable="false" src=""  class='theCardsBackFace'>
+          </div>
+        </div>
+      </div>
+      <div class="containerForOneOfSixPerfectFitPieces" style="z-index:23;">
+        <div class="containerForRoundedColorCards">
+          <div class="roundedColorCards" id="yellow" style="background-image: url('/lessons_in_iframes/level_1/unit_3/lesson_4/yellow.avif');">
+            <img id="3"  draggable="false" src=""  class='theCardsBackFace'>
+          </div>
+        </div>
+      </div>
+      <div class="containerForOneOfSixPerfectFitPieces" style="z-index:24;">
+        <div class="containerForRoundedColorCards">
+          <div class="roundedColorCards" id="red" style="background-image: url('/lessons_in_iframes/level_1/unit_3/lesson_4/red.avif');">
+            <img id="4"  draggable="false" src=""  class='theCardsBackFace'>
+          </div>
+        </div>
+      </div>
+      <div class="containerForOneOfSixPerfectFitPieces" style="z-index:25;">
+        <div class="containerForRoundedColorCards">
+          <div class="roundedColorCards" id="black" style="background-image: url('/lessons_in_iframes/level_1/unit_3/lesson_4/black.avif');">
+            <img id="5"  draggable="false" src=""  class='theCardsBackFace'>
+          </div>
+        </div>
+      </div>
+      <!-- Background darkening » See css_for_photos_and_videos_teach_a_new_word -->
+      <div id="coverForTheUnchosenOnesID" style="display:none; z-index:50;"> </div>
     </div>
     <!-- “Now it’s your turn” :: The mic is listening visual -->
     <!-- <div class="nowYouSayItImgContainer" style="display:none;"> -->
       <!-- <img draggable="false" id="nowYouSayItImgID" src="/user_interface/images/now_you_say_it_to_speech_recognition.webp"> -->
     <!-- </div> -->
+    <!--  -->
+    <!--  -->
+    <!--  -->
+    <!--  -->
+    <!--  -->
+    <!--  -->
+
     <script>
     /* USE AVIF SPRITE
     window.addEventListener("DOMContentLoaded",function(){ // Wait for js_for_all_iframed_lesson_htmls to get isApple from parser in parent
