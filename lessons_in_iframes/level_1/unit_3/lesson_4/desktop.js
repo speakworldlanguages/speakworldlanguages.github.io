@@ -7,7 +7,8 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
   let counter = 0;
   allCards.forEach((element) => {
     if (element != theCardThatIsAlreadyFlipped) {
-      element.addEventListener("mouseenter",addClassWhenHovered);
+      element.addEventListener("mouseenter",addClassWhenHovered); // ENHANCE UX with mousemove
+      element.addEventListener("mousemove",addClassWhenHovered); // ENHANCING UX by combining mouseenter+mousemove
       element.addEventListener("mouseleave",removeClassWhenUnhovered);
       element.addEventListener("mousedown", niceClick,{once:true});
       counter++;
@@ -17,14 +18,19 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
 
 
   function addClassWhenHovered(event) {
-    mouseEnterTouchStartSound.play();
-    const card = event.target; card.classList.add("scaleUp");
+    const card = event.target;
+    if (card.classList.contains("scaleUp")) { } // Already hovered » do nothing
+    else {  mouseEnterTouchStartSound.play(); card.classList.add("scaleUp");  }
   }
   function removeClassWhenUnhovered(event) {  event.target.classList.remove("scaleUp");  } // WARNING: scaleUp must be removed manually after mousedown
 
   function niceClick(event) {
     mouseDownTouchEndSound.play();
     const card = event.target;
+    // POSSIBLE CASE: WHAT IF NEITHER mouseenter NOR mousemove HAPPENED SO FAR » Handle that one too
+    if (card.classList.contains("scaleUp")) { } // Already hovered » do nothing
+    else {  card.classList.add("scaleUp");  }
+    // Anyhow
     card.classList.add("whenItIsClicked");
     console.log("z-index when mousedown fired: "+card.parentNode.style.zIndex);
     // Save original zIndex to be able to revert
@@ -38,6 +44,7 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
     new SuperTimeout(function(){ fullVpDarkBlue.style.animationPlayState = "paused"; }, appearTime*1000); // Paused at halfway » 2000ms at default speed
     allCards.forEach((element) => {
       element.removeEventListener("mouseenter",addClassWhenHovered);
+      element.removeEventListener("mousemove",addClassWhenHovered);
       element.removeEventListener("mouseleave",removeClassWhenUnhovered);
       element.removeEventListener("mousedown", niceClick);
     });

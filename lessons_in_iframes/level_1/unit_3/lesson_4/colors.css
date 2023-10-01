@@ -28,7 +28,7 @@ canvas {
 }
 
 .allOfTheGame{
-  /* perspective: 1000px; When activated all 6 cards will obey the same vanishing point - Maybe we don't want that */
+  perspective: 1000px; /*Let all 6 cards obey the same vanishing point*/
   position: fixed;
   left: 50%; top:50%;
   transform: translate(-50%,-50%) scale(1.0);
@@ -59,8 +59,7 @@ canvas {
 }
 
 .containerForOneOfSixPerfectFitPieces{
-  /* transform-style: preserve-3d; - Must be activated if parent element has perspective - In this case not the parent but this element has its own independent perspective */
-  perspective: 1000px;
+  transform-style: preserve-3d; /*Use the perspective of the parent » Let all 6 cards obey the same vanishing point*/
   overflow: visible;
   width: 180px; height: 180px;
   position: absolute;
@@ -131,10 +130,10 @@ ease-out: fast/abrupt at the beginning, slow at the end
 */
 .whenPairIsFound{ animation: pairFound 0.9s ease-in; animation-fill-mode: forwards; }
 @keyframes pairFound {
-  0% { transform: translateZ(0px) rotateY(180deg); opacity: 1; }
-  25% { opacity: 1; }
-  75% { opacity: 0.1; }
-  100% { transform: translateZ(-5000px) rotateY(180deg); opacity: 0; }
+  0% { transform: scale(1) rotateY(180deg); opacity: 1; }
+  20% { opacity: 1; }
+  80% { opacity: 0.1; }
+  100% { transform: scale(0.1) rotateY(180deg); opacity: 0; }
 }
 
 .colorCardFlip{ animation: spin 1.6s ease-in-out; animation-fill-mode: forwards; }

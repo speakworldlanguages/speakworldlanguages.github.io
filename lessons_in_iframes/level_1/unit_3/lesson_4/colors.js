@@ -63,12 +63,18 @@ const mouseDownTouchEndSound = new parent.Howl({  src: ["/lessons_in_iframes/lev
 const turnSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/turn."+soundFileFormat]  });
 const failSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/fail."+soundFileFormat]  });
 const findSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/find."+soundFileFormat]  });
+const explodeSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/explosion."+soundFileFormat]  });
+const setOffSound1 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/set_off_1."+soundFileFormat]  });
+const setOffSound2 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/set_off_2."+soundFileFormat]  });
+const setOffSound3 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/set_off_3."+soundFileFormat]  });
 const finalWinSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/win."+soundFileFormat]  });
 
 /* Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload. */
 // listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
 var listOfAllSoundsInThisLesson = [
   //finalWinSound, // EXCEPTION: See unloadThatLastSoundWhichCannotBeUnloadedNormally
+  setOffSound3,setOffSound2,setOffSound1,explodeSound,findSound,failSound,turnSound,
+  mouseDownTouchEndSound,mouseEnterTouchStartSound,
   sayBlack2,sayRed2,sayYellow2,sayBlue2,sayGreen2,sayWhite2,
   sayBlack1,sayRed1,sayYellow1,sayBlue1,sayGreen1,sayWhite1,
 ];
@@ -537,8 +543,8 @@ function handleOrientationChange() {  sendTheCardsToTheirNewPositions();  }
 
 // ---
 function startTheFireworks() {
-  shootThree();
-  //setTimeout(shootThree,7000);
+  //shootThree();
+  setTimeout(shootThree,4444); // Let win sound play at least halfway through
 }
 
 const canvas = document.getElementById("fireworksCanvas");
@@ -572,7 +578,7 @@ class Firework {
             console.log("Boom");
             createParticles(this.x, this.y);
             if (!clearanceAdjustmentInterval) {
-              clearanceAdjustmentInterval = setInterval(increaseClearance,888);
+              clearanceAdjustmentInterval = setInterval(increaseClearance,700);
             }
         }
     }
@@ -594,7 +600,7 @@ let smokeClearingForce = 0.05;
 function increaseClearance() {
 	smokeClearingForce += 0.01;
   console.log(smokeClearingForce.toFixed(2));
-  if(smokeClearingForce>0.2) { clearInterval(clearanceAdjustmentInterval); }
+  if(smokeClearingForce>0.22) { clearInterval(clearanceAdjustmentInterval); }
 }
 // Main animation loop
 function activateTheCanvas() {
@@ -619,9 +625,10 @@ function activateTheCanvas() {
 
 
 function shootThree() { smokeClearingForce = 0.05;
-  fireworks.push(new Firework(canvas.width*0.50,canvas.height/8));
-  setTimeout(function(){ fireworks.push(new Firework(canvas.width*0.25,canvas.height/3)); },1400);
-  setTimeout(function(){ fireworks.push(new Firework(canvas.width*0.75,canvas.height/3)); },1700);
+  fireworks.push(new Firework(canvas.width*0.50,canvas.height*0.22)); setOffSound1.play();
+  setTimeout(function(){ fireworks.push(new Firework(canvas.width*0.25,canvas.height*0.44)); setOffSound2.play(); },1400);
+  setTimeout(function(){ fireworks.push(new Firework(canvas.width*0.75,canvas.height*0.44)); setOffSound3.play(); },1700);
+  // explodeSound is in createParticles function
 }
 
 
@@ -659,6 +666,7 @@ class Particle {
 }
 
 function createParticles(x, y) {
+    explodeSound.play();
     const numParticles = 90;
 
     for (let i = 0; i < numParticles; i++) {
