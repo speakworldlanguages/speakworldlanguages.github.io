@@ -62,7 +62,8 @@ const mouseEnterTouchStartSound = new parent.Howl({  src: ["/lessons_in_iframes/
 const mouseDownTouchEndSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/mousedown_touchend."+soundFileFormat]  });
 const turnSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/turn."+soundFileFormat]  });
 const failSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/fail."+soundFileFormat]  });
-const finalWinSound = new parent.Howl({  src: ["/user_interface/sounds/success1b."+soundFileFormat]  });
+const findSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/find."+soundFileFormat]  });
+const finalWinSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/win."+soundFileFormat]  });
 
 /* Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload. */
 // listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
@@ -229,16 +230,20 @@ function bringTheGameToTheScene() {
 
 let theFirstChoice = null;
 let original_zIndex1 = null;
+// let winHappened = false;
+let remainingPieces = 6;
 function whenCorrectColorIsUtteredForThe_FIRST_Card(theChosenCard,saveThis_zIndex1) {
   turnSound.play();
   theChosenCard.classList.add("colorCardFlip"); // Name of class already applied » containerForRoundedColorCards
+  // theChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent");
   theChosenCard.firstElementChild.firstElementChild.classList.add("appearAtFiftyPercent");
   theFirstChoice = theChosenCard; // Store
   console.log("the first choice src is " + theFirstChoice.firstElementChild.firstElementChild.src);
   theChosenCard.addEventListener("animationend", (event) => {
     fullVpDarkBlue.onanimationend = () => {
       fullVpDarkBlue.classList.remove("darkenLightenBackground"); // Clean up and get ready to restart
-      original_zIndex1 = saveThis_zIndex1; // Only save, will revert after the second piece is checked
+      original_zIndex1 = saveThis_zIndex1; // Only save and do not revert yet » Will revert after the second piece is checked
+      console.log("stored z-index value for reversion: " + original_zIndex1);
       // Add event listeners to the remaining elements
       if (deviceDetector.isMobile) { // Phones and tablets
         acceptAndHandleScreenTouches(theChosenCard); // See mobile.js
@@ -252,17 +257,81 @@ function whenCorrectColorIsUtteredForThe_FIRST_Card(theChosenCard,saveThis_zInde
 function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertToThis_zIndex2) {
   turnSound.play();
   theOtherChosenCard.classList.add("colorCardFlip"); // Name of class already applied » containerForRoundedColorCards
+  // theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent");
   theOtherChosenCard.firstElementChild.firstElementChild.classList.add("appearAtFiftyPercent");
   console.log("the second choice src is " + theOtherChosenCard.firstElementChild.firstElementChild.src);
   theOtherChosenCard.addEventListener("animationend", (event) => {
     fullVpDarkBlue.onanimationend = () => {
       fullVpDarkBlue.classList.remove("darkenLightenBackground"); // Clean up and get ready to restart
+      console.log("Reverting to original_zIndex1: " + original_zIndex1);
+      console.log("Reverting to revertToThis_zIndex2: " + revertToThis_zIndex2);
       theFirstChoice.parentNode.style.zIndex = original_zIndex1; // Push back to initial layer order
       theOtherChosenCard.parentNode.style.zIndex = revertToThis_zIndex2; // Push back to initial layer order
       console.log("TIME TO CHECK IF PAIRS MATCH");
       if (theOtherChosenCard.firstElementChild.firstElementChild.src == theFirstChoice.firstElementChild.firstElementChild.src) {
         console.log("CORRECT");
         // play partial success sound
+        findSound.play();
+        // Reset classes
+        // theFirstChoice.classList.remove("scaleUp"); // Looks like it is OK skip this
+        // theOtherChosenCard.classList.remove("scaleUp"); // Looks like it is OK skip this
+        theFirstChoice.classList.remove("whenItIsClicked");
+        theOtherChosenCard.classList.remove("whenItIsClicked");
+        // Go to far far away
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            console.log("Send the matching pair to far far away");
+            // EITHER: TRY TO PROCEED WITHOUT REMOVING colorCardFlip BECAUSE THE CARDS ARE FLIPPED AND MUST STAY FLIPPED
+            // OR: whenPairIsFound can start the animation flipped
+            theFirstChoice.classList.remove("colorCardFlip");
+            theOtherChosenCard.classList.remove("colorCardFlip");
+            theFirstChoice.classList.add("whenPairIsFound");
+            theOtherChosenCard.classList.add("whenPairIsFound");
+          });
+        });
+
+        // No need to remove appearAtFiftyPercent as it will be hidden and will never reapear in this session
+
+        theFirstChoice.onanimationend = () => {
+          console.log("Setting visibility of the TWO solved pieces to hidden");
+          theFirstChoice.parentNode.style.visibility = "hidden"; // To avoid errors we do not use remove() here
+          theOtherChosenCard.parentNode.style.visibility = "hidden"; // To avoid errors we do not use remove() here
+          remainingPieces -= 2;
+          checkForWin();
+        };
+        // --
+        function checkForWin() {
+          if (remainingPieces) {
+            console.log("There are "+remainingPieces+" unmatched pieces left");
+            // Shuffle the cards
+            setTimeout(function () { disperse(); }, 2500);
+            setTimeout(function () { collectAllCardsAtTheCenter(); }, 2800);
+            setTimeout(function () { undoTheDispersion(); }, 3200);
+            setTimeout(function () { sendTheCardsToTheirNewPositions(); }, 3500);
+            setTimeout(function () {
+              if (deviceDetector.isMobile) { // Phones and tablets
+                acceptAndHandleScreenTouches(); // See mobile.js
+              } else { // Desktops
+                acceptAndHandleMouseClicks(); // See desktop.js
+              }
+            }, 4000);
+          } else {
+            // WIN
+            console.log("WIN!");
+            setTimeout(function () {  finalWinSound.play();  }, 500);
+
+            activateTheCanvas();
+
+            let appearTime;
+            switch (parent.speedAdjustmentSetting) {   case "slow": appearTime = 3; break; case "fast": appearTime = 1; break; default: appearTime = 2;   }
+            fullVpDarkBlue.classList.add("darkenLightenBackground"); fullVpDarkBlue.style.animationDuration = String(appearTime*2)+"s"; // 4s for default speed
+            new SuperTimeout(function(){ startTheFireworks(); }, appearTime*500);
+            new SuperTimeout(function(){ fullVpDarkBlue.style.animationPlayState = "paused"; }, appearTime*1000); // Paused at halfway » 2000ms at default speed
+
+          }
+        }
+        // ---
+
       } else {
         console.log("TRY AGAIN");
         failSound.play();
@@ -274,33 +343,31 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
         theFirstChoice.classList.remove("colorCardFlip");
         theOtherChosenCard.classList.remove("colorCardFlip");
         // Return to normal
-        theFirstChoice.classList.add("returnToNormal");
-        theOtherChosenCard.classList.add("returnToNormal");
-        theFirstChoice.firstElementChild.firstElementChild.classList.remove("appearAtFiftyPercent");
-        theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("appearAtFiftyPercent");
-        theFirstChoice.firstElementChild.firstElementChild.classList.add("disappearAtFiftyPercent");
-        theOtherChosenCard.firstElementChild.firstElementChild.classList.add("disappearAtFiftyPercent");
+        theFirstChoice.classList.add("returnToNormal"); // rotateY goes back from 180 to 0
+        theOtherChosenCard.classList.add("returnToNormal"); // rotateY goes back from 180 to 0
+        theFirstChoice.firstElementChild.firstElementChild.classList.remove("appearAtFiftyPercent"); // opacity only
+        theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("appearAtFiftyPercent"); // opacity only
+        theFirstChoice.firstElementChild.firstElementChild.classList.add("disappearAtFiftyPercent"); // opacity only
+        theOtherChosenCard.firstElementChild.firstElementChild.classList.add("disappearAtFiftyPercent"); // opacity only
 
         // Shuffle the cards
+        setTimeout(function () { disperse(); }, 2500);
+        setTimeout(function () { collectAllCardsAtTheCenter(); }, 2800);
+        setTimeout(function () { undoTheDispersion(); }, 3200);
+        setTimeout(function () { sendTheCardsToTheirNewPositions(); }, 3500);
         setTimeout(function () {
-          disperse();
-          setTimeout(function () {
-            collectAllCardsAtTheCenter();
-          }, 300);
-        }, 2500);
-        setTimeout(function () {
-          undoTheDispersion();
-          setTimeout(function () {
-            sendTheCardsToTheirNewPositions();
-          }, 300);
-        }, 3500);
+          if (deviceDetector.isMobile) { // Phones and tablets
+            acceptAndHandleScreenTouches(); // See mobile.js
+          } else { // Desktops
+            acceptAndHandleMouseClicks(); // See desktop.js
+          }
+          // ---
+          theFirstChoice.classList.remove("returnToNormal"); // Ready to restart
+          theOtherChosenCard.classList.remove("returnToNormal"); // Ready to restart
+          theFirstChoice.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent"); // Ready to restart
+          theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent"); // Ready to restart
+        }, 4000);
       }
-      // Add event listeners to the remaining elements
-      // if (deviceDetector.isMobile) { // Phones and tablets
-      //   acceptAndHandleScreenTouches(theChosenCard); // See mobile.js
-      // } else { // Desktops
-      //   acceptAndHandleMouseClicks(theChosenCard); // See desktop.js
-      // }
     };
     fullVpDarkBlue.style.animationPlayState = "running"; // The darkening layer disappears
   });
@@ -360,7 +427,7 @@ function disperse() {
     generatedValuesForLEFT.push(randomNumber1); attempts = 0;
     do { randomNumber2 = generateRandomNumber(); attempts++; } while (!isValidRandomNumberForTOP(randomNumber2) && attempts < 50);
     generatedValuesForTOP.push(randomNumber2); attempts = 0;
-    element.style.transform = "translateX("+randomNumber1+"vw) translateY("+randomNumber2+"vh)";
+    element.style.transform = "translateX("+randomNumber1+"vw) translateY("+randomNumber2+"vh)"; // Find transition-duration in colors.css
   });
   generatedValuesForLEFT = []; generatedValuesForTOP = []; // Reset
   /*
@@ -389,7 +456,7 @@ function disperse() {
 // --
 function undoTheDispersion() {
   allSixPerfectFitSquares.forEach((element) => {
-    element.style.transform = "translateX("+0+"vw) translateY("+0+"vh)" ;
+    element.style.transform = "translateX("+0+"vw) translateY("+0+"vh)" ;  // Find transition-duration in colors.css
   });
 }
 
@@ -424,14 +491,14 @@ function sendTheCardsToTheirNewPositions() {
   for (let i = 0; i < 6; i++) {
     const leftValue = uniqueCoordinates[i].split(",")[0];
     const topValue = uniqueCoordinates[i].split(",")[1];
-    allSixPerfectFitSquares[i].style.left = leftValue+"px";
-    allSixPerfectFitSquares[i].style.top  = topValue+"px";
+    allSixPerfectFitSquares[i].style.left = leftValue+"px";  // Find transition-duration in colors.css
+    allSixPerfectFitSquares[i].style.top  = topValue+"px";  // Find transition-duration in colors.css
   }
 }
 function collectAllCardsAtTheCenter() {
   for (let i = 0; i < 6; i++) {
-    allSixPerfectFitSquares[i].style.left = "calc(50% - 90px)";
-    allSixPerfectFitSquares[i].style.top  = "calc(50% - 90px)";
+    allSixPerfectFitSquares[i].style.left = "calc(50% - 90px)";  // Find transition-duration in colors.css
+    allSixPerfectFitSquares[i].style.top  = "calc(50% - 90px)";  // Find transition-duration in colors.css
   }
 
 }
@@ -447,8 +514,9 @@ if (lastRecordedWindowWidth>lastRecordedWindowHeight) {
 } else { // Let a square window be treated as portrait
   landscapeOrPortrait = "portrait"; console.log("Starting the game in PORTRAIT");
 }
-window.addEventListener('resize', updateWindowProperties);
-function updateWindowProperties() {
+
+setTimeout(function () {  window.addEventListener('resize', updateFrameWindowProperties);  }, 1000);
+function updateFrameWindowProperties() {
   setTimeout(function () {
     lastRecordedWindowWidth = window.innerWidth; lastRecordedWindowHeight = window.innerHeight;
     if (lastRecordedWindowWidth>lastRecordedWindowHeight) {
@@ -458,6 +526,152 @@ function updateWindowProperties() {
       if (landscapeOrPortrait != "portrait") {  handleOrientationChange();  }
       landscapeOrPortrait = "portrait";
     }
+    // ---
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
   },100); // Wait for retarded browsers
 }
 function handleOrientationChange() {  sendTheCardsToTheirNewPositions();  }
+
+
+
+// ---
+function startTheFireworks() {
+  shootThree();
+  //setTimeout(shootThree,7000);
+}
+
+const canvas = document.getElementById("fireworksCanvas");
+const ctx = canvas.getContext("2d");
+
+// Set canvas size
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// Function to generate random number within a range
+function randomRange(min, max) {  return Math.random() * (max - min) + min;  }
+
+let clearanceAdjustmentInterval = null;
+// Firework class
+class Firework {
+    constructor(shootFromX,shootToY) {
+        this.x = randomRange(shootFromX-5, shootFromX+5);
+        this.y = canvas.height;
+        this.targetX = randomRange(shootFromX-15, shootFromX+15);
+        this.targetY = randomRange(shootToY-15, shootToY+15);
+        this.radius = 2;
+        this.color = "rgb(255, 255, 255)";
+    }
+
+    update() {
+        this.x = this.x + (this.targetX - this.x) * 0.01;
+        this.y = this.y + (this.targetY - this.y) * 0.01;
+
+        if (Math.abs(this.targetY - this.y) <= 25) {
+            fireworks.splice(fireworks.indexOf(this), 1);
+            console.log("Boom");
+            createParticles(this.x, this.y);
+            if (!clearanceAdjustmentInterval) {
+              clearanceAdjustmentInterval = setInterval(increaseClearance,888);
+            }
+        }
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
+
+// Array to store fireworks
+const fireworks = [];
+// Array to store particles
+const particles = [];
+let smokeClearingForce = 0.05;
+function increaseClearance() {
+	smokeClearingForce += 0.01;
+  console.log(smokeClearingForce.toFixed(2));
+  if(smokeClearingForce>0.2) { clearInterval(clearanceAdjustmentInterval); }
+}
+// Main animation loop
+function activateTheCanvas() {
+    requestAnimationFrame(activateTheCanvas);
+    ctx.fillStyle = "rgba(0,0,0,"+smokeClearingForce.toFixed(2)+")"; // CONTROL ALPHA DYNAMICALLY !
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = fireworks.length - 1; i >= 0; i--) {
+        fireworks[i].update();
+        if(fireworks[i]) {fireworks[i].draw();} // Check if it still exists
+    }
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].draw();
+        particles[i].update();
+
+        if (particles[i].radius <= 0.001) {
+            particles.splice(i, 1);
+            i--;
+        }
+    }
+}
+
+
+function shootThree() { smokeClearingForce = 0.05;
+  fireworks.push(new Firework(canvas.width*0.50,canvas.height/8));
+  setTimeout(function(){ fireworks.push(new Firework(canvas.width*0.25,canvas.height/3)); },1400);
+  setTimeout(function(){ fireworks.push(new Firework(canvas.width*0.75,canvas.height/3)); },1700);
+}
+
+
+// Create particle class
+class Particle {
+    constructor(x, y, radius, color, velocity) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.velocity = velocity;
+        this.opacity = 1;
+        this.gravity = 0.005;
+    }
+
+    draw() {
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.restore();
+    }
+
+    update() {
+    	this.velocity.x *= 0.99;
+        this.velocity.y *= 0.99;
+        this.x += this.velocity.x;
+        this.velocity.y += this.gravity;
+        this.y += this.velocity.y;
+        if(this.opacity>0.1) {this.opacity -= 0.002;}
+        this.radius *= 0.99;
+    }
+}
+
+function createParticles(x, y) {
+    const numParticles = 90;
+
+    for (let i = 0; i < numParticles; i++) {
+        const radius = 2.8 + Math.random() * 0.5;
+        const color = 'white';
+        const speed = 0.1 + Math.random() * 2.5; // Adjust speed as needed
+
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = {
+            x: Math.cos(angle) * speed,
+            y: Math.sin(angle) * speed
+        };
+
+        particles.push(new Particle(x, y, radius, color, velocity));
+    }
+}

@@ -5,7 +5,7 @@
 // DYNAMIC WINDOW SIZE: Needed by game levels
 var lastRecordedWindowWidth = window.innerWidth; var lastRecordedWindowHeight = window.innerHeight; // Dimensions of the browser's display area
 var lastRecordedScreenWidth = window.screen.width; var lastRecordedScreenHeight = window.screen.height; // Dimensions of the USER'S desktop
-window.addEventListener('resize', updateWindowProperties);
+setTimeout(function () { window.addEventListener('resize', updateWindowProperties); }, 1000);
 function updateWindowProperties() {
   lastRecordedWindowWidth = window.innerWidth; lastRecordedWindowHeight = window.innerHeight; // Update the values
   lastRecordedScreenWidth = window.screen.width; lastRecordedScreenHeight = window.screen.height; // Update the values

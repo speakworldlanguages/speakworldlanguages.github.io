@@ -26,9 +26,11 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
     mouseDownTouchEndSound.play();
     const card = event.target;
     card.classList.add("whenItIsClicked");
-    console.log(card.parentNode.style.zIndex);
+    console.log("z-index when mousedown fired: "+card.parentNode.style.zIndex);
     // Save original zIndex to be able to revert
-    card.parentNode.style.zIndex = "100";
+    const zIndexReversion = card.parentNode.style.zIndex;
+    card.parentNode.style.zIndex = zIndexReversion+"0";
+    console.log("z-index has been changed into: "+card.parentNode.style.zIndex);
     fullVpDarkBlue.style.display = "block";
     let appearTime;
     switch (parent.speedAdjustmentSetting) {   case "slow": appearTime = 3; break; case "fast": appearTime = 1; break; default: appearTime = 2;   }
@@ -61,10 +63,8 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
     new SuperTimeout(function () {
       // Start speech recognition
       if (!theCardThatIsAlreadyFlipped) {
-        const zIndexReversion = card.parentNode.style.zIndex;
         whenCorrectColorIsUtteredForThe_FIRST_Card(card,zIndexReversion);
       } else {
-        const zIndexReversion = card.parentNode.style.zIndex;
         whenCorrectColorIsUtteredForThe_SECOND_Card(card,zIndexReversion);
       }
 
