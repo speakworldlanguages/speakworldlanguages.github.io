@@ -246,17 +246,18 @@ function whenCorrectColorIsUtteredForThe_FIRST_Card(theChosenCard,saveThis_zInde
   turnSound.play();
   if (deviceDetector.isMobile) { // Phones and tablets
     // whenItIsTouched is added at this point but we don't want to remove it yet because of border-width and outline-width
-    // theChosenCard.classList.remove("whenItIsTouched");
-    theChosenCard.classList.add("colorCardFlipMobile"); // Name of class already applied » containerForRoundedColorCards
+    // theChosenCard.classList.remove("whenItIsTouched"); // transform scale is 1.12 at this point
+    theChosenCard.classList.add("colorCardFlipMobile"); // Is applied to the card that has » containerForRoundedColorCards
+    // colorCardFlipMobile picks transform scale from the same final value in whenItIsTouched that is 1.12 » Completes in 1600ms without changing scale
   } else { // Desktops
     // whenItIsClicked is added at this point but we don't want to remove it yet because of border-width and outline-width
     // theChosenCard.classList.remove("whenItIsClicked");
-    theChosenCard.classList.add("colorCardFlipDesktop"); // Name of class already applied » containerForRoundedColorCards
+    theChosenCard.classList.add("colorCardFlipDesktop"); // Is applied to the card that has » containerForRoundedColorCards
   }
   // MOVE THIS TO THE TRY AGAIN BLOCK » theChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent");
   theChosenCard.firstElementChild.firstElementChild.classList.add("appearAtFiftyPercent");
   theFirstChoice = theChosenCard; // Store
-  parent.console.log("the first choice src is " + theFirstChoice.firstElementChild.firstElementChild.src);
+  //parent.console.log("the first choice src is " + theFirstChoice.firstElementChild.firstElementChild.src); // Works OK
   theChosenCard.addEventListener("animationend", (event) => {
     fullVpDarkBlue.onanimationend = () => {
       fullVpDarkBlue.classList.remove("darkenLightenBackground"); // Clean up and get ready to restart
@@ -276,16 +277,17 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
   turnSound.play();
   if (deviceDetector.isMobile) { // Phones and tablets
     // whenItIsTouched is added at this point but we don't want to remove it yet because of border-width and outline-width
-    // theOtherChosenCard.classList.remove("whenItIsTouched");
-    theOtherChosenCard.classList.add("colorCardFlipMobile"); // Name of class already applied » containerForRoundedColorCards
+    // theOtherChosenCard.classList.remove("whenItIsTouched"); // BOTH cards have transform scale 1.12 at this point
+    theOtherChosenCard.classList.add("colorCardFlipMobile"); // Is applied to the card that has » containerForRoundedColorCards
+    // colorCardFlipMobile picks transform scale from the same final value in whenItIsTouched that is 1.12 » Completes in 1600ms without changing scale
   } else { // Desktops
     // whenItIsClicked is added at this point but we don't want to remove it yet because of border-width and outline-width
     // theOtherChosenCard.classList.remove("whenItIsClicked");
-    theOtherChosenCard.classList.add("colorCardFlipDesktop"); // Name of class already applied » containerForRoundedColorCards
+    theOtherChosenCard.classList.add("colorCardFlipDesktop"); // Is applied to the card that has » containerForRoundedColorCards
   }
   // MOVE THIS TO THE TRY AGAIN BLOCK » theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent");
   theOtherChosenCard.firstElementChild.firstElementChild.classList.add("appearAtFiftyPercent");
-  parent.console.log("the second choice src is " + theOtherChosenCard.firstElementChild.firstElementChild.src);
+  //parent.console.log("the second choice src is " + theOtherChosenCard.firstElementChild.firstElementChild.src); // Works OK
   theOtherChosenCard.addEventListener("animationend", (event) => {
     fullVpDarkBlue.onanimationend = () => {
       fullVpDarkBlue.classList.remove("darkenLightenBackground"); // Clean up and get ready to restart
@@ -293,7 +295,9 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
       parent.console.log("Reverting to revertToThis_zIndex2: " + revertToThis_zIndex2);
       theFirstChoice.parentNode.style.zIndex = original_zIndex1; // Push back to initial layer order
       theOtherChosenCard.parentNode.style.zIndex = revertToThis_zIndex2; // Push back to initial layer order
+
       parent.console.log("TIME TO CHECK IF PAIRS MATCH");
+
       if (theOtherChosenCard.firstElementChild.firstElementChild.src == theFirstChoice.firstElementChild.firstElementChild.src) {
         parent.console.log("CORRECT");
         // play partial success sound
@@ -303,6 +307,7 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
         // theOtherChosenCard.classList.remove("scaleUp"); // Looks like it is OK skip this now that both cards will get small and disappear
         theFirstChoice.classList.remove("whenItIsClicked"); theFirstChoice.classList.remove("whenItIsTouched"); // Whichever was applied
         theOtherChosenCard.classList.remove("whenItIsClicked"); theOtherChosenCard.classList.remove("whenItIsTouched"); // Whichever was applied
+        // ON MOBILE: Now that «whenItIsTouched» is removed «colorCardFlipMobile» is the only thing that is keeping the scale at 1.12 at this point
         // Go to far far away
         requestAnimationFrame(function () {
           requestAnimationFrame(function () {
@@ -311,8 +316,15 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
             // SO: whenPairIsFound must start the animation flipped » See colors.css
             theFirstChoice.classList.remove("colorCardFlipDesktop"); theFirstChoice.classList.remove("colorCardFlipMobile"); // Whichever was applied
             theOtherChosenCard.classList.remove("colorCardFlipDesktop"); theOtherChosenCard.classList.remove("colorCardFlipMobile"); // Whichever was applied
-            theFirstChoice.classList.add("whenPairIsFound"); // 900ms
-            theOtherChosenCard.classList.add("whenPairIsFound"); // 900ms
+            // At this point we must either use transitions or a dedicated animation for mobiles to avoid abrupt change in scale value
+            if (deviceDetector.isMobile) {
+              theFirstChoice.classList.add("whenPairIsFoundMobile"); // 900ms
+              theOtherChosenCard.classList.add("whenPairIsFoundMobile"); // 900ms
+            } else {
+              theFirstChoice.classList.add("whenPairIsFoundDesktop"); // 900ms
+              theOtherChosenCard.classList.add("whenPairIsFoundDesktop"); // 900ms
+            }
+            // It is OK to let whenPairIsFound stay applied and never get removed from classList
           });
         });
 
@@ -320,8 +332,8 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
 
         theFirstChoice.onanimationend = () => {
           parent.console.log("Setting visibility of the TWO solved pieces to hidden");
-          theFirstChoice.parentNode.style.visibility = "hidden"; // To avoid errors we do not use remove() here
-          theOtherChosenCard.parentNode.style.visibility = "hidden"; // To avoid errors we do not use remove() here
+          theFirstChoice.parentNode.style.visibility = "hidden"; // To avoid errors we do not change the DOM with something like divElement.remove() here
+          theOtherChosenCard.parentNode.style.visibility = "hidden"; // To avoid errors we do not change the DOM with something like divElement.remove() here
           remainingPieces -= 2;
           checkForWin();
         };
@@ -376,9 +388,17 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
         theOtherChosenCard.classList.remove("whenItIsClicked"); theOtherChosenCard.classList.remove("whenItIsTouched"); // Whichever was applied
         theFirstChoice.classList.remove("colorCardFlipDesktop"); theFirstChoice.classList.remove("colorCardFlipMobile"); // Whichever was applied
         theOtherChosenCard.classList.remove("colorCardFlipDesktop"); theOtherChosenCard.classList.remove("colorCardFlipMobile"); // Whichever was applied
+        // ON MOBILE: When whenItIsTouched and colorCardFlipMobile are both removed, nothing will be left to keep the scale et 1.12
+        // Therefore we must either use transition for transform or use a dedicated class for mobile to pick from 1.12
         // Return to normal
-        theFirstChoice.classList.add("returnToNormal"); // rotateY goes back from 180 to 0
-        theOtherChosenCard.classList.add("returnToNormal"); // rotateY goes back from 180 to 0
+        if (deviceDetector.isMobile) {
+          theFirstChoice.classList.add("returnToNormalMobile"); // rotateY goes back from 180 to 0
+          theOtherChosenCard.classList.add("returnToNormalMobile"); // rotateY goes back from 180 to 0
+        } else {
+          theFirstChoice.classList.add("returnToNormalDesktop"); // rotateY goes back from 180 to 0
+          theOtherChosenCard.classList.add("returnToNormalDesktop"); // rotateY goes back from 180 to 0
+        }
+        
         theFirstChoice.firstElementChild.firstElementChild.classList.remove("appearAtFiftyPercent"); // opacity only
         theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("appearAtFiftyPercent"); // opacity only
         theFirstChoice.firstElementChild.firstElementChild.classList.add("disappearAtFiftyPercent"); // opacity only
@@ -396,8 +416,8 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
             acceptAndHandleMouseClicks(); // See desktop.js
           }
           // ---
-          theFirstChoice.classList.remove("returnToNormal"); // Ready to restart
-          theOtherChosenCard.classList.remove("returnToNormal"); // Ready to restart
+          theFirstChoice.classList.remove("returnToNormalDesktop"); theFirstChoice.classList.remove("returnToNormalMobile"); // Ready to restart
+          theOtherChosenCard.classList.remove("returnToNormalDesktop"); theOtherChosenCard.classList.remove("returnToNormalMobile"); // Ready to restart
           theFirstChoice.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent"); // Ready to restart
           theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent"); // Ready to restart
         }, 3400); // +400
@@ -655,7 +675,7 @@ function createParticles(x, y) {
     const numParticles = 90;
 
     for (let i = 0; i < numParticles; i++) {
-        const radius = 2.8 + Math.random() * 0.5;
+        const radius = 2.4 + Math.random() * 0.5;
         const color = 'white';
         const speed = 0.1 + Math.random() * 2.5; // Adjust speed as needed
 

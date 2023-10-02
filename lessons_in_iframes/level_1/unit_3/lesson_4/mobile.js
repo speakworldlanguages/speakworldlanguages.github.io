@@ -63,7 +63,9 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
     function checkIfReleaseHappenedOnACard() {
       if (elementFromPoint.classList.contains("containerForRoundedColorCards")) {
         if (elementFromPoint.classList.contains("whenFingerIsOnIt")) {
-          elementFromPoint.classList.remove("whenFingerIsOnIt");
+          // At this point transform scale is 1.12
+          // NOTE THAT: Without "transition:transform" this will cause an abrupt change unless another class is immediately applied to take over seamlessly
+          elementFromPoint.classList.remove("whenFingerIsOnIt"); // See below to see how we make whenItIsTouched take over immediately for seamless animation
 
           touchArea.removeEventListener("touchstart",detectFingerHover);
           touchArea.removeEventListener("touchmove",detectFingerHover);
@@ -85,12 +87,9 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
   function whatToDoWithTheChosenCard(card) { //event.preventDefault(); event.stopPropagation();
     parent.console.log("The chosen card was: " + card.id);
     mouseDownTouchEndSound.play();
-    // const card = event.target;
     // IMPOSSIBLE CASE: In desktop.js we asked: WHAT IF NEITHER ???mouseenter??? NOR ???mousemove??? HAPPENED SO FAR » Handle that one too
-    // if (card.classList.contains("scaleUp")) { } // Already hovered » do nothing
-    // else {  card.classList.add("scaleUp");  }
     // Anyhow
-    card.classList.add("whenItIsTouched");
+    card.classList.add("whenItIsTouched"); // Stops where transform is set to scale(1.12) » Completes in 250ms
     parent.console.log("z-index when touch event fired: "+card.parentNode.style.zIndex);
     // Save original zIndex to be able to revert
     const zIndexReversion = card.parentNode.style.zIndex;
