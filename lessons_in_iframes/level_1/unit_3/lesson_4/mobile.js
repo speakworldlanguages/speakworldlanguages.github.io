@@ -21,6 +21,7 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
     //parent.console.log("Touch detected... on touchArea");
     let touch = event.touches[0];
     elementFromPoint = document.elementFromPoint(touch.clientX, touch.clientY); // DON'T NEED: touch.pageX - window.pageXOffset, touch.pageY - window.pageYOffset // because there is no scrolling in window or body
+    if (elementFromPoint == whatShallNotRespondToTouchesAnymore) { return; } // Break function execution and quit
 
     if (elementFromPoint.classList.contains("containerForRoundedColorCards")) {
       if (elementFromPoint.classList.contains("whenFingerIsOnIt"))      { } // Already hovered » do nothing
