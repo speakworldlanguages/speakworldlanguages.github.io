@@ -135,6 +135,8 @@ function loadingIsCompleteFunction()
       new SuperTimeout(function(){ createAndHandleInfoBoxType1BeforeLessonStarts(); putNotificationTxtIntoThisP1.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
       // createAndHandleInfoBoxType1BeforeLessonStarts() will fire startTheLesson() 1.5 seconds after its OK button is clicked/touched
     });
+  } else if (false) { // Ao » Aoi - Aka » Akai - Midori !?
+
   } else {
     startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
   }
@@ -151,8 +153,9 @@ function startTheLesson()
     default:     sayTime = 3500; proceedTime = 8500;
   }
   new SuperTimeout(function () { sayWhite1.play(); }, sayTime/5);
-  // new SuperTimeout(showGreen, proceedTime/5); // Uncomment after tests
-  setTimeout(bringTheGameToTheScene, proceedTime/5);
+  new SuperTimeout(showGreen, proceedTime/5); // Uncomment after tests
+  // sendTheCardsToTheirNewPositions(); // Delete or comment out after tests » Can skip the single photos during testing
+  // setTimeout(bringTheGameToTheScene, proceedTime/5); // Delete or comment out after tests » Can skip the single photos during testing
 }
 
 function showGreen() {
@@ -217,8 +220,8 @@ function showBlack() {
     default:     sayTime = 2500; proceedTime = 7500;
   }
   new SuperTimeout(function () { sayBlack1.play(); }, sayTime/5);
-  // sendTheCardsToTheirNewPositions();
-  // new SuperTimeout(bringTheGameToTheScene, proceedTime/5);
+  new SuperTimeout(sendTheCardsToTheirNewPositions, proceedTime/5-900);
+  new SuperTimeout(bringTheGameToTheScene, proceedTime/5);
 }
 
 
@@ -226,7 +229,7 @@ function bringTheGameToTheScene() {
   containerOfSingles.classList.add("moveUpAndGoBeyondScreenLimit"); // Standard 2s animation » See colors.css
   containerOfTheWholeGame.classList.add("moveUpAndComeToTheCenterOfScreen"); // Standard 2s animation » See colors.css
 
-  setTimeout(function () { sendTheCardsToTheirNewPositions(); }, 2000);
+   // setTimeout(function () { sendTheCardsToTheirNewPositions(); }, 2000); // ONLY FOR TESTING
 
   if (deviceDetector.isMobile) { // Phones and tablets
     acceptAndHandleScreenTouches(); // See mobile.js
@@ -308,8 +311,8 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
             // SO: whenPairIsFound must start the animation flipped » See colors.css
             theFirstChoice.classList.remove("colorCardFlipDesktop"); theFirstChoice.classList.remove("colorCardFlipMobile"); // Whichever was applied
             theOtherChosenCard.classList.remove("colorCardFlipDesktop"); theOtherChosenCard.classList.remove("colorCardFlipMobile"); // Whichever was applied
-            theFirstChoice.classList.add("whenPairIsFound");
-            theOtherChosenCard.classList.add("whenPairIsFound");
+            theFirstChoice.classList.add("whenPairIsFound"); // 900ms
+            theOtherChosenCard.classList.add("whenPairIsFound"); // 900ms
           });
         });
 
@@ -324,21 +327,29 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
         };
         // --
         function checkForWin() {
-          if (remainingPieces) {
+          if (remainingPieces) { // Either 4 or 2 pieces left
             parent.console.log("There are "+remainingPieces+" unmatched pieces left");
-            // Shuffle the cards
-            setTimeout(function () { disperse(); }, 2500);
-            setTimeout(function () { collectAllCardsAtTheCenter(); }, 2800);
-            setTimeout(function () { undoTheDispersion(); }, 3200);
-            setTimeout(function () { sendTheCardsToTheirNewPositions(); }, 3500);
-            setTimeout(function () {
-              if (deviceDetector.isMobile) { // Phones and tablets
-                acceptAndHandleScreenTouches(); // See mobile.js
-              } else { // Desktops
-                acceptAndHandleMouseClicks(); // See desktop.js
-              }
-            }, 4000);
-          } else {
+            if (remainingPieces == 2) { // No need to shuffle as there are only two cards left
+              //---
+              if (deviceDetector.isMobile) { acceptAndHandleScreenTouches(); } // See mobile.js
+              else { acceptAndHandleMouseClicks(); } // See desktop.js
+              //---
+            } else { // Shuffle the cards
+              //---
+              setTimeout(function () { disperse(); }, 1500);
+              setTimeout(function () { collectAllCardsAtTheCenter(); }, 1800); // +300
+              setTimeout(function () { undoTheDispersion(); }, 2200); // +400
+              setTimeout(function () { sendTheCardsToTheirNewPositions(); }, 2500); // +300
+              setTimeout(function () {
+                if (deviceDetector.isMobile) { // Phones and tablets
+                  acceptAndHandleScreenTouches(); // See mobile.js
+                } else { // Desktops
+                  acceptAndHandleMouseClicks(); // See desktop.js
+                }
+              }, 2900); // +400
+              //---
+            }
+          } else { // No pieces left
             // WIN
             parent.console.log("WIN!");
             setTimeout(function () {  finalWinSound.play();  }, 1250);
@@ -373,11 +384,11 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
         theFirstChoice.firstElementChild.firstElementChild.classList.add("disappearAtFiftyPercent"); // opacity only
         theOtherChosenCard.firstElementChild.firstElementChild.classList.add("disappearAtFiftyPercent"); // opacity only
 
-        // Shuffle the cards
-        setTimeout(function () { disperse(); }, 2500);
-        setTimeout(function () { collectAllCardsAtTheCenter(); }, 2800);
-        setTimeout(function () { undoTheDispersion(); }, 3200);
-        setTimeout(function () { sendTheCardsToTheirNewPositions(); }, 3500);
+        // Shuffle the cards // See colors.css and find returnToNormal » September2023 it takes 1600ms to complete
+        setTimeout(function () { disperse(); }, 2000);
+        setTimeout(function () { collectAllCardsAtTheCenter(); }, 2300); // +300
+        setTimeout(function () { undoTheDispersion(); }, 2700); // +400
+        setTimeout(function () { sendTheCardsToTheirNewPositions(); }, 3000); // +300
         setTimeout(function () {
           if (deviceDetector.isMobile) { // Phones and tablets
             acceptAndHandleScreenTouches(); // See mobile.js
@@ -389,7 +400,7 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
           theOtherChosenCard.classList.remove("returnToNormal"); // Ready to restart
           theFirstChoice.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent"); // Ready to restart
           theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent"); // Ready to restart
-        }, 4000);
+        }, 3400); // +400
       }
     };
     fullVpDarkBlue.style.animationPlayState = "running"; // The darkening layer disappears
