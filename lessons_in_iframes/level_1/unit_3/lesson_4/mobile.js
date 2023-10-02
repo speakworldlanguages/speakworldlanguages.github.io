@@ -3,10 +3,15 @@
 // UNAUTHORIZED MODIFICATION IS PROHIBITED: You may not change this file without consent
 let elementFromPoint = null;
 let lastHoveredElement = null;
+let whatShallNotRespondToTouchesAnymore = null;
 function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
+
+  whatShallNotRespondToTouchesAnymore = theCardThatIsAlreadyFlipped;
+
   parent.console.log("«*----Activating touch controls----*»");
 
-  touchArea.addEventListener("touchstart",detectFingerHover); // TRY LETTING SLIDING NAV MENU stay usable BY LISTENIG on A DIV with height calc(100% - 40px)
+  // ENHANCING UX: Let SLIDING-NAV-MENU stay usable BY LISTENIG on A DIV with height calc(100% - 40px)
+  touchArea.addEventListener("touchstart",detectFingerHover);
   touchArea.addEventListener("touchmove",detectFingerHover);
   document.addEventListener("touchend",detectFingerRelease);
 
@@ -44,18 +49,42 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
   function detectFingerRelease(event) { // event.preventDefault(); event.stopPropagation(); // Looks like we don't need to preventDefault or stopPropagation
     // parent.console.log("Touch END detected"); // Works but touch.clientX touch.clientY had some weird inaccuracy due to an unknown reason
     // Detect which card was chosen without touch.clientX touch.clientY
-    if (elementFromPoint.classList.contains("containerForRoundedColorCards")) {
-      if (elementFromPoint.classList.contains("whenFingerIsOnIt")) {
-        elementFromPoint.classList.remove("whenFingerIsOnIt");
-        whatToDoWithTheChosenCard(elementFromPoint);
+    if (whatShallNotRespondToTouchesAnymore) { // There exists one card that is already flipped
+      if (elementFromPoint != whatShallNotRespondToTouchesAnymore) { // And it is not the one that was previously flipped
+        checkIfReleaseHappenedOnACard();
+      } else {
+        // Ignore it if user touches a card that is already flipped
+      }
+    } else { // No card has been flipped yet
+      checkIfReleaseHappenedOnACard();
+    }
+    // --
+    function checkIfReleaseHappenedOnACard() {
+      if (elementFromPoint.classList.contains("containerForRoundedColorCards")) {
+        if (elementFromPoint.classList.contains("whenFingerIsOnIt")) {
+          elementFromPoint.classList.remove("whenFingerIsOnIt");
+
+          touchArea.removeEventListener("touchstart",detectFingerHover);
+          touchArea.removeEventListener("touchmove",detectFingerHover);
+          document.removeEventListener("touchend",detectFingerRelease);
+
+          whatToDoWithTheChosenCard(elementFromPoint);
+
+          // If the chosen card is the first one of two, then we make it invisible to touches ... until???
+          if (!theCardThatIsAlreadyFlipped) {  whatShallNotRespondToTouchesAnymore = elementFromPoint;  }
+          // Until
+          // A-) Speech Recog fails to detect the name of the color and THAT ONE CARD is reset
+          // B-) Two cards don't match and the game is reset
+          // C-)
+        }
       }
     }
-  }
+  } // End of detectFingerRelease
 
   function whatToDoWithTheChosenCard(card) { //event.preventDefault(); event.stopPropagation();
     parent.console.log("The chosen card was: " + card.id);
     mouseDownTouchEndSound.play();
-    //  const card = event.target;
+    // const card = event.target;
     // IMPOSSIBLE CASE: In desktop.js we asked: WHAT IF NEITHER ???mouseenter??? NOR ???mousemove??? HAPPENED SO FAR » Handle that one too
     // if (card.classList.contains("scaleUp")) { } // Already hovered » do nothing
     // else {  card.classList.add("scaleUp");  }
@@ -92,14 +121,22 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
     }, sayTime);
     new SuperTimeout(function () {
       // Start speech recognition
-      if (!theCardThatIsAlreadyFlipped) {
+
+      // Let speechRecognition session either resolve or reject
+
+      // Do these if it resolves
+      if (!theCardThatIsAlreadyFlipped) { // Such a card doesn't exist
         whenCorrectColorIsUtteredForThe_FIRST_Card(card,zIndexReversion);
-      } else {
-        whenCorrectColorIsUtteredForThe_SECOND_Card(card,zIndexReversion);
+      } else { // There exists a previously flipped card and that which was just chosen is the second
+        whatShallNotRespondToTouchesAnymore = null; // Let all visible cards be touchable&selectable
+        whenCorrectColorIsUtteredForThe_SECOND_Card(card,zIndexReversion); // Will either «not match and fail» or «match and disappear»
       }
+      // Do these if it rejects
+
+
     }, sayTime*2);
 
   } // End of whatToDoWithTheChosenCard
 
 
-}
+} // End of acceptAndHandleScreenTouches

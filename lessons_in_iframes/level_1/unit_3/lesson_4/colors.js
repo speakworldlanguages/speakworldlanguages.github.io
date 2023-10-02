@@ -109,9 +109,9 @@ const allCards = document.querySelectorAll(".containerForRoundedColorCards");
 window.addEventListener("DOMContentLoaded",function(){   assignVisualsFunction();   }, { once: true });
 function assignVisualsFunction() {
   // Shuffle the imagePairs array to randomize the assignment.
-  // console.log(imageFiles); // Works OK
+  // parent.console.log(imageFiles); // Works OK
   shuffleArray(imageFiles);
-  // console.log(imageFiles); // Works OK
+  // parent.console.log(imageFiles); // Works OK
   // Function to shuffle an array using the Fisher-Yates algorithm.
   function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
@@ -253,12 +253,12 @@ function whenCorrectColorIsUtteredForThe_FIRST_Card(theChosenCard,saveThis_zInde
   // MOVE THIS TO THE TRY AGAIN BLOCK » theChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent");
   theChosenCard.firstElementChild.firstElementChild.classList.add("appearAtFiftyPercent");
   theFirstChoice = theChosenCard; // Store
-  console.log("the first choice src is " + theFirstChoice.firstElementChild.firstElementChild.src);
+  parent.console.log("the first choice src is " + theFirstChoice.firstElementChild.firstElementChild.src);
   theChosenCard.addEventListener("animationend", (event) => {
     fullVpDarkBlue.onanimationend = () => {
       fullVpDarkBlue.classList.remove("darkenLightenBackground"); // Clean up and get ready to restart
       original_zIndex1 = saveThis_zIndex1; // Only save and do not revert yet » Will revert after the second piece is checked
-      console.log("stored z-index value for reversion: " + original_zIndex1);
+      parent.console.log("stored z-index value for reversion: " + original_zIndex1);
       // Add event listeners to the remaining elements
       if (deviceDetector.isMobile) { // Phones and tablets
         acceptAndHandleScreenTouches(theChosenCard); // See mobile.js
@@ -282,17 +282,17 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
   }
   // MOVE THIS TO THE TRY AGAIN BLOCK » theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent");
   theOtherChosenCard.firstElementChild.firstElementChild.classList.add("appearAtFiftyPercent");
-  console.log("the second choice src is " + theOtherChosenCard.firstElementChild.firstElementChild.src);
+  parent.console.log("the second choice src is " + theOtherChosenCard.firstElementChild.firstElementChild.src);
   theOtherChosenCard.addEventListener("animationend", (event) => {
     fullVpDarkBlue.onanimationend = () => {
       fullVpDarkBlue.classList.remove("darkenLightenBackground"); // Clean up and get ready to restart
-      console.log("Reverting to original_zIndex1: " + original_zIndex1);
-      console.log("Reverting to revertToThis_zIndex2: " + revertToThis_zIndex2);
+      parent.console.log("Reverting to original_zIndex1: " + original_zIndex1);
+      parent.console.log("Reverting to revertToThis_zIndex2: " + revertToThis_zIndex2);
       theFirstChoice.parentNode.style.zIndex = original_zIndex1; // Push back to initial layer order
       theOtherChosenCard.parentNode.style.zIndex = revertToThis_zIndex2; // Push back to initial layer order
-      console.log("TIME TO CHECK IF PAIRS MATCH");
+      parent.console.log("TIME TO CHECK IF PAIRS MATCH");
       if (theOtherChosenCard.firstElementChild.firstElementChild.src == theFirstChoice.firstElementChild.firstElementChild.src) {
-        console.log("CORRECT");
+        parent.console.log("CORRECT");
         // play partial success sound
         findSound.play();
         // Reset classes
@@ -303,7 +303,7 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
         // Go to far far away
         requestAnimationFrame(function () {
           requestAnimationFrame(function () {
-            console.log("Send the matching pair to far far away");
+            parent.console.log("Send the matching pair to far far away");
             // REMEMBER: DUE TO colorCardFlip_______ THE CARDS ARE ALREADY FLIPPED AND MUST STAY FLIPPED
             // SO: whenPairIsFound must start the animation flipped » See colors.css
             theFirstChoice.classList.remove("colorCardFlipDesktop"); theFirstChoice.classList.remove("colorCardFlipMobile"); // Whichever was applied
@@ -316,7 +316,7 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
         // No need to remove appearAtFiftyPercent as it will be hidden and will never reapear in this session
 
         theFirstChoice.onanimationend = () => {
-          console.log("Setting visibility of the TWO solved pieces to hidden");
+          parent.console.log("Setting visibility of the TWO solved pieces to hidden");
           theFirstChoice.parentNode.style.visibility = "hidden"; // To avoid errors we do not use remove() here
           theOtherChosenCard.parentNode.style.visibility = "hidden"; // To avoid errors we do not use remove() here
           remainingPieces -= 2;
@@ -325,7 +325,7 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
         // --
         function checkForWin() {
           if (remainingPieces) {
-            console.log("There are "+remainingPieces+" unmatched pieces left");
+            parent.console.log("There are "+remainingPieces+" unmatched pieces left");
             // Shuffle the cards
             setTimeout(function () { disperse(); }, 2500);
             setTimeout(function () { collectAllCardsAtTheCenter(); }, 2800);
@@ -340,7 +340,7 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
             }, 4000);
           } else {
             // WIN
-            console.log("WIN!");
+            parent.console.log("WIN!");
             setTimeout(function () {  finalWinSound.play();  }, 1250);
 
             activateTheCanvas();
@@ -356,7 +356,7 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
         // ---
 
       } else { // THE CHOSEN TWO CARDS HAVE DIFFERENT BACKFACE VISUALS
-        console.log("TRY AGAIN");
+        parent.console.log("TRY AGAIN");
         failSound.play();
         // Reset classes
         theFirstChoice.classList.remove("scaleUp");
@@ -549,10 +549,10 @@ class Firework {
 
         if (Math.abs(this.targetY - this.y) <= 25) {
             fireworks.splice(fireworks.indexOf(this), 1);
-            console.log("Boom");
+            parent.console.log("Boom");
             createParticles(this.x, this.y);
             if (!clearanceAdjustmentInterval) {
-              clearanceAdjustmentInterval = setInterval(increaseClearance,700);
+              clearanceAdjustmentInterval = setInterval(increaseClearance,600);
             }
         }
     }
@@ -573,8 +573,8 @@ const particles = [];
 let smokeClearingForce = 0.05;
 function increaseClearance() {
 	smokeClearingForce += 0.01;
-  console.log(smokeClearingForce.toFixed(2));
-  if(smokeClearingForce>0.22) { clearInterval(clearanceAdjustmentInterval); }
+  parent.console.log(smokeClearingForce.toFixed(2));
+  if(smokeClearingForce>0.23) { clearInterval(clearanceAdjustmentInterval); }
 }
 // Main animation loop
 function activateTheCanvas() {

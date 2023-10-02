@@ -69,15 +69,21 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
     }, sayTime);
     new SuperTimeout(function () {
       // Start speech recognition
-      if (!theCardThatIsAlreadyFlipped) {
+
+      // Let speechRecognition session either resolve or reject
+
+      // Do these if it resolves
+      if (!theCardThatIsAlreadyFlipped) { // Such a card doesn't exist
         whenCorrectColorIsUtteredForThe_FIRST_Card(card,zIndexReversion);
-      } else {
+      } else { // There exists a previously flipped card
         whenCorrectColorIsUtteredForThe_SECOND_Card(card,zIndexReversion);
       }
+      // Do these if it rejects
+      // Reset the card without flipping it
 
     }, sayTime*2);
 
   } // End of nice click
 
 
-}
+} // End of acceptAndHandleMouseClicks
