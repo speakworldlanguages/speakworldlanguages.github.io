@@ -241,8 +241,16 @@ let original_zIndex1 = null;
 let remainingPieces = 6;
 function whenCorrectColorIsUtteredForThe_FIRST_Card(theChosenCard,saveThis_zIndex1) {
   turnSound.play();
-  theChosenCard.classList.add("colorCardFlip"); // Name of class already applied » containerForRoundedColorCards
-  // theChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent");
+  if (deviceDetector.isMobile) { // Phones and tablets
+    // whenItIsTouched is added at this point but we don't want to remove it yet because of border-width and outline-width
+    // theChosenCard.classList.remove("whenItIsTouched");
+    theChosenCard.classList.add("colorCardFlipMobile"); // Name of class already applied » containerForRoundedColorCards
+  } else { // Desktops
+    // whenItIsClicked is added at this point but we don't want to remove it yet because of border-width and outline-width
+    // theChosenCard.classList.remove("whenItIsClicked");
+    theChosenCard.classList.add("colorCardFlipDesktop"); // Name of class already applied » containerForRoundedColorCards
+  }
+  // MOVE THIS TO THE TRY AGAIN BLOCK » theChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent");
   theChosenCard.firstElementChild.firstElementChild.classList.add("appearAtFiftyPercent");
   theFirstChoice = theChosenCard; // Store
   console.log("the first choice src is " + theFirstChoice.firstElementChild.firstElementChild.src);
@@ -263,8 +271,16 @@ function whenCorrectColorIsUtteredForThe_FIRST_Card(theChosenCard,saveThis_zInde
 }
 function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertToThis_zIndex2) {
   turnSound.play();
-  theOtherChosenCard.classList.add("colorCardFlip"); // Name of class already applied » containerForRoundedColorCards
-  // theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent");
+  if (deviceDetector.isMobile) { // Phones and tablets
+    // whenItIsTouched is added at this point but we don't want to remove it yet because of border-width and outline-width
+    // theOtherChosenCard.classList.remove("whenItIsTouched");
+    theOtherChosenCard.classList.add("colorCardFlipMobile"); // Name of class already applied » containerForRoundedColorCards
+  } else { // Desktops
+    // whenItIsClicked is added at this point but we don't want to remove it yet because of border-width and outline-width
+    // theOtherChosenCard.classList.remove("whenItIsClicked");
+    theOtherChosenCard.classList.add("colorCardFlipDesktop"); // Name of class already applied » containerForRoundedColorCards
+  }
+  // MOVE THIS TO THE TRY AGAIN BLOCK » theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent");
   theOtherChosenCard.firstElementChild.firstElementChild.classList.add("appearAtFiftyPercent");
   console.log("the second choice src is " + theOtherChosenCard.firstElementChild.firstElementChild.src);
   theOtherChosenCard.addEventListener("animationend", (event) => {
@@ -280,18 +296,18 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
         // play partial success sound
         findSound.play();
         // Reset classes
-        // theFirstChoice.classList.remove("scaleUp"); // Looks like it is OK skip this
-        // theOtherChosenCard.classList.remove("scaleUp"); // Looks like it is OK skip this
-        theFirstChoice.classList.remove("whenItIsClicked");
-        theOtherChosenCard.classList.remove("whenItIsClicked");
+        // theFirstChoice.classList.remove("scaleUp"); // Looks like it is OK skip this now that both cards will get small and disappear
+        // theOtherChosenCard.classList.remove("scaleUp"); // Looks like it is OK skip this now that both cards will get small and disappear
+        theFirstChoice.classList.remove("whenItIsClicked"); theFirstChoice.classList.remove("whenItIsTouched"); // Whichever was applied
+        theOtherChosenCard.classList.remove("whenItIsClicked"); theOtherChosenCard.classList.remove("whenItIsTouched"); // Whichever was applied
         // Go to far far away
         requestAnimationFrame(function () {
           requestAnimationFrame(function () {
             console.log("Send the matching pair to far far away");
-            // EITHER: TRY TO PROCEED WITHOUT REMOVING colorCardFlip BECAUSE THE CARDS ARE FLIPPED AND MUST STAY FLIPPED
-            // OR: whenPairIsFound can start the animation flipped
-            theFirstChoice.classList.remove("colorCardFlip");
-            theOtherChosenCard.classList.remove("colorCardFlip");
+            // REMEMBER: DUE TO colorCardFlip_______ THE CARDS ARE ALREADY FLIPPED AND MUST STAY FLIPPED
+            // SO: whenPairIsFound must start the animation flipped » See colors.css
+            theFirstChoice.classList.remove("colorCardFlipDesktop"); theFirstChoice.classList.remove("colorCardFlipMobile"); // Whichever was applied
+            theOtherChosenCard.classList.remove("colorCardFlipDesktop"); theOtherChosenCard.classList.remove("colorCardFlipMobile"); // Whichever was applied
             theFirstChoice.classList.add("whenPairIsFound");
             theOtherChosenCard.classList.add("whenPairIsFound");
           });
@@ -325,7 +341,7 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
           } else {
             // WIN
             console.log("WIN!");
-            setTimeout(function () {  finalWinSound.play();  }, 500);
+            setTimeout(function () {  finalWinSound.play();  }, 1250);
 
             activateTheCanvas();
 
@@ -345,10 +361,10 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
         // Reset classes
         theFirstChoice.classList.remove("scaleUp");
         theOtherChosenCard.classList.remove("scaleUp");
-        theFirstChoice.classList.remove("whenItIsClicked");
-        theOtherChosenCard.classList.remove("whenItIsClicked");
-        theFirstChoice.classList.remove("colorCardFlip");
-        theOtherChosenCard.classList.remove("colorCardFlip");
+        theFirstChoice.classList.remove("whenItIsClicked"); theFirstChoice.classList.remove("whenItIsTouched"); // Whichever was applied
+        theOtherChosenCard.classList.remove("whenItIsClicked"); theOtherChosenCard.classList.remove("whenItIsTouched"); // Whichever was applied
+        theFirstChoice.classList.remove("colorCardFlipDesktop"); theFirstChoice.classList.remove("colorCardFlipMobile"); // Whichever was applied
+        theOtherChosenCard.classList.remove("colorCardFlipDesktop"); theOtherChosenCard.classList.remove("colorCardFlipMobile"); // Whichever was applied
         // Return to normal
         theFirstChoice.classList.add("returnToNormal"); // rotateY goes back from 180 to 0
         theOtherChosenCard.classList.add("returnToNormal"); // rotateY goes back from 180 to 0
@@ -404,28 +420,7 @@ function isValidRandomNumberForTOP(randomNumber) { // Check if the difference be
   return true;
 }
 // ---
-/*
-let boundaries = [];
-function checkOverlap() {
-  boundaries = [];
-  allSixPerfectFitSquares.forEach((element) => {  const square = element.getBoundingClientRect();  boundaries.push(square);  });
-  let overlappingPairs = [];
-  for (let i = 0; i < boundaries.length - 1; i++) {
-    for (let j = i + 1; j < boundaries.length; j++) {
-      const rect1 = boundaries[i];
-      const rect2 = boundaries[j];
-      // Check if the two rectangles overlap in both the X and Y axes
-      if ( rect1.left < rect2.right && rect1.right > rect2.left && rect1.top < rect2.bottom && rect1.bottom > rect2.top ) {
-        console.log("overlap detected: "+i+"&"+j);
-        if (!overlappingPairs.includes(i)) { overlappingPairs.push(i); }
-        if (!overlappingPairs.includes(j)) { overlappingPairs.push(j); }
-      }
-    }
-  }
-  if (overlappingPairs.length === 0) {  return false; console.log("NO OVERLAPS");  }
-  else {    return overlappingPairs;  }
-}
-*/
+
 let attempts = 0;
 function disperse() {
   allSixPerfectFitSquares.forEach((element) => {
@@ -437,28 +432,6 @@ function disperse() {
     element.style.transform = "translateX("+randomNumber1+"vw) translateY("+randomNumber2+"vh)"; // Find transition-duration in colors.css
   });
   generatedValuesForLEFT = []; generatedValuesForTOP = []; // Reset
-  /*
-  setTimeout(function () {
-    if (checkOverlap()) {
-      allSixPerfectFitSquares[checkOverlap()[0]].style.transform = "translateX(-30vw) translateY(-30vh)";
-      setTimeout(function () {
-        if (checkOverlap()) {
-          allSixPerfectFitSquares[checkOverlap()[0]].style.transform = "translateX(30vw) translateY(-30vh)";
-          setTimeout(function () {
-            if (checkOverlap()) {
-              allSixPerfectFitSquares[checkOverlap()[0]].style.transform = "translateX(-30vw) translateY(30vh)";
-              setTimeout(function () {
-                if (checkOverlap()) {
-                  allSixPerfectFitSquares[checkOverlap()[0]].style.transform = "translateX(30vw) translateY(30vh)";
-                }
-              }, 750);
-            }
-          }, 750);
-        }
-      }, 750);
-    }
-  }, 750);
-  */
 }
 // --
 function undoTheDispersion() {
@@ -545,7 +518,7 @@ function handleOrientationChange() {  sendTheCardsToTheirNewPositions();  }
 // ---
 function startTheFireworks() {
   //shootThree();
-  setTimeout(shootThree,4444); // Let win sound play at least halfway through
+  setTimeout(shootThree,5250); // Let win sound play at least halfway through
 }
 
 const canvas = document.getElementById("fireworksCanvas");
