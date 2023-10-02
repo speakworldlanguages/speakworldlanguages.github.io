@@ -96,11 +96,12 @@ const imageFiles = [
 ];
 
 /* __CONTAINER DIVS__ */
-// Use if needed » const main = document.getElementsByTagName('MAIN')[0];
+// const main = document.getElementsByTagName('MAIN')[0]; // Cannot use touchstart touchmove listeners with main
+// See index.html » const touchArea = document.getElementById('mobileTouchArea');
 const fullVpDarkBlue = document.getElementById('coverForTheUnchosenOnesID');
 const containerOfSingles = document.getElementById('singlesDivID');
 const allSingles = containerOfSingles.children; // Use children instead of childNodes to ignore HTML comments
-const containerOfTheWholeGame = document.getElementById('allOfTheGameDivID');
+// See index.html » const containerOfTheWholeGame = document.getElementById('allOfTheGameDivID');
 const allSixPerfectFitSquares = document.querySelectorAll(".containerForOneOfSixPerfectFitPieces");
 const allBackFaces = document.querySelectorAll(".theCardsBackFace");
 const allCards = document.querySelectorAll(".containerForRoundedColorCards");
@@ -338,7 +339,7 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
         }
         // ---
 
-      } else {
+      } else { // THE CHOSEN TWO CARDS HAVE DIFFERENT BACKFACE VISUALS
         console.log("TRY AGAIN");
         failSound.play();
         // Reset classes

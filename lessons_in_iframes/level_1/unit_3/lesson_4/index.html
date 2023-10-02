@@ -55,8 +55,6 @@
 
     <!-- No videos in this lesson -->
 
-
-
     <!-- Audio input visualization :: Implement unique method for this particular lesson -->
 
     <!-- Single photos of colored pieces of fabric -->
@@ -69,51 +67,58 @@
         <img draggable="false" src="/lessons_in_iframes/level_1/unit_3/lesson_4/6.avif"   class="positionAbsoluteImg" style="visibility:hidden;">
     </div>
 
-    <div id="allOfTheGameDivID" class="allOfTheGame">
+
+    <!-- Test and see if this works -->
+    <div id="mobileTouchArea" style="z-index:9; pointer-events:all;"></div>
+
+
+    <div id="allOfTheGameDivID" class="allOfTheGame" style="z-index:10;">
+
       <div class="containerForOneOfSixPerfectFitPieces" style="z-index:20;">
-        <div class="containerForRoundedColorCards">
+        <div class="containerForRoundedColorCards" id="white">
           <div class="roundedColorCards" style="background-image: url('/lessons_in_iframes/level_1/unit_3/lesson_4/white.avif');">
             <img draggable="false" src="" class='theCardsBackFace'>
           </div>
         </div>
       </div>
       <div class="containerForOneOfSixPerfectFitPieces" style="z-index:21;">
-        <div class="containerForRoundedColorCards">
+        <div class="containerForRoundedColorCards" id="green">
           <div class="roundedColorCards" style="background-image: url('/lessons_in_iframes/level_1/unit_3/lesson_4/green.avif');">
             <img draggable="false" src="" class='theCardsBackFace'>
           </div>
         </div>
       </div>
       <div class="containerForOneOfSixPerfectFitPieces" style="z-index:22;">
-        <div class="containerForRoundedColorCards">
+        <div class="containerForRoundedColorCards" id="blue">
           <div class="roundedColorCards" style="background-image: url('/lessons_in_iframes/level_1/unit_3/lesson_4/blue.avif');">
             <img draggable="false" src="" class='theCardsBackFace'>
           </div>
         </div>
       </div>
       <div class="containerForOneOfSixPerfectFitPieces" style="z-index:23;">
-        <div class="containerForRoundedColorCards">
+        <div class="containerForRoundedColorCards" id="yellow">
           <div class="roundedColorCards" style="background-image: url('/lessons_in_iframes/level_1/unit_3/lesson_4/yellow.avif');">
             <img draggable="false" src="" class='theCardsBackFace'>
           </div>
         </div>
       </div>
       <div class="containerForOneOfSixPerfectFitPieces" style="z-index:24;">
-        <div class="containerForRoundedColorCards">
+        <div class="containerForRoundedColorCards" id="red">
           <div class="roundedColorCards" style="background-image: url('/lessons_in_iframes/level_1/unit_3/lesson_4/red.avif');">
             <img draggable="false" src="" class='theCardsBackFace'>
           </div>
         </div>
       </div>
       <div class="containerForOneOfSixPerfectFitPieces" style="z-index:25;">
-        <div class="containerForRoundedColorCards">
+        <div class="containerForRoundedColorCards" id="black">
           <div class="roundedColorCards" style="background-image: url('/lessons_in_iframes/level_1/unit_3/lesson_4/black.avif');">
             <img draggable="false" src="" class='theCardsBackFace'>
           </div>
         </div>
       </div>
       <!-- Background darkening » See css_for_photos_and_videos_teach_a_new_word -->
-      <div id="coverForTheUnchosenOnesID" style="display:none; z-index:50;"> </div>
+      <div id="coverForTheUnchosenOnesID" style="display:none; z-index:50; pointer-events: none;"> </div>
+
     </div>
     <!-- “Now it’s your turn” :: The mic is listening visual -->
     <!-- <div class="nowYouSayItImgContainer" style="display:none;"> -->
@@ -121,7 +126,19 @@
     <!-- </div> -->
     <canvas id="fireworksCanvas" style="z-index:999; pointer-events:none;"></canvas>
 
+
     <script>
+    var touchArea = document.getElementById('mobileTouchArea');
+    var containerOfTheWholeGame = document.getElementById('allOfTheGameDivID');
+    // ---
+    window.addEventListener('DOMContentLoaded', whatMustBeDoneAtFirstOnThisDevice, { once: true });
+    function whatMustBeDoneAtFirstOnThisDevice() {
+      if (deviceDetector.isMobile) {
+        touchArea.appendChild(containerOfTheWholeGame);
+      } else {
+        touchArea.remove();
+      }
+    }
     /* USE AVIF SPRITE
     window.addEventListener("DOMContentLoaded",function(){ // Wait for js_for_all_iframed_lesson_htmls to get isApple from parser in parent
       if (isApple) {

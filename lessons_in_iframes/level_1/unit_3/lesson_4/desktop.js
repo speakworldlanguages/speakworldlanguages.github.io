@@ -5,7 +5,7 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
 
 
   let counter = 0;
-  allCards.forEach((element) => {
+  allCards.forEach((element) => { // Those who have containerForRoundedColorCards
     if (element != theCardThatIsAlreadyFlipped) {
       element.addEventListener("mouseenter",addClassWhenHovered); // ENHANCE UX with mousemove
       element.addEventListener("mousemove",addClassWhenHovered); // ENHANCING UX by combining mouseenter+mousemove
@@ -42,7 +42,7 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
     switch (parent.speedAdjustmentSetting) {   case "slow": appearTime = 3; break; case "fast": appearTime = 1; break; default: appearTime = 2;   }
     fullVpDarkBlue.classList.add("darkenLightenBackground"); fullVpDarkBlue.style.animationDuration = String(appearTime*2)+"s"; // 4s for default speed
     new SuperTimeout(function(){ fullVpDarkBlue.style.animationPlayState = "paused"; }, appearTime*1000); // Paused at halfway » 2000ms at default speed
-    allCards.forEach((element) => {
+    allCards.forEach((element) => { // Those who have containerForRoundedColorCards
       element.removeEventListener("mouseenter",addClassWhenHovered);
       element.removeEventListener("mousemove",addClassWhenHovered);
       element.removeEventListener("mouseleave",removeClassWhenUnhovered);
@@ -78,4 +78,6 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
     }, sayTime*2);
 
   } // End of nice click
+
+
 }

@@ -54,7 +54,7 @@ canvas {
 }
 
 #coverForTheUnchosenOnesID{
-  position: absolute; pointer-events: none;
+  position: absolute;
   left: -100vw; top: -100vh; width: 200vw; height:200vh;
 }
 
@@ -110,13 +110,24 @@ canvas {
 /* visibility: visible; */
 
 .theCardsBackFace{
+  pointer-events: none;
   width:150px; height:150px;
   mix-blend-mode: overlay;
   opacity: 0;
 }
 
-.scaleUp{ scale: 1.12; } /*mouseenter mouseleave on containerForRoundedColorCards*/
+#mobileTouchArea{
+  position: fixed; border: 1px dotted black;
+  top:0; left:0; width:100vw; width:100dvw; height: calc(100% - 40px); height: calc(100dvh - 40px);
+}
 
+.whenFingerIsOnIt{animation: fingerOver 0.15s linear; animation-fill-mode: forwards; border-width: 2px; outline-width: 2px;}
+@keyframes fingerOver {     0% { transform: scale(1); }  100% { transform: scale(1.12); }     }
+.whenFingerIsOffIt{animation: fingerAway 0.15s linear; animation-fill-mode: forwards;}
+@keyframes fingerAway {     0% { transform: scale(1.12); }  100% { transform: scale(1); }     }
+
+
+.scaleUp{ scale: 1.12; } /*mouseenter mouseleave on containerForRoundedColorCards*/
 
 .whenItIsClicked{ animation: buttonPress 0.2s linear; animation-fill-mode: forwards; border-width: 2px; outline-width: 2px; } /*mousedown on containerForRoundedColorCards*/
 @keyframes buttonPress {
