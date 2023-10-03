@@ -16,7 +16,7 @@ const explanationPathA = "/user_interface/text/"+userInterfaceLanguage+"/1-1-2a.
 const explanationPathB = "/user_interface/text/"+userInterfaceLanguage+"/1-1-2b.txt"; // The translation of what is being said, to be put into the helpbox/subtitles.
 let explanationA = "…"; // Warning: Without an initial value it returns UNDEFINED before fetch() actually gets the file.
 let explanationB = "…"; // Warning: Without an initial value it returns UNDEFINED before fetch() actually gets the file.
-let goodByeMessage = "…";
+let goodByeMessage = null;
 // OPTIONAL: fetches can happen after window load unless it is an immediate info box to be displayed at the beginning of the lesson
 fetch(explanationPathA,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ explanationA = contentOfTheTxtFile; });
 fetch(explanationPathB,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ explanationB = contentOfTheTxtFile; });
@@ -97,14 +97,20 @@ function loadingIsCompleteFunction() {
       // createAndHandleInfoBoxType1BeforeLessonStarts will fire startTheLesson 1.5 seconds after its OK button is clicked/touched
     });
   }
+  else if (studiedLang == "??") {
+
+  }
   else {
     startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_all_iframed_lesson_htmls.js
   }
   //--- By the way: Get the goodbye text ready
   const pathOfLessonNoteAboutExpressingGratitude = "/user_interface/text/"+userInterfaceLanguage+"/1-1-2_end_of_lesson_note.txt";
-  fetch(pathOfLessonNoteAboutExpressingGratitude,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-    goodByeMessage = contentOfTheTxtFile;
-  });
+  setTimeout(function () {
+    // Will show for all languages
+    fetch(pathOfLessonNoteAboutExpressingGratitude,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      goodByeMessage = contentOfTheTxtFile;
+    });
+  }, 5000);
 }
 
 function startTheLesson() {
@@ -480,9 +486,13 @@ function whatToDoWhenWinHappens() {
   new SuperTimeout(function () {  main.classList.remove("noCursor");  main.classList.add("defaultCursor");  }, proceedTime+1500);  // Back to normal cursor
   new SuperTimeout(displayNoteAtTheEndOfLesson,proceedTime*1.5+5000);
   function displayNoteAtTheEndOfLesson() { // All languages
+    if (goodByeMessage) { // Check if fetch has indeed got the txt file
       putNotificationTxtIntoThisP2.innerHTML = goodByeMessage;
-
+      // Will show for all languages
       createAndHandleInfoBoxType1AmidLesson(); // Needs the function called continueLesson() that will fire when OK button is clicked or touched
+    } else {
+      continueLesson(); // Keep going even if fetch couldn't get the file » what will hopefully not happen 99.99% of the time
+    }
   }
 
   /* Save progress */

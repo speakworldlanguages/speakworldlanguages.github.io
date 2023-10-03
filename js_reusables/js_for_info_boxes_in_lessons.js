@@ -122,7 +122,7 @@ function createAndHandleInfoBoxType1AmidLesson() {
 }
 
 /*-----*/
-// TYPE2 is the [choose input device] thingy.
+// TYPE2 used to be the deprecated [choose input device] thingy.
 /*-----*/
 
 /*-----*/

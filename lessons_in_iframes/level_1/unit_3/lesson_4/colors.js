@@ -12,6 +12,8 @@ parent.savedProgress[studiedLang].lesson_PRIMARYCOLORS_IsViewed=true; // Create 
 parent.saveJSON = JSON.stringify(parent.savedProgress); // Convert
 localStorage.setItem("memoryCard", parent.saveJSON); // Save
 
+/* __ TEXT TO BE INJECTED INTO EXPLANATION BOX AT THE END OF LESSON __ */
+let whatMustBeKnownAboutColorsAtTheEnd = null; // See what follows after window-load below and also find exitLesson function at the end
 
 // All settings here will depend on the content of the lesson
 let answerWhite,answerGreen,answerBlue,answerYellow,answerRed,answerBlack; // Get them from txt files
@@ -135,11 +137,31 @@ function loadingIsCompleteFunction()
       new SuperTimeout(function(){ createAndHandleInfoBoxType1BeforeLessonStarts(); putNotificationTxtIntoThisP1.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
       // createAndHandleInfoBoxType1BeforeLessonStarts() will fire startTheLesson() 1.5 seconds after its OK button is clicked/touched
     });
-  } else if (false) { // Ao » Aoi - Aka » Akai - Midori !?
+  } else if (studiedLang == "ja") { // Display the note about adjectives Type1 (i) Type2 (no/na) in Hito. // Ao » Aoi - Aka » Akai - Midori » Midori
+    const pathOfNotificationAboutAdjectiveTypes = "/user_interface/text/"+userInterfaceLanguage+"/1-3-4_hito_adjectives.txt";
+    fetch(pathOfNotificationAboutAdjectiveTypes,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      new SuperTimeout(function(){ createAndHandleInfoBoxType1BeforeLessonStarts(); putNotificationTxtIntoThisP1.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
+      // createAndHandleInfoBoxType1BeforeLessonStarts() will fire startTheLesson() 1.5 seconds after its OK button is clicked/touched
+    });
+  } else if (studiedLang == "??") { // Add other notifications for other languages
 
   } else {
     startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
   }
+  // ---
+  // By the way: Get the end-of-lesson texts ready
+  setTimeout(function () {
+    if (studiedLang == "ja") {
+      const pathOfLessonEndingNoteAboutColors = "/user_interface/text/"+userInterfaceLanguage+"/1-3-4_on_spectrum_of_colors_ja.txt";
+      fetch(pathOfLessonEndingNoteAboutColors,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+        whatMustBeKnownAboutColorsAtTheEnd = contentOfTheTxtFile;
+      });
+    } else if (studiedLang == "??") {
+      
+    } else {
+      // No explanation box will be created as a result of letting whatMustBeKnownAboutColorsAtTheEnd stay null
+    }
+  }, 5000);
 }
 
 function startTheLesson()
@@ -708,6 +730,7 @@ function createParticles(x, y) {
 // -----
 let fireWorksHaveSuccessfullyMade_exitLesson_fire = false;
 function exitLesson(isASAP) {
+
   fireWorksHaveSuccessfullyMade_exitLesson_fire = true;
 
   // Let progress-save happen as soon as win happens » See above (search for finalWinSound)
@@ -715,7 +738,20 @@ function exitLesson(isASAP) {
   /* GET READY TO EXIT THIS LESSON */
   let endTime;
   switch (parent.speedAdjustmentSetting) { case "slow": endTime = 10000; break;    case "fast": endTime = 5000; break;    default: endTime = 7500; }
-  if (isASAP) {  endTime = 60;  }
+  if (isASAP) {  endTime = 1501;  } // We expect that this will never execute
+  if (whatMustBeKnownAboutColorsAtTheEnd) { // This means fetch has successfully got the text
+    new SuperTimeout(function () {
+      createAndHandleInfoBoxType1AmidLesson(); putNotificationTxtIntoThisP2.innerHTML = whatMustBeKnownAboutColorsAtTheEnd;
+      // continueLesson() will be fired from within createAndHandleInfoBoxType1AmidLesson()
+    }, endTime);
+  } else {
+    new SuperTimeout(continueLesson, endTime-1500);
+  }
+
+} // End of exitLesson
+
+// continueLesson has to be global, yes or no?
+function continueLesson() { // Here it means «continue exiting the lesson» or «continue by proceeding to the next lesson»
   // -
   new SuperTimeout(function () {
     // ---
@@ -739,6 +775,6 @@ function exitLesson(isASAP) {
       }
     }
     // ---
-  }, endTime); // If there was a final dialog box then better let it disappear completely before preloader starts appearing
+  }, 1500); // If there was a final dialog box then better let it disappear completely before preloader starts appearing
   // -
-}
+} // End of continueLesson

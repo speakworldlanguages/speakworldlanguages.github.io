@@ -19,9 +19,7 @@ let explanationB = "…"; // Warning: Without an initial value it returns UNDEFI
 fetch(explanationPathA,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ explanationA = contentOfTheTxtFile; });
 fetch(explanationPathB,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ explanationB = contentOfTheTxtFile; });
 /* __ TEXT TO BE INJECTED INTO NOTIFICATION BOX AT THE END __ */
-const noteAtTheEndOfLessonPath = "/user_interface/text/"+userInterfaceLanguage+"/1-1-4_end_of_lesson.txt"; // Could you figure out how to say eat
-let couldYouFigureOutHowToSayEat = " ";
-fetch(noteAtTheEndOfLessonPath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ couldYouFigureOutHowToSayEat = contentOfTheTxtFile; });
+let couldYouFigureOutHowToSayEat = null; // Will be displayed for all languages // See window-load below
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
 // Find soundFileFormat in js_for_all_iframed_lesson_htmls
@@ -109,9 +107,18 @@ function loadingIsCompleteFunction() {
       // createAndHandleInfoBoxType1BeforeLessonStarts will fire startTheLesson 1.5 seconds after its OK button is clicked/touched
     });
   }
+  else if (studiedLang == "??") {
+
+  }
   else {
     startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_all_iframed_lesson_htmls.js
   }
+  //--- By the way: Get the end of lesson text ready
+  const noteAtTheEndOfLessonPath = "/user_interface/text/"+userInterfaceLanguage+"/1-1-4_end_of_lesson.txt"; // Could you figure out how to say eat
+  setTimeout(function () {
+    // Will show for all languages
+    fetch(noteAtTheEndOfLessonPath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ couldYouFigureOutHowToSayEat = contentOfTheTxtFile; });
+  }, 5000);
 }
 
 function startTheLesson() {
@@ -877,8 +884,8 @@ function whenWin2happens() {
   let proceedTime;
   switch (parent.speedAdjustmentSetting) { case "slow": proceedTime = 8500; break;    case "fast": proceedTime = 5500; break;    default: proceedTime = 7000; }
   new SuperTimeout(function () {
-    if (couldYouFigureOutHowToSayEat.length > 2) { // This means fetch successfully got the text
-      createAndHandleInfoBoxType1AmidLesson(); putNotificationTxtIntoThisP2.innerHTML = couldYouFigureOutHowToSayEat;
+    if (couldYouFigureOutHowToSayEat) { // This means fetch successfully got the text
+      createAndHandleInfoBoxType1AmidLesson(); putNotificationTxtIntoThisP2.innerHTML = couldYouFigureOutHowToSayEat; // Will show for all languages
       // continueLesson() will be fired from within createAndHandleInfoBoxType1AmidLesson()
     } else {
       continueLesson();
@@ -886,7 +893,7 @@ function whenWin2happens() {
   }, proceedTime);
 }
 
-function continueLesson() {
+function continueLesson() { // In this case, it means exiting the lesson as there is nothing left to do
 
   /* Save progress */
   parent.savedProgress[studiedLang].lesson_TAKEBREAD_IsCompleted=true; // WATCH THE NAME OF THE LESSON!!!

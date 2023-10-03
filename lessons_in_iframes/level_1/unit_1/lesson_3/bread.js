@@ -90,10 +90,14 @@ function loadingIsCompleteFunction()
       // createAndHandleInfoBoxType1BeforeLessonStarts will fire startTheLesson 1.5 seconds after its OK button is clicked/touched
     });
   }
+  else if (studiedLang == "??") {
+
+  }
   else {
     startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
   }
   // ---
+  // As of October 2023 there is nothing to be displayed at the end of this lesson
 }
 // NOTE: The preloader disappears in 500ms » See css_for_preloader_and_orbiting_circles
 // For speedAdjustmentSetting see js_for_the_sliding_navigation_menu.js

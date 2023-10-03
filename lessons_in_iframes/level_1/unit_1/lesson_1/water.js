@@ -90,7 +90,7 @@ const nowYouSayIt = document.querySelector('.nowYouSayItImgContainer');
 const containerOfSingles = document.getElementById('singlesDivID');
 
 const giveUpAndContinueButtonASIDE = document.getElementsByTagName('ASIDE')[0];
-let androidSpeechTimingInfoTxt = "…";
+let androidSpeechTimingInfoTxt = null;
 /* ___PROGRESSION___ */
 window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, { once: true });
 // Desktop users can change the speed; mobile users can't. Because the mobile GUI has to stay simple.
@@ -118,15 +118,21 @@ function loadingIsCompleteFunction()
       // createAndHandleInfoBoxType1BeforeLessonStarts() will fire startTheLesson() 1.5 seconds after its OK button is clicked/touched
     });
   }
+  else if (studiedLang == "??") {
+
+  }
   else {
     startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_all_iframed_lesson_htmls.js
   }
   //--- By the way: Get the android-speech-timing-notification text ready
   if (parent.isAndroid) {
     const pathOfNotificationAboutAndroidTiming = "/user_interface/text/"+userInterfaceLanguage+"/0lesson-android_speech_timing.txt";
-    fetch(pathOfNotificationAboutAndroidTiming,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-      androidSpeechTimingInfoTxt = contentOfTheTxtFile;
-    });
+    setTimeout(function () {
+      // Will show for all languages but only on Android
+      fetch(pathOfNotificationAboutAndroidTiming,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+        androidSpeechTimingInfoTxt = contentOfTheTxtFile;
+      });
+    }, 5000);
   }
 }
 // NOTE: The preloader disappears in 500ms » See css_for_preloader_and_orbiting_circles
@@ -279,10 +285,10 @@ function goFromCDtoEF() {
   // ---
   new SuperTimeout(function () {
     // Special situation for Android users when viewing the first lesson (water.js)
-    if (parent.isAndroid) { // Android
+    if (parent.isAndroid && androidSpeechTimingInfoTxt) { // User's device is Android and fetch has successfully got the text from file
       putNotificationTxtIntoThisP2.innerHTML = androidSpeechTimingInfoTxt;
       createAndHandleInfoBoxType1AmidLesson(); // continueLesson() will be fired from within -> See js_for_info_boxes_in_lessons
-    } else { // Not Android
+    } else { // Either not Android or a mishap of 0.01% chance occured and fetch couldn't get the txt file
       continueLesson();
     }
   }, changeTime*500 + proceedTime);

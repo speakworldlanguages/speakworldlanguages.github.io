@@ -14,20 +14,10 @@ localStorage.setItem("memoryCard", parent.saveJSON); // Save
 /* __ TEXT TO BE INJECTED INTO EXPLANATION/TRANSLATION SUBTITLE/BOX __ */
 const translationPath = "/user_interface/text/"+userInterfaceLanguage+"/1-2-4.txt"; // The translation of what is being said, to be put into the helpbox/subtitles.
 let translation = "…"; // Warning: Without an initial value it returns UNDEFINED before fetch() actually gets the file.
-let onWhatToSayAfterEating = "…";
 // OPTIONAL: fetches can happen after window load unless it is an immediate info box to be displayed at the beginning of the lesson
 fetch(translationPath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ translation = contentOfTheTxtFile; });
-if (studiedLang == "ja") {
-  const pathOfLessonNoteAboutCompletionOfMeal = "/user_interface/text/"+userInterfaceLanguage+"/1-2-4_end_of_meal_ja.txt";
-  fetch(pathOfLessonNoteAboutCompletionOfMeal,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-    onWhatToSayAfterEating = contentOfTheTxtFile;
-  });
-} else if (studiedLang == "tr") {
-  const pathOfLessonNoteAboutCompletionOfMeal = "/user_interface/text/"+userInterfaceLanguage+"/1-2-4_end_of_meal_tr.txt";
-  fetch(pathOfLessonNoteAboutCompletionOfMeal,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-    onWhatToSayAfterEating = contentOfTheTxtFile;
-  });
-}
+// ---
+let onWhatToSayAfterEating = null; // See what follows after window-load below // Will show only for certain languages
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
 // Find soundFileFormat in js_for_all_iframed_lesson_htmls
@@ -119,15 +109,39 @@ function vocabularyBoxIsClosed(x,y) { // 500ms after OK is touched/clicked, it w
       new SuperTimeout(function(){ createAndHandleInfoBoxType1BeforeLessonStarts(); putNotificationTxtIntoThisP1.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
       // createAndHandleInfoBoxType1BeforeLessonStarts will fire startTheLesson 1.5 seconds after its OK button is clicked/touched
     });
-  } else if (studiedLang == "tr") {
+  }
+  else if (studiedLang == "tr") {
     const pathOfNotificationAboutHarmony = "/user_interface/text/"+userInterfaceLanguage+"/1-2-4_kishi_harmony.txt";
     fetch(pathOfNotificationAboutHarmony,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       new SuperTimeout(function(){ createAndHandleInfoBoxType1BeforeLessonStarts(); putNotificationTxtIntoThisP1.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
       // createAndHandleInfoBoxType1BeforeLessonStarts will fire startTheLesson 1.5 seconds after its OK button is clicked/touched
     });
-  } else {
+  }
+  else if (studiedLang == "??") {
+
+  }
+  else {
     startTheLesson();
   }
+  // ---
+  // By the way: Get the end of lesson texts ready
+  setTimeout(function () {
+    if (studiedLang == "ja") {
+      const pathOfLessonNoteAboutCompletionOfMeal = "/user_interface/text/"+userInterfaceLanguage+"/1-2-4_end_of_meal_ja.txt";
+      fetch(pathOfLessonNoteAboutCompletionOfMeal,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+        onWhatToSayAfterEating = contentOfTheTxtFile;
+      });
+    } else if (studiedLang == "tr") {
+      const pathOfLessonNoteAboutCompletionOfMeal = "/user_interface/text/"+userInterfaceLanguage+"/1-2-4_end_of_meal_tr.txt";
+      fetch(pathOfLessonNoteAboutCompletionOfMeal,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+        onWhatToSayAfterEating = contentOfTheTxtFile;
+      });
+    } else if (studiedLang == "??") {
+
+    } else {
+      // Let onWhatToSayAfterEating stay null in order to skip the end of lesson info box
+    }
+  }, 5000);
 }
 
 function startTheLesson() {
@@ -171,11 +185,10 @@ let spoonIsLoaded = false; let isSwallowing = false; let yumNumber = 1;
 // ---
 
 function displayNoticeOrMoveAlong(milliseconds) { // Will fire from either eat_with_spoon_desktop.js or eat_with_spoon_mobile.js
-  if (studiedLang == "ja") { // Display notice about GO-CHI-SO-U-SA-MA
-    new SuperTimeout(function () {
-      createAndHandleInfoBoxType1AmidLesson(); putNotificationTxtIntoThisP2.innerHTML = onWhatToSayAfterEating;
-    }, milliseconds);
-  } else if (studiedLang == "tr") { // Display notice about AAFIYET OLSUN
+  // Display notice about GO-CHI-SO-U-SA-MA
+  // Display notice about AAFIYET OLSUN
+
+  if (onWhatToSayAfterEating) { // Check if fetch did indeed get the file
     new SuperTimeout(function () {
       createAndHandleInfoBoxType1AmidLesson(); putNotificationTxtIntoThisP2.innerHTML = onWhatToSayAfterEating;
     }, milliseconds);

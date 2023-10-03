@@ -22,12 +22,9 @@ fetch(translationPath,myHeaders).then(function(response){return response.text();
   translation2 = contentOfTheTxtFile.split("|")[1];
   translation3 = contentOfTheTxtFile.split("|")[2];
 });
+
 /* __ TEXT TO BE INJECTED INTO NOTIFICATION BOX AT THE END __ */
-const noteAtTheEndOfLessonPath = "/user_interface/text/"+userInterfaceLanguage+"/1-3-2_arabic_ma_shayunma.txt"; // ONLY 1 KB
-let differenceBetweenWaterMaAndWhatMa = " ";
-if (studiedLang == "ar") {
-  fetch(noteAtTheEndOfLessonPath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ differenceBetweenWaterMaAndWhatMa = contentOfTheTxtFile; });
-}
+let noteToBeDisplayedAtTheEndOfThisLesson = null; // See what follows after window-load below // Will show only for Arabic
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
 // Find soundFileFormat in js_for_all_iframed_lesson_htmls
@@ -136,12 +133,24 @@ function loadingIsCompleteFunction() {
       // createAndHandleInfoBoxType1BeforeLessonStarts will fire startTheLesson 1.5 seconds after its OK button is clicked/touched
     });
   }
-  else if (false) { // Add another here if necessary
+  else if (studiedLang == "??") { // Add another here if necessary
 
   }
   else {
     startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_all_iframed_lesson_htmls.js
   }
+  //---
+  // By the way: Get the end of lesson texts ready
+  setTimeout(function () {
+    const noteAtTheEndOfLessonPath = "/user_interface/text/"+userInterfaceLanguage+"/1-3-2_arabic_ma_shayunma.txt"; // ONLY 1 KB
+    if (studiedLang == "ar") {
+      fetch(noteAtTheEndOfLessonPath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ noteToBeDisplayedAtTheEndOfThisLesson = contentOfTheTxtFile; });
+    } else if (studiedLang == "??") {
+
+    } else {
+      // Let noteToBeDisplayedAtTheEndOfThisLesson stay null in order to skip the end of lesson box
+    }
+  }, 5000);
 }
 
 function startTheLesson() {
@@ -534,16 +543,14 @@ function handleWinning() {
 }
 let checkFishSpeedInterval; let countElapsed = 0;
 function vocabularyBoxIsClosed_LESSON_OUTRO() { // Called from createAndHandleListenManyTimesBox with outro enabled by second parameter
-  if (studiedLang == "ar") {
+  if (noteToBeDisplayedAtTheEndOfThisLesson) { // This means fetch successfully got the text
     // something shay-un ma & water ma » MA-MA difference
     let boxAppearTime; switch (parent.speedAdjustmentSetting) { case "slow": boxAppearTime = 3500; break;    case "fast": boxAppearTime = 1500; break;    default: boxAppearTime = 2500; }
     new SuperTimeout(function () {
-      if (differenceBetweenWaterMaAndWhatMa.length > 2) { // This means fetch successfully got the text
-        createAndHandleInfoBoxType1AmidLesson(); putNotificationTxtIntoThisP2.innerHTML = differenceBetweenWaterMaAndWhatMa;
-        // continueLesson() will be fired from within createAndHandleInfoBoxType1AmidLesson()
-      } else { continueLesson(); } // Hopefull will never happen » Proceed without the end of lesson info box about arabic because fetch couldn't get the file
+      createAndHandleInfoBoxType1AmidLesson(); putNotificationTxtIntoThisP2.innerHTML = noteToBeDisplayedAtTheEndOfThisLesson;
+      // continueLesson() will be fired from within createAndHandleInfoBoxType1AmidLesson()
     }, boxAppearTime);
-  } else {
+  } else { // Nothing to display
     continueLesson();
   }
 } // End of vocabularyBoxIsClosed_LESSON_OUTRO
