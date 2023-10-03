@@ -366,14 +366,22 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
             parent.console.log("WIN!");
             setTimeout(function () {  finalWinSound.play();  }, 1250);
 
-            activateTheCanvas();
+            /* Save progress */
+            parent.savedProgress[studiedLang].lesson_PRIMARYCOLORS_IsCompleted=true; // WATCH THE NAME OF THE LESSON!!!
+            parent.saveJSON = JSON.stringify(parent.savedProgress); // Convert
+            localStorage.setItem("memoryCard", parent.saveJSON); // Save
+
+            activateTheCanvas(); // Get ready to display the fireworks
 
             let appearTime;
             switch (parent.speedAdjustmentSetting) {   case "slow": appearTime = 3; break; case "fast": appearTime = 1; break; default: appearTime = 2;   }
             fullVpDarkBlue.classList.add("darkenLightenBackground"); fullVpDarkBlue.style.animationDuration = String(appearTime*2)+"s"; // 4s for default speed
             new SuperTimeout(function(){ startTheFireworks(); }, appearTime*500);
             new SuperTimeout(function(){ fullVpDarkBlue.style.animationPlayState = "paused"; }, appearTime*1000); // Paused at halfway » 2000ms at default speed
-
+            // Safety overkill
+            setTimeout(function () {
+              if (!fireWorksHaveSuccessfullyMade_exitLesson_fire) {     exitLesson(true);     } // true will make it exit asap
+            }, 15000);
           }
         }
         // ---
@@ -398,7 +406,7 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
           theFirstChoice.classList.add("returnToNormalDesktop"); // rotateY goes back from 180 to 0
           theOtherChosenCard.classList.add("returnToNormalDesktop"); // rotateY goes back from 180 to 0
         }
-        
+
         theFirstChoice.firstElementChild.firstElementChild.classList.remove("appearAtFiftyPercent"); // opacity only
         theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("appearAtFiftyPercent"); // opacity only
         theFirstChoice.firstElementChild.firstElementChild.classList.add("disappearAtFiftyPercent"); // opacity only
@@ -563,6 +571,7 @@ canvas.height = window.innerHeight;
 function randomRange(min, max) {  return Math.random() * (max - min) + min;  }
 
 let clearanceAdjustmentInterval = null;
+let numberOfExplosionsSoFar = 0;
 // Firework class
 class Firework {
     constructor(shootFromX,shootToY) {
@@ -580,8 +589,13 @@ class Firework {
 
         if (Math.abs(this.targetY - this.y) <= 25) {
             fireworks.splice(fireworks.indexOf(this), 1);
-            parent.console.log("Boom");
             createParticles(this.x, this.y);
+            parent.console.log("Boom");
+            numberOfExplosionsSoFar++;
+            if (numberOfExplosionsSoFar>=3) {     exitLesson();     } // See below to find exit times
+
+            if (canVibrate) { navigator.vibrate([250,60,12,70,11,85,10,105,9,130,8,160,7]); }
+
             if (!clearanceAdjustmentInterval) {
               clearanceAdjustmentInterval = setInterval(increaseClearance,600);
             }
@@ -687,4 +701,44 @@ function createParticles(x, y) {
 
         particles.push(new Particle(x, y, radius, color, velocity));
     }
+}
+
+
+
+// -----
+let fireWorksHaveSuccessfullyMade_exitLesson_fire = false;
+function exitLesson(isASAP) {
+  fireWorksHaveSuccessfullyMade_exitLesson_fire = true;
+
+  // Let progress-save happen as soon as win happens » See above (search for finalWinSound)
+
+  /* GET READY TO EXIT THIS LESSON */
+  let endTime;
+  switch (parent.speedAdjustmentSetting) { case "slow": endTime = 10000; break;    case "fast": endTime = 5000; break;    default: endTime = 7500; }
+  if (isASAP) {  endTime = 60;  }
+  // -
+  new SuperTimeout(function () {
+    // ---
+    showGlobyPreloaderBeforeExit(); // 1500ms » See js_for_all_iframed_lesson_htmls AND See css_for_preloader_and_orbiting_circles
+    // REMEMBER: iframe.src change makes window.onbeforeunload fire in js_for_all_iframed_lesson_htmls.js which then calls unloadTheSoundsOfThisLesson();
+    // Display author's notice3 if this was user's first time finishing this lesson (1-3-4)
+    // Otherwise go to lesson 2-1-1
+    if (localStorage.donationsAcceptedNoticeHasBeenDisplayedAlready) { // See notice_3/index.html
+      parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost = "/lessons_in_iframes/level_2/unit_1/lesson_1/index.html"; // See js_for_online_and_offline_modes
+    } else {
+      parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost = "/lessons_in_iframes/level_1/unit_3/notice_3/index.html"; // See js_for_online_and_offline_modes
+    }
+    // ---
+    if (parent.internetConnectivityIsNiceAndUsable) { // See js_for_online_and_offline_modes.js
+      new SuperTimeout(function () { parent.ayFreym.src = parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost; }, 1500);
+    } else { parent.console.warn("THE DEVICE IS OFFLINE (detected at the end of lesson");
+      const isCached = checkIfNextLessonIsCachedAndRedirectIfNot(211); // See js_for_all_iframed_lesson_htmls
+      // As of October 2023 we are not making 100% certain if assets for author's notice are cached » We expect it will be cached 99.99% of the time if everything for 211 is cached
+      if (isCached) { parent.console.warn("WILL TRY TO CONTINUE OFFLINE");
+        new SuperTimeout(function() { parent.ayFreym.src = parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost; }, 1500);
+      }
+    }
+    // ---
+  }, endTime); // If there was a final dialog box then better let it disappear completely before preloader starts appearing
+  // -
 }
