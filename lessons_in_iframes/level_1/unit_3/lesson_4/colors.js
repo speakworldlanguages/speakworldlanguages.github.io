@@ -157,7 +157,7 @@ function loadingIsCompleteFunction()
         whatMustBeKnownAboutColorsAtTheEnd = contentOfTheTxtFile;
       });
     } else if (studiedLang == "??") {
-      
+
     } else {
       // No explanation box will be created as a result of letting whatMustBeKnownAboutColorsAtTheEnd stay null
     }
@@ -619,7 +619,7 @@ class Firework {
             if (canVibrate) { navigator.vibrate([250,60,12,70,11,85,10,105,9,130,8,160,7]); }
 
             if (!clearanceAdjustmentInterval) {
-              clearanceAdjustmentInterval = setInterval(increaseClearance,600);
+              clearanceAdjustmentInterval = setInterval(increaseClearance,500);
             }
         }
     }

@@ -1,7 +1,7 @@
 canvas {
   background-color: rgba(0,0,0,0);
   display: block;
-  mix-blend-mode: add;
+  mix-blend-mode: overlay;
   /* pointer-events: none; See index.html */
   position: fixed; /*z-index won't work if left static*/
   left:0px; top:0px;
