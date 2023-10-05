@@ -355,6 +355,12 @@ function speakToTheMic() {
                 if (phrasesArray[k].search(eachWordArray[j]) >= 0) { searchResult = true; }
               }
             }
+            else if (parent.targetLanguageIsWrittenWithoutSpaces) { // Accept an utterance like 我要喝水 as a correct answer
+              // Event though it means we will also accept ミミズ when waiting for 水 !!!
+              if (fromPhraseToSingleWords[z].toLowerCase().search(eachWordArray[j].toLowerCase()) >= 0) { searchResult = true; }
+              // ALSO NOTE THAT: Unfortunately SpeechRecognition can ignore user's speech when the utterance is too short consisting of only one syllable
+              // In that case we show a prompt like "It's OK to skip" » See annyang.js numberOfRestartsDespiteDetectionOfAudioInput » See /user_interface/text/??/0-if_something_is_not_working.txt
+            }
             // -
             if (!aMatchWasFound && searchResult) {
               aMatchWasFound = true; // Using this, we make sure that stopListeningAndProceedToNext fires only and only once
@@ -392,7 +398,7 @@ function stopListeningAndProceedToNext() {
     if (isApple) { parent.annyang.pause(); }
     else { parent.annyang.abort(); }
   }
-  // Stop Wavesurfer microphone: We don't want to wait for "beforeunload" so we call the function immediately even though it will fire one more time with window.onbeforeunload
+  // Stop AUDIOMETER microphone: We don't want to wait for "beforeunload" so we call the function immediately even though it will fire one more time with window.onbeforeunload
   // We cannot disable "beforeunload" BECAUSE if user navigates away in the middle of a mic session we want the mic turned off
   // Yet, we also want to hide the visualization asap when success happens, therefore it has to be armed both in js_for_all_iframed_lesson_htmls and here
   stopAudioInputVisualization(); // See js_for_microphone_input_visualization

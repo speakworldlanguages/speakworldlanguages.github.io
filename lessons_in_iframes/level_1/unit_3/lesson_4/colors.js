@@ -645,6 +645,8 @@ function increaseClearance() {
 }
 // Main animation loop
 function activateTheCanvas() {
+    canvas.style.display = "block";
+    canvas.style.animationName = "revealCanvas"; // See colors.css
     requestAnimationFrame(activateTheCanvas);
     ctx.fillStyle = "rgba(0,0,0,"+smokeClearingForce.toFixed(2)+")"; // CONTROL ALPHA DYNAMICALLY !
     ctx.fillRect(0, 0, canvas.width, canvas.height);

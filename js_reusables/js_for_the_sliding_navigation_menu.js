@@ -659,7 +659,7 @@ window.addEventListener("load",function() {
     clickToFinanceDiv.addEventListener("mousedown", function () {      navMenuClickSound.play(); setTimeout(openFinancialMethodsPageFunction,30); }   );
   }
 
-  // REMEMBER: The task of unloading sounds and stopping annyang has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload
+  // REMEMBER: The task of unloading sounds and stopping annyang|SpeechRecognition has been moved to js_for_all_iframed_lesson_htmls.js to be handled with window onbeforeunload
 
   function goToPreviousFunction() { // The button only appears if user views information screen before starting lessons
     // In this case there is no need to check if the device is online or not as the MAIN in parent is already loaded and ready » We are only unhiding it
@@ -764,7 +764,7 @@ function pauseTheAppFunction(reasonWhy) { // As of September 2023 reasonWhy is e
         if (isApple) { annyang.pause(); }
         else { annyang.abort(); }
       }
-      // Note that: No problem if abort() fires when annyang wasn't listening.
+      // Note that: No problem if abort() fires when annyang|SpeechRecognition wasn't listening.
     }
 
     // STOP AUDIOMETER

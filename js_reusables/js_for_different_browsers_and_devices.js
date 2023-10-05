@@ -21,6 +21,11 @@ let isUnknownBrowserInTermsOfSpeechRecognition = false;
 //   annyang.debug(); // Uncomment to activate debug mode for speech recognition
 // }
 
+// On Android there are different system sliders that change the volume of sounds played by the device independently
+// This means: If system sounds are muted, user may not be able to hear the microphone ON OFF ding even if the webm/mp3 sounds of the app are audible
+// To get as safe as possible and to offer the best possible UX we display a visual help whenever SpeechRecognition is listening on Android
+const microphoneOnOffVisualIndicator = document.createElement("DIV"); // See annyang.js
+microphoneOnOffVisualIndicator.classList.add("toIndicateThatSpeechRecognitionIsON"); // See css_for_the_container_parent_html
 
 // Prevent screen dimming -> handles the Android case -> Starting with Safari 16.4 it is supported on iOS too
 // Only Firefox is the one who still won't do it as of August 2023

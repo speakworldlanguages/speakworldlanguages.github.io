@@ -1,11 +1,12 @@
 canvas {
   background-color: rgba(0,0,0,0);
-  display: block;
   mix-blend-mode: overlay;
   /* pointer-events: none; See index.html */
   position: fixed; /*z-index won't work if left static*/
   left:0px; top:0px;
+  animation-duration: 6s; animation-fill-mode: forwards;
 }
+@keyframes revealCanvas {  0% {opacity: 0;}  100% {opacity: 1;}  }
 
 .moveUpAndGoBeyondScreenLimit{
   animation-name: flyAwayUpwards;
@@ -58,7 +59,7 @@ canvas {
 #coverForTheUnchosenOnesID{
   /* To be able to manipulate z-index correctly this has to stay within allOfTheGame which is already set with position:fixed */
   /* Consequently, setting position: fixed here introduces buggy behavior » It functions as if it was set absolute » top:0 left:0 is assigned wrt the container div and not the browser window */
-  left: -100vw; top: -100vh; width: 300vw; height:300vh; /*H-a-c-k-s-o-m-e*/
+  left: -100vw; top: -100vh; width: 300vw; height:300vh; /*Yes it is H-A-C-K-S-O-M-E but it works*/
   position: absolute; /*Not certain if it makes a difference in Safari » In Chrome 109.0.x it doesn't*/
   /*TEST WITH THESE top:-110px; left:-110px; width:30vw; width:30dvw; height: 100%; height: 100dvh; */
   overflow: hidden;
@@ -87,7 +88,7 @@ canvas {
   outline: #bcc9d3 4px solid;
   transform: scale(1);
   /* transform-style: preserve-3d; */
-  /*To be able to use translateZ on roundedColorCards UNCOMMENT transform-style: preserve-3d; IN CASE OF NEED*/
+  /* We will not use translateZ on roundedColorCards » no need for preserve-3d */
 }
 
 .roundedColorCards{
@@ -112,8 +113,6 @@ canvas {
 /* display: flex; align-items: center; justify-content: center; */
 
 /* transform-style: preserve-3d; */
-
-/* visibility: visible; */
 
 .theCardsBackFace{
   pointer-events: none;

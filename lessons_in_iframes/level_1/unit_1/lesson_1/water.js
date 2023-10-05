@@ -365,11 +365,11 @@ function speakToTheMic() {
     },countdownForGiveUpSkipOrGoToNext); // This must start ticking only after countdownForGiveUpSkipOrGoToNext is updated.
   },120);
 
-  // setLanguage() for annyang is in /js_reusables/js_for_the_parent_all_browsers_all_devices.js
+  // setLanguage() for annyang|SpeechRecognition is in /js_reusables/js_for_the_parent_all_browsers_all_devices.js
   // DEPRECATED var commands = {}; // Let's keep the older code for reference only here to remember how we started out
   const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_answer_key must be written with the | (bar) character as the separator between phrases.
 
-  /* DEPRECATED - Let's keep the older code for reference only here in water.js/bread.js to remember how we started out
+  /* DEPRECATED - Let's keep the older code for reference only here in water.js to remember how we started out
   let i;
   for(i=0;i<eachWordArray.length;i++)
   {
@@ -392,7 +392,7 @@ function speakToTheMic() {
         notificationDingTone.play(); // Android has its native DING tone. So let this DING tone play on desktops and iOS devices.
     }
     if (parent.isAndroid) {
-      if (parent.annyang.isListening()) {        parent.annyang.abort();      }
+      if (parent.annyang.isListening()) {      parent.annyang.abort();     } // Try to avoid the «SpeechRecognition is already listening» error
     }
     // Start listening.
     new SuperTimeout(function() {  parent.annyang.start({ autoRestart: true });  },500); // NOTE: annyang.resume() equals annyang.start()
@@ -400,17 +400,12 @@ function speakToTheMic() {
     // New method of detecting matches
     parent.annyang.addCallback('result', compareAndSeeIfTheAnswerIsCorrect);
     function compareAndSeeIfTheAnswerIsCorrect(phrasesArray) {
-      parent.console.log('Speech recognized. Possibly said: '+phrasesArray);
+      parent.console.log('Speech recognized. Possibly said: '+phrasesArray); // SpeechRecognition actually returns a confidence value for each of its guessed-catches but we as of October2023 there is no use for it in the app
       // Check if there is a match
       let j;
       for(j=0;j<eachWordArray.length;j++) {
-
-        // NOTE THAT: There is also the option of using includes() to perform phrase to phrase comparison
+        // NOTE THAT: There is also the option of using includes() to perform phrase to phrase comparison // Remember that it's not contains() » It's includes()
         // BUT we want to split phrases into words and perform word to word comparison
-        /*
-        if (array.includes(searchString)) {            console.log(`${searchString} exists in the array.`);
-        } else {            console.log(`${searchString} does not exist in the array.`);        }
-        */
         let k;
         for (k = 0; k < phrasesArray.length; k++) {
           // Which method is better?
@@ -418,13 +413,7 @@ function speakToTheMic() {
           // if (phrasesArray[k].toLowerCase() == eachWordArray[j].toLowerCase()) // Only with interimResults TURNED ON, this will return true if user utters 'Water is the liquid form of H2O' but false for 'underwater' and also false for 'under water'
           // if (phrasesArray[k].toLowerCase().search(eachWordArray[j].toLowerCase()) == 0) // Accept user's utterance if it starts with the "correct word or phrase" even if interimResults option is turned off like 'watermelon'.
           // To accept 'under water' while rejecting 'underwater' we need to extract individual words from phrases
-          /* If we wanted to accept 我要喝水 we could do something like
-          if (parent.targetLanguageIsWrittenWithoutSpaces) { //
-            if (fromPhraseToSingleWords[z].toLowerCase().search(eachWordArray[j].toLowerCase()) >= 0) { searchResult = true; }
-          } else {
-            if (fromPhraseToSingleWords[z].toLowerCase() == eachWordArray[j].toLowerCase()) { searchResult = true; }
-          }
-          But we don't want to do that because we don't want to accept ミミズ when waiting for 水 */
+
           const fromPhraseToSingleWords = phrasesArray[k].split(" "); // Note that in "spaceless" languages like Renmen-Hito phrases will not be split into words
           let z;
           for (z = 0; z < fromPhraseToSingleWords.length; z++) {
@@ -438,9 +427,15 @@ function speakToTheMic() {
                 if (phrasesArray[k].search(eachWordArray[j]) >= 0) { searchResult = true; }
               }
             }
+            else if (parent.targetLanguageIsWrittenWithoutSpaces) { // Accept an utterance like 我要喝水 as a correct answer
+              // Event though it means we will also accept ミミズ when waiting for 水 !!!
+              if (fromPhraseToSingleWords[z].toLowerCase().search(eachWordArray[j].toLowerCase()) >= 0) { searchResult = true; }
+              // ALSO NOTE THAT: Unfortunately SpeechRecognition can ignore user's speech when the utterance is too short consisting of only one syllable
+              // In that case we show a prompt like "It's OK to skip" » See annyang.js numberOfRestartsDespiteDetectionOfAudioInput » See /user_interface/text/??/0-if_something_is_not_working.txt
+            }
             // -
             if (!aMatchWasFound && searchResult) {
-              aMatchWasFound = true; // Using this, we make sure that stopListeningAndProceedToNext fires only and only once
+              aMatchWasFound = true; // By using this, we make sure that stopListeningAndProceedToNext will fire only and only once
               if (parent.annyang.getSpeechRecognizer().interimResults) { parent.console.log("Correct answer detected with interimResults enabled");
                 setTimeout(function () { stopListeningAndProceedToNext(); }, 250); // Interim results is or can be too quick (especially on Windows)
               } else { parent.console.log("Correct answer detected without interimResults");
@@ -451,8 +446,6 @@ function speakToTheMic() {
             }
           } // End of for z
         } // End of for k
-
-
       } // End of for j
     } // END OF compareAndSeeIfTheAnswerIsCorrect
   } // END OF if parent.annyang
@@ -477,7 +470,7 @@ function stopListeningAndProceedToNext() {
     if (isApple) { parent.annyang.pause(); }
     else { parent.annyang.abort(); }
   }
-  // Stop Wavesurfer microphone: We don't want to wait for "beforeunload" so we call the function immediately even though it will fire one more time with window.onbeforeunload
+  // Stop AUDIOMETER microphone: We don't want to wait for "beforeunload" so we call the function immediately even though it will fire one more time with window.onbeforeunload
   // We cannot disable "beforeunload" BECAUSE if user navigates away in the middle of a mic session we want the mic turned off
   // Yet, we also want to hide the visualization asap when success happens, therefore it has to be armed both in js_for_all_iframed_lesson_htmls and here
   stopAudioInputVisualization(); // See js_for_microphone_input_visualization

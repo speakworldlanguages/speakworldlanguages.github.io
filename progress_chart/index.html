@@ -130,8 +130,8 @@
     </div>
 
     <script>
-    // ACTUALLY: onbeforeunload in js_for_all_iframed_lesson_htmls already has the code to stop annyang but there seems to be a problem when it is called the second time
-    // So should we FORCE turn OFF annyang if it was ON
+    // ACTUALLY: onbeforeunload in js_for_all_iframed_lesson_htmls already has the code to stop annyang|SpeechRecognition but there seems to be a problem when it is called the second time
+    // So should we FORCE turn OFF annyang|SpeechRecognition if it was ON
     // ISSUE THAT NEEDS SERIOUS CARE: Safari doesn't allow mic permanently; it allows for only 1 listening session and prompts for permission everytime mic restarts
 
     if (parent.annyang) { // DO NOT OMIT! Firefox and other no-speech browsers need this "if (parent.annyang)" to let the app work without Web Speech API.

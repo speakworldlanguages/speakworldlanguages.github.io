@@ -112,7 +112,7 @@ const startingPositionOfTheFish = 18; // vmin
 
 /* SET OFF */
 window.addEventListener('load', loadingIsCompleteFunction, { once: true });
-// NOTE THAT: In this case the grammar [info box] must appear after the wavesurfer [listen box]
+// NOTE THAT: In this case the grammar [info box] must appear after the pronunciation-teacher-box [listen box]
 function loadingIsCompleteFunction() {
   swimmingFishContainer.style.transform = "translateX("+(0+startingPositionOfTheFish).toFixed(3)+"vmin)";
   // --
@@ -154,7 +154,7 @@ function loadingIsCompleteFunction() {
 }
 
 function startTheLesson() {
-  // User must listen to wavesurfer vocabulary box no matter what language he/she is studying
+  // User must listen to pronunciation-teacher vocabulary box no matter what language he/she is studying
   const filePathOfTheAudioFile = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_2/there_is_listenbox."+soundFileFormat;
   const wavesurferP1P2Path = "/user_interface/text/"+userInterfaceLanguage+"/1-3-2_vocabulary_p1_p2.txt"; // UI lang depends on domain (hostname) » See js_for_every_single_html
   fetch(wavesurferP1P2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleP1P2ActualText(contentOfTheTxtFile);  });
@@ -521,7 +521,7 @@ function makeTheFishJumpOutOfWater() {
 
 let anOutroBoxIsNowShowing = false; // 1 - To block keyboard input when needed 2 - To exit RAF loop
 function handleWinning() {
-  // Display wavesurfer box about the meaning of "a thing" or "something"
+  // Display pronunciation-teacher-box about the meaning of "a thing" or "something"
   const filePathOfTheAudioFile = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_2/something_listenbox."+soundFileFormat;
   const wavesurferP1P2Path = "/user_interface/text/"+userInterfaceLanguage+"/1-3-2_vocabulary_outro_p1_p2.txt"; // UI lang depends on domain (hostname) » See js_for_every_single_html
   fetch(wavesurferP1P2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){

@@ -1,7 +1,8 @@
-// NOTE THAT: Some modifications were applied to the original annyang.js file (in speakworldlanguages.app)
+// NOTE THAT: Some modifications were applied to the original annyang.js file for speakworldlanguages.app
 // 1 - Comments were removed to reduce the file size!
 // 2 - Added link to https://webreflection.medium.com/taming-the-web-speech-api-ef64f5a245e1
 // 3 - Added code to enable interimResults
+// 4 - Added code to notify the user when SpeechRecognition fails to catch words despite the existence of valid audio input
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -164,7 +165,7 @@ let numberOfRestartsDespiteDetectionOfAudioInput = 0;
 
       // THE LINES FOR interimResults IS NOT PART OF ORIGINAL ANNYANG.JS
       // Maybe it's better if we turn off interimResults for all Android devices and not only on Samsung Browser
-      if (annyangBetterIfInterimResultsAreDisabled) {
+      if (annyangBetterIfInterimResultsAreDisabled) { // See js_for_different_browsers_and_devices
         // Do nothing since interimResults are turned off by default
         console.log("ANDROID: interimResults will not be activated");
       } else {
@@ -189,6 +190,10 @@ let numberOfRestartsDespiteDetectionOfAudioInput = 0;
       recognition.onstart = function () { //console.log("annyang.js » Speech Recognition START event fired");
         _isListening = true;
         invokeCallbacks(callbacks.start);
+        // Custom code for speakworldlanguages.app
+        if (isAndroid && microphoneOnOffVisualIndicator) { // See js_for_different_browsers_and_devices
+          document.body.appendChild(microphoneOnOffVisualIndicator);
+        }
       };
 
       // Ideally the events must fire in the following order start » audiostart » soundstart » speechstart » speechend » soundend » audioend » result » end
@@ -230,6 +235,12 @@ let numberOfRestartsDespiteDetectionOfAudioInput = 0;
 
         _isListening = false;
         invokeCallbacks(callbacks.end);
+        // Custom code for speakworldlanguages.app
+        if (isAndroid && microphoneOnOffVisualIndicator) { // See js_for_different_browsers_and_devices
+          document.body.removeChild(microphoneOnOffVisualIndicator);
+        }
+
+
         // annyang will auto restart if it is closed automatically and not by user action.
         if (autoRestart) {
           // play nicely with the browser, and never restart annyang automatically more than once per second

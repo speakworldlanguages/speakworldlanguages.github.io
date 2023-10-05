@@ -24,7 +24,7 @@
   mix-blend-mode: normal;
   border-radius: 2.5vmin;
   font-size: 3.5vmin; /*On any screen whose smaller dimension is greater than 800px*/
-  color: rgb(130,155,173);
+  color: rgb(20,65,99); /*Used to be 130,155,173 until October2023*/
   margin: 5.5vmin;
   padding-left: 4vmin; padding-right: 4vmin; padding-top: 5vmin; padding-bottom: 5vmin;
   /* line-height: normal; */ /*Must be conditional and depend on the font and UI*/
@@ -80,7 +80,7 @@
   mix-blend-mode: normal;
   border-radius: 2.5vmin;
   font-size: 4vmin;
-  color: rgb(130,155,173);
+  color: rgb(130,155,173); /*In October2023 we've changed other elements' 130,155,173 color to 20,65,99 BUT we let this one stay the same*/
   padding-left: 4vmin; padding-right: 4vmin; padding-top: 5vmin; padding-bottom: 5vmin;
   white-space: pre-wrap; /* pre means do not convert the line breaks into regular spaces. pre-wrap handles the overflow as well for longer lines */
   cursor: url("/user_interface/images/cursor/default_cursor.png") 16 4,auto;
