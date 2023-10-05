@@ -40,17 +40,24 @@
   min-width:80px;  min-height:62px;
   padding-left: 14px; padding-right: 14px; padding-top: 12px; padding-bottom: 9px;
   margin-top: 5vmin;
-  background-color: rgb(154,170,182);
+  /* background-color: rgb(154,170,182); old color used until October2023 */
+  background-color: rgb(104,127,145);
   border-radius: 1.5vmin;
-  border: 3px solid rgb(124, 144, 160);
+  /* border: 3px solid rgb(124,144,160); old color used until October2023 */
+  border: 3px solid rgb(62, 88, 111);
   color: white;
   display: flex;  justify-content: center;  align-items: center;
   text-shadow: none;
+  transition-property: background-color, border-color;
+  transition-duration: 0.3s, 0.3s;
 }
 .okButtonUnderNotification:hover{
-  background-color: rgb(93,114,137);
-  border: 3px solid rgb(73, 94, 110);
+  /* background-color: rgb(93,114,137); old color used until October2023 */
+  background-color: rgb(74,102,124);
+  /* border: 3px solid rgb(73, 94, 110); old color used until October2023 */
+  border: 3px solid rgb(25, 54, 84);
 }
+/* Was there a reason for applying :active at parent but not here???*/
 /* END OF standard white info box */
 
 
