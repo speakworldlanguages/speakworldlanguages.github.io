@@ -41,10 +41,10 @@
   padding-left: 14px; padding-right: 14px; padding-top: 12px; padding-bottom: 9px;
   margin-top: 5vmin;
   /* background-color: rgb(154,170,182); old color used until October2023 */
-  background-color: rgb(104,127,145);
+  background-color: rgb(109,133,152); /*Tried 104,127,145 but better if just a tiny bit brighter*/
   border-radius: 1.5vmin;
   /* border: 3px solid rgb(124,144,160); old color used until October2023 */
-  border: 3px solid rgb(62, 88, 111);
+  border: 3px solid rgb(65, 92, 116); /*Tried 62,88,111 but better if just a tiny bit brighter*/
   color: white;
   display: flex;  justify-content: center;  align-items: center;
   text-shadow: none;
@@ -57,7 +57,7 @@
   /* border: 3px solid rgb(73, 94, 110); old color used until October2023 */
   border: 3px solid rgb(25, 54, 84);
 }
-/* Was there a reason for applying :active at parent but not here???*/
+/* The reason for applying :active at parent but not here must be because the whole box scales down and fades away with mousedown */
 /* END OF standard white info box */
 
 
