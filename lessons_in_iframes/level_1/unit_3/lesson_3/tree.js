@@ -13,7 +13,7 @@ parent.saveJSON = JSON.stringify(parent.savedProgress); // Convert
 localStorage.setItem("memoryCard", parent.saveJSON); // Save
 
 // All settings here will depend on the content of the lesson
-let theNewWordUserIsLearningNowAndPossibleMishaps; // Get this from txt file
+let theNewWordUserIsLearningNowAndPossibleMishaps = null; // Get this from txt file
 // CAUTION: parent.langCodeForTeachingFilePaths variable depends on localStorage data being available. See js_for_the_parent_all_browsers_all_devices.js
 const filePathForTheWordOrPhrase = "/speech_recognition_answer_key/"+parent.langCodeForTeachingFilePaths+"/1-3-3-tree.txt";
 // See js_for_every_single_html.js for the headers setting.
@@ -313,8 +313,20 @@ function speakToTheMic() {
   },120);
 
   // setLanguage() for annyang is in /js_reusables/js_for_the_parent_all_browsers_all_devices.js
-  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_answer_key must be written with the | (bar) character as the separator between phrases.
+  let eachWordArray;
+  if (theNewWordUserIsLearningNowAndPossibleMishaps) { // It means fetch did indeed get the file
+    eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_answer_key must be written with the | (bar) character as the separator between phrases.
+    seeIfUserIsAbleToPronounce(eachWordArray).then(stopListeningAndProceedToNext); // See js_for_speech_recognition_algorithm
+  } else { // fetch has failed to get the file
+    // There must have been a terrible connectivity problem
+    alert("💢 📶 💢 📶 💢 📶 💢 📶 💢"); // Show an international alert
+    parent.ayFreym.src = "/progress_chart/index.html"; // Try to navigate to the progress_chart as the last thing to do
+  }
 
+
+  
+
+/* RELOCATED
   if (parent.annyang) { parent.console.log("Starting speech recognition for: "+eachWordArray[0]);
 
     if (!parent.isAndroid) { // See js_for_different_browsers_and_devices
@@ -368,6 +380,7 @@ function speakToTheMic() {
       } // End of for j
     } // END OF compareAndSeeIfTheAnswerIsCorrect
   }
+*/
 
 } /* END OF speakToTheMic */
 

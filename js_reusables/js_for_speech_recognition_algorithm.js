@@ -1,0 +1,101 @@
+"use strict";
+// Code written by Manheart Earthman=B. A. Bilgekılınç Topraksoy=土本 智一勇夫剛志
+// UNAUTHORIZED MODIFICATION IS PROHIBITED: You may not change this file without consent
+
+function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLimit,beforeThisManyRetriesHappen) {
+  return new Promise((resolve, reject) => {
+
+      // Notes about handling non-English string characters
+      // BULGULAR: toLowerCase() Windows'ta büyük Ş yi küçük ş ye çeviriyor ama Mac OS üzerinde çevirmiyor
+      // Onun yerine toLocaleLowerCase() kullanılırsa büyük I İngilizcedeki gibi küçük i ye dönüşmek yerine küçük ı ya dönüşüyor
+      // Seçenek1: toLocaleLowerCase() KULLANMAYIP speech_recognition_answer_key içindeki cevapları buna dikkat ederek girmek
+      // Seçenek2: tr için özel koşul yazmak -> OLMADI NEDEN ÇÜNKÜ büyük [İ] yi [i̇] ye yanlış dönüştürüyor. İki farklı küçük i çıkıyor ve ("i̇" == "i") false veriyor
+      // Note: We don't need toLocaleLowerCase() for Cyrillic script (confirmed on Windows), toLowerCase() does the job right already
+
+      if (parent.annyang) { parent.console.log("Starting speech recognition for: "+anyOneOfTheWordsInThisArray[0]);
+        // October 2022 UPDATE: Stop using commands object with annyang
+        // DEPRECATED parent.annyang.addCommands(commands);
+        if (!parent.isAndroid) { // See js_for_different_browsers_and_devices
+            notificationDingTone.play(); // Android has its native DING tone. So let this DING tone play only on non-Android platforms i.e. desktops and iOS devices.
+        }
+        if (parent.isAndroid) {
+          if (parent.annyang.isListening()) {      parent.annyang.abort();     } // Try to avoid the «SpeechRecognition is already listening» error
+          // NOTE_THAT: If mic is idle but is TURNED ON due to previous getUserMedia activity THERE MIGHT still be a problem with starting SpeechRecognition on Android!
+        }
+        // Start listening.
+        new SuperTimeout(function() {  parent.annyang.start({ autoRestart: true });  },500); // NOTE: annyang.resume() equals annyang.start()
+        new SuperTimeout(function() {  startAudioInputVisualization();  },2500); // Will work only on devices that can handle it. See js_for_microphone_input_visualization.js
+        // New method of detecting matches
+        parent.annyang.addCallback('result', compareAndSeeIfTheAnswerIsCorrect);
+        function compareAndSeeIfTheAnswerIsCorrect(phrasesArray) {
+          parent.console.log('Speech recognized. Possibly said: '+phrasesArray); // SpeechRecognition actually returns a confidence value for each of its guessed-catches but we as of October2023 there is no use for it in the app
+          // Check if there is a match
+          let j;
+          for(j=0;j<anyOneOfTheWordsInThisArray.length;j++) {
+            // NOTE THAT: There is also the option of using includes() to perform phrase to phrase comparison // Remember that it's not contains() » It's includes()
+            // BUT we want to split phrases into words and perform word to word comparison
+            let k;
+            for (k = 0; k < phrasesArray.length; k++) {
+              // Which method is better?
+              // if (phrasesArray[k].toLowerCase().search(anyOneOfTheWordsInThisArray[j].toLowerCase()) >= 0) // This will return true if user utters 'underwater' instead of 'water'
+              // if (phrasesArray[k].toLowerCase() == anyOneOfTheWordsInThisArray[j].toLowerCase()) // Only with interimResults TURNED ON, this will return true if user utters 'Water is the liquid form of H2O' but false for 'underwater' and also false for 'under water'
+              // if (phrasesArray[k].toLowerCase().search(anyOneOfTheWordsInThisArray[j].toLowerCase()) == 0) // Accept user's utterance if it starts with the "correct word or phrase" even if interimResults option is turned off like 'watermelon'.
+              // To accept 'under water' while rejecting 'underwater' we need to extract individual words from phrases
+
+              const fromPhraseToSingleWords = phrasesArray[k].split(" "); // Note that in "spaceless" languages like Renmen-Hito phrases will not be split into words
+              let z;
+              for (z = 0; z < fromPhraseToSingleWords.length; z++) {
+
+                // Now we can reject 'underwater' and accept 'under water' // NOTE: With interimResults enabled it’s probably impossible to reject 'watermelon'
+                let searchResult = false;
+                if (fromPhraseToSingleWords[z].toLowerCase() == anyOneOfTheWordsInThisArray[j].toLowerCase()) { searchResult = true; } // For some reason this fails for Arabic in Safari >>> Works without any problems in Chrome though
+                else if (isApple) {
+                  if (parent.annyang.getSpeechRecognizer().lang == "ar") { parent.console.warn("Listening for Arabic on Safari/Apple");
+                    // Use string search to try and find it within the phrase and not individual words
+                    if (phrasesArray[k].search(anyOneOfTheWordsInThisArray[j]) >= 0) { searchResult = true; }
+                  }
+                }
+                else if (parent.targetLanguageIsWrittenWithoutSpaces) { // Let's also accept an utterance like 我要喝水(I am going to drink water) as a correct answer since it includes 水(water)
+                  // Event though it means we will also accept ミミズ(earthworm) when waiting for 水(water) !!!
+                  if (fromPhraseToSingleWords[z].toLowerCase().search(anyOneOfTheWordsInThisArray[j].toLowerCase()) >= 0) { searchResult = true; }
+                  // ALSO NOTE THAT: Unfortunately SpeechRecognition can ignore user's speech when the utterance is too short consisting of only one syllable
+                  // In that case we show a prompt like "It's OK to skip" » See annyang.js numberOfRestartsDespiteDetectionOfAudioInput » See /user_interface/text/??/0-if_something_is_not_working.txt
+                }
+                // -
+                if (!aMatchWasFound && searchResult) {
+                  aMatchWasFound = true; // By using this, we make sure that stopListeningAndProceedToNext will fire only and only once
+                  if (parent.annyang.getSpeechRecognizer().interimResults) { parent.console.log("Correct answer detected with interimResults enabled");
+                    setTimeout(function () { resolve(true); /*stopListeningAndProceedToNext();*/ }, 250); // Interim results is or can be too quick (especially on Windows)
+                  } else { parent.console.log("Correct answer detected without interimResults");
+                    resolve(true); /*stopListeningAndProceedToNext();*/
+                  }
+                } else {
+                  // Prevent a possible second firing (or any further firings) of stopListeningAndProceedToNext by doing nothing
+                }
+              } // End of for z
+            } // End of for k
+          } // End of for j
+        } // END OF compareAndSeeIfTheAnswerIsCorrect
+      } // END OF if parent.annyang
+
+
+      if (withinThisTimeLimit) {
+        setTimeout(() => {     reject(false); parent.console.log("Correct answer was not detected within "+withinThisTimeLimit+"ms");     }, withinThisTimeLimit); // Reject the Promise
+      }
+
+      if (beforeThisManyRetriesHappen) {
+        // ??? How do we detect the number of retries ???
+        parent.annyang.getSpeechRecognizer().onaudioend = () => {
+          if (parent.numberOfStartsAndRestartsRegardlessOfAudioInput>=beforeThisManyRetriesHappen) {
+            reject(false); parent.console.log("Correct answer was not detected despite "+beforeThisManyRetriesHappen+" retries");
+            // For lesson 134 reject will trigger the .finally() by which stopSpeechRecognitionSession will abort annyang
+            // parent.numberOfStartsAndRestartsRegardlessOfAudioInput will be reset back to 0 as abort fires in annyang.js
+            parent.annyang.getSpeechRecognizer().onaudioend = null; // Remove the event listener
+          }
+        };
+
+      }
+
+
+  }); // End of new Promise
+} // End of seeIfUserIsAbleToPronounce

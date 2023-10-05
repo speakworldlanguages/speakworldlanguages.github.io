@@ -13,7 +13,7 @@ parent.saveJSON = JSON.stringify(parent.savedProgress); // Convert
 localStorage.setItem("memoryCard", parent.saveJSON); // Save
 
 // All settings here will depend on the content of the lesson
-let theNewWordUserIsLearningNowAndPossibleMishaps; // Get this from txt file
+let theNewWordUserIsLearningNowAndPossibleMishaps = null; // Get this from txt file
 // CAUTION: parent.langCodeForTeachingFilePaths variable depends on localStorage data being available. See js_for_the_parent_all_browsers_all_devices.js
 const filePathForTheWordOrPhrase = "/speech_recognition_answer_key/"+parent.langCodeForTeachingFilePaths+"/1-1-1-water.txt";
 // See js_for_every_single_html.js for the headers setting.
@@ -366,18 +366,21 @@ function speakToTheMic() {
   },120);
 
   // setLanguage() for annyang|SpeechRecognition is in /js_reusables/js_for_the_parent_all_browsers_all_devices.js
-  // DEPRECATED var commands = {}; // Let's keep the older code for reference only here to remember how we started out
-  const eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_answer_key must be written with the | (bar) character as the separator between phrases.
-
-  /* DEPRECATED - Let's keep the older code for reference only here in water.js to remember how we started out
-  let i;
-  for(i=0;i<eachWordArray.length;i++)
-  {
-    let oneOfTheWords = eachWordArray[i];
-    commands[oneOfTheWords] = stopListeningAndProceedToNext;
+  // DEPRECATED var commands = {}; // Long ago we used commands but now we have our own algorithm
+  let eachWordArray;
+  if (theNewWordUserIsLearningNowAndPossibleMishaps) { // It means fetch did indeed get the file
+    eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_answer_key must be written with the | (bar) character as the separator between phrases.
+    seeIfUserIsAbleToPronounce(eachWordArray).then(stopListeningAndProceedToNext); // See js_for_speech_recognition_algorithm
+  } else { // fetch has failed to get the file
+    // There must have been a terrible connectivity problem
+    alert("💢 📶 💢 📶 💢 📶 💢 📶 💢"); // Show an international alert
+    parent.ayFreym.src = "/progress_chart/index.html"; // Try to navigate to the progress_chart as the last thing to do
   }
-  */
 
+
+
+
+/* MOVE INTO js_for_speech_recognition_algorithm
   // Notes about handling non-English string characters
   // BULGULAR: toLowerCase() Windows'ta büyük Ş yi küçük ş ye çeviriyor ama Mac OS üzerinde çevirmiyor
   // Onun yerine toLocaleLowerCase() kullanılırsa büyük I İngilizcedeki gibi küçük i ye dönüşmek yerine küçük ı ya dönüşüyor
@@ -449,6 +452,7 @@ function speakToTheMic() {
       } // End of for j
     } // END OF compareAndSeeIfTheAnswerIsCorrect
   } // END OF if parent.annyang
+*/
 
 } /* END OF speakToTheMic */
 

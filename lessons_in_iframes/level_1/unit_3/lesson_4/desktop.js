@@ -50,11 +50,11 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
     });
     // ....
     // Play teacher's voice
-    let sayTime;
+    let sayTime; let recognitionFailTime;
     switch (parent.speedAdjustmentSetting) {
-      case "slow": sayTime = 4000; break;
-      case "fast": sayTime = 1000; break;
-      default:     sayTime = 2500;
+      case "slow": sayTime = 4000; recognitionFailTime = 15000; break;
+      case "fast": sayTime = 1000; recognitionFailTime = 7500;  break;
+      default:     sayTime = 2500; recognitionFailTime = 10000;
     }
     new SuperTimeout(function () {
       switch (card.id) {
@@ -69,17 +69,62 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
     }, sayTime);
     new SuperTimeout(function () {
       // Start speech recognition
+      let eachWordArray;
+      switch (card.id) {
+        case "white":  if(whiteAndPossibleMisrecognitions) { eachWordArray = whiteAndPossibleMisrecognitions; }   break;
+        case "green":  if(greenAndPossibleMisrecognitions) { eachWordArray = greenAndPossibleMisrecognitions; }   break;
+        case "blue":   if(blueAndPossibleMisrecognitions)  { eachWordArray = blueAndPossibleMisrecognitions; }    break;
+        case "yellow": if(yellowAndPossibleMisrecognitions){ eachWordArray = yellowAndPossibleMisrecognitions; }  break;
+        case "red":    if(redAndPossibleMisrecognitions)   { eachWordArray = redAndPossibleMisrecognitions; }     break;
+        case "black":  if(blackAndPossibleMisrecognitions) { eachWordArray = blackAndPossibleMisrecognitions; }   break;
+        default:
+      }
 
       // Let speechRecognition session either resolve or reject
+      seeIfUserIsAbleToPronounce(eachWordArray,recognitionFailTime).then(flipThatCardNow).catch(letTheCardGoBackToItsNormalState).finally(stopSpeechRecognitionSession); // See js_for_speech_recognition_algorithm
+      // Display countdown timer :: simulated hourglass
+
+
+
 
       // Do these if it resolves
-      if (!theCardThatIsAlreadyFlipped) { // Such a card doesn't exist
-        whenCorrectColorIsUtteredForThe_FIRST_Card(card,zIndexReversion);
-      } else { // There exists a previously flipped card
-        whenCorrectColorIsUtteredForThe_SECOND_Card(card,zIndexReversion);
+      function flipThatCardNow() {
+        if (!theCardThatIsAlreadyFlipped) { // Such a card doesn't exist
+          whenCorrectColorIsUtteredForThe_FIRST_Card(card,zIndexReversion);
+        } else { // There exists a previously flipped card
+          whenCorrectColorIsUtteredForThe_SECOND_Card(card,zIndexReversion);
+        }
       }
       // Do these if it rejects
-      // Reset the card without flipping it
+      function letTheCardGoBackToItsNormalState() {
+        failSound.play();
+        // Reset the card without flipping it
+        card.classList.remove("scaleUp");
+        card.classList.remove("whenItIsClicked");
+        fullVpDarkBlue.onanimationend = () => {
+          fullVpDarkBlue.classList.remove("darkenLightenBackground"); // Clean up and get ready to restart
+          // Restore the event listeners
+          allCards.forEach((element) => { // Those who have containerForRoundedColorCards
+            if (element != theCardThatIsAlreadyFlipped) {
+              element.addEventListener("mouseenter",addClassWhenHovered); // ENHANCE UX with mousemove
+              element.addEventListener("mousemove",addClassWhenHovered); // ENHANCING UX by combining mouseenter+mousemove
+              element.addEventListener("mouseleave",removeClassWhenUnhovered);
+              element.addEventListener("mousedown", niceClick,{once:true});
+              console.log("mouse events are restored for all except" + theCardThatIsAlreadyFlipped.id);
+            }
+          });
+        };
+        fullVpDarkBlue.style.animationPlayState = "running"; // The darkening layer disappears
+      }
+      // End SpeechRecognition
+      function stopSpeechRecognitionSession() {
+        if (parent.annyang) { // DO NOT OMIT! Firefox and other no-speech browsers need this "if (parent.annyang)" to let the app work without Web Speech API.
+            parent.annyang.removeCallback();
+            if (isApple) { parent.annyang.pause(); }
+            else { parent.annyang.abort(); }
+            console.log("Speech Recognition ended");
+        }
+      }
 
     }, sayTime*2);
 

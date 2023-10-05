@@ -16,7 +16,13 @@ localStorage.setItem("memoryCard", parent.saveJSON); // Save
 let whatMustBeKnownAboutColorsAtTheEnd = null; // See what follows after window-load below and also find exitLesson function at the end
 
 // All settings here will depend on the content of the lesson
-let answerWhite,answerGreen,answerBlue,answerYellow,answerRed,answerBlack; // Get them from txt files
+// SHORTEN CODE by omitting let answerWhite,answerGreen,answerBlue,answerYellow,answerRed,answerBlack; // Get them from txt files
+var whiteAndPossibleMisrecognitions;
+var greenAndPossibleMisrecognitions;
+var blueAndPossibleMisrecognitions;
+var yellowAndPossibleMisrecognitions;
+var redAndPossibleMisrecognitions;
+var blackAndPossibleMisrecognitions;
 // CAUTION: parent.langCodeForTeachingFilePaths variable depends on localStorage data being available. See js_for_the_parent_all_browsers_all_devices.js
 const filePathForWhite  = "/speech_recognition_answer_key/"+parent.langCodeForTeachingFilePaths+"/1-3-4-white.txt";
 const filePathForGreen  = "/speech_recognition_answer_key/"+parent.langCodeForTeachingFilePaths+"/1-3-4-green.txt";
@@ -25,12 +31,12 @@ const filePathForYellow = "/speech_recognition_answer_key/"+parent.langCodeForTe
 const filePathForRed    = "/speech_recognition_answer_key/"+parent.langCodeForTeachingFilePaths+"/1-3-4-red.txt";
 const filePathForBlack  = "/speech_recognition_answer_key/"+parent.langCodeForTeachingFilePaths+"/1-3-4-black.txt";
 // See js_for_every_single_html.js for the headers setting.
-fetch(filePathForWhite, myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ answerWhite  = contentOfTheTxtFile; });
-fetch(filePathForGreen, myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ answerGreen  = contentOfTheTxtFile; });
-fetch(filePathForBlue,  myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ answerBlue   = contentOfTheTxtFile; });
-fetch(filePathForYellow,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ answerYellow = contentOfTheTxtFile; });
-fetch(filePathForRed,   myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ answerRed    = contentOfTheTxtFile; });
-fetch(filePathForBlack, myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ answerBlack  = contentOfTheTxtFile; });
+fetch(filePathForWhite, myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  whiteAndPossibleMisrecognitions =  contentOfTheTxtFile.split("|");  });
+fetch(filePathForGreen, myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  greenAndPossibleMisrecognitions =  contentOfTheTxtFile.split("|");  });
+fetch(filePathForBlue,  myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  blueAndPossibleMisrecognitions =   contentOfTheTxtFile.split("|");  });
+fetch(filePathForYellow,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  yellowAndPossibleMisrecognitions = contentOfTheTxtFile.split("|");  });
+fetch(filePathForRed,   myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  redAndPossibleMisrecognitions =    contentOfTheTxtFile.split("|");  });
+fetch(filePathForBlack, myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  blackAndPossibleMisrecognitions =  contentOfTheTxtFile.split("|");  });
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
 // Find soundFileFormat in js_for_all_iframed_lesson_htmls

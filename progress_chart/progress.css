@@ -60,14 +60,15 @@ nav:hover{ cursor: url("/user_interface/images/cursor/default_cursor.png") 16 4,
 .toTheRightButton{ background-image: url('/user_interface/images/arrow_right.webp');  }
 .toTheLeftButton{  background-image: url('/user_interface/images/arrow_left.webp'); }
 @media (orientation:landscape){
+  /*Calculate HALF of the height for allLevelsInTheAppContainer*/
   .toTheRightButton{top:calc(50% - 11vmin + 3vmin); transform: translateY(-50%); right:8vw;}
   .toTheLeftButton{ top:calc(50% - 11vmin + 3vmin); transform: translateY(-50%); left:8vw; }
   .resolvePortraitOverlapForRightButton{ animation-name: none; }
   .resolvePortraitOverlapForLeftButton{ animation-name: none; }
 }
 @media (orientation:portrait){
-  .toTheRightButton{bottom: calc(80px + 4vmin); left:50%; transform: translateX(-50%); }
-  .toTheLeftButton{ bottom: calc(80px + 4vmin); left:50%; transform: translateX(-50%);}
+  .toTheRightButton{bottom: calc(90px + 4vmin); left:50%; transform: translateX(-50%); }
+  .toTheLeftButton{ bottom: calc(90px + 4vmin); left:50%; transform: translateX(-50%);}
   .resolvePortraitOverlapForRightButton{   transform: translateX(30%);    }
   .resolvePortraitOverlapForLeftButton{    transform: translateX(-130%);  }
 }
