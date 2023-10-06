@@ -130,7 +130,6 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
             parent.annyang.getSpeechRecognizer().onaudioend = () => {
               if (parent.numberOfStartsAndRestartsRegardlessOfAudioInput>=beforeThisManyRetriesHappen) {
                 parent.console.log("Correct answer was not detected despite "+beforeThisManyRetriesHappen+" retries");
-                // CANCEL: For lesson 134 reject used to trigger the .finally() by which stopSpeechRecognitionSession will abort annyang
                 // parent.numberOfStartsAndRestartsRegardlessOfAudioInput will be reset back to 0 as abort fires in annyang.js
                 parent.annyang.getSpeechRecognizer().onaudioend = null; // Remove the event listener
                 resolve("fail");

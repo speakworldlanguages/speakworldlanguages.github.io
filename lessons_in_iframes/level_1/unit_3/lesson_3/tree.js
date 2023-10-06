@@ -318,7 +318,7 @@ function speakToTheMic() {
     eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_answer_key must be written with the | (bar) character as the separator between phrases.
     // Do not apply any time-limits or retry-limits
     seeIfUserIsAbleToPronounce(eachWordArray).then(stopListeningAndProceedToNext).catch((error) => { parent.console.error(error); }); // See js_for_speech_recognition_algorithm
-    new SuperTimeout(function() {  startAudioInputVisualization();  },2500); // Will work only on devices that can handle it. See js_for_microphone_input_visualization.js
+    new SuperTimeout(function() {  startStandardAudioInputVisualization();  },2500); // Will work only on devices that can handle it. See js_for_microphone_input_visualization.js
   } else { // fetch has failed to get the file
     // There must have been a terrible connectivity problem
     alert("💢 📶 💢 📶 💢 📶 💢 📶 💢"); // Show an international alert
@@ -339,7 +339,7 @@ function speakToTheMic() {
     }
     // Start listening.
     new SuperTimeout(function() {  parent.annyang.start({ autoRestart: true });  },500);
-    new SuperTimeout(function() {  startAudioInputVisualization();  },2500); // Will work only on devices that can handle it. See js_for_microphone_input_visualization.js
+    new SuperTimeout(function() {  startStandardAudioInputVisualization();  },2500); // Will work only on devices that can handle it. See js_for_microphone_input_visualization.js
     // New method of detecting matches
     parent.annyang.addCallback('result', compareAndSeeIfTheAnswerIsCorrect);
     function compareAndSeeIfTheAnswerIsCorrect(phrasesArray) {
@@ -408,7 +408,7 @@ function stopListeningAndProceedToNext() {
   // Stop AUDIOMETER microphone: We don't want to wait for "beforeunload" so we call the function immediately even though it will fire one more time with window.onbeforeunload
   // We cannot disable "beforeunload" BECAUSE if user navigates away in the middle of a mic session we want the mic turned off
   // Yet, we also want to hide the visualization asap when success happens, therefore it has to be armed both in js_for_all_iframed_lesson_htmls and here
-  stopAudioInputVisualization(); // See js_for_microphone_input_visualization
+  stopStandardAudioInputVisualization(); // See js_for_microphone_input_visualization
 
   /* Save progress */
   if (!userHasGivenUp) { // User was successful with speech recognition

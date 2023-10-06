@@ -126,7 +126,7 @@ var audioMeterIsListening = false; // See pauseTheAppFunction in js_for_the_slid
 // According to tests (as of JULY2023) Windows PCs are the only verified type of device that NICELY support simultaneous usage of the device microphone by multiple APIs
 /* ______ Functions to start-stop ______ */
 // These will be called from the particular js files of the particular lessons.
-function startAudioInputVisualization() {
+function startStandardAudioInputVisualization() {
   if (deviceDetector.device=="desktop" && !isApple) { parent.console.log("proceed to microphone activation");
     activateMicrophone();
     audioMeterIsListening = true;
@@ -140,7 +140,7 @@ function startAudioInputVisualization() {
   }
 }
 // ---
-function stopAudioInputVisualization() {
+function stopStandardAudioInputVisualization() {
   if (deviceDetector.device=="desktop" && !isApple) {
     if (audioContext && audioMeterIsListening) {
        audioContext.close();
@@ -157,4 +157,11 @@ function stopAudioInputVisualization() {
       setTimeout(function () {  audioMeterDiv.style.display = "none";  }, 1600);
     }
   }
+}
+
+function startUniqueAudioInputVisualization() {
+
+}
+function stopUniqueAudioInputVisualization() {
+
 }

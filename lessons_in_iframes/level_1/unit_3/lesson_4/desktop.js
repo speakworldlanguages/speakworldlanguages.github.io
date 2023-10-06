@@ -84,15 +84,23 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
 
       // Let speechRecognition session either resolve or reject
       seeIfUserIsAbleToPronounce(eachWordArray,recognitionFailTime).then((response) => { _check(response); }).catch((error) => { console.error(error); }); // See js_for_speech_recognition_algorithm
+
+
       // Display countdown timer :: simulated hourglass
 
-
-
-
+      // ---
+      if (typeof startUniqueAudioInputVisualization === 'function') {
+        startUniqueAudioInputVisualization(); // See js_for_microphone_input_visualization
+      } else { console.warn('startUniqueAudioInputVisualization function does not exist???'); }
+      // ---
       function _check(passOrFail) {
         if (passOrFail == "pass") { flipThatCardNow(); }
         else { letTheCardGoBackToItsNormalState();     }
-        stopSpeechRecognitionSession();
+        stopSpeechRecognitionSession(); // See below
+        // ---
+        if (typeof stopUniqueAudioInputVisualization === 'function') {
+          stopUniqueAudioInputVisualization(); // See js_for_microphone_input_visualization
+        } else { console.warn('stopUniqueAudioInputVisualization function does not exist???'); }
       }
       // Do these if it resolves with "pass"
       function flipThatCardNow() {
@@ -137,7 +145,7 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
             parent.annyang.removeCallback();
             if (isApple) { parent.annyang.pause(); }
             else { parent.annyang.abort(); }
-            console.log("Speech Recognition ended");
+            console.log("Speech Recognition ended for 134 desktop");
         }
       }
 

@@ -254,8 +254,8 @@ window.onbeforeunload = function() {
     }
   }
   // Check if the functions exist in the lessons own js (like bread.js, water.js etc) before trying to call them.
-  if (typeof stopAudioInputVisualization === "function") {
-    stopAudioInputVisualization(); // Stop AUDIOMETER and turn off the microphone. See js_for_microphone_input...
+  if (typeof stopStandardAudioInputVisualization === "function") {
+    stopStandardAudioInputVisualization(); // Stop AUDIOMETER and turn off the microphone. See js_for_microphone_input...
   }
   if (typeof unloadTheSoundsOfThisLesson === "function") {
     unloadTheSoundsOfThisLesson(); // Every time defined with a different list in the lesson. See the unique js file of each lesson.
