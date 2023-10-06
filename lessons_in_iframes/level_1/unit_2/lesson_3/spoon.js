@@ -318,12 +318,15 @@ function speakToTheMic() {
   let eachWordArray;
   if (theNewWordUserIsLearningNowAndPossibleMishaps) { // It means fetch did indeed get the file
     eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_answer_key must be written with the | (bar) character as the separator between phrases.
-    seeIfUserIsAbleToPronounce(eachWordArray).then(stopListeningAndProceedToNext); // See js_for_speech_recognition_algorithm
+    // Do not apply any time-limits or retry-limits
+    seeIfUserIsAbleToPronounce(eachWordArray).then(stopListeningAndProceedToNext).catch((error) => { parent.console.error(error); }); // See js_for_speech_recognition_algorithm
+    new SuperTimeout(function() {  startAudioInputVisualization();  },2500); // Will work only on devices that can handle it. See js_for_microphone_input_visualization.js
   } else { // fetch has failed to get the file
     // There must have been a terrible connectivity problem
     alert("💢 📶 💢 📶 💢 📶 💢 📶 💢"); // Show an international alert
     parent.ayFreym.src = "/progress_chart/index.html"; // Try to navigate to the progress_chart as the last thing to do
   }
+
 
 
 
