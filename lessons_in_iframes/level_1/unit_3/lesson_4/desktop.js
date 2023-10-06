@@ -35,9 +35,10 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
     console.log("z-index when mousedown fired: "+card.parentNode.style.zIndex);
     // Save original zIndex to be able to revert
     const zIndexReversion = card.parentNode.style.zIndex;
-    if (zIndexReversion.endsWith("00")) {  } // Already increased » Do nothing
-    else { card.parentNode.style.zIndex = zIndexReversion+"0"; console.log("z-index has been changed into: "+card.parentNode.style.zIndex); }
-
+    /*if (zIndexReversion.endsWith("00")) {  } // Already set » Do not add unnecessary zeros
+    else {  }*/
+    card.parentNode.style.zIndex = zIndexReversion+"0"; console.log("z-index has been changed into: "+card.parentNode.style.zIndex);
+    // -
     fullVpDarkBlue.style.display = "block";
     let appearTime;
     switch (parent.speedAdjustmentSetting) {   case "slow": appearTime = 3; break; case "fast": appearTime = 1; break; default: appearTime = 2;   }
@@ -108,6 +109,9 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
         card.classList.remove("scaleUp");
         card.classList.remove("whenItIsClicked");
         fullVpDarkBlue.onanimationend = () => {
+          // Revert zIndex
+          card.parentNode.style.zIndex = zIndexReversion;
+
           fullVpDarkBlue.classList.remove("darkenLightenBackground"); // Clean up and get ready to restart
           // Restore the event listeners
           allCards.forEach((element) => { // Those who have containerForRoundedColorCards

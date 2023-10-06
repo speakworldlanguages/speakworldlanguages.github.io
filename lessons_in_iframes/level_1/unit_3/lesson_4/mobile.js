@@ -95,9 +95,10 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
     parent.console.log("z-index when touch event fired: "+card.parentNode.style.zIndex);
     // Save original zIndex to be able to revert
     const zIndexReversion = card.parentNode.style.zIndex;
-    if (zIndexReversion.endsWith("00")) {  } // Already increased » Do nothing
-    else { card.parentNode.style.zIndex = zIndexReversion+"0"; console.log("z-index has been changed into: "+card.parentNode.style.zIndex); }
-    
+    /*if (zIndexReversion.endsWith("00")) {  } // Already set » Do not add unnecessary zeros
+    else {  }*/
+    card.parentNode.style.zIndex = zIndexReversion+"0"; console.log("z-index has been changed into: "+card.parentNode.style.zIndex);
+    // -
     fullVpDarkBlue.style.display = "block";
     let appearTime;
     switch (parent.speedAdjustmentSetting) {   case "slow": appearTime = 3; break; case "fast": appearTime = 1; break; default: appearTime = 2;   }
@@ -172,7 +173,10 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
         card.classList.add("whenFingerIsOffIt"); // Scale from 1.12 to 1 // Even though it is not a simulation of touch-leave here
         // -
         fullVpDarkBlue.onanimationend = () => {
+          // Revert zIndex
+          card.parentNode.style.zIndex = zIndexReversion;
           card.classList.remove("whenFingerIsOffIt");
+
           fullVpDarkBlue.classList.remove("darkenLightenBackground"); // Clean up and get ready to restart
           // Restore the event listeners
           touchArea.addEventListener("touchstart",detectFingerHover);

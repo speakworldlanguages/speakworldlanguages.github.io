@@ -4,7 +4,11 @@
 let aMatchWasFound;
 // Sound player (Howler) exists in the parent html
 // Find soundFileFormat in js_for_all_iframed_lesson_htmls
-const notificationDingTone = new parent.Howl({  src: ["/user_interface/sounds/ding."+soundFileFormat]  });
+const dongDingTone = new parent.Howl({  src: ["/user_interface/sounds/dongding."+soundFileFormat]  });
+const dingTone = new parent.Howl({  src: ["/user_interface/sounds/ding."+soundFileFormat]  });
+// DO NOT UNLOAD dingTone in the middle of the lesson » otherwise it will play only once per lesson
+// UNLOAD must happen at the very end of the lesson
+let playTheSecondDingOnly = false;
 
 function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLimit,beforeThisManyRetriesHappen,withoutPlayingTheDING) {
   if (!parent.internetConnectivityIsNiceAndUsable) {
@@ -28,7 +32,12 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
           // Use withoutPlayingTheDING where necessary » As of October2023 it's never used
           // IDEA: We could replace withoutPlayingTheDING with something like typeOfTheDING to choose from different sounds
           if (!isAndroid && !withoutPlayingTheDING) { // See js_for_different_browsers_and_devices AND js_for_all_iframed_lesson_htmls
-              notificationDingTone.play(); // Android has its native DING tone. So let this DING tone play only on non-Android platforms i.e. desktops and iOS devices.
+              // Android has its native DING tone. So let this DING tone play only on non-Android platforms i.e. desktops and iOS devices.
+              if (!playTheSecondDingOnly) {
+                dongDingTone.play(); parent.console.log("DONG DING");
+              } else {
+                dingTone.play(); parent.console.log("DING");
+              }
           }
 
           // Start listening (on Android first check if it is already ON and TURN IT OFF IF IT WAS ON)
@@ -85,9 +94,17 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
                   if (!aMatchWasFound && searchResult) { // Note that compareAndSeeIfTheAnswerIsCorrect usually fires multiple times
                     aMatchWasFound = true; // By using this, we make sure that this block will fire only and only once
                     if (parent.annyang.getSpeechRecognizer().interimResults) { parent.console.log("Correct answer detected with interimResults enabled");
-                      setTimeout(function () { notificationDingTone.unload(); resolve("pass"); /*OLDER METHOD USED TO BE stopListeningAndProceedToNext();*/ }, 250); // Interim results is or can be too quick (especially on Windows)
+                      setTimeout(function () {
+                        resolve("pass");
+                        playTheSecondDingOnly = true;
+
+                        //OLDER METHOD USED TO BE stopListeningAndProceedToNext();
+                      }, 250); // Interim results is or can be too quick (especially on Windows)
                     } else { parent.console.log("Correct answer detected without interimResults");
-                      notificationDingTone.unload(); resolve("pass"); /*OLDER METHOD USED TO BE stopListeningAndProceedToNext();*/
+                      resolve("pass");
+                      playTheSecondDingOnly = true;
+
+                      //OLDER METHOD USED TO BE stopListeningAndProceedToNext();
                     }
                   } else {
                     // Prevent a possible second firing (or any further firings) of stopListeningAndProceedToNext by doing nothing
@@ -101,7 +118,10 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
 
         if (withinThisTimeLimit) {
           parent.console.log("Correct answer is expected before countdown completes in "+withinThisTimeLimit+"ms");
-          new SuperTimeout(function () { notificationDingTone.unload(); resolve("fail"); }, withinThisTimeLimit);
+          new SuperTimeout(function () {
+            resolve("fail");
+            playTheSecondDingOnly = true;
+          }, withinThisTimeLimit);
         }
 
         if (beforeThisManyRetriesHappen) {
@@ -113,8 +133,8 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
                 // CANCEL: For lesson 134 reject used to trigger the .finally() by which stopSpeechRecognitionSession will abort annyang
                 // parent.numberOfStartsAndRestartsRegardlessOfAudioInput will be reset back to 0 as abort fires in annyang.js
                 parent.annyang.getSpeechRecognizer().onaudioend = null; // Remove the event listener
-                notificationDingTone.unload();
                 resolve("fail");
+                playTheSecondDingOnly = true;
               }
             };
           }
