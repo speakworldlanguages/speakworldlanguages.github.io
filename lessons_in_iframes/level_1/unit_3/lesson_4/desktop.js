@@ -81,13 +81,18 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
       }
 
       // Let speechRecognition session either resolve or reject
-      seeIfUserIsAbleToPronounce(eachWordArray,recognitionFailTime).then(flipThatCardNow).catch(letTheCardGoBackToItsNormalState).finally(stopSpeechRecognitionSession); // See js_for_speech_recognition_algorithm
+      seeIfUserIsAbleToPronounce(eachWordArray,recognitionFailTime).then((response) => { _check(response); }).catch((error) => { console.error(error); }); // See js_for_speech_recognition_algorithm
       // Display countdown timer :: simulated hourglass
 
 
 
 
-      // Do these if it resolves
+      function _check(passOrFail) {
+        if (passOrFail == "pass") { flipThatCardNow(); }
+        else { letTheCardGoBackToItsNormalState();     }
+        stopSpeechRecognitionSession();
+      }
+      // Do these if it resolves with "pass"
       function flipThatCardNow() {
         if (!theCardThatIsAlreadyFlipped) { // Such a card doesn't exist
           whenCorrectColorIsUtteredForThe_FIRST_Card(card,zIndexReversion);
@@ -95,7 +100,7 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
           whenCorrectColorIsUtteredForThe_SECOND_Card(card,zIndexReversion);
         }
       }
-      // Do these if it rejects
+      // Do these if it resolves with "fail"
       function letTheCardGoBackToItsNormalState() {
         failSound.play();
         // Reset the card without flipping it
@@ -110,7 +115,12 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
               element.addEventListener("mousemove",addClassWhenHovered); // ENHANCING UX by combining mouseenter+mousemove
               element.addEventListener("mouseleave",removeClassWhenUnhovered);
               element.addEventListener("mousedown", niceClick,{once:true});
-              console.log("mouse events are restored for all except" + theCardThatIsAlreadyFlipped.id);
+              if (theCardThatIsAlreadyFlipped) {
+                console.log("mouse events are restored for all except" + theCardThatIsAlreadyFlipped.id);
+              } else {
+                console.log("mouse events are restored for all cards without any exceptions");
+              }
+
             }
           });
         };

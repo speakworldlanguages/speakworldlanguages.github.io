@@ -136,17 +136,22 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
 
       // Let speechRecognition session either resolve or reject
       if (isAndroid) { // Apply no time limit but a retry limit
-        seeIfUserIsAbleToPronounce(eachWordArray,null,2).then(flipThatCardNow).catch(letTheCardGoBackToItsNormalState).finally(stopSpeechRecognitionSession); // See js_for_speech_recognition_algorithm
+        seeIfUserIsAbleToPronounce(eachWordArray,null,2).then((response) => { _check(response); }).catch((error) => { console.error(error); }); // See js_for_speech_recognition_algorithm
         // Visual indication already exists for Android » See annyang.js onstart onend » See js_for_different_browsers_and_devices microphoneOnOffVisualIndicator
       } else { // iOS (probably) // Apply time limit similar to desktop
-        seeIfUserIsAbleToPronounce(eachWordArray,recognitionFailTime).then(flipThatCardNow).catch(letTheCardGoBackToItsNormalState).finally(stopSpeechRecognitionSession); // See js_for_speech_recognition_algorithm
+        seeIfUserIsAbleToPronounce(eachWordArray,recognitionFailTime).then((response) => { _check(response); }).catch((error) => { console.error(error); }); // See js_for_speech_recognition_algorithm
         // Display countdown timer :: simulated hourglass
 
 
 
       }
 
-      // Do these if it resolves
+      function _check(passOrFail) {
+        if (passOrFail == "pass") { flipThatCardNow(); }
+        else { letTheCardGoBackToItsNormalState();     }
+        stopSpeechRecognitionSession();
+      }
+      // Do these if it resolves with "pass"
       function flipThatCardNow() {
         if (!theCardThatIsAlreadyFlipped) { // Such a card doesn't exist
           whenCorrectColorIsUtteredForThe_FIRST_Card(card,zIndexReversion);
@@ -155,7 +160,7 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
           whenCorrectColorIsUtteredForThe_SECOND_Card(card,zIndexReversion); // Will either «not match and fail» or «match and disappear»
         }
       }
-      // Do these if it rejects
+      // Do these if it resolves with "fail"
       function letTheCardGoBackToItsNormalState() {
         failSound.play();
         // Reset the card without flipping it
@@ -172,6 +177,7 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
           touchArea.addEventListener("touchstart",detectFingerHover);
           touchArea.addEventListener("touchmove",detectFingerHover);
           document.addEventListener("touchend",detectFingerRelease);
+          parent.console.log("touch events are restored");
         };
         fullVpDarkBlue.style.animationPlayState = "running"; // The darkening layer disappears
       }

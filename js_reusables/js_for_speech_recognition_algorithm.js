@@ -2,8 +2,12 @@
 // Code written by Manheart Earthman=B. A. Bilgekılınç Topraksoy=土本 智一勇夫剛志
 // UNAUTHORIZED MODIFICATION IS PROHIBITED: You may not change this file without consent
 let aMatchWasFound;
-function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLimit,beforeThisManyRetriesHappen) {
-  return new Promise((resolve, reject) => {
+// Sound player (Howler) exists in the parent html
+// Find soundFileFormat in js_for_all_iframed_lesson_htmls
+const notificationDingTone = new parent.Howl({  src: ["/user_interface/sounds/ding."+soundFileFormat]  });
+
+function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLimit,beforeThisManyRetriesHappen,withoutPlayingTheDING) {
+  return new Promise((resolve, reject) => { // Avoid using reject for timelimit-failures and retry-failures BECAUSE syntax errors also get caught in catch block
       aMatchWasFound = false;
       // Notes about handling non-English string characters
       // BULGULAR: toLowerCase() Windows'ta büyük Ş yi küçük ş ye çeviriyor ama Mac OS üzerinde çevirmiyor
@@ -16,7 +20,9 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
         // October 2022 UPDATE: Stop using commands object with annyang
         // DEPRECATED parent.annyang.addCommands(commands);
 
-        if (!isAndroid) { // See js_for_different_browsers_and_devices AND js_for_all_iframed_lesson_htmls
+        // Use withoutPlayingTheDING where necessary » As of October2023 it's never used
+        // IDEA: We could replace withoutPlayingTheDING with something like typeOfTheDING to choose from different sounds
+        if (!isAndroid && !withoutPlayingTheDING) { // See js_for_different_browsers_and_devices AND js_for_all_iframed_lesson_htmls
             notificationDingTone.play(); // Android has its native DING tone. So let this DING tone play only on non-Android platforms i.e. desktops and iOS devices.
         }
 
@@ -73,11 +79,11 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
                 }
                 // -
                 if (!aMatchWasFound && searchResult) { // Note that compareAndSeeIfTheAnswerIsCorrect usually fires multiple times
-                  aMatchWasFound = true; // By using this, we make sure that resolve() will fire only and only once
+                  aMatchWasFound = true; // By using this, we make sure that this block will fire only and only once
                   if (parent.annyang.getSpeechRecognizer().interimResults) { parent.console.log("Correct answer detected with interimResults enabled");
-                    setTimeout(function () { resolve(true); /*OLDER METHOD USED TO BE stopListeningAndProceedToNext();*/ }, 250); // Interim results is or can be too quick (especially on Windows)
+                    setTimeout(function () { notificationDingTone.unload(); resolve("pass"); /*OLDER METHOD USED TO BE stopListeningAndProceedToNext();*/ }, 250); // Interim results is or can be too quick (especially on Windows)
                   } else { parent.console.log("Correct answer detected without interimResults");
-                    resolve(true); /*OLDER METHOD USED TO BE stopListeningAndProceedToNext();*/
+                    notificationDingTone.unload(); resolve("pass"); /*OLDER METHOD USED TO BE stopListeningAndProceedToNext();*/
                   }
                 } else {
                   // Prevent a possible second firing (or any further firings) of stopListeningAndProceedToNext by doing nothing
@@ -90,20 +96,24 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
 
 
       if (withinThisTimeLimit) {
-        setTimeout(() => {     reject(false); parent.console.log("Correct answer was not detected within "+withinThisTimeLimit+"ms");     }, withinThisTimeLimit); // Reject the Promise
+        parent.console.log("Correct answer is expected before countdown completes in "+withinThisTimeLimit+"ms");
+        new SuperTimeout(function () { notificationDingTone.unload(); resolve("fail"); }, withinThisTimeLimit);
       }
 
       if (beforeThisManyRetriesHappen) {
-        // ??? How do we detect the number of retries ???
-        parent.annyang.getSpeechRecognizer().onaudioend = () => {
-          if (parent.numberOfStartsAndRestartsRegardlessOfAudioInput>=beforeThisManyRetriesHappen) {
-            reject(false); parent.console.log("Correct answer was not detected despite "+beforeThisManyRetriesHappen+" retries");
-            // For lesson 134 reject will trigger the .finally() by which stopSpeechRecognitionSession will abort annyang
-            // parent.numberOfStartsAndRestartsRegardlessOfAudioInput will be reset back to 0 as abort fires in annyang.js
-            parent.annyang.getSpeechRecognizer().onaudioend = null; // Remove the event listener
-          }
-        };
-
+        parent.console.log("Correct answer is expected in a maximum of "+beforeThisManyRetriesHappen+" retries");
+        if (parent.annyang) {
+          parent.annyang.getSpeechRecognizer().onaudioend = () => {
+            if (parent.numberOfStartsAndRestartsRegardlessOfAudioInput>=beforeThisManyRetriesHappen) {
+              parent.console.log("Correct answer was not detected despite "+beforeThisManyRetriesHappen+" retries");
+              // CANCEL: For lesson 134 reject used to trigger the .finally() by which stopSpeechRecognitionSession will abort annyang
+              // parent.numberOfStartsAndRestartsRegardlessOfAudioInput will be reset back to 0 as abort fires in annyang.js
+              parent.annyang.getSpeechRecognizer().onaudioend = null; // Remove the event listener
+              notificationDingTone.unload();
+              resolve("fail");
+            }
+          };
+        }
       }
 
 

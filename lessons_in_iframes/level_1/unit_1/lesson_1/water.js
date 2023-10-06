@@ -27,13 +27,13 @@ const say4say5Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFil
 const say6Path     = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/water_6."+soundFileFormat;
 const say7say8Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/water_7-8."+soundFileFormat;
 
-const whatWaterSoundsLike1_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_1."+soundFileFormat;
-const whatWaterSoundsLike2_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_2."+soundFileFormat;
-const whatWaterSoundsLike3_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_3."+soundFileFormat;
-const whatWaterSoundsLike4_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_4."+soundFileFormat;
-const whatWaterSoundsLike5_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_5."+soundFileFormat;
-const successTone_filePath = "/user_interface/sounds/success1a."+soundFileFormat;
-const notificationDingTone_filePath = "/user_interface/sounds/ding."+soundFileFormat;
+//SHORTEN const whatWaterSoundsLike1_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_1."+soundFileFormat;
+//SHORTEN const whatWaterSoundsLike2_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_2."+soundFileFormat;
+//SHORTEN const whatWaterSoundsLike3_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_3."+soundFileFormat;
+//SHORTEN const whatWaterSoundsLike4_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_4."+soundFileFormat;
+//SHORTEN const whatWaterSoundsLike5_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_5."+soundFileFormat;
+//SHORTEN const successTone_filePath = "/user_interface/sounds/success1a."+soundFileFormat;
+//RELOCATED const notificationDingTone_filePath = "/user_interface/sounds/ding."+soundFileFormat;
 
 const sayAB = new parent.Howl({  src: [say1say2Path]  });
 const sayC  = new parent.Howl({  src: [say3Path]      });
@@ -41,17 +41,17 @@ const sayDE = new parent.Howl({  src: [say4say5Path]  });
 const sayF  = new parent.Howl({  src: [say6Path]      });
 const sayGH = new parent.Howl({  src: [say7say8Path]  });
 
-const whatWaterSoundsLike1 = new parent.Howl({  src: [whatWaterSoundsLike1_filePath]  });
-const whatWaterSoundsLike2 = new parent.Howl({  src: [whatWaterSoundsLike2_filePath]  });
-const whatWaterSoundsLike3 = new parent.Howl({  src: [whatWaterSoundsLike3_filePath]  });
-const whatWaterSoundsLike4 = new parent.Howl({  src: [whatWaterSoundsLike4_filePath]  });
-const whatWaterSoundsLike5 = new parent.Howl({  src: [whatWaterSoundsLike5_filePath]  });
-const successTone = new parent.Howl({  src: [successTone_filePath]  });
-const notificationDingTone = new parent.Howl({  src: [notificationDingTone_filePath]  });
+const whatWaterSoundsLike1 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_1."+soundFileFormat]  });
+const whatWaterSoundsLike2 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_2."+soundFileFormat]  });
+const whatWaterSoundsLike3 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_3."+soundFileFormat]  });
+const whatWaterSoundsLike4 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_4."+soundFileFormat]  });
+const whatWaterSoundsLike5 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_5."+soundFileFormat]  });
+const successTone = new parent.Howl({  src: ["/user_interface/sounds/success1a."+soundFileFormat]  });
+//RELOCATED const notificationDingTone = new parent.Howl({  src: [notificationDingTone_filePath]  });
 /* Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload. */
 // listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
 var listOfAllSoundsInThisLesson = [
-  notificationDingTone,
+  //RELOCATED notificationDingTone,
   //successTone, // EXCEPTION: See unloadThatLastSoundWhichCannotBeUnloadedNormally
   whatWaterSoundsLike5,
   whatWaterSoundsLike4,

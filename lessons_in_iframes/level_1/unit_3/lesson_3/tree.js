@@ -39,11 +39,11 @@ const whatTreeSoundsLike2 = new parent.Howl({  src: ["/lessons_in_iframes/level_
 //4
 //5
 const successTone = new parent.Howl({  src: ["/user_interface/sounds/success1b."+soundFileFormat]  });
-const notificationDingTone = new parent.Howl({  src: ["/user_interface/sounds/ding."+soundFileFormat]  });
+//RELOCATED const notificationDingTone = new parent.Howl({  src: ["/user_interface/sounds/ding."+soundFileFormat]  });
 /* Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload. */
 // listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
 var listOfAllSoundsInThisLesson = [
-  notificationDingTone,
+  //RELOCATED notificationDingTone,
   //successTone, // EXCEPTION: See unloadThatLastSoundWhichCannotBeUnloadedNormally
   whatTreeSoundsLike2,
   whatTreeSoundsLike1,
