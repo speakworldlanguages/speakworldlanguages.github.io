@@ -35,8 +35,9 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
     console.log("z-index when mousedown fired: "+card.parentNode.style.zIndex);
     // Save original zIndex to be able to revert
     const zIndexReversion = card.parentNode.style.zIndex;
-    card.parentNode.style.zIndex = zIndexReversion+"0";
-    console.log("z-index has been changed into: "+card.parentNode.style.zIndex);
+    if (zIndexReversion.endsWith("00")) {  } // Already increased » Do nothing
+    else { card.parentNode.style.zIndex = zIndexReversion+"0"; console.log("z-index has been changed into: "+card.parentNode.style.zIndex); }
+
     fullVpDarkBlue.style.display = "block";
     let appearTime;
     switch (parent.speedAdjustmentSetting) {   case "slow": appearTime = 3; break; case "fast": appearTime = 1; break; default: appearTime = 2;   }
