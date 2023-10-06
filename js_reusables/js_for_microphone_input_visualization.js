@@ -103,7 +103,7 @@ function activateMicrophone() { parent.console.log("activating microphone");
                   worker.postMessage({ data: dataArray, task: 'filterAndCalculate' });
                   // RAF, recursion, loop
                   //if (frameCount % 120 === 0) { parent.console.log("worker response time: " + workerResponseTime.toFixed(1)); } // See onmessage above
-                  if (workerResponseTime>mainThreadRAFPerformance) { // Example: If worker response is more than 16.66 it would be too late when running at 60fps
+                  if (workerResponseTime>mainThreadRAFPerformance) { // Example: If worker response is more (longer) than 16.66 milliseconds it would be too late when running at 60fps
                     // By not updating measureRAFPerformanceStartTime here we reduce the probability of skipping more than 1 frame at a time
                     requestAnimationFrame(function () { requestAnimationFrame(updateAmplitude); }); // Skip a frame
                   } else {
