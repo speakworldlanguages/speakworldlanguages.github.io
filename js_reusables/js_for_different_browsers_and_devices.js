@@ -132,7 +132,7 @@ window.addEventListener('DOMContentLoaded', function(){
       // NOTE: When interimResults are ON, speech recognition throws an error on Samsung Browser, says it has already started.
       // NOTE: Chrome actually DOES NOT throw an error but it looks like it starts later than expected when interimResults are ON.
     } // Override the default value of 100
-    else {console.warn("annyang doesn't exist???");}
+    else {console.warn("SpeechRecognition doesn't exist???");}
   }
 
 

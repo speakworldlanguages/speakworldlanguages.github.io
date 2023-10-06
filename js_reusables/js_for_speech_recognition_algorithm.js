@@ -1,10 +1,10 @@
 "use strict";
 // Code written by Manheart Earthman=B. A. Bilgekılınç Topraksoy=土本 智一勇夫剛志
 // UNAUTHORIZED MODIFICATION IS PROHIBITED: You may not change this file without consent
-
+let aMatchWasFound;
 function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLimit,beforeThisManyRetriesHappen) {
   return new Promise((resolve, reject) => {
-
+      aMatchWasFound = false;
       // Notes about handling non-English string characters
       // BULGULAR: toLowerCase() Windows'ta büyük Ş yi küçük ş ye çeviriyor ama Mac OS üzerinde çevirmiyor
       // Onun yerine toLocaleLowerCase() kullanılırsa büyük I İngilizcedeki gibi küçük i ye dönüşmek yerine küçük ı ya dönüşüyor
@@ -15,16 +15,26 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
       if (parent.annyang) { parent.console.log("Starting speech recognition for: "+anyOneOfTheWordsInThisArray[0]);
         // October 2022 UPDATE: Stop using commands object with annyang
         // DEPRECATED parent.annyang.addCommands(commands);
-        if (!parent.isAndroid) { // See js_for_different_browsers_and_devices
+
+        if (!isAndroid) { // See js_for_different_browsers_and_devices AND js_for_all_iframed_lesson_htmls
             notificationDingTone.play(); // Android has its native DING tone. So let this DING tone play only on non-Android platforms i.e. desktops and iOS devices.
         }
-        if (parent.isAndroid) {
-          if (parent.annyang.isListening()) {      parent.annyang.abort();     } // Try to avoid the «SpeechRecognition is already listening» error
+
+        // Start listening (on Android first check if it is already ON and TURN IT OFF IF IT WAS ON)
+        if (isAndroid && parent.annyang.isListening()) { // UNCERTAIN: Maybe we shouldn't rely on parent.annyang.isListening()
+          parent.annyang.abort(); // Try to avoid the «SpeechRecognition is already listening» error
+          new SuperTimeout(startSpeechRecognition,2000);
           // NOTE_THAT: If mic is idle but is TURNED ON due to previous getUserMedia activity THERE MIGHT still be a problem with starting SpeechRecognition on Android!
+        } else {
+          startSpeechRecognition(); // BETTER START WITHOUT ANY DELAY
         }
-        // Start listening.
-        new SuperTimeout(function() {  parent.annyang.start({ autoRestart: true });  },500); // NOTE: annyang.resume() equals annyang.start()
-        new SuperTimeout(function() {  startAudioInputVisualization();  },2500); // Will work only on devices that can handle it. See js_for_microphone_input_visualization.js
+
+        function startSpeechRecognition() {
+          parent.annyang.start({ autoRestart: true });
+          // NOTE: annyang.resume() equals annyang.start()
+          new SuperTimeout(function() {  startAudioInputVisualization();  },2500); // Will work only on devices that can handle it. See js_for_microphone_input_visualization.js
+        }
+
         // New method of detecting matches
         parent.annyang.addCallback('result', compareAndSeeIfTheAnswerIsCorrect);
         function compareAndSeeIfTheAnswerIsCorrect(phrasesArray) {
@@ -62,12 +72,12 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
                   // In that case we show a prompt like "It's OK to skip" » See annyang.js numberOfRestartsDespiteDetectionOfAudioInput » See /user_interface/text/??/0-if_something_is_not_working.txt
                 }
                 // -
-                if (!aMatchWasFound && searchResult) {
-                  aMatchWasFound = true; // By using this, we make sure that stopListeningAndProceedToNext will fire only and only once
+                if (!aMatchWasFound && searchResult) { // Note that compareAndSeeIfTheAnswerIsCorrect usually fires multiple times
+                  aMatchWasFound = true; // By using this, we make sure that resolve() will fire only and only once
                   if (parent.annyang.getSpeechRecognizer().interimResults) { parent.console.log("Correct answer detected with interimResults enabled");
-                    setTimeout(function () { resolve(true); /*stopListeningAndProceedToNext();*/ }, 250); // Interim results is or can be too quick (especially on Windows)
+                    setTimeout(function () { resolve(true); /*OLDER METHOD USED TO BE stopListeningAndProceedToNext();*/ }, 250); // Interim results is or can be too quick (especially on Windows)
                   } else { parent.console.log("Correct answer detected without interimResults");
-                    resolve(true); /*stopListeningAndProceedToNext();*/
+                    resolve(true); /*OLDER METHOD USED TO BE stopListeningAndProceedToNext();*/
                   }
                 } else {
                   // Prevent a possible second firing (or any further firings) of stopListeningAndProceedToNext by doing nothing

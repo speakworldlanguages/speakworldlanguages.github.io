@@ -194,6 +194,9 @@ var numberOfStartsAndRestartsRegardlessOfAudioInput = 0; // ON ANDROID we make t
         // Custom code for speakworldlanguages.app
         if (isAndroid && microphoneOnOffVisualIndicator) { // See js_for_different_browsers_and_devices
           document.body.appendChild(microphoneOnOffVisualIndicator);
+
+          // WARNING: On Android there seems to be a time gap after onstart fires where Speech Recognition HAS NOT ACTUALLY started !!!
+
         }
         // Count the number of all starts
         numberOfStartsAndRestartsRegardlessOfAudioInput++;

@@ -310,7 +310,7 @@ function showSinglesOneByOne() {
 /* ___SPEECH RECOGNITION___ */
 var userHasGivenUp = false;
 var preventGiveUpButtonIfSuccessHappens;
-let aMatchWasFound = false;
+
 function speakToTheMic() {
 
   new SuperTimeout(function () {
@@ -333,7 +333,7 @@ function speakToTheMic() {
   }
 
 
-  
+
 /* RELOCATED
   if (parent.annyang) { parent.console.log("Starting speech recognition for: "+eachWordArray[0]);
 

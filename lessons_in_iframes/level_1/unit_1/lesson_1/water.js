@@ -125,7 +125,7 @@ function loadingIsCompleteFunction()
     startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_all_iframed_lesson_htmls.js
   }
   //--- By the way: Get the android-speech-timing-notification text ready
-  if (parent.isAndroid) {
+  if (isAndroid) { // See js_for_different_browsers_and_devices AND js_for_all_iframed_lesson_htmls
     const pathOfNotificationAboutAndroidTiming = "/user_interface/text/"+userInterfaceLanguage+"/0lesson-android_speech_timing.txt";
     setTimeout(function () {
       // Will show for all languages but only on Android
@@ -285,7 +285,7 @@ function goFromCDtoEF() {
   // ---
   new SuperTimeout(function () {
     // Special situation for Android users when viewing the first lesson (water.js)
-    if (parent.isAndroid && androidSpeechTimingInfoTxt) { // User's device is Android and fetch has successfully got the text from file
+    if (isAndroid && androidSpeechTimingInfoTxt) { // User's device is Android and fetch has successfully got the text from file
       putNotificationTxtIntoThisP2.innerHTML = androidSpeechTimingInfoTxt;
       createAndHandleInfoBoxType1AmidLesson(); // continueLesson() will be fired from within -> See js_for_info_boxes_in_lessons
     } else { // Either not Android or a mishap of 0.01% chance occured and fetch couldn't get the txt file
@@ -354,7 +354,7 @@ function showSinglesOneByOne() {
 /* ___SPEECH RECOGNITION___ */
 var userHasGivenUp = false;
 var preventGiveUpButtonIfSuccessHappens;
-let aMatchWasFound = false;
+
 function speakToTheMic() {
 
   new SuperTimeout(function () {
