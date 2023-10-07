@@ -29,7 +29,7 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
           // October 2022 UPDATE: Stop using commands object with annyang
           // DEPRECATED parent.annyang.addCommands(commands);
 
-          // Use withoutPlayingTheDING where necessary » As of October2023 it's never used
+          // Use withoutPlayingTheDING where necessary » As of October2023 it has never been used
           // IDEA: We could replace withoutPlayingTheDING with something like typeOfTheDING to choose from different sounds
           if (!isAndroid && !withoutPlayingTheDING) { // See js_for_different_browsers_and_devices AND js_for_all_iframed_lesson_htmls
               // Android has its native DING tone. So let this DING tone play only on non-Android platforms i.e. desktops and iOS devices.
@@ -42,7 +42,7 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
 
           // Start listening (on Android first check if it is already ON and TURN IT OFF IF IT WAS ON)
           if (isAndroid && parent.annyang.isListening()) { // UNCERTAIN: Maybe we shouldn't rely on parent.annyang.isListening()
-            parent.console.warn("ON ANDROID: annyang was already listening » Check js_for_speech_recognition_algorithm");
+            parent.console.warn("ON ANDROID: annyang was already listening » Inspect: Find what started it before js_for_speech_recognition_algorithm");
             parent.annyang.abort(); // Try to avoid the «SpeechRecognition is already listening» error
             new SuperTimeout(startSpeechRecognition,2000);
             // NOTE_THAT: If mic is idle but is TURNED ON due to previous getUserMedia activity THERE MIGHT still be a problem with starting SpeechRecognition on Android!
