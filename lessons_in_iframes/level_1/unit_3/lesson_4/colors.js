@@ -408,8 +408,11 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
             new SuperTimeout(function(){ fullVpDarkBlue.style.animationPlayState = "paused"; }, appearTime*1000); // Paused at halfway » 2000ms at default speed
             // Safety overkill
             setTimeout(function () {
-              if (!fireWorksHaveSuccessfullyMade_exitLesson_fire) {     exitLesson(true);     } // true will make it exit asap
-            }, 15000);
+              if (!fireWorksHaveSuccessfullyMade_exitLesson_fire) {
+                parent.console.warn("Proceeding to the next lesson with timeout instead of explosion detection");
+                exitLesson(true); // true will make it exit asap
+              }
+            }, 25000);
           }
         }
         // ---
