@@ -436,6 +436,8 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
         // IN CASE: onchange isn't really supported (like Safari 16.x), we start a setInterval before the prompt appears and as a result it doesn't matter if its ticking is paused by the permission box or not.
         // BUT: On Samsung Browser onchange works fine so we don't use the setInterval » so better try calling annyang.abort() shortly after onchange fires
         // SEE: proceedAccordingToUsersChoiceAboutMicPermission() function above
+        // NEW fullscreening POLICY in October2023: We do not allow going fullscreen before the native [Allow microphone] dialog-box receives affirmative response from the user
+        // LET'S: Leave the isSamsungBrowser functional here even though the new policy makes it obsolete
         if (isSamsungBrowser || false || false) { // In Samsung Browser the [Would you like to allow] prompt gets hidden under the fullscreened document element
           if (hasGoneFullscreen) { // To reveal the prompt we have to exit fullscreen temporarily in Samsung Browser
             console.warn("Unblocking the permission prompt in Samsung Browser");
@@ -444,7 +446,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
           // Samsung Browser throws an error -> Failed to execute 'start' on 'SpeechRecognition', recognition has already started.
           // Chrome on Android can function with interimResults but it looks like it causes a delay with annyang.start
           // DEPRECATED » console.warn("SAMSUNG BROWSER: Will now turn off interim results to avoid already started error");
-          // DECISION: Disable interimResults on Android entirely
+          // FINAL DECISION: Disable interimResults on Android entirely
         }
         // ---
         setTimeout(function () {  handleMicFirstTurnOn();  annyang.start({ autoRestart: false });  },1750); // This will make the prompt box appear for allowing microphone usage
