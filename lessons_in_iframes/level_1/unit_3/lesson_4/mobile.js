@@ -3,10 +3,7 @@
 // UNAUTHORIZED MODIFICATION IS PROHIBITED: You may not change this file without consent
 let elementFromPoint = null;
 let lastHoveredElement = null;
-// let whatShallNotRespondToTouchesAnymore = null; // Unnecessary logic tangling???
 function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
-
-  //whatShallNotRespondToTouchesAnymore = theCardThatIsAlreadyFlipped;
 
   parent.console.log("«*----Activating touch controls----*»");
 
@@ -22,11 +19,24 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
     let touch = event.touches[0];
     elementFromPoint = document.elementFromPoint(touch.clientX, touch.clientY); // DON'T NEED: touch.pageX - window.pageXOffset, touch.pageY - window.pageYOffset // because there is no scrolling in window or body
     // Note that elementFromPoint will not be null anymore
-    //if (elementFromPoint === whatShallNotRespondToTouchesAnymore) { return; } // Break function execution and quit if finger is over a card that is already flipped
+
+    // Simulation of touchleave like mouseleave
+    if (lastHoveredElement) {
+      if (lastHoveredElement !== elementFromPoint) {
+        if (lastHoveredElement.classList.contains("whenFingerIsOnIt")) { // theCardThatIsAlreadyFlipped DOES NOT HAVE whenFingerIsOnIt » it only has whenItIsTouched applied and colorCardFlipMobile applied
+          lastHoveredElement.classList.remove("whenFingerIsOnIt");
+          lastHoveredElement.classList.add("whenFingerIsOffIt"); // SIMULATE TOUCHLEAVE - Will it work without RAF? Yes, it does.
+        }
+        else {   } // Already unhovered » do nothing
+      }
+    }
+    lastHoveredElement = elementFromPoint;
+
+    // mouseenter shall not work on a card that is already flipped
     if (elementFromPoint === theCardThatIsAlreadyFlipped) { return; } // Break function execution and quit if finger is over a card that is already flipped
 
 
-    // Simulation of mouseenter
+    // Simulation of touchenter like mouseenter
     if (elementFromPoint.classList.contains("containerForRoundedColorCards")) {
       if (elementFromPoint.classList.contains("whenFingerIsOnIt"))      { } // Already hovered » do nothing
       else {
@@ -38,25 +48,15 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
       // parent.console.log("That which is touched is not a color card");
     }
 
-    // Simulation of mouseleave
-    if (lastHoveredElement) {
-      if (lastHoveredElement !== elementFromPoint) {
-        if (lastHoveredElement.classList.contains("whenFingerIsOnIt")) {
-          lastHoveredElement.classList.remove("whenFingerIsOnIt");
-          lastHoveredElement.classList.add("whenFingerIsOffIt"); // SIMULATE TOUCHLEAVE - Will it work without RAF? Yes, it does.
-        }
-        else {   } // Already unhovered » do nothing
-      }
-    }
-    lastHoveredElement = elementFromPoint;
+
   }
 
   function detectFingerRelease(event) { // event.preventDefault(); event.stopPropagation(); // Looks like we don't need to preventDefault or stopPropagation
     // parent.console.log("Touch END detected"); // Works but touch.clientX touch.clientY had some weird inaccuracy due to an unknown reason
     lastHoveredElement = null;
     // Detect which card was chosen without touch.clientX touch.clientY
-    if (theCardThatIsAlreadyFlipped/*whatShallNotRespondToTouchesAnymore*/) { // There exists one card that is already flipped
-      if (elementFromPoint !== theCardThatIsAlreadyFlipped/*whatShallNotRespondToTouchesAnymore*/) { // And it is not the one that was previously flipped
+    if (theCardThatIsAlreadyFlipped) { // There exists one card that is already flipped
+      if (elementFromPoint !== theCardThatIsAlreadyFlipped) { // And it is not the one that was previously flipped
         checkIfReleaseHappenedOnACard();
       } else {
         // Ignore it if user touched and released finger on a card that is already flipped
@@ -78,13 +78,11 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
 
           whatToDoWithTheChosenCard(elementFromPoint);
 
-          // If the chosen card is the first one of two, then we make it invisible to touches ... until???
-          // NO NEED TO USE whatShallNotRespondToTouchesAnymore AS LONG AS theCardThatIsAlreadyFlipped IS DEFINED, no???
-          // if (!theCardThatIsAlreadyFlipped) {  whatShallNotRespondToTouchesAnymore = elementFromPoint;  }
+          // If the chosen card is the first one of two, then we make it NOT RESPOND to touches ... until???
           // Until
           // A-) Speech Recog fails to detect the name of the color and THAT ONE CARD is reset
           // B-) Two cards don't match and the game is reset
-          // C-)
+          // C-) ?
         }
       }
     }
@@ -93,7 +91,7 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
   function whatToDoWithTheChosenCard(card) { //event.preventDefault(); event.stopPropagation();
     parent.console.log("The chosen card was: " + card.id);
     mouseDownTouchEndSound.play();
-    // IMPOSSIBLE CASE: In desktop.js we asked: WHAT IF NEITHER ???mouseenter??? NOR ???mousemove??? HAPPENED SO FAR » Handle that one too
+    // AT THIS POINT: It is certain that whenFingerIsOnIt is removed
     // AT THIS POINT: It is uncertain if whenFingerIsOffIt is removed or not » Maybe it is and maybe it isn't
     card.classList.remove("whenFingerIsOffIt"); // We make sure it is removed now so that the animation will play when added by letTheCardGoBackToItsNormalState, see below
     card.classList.add("whenItIsTouched"); // Stops where transform is set to scale(1.12) » Completes in 250ms
@@ -169,20 +167,11 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
         if (!theCardThatIsAlreadyFlipped) { // Now it's time to flip the first one of the two cards
           whenCorrectColorIsUtteredForThe_FIRST_Card(card,zIndexReversion);
         } else { // Now it's time to flip the second one of the two cards and then check if they match
-          //Not necessary, no? whatShallNotRespondToTouchesAnymore = null; // Let all visible cards be touchable&selectable
           whenCorrectColorIsUtteredForThe_SECOND_Card(card,zIndexReversion); // Will either «not match and fail» or «match and disappear»
         }
       }
       // Do these if it resolves with "fail"
       function letTheCardGoBackToItsNormalState() {
-        // Not necessary, no? whatShallNotRespondToTouchesAnymore = null; // DOES THIS WORK ? ? ?
-        /* Logic tangling - Not necessary, no?
-        if (!theCardThatIsAlreadyFlipped) { // The first one of the two cards won't be flipped » Let it become touchable again
-          whatShallNotRespondToTouchesAnymore = null; // Let all visible cards be touchable&selectable
-        } else { // The second one of the two cards won't be flipped » Let it become touchable again
-          whatShallNotRespondToTouchesAnymore = null; // Let all visible cards be touchable&selectable
-        }
-        */
         // -
         failSound.play();
         // Reset the card without flipping it
@@ -195,7 +184,7 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
         fullVpDarkBlue.onanimationend = () => {
           // Revert zIndex
           card.parentNode.style.zIndex = zIndexReversion;
-          card.classList.remove("whenFingerIsOffIt");
+          card.classList.remove("whenFingerIsOffIt"); // Reset for the next touch
 
           fullVpDarkBlue.classList.remove("darkenLightenBackground"); // Clean up and get ready to restart
           // Restore the event listeners

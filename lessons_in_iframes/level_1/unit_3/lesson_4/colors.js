@@ -274,7 +274,7 @@ function whenCorrectColorIsUtteredForThe_FIRST_Card(theChosenCard,saveThis_zInde
   turnSound.play();
   if (deviceDetector.isMobile) { // Phones and tablets
     // whenItIsTouched is added at this point but we don't want to remove it yet because of border-width and outline-width
-    // theChosenCard.classList.remove("whenItIsTouched"); // transform scale is 1.12 at this point
+    // Due to whenItIsTouched, the transform scale is 1.12 at this point
     theChosenCard.classList.add("colorCardFlipMobile"); // Is applied to the card that has » containerForRoundedColorCards
     // colorCardFlipMobile picks transform scale from the same final value in whenItIsTouched that is 1.12 » Completes in 1600ms without changing scale
   } else { // Desktops
