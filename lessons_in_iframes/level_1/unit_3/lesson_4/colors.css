@@ -72,7 +72,7 @@ canvas {
   position: absolute;
   left: calc(50% - 90px);
   top: calc(50% - 90px);
-  transform: translateX(0vw) translateY(0vh);
+  transform: translateX(0vw) translateY(0vh); /*rotateY(45deg)*/
   transition-property: left, top, transform;
   transition-duration: 0.6s,0.6s,0.6s;
   transition-timing-function: ease-out;
@@ -99,19 +99,17 @@ canvas {
   background-repeat: no-repeat;
 }
 
-/*
+/*Use flat fill colors in case avif files could not be loaded - Tested, it works*/
 #white{background-color: white;}
 #green{background-color: green;}
 #blue{background-color: blue;}
 #yellow{background-color: yellow;}
 #red{background-color: red;}
 #black{background-color: black;}
-*/
+
 
 /* backface-visibility: hidden; */
-
 /* display: flex; align-items: center; justify-content: center; */
-
 /* transform-style: preserve-3d; */
 
 .theCardsBackFace{
