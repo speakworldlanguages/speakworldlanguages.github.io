@@ -269,7 +269,8 @@ function bringTheGameToTheScene() {
 let theFirstChoice = null;
 let original_zIndex1 = null;
 var listOfSuccessfulPronunciations = [];
-let remainingPieces = 6;
+// let remainingPieces = 6; // Using an array to perform specific checklist is more reliable than counting vague numbers in terms of getting bugproof
+let listOfRemainingCards = ["white","green","blue","yellow","red","black"];
 function whenCorrectColorIsUtteredForThe_FIRST_Card(theChosenCard,saveThis_zIndex1) {
   turnSound.play();
   if (deviceDetector.isMobile) { // Phones and tablets
@@ -297,9 +298,12 @@ function whenCorrectColorIsUtteredForThe_FIRST_Card(theChosenCard,saveThis_zInde
       } else { // Desktops
         acceptAndHandleMouseClicks(theChosenCard); // See desktop.js
       }
+      // IMPORTANT: Make sure this block is run only and only once by removing the event listener
+      fullVpDarkBlue.onanimationend = null; // BUGPROOFING: Prevent misfiring multiple times
     };
     fullVpDarkBlue.style.animationPlayState = "running"; // The darkening layer disappears
-  });
+
+  },{once:true});
 }
 function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertToThis_zIndex2) {
   turnSound.play();
@@ -358,18 +362,40 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
 
         // No need to remove appearAtFiftyPercent as it will be hidden and will never reapear in this session
 
+        // DANGER! During tests onanimationend fired multiple times due to buggy browser behavior
         theFirstChoice.onanimationend = () => {
           parent.console.log("Setting visibility of the TWO solved pieces to hidden");
           theFirstChoice.parentNode.style.visibility = "hidden"; // To avoid errors we do not change the DOM with something like divElement.remove() here
           theOtherChosenCard.parentNode.style.visibility = "hidden"; // To avoid errors we do not change the DOM with something like divElement.remove() here
-          remainingPieces -= 2;
+          // remainingPieces -= 2; // Use array and perform checklisting to get bugproof
+          parent.console.log("Checklist: " + listOfRemainingCards);
+          let indexA = listOfRemainingCards.indexOf(theFirstChoice.id);
+          if (indexA !== -1) {
+              listOfRemainingCards.splice(indexA, 1); // Remove the item if it exists in the array
+              parent.console.log(theFirstChoice.id + " has been removed from the array.");
+          } else {
+              parent.console.warn(theFirstChoice.id + " is not in the array ???"); // This should be impossible
+          }
+          // -
+          let indexB = listOfRemainingCards.indexOf(theOtherChosenCard.id);
+          if (indexB !== -1) {
+              listOfRemainingCards.splice(indexB, 1); // Remove the item if it exists in the array
+              parent.console.log(theOtherChosenCard.id + " has been removed from the array.");
+          } else {
+              parent.console.warn(theOtherChosenCard.id + " is not in the array ???"); // This should be impossible
+          }
+          // -
+          parent.console.log("Remaining cards are "+listOfRemainingCards);
           checkForWin();
+          // IMPORTANT: Make sure this block is run only and only once by removing the event listener
+          theFirstChoice.onanimationend = null; // BUGPROOFING: Prevent misfiring multiple times
         };
         // --
         function checkForWin() {
-          if (remainingPieces) { // Either 4 or 2 pieces left
-            parent.console.log("There are "+remainingPieces+" unmatched pieces left");
-            if (remainingPieces == 2) { // No need to shuffle as there are only two cards left
+          if (/*remainingPieces*/listOfRemainingCards.length) { // Either 4 or 2 pieces left
+            // parent.console.log("There are "+remainingPieces+" unmatched pieces left");
+            parent.console.log("There are "+listOfRemainingCards.length+" unmatched pieces left");
+            if (/*remainingPieces*/listOfRemainingCards.length == 2) { // No need to shuffle as there are only two cards left
               //---
               if (deviceDetector.isMobile) { acceptAndHandleScreenTouches(); } // See mobile.js
               else { acceptAndHandleMouseClicks(); } // See desktop.js
@@ -461,9 +487,11 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
           theOtherChosenCard.firstElementChild.firstElementChild.classList.remove("disappearAtFiftyPercent"); // Ready to restart
         }, 3400); // +400
       }
-    };
+      // BUGPROOFING: Prevent misfiring multiple times
+      fullVpDarkBlue.onanimationend = null; // IMPORTANT: Make sure this block is run only and only once by removing the event listener
+    }; // End of fullVpDarkBlue.onanimationend
     fullVpDarkBlue.style.animationPlayState = "running"; // The darkening layer disappears
-  });
+  },{once:true});
 }
 
 

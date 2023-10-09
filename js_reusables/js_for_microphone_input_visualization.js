@@ -61,7 +61,15 @@ function updateTheStandardAudioMeterDiv(valueObtainedFromWorker) {
   }
 }
 function updateTheUniqueAudiometer(gotThisValueFromWorker) {
-  
+  if (gotThisValueFromWorker<=volumeFloorForSpeech) {
+
+  } else if (gotThisValueFromWorker>volumeFloorForSpeech && gotThisValueFromWorker<volumeCeilingForSpeech) {
+    // Change input range from 0~100 to volumeFloorForSpeech~volumeCeilingForSpeech and set output range as 0~80
+    const valueWithinRange = ((gotThisValueFromWorker - volumeFloorForSpeech)*80)/(volumeCeilingForSpeech-volumeFloorForSpeech);
+
+  } else {
+
+  }
 }
 
 let audioContext = null;
@@ -107,7 +115,7 @@ function activateMicrophone() { parent.console.log("activating microphone");
                   // Calculate the average amplitude from the specified frequency range
                   measureWorkerResponseStartTime = performance.now();
                   worker.postMessage({ data: dataArray, task: 'filterAndCalculate' });
-                  /* not necessary » use if(audioMeterDiv)
+                  /* not necessary » use if(audioMeterDiv) etc
                   if (isUnique) {
                     worker.postMessage({ data: dataArray, task: 'filterAndCalculateForUnique' });
                   } else {

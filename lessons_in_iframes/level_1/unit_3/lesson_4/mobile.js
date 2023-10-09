@@ -199,6 +199,8 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
           touchArea.addEventListener("touchmove",detectFingerHover);
           document.addEventListener("touchend",detectFingerRelease);
           parent.console.log("touch events are restored");
+          // IMPORTANT: To make sure this block is run only and only once, we deactivate the event listener
+          fullVpDarkBlue.onanimationend = null;
         };
         fullVpDarkBlue.style.animationPlayState = "running"; // The darkening layer disappears
       }
