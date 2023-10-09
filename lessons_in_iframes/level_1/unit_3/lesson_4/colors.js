@@ -268,7 +268,7 @@ function bringTheGameToTheScene() {
 
 let theFirstChoice = null;
 let original_zIndex1 = null;
-// let winHappened = false;
+var listOfSuccessfulPronunciations = [];
 let remainingPieces = 6;
 function whenCorrectColorIsUtteredForThe_FIRST_Card(theChosenCard,saveThis_zIndex1) {
   turnSound.play();

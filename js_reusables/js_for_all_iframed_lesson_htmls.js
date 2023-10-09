@@ -257,6 +257,9 @@ window.onbeforeunload = function() {
   if (typeof stopStandardAudioInputVisualization === "function") {
     stopStandardAudioInputVisualization(); // Stop AUDIOMETER and turn off the microphone. See js_for_microphone_input...
   }
+  if (typeof stopUniqueAudioInputVisualization === "function") {
+    stopUniqueAudioInputVisualization(); // Stop AUDIOMETER and turn off the microphone. See js_for_microphone_input...
+  }
   if (typeof unloadTheSoundsOfThisLesson === "function") {
     unloadTheSoundsOfThisLesson(); // Every time defined with a different list in the lesson. See the unique js file of each lesson.
   }

@@ -12,7 +12,7 @@ self.onmessage = function (event) {
   if (task === 'filterAndCalculate') {
     const result = processDataForArray(data);
     self.postMessage({ type: 'dataAvailable', yield: result });
-  } else if (task === 'setStartIndexAndEndIndex') {
+  } else if (task === 'setStartIndexAndEndIndex') { // High-pass Low-pass limits
     const result = data;
     console.log("start index in worker = " + result[0]); // Works OK
     console.log("end index in worker = " + result[1]); // Works OK

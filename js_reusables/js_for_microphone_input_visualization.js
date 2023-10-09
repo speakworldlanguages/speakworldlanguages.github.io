@@ -26,6 +26,9 @@ worker.onmessage = function (event) {
             break;
         case 'dataAvailable':
             if (audioMeterDiv) {  updateTheStandardAudioMeterDiv(message.yield);  }
+            else { // Data will be driving some kind of unique graphics, like 134
+              updateTheUniqueAudiometer(message.yield);
+            }
             break;
         case 'adjust':
             volumeCeilingForSpeech = message.newCeiling;
@@ -57,6 +60,9 @@ function updateTheStandardAudioMeterDiv(valueObtainedFromWorker) {
     audioMeterDiv.style.height = "105vmin";
   }
 }
+function updateTheUniqueAudiometer(gotThisValueFromWorker) {
+  
+}
 
 let audioContext = null;
 let mediaStream = null;
@@ -87,7 +93,7 @@ function activateMicrophone() { parent.console.log("activating microphone");
               parent.console.log("start index in main thread = " + startIndex);
               parent.console.log("end index in main thread = " + endIndex);
               const startAndEnd = [startIndex,endIndex];
-              worker.postMessage({ data: startAndEnd, task: 'setStartIndexAndEndIndex' });
+              worker.postMessage({ data: startAndEnd, task: 'setStartIndexAndEndIndex' }); // High-pass Low-pass limits
               // ---
               requestAnimationFrame(updateAmplitude);
               // ---
@@ -101,6 +107,13 @@ function activateMicrophone() { parent.console.log("activating microphone");
                   // Calculate the average amplitude from the specified frequency range
                   measureWorkerResponseStartTime = performance.now();
                   worker.postMessage({ data: dataArray, task: 'filterAndCalculate' });
+                  /* not necessary » use if(audioMeterDiv)
+                  if (isUnique) {
+                    worker.postMessage({ data: dataArray, task: 'filterAndCalculateForUnique' });
+                  } else {
+                    worker.postMessage({ data: dataArray, task: 'filterAndCalculateForStandard' });
+                  }
+                  */
                   // RAF, recursion, loop
                   //if (frameCount % 120 === 0) { parent.console.log("worker response time: " + workerResponseTime.toFixed(1)); } // See onmessage above
                   if (workerResponseTime>mainThreadRAFPerformance) { // Example: If worker response is more (longer) than 16.66 milliseconds it would be too late when running at 60fps
@@ -122,46 +135,66 @@ function activateMicrophone() { parent.console.log("activating microphone");
 }
 
 // ---
-var audioMeterIsListening = false; // See pauseTheAppFunction in js_for_the_sliding_navigation_menu
+var standardAudiometerIsListening = false; // See pauseTheAppFunction in js_for_the_sliding_navigation_menu
+var uniqueAudiometerIsListening = false; // See pauseTheAppFunction in js_for_the_sliding_navigation_menu
 // According to tests (as of JULY2023) Windows PCs are the only verified type of device that NICELY support simultaneous usage of the device microphone by multiple APIs
 /* ______ Functions to start-stop ______ */
 // These will be called from the particular js files of the particular lessons.
-function startStandardAudioInputVisualization() {
-  if (deviceDetector.device=="desktop" && !isApple) { parent.console.log("proceed to microphone activation");
+function startStandardAudioInputVisualization() { // Called from js_for_the_sliding_navigation_menu & Each standard vocabulary lesson's own js
+  if (deviceDetector.device=="desktop" && !isApple) { parent.console.log("proceed to microphone activation - standard");
     activateMicrophone();
-    audioMeterIsListening = true;
+    standardAudiometerIsListening = true;
     if (audioMeterDiv) {
       audioMeterDiv.style.opacity = "0";
       audioMeterDiv.style.display = "block"; // It's an empty div that contains nothing
       audioMeterDiv.style.animationDelay = "0.5s";
       audioMeterDiv.style.animationDuration = "1.5s";
       audioMeterDiv.classList.add("simplyMakeItAppear"); // simplyMakeItAppear exists in css_for_every_single_html
+    } else {
+      // ACTUALLY: It is possible to handle unique visualization here
     }
   }
 }
 // ---
-function stopStandardAudioInputVisualization() {
+function stopStandardAudioInputVisualization() { // Called from js_for_the_sliding_navigation_menu & js_for_all_iframed_lesson_htmls & Each standard vocabulary lesson's own js
   if (deviceDetector.device=="desktop" && !isApple) {
-    if (audioContext && audioMeterIsListening) {
+    if (audioContext && standardAudiometerIsListening) {
        audioContext.close();
     }
-    if (mediaStream && audioMeterIsListening) {
+    if (mediaStream && standardAudiometerIsListening) {
        mediaStream.getTracks().forEach(track => track.stop());
     }
-    audioMeterIsListening = false;
+    standardAudiometerIsListening = false;
 
     if (audioMeterDiv) {
       audioMeterDiv.classList.remove("simplyMakeItAppear");
       audioMeterDiv.style.animationDelay = "0s";
       audioMeterDiv.classList.add("simplyMakeItDisappear"); // css_for_every_single_html
       setTimeout(function () {  audioMeterDiv.style.display = "none";  }, 1600);
+    } else {
+      // ACTUALLY: It is possible to handle unique visualization here
     }
   }
 }
 
-function startUniqueAudioInputVisualization() {
+function startUniqueAudioInputVisualization() { // Called from js_for_the_sliding_navigation_menu & 134-mobile, 134-desktop
+  if (deviceDetector.device=="desktop" && !isApple) { parent.console.log("proceed to microphone activation - unique");
+    activateMicrophone(); // No need to pass any parameters » Use the absence of audioMeterDiv above » The line is below dataAvailable
+    uniqueAudiometerIsListening = true;
 
+    // Start non standard graphics » Also see updateTheUniqueAudiometer above
+  }
 }
-function stopUniqueAudioInputVisualization() {
+function stopUniqueAudioInputVisualization() { // Called from js_for_the_sliding_navigation_menu & js_for_all_iframed_lesson_htmls & 134-mobile, 134-desktop
+  if (deviceDetector.device=="desktop" && !isApple) {
+    if (audioContext && uniqueAudiometerIsListening) {
+       audioContext.close();
+    }
+    if (mediaStream && uniqueAudiometerIsListening) {
+       mediaStream.getTracks().forEach(track => track.stop());
+    }
+    uniqueAudiometerIsListening = false;
 
+    // Stop non standard graphics
+  }
 }

@@ -35,7 +35,7 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
     console.log("z-index when mousedown fired: "+card.parentNode.style.zIndex);
     // Save original zIndex to be able to revert
     const zIndexReversion = card.parentNode.style.zIndex;
-    /*if (zIndexReversion.endsWith("00")) {  } // Already set » Do not add unnecessary zeros
+    /*Not needed after bugfix: if (zIndexReversion.endsWith("00")) {  } // Already set » Do not add unnecessary zeros
     else {  }*/
     card.parentNode.style.zIndex = zIndexReversion+"0"; console.log("z-index has been changed into: "+card.parentNode.style.zIndex);
     // -
@@ -51,24 +51,32 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
       element.removeEventListener("mousedown", niceClick);
     });
     // ....
-    // Play teacher's voice
-    let sayTime; let recognitionFailTime;
+    // Play teacher's voice if user has never succeeded in saying it so far
+    let sayTime; let listenTime; let recognitionFailTime;
     switch (parent.speedAdjustmentSetting) {
-      case "slow": sayTime = 4000; recognitionFailTime = 15000; break;
-      case "fast": sayTime = 1000; recognitionFailTime = 7500;  break;
-      default:     sayTime = 2500; recognitionFailTime = 10000;
+      case "slow": sayTime = 4000; listenTime = 8000; recognitionFailTime = 15000; break;
+      case "fast": sayTime = 1000; listenTime = 2000; recognitionFailTime = 7500;  break;
+      default:     sayTime = 2500; listenTime = 5000; recognitionFailTime = 10000;
     }
-    new SuperTimeout(function () {
-      switch (card.id) {
-        case "white":  sayWhite2.play();  break;
-        case "green":  sayGreen2.play();  break;
-        case "blue":   sayBlue2.play();   break;
-        case "yellow": sayYellow2.play(); break;
-        case "red":    sayRed2.play();    break;
-        case "black":  sayBlack2.play();  break;
-        default:
-      }
-    }, sayTime);
+    if (listOfSuccessfulPronunciations.includes(card.id)) {
+      // Skipping teacher's say now that user was able to pronounce it at least once » challenge user to re-accomplish, this time without teacher's help
+      listenTime = listenTime/2;
+    } else {
+      new SuperTimeout(function () {
+        switch (card.id) {
+          case "white":  sayWhite2.play();  break;
+          case "green":  sayGreen2.play();  break;
+          case "blue":   sayBlue2.play();   break;
+          case "yellow": sayYellow2.play(); break;
+          case "red":    sayRed2.play();    break;
+          case "black":  sayBlack2.play();  break;
+          default:
+        }
+      }, sayTime);
+    }
+    //-
+
+    //-
     new SuperTimeout(function () {
       // Start speech recognition
       let eachWordArray;
@@ -94,7 +102,7 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
       } else { console.warn('startUniqueAudioInputVisualization function does not exist???'); }
       // ---
       function _check(passOrFail) {
-        if (passOrFail == "pass") { flipThatCardNow(); }
+        if (passOrFail == "pass") { flipThatCardNow(); listOfSuccessfulPronunciations.push(card.id); }
         else { letTheCardGoBackToItsNormalState();     }
         stopSpeechRecognitionSession(); // See below
         // ---
@@ -129,9 +137,9 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
               element.addEventListener("mouseleave",removeClassWhenUnhovered);
               element.addEventListener("mousedown", niceClick,{once:true});
               if (theCardThatIsAlreadyFlipped) {
-                console.log("mouse events are restored for all except" + theCardThatIsAlreadyFlipped.id);
+                console.log("mouse events are restored for all except " + theCardThatIsAlreadyFlipped.id); // Works OK
               } else {
-                console.log("mouse events are restored for all cards without any exceptions");
+                console.log("mouse events are restored for all cards without any exceptions"); // Works OK
               }
 
             }
@@ -149,7 +157,7 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
         }
       }
 
-    }, sayTime*2);
+    }, listenTime);
 
   } // End of nice click
 
