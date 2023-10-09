@@ -8,7 +8,8 @@
 // See js_for_different_browsers_and_devices ... Also see js_for_the_sliding_navigation_menu
 let enterSound;
 let exitSoundIsAlsoTouchStart;
-
+var mobileCanGoFullscreenNow = false; // Set to true as soon as mic permission box is closed » See js_for_different_browsers_and_devices
+if (localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed) {  mobileCanGoFullscreenNow = true;  } // See js_for_different_browsers_and_devices
 var hasGoneFullscreen = false;
 // Go fullscreen by touching anywhere on the screen.
 window.addEventListener("load",function() {
@@ -50,10 +51,10 @@ window.addEventListener("load",function() {
       iFrameDocumentInFullscreenHandling.addEventListener("touchstart", handleTouchSoundBeforeFullscreen);
     }
     function handleTouchForFullscreen() {
-      if (!hasGoneFullscreen){ openFullscreen(); }
+      if (!hasGoneFullscreen && mobileCanGoFullscreenNow){ openFullscreen(); }
       /* IDEA
       // If a tablet screen size is BIG ENOUGH we can leave it without going FULLSCREEN
-      const smallerDimension = Math.min(window.screen.width, window.screen.height);
+      const smallerDimension = Math.min(window.screen.width, window.screen.height); // Better use innerWidth & innerHeight
       // SUSPECTED PROBLEM: Could smallerDimension be different for the parent and the iframe???
       if (smallerDimension<599) { // 650 should be a good threshold value
         if (!hasGoneFullscreen){ openFullscreen(); }
@@ -146,7 +147,7 @@ function rightClickHandlerFunction(event) {
   }
 }
 
-function toggleFullScreen() { console.log("TOGGLED FULLSCREEN MODE");
+function toggleFullScreen() { console.log("TOGGLED FULLSCREEN MODE"); // DESKTOPS ONLY » Mobiles never exit fullscreen unless native back button is used
   if (!hasGoneFullscreen) {
     openFullscreen();
   } else {

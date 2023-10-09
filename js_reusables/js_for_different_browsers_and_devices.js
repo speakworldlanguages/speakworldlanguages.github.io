@@ -186,7 +186,7 @@ window.addEventListener('DOMContentLoaded', function(){
   if ("permissions" in navigator) {
     // According to caniuse
     // Safari 16.0 ~ 16.3 SUPPORT Permissions API without supporting [PermissionStatus change event]
-    // Safari 16.4 has full support with the change event
+    // Safari 16.4 ~ 16.6 appear to have full support with the change event but change event doesn't fire at all
     // Get the current status for mic from the browser
     const micPermissionPromise = navigator.permissions.query({name:'microphone'});
     micPermissionPromise.then(function(result1) { // Handle Windows & Android ...mainly Chrome
@@ -194,6 +194,7 @@ window.addEventListener('DOMContentLoaded', function(){
       // In case PermissionStatus API: change event is NOT SUPPORTED » Instead of onchange, we can check if the permission-state has actually changed with a setInterval and then clearInterval once user's answer is detected.
       if (result1.state == 'granted') {
         willUserTalkToSpeechRecognition = true; // Necessary: In case user is on an unknown browser that supports "Speech Recognition"
+        // -
         console.log("Microphone permission is already set to GRANTED");
       } else if (result1.state == 'denied') {
         willUserTalkToSpeechRecognition = false; // Shorten the waiting time when showing c1 c2 c3 visuals and change the button from SKIP to NEXT
@@ -327,6 +328,9 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                 // This is a very rare case: It can only happen if
                 // 1 - This is a browser that allows microphone usage by default
                 // 2 - Before choosing his first target language user has changed the browser settings to allow microphone
+                // -
+                mobileCanGoFullscreenNow = true; // For a first-time-user whose browser's settings are SOMEHOW already good // See js_for_handling_fullscreen_mode » handleTouchForFullscreen
+                // -
                 console.log("Mic permission was somehow set to GRANTED without a prompt");
                 removeAllowMicrophoneBlinkerForcedly(); // Immediate HARD REMOVE » Never let anything appear
                 setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
@@ -347,7 +351,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
               } finally {
                 if (result2.onchange) {
                   console.log("onchange appears to be supported");
-                  // INDEED: Tested Safari 16.6 and it did not respond to the change when [allow] button was clicked!!!
+                  // INDEED: Tested on MacOS with Safari 16.6 and it did not respond to the change when [allow] button was clicked!!!
                   if (isSafari) { console.log("but this is Safari and it could be lying");
                     changeEventIsSupported = false; // Thankfully: We can still react to user's choice
                   }
@@ -364,17 +368,20 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
               function proceedAccordingToUsersChoiceAboutMicPermission(event) {
                 console.log("User's answer was detected by listening to the CHANGE event");
+                // -
+                // -
                 const newPermissionState = event.target.state;
                 if (newPermissionState === 'granted') {
                   console.log('Microphone permission STATE has CHANGED TO GRANTED.');
                   micPermissionHasChangedToGrantedSound.play(); // See js_for_info_boxes_in_parent for the accompanying sound
                   localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes"; // Prevent all future prompts
+                  mobileCanGoFullscreenNow = true; // For a first-time-user who has just touched|clicked [Allow] // See js_for_handling_fullscreen_mode » handleTouchForFullscreen
                   willUserTalkToSpeechRecognition = true; // Necessary: In case user is on an unknown browser that supports "Speech Recognition"
                 } else if (newPermissionState === 'denied') {
                   console.log('Microphone permission STATE has CHANGED TO DENIED.');
                   willUserTalkToSpeechRecognition = false; // Shorten the waiting time when showing c1 c2 c3 visuals and change the button from SKIP to NEXT
                 } else {
-                  console.log('Microphone permission state has changed, but the user has not made a decision yet???');
+                  console.warn('Microphone permission state has changed, but the user has not made a decision yet???');
                   // Add your logic for handling when the permission state changes but the user hasn't made a decision yet here
                   // Is this ever possible in any browser?
                 }
@@ -469,12 +476,15 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                   if (previousState != currentState) {
                     // Change detected without any event listeners
                     clearInterval(checkInterval);
+                    // -
+                    // -
                     console.log("User's answer was detected by using a setInterval check");
                     if (currentState == 'granted') {
                       micPermissionHasChangedToGrantedSound.play(); // See js_for_info_boxes_in_parent for the accompanying sound
                       willUserTalkToSpeechRecognition = true; // In case user is on an unknown browser that supports "Speech Recognition"
                       console.log("User has chosen OK for microphone");
                       localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes"; // Prevent all future prompts
+                      mobileCanGoFullscreenNow = true; // For a first-time-user who has just touched|clicked [Allow] // See js_for_handling_fullscreen_mode » handleTouchForFullscreen
                     }
                     if (currentState == 'denied') {
                       willUserTalkToSpeechRecognition = false; // Shorten the waiting time when showing c1 c2 c3 visuals and change the button from SKIP to NEXT
