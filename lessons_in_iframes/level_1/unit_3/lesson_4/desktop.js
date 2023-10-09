@@ -94,21 +94,31 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
       seeIfUserIsAbleToPronounce(eachWordArray,recognitionFailTime).then((response) => { _check(response); }).catch((error) => { console.error(error); }); // See js_for_speech_recognition_algorithm
 
 
-      // Display countdown timer :: simulated hourglass
+      // IDEA: Display countdown timer :: simulated hourglass
 
       // ---
-      if (typeof startUniqueAudioInputVisualization === 'function') {
+      /*CANCEL if (typeof startUniqueAudioInputVisualization === 'function') {
         startUniqueAudioInputVisualization(); // See js_for_microphone_input_visualization
-      } else { console.warn('startUniqueAudioInputVisualization function does not exist???'); }
+      } else { console.warn('startUniqueAudioInputVisualization function does not exist???'); }*/
+      if (typeof startStandardAudioInputVisualization === 'function') {
+        startStandardAudioInputVisualization(); // See js_for_microphone_input_visualization
+        driveTheRotationOfThisWithMicVolume = card.parentNode;
+      } else { console.warn('startStandardAudioInputVisualization function does not exist???'); }
       // ---
       function _check(passOrFail) {
         if (passOrFail == "pass") { flipThatCardNow(); listOfSuccessfulPronunciations.push(card.id); }
         else { letTheCardGoBackToItsNormalState();     }
         stopSpeechRecognitionSession(); // See below
         // ---
-        if (typeof stopUniqueAudioInputVisualization === 'function') {
+        /*CANCEL if (typeof stopUniqueAudioInputVisualization === 'function') {
           stopUniqueAudioInputVisualization(); // See js_for_microphone_input_visualization
-        } else { console.warn('stopUniqueAudioInputVisualization function does not exist???'); }
+        } else { console.warn('stopUniqueAudioInputVisualization function does not exist???'); }*/
+        if (typeof stopStandardAudioInputVisualization === 'function') {
+          stopStandardAudioInputVisualization(); // See js_for_microphone_input_visualization
+          // See colors.css » containerForOneOfSixPerfectFitPieces
+          driveTheRotationOfThisWithMicVolume.style.transform = "translateX(0vw) translateY(0vh)" ; // Reset back to initial value so that transitions can work
+          driveTheRotationOfThisWithMicVolume = null;
+        } else { console.warn('stopStandardAudioInputVisualization function does not exist???'); }
       }
       // Do these if it resolves with "pass"
       function flipThatCardNow() {

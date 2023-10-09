@@ -769,14 +769,14 @@ function pauseTheAppFunction(reasonWhy) { // As of September 2023 reasonWhy is e
 
     // STOP AUDIOMETER
     let standardAudiometerWasListeningWhenUserPaused = false;
-    let uniqueAudiometerWasListeningWhenUserPaused = false;
+    // CANCEL let uniqueAudiometerWasListeningWhenUserPaused = false;
     // See js_for_microphone_input_visualization
     if (iFrameWindowInPauseTheAppFunction.standardAudiometerIsListening) {
       iFrameWindowInPauseTheAppFunction.stopStandardAudioInputVisualization(); standardAudiometerWasListeningWhenUserPaused = true;
     }
-    else if (iFrameWindowInPauseTheAppFunction.uniqueAudiometerIsListening) {
+    /* CANCEL else if (iFrameWindowInPauseTheAppFunction.uniqueAudiometerIsListening) {
       iFrameWindowInPauseTheAppFunction.stopUniqueAudioInputVisualization(); uniqueAudiometerWasListeningWhenUserPaused = true;
-    }
+    }*/
     else {
       // DO NOTHING CASE 1: audiometer mic does not exist because it's not used in this lesson
       // DO NOTHING CASE 2: audiometer mic exists but it was not started yet
@@ -847,9 +847,9 @@ function pauseTheAppFunction(reasonWhy) { // As of September 2023 reasonWhy is e
       }
       if (standardAudiometerWasListeningWhenUserPaused) {
         setTimeout(function () { iFrameWindowInPauseTheAppFunction.startStandardAudioInputVisualization(); }, 100);
-      } else if (uniqueAudiometerWasListeningWhenUserPaused) {
+      }/* CANCEL else if (uniqueAudiometerWasListeningWhenUserPaused) {
         setTimeout(function () { iFrameWindowInPauseTheAppFunction.startUniqueAudioInputVisualization(); }, 100);
-      }
+      }*/
 
       // ---
       theAppIsPaused = false;

@@ -17,6 +17,7 @@ let measureWorkerResponseStartTime = 0;
 let measureRAFPerformanceStartTime = 0;
 let workerResponseTime = 0;
 let mainThreadRAFPerformance = 0;
+let errorIsPrintedToConsoleAlready = false;
 worker.onmessage = function (event) {
     workerResponseTime = performance.now() - measureWorkerResponseStartTime; // Calculate response time
     const message = event.data;
@@ -26,8 +27,13 @@ worker.onmessage = function (event) {
             break;
         case 'dataAvailable':
             if (audioMeterDiv) {  updateTheStandardAudioMeterDiv(message.yield);  }
-            else { // Data will be driving some kind of unique graphics, like 134
+            else if (typeof updateUniqueGraphicsWithNumbersRangingFromZeroToTwenty === "function") { // Data will be driving some kind of unique graphics, like 134
               updateTheUniqueAudiometer(message.yield);
+            } else { // Hopefully this will never run
+              if (!errorIsPrintedToConsoleAlready) {
+                parent.console.error("NEITHER audioMeterDiv NOR updateUniqueGraphicsWithNumbersRangingFromZeroToTwenty EXIST ???");
+                errorIsPrintedToConsoleAlready = true;
+              }
             }
             break;
         case 'adjust':
@@ -47,29 +53,30 @@ worker.onerror = function (error) { parent.console.error('Error from web worker:
 const volumeFloorForSpeech = 10; // Will NOT be updated via workers message
 let volumeCeilingForSpeech = 40; // Will be updated via workers message
 function updateTheStandardAudioMeterDiv(valueObtainedFromWorker) {
-  if (valueObtainedFromWorker<=volumeFloorForSpeech) {
+  if (valueObtainedFromWorker<=volumeFloorForSpeech) { // Ignore values between 0 and 10
     audioMeterDiv.style.width = "85vmin"; // Initial values found in css_for_photos_and_videos_teach_a_new_word
     audioMeterDiv.style.height = "85vmin"; // 86 - 1 » border is 1 vmin thick
   } else if (valueObtainedFromWorker>volumeFloorForSpeech && valueObtainedFromWorker<volumeCeilingForSpeech) {
     // Change input range from 0~100 to volumeFloorForSpeech~volumeCeilingForSpeech and set output range as 0~20
     const valueWithinRange = ((valueObtainedFromWorker - volumeFloorForSpeech)*20)/(volumeCeilingForSpeech-volumeFloorForSpeech);
-    audioMeterDiv.style.width = String(85+valueWithinRange)+"vmin";
-    audioMeterDiv.style.height = String(85+valueWithinRange)+"vmin";
+    audioMeterDiv.style.width = (85+valueWithinRange).toFixed(3)+"vmin";
+    audioMeterDiv.style.height = (85+valueWithinRange).toFixed(3)+"vmin";
   } else {
     audioMeterDiv.style.width = "105vmin";
     audioMeterDiv.style.height = "105vmin";
   }
 }
+let whatMicInputDrives;
 function updateTheUniqueAudiometer(gotThisValueFromWorker) {
-  if (gotThisValueFromWorker<=volumeFloorForSpeech) {
-
+  if (gotThisValueFromWorker<=volumeFloorForSpeech) { // Ignore values between 0 and 10
+    whatMicInputDrives = 0; // For 134 start with transform rotateY(0deg)
   } else if (gotThisValueFromWorker>volumeFloorForSpeech && gotThisValueFromWorker<volumeCeilingForSpeech) {
-    // Change input range from 0~100 to volumeFloorForSpeech~volumeCeilingForSpeech and set output range as 0~80
-    const valueWithinRange = ((gotThisValueFromWorker - volumeFloorForSpeech)*80)/(volumeCeilingForSpeech-volumeFloorForSpeech);
-
+    // Change input range from 0~100 to volumeFloorForSpeech~volumeCeilingForSpeech and set output range as 0~20
+    whatMicInputDrives = ((gotThisValueFromWorker - volumeFloorForSpeech)*20)/(volumeCeilingForSpeech-volumeFloorForSpeech);
   } else {
-
+    whatMicInputDrives = 20; // For 134 multiply x4 to set the maximum at transform rotateY(80deg)
   }
+  updateUniqueGraphicsWithNumbersRangingFromZeroToTwenty(whatMicInputDrives); // This function must exist at global level in the lessons own js
 }
 
 let audioContext = null;
@@ -107,6 +114,8 @@ function activateMicrophone() { parent.console.log("activating microphone");
               // ---
               //let frameCount = 0; // Comment out after tests
               function updateAmplitude() {
+                  if (!standardAudiometerIsListening) { parent.console.log("Exiting the RAF loop » no more updates for the audiometer"); return; } // Exit RAF loop
+                  // ---
                   mainThreadRAFPerformance = performance.now() - measureRAFPerformanceStartTime;
                   //frameCount++; // Comment out after tests
                   //if (frameCount % 120 === 0) { parent.console.log("raf frame time: " + mainThreadRAFPerformance.toFixed(1)); }
@@ -115,7 +124,7 @@ function activateMicrophone() { parent.console.log("activating microphone");
                   // Calculate the average amplitude from the specified frequency range
                   measureWorkerResponseStartTime = performance.now();
                   worker.postMessage({ data: dataArray, task: 'filterAndCalculate' });
-                  /* not necessary » use if(audioMeterDiv) etc
+                  /* not necessary » use if(audioMeterDiv) etc after dataAvailable inside worker.onmessage
                   if (isUnique) {
                     worker.postMessage({ data: dataArray, task: 'filterAndCalculateForUnique' });
                   } else {
@@ -144,7 +153,7 @@ function activateMicrophone() { parent.console.log("activating microphone");
 
 // ---
 var standardAudiometerIsListening = false; // See pauseTheAppFunction in js_for_the_sliding_navigation_menu
-var uniqueAudiometerIsListening = false; // See pauseTheAppFunction in js_for_the_sliding_navigation_menu
+// CANCEL var uniqueAudiometerIsListening = false; // See pauseTheAppFunction in js_for_the_sliding_navigation_menu
 // According to tests (as of JULY2023) Windows PCs are the only verified type of device that NICELY support simultaneous usage of the device microphone by multiple APIs
 /* ______ Functions to start-stop ______ */
 // These will be called from the particular js files of the particular lessons.
@@ -185,6 +194,7 @@ function stopStandardAudioInputVisualization() { // Called from js_for_the_slidi
   }
 }
 
+/* CANCEL
 function startUniqueAudioInputVisualization() { // Called from js_for_the_sliding_navigation_menu & 134-mobile, 134-desktop
   if (deviceDetector.device=="desktop" && !isApple) { parent.console.log("proceed to microphone activation - unique");
     activateMicrophone(); // No need to pass any parameters » Use the absence of audioMeterDiv above » The line is below dataAvailable
@@ -193,6 +203,8 @@ function startUniqueAudioInputVisualization() { // Called from js_for_the_slidin
     // Start non standard graphics » Also see updateTheUniqueAudiometer above
   }
 }
+*/
+/* CANCEL
 function stopUniqueAudioInputVisualization() { // Called from js_for_the_sliding_navigation_menu & js_for_all_iframed_lesson_htmls & 134-mobile, 134-desktop
   if (deviceDetector.device=="desktop" && !isApple) {
     if (audioContext && uniqueAudiometerIsListening) {
@@ -206,3 +218,4 @@ function stopUniqueAudioInputVisualization() { // Called from js_for_the_sliding
     // Stop non standard graphics
   }
 }
+*/
