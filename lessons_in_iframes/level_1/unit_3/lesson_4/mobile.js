@@ -53,6 +53,7 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
 
   function detectFingerRelease(event) { // event.preventDefault(); event.stopPropagation(); // Looks like we don't need to preventDefault or stopPropagation
     // parent.console.log("Touch END detected"); // Works but touch.clientX touch.clientY had some weird inaccuracy due to an unknown reason
+    lastHoveredElement = null;
     // Detect which card was chosen without touch.clientX touch.clientY
     if (theCardThatIsAlreadyFlipped/*whatShallNotRespondToTouchesAnymore*/) { // There exists one card that is already flipped
       if (elementFromPoint !== theCardThatIsAlreadyFlipped/*whatShallNotRespondToTouchesAnymore*/) { // And it is not the one that was previously flipped
