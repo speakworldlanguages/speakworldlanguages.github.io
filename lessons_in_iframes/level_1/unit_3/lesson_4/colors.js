@@ -382,7 +382,7 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
           let indexA = listOfRemainingCards.indexOf(theFirstChoice.id);
           if (indexA !== -1) {
               listOfRemainingCards.splice(indexA, 1); // Remove the item if it exists in the array
-              parent.console.log(theFirstChoice.id + " has been removed from the array.");
+              parent.console.log(theFirstChoice.id + " has been removed from the list.");
           } else {
               parent.console.warn(theFirstChoice.id + " is not in the array ???"); // This should be impossible
           }
@@ -390,7 +390,7 @@ function whenCorrectColorIsUtteredForThe_SECOND_Card(theOtherChosenCard,revertTo
           let indexB = listOfRemainingCards.indexOf(theOtherChosenCard.id);
           if (indexB !== -1) {
               listOfRemainingCards.splice(indexB, 1); // Remove the item if it exists in the array
-              parent.console.log(theOtherChosenCard.id + " has been removed from the array.");
+              parent.console.log(theOtherChosenCard.id + " has been removed from the list.");
           } else {
               parent.console.warn(theOtherChosenCard.id + " is not in the array ???"); // This should be impossible
           }
