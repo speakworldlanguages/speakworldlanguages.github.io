@@ -347,19 +347,19 @@ var numberOfStartsAndRestartsRegardlessOfAudioInput = 0; // ON ANDROID we make t
         // SAMSUNG DEVICE KEEPS throwing the error that says
         // Failed to execute 'start' on 'SpeechRecognition': recognition has already started
         try {
-          recognition.abort();
           /*setTimeout(function () { recognition.start(); console.log("Force aborted and then recognition.start() worked"); }, 1000);*/
           recognition.addEventListener("end",()=>{
-            recognition.start(); console.log("Force aborted and then recognition.start() worked");
+            recognition.start(); console.log("After forced abort, recognition.start() worked");
           },{once:true});
-        } catch (e) { console.warn("annyang.js » !!! RETRIED BUT STILL recognition could not start!!!");
+          recognition.abort(); console.log("Force aborted");
+        } catch (e) { console.warn("annyang.js » !!! Tried aborting and restarting BUT STILL recognition could not start!!!");
           try {
             // Change the continuous property and retry
             recognition.continuous = !recognition.continuous;
-            recognition.abort();
             recognition.addEventListener("end",()=>{
               setTimeout(function () { recognition.start(); console.log("After switching «continuous» to "+recognition.continuous+" recognition.start() worked"); }, 1000);
             },{once:true});
+            recognition.abort(); console.log("Force aborted one more time");
           } catch (e) {
             console.error(e); console.warn("Tried switching «continuous» to "+recognition.continuous+" but that didn’t work either");
             alert("Cannot start speech recognition");
