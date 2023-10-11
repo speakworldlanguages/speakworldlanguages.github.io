@@ -11,6 +11,7 @@ var deviceDetector = {device:"desktop",isMobile:false}; // Defaults
 var isApple = false;
 var isSafari = false;
 var isSamsungBrowser = false;
+var isSamsungDevice = false;
 var soundFileFormat = "____";
 var isAndroid = false;
 var isWebViewOnAndroid = false; // Even though it is never used as of August 2023
@@ -63,7 +64,10 @@ window.addEventListener('DOMContentLoaded', function(){
     }
   }
   detectedOS_name = parser.getOS().name.toLowerCase();
-  if (parser.getDevice().vendor) { detectedBrandName = parser.getDevice().vendor.toLowerCase(); }
+  if (parser.getDevice().vendor) {
+    detectedBrandName = parser.getDevice().vendor.toLowerCase();
+    if (detectedBrandName.includes("samsung")) {     isSamsungDevice = true;     }
+  }
   console.log("This is "+detectedBrowserName+" "+detectedBrowserVersion+" on "+detectedOS_name+" running on a device by "+detectedBrandName);
   // Use the same logic from Maarten Belmans deviceDetector » https://github.com/PoeHaH/devicedetector
   if (parser.getDevice().type) { // Check if is available » Otherwise throws an error like: Cannot use toLowerCase with undefined
@@ -437,7 +441,8 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
         // BUT: On Samsung Browser onchange works fine so we don't use the setInterval » so better try calling annyang.abort() shortly after onchange fires
         // SEE: proceedAccordingToUsersChoiceAboutMicPermission() function above
         // NEW fullscreening POLICY in October2023: We do not allow going fullscreen before the native [Allow microphone] dialog-box receives affirmative response from the user
-        // LET'S: Leave the isSamsungBrowser functional here even though the new policy makes it obsolete
+        // The new policy makes it obsolete
+        /*
         if (isSamsungBrowser || false || false) { // In Samsung Browser the [Would you like to allow] prompt gets hidden under the fullscreened document element
           if (hasGoneFullscreen) { // To reveal the prompt we have to exit fullscreen temporarily in Samsung Browser
             console.warn("Unblocking the permission prompt in Samsung Browser");
@@ -448,12 +453,13 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
           // DEPRECATED » console.warn("SAMSUNG BROWSER: Will now turn off interim results to avoid already started error");
           // FINAL DECISION: Disable interimResults on Android entirely
         }
+        */
         // ---
         // !!! MUST TEST iOS DEVICES TO SEE WHICH IS THE BEST METHOD !!!
         // THERE ARE TWO WAYS TO PROMPT AND DISPLAY ALLOW MICROPHONE DIALOG BOX
         // 1- getUserMedia
         // 2- SpeechRecognition
-        if (isSamsungBrowser) {
+        if (isSamsungDevice) {
           if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             setTimeout(function () {
               navigator.mediaDevices.getUserMedia({ audio: true })  // Make the prompt show
@@ -480,7 +486,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
             handleMicFirstTurnOn(); // Detect user's answer even if change event is not supported » Safari
             if (isApple) { setTimeout(function () { annyang.pause(); },5750); } // Pause without turning the mic off and hope that user will choose OK
             else {
-              if (!isSamsungBrowser) {
+              if (!isSamsungDevice) {
                 setTimeout(function () { annyang.abort(); },5750);
                 //setTimeout(function () {   if (annyang.isListening()) { annyang.abort(); }   },9750); // Crazy double safe
                 setTimeout(function () { annyang.abort(); },9750);
