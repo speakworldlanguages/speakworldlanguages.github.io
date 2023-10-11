@@ -449,16 +449,49 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
           // FINAL DECISION: Disable interimResults on Android entirely
         }
         // ---
-        setTimeout(function () {  handleMicFirstTurnOn();  annyang.start({ autoRestart: false });  },1750); // This will make the prompt box appear for allowing microphone usage
+        // !!! MUST TEST iOS DEVICES TO SEE WHICH IS THE BEST METHOD !!!
+        // THERE ARE TWO WAYS TO PROMPT AND DISPLAY ALLOW MICROPHONE DIALOG BOX
+        // 1- getUserMedia
+        // 2- SpeechRecognition
+        if (isSamsungBrowser) {
+          if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            setTimeout(function () {
+              navigator.mediaDevices.getUserMedia({ audio: true })  // Make the prompt show
+                .then(function (stream) {
+                        handleMicFirstTurnOn(); // Detect user's answer even if change event is not supported » Safari
+                        setTimeout(function () {
+                          const tracks = stream.getTracks();
+                          tracks.forEach(track => track.stop());
+                          stream = null; // Release the stream
+                        }, 1000);
+                }) // End of then() block
+                .catch(function (error) {
+                  parent.console.error('Error accessing the microphone:', error);
+                  willUserTalkToSpeechRecognition = false;
+                });
+            }, 1750); // This will make the prompt box appear for allowing microphone usage when this many milliseconds passes after button touch|click
+          } else {
+              parent.console.error('getUserMedia is not supported in this browser.');
+              willUserTalkToSpeechRecognition = false;
+          }
+        } else {
+          setTimeout(function () {
+            annyang.start({ autoRestart: false }); // Make the prompt show
+            handleMicFirstTurnOn(); // Detect user's answer even if change event is not supported » Safari
+            if (isApple) { setTimeout(function () { annyang.pause(); },5750); } // Pause without turning the mic off and hope that user will choose OK
+            else {
+              if (!isSamsungBrowser) {
+                setTimeout(function () { annyang.abort(); },5750);
+                //setTimeout(function () {   if (annyang.isListening()) { annyang.abort(); }   },9750); // Crazy double safe
+                setTimeout(function () { annyang.abort(); },9750);
+              }
+            } // Turn the mic off and hope that user will choose OK
+
+          },1750); // This will make the prompt box appear for allowing microphone usage when this many milliseconds passes after button touch|click
+        }
+        // ---
         // Note that proceedAccordingToUsersChoiceAboutMicPermission will be armed and ready to fire startTeaching() IF AND ONLY IF change event is supported
         function handleMicFirstTurnOn() {
-          // Before the prompt is showing
-          if (isApple) { setTimeout(function () { annyang.pause(); },5750); } // Pause without turning the mic off and hope that user will choose OK
-          else {
-            setTimeout(function () { annyang.abort(); },5750);
-            setTimeout(function () {   if (annyang.isListening()) { annyang.abort(); }   },9750); // Crazy double safe
-          } // Turn the mic off and hope that user will choose OK
-          // -
           // -
           if (changeEventIsSupported) {
             // Do nothing and let proceedAccordingToUsersChoiceAboutMicPermission() react to the user's answer

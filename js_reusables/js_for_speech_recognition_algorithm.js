@@ -41,7 +41,7 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
           }
 
           // Start listening (on Android first check if it is already ON and TURN IT OFF IF IT WAS ON)
-          if (isAndroid && parent.annyang.isListening()) { // UNCERTAIN: Maybe we shouldn't rely on parent.annyang.isListening()
+          if (isAndroid && parent.annyang.isListening()) { // NOTE: During tests we found that parent.annyang.isListening() might return false even if SpeechRecognition is using the microphone
             parent.console.warn("ON ANDROID: annyang was already listening » Inspect: Find what started it before js_for_speech_recognition_algorithm");
             parent.annyang.abort(); // Try to avoid the «SpeechRecognition is already listening» error
             new SuperTimeout(startSpeechRecognition,2000);

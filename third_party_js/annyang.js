@@ -277,11 +277,17 @@ var numberOfStartsAndRestartsRegardlessOfAudioInput = 0; // ON ANDROID we make t
           // ---
           if (timeSinceLastStart < 1500) { // MODIFIED for SWL: Original annyang had different values
             restartTimeout = setTimeout(function () {
-              annyang.start({ paused: pauseListening });
+              if (autoRestart) { // Get crazy double safe: Do not restart if aborted // in case clearTimeout fails to clear the timeout
+                console.log("Restarting SpeechRecognition");
+                annyang.start({ paused: pauseListening });
+              }
             }, 1500 + annyangRestartDelayTime - timeSinceLastStart); // MODIFIED for SWL: Original annyang had different values
           } else {
             restartTimeout = setTimeout(function () {
-              annyang.start({ paused: pauseListening });
+              if (autoRestart) { // Get crazy double safe: Do not restart if aborted // in case clearTimeout fails to clear the timeout
+                console.log("Restarting SpeechRecognition");
+                annyang.start({ paused: pauseListening });
+              }
             }, 0 + annyangRestartDelayTime); // MODIFIED for SWL: Original annyang had different values
           }
         }
@@ -337,8 +343,27 @@ var numberOfStartsAndRestartsRegardlessOfAudioInput = 0; // ON ANDROID we make t
         recognition.start(); console.log("annyang.js » recognition.start() was successful");
       } catch (e) { console.warn("annyang.js » !!! recognition could not start !!!");
         console.error(e); console.warn(e.message);
-        if (debugState) {
-          logMessage(e.message);
+        if (debugState) {          logMessage(e.message);        }
+        // SAMSUNG DEVICE KEEPS throwing the error that says
+        // Failed to execute 'start' on 'SpeechRecognition': recognition has already started
+        try {
+          recognition.abort();
+          /*setTimeout(function () { recognition.start(); console.log("Force aborted and then recognition.start() worked"); }, 1000);*/
+          recognition.addEventListener("end",()=>{
+            recognition.start(); console.log("Force aborted and then recognition.start() worked");
+          },{once:true});
+        } catch (e) { console.warn("annyang.js » !!! RETRIED BUT STILL recognition could not start!!!");
+          try {
+            // Change the continuous property and retry
+            recognition.continuous = !recognition.continuous;
+            recognition.abort();
+            recognition.addEventListener("end",()=>{
+              setTimeout(function () { recognition.start(); console.log("After switching «continuous» to "+recognition.continuous+" recognition.start() worked"); }, 1000);
+            },{once:true});
+          } catch (e) {
+            console.error(e); console.warn("Tried switching «continuous» to "+recognition.continuous+" but that didn’t work either");
+            alert("Cannot start speech recognition");
+          }
         }
       }
     },
