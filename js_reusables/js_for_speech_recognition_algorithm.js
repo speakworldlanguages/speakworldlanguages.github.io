@@ -13,8 +13,16 @@ let playTheSecondDingOnly = false;
 function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLimit,beforeThisManyRetriesHappen,withoutPlayingTheDING) {
   if (!parent.internetConnectivityIsNiceAndUsable) {
     // Display "SpeechRecognition needs internet"
-    alert("💢 📶 💢 📶 💢 📶 💢 📶 💢"); // Show an international alert
+
+    alert("💢 📶 💢 📶 💢"); // Show an international alert
     parent.ayFreym.src = "/progress_chart/index.html"; // Try to navigate to the progress_chart as the last thing to do
+
+    // FOR THE BEST UX:
+    // FORCE-PAUSE THE APP AND DISPLAY: The app will continue when internetConnectivityIsNiceAndUsable again
+    // Use setInterval to check and when connectivity is restored offer the user the option to continue
+    // Also better if the offer is dynamically hidden and unhidden depending on internet connectivity
+    // We may have to create a new type of "The-app-is-paused" box with a button that will be hidden and unhidden depending on internet connectivity
+
   } else {
     return new Promise((resolve, reject) => { // Avoid using reject for timelimit-failures and retry-failures BECAUSE syntax errors also get caught in catch block
         aMatchWasFound = false;

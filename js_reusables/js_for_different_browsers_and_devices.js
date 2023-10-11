@@ -11,7 +11,7 @@ var deviceDetector = {device:"desktop",isMobile:false}; // Defaults
 var isApple = false;
 var isSafari = false;
 var isSamsungBrowser = false;
-var isSamsungDevice = false;
+// var isSamsungDevice = false; // Only Samsung Browser returns the manufacturer as "Samsung". When using Chrome on Samsung it doesn’t work.
 var soundFileFormat = "____";
 var isAndroid = false;
 var isWebViewOnAndroid = false; // Even though it is never used as of August 2023
@@ -66,7 +66,8 @@ window.addEventListener('DOMContentLoaded', function(){
   detectedOS_name = parser.getOS().name.toLowerCase();
   if (parser.getDevice().vendor) {
     detectedBrandName = parser.getDevice().vendor.toLowerCase();
-    if (detectedBrandName.includes("samsung")) {     isSamsungDevice = true;     }
+    // Only Samsung Browser returns the manufacturer as "Samsung". When using Chrome on Samsung it doesn’t work.
+    //if (detectedBrandName.includes("samsung")) {     isSamsungDevice = true;     }
   }
   console.log("This is "+detectedBrowserName+" "+detectedBrowserVersion+" on "+detectedOS_name+" running on a device by "+detectedBrandName);
   // Use the same logic from Maarten Belmans deviceDetector » https://github.com/PoeHaH/devicedetector
@@ -459,7 +460,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
         // THERE ARE TWO WAYS TO PROMPT AND DISPLAY ALLOW MICROPHONE DIALOG BOX
         // 1- getUserMedia
         // 2- SpeechRecognition
-        if (isSamsungDevice) {
+        if (!isApple) {
           if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             setTimeout(function () {
               navigator.mediaDevices.getUserMedia({ audio: true })  // Make the prompt show
@@ -469,6 +470,9 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                           const tracks = stream.getTracks();
                           tracks.forEach(track => track.stop());
                           stream = null; // Release the stream
+                          // CONSIDER: Test and check if the prompt will block the execution of setTimeout and prevent mic-turn-off
+                          // If it does then make sure mic-turn-off is performed (or reperformed) when onchange fires as a result of touching|clicking [ALLOW]
+                          // See proceedAccordingToUsersChoiceAboutMicPermission
                         }, 1000);
                 }) // End of then() block
                 .catch(function (error) {
@@ -484,6 +488,9 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
           setTimeout(function () {
             annyang.start({ autoRestart: false }); // Make the prompt show
             handleMicFirstTurnOn(); // Detect user's answer even if change event is not supported » Safari
+
+            //setTimeout(function () { annyang.pause(); },5750); // annyang.pause() does not turn off the mic » It only prevents .onresult from firing parseResults which then calls invokeCallbacks
+            /*
             if (isApple) { setTimeout(function () { annyang.pause(); },5750); } // Pause without turning the mic off and hope that user will choose OK
             else {
               if (!isSamsungDevice) {
@@ -492,7 +499,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                 setTimeout(function () { annyang.abort(); },9750);
               }
             } // Turn the mic off and hope that user will choose OK
-
+            */
           },1750); // This will make the prompt box appear for allowing microphone usage when this many milliseconds passes after button touch|click
         }
         // ---

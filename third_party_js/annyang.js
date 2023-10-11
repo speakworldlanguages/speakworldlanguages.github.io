@@ -277,14 +277,14 @@ var numberOfStartsAndRestartsRegardlessOfAudioInput = 0; // ON ANDROID we make t
           // ---
           if (timeSinceLastStart < 1500) { // MODIFIED for SWL: Original annyang had different values
             restartTimeout = setTimeout(function () {
-              if (autoRestart) { // Get crazy double safe: Do not restart if aborted // in case clearTimeout fails to clear the timeout
+              if (autoRestart) { // Get double safe: Do not restart if aborted // in case clearTimeout fails to clear the timeout
                 console.log("Restarting SpeechRecognition");
                 annyang.start({ paused: pauseListening });
               }
             }, 1500 + annyangRestartDelayTime - timeSinceLastStart); // MODIFIED for SWL: Original annyang had different values
           } else {
             restartTimeout = setTimeout(function () {
-              if (autoRestart) { // Get crazy double safe: Do not restart if aborted // in case clearTimeout fails to clear the timeout
+              if (autoRestart) { // Get double safe: Do not restart if aborted // in case clearTimeout fails to clear the timeout
                 console.log("Restarting SpeechRecognition");
                 annyang.start({ paused: pauseListening });
               }
