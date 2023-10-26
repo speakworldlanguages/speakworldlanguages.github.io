@@ -102,6 +102,9 @@ async function makeProgressChartOfflineCompatible() {
     "/progress_chart/images/1_3_2_thereexists.webp",
     "/progress_chart/images/1_3_3_tree.webp",
     "/progress_chart/images/1_3_4_palette.webp",
+    "/progress_chart/images/2_1_1_bird.webp",
+
+
     "/progress_chart/images/not_published_yet.webp",
     "/progress_chart/bilinguals.css",
     "/progress_chart/index.html",
@@ -183,10 +186,10 @@ async function cacheCommonJSandCSSfilesForAllLessons() {
     // sounds for progress_chart - OTHER ASSETS FOR progress_chart ARE EXPECTED TO BE UPDATED FREQUENTLY
     "/user_interface/sounds/progress_chart_click."+soundFileFormat,
     "/user_interface/sounds/progress_chart_hover."+soundFileFormat,
-    // CRUCIAL WARNING !!!
-    // There aren't any video webm files here as of August 2023 so it is safe to change all webm file paths to mp3 with an array map (for apple devices)
-    // EXTREMELY IMPORTANT !!!
-    // In case there has to be a video webm here cache it separately, otherwise the app will break when its extension is set to mp3 with the array map function below
+    // DEPRECATED: CRUCIAL WARNING !!!
+    // DEPRECATED: There aren't any video webm files here as of August 2023 so it is safe to change all webm file paths to mp3 with an array map (for apple devices)
+    // DEPRECATED: EXTREMELY IMPORTANT !!!
+    // DEPRECATED: In case there has to be a video webm here cache it separately, otherwise the app will break when its extension is set to mp3 with the array map function below
 
     // fonts
     // ???

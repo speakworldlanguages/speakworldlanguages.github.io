@@ -94,24 +94,25 @@ function startTheLesson()
 {
   let sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": sayTime = 3300; proceedTime = 9500; break;
-    case "fast": sayTime = 1000; proceedTime = 6500; break;
-    default:     sayTime = 2000; proceedTime = 8100;
+    case "slow": sayTime = 10000; proceedTime = 15000; break;
+    case "fast": sayTime = 5000;  proceedTime = 10000; break;
+    default:     sayTime = 7500;  proceedTime = 12500;
   }
-  // No fade time for fx sound
-  // No SFX
-  // No fading away for fx sound
-  new SuperTimeout(function(){ sayAB.play(); }, sayTime); // Assume that teacher will be talking for 5000ms
+  // 12000ms audio fades to silence at the end
+  const delay = 1000;
+  new SuperTimeout(function(){ whatBirdSoundsLike1.play();  }, delay);
+  new SuperTimeout(function(){ whatBirdSoundsLike1.fade(1,0.4,500); }, sayTime - 500 + delay);
+  new SuperTimeout(function(){ sayAB.play(); }, sayTime + delay); // Assume that teacher will be talking for 5000ms
   // No fading back for fx sound
-  new SuperTimeout(function () { blurABandBringVid1OverAB();   /* No fade-to-zero for fx sound */   }, proceedTime); // slow, normal, fast
+  new SuperTimeout(function () { blurABandBringVid1OverAB();   /* No fade-to-zero for fx sound */   }, proceedTime + delay); // slow, normal, fast
 }
 
 function blurABandBringVid1OverAB() {
   let blurTime, startTime, sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": blurTime = 4.60; startTime = 0; sayTime = 7000; proceedTime = 10000;  break; // proceedTime must depend on video length
-    case "fast": blurTime = 2.00; startTime = 2; sayTime = 4500; proceedTime = 7000;   break; // proceedTime must depend on video length
-    default:     blurTime = 3.30; startTime = 1; sayTime = 5500; proceedTime = 9000;   // proceedTime must depend on video length
+    case "slow": blurTime = 4.60; startTime = 0; sayTime = 5500; proceedTime = 12000;  break; // proceedTime must depend on video length
+    case "fast": blurTime = 2.00; startTime = 2; sayTime = 3500; proceedTime = 8000;   break; // proceedTime must depend on video length
+    default:     blurTime = 3.30; startTime = 1; sayTime = 4500; proceedTime = 11000;   // proceedTime must depend on video length
   }
 
   main.style.animationDuration = String(blurTime)+"s"; // Blur+Unblur paused at mid » See css_for_photos_and_videos_teach_a_new_word
@@ -125,7 +126,7 @@ function blurABandBringVid1OverAB() {
   vidsContainer.style.display = "block"; vid1.currentTime = startTime;
   new SuperTimeout(function(){
     vid1.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
-    // whatBirdSoundsLike1.play();
+    // No soundtrack for vid1
     new SuperTimeout(function(){ sayC.play(); }, sayTime);
     new SuperTimeout(function(){ removeVid1AndReturnToAB(); }, proceedTime);
   }, blurTime*500 - 500); // Video will start playing 0.5s before it is unblurred
@@ -153,9 +154,9 @@ function removeVid1AndReturnToAB() {
 function goFromABtoCD() {
   let changeTime, sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": changeTime = 3; sayTime = 3500; proceedTime = 9500;  break;
-    case "fast": changeTime = 1; sayTime = 1500; proceedTime = 6500;  break;
-    default:     changeTime = 2; sayTime = 2800; proceedTime = 8100;
+    case "slow": changeTime = 3; sayTime = 5000; proceedTime = 15000;  break;
+    case "fast": changeTime = 1; sayTime = 3000; proceedTime = 10000;  break;
+    default:     changeTime = 2; sayTime = 4000; proceedTime = 12500;
   }
   // No fade time
   imgA.classList.add("makePhotosDisappear");  imgA.style.animationDuration = String(changeTime)+"s";
@@ -164,20 +165,20 @@ function goFromABtoCD() {
   new SuperTimeout(function(){
     imgC.style.display = "block ";   imgC.classList.add("makePhotosAppear");   imgC.style.animationDuration = String(changeTime)+"s";
     imgD.style.display = "block ";   imgD.classList.add("makePhotosAppear");   imgD.style.animationDuration = String(changeTime)+"s";
-    // No fx sound
-    // No fade time
+    whatBirdSoundsLike2.play(); // 12000ms audio
+    new SuperTimeout(function(){ whatBirdSoundsLike2.fade(1,0.4,500); }, sayTime - 500);
   }, changeTime*500); // Overlap images instead of to-white-from-white
   new SuperTimeout(function(){ sayDE.play(); }, changeTime*500 + sayTime);
-  // No fading back-to-full-volume for fx sound
+  sayDE.once("end", function(){  whatBirdSoundsLike2.fade(0.4,1,500);  }); // Fade back to full volume quickly
   new SuperTimeout(function(){ blurCDandBringVid2OverCD(); }, changeTime*500 + proceedTime);
 }
 
 function blurCDandBringVid2OverCD() {
   let blurTime, startTime, sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": blurTime = 4.60; startTime = 0; sayTime = 7000; proceedTime = 10000;  break; // proceedTime must depend on video length
-    case "fast": blurTime = 2.00; startTime = 2; sayTime = 5000; proceedTime = 7000;   break; // proceedTime must depend on video length
-    default:     blurTime = 3.30; startTime = 1; sayTime = 6500; proceedTime = 9000;  // proceedTime must depend on video length
+    case "slow": blurTime = 4.60; startTime = 0; sayTime = 5500; proceedTime = 12000;  break; // proceedTime must depend on video length
+    case "fast": blurTime = 2.00; startTime = 1; sayTime = 3500; proceedTime = 8000;   break; // proceedTime must depend on video length
+    default:     blurTime = 3.30; startTime = 0; sayTime = 4500; proceedTime = 11000;  // proceedTime must depend on video length
   }
 
   main.style.animationDuration = String(blurTime)+"s"; // Blur+Unblur paused at mid » See css_for_photos_and_videos_teach_a_new_word
@@ -191,7 +192,7 @@ function blurCDandBringVid2OverCD() {
   vidsContainer.style.display = "block"; vid2.currentTime = startTime;
   new SuperTimeout(function(){
     vid2.play(); // total video length ~ ???s.
-    // whatBirdSoundsLike2.play();
+    // No soundtrack for vid2
     new SuperTimeout(function(){ sayF.play(); }, sayTime);
     new SuperTimeout(function(){ removeVid2AndReturnToCD(); }, proceedTime);
   }, blurTime*500 - 500); // Video will start playing 0.5s before it is unblurred
@@ -219,9 +220,9 @@ function removeVid2AndReturnToCD() {
 function goFromCDtoEF() {
   let changeTime, sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": changeTime = 3; sayTime = 3500; proceedTime = 9500; break;
-    case "fast": changeTime = 1; sayTime = 1500; proceedTime = 6500; break;
-    default:     changeTime = 2; sayTime = 2400; proceedTime = 8100;
+    case "slow": changeTime = 3; sayTime = 5000; proceedTime = 15000; break;
+    case "fast": changeTime = 1; sayTime = 3000; proceedTime = 10000; break;
+    default:     changeTime = 2; sayTime = 4000; proceedTime = 12500;
   }
   // No fade time
   imgC.classList.remove("makePhotosAppear");  imgC.classList.add("makePhotosDisappear");  imgC.style.animationDuration = String(changeTime)+"s";
@@ -230,12 +231,12 @@ function goFromCDtoEF() {
   new SuperTimeout(function(){
     imgE.style.display = "block ";   imgE.classList.add("makePhotosAppear");   imgE.style.animationDuration = String(changeTime)+"s";
     imgF.style.display = "block ";   imgF.classList.add("makePhotosAppear");   imgF.style.animationDuration = String(changeTime)+"s";
-    // No fx sound
-    // No fade time
+    whatBirdSoundsLike3.play(); // 12000ms audio
+    new SuperTimeout(function(){ whatBirdSoundsLike3.fade(1,0.4,500); }, sayTime - 500);
   }, changeTime*500); // Overlap images instead of to-white-from-white
   new SuperTimeout(function(){ sayGH.play(); }, changeTime*500 + sayTime);
   // No more videos to bring
-  // No fading back-to-full-volume
+  sayGH.once("end", function(){  whatBirdSoundsLike3.fade(0.4,1,500);  }); // Fade back to full volume quickly
   new SuperTimeout(function () {
     continueLesson();
   }, changeTime*500 + proceedTime);
@@ -267,7 +268,7 @@ function display_nowItsYourTurn_animation() {
         nowYouSayIt.style.display = "block"; // See » css_for_photos_and_videos_teach_a_new_word » to find how it is centered
         if (nowYouSayIt.children[0].src.includes(".avif")) {   nowYouSayIt.children[0].classList.add("animateAvifSprite");   }
         new SuperTimeout(function(){ resetWebp(nowYouSayIt.children[0]); nowYouSayIt.style.display = "none"; }, 5101);
-        countdownForGiveUpSkipOrGoToNext = 40000; // For whitelisted browsers » Should depend on how many photos there are!
+        countdownForGiveUpSkipOrGoToNext = 43000; // For whitelisted browsers » Should depend on how many photos there are!
       } else if (typeof warnUserAboutSlowNetwork === "function") {  warnUserAboutSlowNetwork();  } // Exists in js_for_all_iframed_lesson_htmls
     }
   }, changeTime*1000 - 600);
