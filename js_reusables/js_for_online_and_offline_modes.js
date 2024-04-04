@@ -36,11 +36,13 @@ async function updateOnlineStatus() {
     // Why not handle that here when we can
     const url = new URL(window.location.origin);
     const response = await fetch( url.toString(), { method: 'HEAD' } );
-    if (response.ok) {  internetConnectivityIsNiceAndUsable = true;  }
+    if (response.ok) {  internetConnectivityIsNiceAndUsable = true;  } // WARNING: Remember that when testing on localhost it will always return true!
+    // On localhost DESPITE being OFFLINE everything will work except for speech recognition. For speech recognition the app NEEDS TO BE actually ONLINE.
   }
 }
 // ---
-// IMPORTANT!!! In the beginning internetConnectivityIsNiceAndUsable will be null until fetch gives its response which can take up to 6 seconds
+// REMEMBER!!! In the beginning internetConnectivityIsNiceAndUsable will be null until fetch gives its response which can take up to 6 seconds
+// THEREFORE: The very first caching attempts must not rely on internetConnectivityIsNiceAndUsable
 updateOnlineStatus();
 window.addEventListener('online', function () { updateOnlineStatus(); console.warn(".::ONLINE event fired::."); });
 window.addEventListener('offline', function () { updateOnlineStatus(); console.warn(".::OFFLINE event fired::."); });

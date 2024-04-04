@@ -158,6 +158,8 @@ function unloadVocabularyBoxButtonSounds() {
 }
 
 /*FUNCTION DECLARATION*/
+// IN THE FUTURE WE WILL HOPEFULLY USE RHUBARB LIP-SYNC TO PLAY AN ANIMATED MOUTH ILLUSTRATION ALONG WITH WAVESURFER
+// See » https://github.com/DanielSWolf/rhubarb-lip-sync
 function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
   popUpVocabularySound.play();
   const vocabularyBoxContainer = document.createElement("DIV"); // Maybe a dark theme will look nice

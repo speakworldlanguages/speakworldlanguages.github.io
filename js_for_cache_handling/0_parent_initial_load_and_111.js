@@ -104,6 +104,8 @@ async function makeProgressChartOfflineCompatible() {
     "/progress_chart/images/1_3_4_palette.webp",
     "/progress_chart/images/2_1_1_bird.webp",
 
+    "/user_interface/images/arrow_right.webp", // Used both for progress chart and at parent level » See the parent index.html
+    "/user_interface/images/arrow_left.webp", // Used both for progress chart and at parent level » See the parent index.html
 
     "/progress_chart/images/not_published_yet.webp",
     "/progress_chart/bilinguals.css",
@@ -162,6 +164,9 @@ async function cacheCommonJSandCSSfilesForAllLessons() {
     "/css_reusables/css_for_proceed_buttons.css",
     "/js_reusables/js_for_proceed_buttons.js",
     // user_interface
+    // images
+    // "/user_interface/images/internet_is_found.avif", // Caching these won't speed up anything as these will be downloaded as soon as parent window fires load event » See js_for_info_boxes_in_parent
+    // "/user_interface/images/internet_is_needed.avif", // Caching these won't speed up anything as these will be downloaded as soon as parent window fires load event » See js_for_info_boxes_in_parent
     // txt
     u+"/0lesson-continue_to_next.txt",
     u+"/0lesson-give_up_and_skip.txt",

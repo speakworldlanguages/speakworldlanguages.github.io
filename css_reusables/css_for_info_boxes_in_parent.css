@@ -89,3 +89,9 @@
   white-space: pre-wrap; /* pre means do not convert the line breaks into regular spaces. pre-wrap handles the overflow as well for longer lines */
   cursor: url("/user_interface/images/cursor/default_cursor.png") 16 4,auto;
 }
+
+.imagesInsideTheAppIsPausedBox{  width:70vmin; border-radius: 1.5vmin; }
+@media (min-width: 800px)  {  .imagesInsideTheAppIsPausedBox{  width:65vmin;  }   }
+@media (min-width: 1000px) {  .imagesInsideTheAppIsPausedBox{  width:60vmin;  }   }
+@media (min-width: 1200px) {  .imagesInsideTheAppIsPausedBox{  width:55vmin;  }   }
+@media (min-width: 1400px) {  .imagesInsideTheAppIsPausedBox{  width:50vmin;  }   }

@@ -367,5 +367,117 @@ function createAndHandleTheAppIsPausedBox(whyWillTheAppBePaused) { // THIS LOOKS
       darkenWholeViewportDiv.remove();
       resolve();
     }
+  }); // END OF Promise
+} // END OF function createAndHandleTheAppIsPausedBox
+
+
+// WHAT HAS TO BE DOWNLOADED AND READY BEFORE THE OCCURENCE ANY POSSIBLE CONNECTIVITY MISHAP
+// Start with pure black avif 16px by 16px » Tested it works!
+let base64StringForInternetIsNeededImage = "AAAAHGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZgAAAOptZXRhAAAAAAAAACFoZGxyAAAAAAAAAABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAAImlsb2MAAAAAREAAAQABAAAAAAEOAAEAAAAAAAAAGAAAACNpaW5mAAAAAAABAAAAFWluZmUCAAAAAAEAAGF2MDEAAAAAamlwcnAAAABLaXBjbwAAABNjb2xybmNseAABAA0ABoAAAAAMYXYxQ4EADAAAAAAUaXNwZQAAAAAAAAAQAAAAEAAAABBwaXhpAAAAAAMICAgAAAAXaXBtYQAAAAAAAAABAAEEgYIDhAAAACBtZGF0EgAKCRgM/9kgIaDQgDIJH/AAAEAAAKmH";
+let base64StringForInternetIsFoundImage = base64StringForInternetIsNeededImage;
+let theAppNeedsInternetBoxTextsInKnownLanguage = "OFFLINE 💢|ONLINE 📶|▷▷▷"; // Get the actual text from txt file and use it instead of this default.
+window.addEventListener("load",function() {
+
+  fetch("/user_interface/images/internet_is_needed.avif").then(response => response.blob()).then(blob => {
+      const reader = new FileReader();
+      reader.onload = () => {      base64StringForInternetIsNeededImage = reader.result.split(',')[1];     };
+      reader.readAsDataURL(blob);
+      andGetTheNextFile();
   });
-}
+  function andGetTheNextFile() {
+    fetch("/user_interface/images/internet_is_found.avif").then(response => response.blob()).then(blob => {
+        const reader = new FileReader();
+        reader.onload = () => {      base64StringForInternetIsFoundImage = reader.result.split(',')[1];      };
+        reader.readAsDataURL(blob);
+        andGetTheOtherFileToo();
+    });
+  }
+  function andGetTheOtherFileToo() {
+    const filePathForTheAppNeedsInternet = "/user_interface/text/"+userInterfaceLanguage+"/0-when_internet_connectivity_is_lost.txt";
+    fetch(filePathForTheAppNeedsInternet,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theAppNeedsInternetBoxTextsInKnownLanguage = contentOfTheTxtFile; });
+  }
+
+
+
+}, { once: true });
+
+
+
+// ___
+function createAndHandleInternetConnectivityIsLostBox() { // See js_for_speech_recognition_algorithm
+
+  return new Promise(resolve => {
+
+    const darkenWholeViewportDiv = document.createElement("DIV");
+    darkenWholeViewportDiv.classList.add("darkenTheWholeViewportClass"); // css_for_the_container_parent_html
+    document.body.appendChild(darkenWholeViewportDiv);
+    const theAppIsPausedBox = document.createElement("DIV");
+    theAppIsPausedBox.classList.add("theAppIsPausedBoxFiftyFiftyCentered"); // css_for_info_boxes_in_parent
+    document.body.appendChild(theAppIsPausedBox);
+    // -
+    const theAppNeedsInternetImg = document.createElement("IMG");
+    theAppNeedsInternetImg.src = 'data:image/avif;base64,' + base64StringForInternetIsNeededImage; // Downloaded and converted when window load fires
+
+    const theAppHasDetectedInternetImg = document.createElement("IMG");
+    theAppHasDetectedInternetImg.src = 'data:image/avif;base64,' + base64StringForInternetIsFoundImage; // Downloaded and converted when window load fires
+
+    theAppNeedsInternetImg.classList.add("imagesInsideTheAppIsPausedBox"); // css_for_info_boxes_in_parent
+    theAppHasDetectedInternetImg.classList.add("imagesInsideTheAppIsPausedBox"); // css_for_info_boxes_in_parent
+
+    theAppIsPausedBox.appendChild(theAppNeedsInternetImg);
+    theAppHasDetectedInternetImg.style.display = "none";
+    theAppIsPausedBox.appendChild(theAppHasDetectedInternetImg);
+
+    const theAppNeedsInternetMessage = document.createElement("P");
+    theAppNeedsInternetMessage.innerHTML = theAppNeedsInternetBoxTextsInKnownLanguage.split("|")[0]; // Actual texts are expected to be downloaded when window load fires
+    theAppIsPausedBox.appendChild(theAppNeedsInternetMessage);
+
+    const returnButton = document.createElement("DIV");
+    returnButton.classList.add("buttonsUnderSaveLoadInfo"); // See css_for_info_boxes_in_parent // CAUTION display:flex
+    returnButton.innerHTML = theAppNeedsInternetBoxTextsInKnownLanguage.split("|")[2]; // Actual texts are expected to be downloaded when window load fires
+    theAppIsPausedBox.appendChild(returnButton);
+    returnButton.style.visibility = "hidden";
+
+
+    let waitingForInternet = true;
+    let checkConnectionInterval = setInterval(function () {
+      if (internetConnectivityIsNiceAndUsable) {
+        // LET IT CONTINUE TICKING without clearing the interval ,,, We want to let it be stopped by the button click|touch ONLY
+        // BECAUSE in case the connectivity is unstable and is lost again shortly after reconnecting we want to go back to displaying "internet_is_needed" image and "You are offline" text and make the button invisible
+        if (waitingForInternet) {
+          theAppNeedsInternetImg.style.display = "none";
+          theAppHasDetectedInternetImg.style.display = "block";
+          theAppNeedsInternetMessage.innerHTML = theAppNeedsInternetBoxTextsInKnownLanguage.split("|")[1];
+          returnButton.style.visibility = "visible";
+          waitingForInternet = false;
+        }
+      } else {
+        if (!waitingForInternet) {
+          theAppNeedsInternetImg.style.display = "block";
+          theAppHasDetectedInternetImg.style.display = "none";
+          theAppNeedsInternetMessage.innerHTML = theAppNeedsInternetBoxTextsInKnownLanguage.split("|")[0];
+          returnButton.style.visibility = "hidden";
+          waitingForInternet = true;
+        }
+      }
+    }, 500);
+
+    // When user clicks|touches the button to continue
+    if (deviceDetector.isMobile) {
+      returnButton.addEventListener("touchstart",removeTheBoxAndResolve,{once:true});
+    } else {
+      returnButton.addEventListener("mousedown",removeTheBoxAndResolve,{once:true});
+    }
+    function removeTheBoxAndResolve() {
+      clearInterval(checkConnectionInterval);
+      returnButton.remove(); theAppNeedsInternetMessage.remove(); theAppHasDetectedInternetImg.remove(); theAppNeedsInternetImg.remove();
+      theAppIsPausedBox.remove();
+      darkenWholeViewportDiv.remove();
+      resolve(); // As we hope that connection won't be lost after speech recognition session starts
+      // CONSIDER what if it does??? MAYBE that can be handled too somehow in the future
+      // FOR THE TIME BEING we will assume that such a situation would be a very very rare case
+    }
+
+  }); // END OF Promise
+
+} // END OF function createAndHandleInternetConnectivityIsLostBox

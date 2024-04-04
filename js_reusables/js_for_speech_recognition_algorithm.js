@@ -12,16 +12,37 @@ let playTheSecondDingOnly = false;
 
 function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLimit,beforeThisManyRetriesHappen,withoutPlayingTheDING) {
   if (!parent.internetConnectivityIsNiceAndUsable) {
-    // Display "SpeechRecognition needs internet"
+    // FORCE-PAUSE THE APP (otherwise the visuals will keep playing)
+    if (listOfAllTickingSuperTimers) { pauseAllSuperTimers(); }
+    else { parent.console.warn("listOfAllTickingSuperTimers doesn't exist???"); }
+    // ACTUALLY: There already exists a pauseTheAppFunction inside js_for_the_sliding_navigation_menu which not only pauses all SuperTimers but also pauses sounds and videos etc
+    // WE COULD: Modify the createAndHandleTheAppIsPausedBox in js_for_info_boxes_in_parent or pauseTheAppFunction in js_for_the_sliding_navigation_menu and call them with a parameter like "becauseInternetConnectivityIsLost"
+    // DECISION AS OF APRIL 2024: Will create a dedicated function in which there will not only be text but an image too (unlike the standard multilingual «app is paused» box)
+    // and the sounds will not be paused
 
-    alert("💢 📶 💢 📶 💢"); // Show an international alert
-    parent.ayFreym.src = "/progress_chart/index.html"; // Try to navigate to the progress_chart as the last thing to do
+    // AND DISPLAY: The app needs a stable internet connection to be able to perform speech recognition.
+    if (typeof parent.createAndHandleInternetConnectivityIsLostBox === "function") {
+      parent.createAndHandleInternetConnectivityIsLostBox().then(afterABriefMoment); // See js_for_info_boxes_in_parent
+      function afterABriefMoment() { parent.console.log("Looks like the app is back ONLINE");
+        setTimeout(function () {
+          // Retry with the exact same parameters
+          seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLimit,beforeThisManyRetriesHappen,withoutPlayingTheDING);
+        }, 1000);
+      }
+    } else { parent.console.error("Error: createAndHandleInternetConnectivityIsLostBox function doesn't exist???"); }
+
+
+    // CONSIDER: What would happen if user tries to navigate to the progress chart at this point
+    // See if such a navigation breaks anything and implement precautions where necessary
+
+
+    // THE EARLIER IDEA WAS LIKE: alert("💢 📶 💢 📶 💢"); // Show an international alert
+    // THE EARLIER IDEA WAS LIKE: parent.ayFreym.src = "/progress_chart/index.html"; // Try to navigate to the progress_chart as the last thing to do
 
     // FOR THE BEST UX:
-    // FORCE-PAUSE THE APP AND DISPLAY: The app will continue when internetConnectivityIsNiceAndUsable again
-    // Use setInterval to check and when connectivity is restored offer the user the option to continue
-    // Also better if the offer is dynamically hidden and unhidden depending on internet connectivity
-    // We may have to create a new type of "The-app-is-paused" box with a button that will be hidden and unhidden depending on internet connectivity
+    // Use setInterval to check and when connectivity is restored offer the user the option to continue - DONE
+    // Also better if the offer is dynamically hidden and unhidden depending on internet connectivity - DONE
+    // We may have to create a new type of "The-app-is-paused" box with a button that will be hidden and unhidden depending on internet connectivity - DONE
 
   } else {
     return new Promise((resolve, reject) => { // Avoid using reject for timelimit-failures and retry-failures BECAUSE syntax errors also get caught in catch block
@@ -41,7 +62,7 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
           // IDEA: We could replace withoutPlayingTheDING with something like typeOfTheDING to choose from different sounds
           if (!isAndroid && !withoutPlayingTheDING) { // See js_for_different_browsers_and_devices AND js_for_all_iframed_lesson_htmls
               // Android has its native DING tone. So let this DING tone play only on non-Android platforms i.e. desktops and iOS devices.
-              if (!playTheSecondDingOnly) {
+              if (!playTheSecondDingOnly) { // WHAT WAS THE PURPOSE OF THIS ??? Must leave a note here when it is remembered !
                 dongDingTone.play(); parent.console.log("DONG DING");
               } else {
                 dingTone.play(); parent.console.log("DING");
