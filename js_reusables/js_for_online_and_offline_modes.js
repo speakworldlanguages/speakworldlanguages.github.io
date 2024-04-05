@@ -35,8 +35,9 @@ async function updateOnlineStatus() {
     // And that is when you activate a mobile device's WiFi hotspot router and connect to the PC where XAMPP is the http/https server
     // Why not handle that here when we can
     const url = new URL(window.location.origin);
+    url.searchParams.set('makeitunique', String(Date.now()));
     const response = await fetch( url.toString(), { method: 'HEAD' } );
-    if (response.ok) {  internetConnectivityIsNiceAndUsable = true;  } // WARNING: Remember that when testing on localhost it will always return true!
+    if (response.ok) {  internetConnectivityIsNiceAndUsable = true; console.log("setting connectivity to TRUE despite being OFFLINE"); } // WARNING: Remember that when testing on localhost it will always return true!
     // On localhost DESPITE being OFFLINE everything will work except for speech recognition. For speech recognition the app NEEDS TO BE actually ONLINE.
   }
 }
@@ -44,11 +45,10 @@ async function updateOnlineStatus() {
 // REMEMBER!!! In the beginning internetConnectivityIsNiceAndUsable will be null until fetch gives its response which can take up to 6 seconds
 // THEREFORE: The very first caching attempts must not rely on internetConnectivityIsNiceAndUsable
 updateOnlineStatus();
-window.addEventListener('online', function () { updateOnlineStatus(); console.warn(".::ONLINE event fired::."); });
-window.addEventListener('offline', function () { updateOnlineStatus(); console.warn(".::OFFLINE event fired::."); });
+window.addEventListener('online', function () { console.warn(".::ONLINE event fired::."); setTimeout(updateOnlineStatus, 500); });
+window.addEventListener('offline', function () { console.warn(".::OFFLINE event fired::."); setTimeout(updateOnlineStatus, 500); });
 // Use an interval check in case internet conncetion has become unusable and yet offline event never fires to detect that change
 setInterval(updateOnlineStatus,7000);
-
 
 // Whenever iframe.src is about to change store&save the destination and detour to you_are_offline.html if is offline or if speed is too terrible
 var pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost; // Example: See water.js in lessons_in_iframes/level_1/unit_1/lesson_1
