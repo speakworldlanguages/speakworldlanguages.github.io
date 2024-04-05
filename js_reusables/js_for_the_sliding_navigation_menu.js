@@ -746,7 +746,7 @@ window.addEventListener("load",function() {
 },{ once: true });
 // END OF "window load" event
 
-var theAppIsPaused = false;
+var theAppIsPaused = false; // See js_for_navigation_handling AND js_for_speech_recognition_algorithm ALSO USED IN 1-1-4, 1-3-2
 function pauseTheAppFunction(reasonWhy) { // As of September 2023 reasonWhy is either becauseUserNavigatedAwayFromTheApp or becauseUserPressedTheStopButton
 
     // Pause the app

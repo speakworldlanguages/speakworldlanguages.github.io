@@ -90,8 +90,10 @@
   cursor: url("/user_interface/images/cursor/default_cursor.png") 16 4,auto;
 }
 
-.imagesInsideTheAppIsPausedBox{  width:70vmin; border-radius: 1.5vmin; }
-@media (min-width: 800px)  {  .imagesInsideTheAppIsPausedBox{  width:65vmin;  }   }
-@media (min-width: 1000px) {  .imagesInsideTheAppIsPausedBox{  width:60vmin;  }   }
-@media (min-width: 1200px) {  .imagesInsideTheAppIsPausedBox{  width:55vmin;  }   }
+.imagesInsideTheAppIsPausedBox{  width:70vmin; border-radius: 1.5vmin; margin: 0px;}
+@media (orientation:landscape)  {  .imagesInsideTheAppIsPausedBox{  width:40vmin;  }   }
+/* DEPRECATE
+@media (min-width: 1000px) {  .imagesInsideTheAppIsPausedBox{  width:50vmin;  }   }
+@media (min-width: 1200px) {  .imagesInsideTheAppIsPausedBox{  width:50vmin;  }   }
 @media (min-width: 1400px) {  .imagesInsideTheAppIsPausedBox{  width:50vmin;  }   }
+*/

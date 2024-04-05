@@ -39,7 +39,7 @@ window.addEventListener('load', function(){
           userIsAwaySound.play(); // It can't flood can it?
           const iFrameInTabNavigationHandling = document.getElementsByTagName('IFRAME')[0];
           const iFrameWindowInTabNavigationHandling = iFrameInTabNavigationHandling.contentWindow;
-          if (!theAppIsPaused) {
+          if (!theAppIsPaused) { // See js_for_the_sliding_navigation_menu
             if (iFrameWindowInTabNavigationHandling.listOfAllTickingSuperTimers) { // This way we do not trigger pauseTheAppFunction when viewing the progress chart or information etc
               pauseTheAppFunction("becauseUserNavigatedAwayFromTheApp"); // See js_for_the_sliding_navigation_menu
             }
@@ -66,7 +66,7 @@ window.addEventListener('load', function(){
                 if (firstUserGestureHasUnleashedAudio) { userIsAwaySound.play(); }
                 const iFrameInTabNavigationHandling = document.getElementsByTagName('IFRAME')[0];
                 const iFrameWindowInTabNavigationHandling = iFrameInTabNavigationHandling.contentWindow;
-                if (!theAppIsPaused) {
+                if (!theAppIsPaused) { // See js_for_the_sliding_navigation_menu
                   if (iFrameWindowInTabNavigationHandling.listOfAllTickingSuperTimers) { // This way we do not trigger pauseTheAppFunction when viewing the progress chart or information etc
                     pauseTheAppFunction("becauseUserNavigatedAwayFromTheApp"); // See js_for_the_sliding_navigation_menu
                   }

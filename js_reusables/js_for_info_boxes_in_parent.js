@@ -45,9 +45,19 @@ window.addEventListener("DOMContentLoaded",function() { // QUESTION: Could DOMCo
   const pathOfSaveLoadInfoNoticeTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-about_saving_loading_users_progress.txt";
   const pathOfThreeBoxClosingTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-cancel_proceed_good.txt";
   const pathOfKeepWaitingOrReloadTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-wait_or_reload.txt";
-  fetch(pathOfSaveLoadInfoNoticeTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleInfoNoticeTexts(contentOfTheTxtFile);    });
-  fetch(pathOfThreeBoxClosingTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){     handleBoxClosingTexts(contentOfTheTxtFile);    });
-  fetch(pathOfKeepWaitingOrReloadTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ handleReloadDialogTexts(contentOfTheTxtFile);  });
+  fetch(pathOfSaveLoadInfoNoticeTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){    handleInfoNoticeTexts(contentOfTheTxtFile);   getNextFile1();  });
+  function getNextFile1() {
+    fetch(pathOfThreeBoxClosingTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){     handleBoxClosingTexts(contentOfTheTxtFile);   getNextFile2();  });
+  }
+
+  function getNextFile2() {
+    fetch(pathOfKeepWaitingOrReloadTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ handleReloadDialogTexts(contentOfTheTxtFile); getNextFile3();  });
+  }
+
+  function getNextFile3() {
+    // In case it becomes necessary in the future
+  }
+
   /* DEPRECATE or not?
   if (isSafari) { // Get the needed string for the alert box
     const pathOfHowToAllowMicPermanentlyOnSafariTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-allow_microphone_permanently_on_safari.txt";
@@ -314,6 +324,45 @@ function loadWasSuccessfulDespiteTakingTooLong() { // Called by stopTheTimerToSe
 
 
 
+// WHAT HAS TO BE DOWNLOADED AND READY BEFORE THE OCCURENCE ANY POSSIBLE CONNECTIVITY MISHAP
+// Start with pure black avif 16px by 16px » Tested it works!
+let base64StringForInternetIsNeededImage = "AAAAHGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZgAAAOptZXRhAAAAAAAAACFoZGxyAAAAAAAAAABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAAImlsb2MAAAAAREAAAQABAAAAAAEOAAEAAAAAAAAAGAAAACNpaW5mAAAAAAABAAAAFWluZmUCAAAAAAEAAGF2MDEAAAAAamlwcnAAAABLaXBjbwAAABNjb2xybmNseAABAA0ABoAAAAAMYXYxQ4EADAAAAAAUaXNwZQAAAAAAAAAQAAAAEAAAABBwaXhpAAAAAAMICAgAAAAXaXBtYQAAAAAAAAABAAEEgYIDhAAAACBtZGF0EgAKCRgM/9kgIaDQgDIJH/AAAEAAAKmH";
+let base64StringForInternetIsFoundImage = base64StringForInternetIsNeededImage;
+let theAppNeedsInternetBoxTextsInKnownLanguage = "OFFLINE 💢|ONLINE 📶|▷▷▷"; // Get the actual text from txt file and use it instead of this default.
+// -
+let theAppIsPausedDialogBoxTextsInKnownLanguage = "⦙⦙|▷"; // Get the actual text from txt file and use it instead of this default.
+// -
+window.addEventListener("load",function() {
+
+  fetch("/user_interface/images/internet_is_needed.avif").then(response => response.blob()).then(blob => {
+      const reader = new FileReader();
+      reader.onload = () => {      base64StringForInternetIsNeededImage = reader.result.split(',')[1];     };
+      reader.readAsDataURL(blob);
+      andGetTheNextFile();
+  });
+  function andGetTheNextFile() {
+    fetch("/user_interface/images/internet_is_found.avif").then(response => response.blob()).then(blob => {
+        const reader = new FileReader();
+        reader.onload = () => {      base64StringForInternetIsFoundImage = reader.result.split(',')[1];      };
+        reader.readAsDataURL(blob);
+        andGetTheOtherFileToo();
+    });
+  }
+  function andGetTheOtherFileToo() {
+    const filePathForTheAppNeedsInternet = "/user_interface/text/"+userInterfaceLanguage+"/0-when_internet_connectivity_is_lost.txt";
+    fetch(filePathForTheAppNeedsInternet,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theAppNeedsInternetBoxTextsInKnownLanguage = contentOfTheTxtFile; });
+    andThisOneAsWell();
+  }
+  // -
+  function andThisOneAsWell() {
+    const filePathForAppIsPausedBoxWithResumeButtonInKnownLanguage = "/user_interface/text/"+userInterfaceLanguage+"/0lesson-is_paused_message_and_unpause_button.txt";
+    fetch(filePathForAppIsPausedBoxWithResumeButtonInKnownLanguage,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theAppIsPausedDialogBoxTextsInKnownLanguage = contentOfTheTxtFile; });
+  }
+
+}, { once: true });
+
+
+
 // DIALOG BOX to be shown when the app is paused
 // _________ See js_for_the_sliding_navigation_menu » pauseTheAppFunction
 function createAndHandleTheAppIsPausedBox(whyWillTheAppBePaused) { // THIS LOOKS OK WITHOUT someElement.classList.add("toUseWBR_withCJK","cjkLineHeightAndLetterSpacing"); // See css_for_every_single_html
@@ -327,9 +376,8 @@ function createAndHandleTheAppIsPausedBox(whyWillTheAppBePaused) { // THIS LOOKS
     const filePathForAppIsPausedBoxWithResumeButtonInTaughtLanguage = "/user_interface/text/"+taughtLanguage+"/0lesson-is_paused_message_and_unpause_button.txt";
     fetch(filePathForAppIsPausedBoxWithResumeButtonInTaughtLanguage,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theAppIsPausedDialogBoxTextsInTaughtLanguage = contentOfTheTxtFile; updateTheBox(); });
 
-    let theAppIsPausedDialogBoxTextsInKnownLanguage = "⦙⦙|▷"; // Get the actual text from txt file and use it instead of this default.
-    const filePathForAppIsPausedBoxWithResumeButtonInKnownLanguage = "/user_interface/text/"+userInterfaceLanguage+"/0lesson-is_paused_message_and_unpause_button.txt";
-    fetch(filePathForAppIsPausedBoxWithResumeButtonInKnownLanguage,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theAppIsPausedDialogBoxTextsInKnownLanguage = contentOfTheTxtFile; updateTheBox(); });
+    // NOTE: theAppIsPausedDialogBoxTextsInKnownLanguage is downloaded when window load fires » See above
+
 
     // CREATE A CUSTOM bilingual "App is paused" box with a "Continue" button using: theAppIsPausedDialogBoxTextsInKnownLanguage
     const darkenWholeViewportDiv = document.createElement("DIV");
@@ -369,38 +417,6 @@ function createAndHandleTheAppIsPausedBox(whyWillTheAppBePaused) { // THIS LOOKS
     }
   }); // END OF Promise
 } // END OF function createAndHandleTheAppIsPausedBox
-
-
-// WHAT HAS TO BE DOWNLOADED AND READY BEFORE THE OCCURENCE ANY POSSIBLE CONNECTIVITY MISHAP
-// Start with pure black avif 16px by 16px » Tested it works!
-let base64StringForInternetIsNeededImage = "AAAAHGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZgAAAOptZXRhAAAAAAAAACFoZGxyAAAAAAAAAABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAAImlsb2MAAAAAREAAAQABAAAAAAEOAAEAAAAAAAAAGAAAACNpaW5mAAAAAAABAAAAFWluZmUCAAAAAAEAAGF2MDEAAAAAamlwcnAAAABLaXBjbwAAABNjb2xybmNseAABAA0ABoAAAAAMYXYxQ4EADAAAAAAUaXNwZQAAAAAAAAAQAAAAEAAAABBwaXhpAAAAAAMICAgAAAAXaXBtYQAAAAAAAAABAAEEgYIDhAAAACBtZGF0EgAKCRgM/9kgIaDQgDIJH/AAAEAAAKmH";
-let base64StringForInternetIsFoundImage = base64StringForInternetIsNeededImage;
-let theAppNeedsInternetBoxTextsInKnownLanguage = "OFFLINE 💢|ONLINE 📶|▷▷▷"; // Get the actual text from txt file and use it instead of this default.
-window.addEventListener("load",function() {
-
-  fetch("/user_interface/images/internet_is_needed.avif").then(response => response.blob()).then(blob => {
-      const reader = new FileReader();
-      reader.onload = () => {      base64StringForInternetIsNeededImage = reader.result.split(',')[1];     };
-      reader.readAsDataURL(blob);
-      andGetTheNextFile();
-  });
-  function andGetTheNextFile() {
-    fetch("/user_interface/images/internet_is_found.avif").then(response => response.blob()).then(blob => {
-        const reader = new FileReader();
-        reader.onload = () => {      base64StringForInternetIsFoundImage = reader.result.split(',')[1];      };
-        reader.readAsDataURL(blob);
-        andGetTheOtherFileToo();
-    });
-  }
-  function andGetTheOtherFileToo() {
-    const filePathForTheAppNeedsInternet = "/user_interface/text/"+userInterfaceLanguage+"/0-when_internet_connectivity_is_lost.txt";
-    fetch(filePathForTheAppNeedsInternet,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theAppNeedsInternetBoxTextsInKnownLanguage = contentOfTheTxtFile; });
-  }
-
-
-
-}, { once: true });
-
 
 
 // ___
