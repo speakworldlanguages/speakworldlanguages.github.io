@@ -112,7 +112,7 @@ function blurABandBringVid1OverAB() {
   switch (parent.speedAdjustmentSetting) {
     case "slow": blurTime = 4.60; startTime = 0; sayTime = 5500; proceedTime = 12000;  break; // proceedTime must depend on video length
     case "fast": blurTime = 2.00; startTime = 2; sayTime = 3500; proceedTime = 8000;   break; // proceedTime must depend on video length
-    default:     blurTime = 3.30; startTime = 1; sayTime = 4500; proceedTime = 11000;   // proceedTime must depend on video length
+    default:     blurTime = 3.30; startTime = 1; sayTime = 4500; proceedTime = 11000;  // proceedTime must depend on video length
   }
 
   main.style.animationDuration = String(blurTime)+"s"; // Blur+Unblur paused at mid » See css_for_photos_and_videos_teach_a_new_word
@@ -123,13 +123,31 @@ function blurABandBringVid1OverAB() {
   // Bring the 1st video
   vidsContainer.classList.add("videoAppearsOverPhotos");
   vidsContainer.style.animationDuration = (blurTime/3).toFixed(2)+"s";
-  vidsContainer.style.display = "block"; vid1.currentTime = startTime;
-  new SuperTimeout(function(){
+  vidsContainer.style.display = "block";
+  new SuperTimeout(checkIfVid1CanPlayNiceAndSmooth, blurTime*500 - 500); // Video will start playing 0.5s before it is unblurred
+  function checkIfVid1CanPlayNiceAndSmooth() {
+    if (vid1.readyState === 4) { // The video is (mostly) loaded and ready to play. We cannot rely on canplaythrough event as it might never fire when added after the video is fully (or mostly) loaded.
+      playVid1NowThatItCanPlayThrough(); parent.console.log("1st video was already loaded and so it will now play");
+    } else if (vid1.readyState === 0) { // There must be a serious problem with reading the file
+      removeVid1AndReturnToAB(); // TOO BAD: Skip the video
+      parent.console.error("There seems a problem with the 1st video. Will skip it.");
+    } else { // The video is still loading or buffering
+      parent.console.log("Waiting for the 1st video to be playable");
+      // Looks like NEITHER loadeddata event NOR canplaythrough event is guaranteed to fire in this case which means we have to do it with an interval check.
+      // We are expecting that the poster images will be showing until readyState is 3
+      const thisKeepsCheckingVid1 = new SuperInterval(playVid1IfCanAndRemoveTheEventListenerToo,250);
+      function playVid1IfCanAndRemoveTheEventListenerToo() {
+        if (vid1.readyState === 4) { playVid1NowThatItCanPlayThrough(); thisKeepsCheckingVid1.clear(); parent.console.log("1st video is now playable"); }
+      }
+    }
+  }
+  function playVid1NowThatItCanPlayThrough(){
+    if (startTime !== 0) { vid1.currentTime = startTime; }
     vid1.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     // No soundtrack for vid1
     new SuperTimeout(function(){ sayC.play(); }, sayTime);
     new SuperTimeout(function(){ removeVid1AndReturnToAB(); }, proceedTime);
-  }, blurTime*500 - 500); // Video will start playing 0.5s before it is unblurred
+  }
 }
 
 function removeVid1AndReturnToAB() {
@@ -189,13 +207,31 @@ function blurCDandBringVid2OverCD() {
   // Bring the 2nd video
   vidsContainer.classList.add("videoAppearsOverPhotos");
   vidsContainer.style.animationDuration = (blurTime/3).toFixed(2)+"s";
-  vidsContainer.style.display = "block"; vid2.currentTime = startTime;
-  new SuperTimeout(function(){
-    vid2.play(); // total video length ~ ???s.
+  vidsContainer.style.display = "block";
+  new SuperTimeout(checkIfVid2CanPlayNiceAndSmooth, blurTime*500 - 500); // Video will start playing 0.5s before it is unblurred
+  function checkIfVid2CanPlayNiceAndSmooth() {
+    if (vid2.readyState === 4) { // The video is (mostly) loaded and ready to play. We cannot rely on canplaythrough event as it might never fire when added after the video is fully loaded.
+      playVid2NowThatItCanPlayThrough(); parent.console.log("2nd video was already loaded and so it will now play");
+    } else if (vid2.readyState === 0) { // There must be a serious problem with reading the file
+      removeVid2AndReturnToCD(); // TOO BAD: Skip the video
+      parent.console.error("There seems a problem with the 2nd video. Will skip it.");
+    } else { // The video is still loading or buffering
+      parent.console.log("Waiting for the 2nd video to be playable");
+      // Looks like NEITHER loadeddata event NOR canplaythrough event is guaranteed to fire in this case which means we have to do it with an interval check.
+      // We are expecting that the poster images will be showing until readyState is 3
+      const thisKeepsCheckingVid2 = new SuperInterval(playVid2IfCanAndRemoveTheEventListenerToo,250);
+      function playVid2IfCanAndRemoveTheEventListenerToo() {
+        if (vid2.readyState === 4) { playVid2NowThatItCanPlayThrough(); thisKeepsCheckingVid2.clear(); parent.console.log("2nd video is now playable"); }
+      }
+    }
+  }
+  function playVid2NowThatItCanPlayThrough(){
+    if (startTime !== 0) { vid2.currentTime = startTime; }
+    vid2.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     // No soundtrack for vid2
     new SuperTimeout(function(){ sayF.play(); }, sayTime);
     new SuperTimeout(function(){ removeVid2AndReturnToCD(); }, proceedTime);
-  }, blurTime*500 - 500); // Video will start playing 0.5s before it is unblurred
+  }
 }
 
 function removeVid2AndReturnToCD() {
@@ -269,7 +305,7 @@ function display_nowItsYourTurn_animation() {
         if (nowYouSayIt.children[0].src.includes(".avif")) {   nowYouSayIt.children[0].classList.add("animateAvifSprite");   }
         new SuperTimeout(function(){ resetWebp(nowYouSayIt.children[0]); nowYouSayIt.style.display = "none"; }, 5101);
         countdownForGiveUpSkipOrGoToNext = 43000; // For whitelisted browsers » Should depend on how many photos there are!
-      } else if (typeof warnUserAboutSlowNetwork === "function") {  warnUserAboutSlowNetwork();  } // Exists in js_for_all_iframed_lesson_htmls
+      } // DEPRECATE and use createAndHandleInternetConnectivityIsLostBox instead: else if (typeof warnUserAboutSlowNetwork === "function") {  warnUserAboutSlowNetwork();  } // Exists in js_for_all_iframed_lesson_htmls
     }
   }, changeTime*1000 - 600);
   // --
@@ -425,12 +461,12 @@ function stopListeningAndProceedToNext() {
   switch (parent.speedAdjustmentSetting) { case "slow": endTime = 5000; break;    case "fast": endTime = 3000; break;    default: endTime = 4000; }
   new SuperTimeout(function() { showGlobyPreloaderBeforeExit(); },endTime-1500); // See js_for_all_iframed_lesson_htmls AND See css_for_preloader_and_orbiting_circles
   // REMEMBER: iframe.src change makes window.onbeforeunload fire in js_for_all_iframed_lesson_htmls.js which then calls unloadTheSoundsOfThisLesson();
-  parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost = "/lessons_in_iframes/level_1/unit_3/lesson_2/index.html"; // See js_for_online_and_offline_modes
+  parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost = "/lessons_in_iframes/level_2/unit_1/lesson_2/index.html"; // See js_for_online_and_offline_modes
   // --- HANDLE ONLINE and OFFLINE cases
   if (parent.internetConnectivityIsNiceAndUsable) { // See js_for_online_and_offline_modes.js
     new SuperTimeout(function() { parent.ayFreym.src = parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost; },endTime); // See js_for_all_iframed_lesson_htmls » onbeforeunload
   } else { parent.console.warn("THE DEVICE IS OFFLINE (detected at the end of lesson");
-    const isCached = checkIfNextLessonIsCachedAndRedirectIfNot(132); // See js_for_all_iframed_lesson_htmls
+    const isCached = checkIfNextLessonIsCachedAndRedirectIfNot(212); // See js_for_all_iframed_lesson_htmls
     if (isCached) { parent.console.warn("WILL TRY TO CONTINUE OFFLINE");
       new SuperTimeout(function() { parent.ayFreym.src = parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost; },endTime); // See js_for_all_iframed_lesson_htmls » onbeforeunload
     }

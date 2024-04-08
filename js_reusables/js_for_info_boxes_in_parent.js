@@ -1,6 +1,6 @@
 "use strict";
 // Code written by Manheart Earthman=B. A. Bilgekılınç Topraksoy=土本 智一勇夫剛志
-// This file MAY NOT BE MODIFIED WITHOUT CONSENT VIA OFFICIAL AUTHORIZATION
+// This file MAY NOT BE MODIFIED WITHOUT CONSENT i.e. OFFICIAL AUTHORIZATION
 
 // We don't want appearance sounds for any of these boxes,,, see each note below
 let closeTheBox_OK_Sound;
@@ -328,35 +328,91 @@ function loadWasSuccessfulDespiteTakingTooLong() { // Called by stopTheTimerToSe
 // Start with pure black avif 16px by 16px » Tested it works!
 let base64StringForInternetIsNeededImage = "AAAAHGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZgAAAOptZXRhAAAAAAAAACFoZGxyAAAAAAAAAABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAAImlsb2MAAAAAREAAAQABAAAAAAEOAAEAAAAAAAAAGAAAACNpaW5mAAAAAAABAAAAFWluZmUCAAAAAAEAAGF2MDEAAAAAamlwcnAAAABLaXBjbwAAABNjb2xybmNseAABAA0ABoAAAAAMYXYxQ4EADAAAAAAUaXNwZQAAAAAAAAAQAAAAEAAAABBwaXhpAAAAAAMICAgAAAAXaXBtYQAAAAAAAAABAAEEgYIDhAAAACBtZGF0EgAKCRgM/9kgIaDQgDIJH/AAAEAAAKmH";
 let base64StringForInternetIsFoundImage = base64StringForInternetIsNeededImage;
-let theAppNeedsInternetBoxTextsInKnownLanguage = "OFFLINE 💢|ONLINE 📶|▷▷▷"; // Get the actual text from txt file and use it instead of this default.
+let theAppNeedsInternetBoxTextsInKnownLanguage = "OFFLINE 💢|ONLINE 📶|▷▷▷"; // Monolingual » Get the actual text from txt file and use it instead of this default.
 // -
-let theAppIsPausedDialogBoxTextsInKnownLanguage = "⦙⦙|▷"; // Get the actual text from txt file and use it instead of this default.
+// Get the actual texts from txt files and use them instead of these defaults.
+let theAppIsPausedDialogBoxTextsInKnownLanguage = "⦙⦙|▷"; // Bilingual
+let theAppIsPausedDialogBoxTextsInTaughtLanguage = "⋮⋮|▶️"; // Bilingual
 // -
+var base64StringForVideoPosterFrame1 = "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAACXBIWXMAAAsTAAALEwEAmpwYAAADGGlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjaY2BgnuDo4uTKJMDAUFBUUuQe5BgZERmlwH6egY2BmYGBgYGBITG5uMAxIMCHgYGBIS8/L5UBFTAyMHy7xsDIwMDAcFnX0cXJlYE0wJpcUFTCwMBwgIGBwSgltTiZgYHhCwMDQ3p5SUEJAwNjDAMDg0hSdkEJAwNjAQMDg0h2SJAzAwNjCwMDE09JakUJAwMDg3N+QWVRZnpGiYKhpaWlgmNKflKqQnBlcUlqbrGCZ15yflFBflFiSWoKAwMD1A4GBgYGXpf8EgX3xMw8BSMDVQYqg4jIKAUICxE+CDEESC4tKoMHJQODAIMCgwGDA0MAQyJDPcMChqMMbxjFGV0YSxlXMN5jEmMKYprAdIFZmDmSeSHzGxZLlg6WW6x6rK2s99gs2aaxfWMPZ9/NocTRxfGFM5HzApcj1xZuTe4FPFI8U3mFeCfxCfNN45fhXyygI7BD0FXwilCq0A/hXhEVkb2i4aJfxCaJG4lfkaiQlJM8JpUvLS19QqZMVl32llyfvIv8H4WtioVKekpvldeqFKiaqP5UO6jepRGqqaT5QeuA9iSdVF0rPUG9V/pHDBYY1hrFGNuayJsym740u2C+02KJ5QSrOutcmzjbQDtXe2sHY0cdJzVnJRcFV3k3BXdlD3VPXS8Tbxsfd99gvwT//ID6wIlBS4N3hVwMfRnOFCEXaRUVEV0RMzN2T9yDBLZE3aSw5IaUNak30zkyLDIzs+ZmX8xlz7PPryjYVPiuWLskq3RV2ZsK/cqSql01jLVedVPrHzbqNdU0n22VaytsP9op3VXUfbpXta+x/+5Em0mzJ/+dGj/t8AyNmf2zvs9JmHt6vvmCpYtEFrcu+bYsc/m9lSGrTq9xWbtvveWGbZtMNm/ZarJt+w6rnft3u+45uy9s/4ODOYd+Hmk/Jn58xUnrU+fOJJ/9dX7SRe1LR68kXv13fc5Nm1t379TfU75/4mHeY7En+59lvhB5efB1/lv5dxc+NH0y/fzq64Lv4T8Ffp360/rP8f9/AA0ADzT6lvFdAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAA6SURBVHjaYvzPgAqYGOghwMKw/LfxM9mzorx3rO7x32OIYGL4/5+Fke3f37//2Zi4f/5nYBwYhwEGAI5wESoE7KR0AAAAAElFTkSuQmCC"; // 16x16 png works OK
+var base64StringForVideoPosterFrame2 = base64StringForVideoPosterFrame1; // See index.html of each lesson
+var base64StringForVideoPosterFrame3 = base64StringForVideoPosterFrame1; // See index.html of each lesson
+// -
+var slowNetworkWarningText = "💢 📶 💢"; // To be overwritten by fetch // See js_for_all_iframed_lesson_htmls
 window.addEventListener("load",function() {
 
-  fetch("/user_interface/images/internet_is_needed.avif").then(response => response.blob()).then(blob => {
-      const reader = new FileReader();
-      reader.onload = () => {      base64StringForInternetIsNeededImage = reader.result.split(',')[1];     };
-      reader.readAsDataURL(blob);
-      andGetTheNextFile();
-  });
+  // --- Get the files ready
+  const filePathForHeyYourConnectionIsTooSlow = "/user_interface/text/"+userInterfaceLanguage+"/0-when_internet_is_available_but_too_slow.txt";
+  fetch(filePathForHeyYourConnectionIsTooSlow,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+    slowNetworkWarningText = contentOfTheTxtFile;
+  }).catch(error => { console.error('Problem with fetch:', error); }).finally(() => { startTheFetchChain(); });
+  // --
+  function startTheFetchChain() {
+    const filePathForAppIsPausedBoxWithResumeButtonInKnownLanguage = "/user_interface/text/"+userInterfaceLanguage+"/0-is_paused_message_and_unpause_button.txt";
+    fetch(filePathForAppIsPausedBoxWithResumeButtonInKnownLanguage,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theAppIsPausedDialogBoxTextsInKnownLanguage = contentOfTheTxtFile; })
+    .catch(error => { console.error('Problem with fetch:', error); }).finally(() => { getFile1(); });
+  }
+  // --
+  function getFile1() {
+    fetch("/user_interface/images/video_poster_frames/video_poster_frame_1.png").then(response => response.blob()).then(blob => {
+        const reader = new FileReader();
+        reader.onload = () => {      base64StringForVideoPosterFrame1 = reader.result.split(',')[1];     };
+        reader.readAsDataURL(blob);
+    }).catch(error => { console.error('Problem with fetch:', error); }).finally(() => { getFile2(); });
+  }
+  function getFile2() {
+    fetch("/user_interface/images/video_poster_frames/video_poster_frame_2.png").then(response => response.blob()).then(blob => {
+        const reader = new FileReader();
+        reader.onload = () => {      base64StringForVideoPosterFrame2 = reader.result.split(',')[1];     };
+        reader.readAsDataURL(blob);
+    }).catch(error => { console.error('Problem with fetch:', error); }).finally(() => { getFile3(); });
+  }
+  function getFile3() {
+    fetch("/user_interface/images/video_poster_frames/video_poster_frame_3.png").then(response => response.blob()).then(blob => {
+        const reader = new FileReader();
+        reader.onload = () => {      base64StringForVideoPosterFrame3 = reader.result.split(',')[1];     };
+        reader.readAsDataURL(blob);
+    }).catch(error => { console.error('Problem with fetch:', error); }).finally(() => { nowGetThisFile(); });
+  }
+  // --
+  function nowGetThisFile() {
+    fetch("/user_interface/images/internet_is_needed.avif").then(response => response.blob()).then(blob => {
+        const reader = new FileReader();
+        reader.onload = () => {      base64StringForInternetIsNeededImage = reader.result.split(',')[1];     };
+        reader.readAsDataURL(blob);
+    }).catch(error => { console.error('Problem with fetch:', error); }).finally(() => { andGetTheNextFile(); });
+  }
   function andGetTheNextFile() {
     fetch("/user_interface/images/internet_is_found.avif").then(response => response.blob()).then(blob => {
         const reader = new FileReader();
         reader.onload = () => {      base64StringForInternetIsFoundImage = reader.result.split(',')[1];      };
         reader.readAsDataURL(blob);
-        andGetTheOtherFileToo();
-    });
+    }).catch(error => { console.error('Problem with fetch:', error); }).finally(() => { andGetTheOtherFileToo(); });
   }
   function andGetTheOtherFileToo() {
     const filePathForTheAppNeedsInternet = "/user_interface/text/"+userInterfaceLanguage+"/0-when_internet_connectivity_is_lost.txt";
-    fetch(filePathForTheAppNeedsInternet,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theAppNeedsInternetBoxTextsInKnownLanguage = contentOfTheTxtFile; });
-    andThisOneAsWell();
+    fetch(filePathForTheAppNeedsInternet,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theAppNeedsInternetBoxTextsInKnownLanguage = contentOfTheTxtFile; })
+    .catch(error => { console.error('Problem with fetch:', error); }).finally(() => { andThisOneAsWell(); });
   }
-  // -
+  // --
   function andThisOneAsWell() {
-    const filePathForAppIsPausedBoxWithResumeButtonInKnownLanguage = "/user_interface/text/"+userInterfaceLanguage+"/0lesson-is_paused_message_and_unpause_button.txt";
-    fetch(filePathForAppIsPausedBoxWithResumeButtonInKnownLanguage,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theAppIsPausedDialogBoxTextsInKnownLanguage = contentOfTheTxtFile; });
+    let checkerTicker = setInterval(function () {
+      if (langCodeForTeachingFilePaths) { // When it is not undefined anymore i.e. when user has chosen the language he|she wants to learn
+        clearInterval(checkerTicker);
+        // See js_for_every_single_html.js for the fetch headers thingy.
+        // See js_for_the_parent_all_browsers_all_devices to find langCodeForTeachingFilePaths
+        // As of August 2023 this is the only case in which langCodeForTeachingFilePaths is used for fetching txt at parent level
+        // CAUTION: langCodeForTeachingFilePaths will be UNDEFINED until user chooses the language he|she wants to learn
+        // THEREFORE: We cannot get the text file before user langCodeForTeachingFilePaths is set to something
+        // SO HERE WE ARE: using a relaxed setInterval whose callback function will check if langCodeForTeachingFilePaths is now defined and clear the interval as soon as it is set
+        const taughtLanguage = langCodeForTeachingFilePaths.substr(0,2); // en_east en_west will use the same user interface text folder
+        if (taughtLanguage=="tr") {    myHeaders.set('Content-Type','text/plain; charset=iso-8859-9');    } // See js_for_every_single_html
+
+        const filePathForAppIsPausedBoxWithResumeButtonInTaughtLanguage = "/user_interface/text/"+taughtLanguage+"/0-is_paused_message_and_unpause_button.txt";
+        fetch(filePathForAppIsPausedBoxWithResumeButtonInTaughtLanguage,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theAppIsPausedDialogBoxTextsInTaughtLanguage = contentOfTheTxtFile; })
+        .catch(error => { console.error('Problem with fetch:', error); }).finally(() => { /*No more files*/ });
+      }
+    }, 4000);
   }
 
 }, { once: true });
@@ -368,15 +424,9 @@ window.addEventListener("load",function() {
 function createAndHandleTheAppIsPausedBox(whyWillTheAppBePaused) { // THIS LOOKS OK WITHOUT someElement.classList.add("toUseWBR_withCJK","cjkLineHeightAndLetterSpacing"); // See css_for_every_single_html
   // As of September 2023 whyWillTheAppBePaused is never used but is ready to be implemented in the future if it becomes necessary to display different texts for different situations
   return new Promise(resolve => {
-    // See js_for_every_single_html.js for the fetch headers thingy.
-    // As of August 2023 this is the only case in which langCodeForTeachingFilePaths is used for fetching txt at parent level
-    const taughtLanguage = langCodeForTeachingFilePaths.substr(0,2); // en_east en_west will use the same user interface text folder
-    if (taughtLanguage=="tr") {    myHeaders.set('Content-Type','text/plain; charset=iso-8859-9');    } // See js_for_every_single_html
-    let theAppIsPausedDialogBoxTextsInTaughtLanguage = "⋮⋮|▶️";
-    const filePathForAppIsPausedBoxWithResumeButtonInTaughtLanguage = "/user_interface/text/"+taughtLanguage+"/0lesson-is_paused_message_and_unpause_button.txt";
-    fetch(filePathForAppIsPausedBoxWithResumeButtonInTaughtLanguage,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ theAppIsPausedDialogBoxTextsInTaughtLanguage = contentOfTheTxtFile; updateTheBox(); });
 
-    // NOTE: theAppIsPausedDialogBoxTextsInKnownLanguage is downloaded when window load fires » See above
+
+    // NOTE: theAppIsPausedDialogBoxTextsInKnownLanguage and theAppIsPausedDialogBoxTextsInTaughtLanguage are downloaded after window load fires » See above
 
 
     // CREATE A CUSTOM bilingual "App is paused" box with a "Continue" button using: theAppIsPausedDialogBoxTextsInKnownLanguage
@@ -395,13 +445,15 @@ function createAndHandleTheAppIsPausedBox(whyWillTheAppBePaused) { // THIS LOOKS
 
     const unpauseButton = document.createElement("DIV");
     unpauseButton.classList.add("buttonsUnderSaveLoadInfo"); // See css_for_info_boxes_in_parent
-    unpauseButton.innerHTML = " " + theAppIsPausedDialogBoxTextsInTaughtLanguage.split("|")[1] + " <wbr> (" + theAppIsPausedDialogBoxTextsInKnownLanguage.split("|")[1] + ") ";
+    // DEPRECATE unpauseButton.innerHTML = " " + theAppIsPausedDialogBoxTextsInTaughtLanguage.split("|")[1] + " <wbr> (" + theAppIsPausedDialogBoxTextsInKnownLanguage.split("|")[1] + ") ";
+    unpauseButton.innerHTML = "<span style='white-space: nowrap;'>&nbsp;" + theAppIsPausedDialogBoxTextsInTaughtLanguage.split("|")[1] + "&nbsp;</span>" + " " + "<span style='white-space: nowrap;'>&nbsp;(" + theAppIsPausedDialogBoxTextsInKnownLanguage.split("|")[1] + ")&nbsp;</span>";
     theAppIsPausedBox.appendChild(unpauseButton);
+    /* DEPRECATE
     function updateTheBox() { // USE IF NECESSARY: <span style='white-space: nowrap;'></span>
       theAppIsPausedMessage1.innerHTML = theAppIsPausedDialogBoxTextsInTaughtLanguage.split("|")[0];
       theAppIsPausedMessage2.innerHTML = "(" + theAppIsPausedDialogBoxTextsInKnownLanguage.split("|")[0] + ")";
-      unpauseButton.innerHTML = "<span style='white-space: nowrap;'>&nbsp;" + theAppIsPausedDialogBoxTextsInTaughtLanguage.split("|")[1] + "&nbsp;</span>" + " " + "<span style='white-space: nowrap;'>&nbsp;(" + theAppIsPausedDialogBoxTextsInKnownLanguage.split("|")[1] + ")&nbsp;</span>";
     }
+    */
 
     // When user clicks|touches [UNPAUSE] button to continue
     if (deviceDetector.isMobile) {

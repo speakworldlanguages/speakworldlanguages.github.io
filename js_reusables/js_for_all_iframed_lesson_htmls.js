@@ -1,6 +1,6 @@
 "use strict";
 // Code written by Manheart Earthman=B. A. Bilgekılınç Topraksoy=土本 智一勇夫剛志
-// This file MAY NOT BE MODIFIED WITHOUT CONSENT VIA OFFICIAL AUTHORIZATION
+// This file MAY NOT BE MODIFIED WITHOUT CONSENT i.e. OFFICIAL AUTHORIZATION
 
 // NOTE THAT: THERE ARE 2 EXCEPTIONS where js_for_all_iframed_lesson_htmls is not used: blank.html & user_interface/screens/??/you_are_offline.html
 
@@ -92,8 +92,8 @@ function showGlobyPreloaderBeforeExit() { // Call this at the end of every lesso
   parent.preloadHandlingDiv.classList.add("addThisClassToRevealThePreloader"); // 1500 ms » See css_for_preloader_and_orbiting_circles
 }
 
-let slowNetworkWarningText = "💢 📶 💢"; // To be overwritten by fetch
-let slowNetworkWarningMustBeDisplayedAsSoonAsFetchGetsTheFile = false;
+// See js_for_info_boxes_in_parent to find slowNetworkWarningText
+// DEPRECATE: let slowNetworkWarningMustBeDisplayedASAP = false;
 // ---
 window.addEventListener('DOMContentLoaded', function(){
 
@@ -104,27 +104,25 @@ window.addEventListener('DOMContentLoaded', function(){
       if (sessionStorage.internetIsTooSlowNotificationHasBeenDisplayed) {
         // Do nothing. Connection is still slow but the user has already been notified.
       } else {
-        // See code below to find fetch » Get txt in userInterfaceLanguage and display it with an alert box
-        slowNetworkWarningMustBeDisplayedAsSoonAsFetchGetsTheFile = true;
+        // See js_for_info_boxes_in_parent to find how the text is loaded at parent level
+        // DEPRECATE: slowNetworkWarningMustBeDisplayedASAP = true;
+        if (parent.internetConnectivityIsNiceAndUsable) { // Internet connection actually exists
+          warnUserAboutSlowNetwork(); // This should be a very rare case but it's nice to have it handled with a simple notification
+        }
       }
     }
   } else {  } // Firefox, Safari » No information about network speed ,,, NetworkInformation API is not supported
 
+  // For navigation handling » To detect if native Android BACK button or browser's BACK button was used » See blank.html
   const whereAreWe = window.location.pathname;
   if (whereAreWe.search("progress_chart") != -1) { parent.userIsOrWasJustViewing = "progress-chart"; } // See blank.html
   else if (whereAreWe.search("information") != -1) { parent.userIsOrWasJustViewing = "info-screen"; } // See blank.html
   else { parent.userIsOrWasJustViewing = "some-lesson"; } // See blank.html
-  // --- Get the text file ready
-  const filePathForHeyYourConnectionIsTooSlow = "/user_interface/text/"+userInterfaceLanguage+"/0-network_connection_too_slow.txt";
-  fetch(filePathForHeyYourConnectionIsTooSlow,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-    slowNetworkWarningText = contentOfTheTxtFile;
-    if (slowNetworkWarningMustBeDisplayedAsSoonAsFetchGetsTheFile) {    warnUserAboutSlowNetwork();   }
-  });
 
 }, { once: true }); // END OF DOMContentLoaded
 // ___
-function warnUserAboutSlowNetwork() { // Can be called from lessons if necessary
-  alert(slowNetworkWarningText); sessionStorage.internetIsTooSlowNotificationHasBeenDisplayed = "yes"; // Prevent all alerts from now on.
+function warnUserAboutSlowNetwork() { // Before April 2024 this used to be called from lessons. In April 2024 createAndHandleInternetConnectivityIsLostBox undertook the handling of total disconnection. See js_for_info_boxes_in_parent and js_for_speech_recognition_algorithm
+  alert(parent.slowNetworkWarningText); sessionStorage.internetIsTooSlowNotificationHasBeenDisplayed = "yes"; // Prevent all alerts from now on.
 }
 // ___
 window.onload = function() { // DANGER: Do not use window.onload anywhere else. Use addEventListener "load" instead in order to avoid overwriting.

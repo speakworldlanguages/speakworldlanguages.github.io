@@ -170,7 +170,7 @@ async function cacheCommonJSandCSSfilesForAllLessons() {
     // txt
     u+"/0lesson-continue_to_next.txt",
     u+"/0lesson-give_up_and_skip.txt",
-    u+"/0lesson-is_paused_message_and_unpause_button.txt",
+    // u+"/0-is_paused_message_and_unpause_button.txt", // Caching this won't speed up anything as this will be downloaded as soon as parent window fires load event » See js_for_info_boxes_in_parent
     u+"/0lesson-ok_i_understand.txt",
     u+"/0lesson-vocabulary_button1_button2.txt",
     // sounds for lessons with speech recognition
@@ -553,7 +553,7 @@ async function getTheseReadyFirst() {
     o+"/0-if_browser_support_is_unknown.txt",
     o+"/0-if_something_is_not_working.txt",
     o+"/0-learn_another_language.txt",
-    o+"/0-network_connection_too_slow.txt",
+    o+"/0-when_internet_is_available_but_too_slow.txt",
     o+"/0-wait_or_reload.txt",
     o+"/0-you_are_learning_ar.txt",
     o+"/0-you_are_learning_en.txt",

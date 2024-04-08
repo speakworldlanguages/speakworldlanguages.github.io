@@ -2,7 +2,7 @@
 let userIsAwaySound;
 let userIsBackSound;
 // Code written by Manheart Earthman=B. A. Bilgekılınç Topraksoy=土本 智一勇夫剛志
-// This file MAY NOT BE MODIFIED WITHOUT CONSENT VIA OFFICIAL AUTHORIZATION
+// This file MAY NOT BE MODIFIED WITHOUT CONSENT i.e. OFFICIAL AUTHORIZATION
 window.addEventListener('DOMContentLoaded', function(){ // NOTE: Do not access deviceDetector before DOMContentLoaded in js_for_different_browsers_and_devices
   // --
   // soundFileFormat exists in js_for_different_browsers_and_devices

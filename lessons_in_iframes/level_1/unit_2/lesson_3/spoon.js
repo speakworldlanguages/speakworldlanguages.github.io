@@ -270,7 +270,7 @@ function display_nowItsYourTurn_animation() {
         if (nowYouSayIt.children[0].src.includes(".avif")) {   nowYouSayIt.children[0].classList.add("animateAvifSprite");   }
         new SuperTimeout(function(){ resetWebp(nowYouSayIt.children[0]); nowYouSayIt.style.display = "none"; }, 5101);
         countdownForGiveUpSkipOrGoToNext = 40000; // For whitelisted browsers » Should depend on how many photos there are!
-      } else if (typeof warnUserAboutSlowNetwork === "function") {  warnUserAboutSlowNetwork();  } // Exists in js_for_all_iframed_lesson_htmls
+      } // DEPRECATE and use createAndHandleInternetConnectivityIsLostBox instead: else if (typeof warnUserAboutSlowNetwork === "function") {  warnUserAboutSlowNetwork();  } // Exists in js_for_all_iframed_lesson_htmls
     }
   }, changeTime*1000 - 600);
   // --

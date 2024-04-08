@@ -1,6 +1,6 @@
 "use strict";
 // Code written by Manheart Earthman=B. A. Bilgekılınç Topraksoy=土本 智一勇夫剛志
-// This file MAY NOT BE MODIFIED WITHOUT CONSENT VIA OFFICIAL AUTHORIZATION
+// This file MAY NOT BE MODIFIED WITHOUT CONSENT i.e. OFFICIAL AUTHORIZATION
 
 // USE SECTION & ADDRESS elements as new/other TYPES OF BUTTONS
 // UPDATE: SECTION ELEMENT IS HANDLED SEPARATELY BY notice.js

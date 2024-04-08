@@ -122,13 +122,40 @@ function blurABandBringVid1OverAB() {
   // Bring the 1st video
   vidsContainer.classList.add("videoAppearsOverPhotos");
   vidsContainer.style.animationDuration = (blurTime/3).toFixed(2)+"s";
-  vidsContainer.style.display = "block"; vid1.currentTime = startTime;
+  vidsContainer.style.display = "block";
+  new SuperTimeout(checkIfVid1CanPlayNiceAndSmooth, blurTime*500 - 900); // Video will start playing 0.9s before it is unblurred
+  function checkIfVid1CanPlayNiceAndSmooth() {
+    if (vid1.readyState === 4) { // The video is (mostly) loaded and ready to play. We cannot rely on canplaythrough event as it might never fire when added after the video is fully loaded.
+      playVid1NowThatItCanPlayThrough(); parent.console.log("1st video was already loaded and so it will now play");
+    } else if (vid1.readyState === 0) { // There must be a serious problem with reading the file
+      removeVid1AndReturnToAB(); // TOO BAD: Skip the video
+      parent.console.error("There seems a problem with the 1st video. Will skip it.");
+    } else { // The video is still loading or buffering
+      parent.console.log("Waiting for the 1st video to be playable");
+      // Looks like NEITHER loadeddata event NOR canplaythrough event is guaranteed to fire in this case which means we have to do it with an interval check.
+      // We are expecting that the poster images will be showing until readyState is 3
+      const thisKeepsCheckingVid1 = new SuperInterval(playVid1IfCanAndRemoveTheEventListenerToo,250);
+      function playVid1IfCanAndRemoveTheEventListenerToo() {
+        if (vid1.readyState === 4) { playVid1NowThatItCanPlayThrough(); thisKeepsCheckingVid1.clear(); parent.console.log("1st video is now playable"); }
+      }
+    }
+  }
+  function playVid1NowThatItCanPlayThrough(){
+    vid1.currentTime = startTime;
+    vid1.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
+    whatTreeSoundsLike1.play();
+    new SuperTimeout(function(){ sayC.play(); }, sayTime);
+    new SuperTimeout(function(){ removeVid1AndReturnToAB(); }, proceedTime);
+  }
+  /*
+  vid1.currentTime = startTime;
   new SuperTimeout(function(){
     vid1.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     whatTreeSoundsLike1.play();
     new SuperTimeout(function(){ sayC.play(); }, sayTime);
     new SuperTimeout(function(){ removeVid1AndReturnToAB(); }, proceedTime);
   }, blurTime*500 - 900); // Video will start playing 0.9s before it is unblurred
+  */
 }
 
 function removeVid1AndReturnToAB() {
@@ -268,7 +295,7 @@ function display_nowItsYourTurn_animation() {
         if (nowYouSayIt.children[0].src.includes(".avif")) {   nowYouSayIt.children[0].classList.add("animateAvifSprite");   }
         new SuperTimeout(function(){ resetWebp(nowYouSayIt.children[0]); nowYouSayIt.style.display = "none"; }, 5101);
         countdownForGiveUpSkipOrGoToNext = 40000; // For whitelisted browsers » Should depend on how many photos there are!
-      } else if (typeof warnUserAboutSlowNetwork === "function") {  warnUserAboutSlowNetwork();  } // Exists in js_for_all_iframed_lesson_htmls
+      } // DEPRECATE and use createAndHandleInternetConnectivityIsLostBox instead: else if (typeof warnUserAboutSlowNetwork === "function") {  warnUserAboutSlowNetwork();  } // Exists in js_for_all_iframed_lesson_htmls
     }
   }, changeTime*1000 - 600);
   // --
