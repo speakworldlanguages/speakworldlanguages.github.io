@@ -12,7 +12,7 @@ if (parent.langCodeForTeachingFilePaths) { // Safety overkill?
   }
 }
 
-// ___
+// DETECT USAGE OF native android back button or browser's back button
 if (window.location.href == parent.ayFreym.src) {
   //console.log("EXPECTED NORMAL NAVIGATION");
 } else {
@@ -107,13 +107,14 @@ window.addEventListener('DOMContentLoaded', function(){
         // See js_for_info_boxes_in_parent to find how the text is loaded at parent level
         // DEPRECATE: slowNetworkWarningMustBeDisplayedASAP = true;
         if (parent.internetConnectivityIsNiceAndUsable) { // Internet connection actually exists
-          warnUserAboutSlowNetwork(); // This should be a very rare case but it's nice to have it handled with a simple notification
+          warnUserAboutSlowNetwork(); // Works OK. It's nice to have it handled with a simple notification even though for most of the world it should rarely happen.
         }
       }
     }
   } else {  } // Firefox, Safari » No information about network speed ,,, NetworkInformation API is not supported
 
-  // For navigation handling » To detect if native Android BACK button or browser's BACK button was used » See blank.html
+  // For navigation handling » Second measure: see if native Android BACK button or browser's BACK button was used » See blank.html
+  // See above code to find how iframe.src is checked against window.location.href
   const whereAreWe = window.location.pathname;
   if (whereAreWe.search("progress_chart") != -1) { parent.userIsOrWasJustViewing = "progress-chart"; } // See blank.html
   else if (whereAreWe.search("information") != -1) { parent.userIsOrWasJustViewing = "info-screen"; } // See blank.html

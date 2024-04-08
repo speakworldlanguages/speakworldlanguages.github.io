@@ -129,7 +129,7 @@
           if(internetForWater){ parent.console.log("Internet speed is available."); // Chrome, Edge, Opera, SamsungInternet » Check how fast the internet is now, thanks to NetworkInformation API
             if(internetForWater.downlink>=1.5){ parent.console.log("Speed is fast enough: "+internetForWater.downlink); /*Fast enough: Let it load and display*/ // Get waterfalls and show
               switchToAnimatedWebpWaterfallsMOBILE();
-            } else { preventRepetitionOf3aAnd3b(); parent.console.log("Speed is NOT fast enough: "+internetForWater.downlink); } // Too slow: Loading of waterfalls won't make it in time
+            } else { preventRepetitionOf3aAnd3b(); parent.console.log("Speed is NOT fast enough to show the waterfalls in 1-1-1: "+internetForWater.downlink); } // Too slow: Loading of waterfalls won't make it in time
           } else { parent.console.warn("Internet speed is NOT readable.");
             if (isApple) { /*Too CPU intensive for Apple*/ } else { /*switchToAnimatedWebpWaterfallsMOBILE();*/ } // Should we let Firefox try???
           } // Firefox, Safari » No information about network speed ,,, NetworkInformation API is not supported » Try to display the waterfalls anyway
@@ -137,7 +137,7 @@
           if(internetForWater){ parent.console.log("Internet speed is available."); // Chrome, Edge, Opera, SamsungInternet » Check how fast the internet is now, thanks to NetworkInformation API
             if(internetForWater.downlink>=1.5){ parent.console.log("Speed is fast enough: "+internetForWater.downlink); /*Fast enough: Let it load and display*/ // Get waterfalls and show
               switchToAnimatedWebpWaterfallsDESKTOP();
-            } else { preventRepetitionOf3aAnd3b(); parent.console.log("Speed is NOT fast enough: "+internetForWater.downlink); } // Too slow: Loading of waterfalls won't make it in time
+            } else { preventRepetitionOf3aAnd3b(); parent.console.log("Speed is NOT fast enough to show the waterfalls in 1-1-1: "+internetForWater.downlink); } // Too slow: Loading of waterfalls won't make it in time
           } else { parent.console.warn("Internet speed is NOT readable.");
             if (isApple) { /*Too CPU intensive for Apple*/ } else { /*switchToAnimatedWebpWaterfallsDESKTOP(); */ } // Should we let Firefox try???
           } // Firefox, Safari » No information about network speed ,,, NetworkInformation API is not supported » Try to display the waterfalls anyway
