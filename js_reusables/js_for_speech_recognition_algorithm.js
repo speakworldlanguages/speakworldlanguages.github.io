@@ -22,13 +22,25 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
 
     // AND DISPLAY: The app needs a stable internet connection to be able to perform speech recognition.
     if (typeof parent.createAndHandleInternetConnectivityIsLostBox === "function") {
-      parent.createAndHandleInternetConnectivityIsLostBox().then(afterABriefMoment); // See js_for_info_boxes_in_parent
-      function afterABriefMoment() { parent.console.log("Looks like the app is back ONLINE");
-        setTimeout(function () {
+      parent.createAndHandleInternetConnectivityIsLostBox().then(connectivityIsRestoredAndUserWantsToContinue); // See js_for_info_boxes_in_parent
+      function connectivityIsRestoredAndUserWantsToContinue() { parent.console.log("Looks like the app is back ONLINE");
+        setTimeout(() => {
           if (listOfAllTickingSuperTimers) { unpauseAllSuperTimers(); parent.theAppIsPaused = false; } // See js_for_the_sliding_navigation_menu
           else { parent.console.warn("listOfAllTickingSuperTimers doesn't exist???"); }
-          // Retry with the exact same parameters
-          seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLimit,beforeThisManyRetriesHappen,withoutPlayingTheDING);
+
+          setTimeout(() => {
+            const a = anyOneOfTheWordsInThisArray;
+            const b = withinThisTimeLimit;
+            const c = beforeThisManyRetriesHappen;
+            const d = withoutPlayingTheDING;
+            // Retry with the exact same parameters
+            seeIfUserIsAbleToPronounce(a,b,c,d).then(checkAndProceed).catch((error) => { parent.console.error(error); });
+            function checkAndProceed() {
+              if (typeof stopListeningAndProceedToNext === "function") {    stopListeningAndProceedToNext();    } // See each lesson's own js to find stopListeningAndProceedToNext
+              else { parent.console.warn("stopListeningAndProceedToNext function doesn't exist???"); }
+            }
+          }, 500);
+
         }, 1000);
       }
     } else { parent.console.error("Error: createAndHandleInternetConnectivityIsLostBox function doesn't exist???"); }
@@ -59,10 +71,10 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
           // IDEA: We could replace withoutPlayingTheDING with something like typeOfTheDING to choose from different sounds
           if (!isAndroid && !withoutPlayingTheDING) { // See js_for_different_browsers_and_devices AND js_for_all_iframed_lesson_htmls
               // Android has its native DING tone. So let this DING tone play only on non-Android platforms i.e. desktops and iOS devices.
-              if (!playTheSecondDingOnly) { // WHAT WAS THE PURPOSE OF THIS ??? Must leave a note here when it is remembered !
-                dongDingTone.play(); parent.console.log("DONG DING");
+              if (!playTheSecondDingOnly) {
+                dongDingTone.play(); parent.console.log("DONG DING"); // The very first tone to be heard during a lesson or game
               } else {
-                dingTone.play(); parent.console.log("DING");
+                dingTone.play(); parent.console.log("DING"); // All the following tones during a lesson or game
               }
           }
 

@@ -311,11 +311,12 @@ function display_nowItsYourTurn_animation() {
   // Display the “It's your turn” animation if the user's browser is whitelisted.
   new SuperTimeout(function(){
     if (parent.willUserTalkToSpeechRecognition) {
+      countdownForGiveUpSkipOrGoToNext = 43000; // For whitelisted browsers » Should depend on how many photos there are!
       if (parent.internetConnectivityIsNiceAndUsable) {
+        // Now-you-say-it animation will be skipped when there is no connectivity
         nowYouSayIt.style.display = "block"; // See » css_for_photos_and_videos_teach_a_new_word » to find how it is centered
         if (nowYouSayIt.children[0].src.includes(".avif")) {   nowYouSayIt.children[0].classList.add("animateAvifSprite");   }
         new SuperTimeout(function(){ resetWebp(nowYouSayIt.children[0]); nowYouSayIt.style.display = "none"; }, 5101);
-        countdownForGiveUpSkipOrGoToNext = 43000; // For whitelisted browsers » Should depend on how many photos there are!
       } // DEPRECATE and use createAndHandleInternetConnectivityIsLostBox instead: else if (typeof warnUserAboutSlowNetwork === "function") {  warnUserAboutSlowNetwork();  } // Exists in js_for_all_iframed_lesson_htmls
     }
   }, changeTime*1000 - 600);
@@ -360,13 +361,15 @@ function speakToTheMic() {
     },countdownForGiveUpSkipOrGoToNext); // This must start ticking only after countdownForGiveUpSkipOrGoToNext is updated.
   },120);
 
+  new SuperTimeout(function() {  startStandardAudioInputVisualization();  },2500); // Will work only on devices that can handle it. See js_for_microphone_input_visualization.js
+
   // setLanguage() for annyang is in /js_reusables/js_for_the_parent_all_browsers_all_devices.js
   let eachWordArray;
   if (theNewWordUserIsLearningNowAndPossibleMishaps) { // It means fetch did indeed get the file
     eachWordArray = theNewWordUserIsLearningNowAndPossibleMishaps.split("|"); // The text files in speech_recognition_answer_key must be written with the | (bar) character as the separator between phrases.
     // Do not apply any time-limits or retry-limits
-    seeIfUserIsAbleToPronounce(eachWordArray).then(stopListeningAndProceedToNext).catch((error) => { parent.console.error(error); }); // See js_for_speech_recognition_algorithm
-    new SuperTimeout(function() {  startStandardAudioInputVisualization();  },2500); // Will work only on devices that can handle it. See js_for_microphone_input_visualization.js
+    seeIfUserIsAbleToPronounce(eachWordArray).then(stopListeningAndProceedToNext).catch((error) => { parent.console.error(error); });
+    // See js_for_speech_recognition_algorithm  
   } else { // fetch has failed to get the file
     // There must have been a terrible connectivity problem
     alert("💢 📶 💢 📶 💢 📶 💢 📶 💢"); // Show an international alert
