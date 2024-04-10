@@ -13,7 +13,7 @@ let playTheSecondDingOnly = false;
 function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLimit,beforeThisManyRetriesHappen,withoutPlayingTheDING) {
   if (!parent.internetConnectivityIsNiceAndUsable) {
     // FORCE-PAUSE THE APP (otherwise the visuals will keep playing)
-    if (listOfAllTickingSuperTimers) { pauseAllSuperTimers(); theAppIsPaused = true; } // See js_for_the_sliding_navigation_menu
+    if (listOfAllTickingSuperTimers) { pauseAllSuperTimers(); parent.theAppIsPaused = true; } // See js_for_the_sliding_navigation_menu
     else { parent.console.warn("listOfAllTickingSuperTimers doesn't exist???"); }
     // ACTUALLY: There already exists a pauseTheAppFunction inside js_for_the_sliding_navigation_menu which not only pauses all SuperTimers but also pauses sounds and videos etc
     // WE COULD: Modify the createAndHandleTheAppIsPausedBox in js_for_info_boxes_in_parent or pauseTheAppFunction in js_for_the_sliding_navigation_menu and call them with a parameter like "becauseInternetConnectivityIsLost"
@@ -25,7 +25,7 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
       parent.createAndHandleInternetConnectivityIsLostBox().then(afterABriefMoment); // See js_for_info_boxes_in_parent
       function afterABriefMoment() { parent.console.log("Looks like the app is back ONLINE");
         setTimeout(function () {
-          if (listOfAllTickingSuperTimers) { unpauseAllSuperTimers(); theAppIsPaused = false; } // See js_for_the_sliding_navigation_menu
+          if (listOfAllTickingSuperTimers) { unpauseAllSuperTimers(); parent.theAppIsPaused = false; } // See js_for_the_sliding_navigation_menu
           else { parent.console.warn("listOfAllTickingSuperTimers doesn't exist???"); }
           // Retry with the exact same parameters
           seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLimit,beforeThisManyRetriesHappen,withoutPlayingTheDING);
