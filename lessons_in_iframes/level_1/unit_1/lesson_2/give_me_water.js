@@ -81,7 +81,14 @@ const niceLeftArrowImg = document.getElementById("niceLeftArrowImgID");
 // See js_for_the_parent_all_browsers_all_devices for lastRecordedWindowWidth lastRecordedWindowHeight
 
 /* SET OFF */
-window.addEventListener('load', loadingIsCompleteFunction, { once: true });
+window.addEventListener('load',checkIfAppIsPaused, { once: true });
+function checkIfAppIsPaused() {
+  if (parent.theAppIsPaused) { // See js_for_the_sliding_navigation_menu
+    parent.pleaseAllowSound.play(); // Let the wandering user know that the lesson is now ready // See js_for_different_browsers_and_devices
+    let unpauseDetector = setInterval(() => {    if (!parent.theAppIsPaused) { clearInterval(unpauseDetector); loadingIsCompleteFunction(); }    }, 500); // NEVER use a SuperInterval here!
+  } else { loadingIsCompleteFunction(); }
+}
+
 function loadingIsCompleteFunction() {
   if (studiedLang == "ar") { // Display an info box about gender difference in Arabic.
     const pathOfNotificationAboutMaleFemaleCommand = "/user_interface/text/"+userInterfaceLanguage+"/1-1-2_arabic_male_female.txt";
@@ -101,12 +108,12 @@ function loadingIsCompleteFunction() {
 
   }
   else {
-    startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_all_iframed_lesson_htmls.js
+    startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
   }
   //--- By the way: Get the goodbye text ready
-  const pathOfLessonNoteAboutExpressingGratitude = "/user_interface/text/"+userInterfaceLanguage+"/1-1-2_end_of_lesson_note.txt";
-  setTimeout(function () {
+  setTimeout(function () { // We don't want a SuperTimeout in this case
     // Will show for all languages
+    const pathOfLessonNoteAboutExpressingGratitude = "/user_interface/text/"+userInterfaceLanguage+"/1-1-2_end_of_lesson_note.txt";
     fetch(pathOfLessonNoteAboutExpressingGratitude,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       goodByeMessage = contentOfTheTxtFile;
     });

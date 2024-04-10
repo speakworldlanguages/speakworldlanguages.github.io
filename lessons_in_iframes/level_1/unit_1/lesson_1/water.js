@@ -91,11 +91,18 @@ const containerOfSingles = document.getElementById('singlesDivID');
 
 const giveUpAndContinueButtonASIDE = document.getElementsByTagName('ASIDE')[0];
 let androidSpeechTimingInfoTxt = null;
+
 /* ___PROGRESSION___ */
-window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, { once: true });
 // Desktop users can change the speed; mobile users can't. Because the mobile GUI has to stay simple.
-function loadingIsCompleteFunction()
-{
+window.addEventListener("load",checkIfAppIsPaused, { once: true });
+function checkIfAppIsPaused() {
+  if (parent.theAppIsPaused) { // See js_for_the_sliding_navigation_menu
+    parent.pleaseAllowSound.play(); // Let the wandering user know that the lesson is now ready // See js_for_different_browsers_and_devices
+    let unpauseDetector = setInterval(() => {    if (!parent.theAppIsPaused) { clearInterval(unpauseDetector); loadingIsCompleteFunction(); }    }, 500); // NEVER use a SuperInterval here!
+  } else { loadingIsCompleteFunction(); }
+}
+
+function loadingIsCompleteFunction() {
   // Stop and notify the user if necessary; otherwise just continue.
   if (studiedLang == "zh") { // Display the warning about intonations to users who want to learn the Ren language.
     const pathOfNotificationAboutRenIntonation = "/user_interface/text/"+userInterfaceLanguage+"/1-1-1_ren_intonation.txt";
@@ -122,13 +129,13 @@ function loadingIsCompleteFunction()
 
   }
   else {
-    startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_all_iframed_lesson_htmls.js
+    startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
   }
   //--- By the way: Get the android-speech-timing-notification text ready
   if (isAndroid) { // See js_for_different_browsers_and_devices AND js_for_all_iframed_lesson_htmls
-    const pathOfNotificationAboutAndroidTiming = "/user_interface/text/"+userInterfaceLanguage+"/0lesson-android_speech_timing.txt";
-    setTimeout(function () {
+    setTimeout(function () { // We don't want a SuperTimeout in this case
       // Will show for all languages but only on Android
+      const pathOfNotificationAboutAndroidTiming = "/user_interface/text/"+userInterfaceLanguage+"/0lesson-android_speech_timing.txt";
       fetch(pathOfNotificationAboutAndroidTiming,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
         androidSpeechTimingInfoTxt = contentOfTheTxtFile;
       });
@@ -137,8 +144,7 @@ function loadingIsCompleteFunction()
 }
 // NOTE: The preloader disappears in 500ms » See css_for_preloader_and_orbiting_circles
 // For speedAdjustmentSetting see js_for_the_sliding_navigation_menu.js
-function startTheLesson()
-{
+function startTheLesson() {
   let sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
     case "slow": sayTime = 4500; proceedTime = 10500; break; // Leave room for sfx
@@ -157,8 +163,8 @@ function blurABandBringVid1OverAB() {
   let blurTime, sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
     case "slow": blurTime = 4.60; sayTime = 8000; proceedTime = 11000; break; // proceedTime must depend on video length
-    case "fast": blurTime = 2.00; sayTime = 7000; proceedTime = 9000;  break; // proceedTime must depend on video length
-    default:     blurTime = 3.30; sayTime = 7500; proceedTime = 10000; // proceedTime must depend on video length
+    case "fast": blurTime = 2.00; sayTime = 6000; proceedTime = 9000;  break; // proceedTime must depend on video length
+    default:     blurTime = 3.30; sayTime = 7000; proceedTime = 10000; // proceedTime must depend on video length
   }
 
   main.style.animationDuration = String(blurTime)+"s"; // Blur+Unblur paused at mid » See css_for_photos_and_videos_teach_a_new_word
@@ -169,13 +175,31 @@ function blurABandBringVid1OverAB() {
   // Bring the 1st video
   vidsContainer.classList.add("videoAppearsOverPhotos");
   vidsContainer.style.animationDuration = (blurTime/3).toFixed(2)+"s";
-  vidsContainer.style.display = "block"; vid1.currentTime = 0;
-  new SuperTimeout(function(){
-    vid1.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ 8.5s but action ends at ~7.1s.
+  vidsContainer.style.display = "block";
+  new SuperTimeout(checkIfVid1CanPlayNiceAndSmooth, blurTime*500 - 500); // Video will start playing 0.5s before it is unblurred
+  function checkIfVid1CanPlayNiceAndSmooth() {
+    if (vid1.readyState === 4) { // The video is (mostly) loaded and ready to play. We cannot rely on canplaythrough event as it might never fire when added after the video is fully (or mostly) loaded.
+      playVid1NowThatItCanPlayThrough(); parent.console.log("1st video was already loaded and so it will now play");
+    } else if (vid1.readyState === 0) { // There must be a serious problem with reading the file
+      removeVid1AndReturnToAB(); // TOO BAD: Skip the video
+      parent.console.error("There seems a problem with the 1st video. Will skip it.");
+    } else { // The video is still loading or buffering
+      parent.console.log("Waiting for the 1st video to be playable");
+      // Looks like NEITHER loadeddata event NOR canplaythrough event is guaranteed to fire in this case which means we have to do it with an interval check.
+      // We are expecting that the poster images will be showing until readyState is 3
+      const thisKeepsCheckingVid1 = new SuperInterval(playVid1IfCanAndRemoveTheEventListenerToo,250);
+      function playVid1IfCanAndRemoveTheEventListenerToo() {
+        if (vid1.readyState === 4) { playVid1NowThatItCanPlayThrough(); thisKeepsCheckingVid1.clear(); parent.console.log("1st video is now playable"); }
+      }
+    }
+  }
+  function playVid1NowThatItCanPlayThrough(){
+    // NOT NEEDED IN THIS CASE: if (startTime !== 0) { vid1.currentTime = startTime; }
+    vid1.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     whatWaterSoundsLike2.play(); // Audio sync is not ideal but let's call it good enough
     new SuperTimeout(function(){ sayC.play(); }, sayTime);
     new SuperTimeout(function(){ removeVid1AndReturnToAB(); }, proceedTime);
-  }, blurTime*500 - 500); // Video will start playing 0.5s before it is unblurred
+  }
 }
 
 function removeVid1AndReturnToAB() {
@@ -234,13 +258,31 @@ function blurCDandBringVid2OverCD() {
   // Bring the 2nd video
   vidsContainer.classList.add("videoAppearsOverPhotos");
   vidsContainer.style.animationDuration = (blurTime/3).toFixed(2)+"s";
-  vidsContainer.style.display = "block"; vid2.currentTime = 0;
-  new SuperTimeout(function(){
-    vid2.play(); // total video length ~ 9s. Action ends at ~8.0s
+  vidsContainer.style.display = "block";
+  new SuperTimeout(checkIfVid2CanPlayNiceAndSmooth, blurTime*500 - 500); // Video will start playing 0.5s before it is unblurred
+  function checkIfVid2CanPlayNiceAndSmooth() {
+    if (vid2.readyState === 4) { // The video is (mostly) loaded and ready to play. We cannot rely on canplaythrough event as it might never fire when added after the video is fully loaded.
+      playVid2NowThatItCanPlayThrough(); parent.console.log("2nd video was already loaded and so it will now play");
+    } else if (vid2.readyState === 0) { // There must be a serious problem with reading the file
+      removeVid2AndReturnToCD(); // TOO BAD: Skip the video
+      parent.console.error("There seems a problem with the 2nd video. Will skip it.");
+    } else { // The video is still loading or buffering
+      parent.console.log("Waiting for the 2nd video to be playable");
+      // Looks like NEITHER loadeddata event NOR canplaythrough event is guaranteed to fire in this case which means we have to do it with an interval check.
+      // We are expecting that the poster images will be showing until readyState is 3
+      const thisKeepsCheckingVid2 = new SuperInterval(playVid2IfCanAndRemoveTheEventListenerToo,250);
+      function playVid2IfCanAndRemoveTheEventListenerToo() {
+        if (vid2.readyState === 4) { playVid2NowThatItCanPlayThrough(); thisKeepsCheckingVid2.clear(); parent.console.log("2nd video is now playable"); }
+      }
+    }
+  }
+  function playVid2NowThatItCanPlayThrough(){
+    // NOT NEEDED IN THIS CASE: if (startTime !== 0) { vid2.currentTime = startTime; }
+    vid2.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     whatWaterSoundsLike4.play(); // 9048ms
     new SuperTimeout(function(){ sayF.play(); }, sayTime);
     new SuperTimeout(function(){ removeVid2AndReturnToCD(); }, proceedTime);
-  }, blurTime*500 - 500); // Video will start playing 0.5s before it is unblurred
+  }
 }
 
 function removeVid2AndReturnToCD() {
@@ -377,83 +419,6 @@ function speakToTheMic() {
     alert("💢 📶 💢 📶 💢 📶 💢 📶 💢"); // Show an international alert
     parent.ayFreym.src = "/progress_chart/index.html"; // Try to navigate to the progress_chart as the last thing to do
   }
-
-
-
-
-/* MOVE INTO js_for_speech_recognition_algorithm
-  // Notes about handling non-English string characters
-  // BULGULAR: toLowerCase() Windows'ta büyük Ş yi küçük ş ye çeviriyor ama Mac OS üzerinde çevirmiyor
-  // Onun yerine toLocaleLowerCase() kullanılırsa büyük I İngilizcedeki gibi küçük i ye dönüşmek yerine küçük ı ya dönüşüyor
-  // Seçenek1: toLocaleLowerCase() KULLANMAYIP speech_recognition_answer_key içindeki cevapları buna dikkat ederek girmek
-  // Seçenek2: tr için özel koşul yazmak -> OLMADI NEDEN ÇÜNKÜ büyük [İ] yi [i̇] ye yanlış dönüştürüyor. İki farklı küçük i çıkıyor ve ("i̇" == "i") false veriyor
-  // Note: We don't need toLocaleLowerCase() for Cyrillic script (confirmed on Windows), toLowerCase() does the job right already
-
-  if (parent.annyang) { parent.console.log("Starting speech recognition for: "+eachWordArray[0]);
-    // October 2022 policy change: Stop using commands object with annyang
-    // DEPRECATED parent.annyang.addCommands(commands);
-    if (!parent.isAndroid) { // See js_for_different_browsers_and_devices
-        notificationDingTone.play(); // Android has its native DING tone. So let this DING tone play on desktops and iOS devices.
-    }
-    if (parent.isAndroid) {
-      if (parent.annyang.isListening()) {      parent.annyang.abort();     } // Try to avoid the «SpeechRecognition is already listening» error
-    }
-    // Start listening.
-    new SuperTimeout(function() {  parent.annyang.start({ autoRestart: true });  },500); // NOTE: annyang.resume() equals annyang.start()
-    new SuperTimeout(function() {  startStandardAudioInputVisualization();  },2500); // Will work only on devices that can handle it. See js_for_microphone_input_visualization.js
-    // New method of detecting matches
-    parent.annyang.addCallback('result', compareAndSeeIfTheAnswerIsCorrect);
-    function compareAndSeeIfTheAnswerIsCorrect(phrasesArray) {
-      parent.console.log('Speech recognized. Possibly said: '+phrasesArray); // SpeechRecognition actually returns a confidence value for each of its guessed-catches but we as of October2023 there is no use for it in the app
-      // Check if there is a match
-      let j;
-      for(j=0;j<eachWordArray.length;j++) {
-        // NOTE THAT: There is also the option of using includes() to perform phrase to phrase comparison // Remember that it's not contains() » It's includes()
-        // BUT we want to split phrases into words and perform word to word comparison
-        let k;
-        for (k = 0; k < phrasesArray.length; k++) {
-          // Which method is better?
-          // if (phrasesArray[k].toLowerCase().search(eachWordArray[j].toLowerCase()) >= 0) // This will return true if user utters 'underwater' instead of 'water'
-          // if (phrasesArray[k].toLowerCase() == eachWordArray[j].toLowerCase()) // Only with interimResults TURNED ON, this will return true if user utters 'Water is the liquid form of H2O' but false for 'underwater' and also false for 'under water'
-          // if (phrasesArray[k].toLowerCase().search(eachWordArray[j].toLowerCase()) == 0) // Accept user's utterance if it starts with the "correct word or phrase" even if interimResults option is turned off like 'watermelon'.
-          // To accept 'under water' while rejecting 'underwater' we need to extract individual words from phrases
-
-          const fromPhraseToSingleWords = phrasesArray[k].split(" "); // Note that in "spaceless" languages like Renmen-Hito phrases will not be split into words
-          let z;
-          for (z = 0; z < fromPhraseToSingleWords.length; z++) {
-
-            // Now we can reject 'underwater' and accept 'under water' // NOTE: With interimResults enabled it’s probably impossible to reject 'watermelon'
-            let searchResult = false;
-            if (fromPhraseToSingleWords[z].toLowerCase() == eachWordArray[j].toLowerCase()) { searchResult = true; } // For some reason this fails for Arabic in Safari >>> Works without any problems in Chrome though
-            else if (isApple) {
-              if (parent.annyang.getSpeechRecognizer().lang == "ar") { parent.console.warn("Listening for Arabic on Safari/Apple");
-                // Use string search to try and find it within the phrase and not individual words
-                if (phrasesArray[k].search(eachWordArray[j]) >= 0) { searchResult = true; }
-              }
-            }
-            else if (parent.targetLanguageIsWrittenWithoutSpaces) { // Accept an utterance like 我要喝水 as a correct answer
-              // Event though it means we will also accept ミミズ when waiting for 水 !!!
-              if (fromPhraseToSingleWords[z].toLowerCase().search(eachWordArray[j].toLowerCase()) >= 0) { searchResult = true; }
-              // ALSO NOTE THAT: Unfortunately SpeechRecognition can ignore user's speech when the utterance is too short consisting of only one syllable
-              // In that case we show a prompt like "It's OK to skip" » See annyang.js numberOfRestartsDespiteDetectionOfAudioInput » See /user_interface/text/??/0-if_something_is_not_working.txt
-            }
-            // -
-            if (!aMatchWasFound && searchResult) {
-              aMatchWasFound = true; // By using this, we make sure that stopListeningAndProceedToNext will fire only and only once
-              if (parent.annyang.getSpeechRecognizer().interimResults) { parent.console.log("Correct answer detected with interimResults enabled");
-                setTimeout(function () { stopListeningAndProceedToNext(); }, 250); // Interim results is or can be too quick (especially on Windows)
-              } else { parent.console.log("Correct answer detected without interimResults");
-                stopListeningAndProceedToNext();
-              }
-            } else {
-              // Prevent a possible second firing (or any further firings) of stopListeningAndProceedToNext by doing nothing
-            }
-          } // End of for z
-        } // End of for k
-      } // End of for j
-    } // END OF compareAndSeeIfTheAnswerIsCorrect
-  } // END OF if parent.annyang
-*/
 
 } /* END OF speakToTheMic */
 

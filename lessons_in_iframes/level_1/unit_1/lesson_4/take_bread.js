@@ -98,7 +98,14 @@ let isFrameBlurred = false; //
 // See js_for_the_parent_all_browsers_all_devices for lastRecordedWindowWidth lastRecordedWindowHeight
 
 /* SET OFF */
-window.addEventListener('load', loadingIsCompleteFunction, { once: true });
+window.addEventListener('load',checkIfAppIsPaused, { once: true });
+function checkIfAppIsPaused() {
+  if (parent.theAppIsPaused) { // See js_for_the_sliding_navigation_menu
+    parent.pleaseAllowSound.play(); // Let the wandering user know that the lesson is now ready // See js_for_different_browsers_and_devices
+    let unpauseDetector = setInterval(() => {    if (!parent.theAppIsPaused) { clearInterval(unpauseDetector); loadingIsCompleteFunction(); }    }, 500); // NEVER use a SuperInterval here!
+  } else { loadingIsCompleteFunction(); }
+}
+
 function loadingIsCompleteFunction() {
   if (studiedLang == "zh") { // Display note about the importance of intonation in RENMEN.
     const pathOfNotificationAboutIntonation = "/user_interface/text/"+userInterfaceLanguage+"/1-1-4_ren_attention_to_intonation.txt";
@@ -111,12 +118,13 @@ function loadingIsCompleteFunction() {
 
   }
   else {
-    startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_all_iframed_lesson_htmls.js
+    startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
   }
-  //--- By the way: Get the end of lesson text ready
-  const noteAtTheEndOfLessonPath = "/user_interface/text/"+userInterfaceLanguage+"/1-1-4_end_of_lesson.txt"; // Could you figure out how to say eat
-  setTimeout(function () {
+  //---
+  // By the way: Get the end of lesson text ready
+  setTimeout(function () { // We don't want a SuperTimeout in this case
     // Will show for all languages
+    const noteAtTheEndOfLessonPath = "/user_interface/text/"+userInterfaceLanguage+"/1-1-4_end_of_lesson.txt"; // Could you figure out how to say eat
     fetch(noteAtTheEndOfLessonPath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ couldYouFigureOutHowToSayEat = contentOfTheTxtFile; });
   }, 5000);
 }

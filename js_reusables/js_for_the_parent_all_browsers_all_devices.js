@@ -53,7 +53,6 @@ var firstUserGestureHasUnleashedAudio = false; // Used in js_for_the_sliding_nav
 // NOTE: Chrome does not count an alert box click as a user gesture. Only the first element click or touch will unlock sound. Must be silent until then.
 // _________________
 
-// DEPRECATED let dismissNotificationSound1;
 let clickSound; //BETTER WITHOUT: hoverSound
 window.addEventListener("load",function () {
 
@@ -77,17 +76,7 @@ window.addEventListener("load",function () {
   }
   // illuminant_button_click SOUND ALSO «ACTS AS-COVERS-CONNECTS TO» THE POPPING SOUND OF [Go back] [Ok, let's start] BOX // See js_for_info_boxes_in_parent
   clickSound = new Howl({  src: ["/user_interface/sounds/illuminant_button_click."+soundFileFormat]  }); // See js_for_different_browsers_and_devices to find soundFileFormat
-  /* DEPRECATE
-  if (isApple) { // DO NOT ACCESS isApple BEFORE DOMContentLoaded IN js_for_different_browsers_and_devices
-    // DEPRECATED dismissNotificationSound1 = new Howl({  src: ["/user_interface/sounds/notification1_close.mp3"]  }); // notification1_close ALSO USED AS dismissNotificationType1Sound IN js_for_info_boxes_in_lessons
-    clickSound = new Howl({  src: ["/user_interface/sounds/illuminant_button_click.mp3"]  });
-  } else {
-    // DEPRECATED dismissNotificationSound1 = new Howl({  src: ["/user_interface/sounds/notification1_close.webm"]  }); // notification1_close ALSO USED AS dismissNotificationType1Sound IN js_for_info_boxes_in_lessons
-    clickSound = new Howl({  src: ["/user_interface/sounds/illuminant_button_click.webm"]  });
-  }
-  */
-  // ---
-
+  
   // ---
 
   // Skip the welcome screen and continue progress from last unit / last saved position

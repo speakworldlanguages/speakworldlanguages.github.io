@@ -25,7 +25,15 @@ window.addEventListener('DOMContentLoaded', function(){
 }, { once: true });
 
 let bgmSound, hoverSound, clickSound;
-window.addEventListener('load', function(){
+window.addEventListener('load',checkIfAppIsPaused, { once: true });
+function checkIfAppIsPaused() {
+  if (parent.theAppIsPaused) { // See js_for_the_sliding_navigation_menu
+    parent.pleaseAllowSound.play(); // Let the wandering user know that the lesson is now ready // See js_for_different_browsers_and_devices
+    let unpauseDetector = setInterval(() => {    if (!parent.theAppIsPaused) { clearInterval(unpauseDetector); loadingIsCompleteFunction(); }    }, 500); // NEVER use a SuperInterval here!
+  } else { loadingIsCompleteFunction(); }
+}
+
+function loadingIsCompleteFunction() {
   // --
   theSilentSpeechOfTheAuthor = document.querySelector('.speechBubble');
   if (userReadsLeftToRightOrRightToLeft == "rtl") { // js_for_every_single_html
@@ -62,7 +70,8 @@ window.addEventListener('load', function(){
     // In this case let fetch() fire startPrintingLetters() when it hopefully gets the text
   }
   // --
-}, { once: true });
+}
+
 
 // ANIMATE TEXT
 let letterCounter = 1;

@@ -263,8 +263,8 @@ function tellTheUserToChangeOrUpdateTheBrowser() {
 
 /*________________window LOAD___________________*/
 let allowMicrophoneBlinker;
-let pleaseAllowSound; // See js_for_info_boxes_in_parent for the preceding box sounds
-let micPermissionHasChangedToGrantedSound; // See js_for_info_boxes_in_parent for the preceding box sounds
+var pleaseAllowSound; // Also used in lessons as "Hey! New lesson is loaded" sound to recapture wandering user's attention when was viewing another browser tab
+let micPermissionHasChangedToGrantedSound;
 
 window.addEventListener("load",function() {
   pleaseAllowSound = new Howl({  src: ["/user_interface/sounds/notification2_appear."+soundFileFormat]  }); // See above to find soundFileFormat
@@ -378,7 +378,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                 const newPermissionState = event.target.state;
                 if (newPermissionState === 'granted') {
                   console.log('Microphone permission STATE has CHANGED TO GRANTED.');
-                  micPermissionHasChangedToGrantedSound.play(); // See js_for_info_boxes_in_parent for the accompanying sound
+                  setTimeout(() => { micPermissionHasChangedToGrantedSound.play(); }, 300);
                   localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes"; // Prevent all future prompts
                   mobileCanGoFullscreenNow = true; // For a first-time-user who has just touched|clicked [Allow] // See js_for_handling_fullscreen_mode » handleTouchForFullscreen
                   willUserTalkToSpeechRecognition = true; // Necessary: In case user is on an unknown browser that supports "Speech Recognition"
@@ -528,7 +528,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                     // -
                     console.log("User's answer was detected by using a setInterval check");
                     if (currentState == 'granted') {
-                      micPermissionHasChangedToGrantedSound.play(); // See js_for_info_boxes_in_parent for the accompanying sound
+                      micPermissionHasChangedToGrantedSound.play();
                       willUserTalkToSpeechRecognition = true; // In case user is on an unknown browser that supports "Speech Recognition"
                       console.log("User has chosen OK for microphone");
                       localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes"; // Prevent all future prompts

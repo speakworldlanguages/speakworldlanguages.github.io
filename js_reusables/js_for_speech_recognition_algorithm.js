@@ -41,11 +41,6 @@ function seeIfUserIsAbleToPronounce(anyOneOfTheWordsInThisArray,withinThisTimeLi
     // THE EARLIER IDEA WAS LIKE: alert("💢 📶 💢 📶 💢"); // Show an international alert
     // THE EARLIER IDEA WAS LIKE: parent.ayFreym.src = "/progress_chart/index.html"; // Try to navigate to the progress_chart as the last thing to do
 
-    // FOR THE BEST UX:
-    // Use setInterval to check and when connectivity is restored offer the user the option to continue - DONE
-    // Also better if the offer is dynamically hidden and unhidden depending on internet connectivity - DONE
-    // We may have to create a new type of "The-app-is-paused" box with a button that will be hidden and unhidden depending on internet connectivity - DONE
-
   } else {
     return new Promise((resolve, reject) => { // Avoid using reject for timelimit-failures and retry-failures BECAUSE syntax errors also get caught in catch block
         aMatchWasFound = false;

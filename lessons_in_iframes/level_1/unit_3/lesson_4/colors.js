@@ -133,10 +133,16 @@ function assignVisualsFunction() {
 }
 
 /* ___PROGRESSION___ */
-window.addEventListener("load",function(){   loadingIsCompleteFunction();   }, { once: true });
 // Desktop users can change the speed; mobile users can't. Because the mobile GUI has to stay simple.
-function loadingIsCompleteFunction()
-{
+window.addEventListener("load",checkIfAppIsPaused, { once: true });
+function checkIfAppIsPaused() {
+  if (parent.theAppIsPaused) { // See js_for_the_sliding_navigation_menu
+    parent.pleaseAllowSound.play(); // Let the wandering user know that the lesson is now ready // See js_for_different_browsers_and_devices
+    let unpauseDetector = setInterval(() => {    if (!parent.theAppIsPaused) { clearInterval(unpauseDetector); loadingIsCompleteFunction(); }    }, 500); // NEVER use a SuperInterval here!
+  } else { loadingIsCompleteFunction(); }
+}
+
+function loadingIsCompleteFunction() {
   if (studiedLang == "ar") { // Display the note about adjectives' GENDER in Arabic.
     const pathOfNotificationAboutGender = "/user_interface/text/"+userInterfaceLanguage+"/1-3-4_arabic_gender.txt";
     fetch(pathOfNotificationAboutGender,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
@@ -156,7 +162,7 @@ function loadingIsCompleteFunction()
   }
   // ---
   // By the way: Get the end-of-lesson texts ready
-  setTimeout(function () {
+  setTimeout(function () { // We don't want a SuperTimeout in this case
     if (studiedLang == "ja") {
       const pathOfLessonEndingNoteAboutColors = "/user_interface/text/"+userInterfaceLanguage+"/1-3-4_on_spectrum_of_colors_ja.txt";
       fetch(pathOfLessonEndingNoteAboutColors,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
@@ -170,8 +176,7 @@ function loadingIsCompleteFunction()
   }, 5000);
 }
 
-function startTheLesson()
-{
+function startTheLesson() {
   // White is the first color then comes green » blue » yellow » red » black
   // Give time to the preloader to clear
   let sayTime; let proceedTime;
@@ -666,7 +671,7 @@ class Firework {
             if (canVibrate) { navigator.vibrate([250,60,12,70,11,85,10,105,9,130,8,160,7]); }
 
             if (!clearanceAdjustmentInterval) {
-              clearanceAdjustmentInterval = setInterval(increaseClearance,500);
+              clearanceAdjustmentInterval = setInterval(increaseClearance,500); // A SuperInterval is not necessary here, no?
             }
         }
     }

@@ -33,14 +33,7 @@ okLetsTryRefreshingTheBrowserBoxDIV.innerHTML = "&#9989;"; // Default content of
 window.addEventListener("DOMContentLoaded",function() { // QUESTION: Could DOMContentLoaded still be too early for deviceDetector at parent level? A: Not if js_for_info_boxes_in_parent is listed after js_for_different_browsers_and_devices
   // soundFileFormat exists in js_for_different_browsers_and_devices
   closeTheBox_OK_Sound = new Howl({  src: ["/user_interface/sounds/option_positive."+soundFileFormat]  }); // See js_for_different_browsers_and_devices to find soundFileFormat
-  // To find notification2_appear and notification2_close see js_for_different_browsers_and_devices >>> pleaseAllowSound & micPermissionHasChangedToGrantedSound
   closeTheBox_CANCEL_Sound = new Howl({  src: ["/user_interface/sounds/option_negative."+soundFileFormat]  });
-  // notification3_close is also used as dismissVocabularySound in js_for_info_boxes_in_lessons
-  /* DEPRECATE
-  // Do not access isApple before DOMContentLoaded in js_for_different_browsers_and_devices
-  if (isApple) {  closeTheBox_OK_Sound = new Howl({  src: ["/user_interface/sounds/notification3_close.mp3"]   });  }
-  else {          closeTheBox_OK_Sound = new Howl({  src: ["/user_interface/sounds/notification3_close.webm"]  });  }
-  */
   // -
   const pathOfSaveLoadInfoNoticeTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-about_saving_loading_users_progress.txt";
   const pathOfThreeBoxClosingTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-cancel_proceed_good.txt";

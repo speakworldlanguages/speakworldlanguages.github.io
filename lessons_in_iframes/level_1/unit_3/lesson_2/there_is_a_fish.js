@@ -111,8 +111,14 @@ const startingPositionOfTheFish = 18; // vmin
 // ---
 
 /* SET OFF */
-window.addEventListener('load', loadingIsCompleteFunction, { once: true });
-// NOTE THAT: In this case the grammar [info box] must appear after the pronunciation-teacher-box [listen box]
+window.addEventListener('load',checkIfAppIsPaused, { once: true });
+function checkIfAppIsPaused() {
+  if (parent.theAppIsPaused) { // See js_for_the_sliding_navigation_menu
+    parent.pleaseAllowSound.play(); // Let the wandering user know that the lesson is now ready // See js_for_different_browsers_and_devices
+    let unpauseDetector = setInterval(() => {    if (!parent.theAppIsPaused) { clearInterval(unpauseDetector); loadingIsCompleteFunction(); }    }, 500); // NEVER use a SuperInterval here!
+  } else { loadingIsCompleteFunction(); }
+}
+// NOTE THAT: In this case the grammar [info box] must appear BEFORE the pronunciation-teacher-box [listen box]
 function loadingIsCompleteFunction() {
   swimmingFishContainer.style.transform = "translateX("+(0+startingPositionOfTheFish).toFixed(3)+"vmin)";
   // --
@@ -137,13 +143,13 @@ function loadingIsCompleteFunction() {
 
   }
   else {
-    startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_all_iframed_lesson_htmls.js
+    startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
   }
   //---
   // By the way: Get the end of lesson texts ready
-  setTimeout(function () {
-    const noteAtTheEndOfLessonPath = "/user_interface/text/"+userInterfaceLanguage+"/1-3-2_arabic_ma_shayunma.txt"; // ONLY 1 KB
+  setTimeout(function () { // We don't want a SuperTimeout in this case
     if (studiedLang == "ar") {
+      const noteAtTheEndOfLessonPath = "/user_interface/text/"+userInterfaceLanguage+"/1-3-2_arabic_ma_shayunma.txt"; // ONLY 1 KB
       fetch(noteAtTheEndOfLessonPath,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ noteToBeDisplayedAtTheEndOfThisLesson = contentOfTheTxtFile; });
     } else if (studiedLang == "??") {
 
@@ -535,7 +541,7 @@ function handleWinning() {
     // ---
     // ---
     let cloudOpacity = 1;
-    let makeCloudsDisappearInterval = setInterval(function () {
+    let makeCloudsDisappearInterval = setInterval(function () { // No big deal if this is not a pausable SuperInterval
       if (cloudOpacity>=0.05) { cloudOpacity -= 0.05; firstCloud.parentNode.style.opacity = String(cloudOpacity); }
       else {   cloudOpacity=0; firstCloud.remove(); secondCloud.remove(); clearInterval(makeCloudsDisappearInterval);  }
     }, 250);

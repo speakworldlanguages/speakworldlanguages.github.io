@@ -461,7 +461,7 @@ async function getTheseReadyFirst() {
     "/user_interface/sounds/fullscreen_exit.webm",
     "/user_interface/sounds/fullscreen_open.webm",
     "/user_interface/sounds/illuminant_button_click.webm",
-    "/user_interface/sounds/notification3_close.webm",
+    "/user_interface/sounds/notification3_close.webm", // DEPRE.
     "/user_interface/sounds/user_is_away.webm",
     "/user_interface/sounds/user_is_back.webm"
   ];
@@ -527,11 +527,11 @@ async function getTheseReadyFirst() {
     "/user_interface/sounds/glass_button_hover.webm",
 
     "/user_interface/sounds/looping_bgm_stereo_therapy.webm",
-    "/user_interface/sounds/notification1_appear.webm",
-    "/user_interface/sounds/notification1_close.webm",
-    "/user_interface/sounds/notification2_appear.webm",
-    "/user_interface/sounds/notification2_close.webm",
-    "/user_interface/sounds/notification3_appear.webm",
+    "/user_interface/sounds/notification1_appear.webm", // DEPRE.
+    "/user_interface/sounds/notification1_close.webm", // DEPRE.
+    "/user_interface/sounds/notification2_appear.webm", // DEPRE.
+    "/user_interface/sounds/notification2_close.webm", // DEPRE.
+    "/user_interface/sounds/notification3_appear.webm", // DEPRE.
 
     "/user_interface/sounds/progress_chart_click.webm",
     "/user_interface/sounds/progress_chart_hover.webm",

@@ -92,14 +92,23 @@ const svg = document.getElementsByTagName('svg')[0];
 // See js_for_the_parent_all_browsers_all_devices for lastRecordedWindowWidth lastRecordedWindowHeight
 
 /* SET OFF */
-window.addEventListener('load', loadingIsCompleteFunction, { once: true });
+window.addEventListener('load',checkIfAppIsPaused, { once: true });
+function checkIfAppIsPaused() {
+  if (parent.theAppIsPaused) { // See js_for_the_sliding_navigation_menu
+    parent.pleaseAllowSound.play(); // Let the wandering user know that the lesson is now ready // See js_for_different_browsers_and_devices
+    let unpauseDetector = setInterval(() => {    if (!parent.theAppIsPaused) { clearInterval(unpauseDetector); loadingIsCompleteFunction(); }    }, 500); // NEVER use a SuperInterval here!
+  } else { loadingIsCompleteFunction(); }
+}
+
 function loadingIsCompleteFunction() {
+  // Stop and notify the user if necessary; otherwise just continue.
   if (false) {
     // Create a notification box if there is a special case with any particular target language
+  } else {
+    startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
   }
-  else {
-    startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_all_iframed_lesson_htmls.js
-  }
+  // ---
+  // As of April 2024 there is nothing to be displayed at the end of this lesson
 }
 
 function startTheLesson() {

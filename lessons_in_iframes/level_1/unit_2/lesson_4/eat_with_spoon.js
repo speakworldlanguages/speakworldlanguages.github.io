@@ -90,8 +90,14 @@ const plateStates = document.getElementById('thePlateStatesDivID');
 // See js_for_the_parent_all_browsers_all_devices for lastRecordedWindowWidth lastRecordedWindowHeight
 
 /* SET OFF */
-window.addEventListener('load', loadingIsCompleteFunction, { once: true });
-// NOTE THAT: In this case the grammar [info box] must appear after the pronunciation-teacher-box [listen box]
+window.addEventListener('load',checkIfAppIsPaused, { once: true });
+function checkIfAppIsPaused() {
+  if (parent.theAppIsPaused) { // See js_for_the_sliding_navigation_menu
+    parent.pleaseAllowSound.play(); // Let the wandering user know that the lesson is now ready // See js_for_different_browsers_and_devices
+    let unpauseDetector = setInterval(() => {    if (!parent.theAppIsPaused) { clearInterval(unpauseDetector); loadingIsCompleteFunction(); }    }, 500); // NEVER use a SuperInterval here!
+  } else { loadingIsCompleteFunction(); }
+}
+// NOTE THAT: In this case the grammar [info box] must appear AFTER the pronunciation-teacher-box [listen box]
 function loadingIsCompleteFunction() {
   // User must listen to pronunciation-teacher vocabulary box no matter what language he/she is studying
   const filePathOfTheAudioFile = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_4/with_listenbox."+soundFileFormat; // In case of "ar" wavesurfer box will play the verb root in male conjugation even if the user is female
@@ -121,11 +127,11 @@ function vocabularyBoxIsClosed(x,y) { // 500ms after OK is touched/clicked, it w
 
   }
   else {
-    startTheLesson();
+    startTheLesson(); // Call it now if it was not to be called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
   }
   // ---
   // By the way: Get the end of lesson texts ready
-  setTimeout(function () {
+  setTimeout(function () { // We don't want a SuperTimeout in this case
     if (studiedLang == "ja") {
       const pathOfLessonNoteAboutCompletionOfMeal = "/user_interface/text/"+userInterfaceLanguage+"/1-2-4_end_of_meal_ja.txt";
       fetch(pathOfLessonNoteAboutCompletionOfMeal,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
