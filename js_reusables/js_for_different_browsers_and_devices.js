@@ -378,7 +378,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                 const newPermissionState = event.target.state;
                 if (newPermissionState === 'granted') {
                   console.log('Microphone permission STATE has CHANGED TO GRANTED.');
-                  setTimeout(() => { micPermissionHasChangedToGrantedSound.play(); }, 300);
+                  setTimeout(() => { micPermissionHasChangedToGrantedSound.play(); }, 150);
                   localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes"; // Prevent all future prompts
                   mobileCanGoFullscreenNow = true; // For a first-time-user who has just touched|clicked [Allow] // See js_for_handling_fullscreen_mode » handleTouchForFullscreen
                   willUserTalkToSpeechRecognition = true; // Necessary: In case user is on an unknown browser that supports "Speech Recognition"
