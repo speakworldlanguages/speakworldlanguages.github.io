@@ -5,7 +5,7 @@
 // The basic workaround logic
 // https://dev.to/maxmonteil/is-your-app-online-here-s-how-to-reliably-know-in-just-10-lines-of-js-guide-3in7
 // For https://speakworldlanguages.app a number of improvements were added as seen below
-
+let previousState = true; // Expecting that the app will initially be online
 var internetConnectivityIsNiceAndUsable = null; // As of August 2023 this is never used at parent level // First usage is in index.html of lesson 111
 async function updateOnlineStatus() {
   if (window.navigator.onLine) {
@@ -25,9 +25,13 @@ async function updateOnlineStatus() {
       clearTimeout(waitBeforeCallingItNoGood);
       if (response.ok) {  internetConnectivityIsNiceAndUsable = true;  }
       else {  internetConnectivityIsNiceAndUsable = false;  }
+      // Compare and notify if there is change
+      compareWithPreviousState();
     } catch (error) {
       internetConnectivityIsNiceAndUsable = false;
       console.warn("The fetch in updateOnlineStatus function couldn't get any response within the time limit");
+      // Compare and notify if there is change
+      compareWithPreviousState();
     }
   } else { // window.navigator.onLine returned false
     internetConnectivityIsNiceAndUsable = false;
@@ -39,9 +43,17 @@ async function updateOnlineStatus() {
     const response = await fetch( url.toString(), { method: 'HEAD' } );
     if (response.ok) {  internetConnectivityIsNiceAndUsable = true; console.log("setting connectivity to TRUE despite being OFFLINE"); } // WARNING: Remember that when testing on localhost it will always return true!
     // On localhost DESPITE being OFFLINE everything will work except for speech recognition. For speech recognition the app NEEDS TO BE actually ONLINE.
+    // Compare and notify if there is change
+    compareWithPreviousState();
   }
 }
 // ---
+function compareWithPreviousState() {
+  if (previousState !== internetConnectivityIsNiceAndUsable) {
+    console.log("CONNECTIVITY HAS CHANGED FROM: " + previousState + " TO " + internetConnectivityIsNiceAndUsable);
+    previousState = internetConnectivityIsNiceAndUsable;
+  }
+}
 // REMEMBER!!! In the beginning internetConnectivityIsNiceAndUsable will be null until fetch gives its response which can take up to 6 seconds
 // THEREFORE: The very first caching attempts must not rely on internetConnectivityIsNiceAndUsable
 updateOnlineStatus();
