@@ -3,11 +3,18 @@
 if (localStorage.getItem("authorsNotice3FilesCachedSuccessfully")) {  }
 else { cacheAuthorsNotice3Assets(); }
 
+/* waiting for the next lesson to be ready
+if (localStorage.getItem("lesson121CommonFilesCachedSuccessfully")) { parent.console.log("Common files for 121 already cached"); }
+else { cacheLesson121CommonAssetsForAllLanguages(); }
+
+if (localStorage.getItem("lesson121FilesFor-"+parent.langCodeForTeachingFilePaths+"-CachedSuccessfully")) { parent.console.log("Files for "+parent.langCodeForTeachingFilePaths+" 121 already cached"); }
+else { cacheLesson121AssetsForTheTargetLanguage(); }
+*/
 
 
 
 
-
+let triesForNotice3Assets = 0;
 async function cacheAuthorsNotice3Assets() {
   const cacheSlot = await caches.open('assets-for-bakernotice3-October2023');
   let list = [
@@ -39,8 +46,11 @@ async function cacheAuthorsNotice3Assets() {
     if (!errorHappened) {
       localStorage.setItem("authorsNotice3FilesCachedSuccessfully", "marvelous");
     } else {
-      // Try again
-      setTimeout(function () {  cacheAuthorsNotice3Assets();  }, 4000);
+      triesForNotice3Assets++;
+      // Try again if the number of maximum retries is not reached
+      // «maximumRetries» and «delayTimeBeforeTryingAgain» exists in 0_parent_initial_load_and_111.js
+      if (triesForNotice3Assets<=parent.maximumRetries) {   setTimeout(function () {  cacheAuthorsNotice3Assets();  }, parent.delayTimeBeforeTryingAgain);   }
+      else {   parent.console.warn("Gave up on trying to cache: cacheAuthorsNotice3Assets");   }
     }
   } // End of try-catch-finally
-}
+} // END OF cacheAuthorsNotice3Assets

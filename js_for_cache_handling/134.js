@@ -6,6 +6,7 @@ else { cacheLesson134CommonAssetsForAllLanguages(); }
 if (localStorage.getItem("lesson134FilesFor-"+parent.langCodeForTeachingFilePaths+"-CachedSuccessfully")) { parent.console.log("Files for "+parent.langCodeForTeachingFilePaths+" 134 already cached"); }
 else { cacheLesson134AssetsForTheTargetLanguage(); }
 
+let triesFor134CommonAssets = 0;
 async function cacheLesson134CommonAssetsForAllLanguages() {
   const cacheForAllLanguages_1_3_4 = await caches.open('1-3-4-assets-for-all-languages-October2023');
   // ---
@@ -77,15 +78,19 @@ async function cacheLesson134CommonAssetsForAllLanguages() {
       parent.console.log("... and common files for 1-3-4 are ready");
       localStorage.setItem("lesson134CommonFilesCachedSuccessfully", "glorious");
     } else {
-      // Try again
-      setTimeout(function () {  cacheLesson134CommonAssetsForAllLanguages();  }, 4000);
+      triesFor134CommonAssets++;
+      // Try again if the number of maximum retries is not reached
+      // «maximumRetries» and «delayTimeBeforeTryingAgain» exists in 0_parent_initial_load_and_111.js
+      if (triesFor134CommonAssets<=parent.maximumRetries) {   setTimeout(function () {  cacheLesson134CommonAssetsForAllLanguages();  }, parent.delayTimeBeforeTryingAgain);   }
+      else {   parent.console.warn("Gave up on trying to cache: cacheLesson134CommonAssetsForAllLanguages");   }
     }
   } // End of try-catch-finally
 
 } // END OF cacheLesson134CommonAssetsForAllLanguages
 
 
-
+// ---
+let triesFor134TargetLangAssets = 0;
 async function cacheLesson134AssetsForTheTargetLanguage() {
   const cacheForTargetLanguage_1_3_4 = await caches.open('1-3-4-assets-for-'+parent.langCodeForTeachingFilePaths+'-October2023');
   // ---
@@ -158,8 +163,11 @@ async function cacheLesson134AssetsForTheTargetLanguage() {
       parent.console.log("... and files for 1-3-4 "+parent.langCodeForTeachingFilePaths+" are ready");
       localStorage.setItem("lesson134FilesFor-"+parent.langCodeForTeachingFilePaths+"-CachedSuccessfully", "tremendous");
     } else {
-      // Try again
-      setTimeout(function () {  cacheLesson134AssetsForTheTargetLanguage();  }, 4000);
+      triesFor134TargetLangAssets++;
+      // Try again if the number of maximum retries is not reached
+      // «maximumRetries» and «delayTimeBeforeTryingAgain» exists in 0_parent_initial_load_and_111.js
+      if (triesFor134TargetLangAssets<=parent.maximumRetries) {   setTimeout(function () {  cacheLesson134AssetsForTheTargetLanguage();  }, parent.delayTimeBeforeTryingAgain);   }
+      else {   parent.console.warn("Gave up on trying to cache: cacheLesson134AssetsForTheTargetLanguage");   }
     }
   } // End of try-catch-finally
 

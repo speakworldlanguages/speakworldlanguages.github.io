@@ -6,7 +6,7 @@ else { cacheLesson122CommonAssetsForAllLanguages(); }
 if (localStorage.getItem("lesson122FilesFor-"+parent.langCodeForTeachingFilePaths+"-CachedSuccessfully")) { parent.console.log("Files for "+parent.langCodeForTeachingFilePaths+" 122 already cached"); }
 else { cacheLesson122AssetsForTheTargetLanguage(); }
 
-
+let triesFor122CommonAssets = 0;
 async function cacheLesson122CommonAssetsForAllLanguages() {
   const cacheForAllLanguages_1_2_2 = await caches.open('1-2-2-assets-for-all-languages-August2023');
   // ---
@@ -36,12 +36,6 @@ async function cacheLesson122CommonAssetsForAllLanguages() {
   ];
   // soundFileFormat exists in js_for_all_iframed_lesson_htmls where it is copied from the parent in js_for_different_browsers_and_devices
 
-  /* DEPRECATE and use soundFileFormat from js_for_all_iframed_lesson_htmls which copies it from js_for_different_browsers_and_devices
-  // CAREFUL: All webm sounds shall change into mp3 on Apple. Make sure webm videos are excluded from change mapping.
-  if (isApple) {
-    listOfFilesForAllLanguages_1_2_2 = listOfFilesForAllLanguages_1_2_2.map(filepath => filepath.replace(".webm", ".mp3"));
-  }
-  */
   // -
   const o0 = "/lessons_in_iframes/level_1/unit_2/lesson_2/0/0_";
   const o1 = "/lessons_in_iframes/level_1/unit_2/lesson_2/1/1_";
@@ -108,14 +102,19 @@ async function cacheLesson122CommonAssetsForAllLanguages() {
       parent.console.log("... and common files for 1-2-2 are ready");
       localStorage.setItem("lesson122CommonFilesCachedSuccessfully", "wonderful");
     } else {
-      // Try again
-      setTimeout(function () {  cacheLesson122CommonAssetsForAllLanguages();  }, 4000);
+      triesFor122CommonAssets++;
+      // Try again if the number of maximum retries is not reached
+      // «maximumRetries» and «delayTimeBeforeTryingAgain» exists in 0_parent_initial_load_and_111.js
+      if (triesFor122CommonAssets<=parent.maximumRetries) {   setTimeout(function () {  cacheLesson122CommonAssetsForAllLanguages();  }, parent.delayTimeBeforeTryingAgain);   }
+      else {   parent.console.warn("Gave up on trying to cache: cacheLesson122CommonAssetsForAllLanguages");   }
     }
   } // End of try-catch-finally
 
 } // END OF cacheLesson122CommonAssetsForAllLanguages
 
 
+// ---
+let triesFor122TargetLangAssets = 0;
 async function cacheLesson122AssetsForTheTargetLanguage() {
   const cacheForTargetLanguage_1_2_2 = await caches.open('1-2-2-assets-for-'+parent.langCodeForTeachingFilePaths+'-August2023');
   // ---
@@ -139,12 +138,7 @@ async function cacheLesson122AssetsForTheTargetLanguage() {
     itemA,
     item1,    item2,    item3,    item4,    item5,    item6
   ];
-  /* DEPRECATE and use soundFileFormat from js_for_all_iframed_lesson_htmls which copies it from js_for_different_browsers_and_devices
-  // CAREFUL: All webm sounds shall change into mp3 on Apple. Make sure webm videos are excluded from change mapping.
-  if (isApple) {
-    listOfFilesForTargetLanguage_1_2_2 = listOfFilesForTargetLanguage_1_2_2.map(filepath => filepath.replace(".webm", ".mp3"));
-  }
-  */
+
   /*
   const u = "/user_interface/text/"+userInterfaceLanguage; // Works without "parent." notation » See js_for_every_single_html
   switch (parent.langCodeForTeachingFilePaths.substring(0,2)) { // Using substring, we trim "tr_istanbul" to "tr", "zh_putonghua" to "zh" etc
@@ -154,6 +148,7 @@ async function cacheLesson122AssetsForTheTargetLanguage() {
     default: // Nothing
   }
   */
+
   // ---
   let errorHappened = false;
   try {
@@ -167,8 +162,11 @@ async function cacheLesson122AssetsForTheTargetLanguage() {
       parent.console.log("... and files for 1-2-2 "+parent.langCodeForTeachingFilePaths+" are ready");
       localStorage.setItem("lesson122FilesFor-"+parent.langCodeForTeachingFilePaths+"-CachedSuccessfully", "fantastic");
     } else {
-      // Try again
-      setTimeout(function () {  cacheLesson122AssetsForTheTargetLanguage();  }, 4000);
+      triesFor122TargetLangAssets++;
+      // Try again if the number of maximum retries is not reached
+      // «maximumRetries» and «delayTimeBeforeTryingAgain» exists in 0_parent_initial_load_and_111.js
+      if (triesFor122TargetLangAssets<=parent.maximumRetries) {   setTimeout(function () {  cacheLesson122AssetsForTheTargetLanguage();  }, parent.delayTimeBeforeTryingAgain);   }
+      else {   parent.console.warn("Gave up on trying to cache: cacheLesson122AssetsForTheTargetLanguage");   }
     }
   } // End of try-catch-finally
 
