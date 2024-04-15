@@ -2,6 +2,10 @@
 // Code written by Manheart Earthman=B. A. Bilgekılınç Topraksoy=土本 智一勇夫剛志
 // This file MAY NOT BE MODIFIED WITHOUT CONSENT i.e. OFFICIAL AUTHORIZATION
 
+// CAUTION: REMEMBER TO UPDATE
+// welcomeScreenCacheHandling_proceed0 AND cacheProgressChartCommonFiles
+// found in 0_parent_initial_load_and_111.js WHENEVER A NEW LESSON BECOMES AVAILABLE
+
 const allNavElements = document.getElementsByTagName('NAV');
 // -
 let hoverProgress;
@@ -43,11 +47,9 @@ window.addEventListener("DOMContentLoaded",function () { // ACTUALLY: We don't n
 
 
   if (deviceDetector.isMobile) {
-    //handleAllNavigationsByTOUCHENDs(); // Deprecate?
-    handleAllNavigationToLessons("touchend");
+    handleAllNavigationToLessons("touchend"); // Neatly done
   } else {
-    //handleAllNavigationsByMOUSEUPs(); // Deprecate?
-    handleAllNavigationToLessons("mouseup");
+    handleAllNavigationToLessons("mouseup"); // Neatly done
   }
 
   // -

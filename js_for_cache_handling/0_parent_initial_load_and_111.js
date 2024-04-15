@@ -20,23 +20,25 @@ var delayTimeBeforeTryingAgain = 2000; // ms // Also to be used in every lesson'
 // Better wait for window load for safety
 window.addEventListener("load",welcomeScreenCacheHandling_proceed0,{once:true});
 // To be able to use «await» inside a function we declare it async
+// As of April 2024 await hasn't been used yet BUT it may be used in the future, so we better stay ready
 async function welcomeScreenCacheHandling_proceed0() {
   // --- See https://web.dev/cache-api-quick-guide/
-  // POLICY April 2024: Try to get as close as possible to making progress_chart offline compatible without introducing the obligation of deleting outdated caches
+  // LOOKS LIKE IMPOSSIBLE: Make progress_chart offline compatible without introducing the obligation of deleting outdated caches
   // -
   // IMPORTANT: The following localStorage key names MUST FOLLOW the naming STANDARDS of the app
   // ALSO: See js_for_the_parent_all_browsers_all_devices » goToProgressChart AND js_for_the_sliding_navigation_menu » goToMainMenuFunction
   if (localStorage.getItem("progressChartShouldBeAlmostOrFullyOfflineCompatibleNow")) { console.log("ALREADY CACHED: Files needed to make the progress_chart «almost or fully» offline compatible should be ready");
     // Previously cached » BUT! If it needs to be updated then uncomment the following
-    // const april2024cacheIsDeleted = await caches.delete('progress-chart-assets-April2024'); // Uncomment if update is necessary
-    if (false /* When new files are ready, replace false with april2024cacheIsDeleted */) {
+    // REMEMBER: Once a deletion is uncommented it must stay uncommented forever!
+    // const april2024cacheIsDeleted = await caches.delete('progress-chart-assets-April2024'); // Ready to be uncommented when files are updated
+    // With every update, this block should get longer and longer like » if (april2024cacheIsDeleted || someOtherCacheIsDeleted || oneMoreCacheIsDeleted)
+    if (false) {
       // So that the browser will NOT display files from the outdated cache to returning users.
       localStorage.removeItem("progressChartShouldBeAlmostOrFullyOfflineCompatibleNow");
       console.log("BUT IS OUTDATED: Files needed to make the progress_chart «almost or fully» offline compatible will now be updated");
       cacheProgressChartCommonFiles().then(proceed1); // Recache with the new files
     }
   } else {
-    // Probably OK without setTimeout(afterSomeMilliseconds1,500);
     cacheProgressChartCommonFiles().then(proceed1); // Caching for the very first time
   }
   // ---
@@ -56,7 +58,6 @@ async function proceed1() {
       cacheCommonFilesForAllLessons().then(proceed2); // Recache with the new files
     }
   } else {
-    // Probably OK without setTimeout(afterSomeMilliseconds1,500);
     cacheCommonFilesForAllLessons().then(proceed2); // Caching for the very first time
   }
   // ---
@@ -77,7 +78,6 @@ async function proceed2() {
       cacheLesson111CommonAssetsForAllLanguages().then(proceed3); // Recache with the new files
     }
   } else {
-    // Probably OK without setTimeout(afterSomeMilliseconds2,1000);
     cacheLesson111CommonAssetsForAllLanguages().then(proceed3); // Caching for the very first time
   }
   // ---
@@ -115,10 +115,11 @@ async function proceed3() {
 // ASYNC FUNCTIONS FOR GETTING THE FILES READY
 // ____________
 let triesForProgressChartFiles = 0;
-async function cacheProgressChartCommonFiles() { // POLICY April 2024: Get as close as possible to being offline compatible without introducing the obligation of deleting outdated caches
-  return new Promise((resolve) => {
+function cacheProgressChartCommonFiles() { // LOOKS LIKE IMPOSSIBLE: Make progress_chart offline compatible without introducing the obligation of deleting outdated caches
+  return new Promise(async (resolve,reject) => { // Do the «async» here to be able to make use of «await»
     // Create the folder-like storage slots
-    const cacheForTheProgressChart = await caches.open('progress-chart-assets-April2024');
+    const cacheForTheProgressChart = await caches.open('progress-chart-assets-April2024'); // Note the name to be able to delete the older cache
+    // When older files are updated OR new files are added THE PREVIOUS CACHE MUST BE DELETED
     const listOfEverythingInProgressChart = [
       "/progress_chart/images/1_1_1_water.webp",
       "/progress_chart/images/1_1_2_givemewater.webp",
@@ -133,20 +134,38 @@ async function cacheProgressChartCommonFiles() { // POLICY April 2024: Get as cl
       "/progress_chart/images/1_3_3_tree.webp",
       "/progress_chart/images/1_3_4_palette.webp",
       "/progress_chart/images/2_1_1_bird.webp",
+      // Add new image here
+
+      "/progress_chart/images/not_published_yet.webp",
 
       "/user_interface/images/arrow_right.webp", // Same file used both for progress chart (via progress.css) and at parent level » See the parent index.html
       "/user_interface/images/arrow_left.webp", // Same file used both for progress chart (via progress.css) and at parent level » See the parent index.html
 
-      "/progress_chart/images/not_published_yet.webp",
-      "/progress_chart/bilinguals.css",
-      "/progress_chart/index.html",
-      "/progress_chart/js_for_the_bilingual_return_button.js",
-      "/progress_chart/progress.css",
-      "/progress_chart/progress.js"
 
-      // Bilingual buttons in progress_chart require both 0-learn_another_language.txt and 0-you_are_learning_??.txt
-      // The buttons will contain text both in userInterfaceLanguage and langCodeForTeachingFilePaths.sub string (0,2)
-      // That makes 4 txt files
+      "/progress_chart/bilinguals.css", // This could be mature enough to stay unchanged for a longer while
+      "/progress_chart/index.html", // FREQUENT UPDATES EXPECTED
+      "/progress_chart/js_for_the_bilingual_return_button.js", // This is mature but remember that there are 6 txt files called from within
+      "/progress_chart/progress.css", // Mature: updates not expected
+      "/progress_chart/progress.js", // FREQUENT UPDATES EXPECTED
+
+      // Bilingual buttons in progress_chart require BOTH 0-you_are_learning_??.txt AND 0-learn_another_language.txt
+      // The buttons will contain text BOTH in userInterfaceLanguage AND langCodeForTeachingFilePaths.substr(0,2)
+      // There is also the bilingual alert box that needs 0-author_gives_sleep_advice.txt BOTH in userInterfaceLanguage AND langCodeForTeachingFilePaths.substr(0,2)
+      // That makes 6 txt files. Question: SHOULD WE BE CACHING THOSE and if so then HOW DO WE CACHE THOSE?
+      // WELL: We expect that if fetch cannot get the actual texts then some international default simple strings will be displayed
+
+
+      // Other files that must be cached to make progress_chart offline compatible
+      "/user_interface/images/preload_globe_100x150_frame0.webp"
+      /*
+      "/css_reusables/css_for_every_single_html.css" // CACHED BY cacheCommonFilesForAllLessons
+      "/css_reusables/css_for_all_iframed_lesson_htmls.css" // CACHED BY cacheCommonFilesForAllLessons
+      "/css_reusables/css_for_photos_and_videos_teach_a_new_word.css" // CACHED BY cacheCommonFilesForAllLessons
+      "/js_reusables/js_for_every_single_html.js" // CACHED BY cacheCommonFilesForAllLessons
+      "/js_reusables/js_for_all_iframed_lesson_htmls.js" // CACHED BY cacheCommonFilesForAllLessons
+      "/user_interface/sounds/progress_chart_hover."+soundFileFormat // CACHED BY cacheCommonFilesForAllLessons
+      "/user_interface/sounds/progress_chart_click."+soundFileFormat // CACHED BY cacheCommonFilesForAllLessons
+      */
     ];
     // -
     let errorHappened = false;
@@ -165,7 +184,7 @@ async function cacheProgressChartCommonFiles() { // POLICY April 2024: Get as cl
       } else {
         triesForProgressChartFiles++;
         // Try to cache if the number of maximum retries is not reached
-        if (triesForProgressChartFiles<=maximumRetries) {     setTimeout(function () { cacheProgressChartCommonFiles(); }, delayTimeBeforeTryingAgain);    }
+        if (triesForProgressChartFiles<=maximumRetries) {     setTimeout(function () { cacheProgressChartCommonFiles(); reject("ready to try again"); }, delayTimeBeforeTryingAgain);    } // Use reject to destroy the promise and free up memory
         else {    console.warn("Gave up on trying to cache: cacheProgressChartCommonFiles"); resolve("could not");    }
       }
     } // End of try-catch-finally
@@ -173,8 +192,8 @@ async function cacheProgressChartCommonFiles() { // POLICY April 2024: Get as cl
 } // END OF cacheProgressChartCommonFiles
 
 let triesForAllLessonsCommonFiles = 0;
-async function cacheCommonFilesForAllLessons() {
-  return new Promise((resolve) => {
+function cacheCommonFilesForAllLessons() {
+  return new Promise(async (resolve,reject) => { // Do the «async» here to be able to make use of «await»
     // Create the folder-like storage slots
     const cacheForCommonJSandCSSandTXTandOtherFilesUsedByLessonHTMLs = await caches.open('common-js-css-txt-etc-used-by-lessons-April2024');
     const u = "/user_interface/text/"+userInterfaceLanguage; // See js_for_every_single_html
@@ -283,7 +302,7 @@ async function cacheCommonFilesForAllLessons() {
       } else {
         triesForAllLessonsCommonFiles++;
         // Try to cache if the number of maximum retries is not reached
-        if (triesForAllLessonsCommonFiles<=maximumRetries) {     setTimeout(function () { cacheCommonFilesForAllLessons(); }, delayTimeBeforeTryingAgain);    }
+        if (triesForAllLessonsCommonFiles<=maximumRetries) {     setTimeout(function () { cacheCommonFilesForAllLessons(); reject("ready to try again"); }, delayTimeBeforeTryingAgain);    } // Use reject to destroy the promise and free up memory
         else {    console.warn("Gave up on trying to cache: cacheCommonFilesForAllLessons"); resolve("could not");    }
       }
     } // End of try-catch-finally
@@ -292,8 +311,8 @@ async function cacheCommonFilesForAllLessons() {
 
 // ____________
 let triesForLesson111AllLangFiles = 0;
-async function cacheLesson111CommonAssetsForAllLanguages() {
-  return new Promise((resolve) => {
+function cacheLesson111CommonAssetsForAllLanguages() {
+  return new Promise(async (resolve,reject) => { // Do the «async» here to be able to make use of «await»
     // Create the folder-like storage slots
     const primaryCacheForLesson_1_1_1 = await caches.open('1-1-1-primary-assets-for-all-languages-April2024');
     const secondaryCacheForLesson_1_1_1 = await caches.open('1-1-1-secondary-assets-for-all-languages-April2024');
@@ -363,7 +382,7 @@ async function cacheLesson111CommonAssetsForAllLanguages() {
       } else {
         triesForLesson111AllLangFiles++;
         // Try to cache if the number of maximum retries is not reached
-        if (triesForLesson111AllLangFiles<=maximumRetries) {     setTimeout(function () { cacheLesson111CommonAssetsForAllLanguages(); }, delayTimeBeforeTryingAgain);    }
+        if (triesForLesson111AllLangFiles<=maximumRetries) {     setTimeout(function () { cacheLesson111CommonAssetsForAllLanguages(); reject("ready to try again"); }, delayTimeBeforeTryingAgain);    } // Use reject to destroy the promise and free up memory
         else {    console.warn("Gave up on trying to cache: cacheLesson111CommonAssetsForAllLanguages"); resolve("could not");    }
       }
     } // End of try-catch-finally
@@ -373,6 +392,7 @@ async function cacheLesson111CommonAssetsForAllLanguages() {
 // ____________
 let triesForLesson111TaughtLangFiles = {};
 // This must not fire before langCodeForTeachingFilePaths in js_for_the_parent_all_browsers_all_devices has a value set and ready
+// Declare async to be able to use await inside the function
 async function cacheLesson111AssetsForTheTargetLanguage() {
   // April 2024: This is the last piece of the chain for caching operations so we don't need to use .then THEREFORE we do not need to return a Promise here
     // See js_for_the_parent_all_browsers_all_devices and find setLangCodeForFilePathsAndCacheTheFirstTeachingAssets
