@@ -19,6 +19,8 @@ let isAlreadyMovingTheBigSlideThatIs = false;
 /*
 window.addEventListener('DOMContentLoaded', function(){
  // DOMContentLoaded is (or can be) too early for deviceDetector
+
+ // BUT it won't be too early if we use parent.deviceDetector
 }, { once: true });
 */
 // REMEMBER: Wait for “userInterfaceLanguage” variable to be ready. See js_for_every_single_html.js

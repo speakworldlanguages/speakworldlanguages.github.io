@@ -18,7 +18,7 @@ async function cacheAuthorsNotice2Assets() {
     "/lessons_in_iframes/level_1/unit_2/notice_2/notice.css",
     "/lessons_in_iframes/level_1/unit_2/notice_2/notice.js",
     "/user_interface/text/"+userInterfaceLanguage+"/1-2-notice_author_says.txt"
-    // FOLLOWING FILES ARE USED both in notice1 and notice2 but they are cached by cacheCommonJSandCSSfilesForAllLessons in js_for_cache_handling/0_parent_initial_load_and_111
+    // FOLLOWING FILES ARE USED both in notice1 and notice2 but they are cached by cacheCommonFilesForAllLessons in js_for_cache_handling/0_parent_initial_load_and_111
     // "/user_interface/sounds/looping_bgm_stereo_therapy."+soundFileFormat
     // "/user_interface/sounds/section_as_button_hover."+soundFileFormat
     // "/user_interface/sounds/section_as_button_click."+soundFileFormat

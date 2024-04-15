@@ -287,9 +287,9 @@ window.onbeforeunload = function() {
 // ________
 function checkIfNextLessonIsCachedAndRedirectIfNot(lessonCode) { // Called at the end of each lesson
 
-  if (localStorage.getItem("commonJSandCSSfilesForAllLessonsCachedSuccessfully")) {
-    if (localStorage.getItem("lesson"+String(lessonCode)+"CommonFilesCachedSuccessfully")) {
-      if (localStorage.getItem("lesson"+String(lessonCode)+"FilesFor-"+parent.langCodeForTeachingFilePaths+"-CachedSuccessfully")) {
+  if (localStorage.getItem("commonFilesForAllLessonsCachedSuccessfully")) { // Find the naming pattern in 0_parent_initial_load_and_111.js
+    if (localStorage.getItem("lesson"+String(lessonCode)+"CommonFilesCachedSuccessfully")) { // Find the naming pattern in 0_parent_initial_load_and_111.js
+      if (localStorage.getItem("lesson"+String(lessonCode)+"FilesFor-"+parent.langCodeForTeachingFilePaths+"-CachedSuccessfully")) { // Find the naming pattern in 0_parent_initial_load_and_111.js
         // Let the service-worker do the magic and show the user new content despite being offline
         // Probably it's better without a box like "YOU ARE OFFLINE but the app will try to continue"
         parent.console.log("BUT NOW THAT CACHES FOR "+String(lessonCode)+" ARE READY");

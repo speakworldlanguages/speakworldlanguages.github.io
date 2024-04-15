@@ -100,6 +100,26 @@
     </div>
     <!-- End of contents for desktops -->
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- FOR TABLETS -->
     <div id="thisDivContainsEverythingThatWillBeDisplayedOnTablets" class="displayNone" style="position: relative; /*z-index:2;*/"> <!-- Use remove() or removeChild() on desktops and phones -->
 
@@ -221,13 +241,23 @@
     <!-- The script that must be executed immediately without any js file download delay -->
     <script>
       const desktopDisplay = document.getElementById('thisDivContainsEverythingThatWillBeDisplayedOnDesktops');
+
+
+
+
+
+
       const tabletDisplay = document.getElementById('thisDivContainsEverythingThatWillBeDisplayedOnTablets');
       const phoneDisplay = document.getElementById('thisDivContainsEverythingThatWillBeDisplayedOnPhones');
-      /*
+
+
+
+      // CERTAIN: At this point, by using parent.deviceDetector (instead of just deviceDetector) WE CAN MAKE SURE THAT DOMContentLoaded is not too early
+      // UNCERTAIN: js_for_all_iframed_lesson_htmls is deferred so when exactly will deviceDetector be copied to frame level from js_for_different_browsers_and_devices at parent level ???
       window.addEventListener('DOMContentLoaded', function(){
-        // DOMContentLoaded is (or can be) too early for deviceDetector
+
       }, { once: true });
-      */
+
       window.addEventListener('load', function(){
         if (deviceDetector.device == "tablet") {
             desktopDisplay.parentNode.removeChild(desktopDisplay);

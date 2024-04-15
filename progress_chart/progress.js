@@ -161,7 +161,7 @@ let lessonsAndTheirReadinessForOffline = {
 };
 
 // Check each lessons readiness for offline
-if (localStorage.getItem("commonJSandCSSfilesForAllLessonsCachedSuccessfully")) {
+if (localStorage.getItem("commonFilesForAllLessonsCachedSuccessfully")) {
   for (let i = 0; i < lessonCodes.length; i++) {
     if (localStorage.getItem("lesson"+lessonCodes[i]+"CommonFilesCachedSuccessfully")) {
       if (localStorage.getItem("lesson"+lessonCodes[i]+"FilesFor-"+parent.langCodeForTeachingFilePaths+"-CachedSuccessfully")) {
