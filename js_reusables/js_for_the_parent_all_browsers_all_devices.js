@@ -243,6 +243,9 @@ function setSpeechRecognitionLanguage(input) {
       setTimeout(function () { annyang.abort();  }, 450); //Try to force update
     */
     //}
+
+    // REMEMBER: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
+    // Better if we tell or let Safari user figure out how to "permanently allow mic"
   }
 }
 

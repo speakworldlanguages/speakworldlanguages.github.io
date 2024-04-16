@@ -761,8 +761,11 @@ function pauseTheAppFunction(reasonWhy) { // As of September 2023 reasonWhy is e
     if (annyang) {
       speechRecognitionWasListeningWhenUserPaused = annyang.isListening();
       if (speechRecognitionWasListeningWhenUserPaused) {
+        /* DEPRECATE: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
         if (isApple) { annyang.pause(); }
         else { annyang.abort(); }
+        */
+        annyang.abort(); // Better if we tell or let Safari user figure out how to "permanently allow mic"
       }
       // Note that: No problem if abort() fires when annyang|SpeechRecognition wasn't listening.
     }

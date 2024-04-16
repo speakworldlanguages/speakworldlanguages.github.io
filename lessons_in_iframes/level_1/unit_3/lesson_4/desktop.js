@@ -163,8 +163,11 @@ function acceptAndHandleMouseClicks(theCardThatIsAlreadyFlipped) {
       function stopSpeechRecognitionSession() {
         if (parent.annyang) { // DO NOT OMIT! Firefox and other no-speech browsers need this "if (parent.annyang)" to let the app work without Web Speech API.
             parent.annyang.removeCallback();
+            /* DEPRECATE: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
             if (isApple) { parent.annyang.pause(); }
             else { parent.annyang.abort(); }
+            */
+            parent.annyang.abort(); // Better if we tell or let Safari user figure out how to "permanently allow mic"
             console.log("Speech Recognition ended for 134 desktop");
         }
       }

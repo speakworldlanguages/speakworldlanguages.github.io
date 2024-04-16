@@ -246,10 +246,13 @@ window.onbeforeunload = function() {
   if (parent.annyang) { // DO NOT OMIT! Firefox and other no-speech browsers need this "if (parent.annyang)" to let the app work without Web Speech API.
     // This is like a "making it double-safe" thing // stopListeningAndProceedToNext() already has parent.annyang.abort();
     if (parent.annyang.isListening()) { // DANGER! It looks like this doesn't always fire correctly. Will try to remedy by adding it to progress/index.html
-      console.warn("__SpeechRecognition was still listening as the frame window got unloaded__");
+      console.warn("__SpeechRecognition was still listening as the frame window got unloaded!__\nWas this intentional?");
       parent.annyang.removeCallback();
+      /* DEPRECATE: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
       if (isApple) { parent.annyang.pause(); }
       else { parent.annyang.abort(); }
+      */
+      parent.annyang.abort(); // Better if we tell or let Safari user figure out how to "permanently allow mic"
     }
   }
   // Check if the functions exist in the lessons own js (like bread.js, water.js etc) before trying to call them.

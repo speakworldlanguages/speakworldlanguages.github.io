@@ -489,6 +489,8 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
             annyang.start({ autoRestart: false }); // Make the prompt show
             handleMicFirstTurnOn(); // Detect user's answer even if change event is not supported » Safari
 
+            // REMEMBER: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
+            // Better if we tell or let Safari user figure out how to "permanently allow mic"
             //setTimeout(function () { annyang.pause(); },5750); // annyang.pause() does not turn off the mic » It only prevents .onresult from firing parseResults which then calls invokeCallbacks
             /*
             if (isApple) { setTimeout(function () { annyang.pause(); },5750); } // Pause without turning the mic off and hope that user will choose OK

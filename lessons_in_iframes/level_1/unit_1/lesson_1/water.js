@@ -439,9 +439,11 @@ function stopListeningAndProceedToNext() {
   // See js_for_all_iframed_lesson_htmls to find what happens with window.onbeforeunload
   if (parent.annyang) { // As of 2021, Firefox says annyang is undefined. But the app still has to work without Web Speech API so the code must be wrapped in if(parent.annyang).
     parent.annyang.removeCallback(); // Remove all script activity // Instead of DEPRECATED parent.annyang.removeCommands();
-    // parent.annyang.abort(); // OR should we??? //if (!parent.isApple) {  parent.annyang.abort();  } // ISSUE THAT NEEDS SERIOUS ATTENTION: Safari doesn't allow mic permanently; it allows for only 1 listening session and prompts for permission everytime mic restarts
+    /* DEPRECATE: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
     if (isApple) { parent.annyang.pause(); }
     else { parent.annyang.abort(); }
+    */
+    parent.annyang.abort(); // Better if we tell or let Safari user figure out how to "permanently allow mic"
   }
   // Stop AUDIOMETER microphone: We don't want to wait for "beforeunload" so we call the function immediately even though it will fire one more time with window.onbeforeunload
   // We cannot disable "beforeunload" BECAUSE if user navigates away in the middle of a mic session we want the mic turned off

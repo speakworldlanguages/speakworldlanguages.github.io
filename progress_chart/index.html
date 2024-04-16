@@ -166,8 +166,11 @@
       if (parent.annyang.isListening()) { // DANGER! It looks like this doesn't always fire correctly. Will try to remedy by adding it to progress/index.html
         console.warn("__ Annyang was force stopped by script in progress_chart/index.html __");
         parent.annyang.removeCallback();
-        if (isApple) { parent.annyang.pause(); }
+        /* DEPRECATE: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
+        if (isApple) { parent.annyang.pause(); } // WASN'T IT TOO EARLY TO ACCESS isApple HERE?
         else { parent.annyang.abort(); }
+        */
+        parent.annyang.abort(); // Better if we tell or let Safari user figure out how to "permanently allow mic"
       }
     }
 
