@@ -4,7 +4,7 @@
 
 // NOTE THAT: THERE ARE 2 EXCEPTIONS where js_for_all_iframed_lesson_htmls is not used: blank.html & user_interface/screens/??/you_are_offline.html
 
-if (parent.langCodeForTeachingFilePaths) { // Safety overkill?
+if (parent.langCodeForTeachingFilePaths) {
   if (parent.langCodeForTeachingFilePaths.substring(0,2)=="tr") { // See js_for_the_parent_all_browsers_all_devices
     myHeaders.append('Content-Type','text/plain; charset=iso-8859-9'); // See js_for_every_single_html
     // NOT CERTAIN IF NECESSARY: By using set() rather than append() we could make sure that previous values get overwritten instead of creating a duplicate
@@ -249,7 +249,7 @@ window.onbeforeunload = function() {
       console.warn("__SpeechRecognition was still listening as the frame window got unloaded!__\nWas this intentional?");
       parent.annyang.removeCallback();
       /* DEPRECATE: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
-      if (isApple) { parent.annyang.pause(); }
+      if (isApple) { parent.annyang.pause(); } // BESIDES: CPU demand is somewhat too high when MIC is ON. So we want to turn it off whenever it is not in use.
       else { parent.annyang.abort(); }
       */
       parent.annyang.abort(); // Better if we tell or let Safari user figure out how to "permanently allow mic"
@@ -298,8 +298,8 @@ function checkIfNextLessonIsCachedAndRedirectIfNot(lessonCode) { // Called at th
         parent.console.log("BUT NOW THAT CACHES FOR "+String(lessonCode)+" ARE READY");
         return true;
         // NOTE THAT: In case user is leaving lesson 114 and the device is offline
-        // there is one more condition » if (localStorage.getItem("authorsNotice1FilesCachedSuccessfully")) {  }
-        // BUT: 99.999 percent of the time that will be true as long as if (localStorage.getItem("lesson121CommonFilesCachedSuccessfully")) and the other one are both true
+        // there could be one more condition » if (localStorage.getItem("authorsNotice1FilesCachedSuccessfully")) {  }
+        // BUT: 99.999 percent of the time that will be true as long as if (localStorage.getItem("lesson121CommonFilesCachedSuccessfully")) and the other ones are both true
         // THEREFORE: We let the app try to display bakernotice1 by doing nothing here and leaving things to service-worker
         // See js_for_cache_handling/121_and_bakernotice1.js
       } else { goToSorryPage(); return false; }
@@ -308,7 +308,8 @@ function checkIfNextLessonIsCachedAndRedirectIfNot(lessonCode) { // Called at th
   // --
   function goToSorryPage() {
     parent.console.warn("ONE OR MORE CACHES FOR "+String(lessonCode)+" ARE MISSING\nWill redirect to you_are_offline screen");
-    parent.ayFreym.src = "/user_interface/screens/"+userInterfaceLanguage+"/you_are_offline.html";
+    // HOPEFULLY you_are_offline.html will be cached by cacheCommonFilesForAllLessons in 0_parent_initial_load_and_111 » Looks like most of the time it performs well
+    parent.ayFreym.src = "/user_interface/screens/"+userInterfaceLanguage+"/you_are_offline.html"; // Will be served by service-worker OFFLINE magic instead of remote host
   }
 
 }

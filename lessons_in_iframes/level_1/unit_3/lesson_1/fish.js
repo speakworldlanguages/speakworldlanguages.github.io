@@ -393,7 +393,7 @@ function stopListeningAndProceedToNext() {
   if (parent.annyang) { // As of 2021, Firefox says annyang is undefined. But the app still has to work without Web Speech API so the code must be wrapped in if(parent.annyang).
     parent.annyang.removeCallback(); // Remove all script activity // Instead of DEPRECATED parent.annyang.removeCommands();
     /* DEPRECATE: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
-    if (isApple) { parent.annyang.pause(); }
+    if (isApple) { parent.annyang.pause(); } // BESIDES: CPU demand is somewhat too high when MIC is ON. So we want to turn it off whenever it is not in use.
     else { parent.annyang.abort(); }
     */
     parent.annyang.abort(); // Better if we tell or let Safari user figure out how to "permanently allow mic"

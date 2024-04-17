@@ -100,11 +100,20 @@ function continueWithTheNextLesson(event) { event.preventDefault(); event.stopPr
     clonedButtons0.classList.add("addThisToAButtonForPlayStationStyleClick");
     clonedButtons1.classList.add("addThisToAButtonForPlayStationStyleClick");
   }, 50);
-
+  // It should be fine without SuperTimeouts as the next lesson will start paused even if user clicks PAUSE within 2900ms
   setTimeout(function () {
     showGlobyPreloaderBeforeExit(); // 1500ms » See js_for_all_iframed_lesson_htmls AND See css_for_preloader_and_orbiting_circles
+    // REMEMBER: iframe.src change makes window.onbeforeunload fire in js_for_all_iframed_lesson_htmls.js which then calls unloadTheSoundsOfThisLesson();
     parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost = "/lessons_in_iframes/level_2/unit_1/lesson_1/index.html"; // See js_for_online_and_offline_modes
-    setTimeout(function () {   parent.ayFreym.src = parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost;   }, 1500);
+    // ---
+    if (parent.internetConnectivityIsNiceAndUsable) { // See js_for_online_and_offline_modes.js
+      setTimeout(function () {   parent.ayFreym.src = parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost;   }, 1500);
+    } else { parent.console.warn("THE DEVICE IS OFFLINE (detected at the end of notice");
+      const isCached = checkIfNextLessonIsCachedAndRedirectIfNot(211); // See js_for_all_iframed_lesson_htmls
+      if (isCached) { parent.console.warn("WILL TRY TO CONTINUE OFFLINE");
+        setTimeout(function() { parent.ayFreym.src = parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost; }, 1500);
+      }
+    }
   },1400); // Let the button disappear completely before preloader starts appearing
 }
 

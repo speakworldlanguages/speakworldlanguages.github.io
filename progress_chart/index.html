@@ -167,7 +167,8 @@
         console.warn("__ Annyang was force stopped by script in progress_chart/index.html __");
         parent.annyang.removeCallback();
         /* DEPRECATE: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
-        if (isApple) { parent.annyang.pause(); } // WASN'T IT TOO EARLY TO ACCESS isApple HERE?
+        if (isApple) { parent.annyang.pause(); } // WASN'T IT TOO EARLY TO ACCESS isApple HERE without parent.isApple?
+        // BESIDES: CPU demand is somewhat too high when MIC is ON. So we want to turn it off whenever it is not in use.
         else { parent.annyang.abort(); }
         */
         parent.annyang.abort(); // Better if we tell or let Safari user figure out how to "permanently allow mic"

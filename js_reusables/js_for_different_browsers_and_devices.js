@@ -264,6 +264,8 @@ function tellTheUserToChangeOrUpdateTheBrowser() {
 /*________________window LOAD___________________*/
 let allowMicrophoneBlinker;
 var pleaseAllowSound; // Also used in lessons as "Hey! New lesson is loaded" sound to recapture wandering user's attention when was viewing another browser tab
+// PROBALY: We will get away with injecting safariHowToPermanentlyAllowMicP into the allowMicrophoneBlinker
+let safariHowToPermanentlyAllowMicP = document.createElement("P"); safariHowToPermanentlyAllowMicP.innerHTML = "…"; // If this method fails then create a new box in js_for_info_boxes_in_parent » Remember to use "var" instead of "let" if that happens
 let micPermissionHasChangedToGrantedSound;
 
 window.addEventListener("load",function() {
@@ -271,9 +273,29 @@ window.addEventListener("load",function() {
   micPermissionHasChangedToGrantedSound = new Howl({  src: ["/user_interface/sounds/notification2_close."+soundFileFormat]  }); // See above to find soundFileFormat
   allowMicrophoneBlinker = document.getElementById('allowMicrophoneDivID'); // See index.html
   const filePathForAllowMicrophoneText = "/user_interface/text/"+userInterfaceLanguage+"/0-allow_microphone.txt";
-  fetch(filePathForAllowMicrophoneText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ allowMicrophoneBlinker.children[1].innerHTML =  contentOfTheTxtFile; });
-
+  fetch(filePathForAllowMicrophoneText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ allowMicrophoneBlinker.children[1].innerHTML =  contentOfTheTxtFile; getTheNextFile(); });
+  function getTheNextFile() {
+    if (isSafari || true) { // Remove the "|| true" part after testing
+      const pathOfHowToAllowMicPermanentlyOnSafariTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-allow_microphone_permanently_on_safari.txt";
+      fetch(pathOfHowToAllowMicPermanentlyOnSafariTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ handleSafariMicHowToTexts(contentOfTheTxtFile);  });
+    }
+  }
 }, { once: true });
+
+function handleSafariMicHowToTexts(receivedTxt) {
+  // REMEMBER: We want to avoid alert boxes especially in Safari
+  if (deviceDetector.device == "desktop") {
+    safariHowToPermanentlyAllowMicP.innerHTML = receivedTxt.split("|")[0];
+  } else { // iPhone and iPad
+    safariHowToPermanentlyAllowMicP.innerHTML = receivedTxt.split("|")[1];
+  }
+  // NOTE: When iPhone user runs the app from his homescreen THERE IS NO ADDRESS BAR and it's FULLSCREEN
+  // Still mic access can be allowed permanently by going to iPhone device settings->Safari settings->Microphone and allowing mic for all web sites: Not that it is TROUBLESOME
+  // -
+  // wrap method seems to work
+  allowMicrophoneBlinker.style.flexWrap = "wrap"; // Rather than » allowMicrophoneBlinker.style.flexDirection = "column";
+  allowMicrophoneBlinker.appendChild(safariHowToPermanentlyAllowMicP);
+}
 
 const blockAllClicksAndHoversDIV = document.createElement("DIV"); // During mic permission prompt
 function removeAllowMicrophoneBlinkerSoftly() {
@@ -350,7 +372,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
               // Special workaround method is required for Safari 16.0 ~ 16.3 according to caniuse: Check Safari versions that support onchange
               try {
-                result2.onchange = function(event) {    proceedAccordingToUsersChoiceAboutMicPermission(event);  return true;  };
+                result2.onchange = function(event) {   proceedAccordingToUsersChoiceAboutMicPermission(event);  return true;   };
               } catch (e) {
                 console.error("Couldn't add event listener for mic permission via onchange: " + e);
               } finally {
@@ -437,7 +459,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
         // To make the mic permission prompt appear we do a quick TURN ON AND THEN OFF
         // Either with or without permissions API
         // UNCERTAIN: We don't know if a browser would pause the script execution during a permission prompt similar to the way it pauses during an alert.
-        // LATER: Yes it looks like Samsung Browser ignores the annyang.abort() inside handleMicFirstTurnOn
+        // LATER: Yes it looks like Samsung Browser ignores the annyang.abort() inside handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEvent
         // IN CASE: onchange isn't really supported (like Safari 16.x), we start a setInterval before the prompt appears and as a result it doesn't matter if its ticking is paused by the permission box or not.
         // BUT: On Samsung Browser onchange works fine so we don't use the setInterval » so better try calling annyang.abort() shortly after onchange fires
         // SEE: proceedAccordingToUsersChoiceAboutMicPermission() function above
@@ -460,12 +482,13 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
         // THERE ARE TWO WAYS TO PROMPT AND DISPLAY ALLOW MICROPHONE DIALOG BOX
         // 1- getUserMedia
         // 2- SpeechRecognition
-        if (!isApple) {
-          if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        if (true) { // Can handle Safari if need be by using !isApple
+          if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { // According to caniuse this should work in every popular browser
             setTimeout(function () {
               navigator.mediaDevices.getUserMedia({ audio: true })  // Make the prompt show
                 .then(function (stream) {
-                        handleMicFirstTurnOn(); // Detect user's answer even if change event is not supported » Safari
+                         // Detect user's answer even if change event is not supported » Safari
+                        handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEvent(); // Safari lies as it appears to support it but the event actually never fires
                         setTimeout(function () {
                           const tracks = stream.getTracks();
                           tracks.forEach(track => track.stop());
@@ -484,29 +507,31 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
               parent.console.error('getUserMedia is not supported in this browser.');
               willUserTalkToSpeechRecognition = false;
           }
-        } else {
+        } /*else { // IN THEORY: We can start and stop annyang where getUserMedia is not supported
           setTimeout(function () {
             annyang.start({ autoRestart: false }); // Make the prompt show
-            handleMicFirstTurnOn(); // Detect user's answer even if change event is not supported » Safari
+            handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEvent(); // Detect user's answer even if change event is not supported » Safari
 
             // REMEMBER: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
             // Better if we tell or let Safari user figure out how to "permanently allow mic"
             //setTimeout(function () { annyang.pause(); },5750); // annyang.pause() does not turn off the mic » It only prevents .onresult from firing parseResults which then calls invokeCallbacks
-            /*
-            if (isApple) { setTimeout(function () { annyang.pause(); },5750); } // Pause without turning the mic off and hope that user will choose OK
-            else {
-              if (!isSamsungDevice) {
-                setTimeout(function () { annyang.abort(); },5750);
-                //setTimeout(function () {   if (annyang.isListening()) { annyang.abort(); }   },9750); // Crazy double safe
-                setTimeout(function () { annyang.abort(); },9750);
-              }
-            } // Turn the mic off and hope that user will choose OK
-            */
+            // BESIDES: CPU demand is somewhat too high when MIC is ON. So we want to turn it off whenever it is not in use.
+
+            // if (isApple) { setTimeout(function () { annyang.pause(); },5750); } // Pause without turning the mic off and hope that user will choose OK
+            // else {
+            //   if (!isSamsungDevice) {
+            //     setTimeout(function () { annyang.abort(); },5750);
+            //     //setTimeout(function () {   if (annyang.isListening()) { annyang.abort(); }   },9750); // Crazy double safe
+            //     setTimeout(function () { annyang.abort(); },9750);
+            //   }
+            // } // Turn the mic off and hope that user will choose OK
+
           },1750); // This will make the prompt box appear for allowing microphone usage when this many milliseconds passes after button touch|click
-        }
+        }*/
+
         // ---
         // Note that proceedAccordingToUsersChoiceAboutMicPermission will be armed and ready to fire startTeaching() IF AND ONLY IF change event is supported
-        function handleMicFirstTurnOn() {
+        function handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEvent() { // Safari lies as it appears to support it but the event actually never fires
           // -
           if (changeEventIsSupported) {
             // Do nothing and let proceedAccordingToUsersChoiceAboutMicPermission() react to the user's answer
@@ -530,11 +555,11 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                     // -
                     console.log("User's answer was detected by using a setInterval check");
                     if (currentState == 'granted') {
-                      micPermissionHasChangedToGrantedSound.play();
-                      willUserTalkToSpeechRecognition = true; // In case user is on an unknown browser that supports "Speech Recognition"
                       console.log("User has chosen OK for microphone");
+                      micPermissionHasChangedToGrantedSound.play();
                       localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes"; // Prevent all future prompts
                       mobileCanGoFullscreenNow = true; // For a first-time-user who has just touched|clicked [Allow] // See js_for_handling_fullscreen_mode » handleTouchForFullscreen
+                      willUserTalkToSpeechRecognition = true; // In case user is on an unknown browser that supports "Speech Recognition"
                     }
                     if (currentState == 'denied') {
                       willUserTalkToSpeechRecognition = false; // Shorten the waiting time when showing c1 c2 c3 visuals and change the button from SKIP to NEXT
@@ -550,7 +575,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
             } // End of if ("permissions" in navigator)
           } // End of else for changeEventIsSupported
 
-        } // End of handleMicFirstTurnOn
+        } // End of handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEvent
 
     } // End of what to do for fresh users who have just chosen their first target language
   } // End of if (annyang)

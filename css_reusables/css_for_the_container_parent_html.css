@@ -230,7 +230,8 @@ footer{
 
 .youMustAllowMicrophone{
   z-index: 3333; /*main is 999, sliding nav is 1111, saveloadbox is 2222*/
-  position: fixed; min-width:330px; max-width:100vmin; height:90px; top:-100px; left:50vw; transform: translateX(-50%);
+  position: fixed; min-width:330px; max-width:90vw; min-height:90px; top:50vh; top:50dvh; left:50vw; left:50dvw; transform: translate(-50%,-50%);
+  margin-top:-100vh;
   border-radius: 10px 10px 10px 10px;
   background-color: white; border: 2px solid #ebf2fa;
   font-size: 19px; color: #b0cdd1; font-weight: bold;
@@ -239,9 +240,9 @@ footer{
   transition: margin-top 1.5s; transition-timing-function: ease;
   box-shadow: rgba(255, 255, 255, 0.4) 0px 0px 12px 0px;
 }
-.letYouMustAllowMicrophoneDialogAppearMobile{margin-top:90px;}
-.letYouMustAllowMicrophoneDialogAppearDesktop{margin-top: calc(50vh + 50px);}
-.letYouMustAllowMicrophoneDialogDisappear{margin-top:-222px;}
+.letYouMustAllowMicrophoneDialogAppearMobile{margin-top:0vh;}
+.letYouMustAllowMicrophoneDialogAppearDesktop{margin-top: calc(0vh + 50px);}
+.letYouMustAllowMicrophoneDialogDisappear{margin-top:-100vh;}
 @keyframes flashBlink {  0%{ filter: contrast(1); } 45%{ filter: contrast(1); } 55%{ filter: contrast(1.25); } 100%{ filter: contrast(1.25); }  }
 
 /* Darken the background » used for PLEASE DISCLOSE YOUR GENDER_ */

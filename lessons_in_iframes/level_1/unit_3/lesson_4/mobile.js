@@ -221,7 +221,7 @@ function acceptAndHandleScreenTouches(theCardThatIsAlreadyFlipped) {
         if (parent.annyang) { // DO NOT OMIT! Firefox and other no-speech browsers need this "if (parent.annyang)" to let the app work without Web Speech API.
             parent.annyang.removeCallback();
             /* DEPRECATE: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
-            if (isApple) { parent.annyang.pause(); }
+            if (isApple) { parent.annyang.pause(); } // BESIDES: CPU demand is somewhat too high when MIC is ON. So we want to turn it off whenever it is not in use.
             else { parent.annyang.abort(); }
             */
             parent.annyang.abort(); // Better if we tell or let Safari user figure out how to "permanently allow mic"
