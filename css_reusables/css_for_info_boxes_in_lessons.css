@@ -152,8 +152,10 @@
 }
 .vocabularyWavesurfer:hover{ cursor: text; }
 
-.listenBoxHitonokaochan{}
+.listenBoxHitonokaochan{
+  margin-top: 10px; margin-bottom: 10px;
+}
 .listenBoxHitonokaochan img{
-  width: calc(50px + 5vmin);
+  width: calc(100px + 10vmin);
 }
 /*END OF the wavesurfer teacher box*/
