@@ -31,8 +31,9 @@ let dismissNotificationType1Sound;
 window.addEventListener("DOMContentLoaded",loadNotificationType1Sounds,{once:true});
 function loadNotificationType1Sounds() {
   // soundFileFormat exists in js_for_all_iframed_lesson_htmls where it is copied from the parent in js_for_different_browsers_and_devices
-  popUpNotificationType1Sound = new parent.Howl({  src: ["/user_interface/sounds/notification1_appear."+soundFileFormat]  }); // See js_for_all_iframed_lesson_htmls
-  dismissNotificationType1Sound = new parent.Howl({  src: ["/user_interface/sounds/notification1_close."+soundFileFormat]  }); // See js_for_all_iframed_lesson_htmls
+  popUpNotificationType1Sound = new parent.Howl({  src: ["/user_interface/sounds/notification1_appear."+soundFileFormat]  });
+  dismissNotificationType1Sound = new parent.Howl({  src: ["/user_interface/sounds/notification1_close."+soundFileFormat]  });
+  // NO BIG DEAL IF: These sounds are loaded even if they are not used in the lesson
 }
 window.addEventListener("beforeunload",unloadNotificationType1Sounds,{once:true});
 function unloadNotificationType1Sounds() {
@@ -117,8 +118,8 @@ function createAndHandleInfoBoxType1AmidLesson() {
 /*-----*/
 
 /*-----*/
-// TYPE3 WAVESURFER.
-// Function that creates a div box for pronunciation (wavesurfer) NOTIFICATIONS
+// TYPE3 LISTEN-MANY-TIMES-BOX.
+// Function that creates a div box for pronunciation (Hitonokaochan; formerly wavesurfer) NOTIFICATIONS
 /* VARIABLES AND CONSTANTS*/
 const putVocabularyTxtIntoThisP1 = document.createElement("P"); const putVocabularyTxtIntoThisP1OUTRO = document.createElement("P");
 const putVocabularyTxtIntoThisP2 = document.createElement("P"); const putVocabularyTxtIntoThisP2OUTRO = document.createElement("P");
@@ -135,8 +136,8 @@ function handleP1P2ActualTextOUTRO(receivedTxt) { // Called when fetch gets the 
 const listenButtonOfTheVocabulary = document.createElement("DIV");
 const startButtonToCloseTheVocabulary = document.createElement("DIV");
 let listenButtonTxt, listenAgainButtonTxt, startButtonTxt, nextButtonTxt; // [Next] button replaces [Start] button if outro is enabled by the second parameter
-const wavesurferButton1Button2Path = "/user_interface/text/"+userInterfaceLanguage+"/0lesson-vocabulary_button1_button2.txt";
-fetch(wavesurferButton1Button2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+const listenBoxButton1Button2Path = "/user_interface/text/"+userInterfaceLanguage+"/0lesson-vocabulary_button1_button2.txt";
+fetch(listenBoxButton1Button2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
   listenButtonTxt = contentOfTheTxtFile.split("|")[0];
   listenAgainButtonTxt = contentOfTheTxtFile.split("|")[1];
   startButtonTxt = contentOfTheTxtFile.split("|")[2];
@@ -148,8 +149,9 @@ let dismissVocabularySound;
 window.addEventListener("DOMContentLoaded",loadVocabularyBoxButtonSounds,{once:true});
 function loadVocabularyBoxButtonSounds() {
   // soundFileFormat exists in js_for_all_iframed_lesson_htmls where it is copied from the parent in js_for_different_browsers_and_devices
-  popUpVocabularySound = new parent.Howl({  src: ["/user_interface/sounds/notification3_appear."+soundFileFormat]  }); // See js_for_all_iframed_lesson_htmls
-  dismissVocabularySound = new parent.Howl({  src: ["/user_interface/sounds/notification3_close."+soundFileFormat]  }); // See js_for_all_iframed_lesson_htmls
+  popUpVocabularySound = new parent.Howl({  src: ["/user_interface/sounds/notification3_appear."+soundFileFormat]  });
+  dismissVocabularySound = new parent.Howl({  src: ["/user_interface/sounds/notification3_close."+soundFileFormat]  });
+  // NO BIG DEAL IF: These sounds are loaded even if they are not used in the lesson
 }
 window.addEventListener("beforeunload",unloadVocabularyBoxButtonSounds,{once:true});
 function unloadVocabularyBoxButtonSounds() {
@@ -158,7 +160,8 @@ function unloadVocabularyBoxButtonSounds() {
 }
 
 /*FUNCTION DECLARATION*/
-// IN THE FUTURE WE WILL HOPEFULLY USE RHUBARB LIP-SYNC TO PLAY AN ANIMATED MOUTH ILLUSTRATION ALONG WITH WAVESURFER
+// IN THE PAST WE SAID: IN THE FUTURE WE WILL HOPEFULLY USE RHUBARB LIP-SYNC TO PLAY AN ANIMATED MOUTH ILLUSTRATION ALONG WITH WAVESURFER
+// AND NOW THIS IS THE FUTURE: we will deprecate wavesurfer entirely and replace it with Hitonokaochan
 // See » https://github.com/DanielSWolf/rhubarb-lip-sync
 function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
   popUpVocabularySound.play();
@@ -196,6 +199,7 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
   if (!isLessonOutro) {    vocabularyBoxItself.appendChild(putVocabularyTxtIntoThisP1);  }
   else {    vocabularyBoxItself.appendChild(putVocabularyTxtIntoThisP1OUTRO);  }
 
+  /* REPLACE WAVESURFER with HITONOKAO-CHAN with rhubarb lip sync
   // Wavesurfer
   const wavesurferContainer = document.createElement("DIV");
   wavesurferContainer.id = "waveform";
@@ -210,7 +214,41 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
     wavesurferOutro = WaveSurfer.create({ container: '#waveform', waveColor: 'black', progressColor: '#daecfa', barWidth:3, height:60, barMinHeight:2, barGap:2, responsive:true, cursorWidth:0, hideScrollbar:true   });
     wavesurferOutro.load(filePathOfTheAudio);
   }
+  */
+  let introVocabulary;
+  let outroVocabulary;
+  if (!isLessonOutro) {   introVocabulary = new parent.Howl({  src: [filePathOfTheAudio]  });   }
+  else {   outroVocabulary = new parent.Howl({  src: [filePathOfTheAudio]  });   }
+  window.addEventListener("beforeunload",unloadListenBoxVocabularySounds,{once:true});
+  function unloadListenBoxVocabularySounds() {
+    if (introVocabulary) { introVocabulary.unload(); }
+    if (outroVocabulary) { outroVocabulary.unload(); }
+  }
+  // --
+  const hitonokaochanContainer = document.createElement("DIV");
+  hitonokaochanContainer.classList.add("listenBoxHitonokaochan");
+  const hitonokaochanA = document.createElement("IMG"); hitonokaochanA.src = "/user_interface/images/rhubarb_lip_sync/a.webp"; hitonokaochanA.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanA);
+  const hitonokaochanB = document.createElement("IMG"); hitonokaochanB.src = "/user_interface/images/rhubarb_lip_sync/b.webp"; hitonokaochanB.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanB);
+  const hitonokaochanC = document.createElement("IMG"); hitonokaochanC.src = "/user_interface/images/rhubarb_lip_sync/c.webp"; hitonokaochanC.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanC);
+  const hitonokaochanD = document.createElement("IMG"); hitonokaochanD.src = "/user_interface/images/rhubarb_lip_sync/d.webp"; hitonokaochanD.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanD);
+  const hitonokaochanE = document.createElement("IMG"); hitonokaochanE.src = "/user_interface/images/rhubarb_lip_sync/e.webp"; hitonokaochanE.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanE);
+  const hitonokaochanF = document.createElement("IMG"); hitonokaochanF.src = "/user_interface/images/rhubarb_lip_sync/f.webp"; hitonokaochanF.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanF);
+  const hitonokaochanG = document.createElement("IMG"); hitonokaochanG.src = "/user_interface/images/rhubarb_lip_sync/g.webp"; hitonokaochanG.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanG);
+  const hitonokaochanH = document.createElement("IMG"); hitonokaochanH.src = "/user_interface/images/rhubarb_lip_sync/h.webp"; hitonokaochanH.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanH);
+  const hitonokaochanX = document.createElement("IMG"); hitonokaochanX.src = "/user_interface/images/rhubarb_lip_sync/x.webp"; hitonokaochanX.style.display = "block";hitonokaochanContainer.appendChild(hitonokaochanX);
+  // Use if necessary: const allNineMouthStates = [hitonokaochanA,hitonokaochanB,hitonokaochanC,hitonokaochanD,hitonokaochanE,hitonokaochanF,hitonokaochanG,hitonokaochanH,hitonokaochanX];
+  // QUESTION: Within startButtonF Hitonokaochan img container must be removed OR NOT? ANSWER: NOT IF we check whether it already exists before adding it
+  if (vocabularyBoxItself.contains(hitonokaochanContainer)) {  } // This way we don't have to remove it inside startButtonF
+  else {  vocabularyBoxItself.appendChild(hitonokaochanContainer);  } // Will add it only when called as intro
 
+  function playIntroVocabulary() {
+    introVocabulary.play();
+    // Handle lip-sync
+  }
+  function playOutroVocabulary() {
+    outroVocabulary.play();
+    // Handle lip-sync
+  }
 
   // APPEND txt2
   if (!isLessonOutro) {    vocabularyBoxItself.appendChild(putVocabularyTxtIntoThisP2);  }
@@ -233,7 +271,7 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
     if (!isLessonOutro) { startButtonToCloseTheVocabulary.innerHTML = startButtonTxt; }
     else { startButtonToCloseTheVocabulary.innerHTML = nextButtonTxt; }
   } else { // Restart fetch but this time update buttonTxts as soon as the file is ready
-    fetch(wavesurferButton1Button2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+    fetch(listenBoxButton1Button2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       listenButtonTxt = contentOfTheTxtFile.split("|")[0]; listenButtonOfTheVocabulary.innerHTML = listenButtonTxt;
       listenAgainButtonTxt = contentOfTheTxtFile.split("|")[1];
       if (!isLessonOutro) { startButtonTxt = contentOfTheTxtFile.split("|")[2]; startButtonToCloseTheVocabulary.innerHTML = startButtonTxt; }
@@ -252,8 +290,12 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
   let clickOrTouchCount=1;
   function playButtonF(event) { event.preventDefault(); event.stopPropagation();
     // Use stopPropagation instead of parent.preventTouchConflictWithTheSlidingNavMenu(listenButtonOfTheVocabulary); // Exists in js_for_the_sliding_navigation_menu
+    /* Deprecate
     if (!isLessonOutro) {  wavesurferIntro.setVolume(parent.Howler.volume()); wavesurferIntro.play();  }
     else {  wavesurferOutro.setVolume(parent.Howler.volume()); wavesurferOutro.play();  }
+    */
+    if (!isLessonOutro) {  playIntroVocabulary();  }
+    else {  playOutroVocabulary();  }
     // -
     if (clickOrTouchCount==1) {
       if (listenAgainButtonTxt) { listenButtonOfTheVocabulary.innerHTML = listenAgainButtonTxt; } // Change button innerHTML from [Listen] to [Listen again]
@@ -269,8 +311,12 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
       if (event.key == " " || event.code == "Space") {
         spaceKeyIsBeingHeldDown = true;
         // -
+        /*
         if (!isLessonOutro) {  wavesurferIntro.setVolume(parent.Howler.volume()); wavesurferIntro.play();  }
         else {  wavesurferOutro.setVolume(parent.Howler.volume()); wavesurferOutro.play();  }
+        */
+        if (!isLessonOutro) {  playIntroVocabulary();  }
+        else {  playOutroVocabulary();  }
         // -
         if (clickOrTouchCount==1) {
           if (listenAgainButtonTxt) { listenButtonOfTheVocabulary.innerHTML = listenAgainButtonTxt; } // Change button innerHTML from [Listen] to [Listen again]
@@ -305,7 +351,7 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
       twoButtonsContainer.remove();
       if (vocabularyBoxItself.contains(putVocabularyTxtIntoThisP2)) { putVocabularyTxtIntoThisP2.remove(); }
       if (vocabularyBoxItself.contains(putVocabularyTxtIntoThisP2OUTRO)) { putVocabularyTxtIntoThisP2OUTRO.remove(); }
-      wavesurferContainer.remove();
+      // Deprecate: wavesurferContainer.remove();
       if (vocabularyBoxItself.contains(putVocabularyTxtIntoThisP1)) { putVocabularyTxtIntoThisP1.remove(); }
       if (vocabularyBoxItself.contains(putVocabularyTxtIntoThisP1OUTRO)) { putVocabularyTxtIntoThisP1OUTRO.remove(); }
       vocabularyBoxItself.remove();

@@ -151,4 +151,9 @@
   filter: drop-shadow(0px 0px 1px black);
 }
 .vocabularyWavesurfer:hover{ cursor: text; }
+
+.listenBoxHitonokaochan{}
+.listenBoxHitonokaochan img{
+  width: calc(50px + 5vmin);
+}
 /*END OF the wavesurfer teacher box*/

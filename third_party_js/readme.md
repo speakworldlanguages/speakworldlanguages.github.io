@@ -6,4 +6,4 @@ This directory contains the javascript libraries created by talented coders who 
 * [wavesurfer](https://github.com/katspaugh/wavesurfer.js)
 * [three](https://github.com/mrdoob/three.js)
 * [ammo](https://github.com/kripken/ammo.js)
-* [eruda](https://github.com/katspaugh/wavesurfer.js)
+* [eruda](https://github.com/liriliri/eruda)
