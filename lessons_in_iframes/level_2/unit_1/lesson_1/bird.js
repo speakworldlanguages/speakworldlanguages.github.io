@@ -103,12 +103,12 @@ function loadingIsCompleteFunction() {
   } else {
     startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
   }
-  // -
-  function vocabularyBoxIsClosed(x,y) { // Will fire from within createAndHandleListenManyTimesBox with touch/click coordinate values passed » vocabularyBoxIsClosed(lastPointerX,lastPointerY)
-    startTheLesson();
-  }
   // ---
   // As of April 2024 there is nothing to be displayed at the end of this lesson
+}
+// NOTE: vocabularyBoxIsClosed has to be in the global scope!
+function vocabularyBoxIsClosed(x,y) { // Will fire from within createAndHandleListenManyTimesBox with touch/click coordinate values passed » vocabularyBoxIsClosed(lastPointerX,lastPointerY)
+  startTheLesson();
 }
 // NOTE: The preloader disappears in 500ms » See css_for_preloader_and_orbiting_circles
 // For speedAdjustmentSetting see js_for_the_sliding_navigation_menu.js

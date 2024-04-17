@@ -120,6 +120,7 @@
 .buttonsAtTheBottomOfThePronunciationBoxDESKTOP:active{ transform: scale(0.93); }
 /*We don't want hover on phones and tablets*/
 /* 1000px min-width is the way it should NOT be done - NOT GOOD PRACTICE!*/
+/* Is this deprecated? Must investigate */
 /* For desktops (hopefully)
 @media (min-width:1000px) {
   .buttonsAtTheBottomOfThePronunciationBox:hover{
