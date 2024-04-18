@@ -240,9 +240,9 @@ footer{
   transition: margin-top 1.5s; transition-timing-function: ease;
   box-shadow: rgba(255, 255, 255, 0.4) 0px 0px 12px 0px;
 }
-.letYouMustAllowMicrophoneDialogAppearMobile{margin-top:0vh;}
+.letYouMustAllowMicrophoneDialogAppearMobile{margin-top: calc(-50vh + 10px); transform: translate(-50%,10%);}
 .letYouMustAllowMicrophoneDialogAppearDesktop{margin-top: calc(0vh + 50px);}
-.letYouMustAllowMicrophoneDialogDisappear{margin-top:-100vh;}
+.letYouMustAllowMicrophoneDialogDisappear{margin-top:-100vh; transform: translate(-50%,-50%);}
 @keyframes flashBlink {  0%{ filter: contrast(1); } 45%{ filter: contrast(1); } 55%{ filter: contrast(1.25); } 100%{ filter: contrast(1.25); }  }
 
 /* Darken the background » used for PLEASE DISCLOSE YOUR GENDER_ */

@@ -215,15 +215,35 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
     wavesurferOutro.load(filePathOfTheAudio);
   }
   */
-  let introVocabulary;
-  let outroVocabulary;
-  if (!isLessonOutro) {   introVocabulary = new parent.Howl({  src: [filePathOfTheAudio]  });   }
-  else {   outroVocabulary = new parent.Howl({  src: [filePathOfTheAudio]  });   }
+  let introVocabulary; let introSoundIsReady = false;
+  let outroVocabulary; let outroSoundIsReady = false;
+  if (!isLessonOutro) {
+    introVocabulary = new parent.Howl({  src: [filePathOfTheAudio]  });
+    introVocabulary.once('load', function(){   introSoundIsReady = true; getJSON();  });
+  }
+  else {
+    outroVocabulary = new parent.Howl({  src: [filePathOfTheAudio]  });
+    outroVocabulary.once('load', function(){   outroSoundIsReady = true; getJSON();  });
+  }
+  // -
   window.addEventListener("beforeunload",unloadListenBoxVocabularySounds,{once:true});
   function unloadListenBoxVocabularySounds() {
-    if (introVocabulary) { introVocabulary.unload(); }
-    if (outroVocabulary) { outroVocabulary.unload(); }
+    if (introSoundIsReady) { introVocabulary.unload(); }
+    if (outroSoundIsReady) { outroVocabulary.unload(); }
   }
+  // Get json file that is supposed to be named exactly the same as the audio file
+  const theFileExtensionIsRemoved = filePathOfTheAudio.split(".")[0];
+  const jsonFilePath = theFileExtensionIsRemoved + ".json";
+  let lipSyncJSON = null;
+  listenButtonOfTheVocabulary.style.visibility = "hidden"; // Its class is added down below
+  function getJSON() {
+    fetch(jsonFilePath).then(response => {  if (!response.ok) { throw new Error('Network response was not ok'); }  return response.json();  })
+    .then(data => {
+      lipSyncJSON = data;
+      listenButtonOfTheVocabulary.style.visibility = "visible"; // Let the button be visible
+    }).catch(error => { parent.console.error('Fetch error:', error); });
+  }
+
   // --
   const hitonokaochanContainer = document.createElement("DIV");
   hitonokaochanContainer.classList.add("listenBoxHitonokaochan");
@@ -236,18 +256,46 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
   const hitonokaochanG = document.createElement("IMG"); hitonokaochanG.src = "/user_interface/images/rhubarb_lip_sync/g.webp"; hitonokaochanG.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanG);
   const hitonokaochanH = document.createElement("IMG"); hitonokaochanH.src = "/user_interface/images/rhubarb_lip_sync/h.webp"; hitonokaochanH.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanH);
   const hitonokaochanX = document.createElement("IMG"); hitonokaochanX.src = "/user_interface/images/rhubarb_lip_sync/x.webp"; hitonokaochanX.style.display = "block";hitonokaochanContainer.appendChild(hitonokaochanX);
-  // Use if necessary: const allNineMouthStates = [hitonokaochanA,hitonokaochanB,hitonokaochanC,hitonokaochanD,hitonokaochanE,hitonokaochanF,hitonokaochanG,hitonokaochanH,hitonokaochanX];
+  const allNineMouthStates = [hitonokaochanA,hitonokaochanB,hitonokaochanC,hitonokaochanD,hitonokaochanE,hitonokaochanF,hitonokaochanG,hitonokaochanH,hitonokaochanX];
   // QUESTION: Within startButtonF Hitonokaochan img container must be removed OR NOT? ANSWER: NOT IF we check whether it already exists before adding it
   if (vocabularyBoxItself.contains(hitonokaochanContainer)) {  } // This way we don't have to remove it inside startButtonF
   else {  vocabularyBoxItself.appendChild(hitonokaochanContainer);  } // Will add it only when called as intro
+  // -
+  function animateHitonokachan(jsonData) {
+    const mouthCues = jsonData.mouthCues;
+    let counter = 0;
+    mouthCues.forEach(cue => {
+      if (counter>0) { // Skip setting the very first timeout at 0000ms
+        setTimeout(() => {
+          switch (cue.value) {
+            case "A": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanA.style.display = "block"; break;
+            case "B": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanB.style.display = "block"; break;
+            case "C": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanC.style.display = "block"; break;
+            case "D": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanD.style.display = "block"; break;
+            case "E": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanE.style.display = "block"; break;
+            case "F": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanF.style.display = "block"; break;
+            case "G": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanG.style.display = "block"; break;
+            case "H": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanH.style.display = "block"; break;
+            case "X": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanX.style.display = "block"; break;
+            default:
+          }
+          // It works!
+        }, cue.start * 1000); // Convert seconds to milliseconds
+      }
+      // -
+      counter++;
+    });
+  }
 
   function playIntroVocabulary() {
-    introVocabulary.play();
+    if (introSoundIsReady) { introVocabulary.play(); }
     // Handle lip-sync
+    if (lipSyncJSON) { animateHitonokachan(lipSyncJSON); }
   }
   function playOutroVocabulary() {
-    outroVocabulary.play();
+    if (outroSoundIsReady) { outroVocabulary.play(); }
     // Handle lip-sync
+    if (lipSyncJSON) { animateHitonokachan(lipSyncJSON); }
   }
 
   // APPEND txt2
