@@ -161,7 +161,7 @@ function unloadVocabularyBoxButtonSounds() {
 
 /*FUNCTION DECLARATION*/
 // IN THE PAST WE SAID: IN THE FUTURE WE WILL HOPEFULLY USE RHUBARB LIP-SYNC TO PLAY AN ANIMATED MOUTH ILLUSTRATION ALONG WITH WAVESURFER
-// AND NOW THIS IS APRIL 2024: We will deprecate wavesurfer entirely and replace it with Hitonokaochan
+// AND NOW THIS IS APRIL 2024: We have deprecated wavesurfer entirely and have replaced it with Hitonokaochan
 // See » https://github.com/DanielSWolf/rhubarb-lip-sync
 function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
   popUpVocabularySound.play();
@@ -199,22 +199,7 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
   if (!isLessonOutro) {    vocabularyBoxItself.appendChild(putVocabularyTxtIntoThisP1);  }
   else {    vocabularyBoxItself.appendChild(putVocabularyTxtIntoThisP1OUTRO);  }
 
-  /* REPLACE WAVESURFER with HITONOKAO-CHAN with rhubarb lip sync
-  // Wavesurfer
-  const wavesurferContainer = document.createElement("DIV");
-  wavesurferContainer.id = "waveform";
-  wavesurferContainer.classList.add("vocabularyWavesurfer");
-  vocabularyBoxItself.appendChild(wavesurferContainer);
   // -
-  let wavesurferIntro,wavesurferOutro;
-  if (!isLessonOutro) {
-    wavesurferIntro = WaveSurfer.create({ container: '#waveform', waveColor: 'black', progressColor: '#daecfa', barWidth:3, height:60, barMinHeight:2, barGap:2, responsive:true, cursorWidth:0, hideScrollbar:true   });
-    wavesurferIntro.load(filePathOfTheAudio);
-  } else {
-    wavesurferOutro = WaveSurfer.create({ container: '#waveform', waveColor: 'black', progressColor: '#daecfa', barWidth:3, height:60, barMinHeight:2, barGap:2, responsive:true, cursorWidth:0, hideScrollbar:true   });
-    wavesurferOutro.load(filePathOfTheAudio);
-  }
-  */
   let introVocabulary; let introSoundIsReady = false; let introSoundIsPlaying = false;
   let outroVocabulary; let outroSoundIsReady = false; let outroSoundIsPlaying = false;
   if (!isLessonOutro) {
@@ -349,10 +334,7 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
   function playButtonF(event) { event.preventDefault(); event.stopPropagation();
     if (introSoundIsPlaying || outroSoundIsPlaying) {  return;  } // Prevent multiple instances of the sound overlap and be heard at the same time
     // Use stopPropagation instead of parent.preventTouchConflictWithTheSlidingNavMenu(listenButtonOfTheVocabulary); // Exists in js_for_the_sliding_navigation_menu
-    /* Deprecate
-    if (!isLessonOutro) {  wavesurferIntro.setVolume(parent.Howler.volume()); wavesurferIntro.play();  }
-    else {  wavesurferOutro.setVolume(parent.Howler.volume()); wavesurferOutro.play();  }
-    */
+
     if (!isLessonOutro) {  playIntroVocabulary();  }
     else {  playOutroVocabulary();  }
     // -
@@ -360,7 +342,7 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
       if (listenAgainButtonTxt) { listenButtonOfTheVocabulary.innerHTML = listenAgainButtonTxt; } // Change button innerHTML from [Listen] to [Listen again]
     }
     if (clickOrTouchCount==2) {
-      startButtonToCloseTheVocabulary.classList.add("startButtonUnderWavesurfer"); twoButtonsContainer.appendChild(startButtonToCloseTheVocabulary); // Reveal the [Start] button
+      startButtonToCloseTheVocabulary.classList.add("startButtonUnderListenBox"); twoButtonsContainer.appendChild(startButtonToCloseTheVocabulary); // Reveal the [Start] button
     }
     clickOrTouchCount++;
   }
@@ -370,10 +352,8 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
       if (event.key == " " || event.code == "Space") {
         spaceKeyIsBeingHeldDown = true;
         // -
-        /*
-        if (!isLessonOutro) {  wavesurferIntro.setVolume(parent.Howler.volume()); wavesurferIntro.play();  }
-        else {  wavesurferOutro.setVolume(parent.Howler.volume()); wavesurferOutro.play();  }
-        */
+        if (introSoundIsPlaying || outroSoundIsPlaying) {  return;  } // Prevent multiple instances of the sound overlap and be heard at the same time
+        // -
         if (!isLessonOutro) {  playIntroVocabulary();  }
         else {  playOutroVocabulary();  }
         // -
@@ -381,7 +361,7 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
           if (listenAgainButtonTxt) { listenButtonOfTheVocabulary.innerHTML = listenAgainButtonTxt; } // Change button innerHTML from [Listen] to [Listen again]
         }
         if (clickOrTouchCount==2) {
-          startButtonToCloseTheVocabulary.classList.add("startButtonUnderWavesurfer"); twoButtonsContainer.appendChild(startButtonToCloseTheVocabulary); // Reveal the [Start] button
+          startButtonToCloseTheVocabulary.classList.add("startButtonUnderListenBox"); twoButtonsContainer.appendChild(startButtonToCloseTheVocabulary); // Reveal the [Start] button
         }
         clickOrTouchCount++;
       }
@@ -401,7 +381,7 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
   function startButtonF(event) { event.preventDefault(); event.stopPropagation();
     // Use stopPropagation instead of parent.preventTouchConflictWithTheSlidingNavMenu(startButtonToCloseTheVocabulary); // Exists in js_for_the_sliding_navigation_menu
     dismissVocabularySound.play();
-    vocabularyBoxItself.style.animationName = "vocabularyWavesurferDisappears";
+    vocabularyBoxItself.style.animationName = "vocabularyListenBoxDisappears";
     vocabularyBoxContainer.style.animationName = "vocabularyPronunciationDisappearsBG";
     setTimeout(function(){
       // DEPRECATED document.body.removeChild(vocabularyBoxContainer);
@@ -410,7 +390,7 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
       twoButtonsContainer.remove();
       if (vocabularyBoxItself.contains(putVocabularyTxtIntoThisP2)) { putVocabularyTxtIntoThisP2.remove(); }
       if (vocabularyBoxItself.contains(putVocabularyTxtIntoThisP2OUTRO)) { putVocabularyTxtIntoThisP2OUTRO.remove(); }
-      // Deprecate: wavesurferContainer.remove();
+      // No need to remove hitonokaochanContainer when using «contains()»
       if (vocabularyBoxItself.contains(putVocabularyTxtIntoThisP1)) { putVocabularyTxtIntoThisP1.remove(); }
       if (vocabularyBoxItself.contains(putVocabularyTxtIntoThisP1OUTRO)) { putVocabularyTxtIntoThisP1OUTRO.remove(); }
       vocabularyBoxItself.remove();

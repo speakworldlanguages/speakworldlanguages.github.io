@@ -209,7 +209,7 @@ function cacheCommonFilesForAllLessons() {
       "/js_reusables/js_for_every_single_html.js", // CAREFUL!!! It is expected to be updated
       "/js_reusables/js_for_all_iframed_lesson_htmls.js",
       "/js_reusables/js_for_handling_speech_give_up.js",
-      "/third_party_js/wavesurfer.min.js",
+      // DEPRECATED: "/third_party_js/wavesurfer.min.js",
       "/js_reusables/js_for_microphone_input_visualization.js",
       "/js_reusables/js_for_mic_input_vis_web_worker.js",
       "/js_reusables/js_for_info_boxes_in_lessons.js",

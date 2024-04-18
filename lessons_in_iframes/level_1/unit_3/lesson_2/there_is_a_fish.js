@@ -162,13 +162,13 @@ function loadingIsCompleteFunction() {
 function startTheLesson() {
   // User must listen to pronunciation-teacher vocabulary box no matter what language he/she is studying
   const filePathOfTheAudioFile = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_2/there_is_listenbox."+soundFileFormat;
-  const wavesurferP1P2Path = "/user_interface/text/"+userInterfaceLanguage+"/1-3-2_vocabulary_p1_p2.txt"; // UI lang depends on domain (hostname) » See js_for_every_single_html
-  fetch(wavesurferP1P2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleP1P2ActualText(contentOfTheTxtFile);  });
+  const listenBoxP1P2Path = "/user_interface/text/"+userInterfaceLanguage+"/1-3-2_vocabulary_p1_p2.txt"; // UI lang depends on domain (hostname) » See js_for_every_single_html
+  fetch(listenBoxP1P2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleP1P2ActualText(contentOfTheTxtFile);  });
   // See js_for_info_boxes_in_lessons » iframe-lesson level
   new SuperTimeout(function(){    createAndHandleListenManyTimesBox(filePathOfTheAudioFile);    },501); // Wait for preloader to disappear or give a brief break after notification
 }
 
-let isParentBlurred = true; // Clicking on iframe blurs/deselects the parent,,, so start blurred as the only way to proceed is to click the buttons of the wavesurfer box
+let isParentBlurred = true; // Clicking on iframe blurs/deselects the parent,,, so start blurred as the only way to proceed is to click the buttons of the listen-many-times-box
 let isFrameBlurred = false; // Clicking on iframe brings-focus-to/selects the frame,,, so start focused
 function vocabularyBoxIsClosed(x,y) { // Will fire from within createAndHandleListenManyTimesBox with touch/click coordinate values passed » vocabularyBoxIsClosed(lastPointerX,lastPointerY)
   // console.log("lesson intro listenbox is closed");
@@ -529,8 +529,8 @@ let anOutroBoxIsNowShowing = false; // 1 - To block keyboard input when needed 2
 function handleWinning() {
   // Display pronunciation-teacher-box about the meaning of "a thing" or "something"
   const filePathOfTheAudioFile = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_2/something_listenbox."+soundFileFormat;
-  const wavesurferP1P2Path = "/user_interface/text/"+userInterfaceLanguage+"/1-3-2_vocabulary_outro_p1_p2.txt"; // UI lang depends on domain (hostname) » See js_for_every_single_html
-  fetch(wavesurferP1P2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+  const listenBoxP1P2Path = "/user_interface/text/"+userInterfaceLanguage+"/1-3-2_vocabulary_outro_p1_p2.txt"; // UI lang depends on domain (hostname) » See js_for_every_single_html
+  fetch(listenBoxP1P2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
     handleP1P2ActualTextOUTRO(contentOfTheTxtFile); // CAUTION: It's outro
   });
   // See js_for_info_boxes_in_lessons » iframe-lesson level
