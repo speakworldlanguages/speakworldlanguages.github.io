@@ -275,7 +275,7 @@ window.addEventListener("load",function() {
   const filePathForAllowMicrophoneText = "/user_interface/text/"+userInterfaceLanguage+"/0-allow_microphone.txt";
   fetch(filePathForAllowMicrophoneText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ allowMicrophoneBlinker.children[1].innerHTML =  contentOfTheTxtFile; getTheNextFile(); });
   function getTheNextFile() {
-    if (isSafari || true) { // Remove the "|| true" part after testing
+    if (isSafari) {
       const pathOfHowToAllowMicPermanentlyOnSafariTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-allow_microphone_permanently_on_safari.txt";
       fetch(pathOfHowToAllowMicPermanentlyOnSafariTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ handleSafariMicHowToTexts(contentOfTheTxtFile);  });
     }

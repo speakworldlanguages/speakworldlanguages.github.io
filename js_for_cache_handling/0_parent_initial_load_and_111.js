@@ -255,7 +255,17 @@ function cacheCommonFilesForAllLessons() {
       // DEPRECATED: In case there has to be a video webm here cache it separately, otherwise the app will break when its extension is set to mp3 with the array map function below
 
       // fonts
-      // ???
+      // Mouth states for the listen many times box
+      "/user_interface/images/rhubarb_lip_sync/a.webp",
+      "/user_interface/images/rhubarb_lip_sync/b.webp",
+      "/user_interface/images/rhubarb_lip_sync/c.webp",
+      "/user_interface/images/rhubarb_lip_sync/d.webp",
+      "/user_interface/images/rhubarb_lip_sync/e.webp",
+      "/user_interface/images/rhubarb_lip_sync/f.webp",
+      "/user_interface/images/rhubarb_lip_sync/g.webp",
+      "/user_interface/images/rhubarb_lip_sync/h.webp",
+      "/user_interface/images/rhubarb_lip_sync/x.webp",
+
       // images added conditionally depending on device
       // screens
       "/user_interface/screens/"+userInterfaceLanguage+"/you_are_offline.html",
