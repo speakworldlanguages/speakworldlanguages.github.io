@@ -100,11 +100,12 @@ function checkIfAppIsPaused() {
 // NOTE THAT: In this case the grammar [info box] must appear AFTER the pronunciation-teacher-box [listen box]
 function loadingIsCompleteFunction() {
   // User must listen to pronunciation-teacher vocabulary box no matter what language he/she is studying
-  const filePathOfTheAudioFile = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_4/with_listenbox."+soundFileFormat; // In case of "ar" listen-many-times-box will play the verb root in male conjugation even if the user is female
+  const filePathOfTheAudio = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_4/with_listenbox."+soundFileFormat; // In case of "ar" listen-many-times-box will play the verb root in male conjugation even if the user is female
+  // NOTE: The lip-sync json file names better be THE SAME with the audio file names that will be played in the listen-many-times box » See js_for_info_boxes_in_lessons
   const listenBoxP1P2Path = "/user_interface/text/"+userInterfaceLanguage+"/1-2-4_vocabulary_p1_p2.txt"; // UI lang depends on domain (hostname) » See js_for_every_single_html
   fetch(listenBoxP1P2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleP1P2ActualText(contentOfTheTxtFile);  });
   // See js_for_info_boxes_in_lessons » iframe-lesson level
-  new SuperTimeout(function(){    createAndHandleListenManyTimesBox(filePathOfTheAudioFile);    },501); // Wait for preloader to disappear or give a brief break after notification
+  new SuperTimeout(function(){    createAndHandleListenManyTimesBox(filePathOfTheAudio);    },501); // Wait for preloader to disappear or give a brief break after notification
 }
 
 function vocabularyBoxIsClosed(x,y) { // 500ms after OK is touched/clicked, it will fire from within createAndHandleListenManyTimesBox with touch/click coordinate values passed » vocabularyBoxIsClosed(lastPointerX,lastPointerY)

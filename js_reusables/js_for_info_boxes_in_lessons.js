@@ -163,7 +163,7 @@ function unloadVocabularyBoxButtonSounds() {
 // IN THE PAST WE SAID: IN THE FUTURE WE WILL HOPEFULLY USE RHUBARB LIP-SYNC TO PLAY AN ANIMATED MOUTH ILLUSTRATION ALONG WITH WAVESURFER
 // AND NOW THIS IS APRIL 2024: We have deprecated wavesurfer entirely and have replaced it with Hitonokaochan
 // See » https://github.com/DanielSWolf/rhubarb-lip-sync
-function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
+function createAndHandleListenManyTimesBox(pathToTheAudio1,pathToJSON1,pathToTheAudio2,pathToJSON2,pathToTheAudio3,pathToJSON3,isLessonOutro) {
   popUpVocabularySound.play();
   const vocabularyBoxContainer = document.createElement("DIV"); // Maybe a dark theme will look nice
   vocabularyBoxContainer.classList.add("vocabularyBG"); // See css_for_info_boxes_in_lessons
@@ -200,37 +200,58 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
   else {    vocabularyBoxItself.appendChild(putVocabularyTxtIntoThisP1OUTRO);  }
 
   // -
-  let introVocabulary; let introSoundIsReady = false; let introSoundIsPlaying = false;
-  let outroVocabulary; let outroSoundIsReady = false; let outroSoundIsPlaying = false;
+  let introVocabulary1,introVocabulary2,introVocabulary3; let introSound1IsReady = false; let introSound2IsReady = false; let introSound3IsReady = false; let introSoundIsPlaying = false;
+  let outroVocabulary1,outroVocabulary2,outroVocabulary3; let outroSound1IsReady = false; let outroSound2IsReady = false; let outroSound3IsReady = false; let outroSoundIsPlaying = false;
   if (!isLessonOutro) {
-    introVocabulary = new parent.Howl({  src: [filePathOfTheAudio]  });
-    introVocabulary.once('load', function(){  introSoundIsReady = true; getJSON();  });
-    introVocabulary.on('end', function(){  introSoundIsPlaying = false; pseudoReactivationOfPlayButton();  });
+    introVocabulary1 = new parent.Howl({  src: [pathToTheAudio1]  });
+    introVocabulary1.once('load', function(){  introSound1IsReady = true; getJSON(pathToJSON1,1);  });
+    introVocabulary1.on('end', function(){  introSoundIsPlaying = false; pseudoReactivationOfPlayButton();  });
+
+    introVocabulary2 = new parent.Howl({  src: [pathToTheAudio2]  });
+    introVocabulary2.once('load', function(){  introSound2IsReady = true; getJSON(pathToJSON2,2);  });
+    introVocabulary2.on('end', function(){  introSoundIsPlaying = false; pseudoReactivationOfPlayButton();  });
+
+    introVocabulary3 = new parent.Howl({  src: [pathToTheAudio3]  });
+    introVocabulary3.once('load', function(){  introSound3IsReady = true; getJSON(pathToJSON3,3);  });
+    introVocabulary3.on('end', function(){  introSoundIsPlaying = false; pseudoReactivationOfPlayButton();  });
   }
   else {
-    outroVocabulary = new parent.Howl({  src: [filePathOfTheAudio]  });
-    outroVocabulary.once('load', function(){  outroSoundIsReady = true; getJSON();  });
-    outroVocabulary.on('end', function(){  outroSoundIsPlaying = false; pseudoReactivationOfPlayButton();  });
+    outroVocabulary1 = new parent.Howl({  src: [pathToTheAudio1]  });
+    outroVocabulary1.once('load', function(){  outroSound1IsReady = true; getJSON(pathToJSON1,1);  });
+    outroVocabulary1.on('end', function(){  outroSoundIsPlaying = false; pseudoReactivationOfPlayButton();  });
+
+    outroVocabulary2 = new parent.Howl({  src: [pathToTheAudio2]  });
+    outroVocabulary2.once('load', function(){  outroSound2IsReady = true; getJSON(pathToJSON2,2);  });
+    outroVocabulary2.on('end', function(){  outroSoundIsPlaying = false; pseudoReactivationOfPlayButton();  });
+
+    outroVocabulary3 = new parent.Howl({  src: [pathToTheAudio3]  });
+    outroVocabulary3.once('load', function(){  outroSound3IsReady = true; getJSON(pathToJSON3,3);  });
+    outroVocabulary3.on('end', function(){  outroSoundIsPlaying = false; pseudoReactivationOfPlayButton();  });
   }
   // -
   window.addEventListener("beforeunload",unloadListenBoxVocabularySounds,{once:true});
   function unloadListenBoxVocabularySounds() {
-    if (introSoundIsReady) { introVocabulary.unload(); }
-    if (outroSoundIsReady) { outroVocabulary.unload(); }
+    if (introSound1IsReady) { introVocabulary1.unload(); } if (introSound2IsReady) { introVocabulary2.unload(); } if (introSound3IsReady) { introVocabulary3.unload(); }
+    if (outroSound1IsReady) { outroVocabulary1.unload(); } if (outroSound2IsReady) { outroVocabulary2.unload(); } if (outroSound3IsReady) { outroVocabulary3.unload(); }
   }
-  // Get json file that is supposed to be named exactly the same as the audio file
-  const theFileExtensionIsRemoved = filePathOfTheAudio.split(".")[0];
-  const jsonFilePath = theFileExtensionIsRemoved + ".json";
-  let lipSyncJSON = null;
+  // DEPRECATE: Get json file that is supposed to be named exactly the same as the audio file
+  // Deprecate: const theFileExtensionIsRemoved_1 = pathToTheAudio1.split(".")[0];
+  // Deprecate: const jsonFilePath_1 = theFileExtensionIsRemoved_1 + ".json"; // Cached by 112.js 114.js etc in js_for_cache_handling
+  let lipSyncJSON_1 = null; let lipSyncJSON_2 = null; let lipSyncJSON_3 = null;
   listenButtonOfTheVocabulary.style.visibility = "hidden"; // Its class is added down below
-  function getJSON() {
+  function getJSON(jsonFilePath,whichOne) {
     fetch(jsonFilePath).then(response => {  if (!response.ok) { throw new Error('Network response was not ok'); }  return response.json();  })
     .then(data => {
-      lipSyncJSON = data;
+      switch (whichOne) {
+        case 1: lipSyncJSON_1 = data; break;
+        case 2: lipSyncJSON_2 = data; break;
+        case 3: lipSyncJSON_3 = data; break;
+        default:
+      }
       // RELOCATE into finally: listenButtonOfTheVocabulary.style.visibility = "visible"; // Let the button be visible
     }).catch(error => { parent.console.error('Fetch error:', error); parent.console.warn("Was trying to get:\n" + jsonFilePath); })
     .finally(()=>{
-      if (introSoundIsReady || outroSoundIsReady) { listenButtonOfTheVocabulary.style.visibility = "visible"; } // Even if json fails the app will proceed without animation
+      if (introSound1IsReady || outroSound1IsReady) { listenButtonOfTheVocabulary.style.visibility = "visible"; } // Even if json fails the app will proceed without animation
     });
   }
 
@@ -277,20 +298,44 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
     });
   }
 
-  function playIntroVocabulary() {
-    if (introSoundIsReady && !introSoundIsPlaying) {
-      introVocabulary.play(); introSoundIsPlaying = true; pseudoDeactivationOfPlayButton();
-      if (lipSyncJSON) { animateHitonokachan(lipSyncJSON); } // Handle lip-sync
+  function playintroVocabulary1() {
+    if (introSound1IsReady && !introSoundIsPlaying) {
+      introVocabulary1.play(); introSoundIsPlaying = true; pseudoDeactivationOfPlayButton();
+      if (lipSyncJSON_1) { animateHitonokachan(lipSyncJSON_1); } // Handle lip-sync
     }
   }
-  function playOutroVocabulary() {
-    if (outroSoundIsReady && !outroSoundIsPlaying) {
-      outroVocabulary.play(); outroSoundIsPlaying = true; pseudoDeactivationOfPlayButton();
-      if (lipSyncJSON) { animateHitonokachan(lipSyncJSON); } // Handle lip-sync
+  function playintroVocabulary2() {
+    if (introSound2IsReady && !introSoundIsPlaying) {
+      introVocabulary2.play(); introSoundIsPlaying = true; pseudoDeactivationOfPlayButton();
+      if (lipSyncJSON_2) { animateHitonokachan(lipSyncJSON_2); } // Handle lip-sync
+    }
+  }
+  function playintroVocabulary3() {
+    if (introSound3IsReady && !introSoundIsPlaying) {
+      introVocabulary3.play(); introSoundIsPlaying = true; pseudoDeactivationOfPlayButton();
+      if (lipSyncJSON_3) { animateHitonokachan(lipSyncJSON_3); } // Handle lip-sync
+    }
+  }
+  function playoutroVocabulary1() {
+    if (outroSound1IsReady && !outroSoundIsPlaying) {
+      outroVocabulary1.play(); outroSoundIsPlaying = true; pseudoDeactivationOfPlayButton();
+      if (lipSyncJSON_1) { animateHitonokachan(lipSyncJSON_1); } // Handle lip-sync
+    }
+  }
+  function playoutroVocabulary2() {
+    if (outroSound2IsReady && !outroSoundIsPlaying) {
+      outroVocabulary2.play(); outroSoundIsPlaying = true; pseudoDeactivationOfPlayButton();
+      if (lipSyncJSON_2) { animateHitonokachan(lipSyncJSON_2); } // Handle lip-sync
+    }
+  }
+  function playoutroVocabulary3() {
+    if (outroSound3IsReady && !outroSoundIsPlaying) {
+      outroVocabulary3.play(); outroSoundIsPlaying = true; pseudoDeactivationOfPlayButton();
+      if (lipSyncJSON_3) { animateHitonokachan(lipSyncJSON_3); } // Handle lip-sync
     }
   }
 
-  function pseudoDeactivationOfPlayButton() { listenButtonOfTheVocabulary.style.opacity = "0.5"; }
+  function pseudoDeactivationOfPlayButton() { listenButtonOfTheVocabulary.style.opacity = "0.4"; }
   function pseudoReactivationOfPlayButton() { listenButtonOfTheVocabulary.style.opacity = "1"; }
 
   // APPEND txt2
@@ -330,21 +375,25 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
     parent.window.addEventListener("keydown",checkIfSpaceKeyWasPressed); window.addEventListener("keydown",checkIfSpaceKeyWasPressed);
     parent.window.addEventListener("keyup",checkIfSpaceKeyWasReleased);  window.addEventListener("keyup",checkIfSpaceKeyWasReleased);
   }
-  let clickOrTouchCount=1;
+  let clickOrTouchCount=0;
   function playButtonF(event) { event.preventDefault(); event.stopPropagation();
     if (introSoundIsPlaying || outroSoundIsPlaying) {  return;  } // Prevent multiple instances of the sound overlap and be heard at the same time
     // Use stopPropagation instead of parent.preventTouchConflictWithTheSlidingNavMenu(listenButtonOfTheVocabulary); // Exists in js_for_the_sliding_navigation_menu
-
-    if (!isLessonOutro) {  playIntroVocabulary();  }
-    else {  playOutroVocabulary();  }
+    clickOrTouchCount++;
     // -
-    if (clickOrTouchCount==1) {
+    checkClickTouchModulus(clickOrTouchCount);
+  }
+  function checkClickTouchModulus(nthPlay) {
+    // -
+    if (nthPlay==1) {
       if (listenAgainButtonTxt) { listenButtonOfTheVocabulary.innerHTML = listenAgainButtonTxt; } // Change button innerHTML from [Listen] to [Listen again]
     }
-    if (clickOrTouchCount==2) {
+    if (nthPlay==2) {
       startButtonToCloseTheVocabulary.classList.add("startButtonUnderListenBox"); twoButtonsContainer.appendChild(startButtonToCloseTheVocabulary); // Reveal the [Start] button
     }
-    clickOrTouchCount++;
+    if (nthPlay%3 == 1) {      if (!isLessonOutro) {  playintroVocabulary1();  }      else {  playoutroVocabulary1();  }    }
+    if (nthPlay%3 == 2) {      if (!isLessonOutro) {  playintroVocabulary2();  }      else {  playoutroVocabulary2();  }    }
+    if (nthPlay%3 == 0) {      if (!isLessonOutro) {  playintroVocabulary3();  }      else {  playoutroVocabulary3();  }    }
   }
   let spaceKeyIsBeingHeldDown = false;
   function checkIfSpaceKeyWasPressed(event) { event.preventDefault(); // Can't be too safe
@@ -354,16 +403,9 @@ function createAndHandleListenManyTimesBox(filePathOfTheAudio,isLessonOutro) {
         // -
         if (introSoundIsPlaying || outroSoundIsPlaying) {  return;  } // Prevent multiple instances of the sound overlap and be heard at the same time
         // -
-        if (!isLessonOutro) {  playIntroVocabulary();  }
-        else {  playOutroVocabulary();  }
-        // -
-        if (clickOrTouchCount==1) {
-          if (listenAgainButtonTxt) { listenButtonOfTheVocabulary.innerHTML = listenAgainButtonTxt; } // Change button innerHTML from [Listen] to [Listen again]
-        }
-        if (clickOrTouchCount==2) {
-          startButtonToCloseTheVocabulary.classList.add("startButtonUnderListenBox"); twoButtonsContainer.appendChild(startButtonToCloseTheVocabulary); // Reveal the [Start] button
-        }
         clickOrTouchCount++;
+        // -
+        checkClickTouchModulus(clickOrTouchCount);
       }
     }
   }
