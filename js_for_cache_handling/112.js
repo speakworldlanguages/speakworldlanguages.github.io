@@ -92,6 +92,12 @@ async function cacheLesson112AssetsForTheTargetLanguage() {
   let item3  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/give_me_water_2_normal."+soundFileFormat;
   let item4  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/give_me_water_2_slow."+soundFileFormat;
   let item5  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/thank_you."+soundFileFormat;
+  let itemX  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/thank_you_listenbox_1."+soundFileFormat;
+  let itemXj = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/thank_you_listenbox_1.json";
+  let itemY  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/thank_you_listenbox_2."+soundFileFormat;
+  let itemYj = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/thank_you_listenbox_2.json";
+  let itemZ  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/thank_you_listenbox_3."+soundFileFormat;
+  let itemZj = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/thank_you_listenbox_3.json";
   if (parent.userIsFemaleSoUseFemaleConjugation) { // See js_for_the_parent_all_browsers_all_devices
     item1 = item1.split(".")[0] + "_tofemale."+soundFileFormat;
     item2 = item2.split(".")[0] + "_tofemale."+soundFileFormat;
@@ -100,7 +106,7 @@ async function cacheLesson112AssetsForTheTargetLanguage() {
     item5 = item5.split(".")[0] + "_tofemale."+soundFileFormat;
   }
   let listOfFilesForTargetLanguage_1_1_2 = [
-    itemA, itemB, itemC, itemAj, itemBj, itemCj,
+    itemA, itemB, itemC, itemAj, itemBj, itemCj, itemX, itemXj, itemY, itemYj, itemZ, itemZj,
     item1,    item2,    item3,    item4,    item5
   ];
 
