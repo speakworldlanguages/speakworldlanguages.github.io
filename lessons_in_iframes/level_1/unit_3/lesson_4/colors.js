@@ -66,6 +66,19 @@ const sayYellow2 = new parent.Howl({ src: [sayYellow2Path] });
 const sayRed2    = new parent.Howl({ src: [sayRed2Path]    });
 const sayBlack2  = new parent.Howl({ src: [sayBlack2Path]  });
 
+const sayWhite3Path  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_4/white_3."+soundFileFormat;
+const sayGreen3Path  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_4/green_3."+soundFileFormat;
+const sayBlue3Path   = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_4/blue_3."+soundFileFormat;
+const sayYellow3Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_4/yellow_3."+soundFileFormat;
+const sayRed3Path    = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_4/red_3."+soundFileFormat;
+const sayBlack3Path  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_4/black_3."+soundFileFormat;
+const sayWhite3  = new parent.Howl({ src: [sayWhite3Path]  });
+const sayGreen3  = new parent.Howl({ src: [sayGreen3Path]  });
+const sayBlue3   = new parent.Howl({ src: [sayBlue3Path]   });
+const sayYellow3 = new parent.Howl({ src: [sayYellow3Path] });
+const sayRed3    = new parent.Howl({ src: [sayRed3Path]    });
+const sayBlack3  = new parent.Howl({ src: [sayBlack3Path]  });
+
 const mouseEnterTouchStartSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/mouseenter_touchstart."+soundFileFormat]  });
 const mouseDownTouchEndSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/mousedown_touchend."+soundFileFormat]  });
 const turnSound = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_3/lesson_4/turn."+soundFileFormat]  });
@@ -83,8 +96,10 @@ var listOfAllSoundsInThisLesson = [
   //finalWinSound, // EXCEPTION: See unloadThatLastSoundWhichCannotBeUnloadedNormally
   setOffSound3,setOffSound2,setOffSound1,explodeSound,findSound,failSound,turnSound,
   mouseDownTouchEndSound,mouseEnterTouchStartSound,
+  sayBlack3,sayRed3,sayYellow3,sayBlue3,sayGreen3,sayWhite3,
   sayBlack2,sayRed2,sayYellow2,sayBlue2,sayGreen2,sayWhite2,
-  sayBlack1,sayRed1,sayYellow1,sayBlue1,sayGreen1,sayWhite1,
+  sayBlack1,sayRed1,sayYellow1,sayBlue1,sayGreen1,sayWhite1
+
 ];
 function unloadTheSoundsOfThisLesson() { // See onbeforeunload in js_for_all_iframed_lesson_htmls
   for (let i = 0; i < listOfAllSoundsInThisLesson.length; i++) {
@@ -179,90 +194,92 @@ function loadingIsCompleteFunction() {
 function startTheLesson() {
   // White is the first color then comes green » blue » yellow » red » black
   // Give time to the preloader to clear
-  let sayTime; let proceedTime;
+  let say1Time; let say2Time; let proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": sayTime = 5000; proceedTime = 11000; break;
-    case "fast": sayTime = 2000; proceedTime = 6000;  break;
-    default:     sayTime = 3500; proceedTime = 8500;
+    case "slow": say1Time = 1500; say2Time = 5000; proceedTime = 8500; break; // pause1: 3500 pause2: 3500
+    case "fast": say1Time = 500;  say2Time = 3000; proceedTime = 5500; break; // pause1: 2500 pause2: 2500
+    default:     say1Time = 1000; say2Time = 4000; proceedTime = 7000;        // pause1: 3000 pause2: 3000
   }
-  new SuperTimeout(function () { sayWhite1.play(); }, sayTime/5);
-  new SuperTimeout(showGreen, proceedTime/5); // Uncomment after tests
-  // sendTheCardsToTheirNewPositions(); // Delete or comment out after tests » Can skip the single photos during testing
-  // setTimeout(bringTheGameToTheScene, proceedTime/5); // Delete or comment out after tests » Can skip the single photos during testing
+  new SuperTimeout(function () { sayWhite1.play(); }, say1Time);
+  new SuperTimeout(function () { sayWhite2.play(); }, say2Time);
+  new SuperTimeout(showGreen, proceedTime);
 }
 
 function showGreen() {
   allSingles[0].style.visibility = "hidden";
   allSingles[1].style.visibility = "visible"; // Sudden change actually looks good in this case
-  let sayTime; let proceedTime;
+  let say1Time; let say2Time; let proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": sayTime = 4000; proceedTime = 10000; break;
-    case "fast": sayTime = 1000; proceedTime = 5000;  break;
-    default:     sayTime = 2500; proceedTime = 7500;
+    case "slow": say1Time = 1500; say2Time = 5000; proceedTime = 8500; break;
+    case "fast": say1Time = 500;  say2Time = 3000; proceedTime = 5500; break;
+    default:     say1Time = 1000; say2Time = 4000; proceedTime = 7000;
   }
-  new SuperTimeout(function () { sayGreen1.play(); }, sayTime/5);
-  new SuperTimeout(showBlue, proceedTime/5);
+  new SuperTimeout(function () { sayGreen1.play(); }, say1Time);
+  new SuperTimeout(function () { sayGreen2.play(); }, say2Time);
+  new SuperTimeout(showBlue, proceedTime);
 }
 
 function showBlue() {
   allSingles[1].style.visibility = "hidden";
   allSingles[2].style.visibility = "visible"; // Sudden change actually looks good in this case
-  let sayTime; let proceedTime;
+  let say1Time; let say2Time; let proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": sayTime = 4000; proceedTime = 10000; break;
-    case "fast": sayTime = 1000; proceedTime = 5000;  break;
-    default:     sayTime = 2500; proceedTime = 7500;
+    case "slow": say1Time = 1500; say2Time = 5000; proceedTime = 8500; break;
+    case "fast": say1Time = 500;  say2Time = 3000; proceedTime = 5500; break;
+    default:     say1Time = 1000; say2Time = 4000; proceedTime = 7000;
   }
-  new SuperTimeout(function () { sayBlue1.play(); }, sayTime/5);
-  new SuperTimeout(showYellow, proceedTime/5);
+  new SuperTimeout(function () { sayBlue1.play(); }, say1Time);
+  new SuperTimeout(function () { sayBlue2.play(); }, say2Time);
+  new SuperTimeout(showYellow, proceedTime);
 }
 
 function showYellow() {
   allSingles[2].style.visibility = "hidden";
   allSingles[3].style.visibility = "visible"; // Sudden change actually looks good in this case
-  let sayTime; let proceedTime;
+  let say1Time; let say2Time; let proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": sayTime = 4000; proceedTime = 10000; break;
-    case "fast": sayTime = 1000; proceedTime = 5000;  break;
-    default:     sayTime = 2500; proceedTime = 7500;
+    case "slow": say1Time = 1500; say2Time = 5000; proceedTime = 8500; break;
+    case "fast": say1Time = 500;  say2Time = 3000; proceedTime = 5500; break;
+    default:     say1Time = 1000; say2Time = 4000; proceedTime = 7000;
   }
-  new SuperTimeout(function () { sayYellow1.play(); }, sayTime/5);
-  new SuperTimeout(showRed, proceedTime/5);
+  new SuperTimeout(function () { sayYellow1.play(); }, say1Time);
+  new SuperTimeout(function () { sayYellow2.play(); }, say2Time);
+  new SuperTimeout(showRed, proceedTime);
 }
 
 function showRed() {
   allSingles[3].style.visibility = "hidden";
   allSingles[4].style.visibility = "visible"; // Sudden change actually looks good in this case
-  let sayTime; let proceedTime;
+  let say1Time; let say2Time; let proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": sayTime = 4000; proceedTime = 10000; break;
-    case "fast": sayTime = 1000; proceedTime = 5000;  break;
-    default:     sayTime = 2500; proceedTime = 7500;
+    case "slow": say1Time = 1500; say2Time = 5000; proceedTime = 8500; break;
+    case "fast": say1Time = 500;  say2Time = 3000; proceedTime = 5500; break;
+    default:     say1Time = 1000; say2Time = 4000; proceedTime = 7000;
   }
-  new SuperTimeout(function () { sayRed1.play(); }, sayTime/5);
-  new SuperTimeout(showBlack, proceedTime/5);
+  new SuperTimeout(function () { sayRed1.play(); }, say1Time);
+  new SuperTimeout(function () { sayRed2.play(); }, say2Time);
+  new SuperTimeout(showBlack, proceedTime);
 }
 
 function showBlack() {
   allSingles[4].style.visibility = "hidden";
   allSingles[5].style.visibility = "visible"; // Sudden change actually looks good in this case
-  let sayTime; let proceedTime;
+  let say1Time; let say2Time; let proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": sayTime = 4000; proceedTime = 10000; break;
-    case "fast": sayTime = 1000; proceedTime = 5000;  break;
-    default:     sayTime = 2500; proceedTime = 7500;
+    case "slow": say1Time = 1500; say2Time = 5000; proceedTime = 8500; break;
+    case "fast": say1Time = 500;  say2Time = 3000; proceedTime = 5500; break;
+    default:     say1Time = 1000; say2Time = 4000; proceedTime = 7000;
   }
-  new SuperTimeout(function () { sayBlack1.play(); }, sayTime/5);
-  new SuperTimeout(sendTheCardsToTheirNewPositions, proceedTime/5-900);
-  new SuperTimeout(bringTheGameToTheScene, proceedTime/5);
+  new SuperTimeout(function () { sayBlack1.play(); }, say1Time);
+  new SuperTimeout(function () { sayBlack2.play(); }, say2Time);
+  new SuperTimeout(sendTheCardsToTheirNewPositions, proceedTime-2000); // 900?
+  new SuperTimeout(bringTheGameToTheScene, proceedTime);
 }
 
 
 function bringTheGameToTheScene() {
   containerOfSingles.classList.add("moveUpAndGoBeyondScreenLimit"); // Standard 2s animation » See colors.css
   containerOfTheWholeGame.classList.add("moveUpAndComeToTheCenterOfScreen"); // Standard 2s animation » See colors.css
-
-   // setTimeout(function () { sendTheCardsToTheirNewPositions(); }, 2000); // ONLY FOR TESTING
 
   if (deviceDetector.isMobile) { // Phones and tablets
     acceptAndHandleScreenTouches(); // See mobile.js
