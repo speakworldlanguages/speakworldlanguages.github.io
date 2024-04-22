@@ -266,8 +266,9 @@ function createAndHandleListenManyTimesBox(pathToTheAudio1,pathToJSON1,pathToThe
   const hitonokaochanF = document.createElement("IMG"); hitonokaochanF.src = "/user_interface/images/rhubarb_lip_sync/f.webp"; hitonokaochanF.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanF);
   const hitonokaochanG = document.createElement("IMG"); hitonokaochanG.src = "/user_interface/images/rhubarb_lip_sync/g.webp"; hitonokaochanG.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanG);
   const hitonokaochanH = document.createElement("IMG"); hitonokaochanH.src = "/user_interface/images/rhubarb_lip_sync/h.webp"; hitonokaochanH.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanH);
+  const hitonokaochanN = document.createElement("IMG"); hitonokaochanN.src = "/user_interface/images/rhubarb_lip_sync/n.webp"; hitonokaochanN.style.display = "none"; hitonokaochanContainer.appendChild(hitonokaochanN); // Added on April 21st 2024
   const hitonokaochanX = document.createElement("IMG"); hitonokaochanX.src = "/user_interface/images/rhubarb_lip_sync/x.webp"; hitonokaochanX.style.display = "block";hitonokaochanContainer.appendChild(hitonokaochanX);
-  const allNineMouthStates = [hitonokaochanA,hitonokaochanB,hitonokaochanC,hitonokaochanD,hitonokaochanE,hitonokaochanF,hitonokaochanG,hitonokaochanH,hitonokaochanX];
+  const allMouthStates = [hitonokaochanA,hitonokaochanB,hitonokaochanC,hitonokaochanD,hitonokaochanE,hitonokaochanF,hitonokaochanG,hitonokaochanH,hitonokaochanN,hitonokaochanX];
   // QUESTION: Within startButtonF Hitonokaochan img container must be removed OR NOT? ANSWER: NOT IF we check whether it already exists before adding it
   if (vocabularyBoxItself.contains(hitonokaochanContainer)) {  } // This way we don't have to remove it inside startButtonF
   else {  vocabularyBoxItself.appendChild(hitonokaochanContainer);  } // Will add it only when called as intro
@@ -278,16 +279,31 @@ function createAndHandleListenManyTimesBox(pathToTheAudio1,pathToJSON1,pathToThe
     mouthCues.forEach(cue => {
       if (counter>0) { // Skip setting the very first timeout at 0000ms
         setTimeout(() => {
+          allMouthStates.forEach(frame => { frame.style.display = "none"; }); // Same for all
           switch (cue.value) {
-            case "A": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanA.style.display = "block"; break;
-            case "B": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanB.style.display = "block"; break;
-            case "C": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanC.style.display = "block"; break;
-            case "D": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanD.style.display = "block"; break;
-            case "E": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanE.style.display = "block"; break;
-            case "F": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanF.style.display = "block"; break;
-            case "G": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanG.style.display = "block"; break;
-            case "H": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanH.style.display = "block"; break;
-            case "X": allNineMouthStates.forEach(frame => { frame.style.display = "none"; }); hitonokaochanX.style.display = "block"; break;
+            // Rhubarb standard alphabetic reference PLUS the addition of "N" for «nnn» sound
+            case "A":  hitonokaochanA.style.display = "block"; break;
+            case "B":  hitonokaochanB.style.display = "block"; break;
+            case "C":  hitonokaochanC.style.display = "block"; break;
+            case "D":  hitonokaochanD.style.display = "block"; break;
+            case "E":  hitonokaochanE.style.display = "block"; break;
+            case "F":  hitonokaochanF.style.display = "block"; break;
+            case "G":  hitonokaochanG.style.display = "block"; break;
+            case "H":  hitonokaochanH.style.display = "block"; break;
+            case "N":  hitonokaochanN.style.display = "block"; break;
+            case "X":  hitonokaochanX.style.display = "block"; break;
+            // Leavidence Design reference
+            case "MM": hitonokaochanA.style.display = "block"; break;
+            case "SS": hitonokaochanB.style.display = "block"; break;
+            case "EE": hitonokaochanC.style.display = "block"; break;
+            case "AA": hitonokaochanD.style.display = "block"; break;
+            case "OO": hitonokaochanE.style.display = "block"; break;
+            case "UU": hitonokaochanF.style.display = "block"; break;
+            case "FF": hitonokaochanG.style.display = "block"; break;
+            case "LL": hitonokaochanH.style.display = "block"; break;
+            case "NN": hitonokaochanN.style.display = "block"; break;
+            case "XX": hitonokaochanX.style.display = "block"; break;
+
             default:
           }
           // It works!

@@ -123,6 +123,7 @@ function loadingIsCompleteFunction() {
 function startTheLesson() {
   // User must listen to pronunciation-teacher vocabulary box no matter what language he/she is studying
   // In case of "ar" pronunciation-teacher-box will play the verb root in male conjugation even if the user is female
+  // Unloading of these sounds will be done by createAndHandleListenManyTimesBox in js_for_info_boxes_in_lessons
   const filePathOfTheAudio1 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/give_listenbox_1."+soundFileFormat;
   const filePathOfTheAudio2 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/give_listenbox_2."+soundFileFormat;
   const filePathOfTheAudio3 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_2/give_listenbox_3."+soundFileFormat;

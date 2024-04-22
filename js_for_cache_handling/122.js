@@ -119,13 +119,18 @@ async function cacheLesson122AssetsForTheTargetLanguage() {
   const cacheForTargetLanguage_1_2_2 = await caches.open('1-2-2-assets-for-'+parent.langCodeForTeachingFilePaths+'-August2023');
   // ---
   // soundFileFormat exists in js_for_all_iframed_lesson_htmls where it is copied from the parent in js_for_different_browsers_and_devices
-  let itemA = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_listenbox."+soundFileFormat;
-  let item1 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_normal."+soundFileFormat;
-  let item2 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_slow."+soundFileFormat;
-  let item3 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_water_from_the_glass_normal."+soundFileFormat;
-  let item4 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_water_from_the_glass_slow."+soundFileFormat;
-  let item5 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_water_normal."+soundFileFormat;
-  let item6 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_water_slow."+soundFileFormat;
+  let itemA  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_listenbox_1."+soundFileFormat;
+  let itemAj = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_listenbox_1.json";
+  let itemB  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_listenbox_2."+soundFileFormat;
+  let itemBj = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_listenbox_2.json";
+  let itemC  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_listenbox_3."+soundFileFormat;
+  let itemCj = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_listenbox_3.json";
+  let item1  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_normal."+soundFileFormat;
+  let item2  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_slow."+soundFileFormat;
+  let item3  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_water_from_the_glass_normal."+soundFileFormat;
+  let item4  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_water_from_the_glass_slow."+soundFileFormat;
+  let item5  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_water_normal."+soundFileFormat;
+  let item6  = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_2/drink_water_slow."+soundFileFormat;
   if (parent.userIsFemaleSoUseFemaleConjugation) { // See js_for_the_parent_all_browsers_all_devices
     item1 = item1.split(".")[0] + "_tofemale."+soundFileFormat;
     item2 = item2.split(".")[0] + "_tofemale."+soundFileFormat;
@@ -135,7 +140,7 @@ async function cacheLesson122AssetsForTheTargetLanguage() {
     item6 = item6.split(".")[0] + "_tofemale."+soundFileFormat;
   }
   let listOfFilesForTargetLanguage_1_2_2 = [
-    itemA,
+    itemA, itemAj, itemB, itemBj, itemC, itemCj, 
     item1,    item2,    item3,    item4,    item5,    item6
   ];
 
