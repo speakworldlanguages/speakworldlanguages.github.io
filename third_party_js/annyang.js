@@ -192,6 +192,8 @@ var numberOfStartsAndRestartsRegardlessOfAudioInput = 0; // ON ANDROID we make t
         _isListening = true;
         invokeCallbacks(callbacks.start);
         // Custom code for speakworldlanguages.app
+        // DESPITE: annyang.js being listed in index.html before js_for_different_browsers_and_devices it should be OK to use global variables here
+        // as this part will not execute immediately as the app launches
         if (isAndroid && microphoneOnOffVisualIndicator) { // See js_for_different_browsers_and_devices
           document.body.appendChild(microphoneOnOffVisualIndicator);
 
@@ -242,6 +244,8 @@ var numberOfStartsAndRestartsRegardlessOfAudioInput = 0; // ON ANDROID we make t
         _isListening = false;
         invokeCallbacks(callbacks.end);
         // Custom code for speakworldlanguages.app
+        // DESPITE: annyang.js being listed in index.html before js_for_different_browsers_and_devices it should be OK to use global variables here
+        // as this part will not execute immediately as the app launches
         if (isAndroid && microphoneOnOffVisualIndicator) { // See js_for_different_browsers_and_devices
           document.body.removeChild(microphoneOnOffVisualIndicator);
         }
@@ -262,15 +266,22 @@ var numberOfStartsAndRestartsRegardlessOfAudioInput = 0; // ON ANDROID we make t
             // DECISION: We will try and see if 1 is happening and tell the user that it's not their fault but is a technical issue » [... Please skip ahead]
           }
           // Try to handle case 1: On Windows & Android user tries to pronounce but SpeechRecognition fails even though it perhaps shouldn't have.
+          // Speech recognition ignores user's correct answer. This happens when the answer is too short i.e. consisting of only one syllable
           if (silenceWasBroken) {
             numberOfRestartsDespiteDetectionOfAudioInput++;
-            if (numberOfRestartsDespiteDetectionOfAudioInput == 4 && !localStorage.maybeYouShouldSkipAlertHasAlreadyBeenDisplayed) {
-              // Display (English): If speech recognition is not functioning properly please skip it.
-              const filePathForMaybeYouShouldSkip = "/user_interface/text/"+userInterfaceLanguage+"/0-if_something_is_not_working.txt";
-              fetch(filePathForMaybeYouShouldSkip,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
-                alert(contentOfTheTxtFile.split("|")[2]);
-                localStorage.maybeYouShouldSkipAlertHasAlreadyBeenDisplayed = "yes";
-              });
+            if (numberOfRestartsDespiteDetectionOfAudioInput == 2 && !localStorage.maybeYouShouldSkipAlertHasAlreadyBeenDisplayed) {
+              // Remember that we want to avoid alert boxes in Safari as it toggles Howler sounds ON and OFF due to some mysterious Safari bug
+              // DESPITE: annyang.js being listed in index.html before js_for_different_browsers_and_devices it should be OK to use global variables here
+              // as this part will not execute immediately as the app launches
+              if (!isApple) { // LACK OF EXPERIMENT: As of April 2024 no tests performed on iOS. On MacOS it looks like it runs smoothly (unlike Chrome)
+                // Display (English): If speech recognition is not functioning properly please skip it.
+                const filePathForMaybeYouShouldSkip = "/user_interface/text/"+userInterfaceLanguage+"/0-if_something_is_not_working.txt";
+                fetch(filePathForMaybeYouShouldSkip,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+                  alert(contentOfTheTxtFile.split("|")[2]);
+                  localStorage.maybeYouShouldSkipAlertHasAlreadyBeenDisplayed = "yes";
+                });
+              }
+
             }
           }
           silenceWasBroken = false; // Reset to be able to detect it again

@@ -155,6 +155,7 @@
 
 .listenBoxHitonokaochan{
   margin-top: 10px; margin-bottom: 10px;
+  min-height: calc(100px + 10vmin);
 }
 .listenBoxHitonokaochan img{
   width: calc(100px + 10vmin);

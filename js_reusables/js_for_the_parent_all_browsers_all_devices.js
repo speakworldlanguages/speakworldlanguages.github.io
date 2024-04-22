@@ -20,6 +20,10 @@ var userIsOrWasJustViewing = "welcome-screen"; // First time users will stay at 
 
 // See » https://developer.mozilla.org/en-US/docs/Web/API/StorageManager/persist
 if (navigator.storage && navigator.storage.persist) {
+  /*
+  //FACT: WE CAN ACTIVATE THIS TO MAKE localStorage PROTECTED
+  //UNCERTAIN: WILL IT CAUSE say for example the cached stale version of index.html unupdateable?
+  //CONSIDER: service-worker intervention for all fetch requests
   navigator.storage.persist().then((persistent) => {
     if (persistent) {
       console.log("Storage persistence is allowed » data will not be cleared except by explicit user action");
@@ -27,6 +31,7 @@ if (navigator.storage && navigator.storage.persist) {
       console.warn("Storage persistence is NOT ALLOWED » data may be cleared by the UA under storage pressure.");
     }
   });
+  */
 }
 
 /*________________LOAD/SAVE___________________*/
