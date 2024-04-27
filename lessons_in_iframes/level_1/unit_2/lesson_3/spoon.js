@@ -39,19 +39,13 @@ const whatSpoonSoundsLike2 = new parent.Howl({  src: ["/lessons_in_iframes/level
 //4
 //5
 const successTone = new parent.Howl({  src: ["/user_interface/sounds/success1b."+soundFileFormat]  });
-//RELOCATED const notificationDingTone = new parent.Howl({  src: ["/user_interface/sounds/ding."+soundFileFormat]  });
-/* Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload. */
-// listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
+// NOTE: Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload.
+// NOTE: For DING and DONDING sounds see js_for_speech_recognition_algorithm
+// NOTE: listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
 var listOfAllSoundsInThisLesson = [
-  //RELOCATED notificationDingTone,
   //successTone, // EXCEPTION: See unloadThatLastSoundWhichCannotBeUnloadedNormally
-  whatSpoonSoundsLike2,
-  whatSpoonSoundsLike1,
-  sayGH,
-  sayF,
-  sayDE,
-  sayC,
-  sayAB
+  whatSpoonSoundsLike2, whatSpoonSoundsLike1,
+  sayGH, sayF, sayDE, sayC, sayAB
 ];
 function unloadTheSoundsOfThisLesson() { // See onbeforeunload in js_for_all_iframed_lesson_htmls
   for (let i = 0; i < listOfAllSoundsInThisLesson.length; i++) {
@@ -79,6 +73,7 @@ const nowYouSayIt = document.querySelector('.nowYouSayItImgContainer');
 const containerOfSingles = document.getElementById('singlesDivID');
 
 const giveUpAndContinueButtonASIDE = document.getElementsByTagName('ASIDE')[0];
+//-
 
 /* ___PROGRESSION___ */
 // Desktop users can change the speed; mobile users can't. Because the mobile GUI has to stay simple.
@@ -109,20 +104,19 @@ function startTheLesson() {
     case "fast": sayTime = 1200; proceedTime = 6500; break;
     default:     sayTime = 2200; proceedTime = 8100;
   }
-  // No fade time for fx sound
-  // No SFX
-  // No fading away for fx sound
+  //---
+  // No fx sound
+  // No fade handling for fx sound
   new SuperTimeout(function(){ sayAB.play(); }, sayTime); // Assume that teacher will be talking for 5000ms
-  // No fading back for fx sound
-  new SuperTimeout(function () { blurABandBringVid1OverAB();   /* No fade-to-zero for fx sound */   }, proceedTime); // slow, normal, fast
+  new SuperTimeout(function(){ blurABandBringVid1OverAB(); }, proceedTime); // slow, normal, fast
 }
 
 function blurABandBringVid1OverAB() {
-  let blurTime, sayTime, proceedTime;
+  let blurTime, startTime, sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": blurTime = 4.60; sayTime = 5500; proceedTime = 11000;  break; // proceedTime must depend on video length
-    case "fast": blurTime = 2.00; sayTime = 3500; proceedTime = 7500;   break; // proceedTime must depend on video length
-    default:     blurTime = 3.30; sayTime = 4500; proceedTime = 8750;   // proceedTime must depend on video length
+    case "slow": blurTime = 4.60; startTime = 0; sayTime = 5500; proceedTime = 11000;  break; // proceedTime must depend on video length
+    case "fast": blurTime = 2.00; startTime = 0; sayTime = 3500; proceedTime = 7500;   break; // proceedTime must depend on video length
+    default:     blurTime = 3.30; startTime = 0; sayTime = 4500; proceedTime = 8750;   // proceedTime must depend on video length
   }
 
   main.style.animationDuration = String(blurTime)+"s"; // Blur+Unblur paused at mid » See css_for_photos_and_videos_teach_a_new_word
@@ -155,10 +149,11 @@ function blurABandBringVid1OverAB() {
     // NOT NEEDED: if (startTime !== 0) { vid1.currentTime = startTime; }
     vid1.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     // No soundtrack for vid1
+    // No fade handling
     new SuperTimeout(function(){ sayC.play(); }, sayTime);
     new SuperTimeout(function(){ removeVid1AndReturnToAB(); }, proceedTime);
   }
-}
+} // End of blurABandBringVid1OverAB
 
 function removeVid1AndReturnToAB() {
   let blurTime;
@@ -186,19 +181,16 @@ function goFromABtoCD() {
     case "fast": changeTime = 1; sayTime = 4000; proceedTime = 8000;  break;
     default:     changeTime = 2; sayTime = 5500; proceedTime = 10500;
   }
-  // No fade time
   imgA.classList.add("makePhotosDisappear");  imgA.style.animationDuration = String(changeTime)+"s";
   imgB.classList.add("makePhotosDisappear");  imgB.style.animationDuration = String(changeTime)+"s";
 
   new SuperTimeout(function(){
     imgC.style.display = "block ";   imgC.classList.add("makePhotosAppear");   imgC.style.animationDuration = String(changeTime)+"s";
     imgD.style.display = "block ";   imgD.classList.add("makePhotosAppear");   imgD.style.animationDuration = String(changeTime)+"s";
-    // sfx
-    // No fade time
+    new SuperTimeout(function(){ whatSpoonSoundsLike1.play(); }, 1500);
+    // Fade handling not necessary
+    new SuperTimeout(function(){ sayDE.play(); }, sayTime);
   }, changeTime*500); // Overlap images instead of to-white-from-white
-  new SuperTimeout(function(){ whatSpoonSoundsLike1.play(); }, changeTime*500 + 1500);
-  new SuperTimeout(function(){ sayDE.play(); }, changeTime*500 + sayTime);
-  // No fading back-to-full-volume for fx sound
   new SuperTimeout(function(){ blurCDandBringVid2OverCD(); }, changeTime*500 + proceedTime);
 }
 
@@ -240,6 +232,7 @@ function blurCDandBringVid2OverCD() {
     if (startTime !== 0) { vid2.currentTime = startTime; }
     vid2.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     // No soundtrack for vid2
+    // No fade handling
     new SuperTimeout(function(){ sayF.play(); }, sayTime);
     new SuperTimeout(function(){ removeVid2AndReturnToCD(); }, proceedTime);
   }
@@ -278,16 +271,15 @@ function goFromCDtoEF() {
   new SuperTimeout(function(){
     imgE.style.display = "block ";   imgE.classList.add("makePhotosAppear");   imgE.style.animationDuration = String(changeTime)+"s";
     imgF.style.display = "block ";   imgF.classList.add("makePhotosAppear");   imgF.style.animationDuration = String(changeTime)+"s";
-    // sfx
-    // No fade time
+    new SuperTimeout(function(){ whatSpoonSoundsLike2.play(); }, 1500);
+    // Fade handling not necessary
+    new SuperTimeout(function(){ sayGH.play(); }, sayTime);
   }, changeTime*500); // Overlap images instead of to-white-from-white
-  new SuperTimeout(function(){ whatSpoonSoundsLike2.play(); }, changeTime*500 + 1500);
-  new SuperTimeout(function(){ sayGH.play(); }, changeTime*500 + sayTime);
+
   // No more videos to bring
-  // No fading back-to-full-volume
-  new SuperTimeout(function () {
-    continueLesson();
-  }, changeTime*500 + proceedTime);
+
+  // ---
+  new SuperTimeout(function () {  continueLesson();  }, changeTime*500 + proceedTime);
 }
 
 function continueLesson() {
@@ -307,7 +299,7 @@ function display_nowItsYourTurn_animation() {
   new SuperTimeout(function(){ containerOfDoubles.parentNode.removeChild(containerOfDoubles); }, changeTime*1000 + 250); // Remove shortly after opacity hits zero
 
   fullVpDarkBlue.style.display = "block"; fullVpDarkBlue.classList.add("darkenLightenBackground"); fullVpDarkBlue.style.animationDuration = String(changeTime*2)+"s";
-  new SuperTimeout(function(){ fullVpDarkBlue.style.animationPlayState = "paused"; }, changeTime*1000); // Paused at halfway
+  new SuperTimeout(function(){ fullVpDarkBlue.style.animationPlayState = "paused"; }, changeTime*1000); // Pause at halfway
   // nowYouSayIt takes 5100ms
   // Display the “It's your turn” animation if the user's browser is whitelisted.
   new SuperTimeout(function(){
@@ -379,7 +371,6 @@ function speakToTheMic() {
 
 } /* END OF speakToTheMic */
 
-// stopListeningAndProceedToNext >>> Used to be: var stopListeningAndProceedToNext = function () {};
 function stopListeningAndProceedToNext() {
   if (!userHasGivenUp) { // Real success of speech recognition
     successTone.play(); fullVpDarkBlue.style.animationPlayState = "running"; containerOfSingles.classList.add("brightenUp");

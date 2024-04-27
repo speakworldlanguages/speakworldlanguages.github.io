@@ -39,19 +39,13 @@ const whatFishSoundsLike2 = new parent.Howl({  src: ["/lessons_in_iframes/level_
 //4
 //5
 const successTone = new parent.Howl({  src: ["/user_interface/sounds/success1a."+soundFileFormat]  });
-//RELOCATED const notificationDingTone = new parent.Howl({  src: ["/user_interface/sounds/ding."+soundFileFormat]  });
-/* Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload. */
-// listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
+// NOTE: Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload.
+// NOTE: For DING and DONDING sounds see js_for_speech_recognition_algorithm
+// NOTE: listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
 var listOfAllSoundsInThisLesson = [
-  //RELOCATED notificationDingTone,
   //successTone, // EXCEPTION: See unloadThatLastSoundWhichCannotBeUnloadedNormally
-  whatFishSoundsLike2,
-  whatFishSoundsLike1,
-  sayGH,
-  sayF,
-  sayDE,
-  sayC,
-  sayAB
+  whatFishSoundsLike2, whatFishSoundsLike1,
+  sayGH, sayF, sayDE, sayC, sayAB
 ];
 function unloadTheSoundsOfThisLesson() { // See onbeforeunload in js_for_all_iframed_lesson_htmls
   for (let i = 0; i < listOfAllSoundsInThisLesson.length; i++) {
@@ -79,6 +73,7 @@ const nowYouSayIt = document.querySelector('.nowYouSayItImgContainer');
 const containerOfSingles = document.getElementById('singlesDivID');
 
 const giveUpAndContinueButtonASIDE = document.getElementsByTagName('ASIDE')[0];
+//-
 
 /* ___PROGRESSION___ */
 // Desktop users can change the speed; mobile users can't. Because the mobile GUI has to stay simple.
@@ -109,12 +104,11 @@ function startTheLesson() {
     case "fast": sayTime = 1000; proceedTime = 6500; break;
     default:     sayTime = 2000; proceedTime = 8100;
   }
-  // No fade time for fx sound
-  // No SFX
-  // No fading away for fx sound
+  //---
+  // No fx sound
+  // No fade handling for fx sound
   new SuperTimeout(function(){ sayAB.play(); }, sayTime); // Assume that teacher will be talking for 5000ms
-  // No fading back for fx sound
-  new SuperTimeout(function () { blurABandBringVid1OverAB();   /* No fade-to-zero for fx sound */   }, proceedTime); // slow, normal, fast
+  new SuperTimeout(function(){ blurABandBringVid1OverAB(); }, proceedTime); // slow, normal, fast
 }
 
 function blurABandBringVid1OverAB() {
@@ -155,10 +149,11 @@ function blurABandBringVid1OverAB() {
     if (startTime !== 0) { vid1.currentTime = startTime; }
     vid1.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     whatFishSoundsLike1.play();
-    new SuperTimeout(function(){ sayC.play(); }, sayTime);
+    new SuperTimeout(function(){ whatFishSoundsLike1.fade(1,0.33,1000); }, sayTime - 1000);
+    new SuperTimeout(function(){      sayC.play();      sayC.once("end", function(){ whatFishSoundsLike1.fade(0.33,1,1000);  });      }, sayTime);
     new SuperTimeout(function(){ removeVid1AndReturnToAB(); }, proceedTime);
   }
-}
+} // End of blurABandBringVid1OverAB
 
 function removeVid1AndReturnToAB() {
   let blurTime;
@@ -186,7 +181,6 @@ function goFromABtoCD() {
     case "fast": changeTime = 1; sayTime = 1500; proceedTime = 6500;  break;
     default:     changeTime = 2; sayTime = 2800; proceedTime = 8100;
   }
-  // No fade time
   imgA.classList.add("makePhotosDisappear");  imgA.style.animationDuration = String(changeTime)+"s";
   imgB.classList.add("makePhotosDisappear");  imgB.style.animationDuration = String(changeTime)+"s";
 
@@ -194,10 +188,9 @@ function goFromABtoCD() {
     imgC.style.display = "block ";   imgC.classList.add("makePhotosAppear");   imgC.style.animationDuration = String(changeTime)+"s";
     imgD.style.display = "block ";   imgD.classList.add("makePhotosAppear");   imgD.style.animationDuration = String(changeTime)+"s";
     // No fx sound
-    // No fade time
+    // No fade handling
+    new SuperTimeout(function(){ sayDE.play(); }, sayTime);
   }, changeTime*500); // Overlap images instead of to-white-from-white
-  new SuperTimeout(function(){ sayDE.play(); }, changeTime*500 + sayTime);
-  // No fading back-to-full-volume for fx sound
   new SuperTimeout(function(){ blurCDandBringVid2OverCD(); }, changeTime*500 + proceedTime);
 }
 
@@ -239,7 +232,8 @@ function blurCDandBringVid2OverCD() {
     if (startTime !== 0) { vid2.currentTime = startTime; }
     vid2.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     whatFishSoundsLike2.play();
-    new SuperTimeout(function(){ sayF.play(); }, sayTime);
+    new SuperTimeout(function(){ whatFishSoundsLike2.fade(1,0.33,1000); }, sayTime - 1000);
+    new SuperTimeout(function(){      sayF.play();      sayF.once("end", function(){ whatFishSoundsLike2.fade(0.33,1,1000);  });      }, sayTime);
     new SuperTimeout(function(){ removeVid2AndReturnToCD(); }, proceedTime);
   }
 }
@@ -278,14 +272,14 @@ function goFromCDtoEF() {
     imgE.style.display = "block ";   imgE.classList.add("makePhotosAppear");   imgE.style.animationDuration = String(changeTime)+"s";
     imgF.style.display = "block ";   imgF.classList.add("makePhotosAppear");   imgF.style.animationDuration = String(changeTime)+"s";
     // No fx sound
-    // No fade time
+    // No fade handling
+    new SuperTimeout(function(){ sayGH.play(); }, sayTime);
   }, changeTime*500); // Overlap images instead of to-white-from-white
-  new SuperTimeout(function(){ sayGH.play(); }, changeTime*500 + sayTime);
+
   // No more videos to bring
-  // No fading back-to-full-volume
-  new SuperTimeout(function () {
-    continueLesson();
-  }, changeTime*500 + proceedTime);
+
+  // ---
+  new SuperTimeout(function () {  continueLesson();  }, changeTime*500 + proceedTime);
 }
 
 function continueLesson() {
@@ -305,7 +299,7 @@ function display_nowItsYourTurn_animation() {
   new SuperTimeout(function(){ containerOfDoubles.parentNode.removeChild(containerOfDoubles); }, changeTime*1000 + 250); // Remove shortly after opacity hits zero
 
   fullVpDarkBlue.style.display = "block"; fullVpDarkBlue.classList.add("darkenLightenBackground"); fullVpDarkBlue.style.animationDuration = String(changeTime*2)+"s";
-  new SuperTimeout(function(){ fullVpDarkBlue.style.animationPlayState = "paused"; }, changeTime*1000); // Paused at halfway
+  new SuperTimeout(function(){ fullVpDarkBlue.style.animationPlayState = "paused"; }, changeTime*1000); // Pause at halfway
   // nowYouSayIt takes 5100ms
   // Display the “It's your turn” animation if the user's browser is whitelisted.
   new SuperTimeout(function(){
@@ -377,7 +371,6 @@ function speakToTheMic() {
 
 } /* END OF speakToTheMic */
 
-// stopListeningAndProceedToNext >>> Used to be: var stopListeningAndProceedToNext = function () {};
 function stopListeningAndProceedToNext() {
   if (!userHasGivenUp) { // Real success of speech recognition
     successTone.play(); fullVpDarkBlue.style.animationPlayState = "running"; containerOfSingles.classList.add("brightenUp");

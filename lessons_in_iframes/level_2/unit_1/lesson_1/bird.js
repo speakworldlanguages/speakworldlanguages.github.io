@@ -39,19 +39,13 @@ const whatBirdSoundsLike3 = new parent.Howl({  src: ["/lessons_in_iframes/level_
 //4
 //5
 const successTone = new parent.Howl({  src: ["/user_interface/sounds/success2a."+soundFileFormat]  });
-// See js_for_speech_recognition_algorithm for dongDingTone and dingTone
-/* Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload. */
-// listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
+// NOTE: Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload.
+// NOTE: For DING and DONDING sounds see js_for_speech_recognition_algorithm
+// NOTE: listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
 var listOfAllSoundsInThisLesson = [
   //successTone, // EXCEPTION: See unloadThatLastSoundWhichCannotBeUnloadedNormally
-  whatBirdSoundsLike3,
-  whatBirdSoundsLike2,
-  whatBirdSoundsLike1,
-  sayGH,
-  sayF,
-  sayDE,
-  sayC,
-  sayAB
+  whatBirdSoundsLike3, whatBirdSoundsLike2, whatBirdSoundsLike1,
+  sayGH, sayF, sayDE, sayC, sayAB
 ];
 function unloadTheSoundsOfThisLesson() { // See onbeforeunload in js_for_all_iframed_lesson_htmls
   for (let i = 0; i < listOfAllSoundsInThisLesson.length; i++) {
@@ -79,6 +73,7 @@ const nowYouSayIt = document.querySelector('.nowYouSayItImgContainer');
 const containerOfSingles = document.getElementById('singlesDivID');
 
 const giveUpAndContinueButtonASIDE = document.getElementsByTagName('ASIDE')[0];
+//-
 
 /* ___PROGRESSION___ */
 // Desktop users can change the speed; mobile users can't. Because the mobile GUI has to stay simple.
@@ -128,13 +123,11 @@ function startTheLesson() {
     case "fast": sayTime = 5000;  proceedTime = 10000; break;
     default:     sayTime = 7500;  proceedTime = 12500;
   }
-  // 12000ms audio fades to silence at the end
-  const delay = 1000;
-  new SuperTimeout(function(){ whatBirdSoundsLike1.play();  }, delay);
-  new SuperTimeout(function(){ whatBirdSoundsLike1.fade(1,0.4,500); }, sayTime - 500 + delay);
-  new SuperTimeout(function(){ sayAB.play(); }, sayTime + delay); // Assume that teacher will be talking for 5000ms
-  // No fading back for fx sound
-  new SuperTimeout(function () { blurABandBringVid1OverAB();   /* No fade-to-zero for fx sound */   }, proceedTime + delay); // slow, normal, fast
+  //---
+  whatBirdSoundsLike1.play(); whatBirdSoundsLike1.fade(0,1,2000); // 12000ms audio fades to silence at the end
+  new SuperTimeout(function(){ whatBirdSoundsLike1.fade(1,0.33,1000); }, sayTime - 1000);
+  new SuperTimeout(function(){      sayAB.play();      sayAB.once("end", function(){  whatBirdSoundsLike1.fade(0.33,1,1000);  });      }, sayTime); // Assume that teacher will be talking for 5000ms
+  new SuperTimeout(function(){ blurABandBringVid1OverAB(); }, proceedTime); // slow, normal, fast
 }
 
 function blurABandBringVid1OverAB() {
@@ -175,10 +168,11 @@ function blurABandBringVid1OverAB() {
     if (startTime !== 0) { vid1.currentTime = startTime; }
     vid1.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     // No soundtrack for vid1
+    // No fade handling
     new SuperTimeout(function(){ sayC.play(); }, sayTime);
     new SuperTimeout(function(){ removeVid1AndReturnToAB(); }, proceedTime);
   }
-}
+} // End of blurABandBringVid1OverAB
 
 function removeVid1AndReturnToAB() {
   let blurTime;
@@ -206,7 +200,6 @@ function goFromABtoCD() {
     case "fast": changeTime = 1; sayTime = 3000; proceedTime = 10000;  break;
     default:     changeTime = 2; sayTime = 4000; proceedTime = 12500;
   }
-  // No fade time
   imgA.classList.add("makePhotosDisappear");  imgA.style.animationDuration = String(changeTime)+"s";
   imgB.classList.add("makePhotosDisappear");  imgB.style.animationDuration = String(changeTime)+"s";
 
@@ -214,10 +207,9 @@ function goFromABtoCD() {
     imgC.style.display = "block ";   imgC.classList.add("makePhotosAppear");   imgC.style.animationDuration = String(changeTime)+"s";
     imgD.style.display = "block ";   imgD.classList.add("makePhotosAppear");   imgD.style.animationDuration = String(changeTime)+"s";
     whatBirdSoundsLike2.play(); // 12000ms audio
-    new SuperTimeout(function(){ whatBirdSoundsLike2.fade(1,0.4,500); }, sayTime - 500);
+    new SuperTimeout(function(){ whatBirdSoundsLike2.fade(1,0.33,1000); }, sayTime - 1000);
+    new SuperTimeout(function(){      sayDE.play();     sayDE.once("end", function(){  whatBirdSoundsLike2.fade(0.33,1,1000);  });      }, sayTime);
   }, changeTime*500); // Overlap images instead of to-white-from-white
-  new SuperTimeout(function(){ sayDE.play(); }, changeTime*500 + sayTime);
-  sayDE.once("end", function(){  whatBirdSoundsLike2.fade(0.4,1,500);  }); // Fade back to full volume quickly
   new SuperTimeout(function(){ blurCDandBringVid2OverCD(); }, changeTime*500 + proceedTime);
 }
 
@@ -259,6 +251,7 @@ function blurCDandBringVid2OverCD() {
     if (startTime !== 0) { vid2.currentTime = startTime; }
     vid2.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     // No soundtrack for vid2
+    // No fade handling
     new SuperTimeout(function(){ sayF.play(); }, sayTime);
     new SuperTimeout(function(){ removeVid2AndReturnToCD(); }, proceedTime);
   }
@@ -298,14 +291,14 @@ function goFromCDtoEF() {
     imgE.style.display = "block ";   imgE.classList.add("makePhotosAppear");   imgE.style.animationDuration = String(changeTime)+"s";
     imgF.style.display = "block ";   imgF.classList.add("makePhotosAppear");   imgF.style.animationDuration = String(changeTime)+"s";
     whatBirdSoundsLike3.play(); // 12000ms audio
-    new SuperTimeout(function(){ whatBirdSoundsLike3.fade(1,0.4,500); }, sayTime - 500);
+    new SuperTimeout(function(){ whatBirdSoundsLike3.fade(1,0.33,1000); }, sayTime - 1000);
+    new SuperTimeout(function(){      sayGH.play();     sayGH.once("end", function(){  whatBirdSoundsLike3.fade(0.33,1,1000);  });      }, sayTime);
   }, changeTime*500); // Overlap images instead of to-white-from-white
-  new SuperTimeout(function(){ sayGH.play(); }, changeTime*500 + sayTime);
+
   // No more videos to bring
-  sayGH.once("end", function(){  whatBirdSoundsLike3.fade(0.4,1,500);  }); // Fade back to full volume quickly
-  new SuperTimeout(function () {
-    continueLesson();
-  }, changeTime*500 + proceedTime);
+
+  // ---
+  new SuperTimeout(function () {  continueLesson();  }, changeTime*500 + proceedTime);
 }
 
 function continueLesson() {
@@ -325,7 +318,7 @@ function display_nowItsYourTurn_animation() {
   new SuperTimeout(function(){ containerOfDoubles.parentNode.removeChild(containerOfDoubles); }, changeTime*1000 + 250); // Remove shortly after opacity hits zero
 
   fullVpDarkBlue.style.display = "block"; fullVpDarkBlue.classList.add("darkenLightenBackground"); fullVpDarkBlue.style.animationDuration = String(changeTime*2)+"s";
-  new SuperTimeout(function(){ fullVpDarkBlue.style.animationPlayState = "paused"; }, changeTime*1000); // Paused at halfway
+  new SuperTimeout(function(){ fullVpDarkBlue.style.animationPlayState = "paused"; }, changeTime*1000); // Pause at halfway
   // nowYouSayIt takes 5100ms
   // Display the “It's your turn” animation if the user's browser is whitelisted.
   new SuperTimeout(function(){
@@ -397,7 +390,6 @@ function speakToTheMic() {
 
 } /* END OF speakToTheMic */
 
-// stopListeningAndProceedToNext >>> Used to be: var stopListeningAndProceedToNext = function () {};
 function stopListeningAndProceedToNext() {
   if (!userHasGivenUp) { // Real success of speech recognition
     successTone.play(); fullVpDarkBlue.style.animationPlayState = "running"; containerOfSingles.classList.add("brightenUp");

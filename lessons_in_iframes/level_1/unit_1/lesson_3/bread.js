@@ -39,17 +39,13 @@ const sayGH = new parent.Howl({  src: [say7say8Path]  });
 //4
 //5
 const successTone = new parent.Howl({  src: ["/user_interface/sounds/success1b."+soundFileFormat]  });
-//RELOCATED const notificationDingTone = new parent.Howl({  src: ["/user_interface/sounds/ding."+soundFileFormat]  });
-/* Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload. */
-// listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
+// NOTE: Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload.
+// NOTE: For DING and DONDING sounds see js_for_speech_recognition_algorithm
+// NOTE: listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
 var listOfAllSoundsInThisLesson = [
-  //RELOCATED notificationDingTone,
   //successTone, // EXCEPTION: See unloadThatLastSoundWhichCannotBeUnloadedNormally
-  sayGH,
-  sayF,
-  sayDE,
-  sayC,
-  sayAB
+  // No fx sounds in this lesson as of April 2024
+  sayGH, sayF, sayDE, sayC, sayAB
 ];
 function unloadTheSoundsOfThisLesson() { // See onbeforeunload in js_for_all_iframed_lesson_htmls
   for (let i = 0; i < listOfAllSoundsInThisLesson.length; i++) {
@@ -57,6 +53,7 @@ function unloadTheSoundsOfThisLesson() { // See onbeforeunload in js_for_all_ifr
   }
   parent.unloadThatLastSoundWhichCannotBeUnloadedNormally(successTone); // Exists in js_for_navigation_handling,,, unloads the sound after 5s
 }
+
 /* ___VISUAL ELEMENTS THAT REQUIRE TIMING___ */
 const imgA = document.getElementById("imageA");
 const imgB = document.getElementById("imageB");
@@ -76,6 +73,7 @@ const nowYouSayIt = document.querySelector('.nowYouSayItImgContainer');
 const containerOfSingles = document.getElementById('singlesDivID');
 
 const giveUpAndContinueButtonASIDE = document.getElementsByTagName('ASIDE')[0];
+//-
 
 /* ___PROGRESSION___ */
 // Desktop users can change the speed; mobile users can't. Because the mobile GUI has to stay simple.
@@ -114,12 +112,11 @@ function startTheLesson() {
     case "fast": sayTime = 1000; proceedTime = 6500; break;
     default:     sayTime = 2000; proceedTime = 8100;
   }
-  // No fade time for fx sound
-  // No SFX
-  // No fading away for fx sound
+  //---
+  // No fx sound
+  // No fade handling for fx sound
   new SuperTimeout(function(){ sayAB.play(); }, sayTime); // Assume that teacher will be talking for 5000ms
-  // No fading back for fx sound
-  new SuperTimeout(function () { blurABandBringVid1OverAB();   /* No fade-to-zero for fx sound */   }, proceedTime); // slow, normal, fast
+  new SuperTimeout(function(){ blurABandBringVid1OverAB(); }, proceedTime); // slow, normal, fast
 }
 
 function blurABandBringVid1OverAB() {
@@ -159,11 +156,12 @@ function blurABandBringVid1OverAB() {
   function playVid1NowThatItCanPlayThrough(){
     if (startTime !== 0) { vid1.currentTime = startTime; }
     vid1.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
-    // No soundtrack for vid1 // Bread SFX soundtrack??? // REMEMBER: Audio WILL NOT sync unless startTime is applied to audio too » no big deal for the oven scene though
+    // No soundtrack for vid1 // Q: Should we add bread FX soundtrack??? // REMEMBER: Audio WILL NOT sync unless startTime is applied to audio too » no big deal for the oven scene though
+    // No fade handling
     new SuperTimeout(function(){ sayC.play(); }, sayTime);
     new SuperTimeout(function(){ removeVid1AndReturnToAB(); }, proceedTime);
   }
-}
+} // End of blurABandBringVid1OverAB
 
 function removeVid1AndReturnToAB() {
   let blurTime;
@@ -191,7 +189,6 @@ function goFromABtoCD() {
     case "fast": changeTime = 1; sayTime = 1500; proceedTime = 6500;  break;
     default:     changeTime = 2; sayTime = 2800; proceedTime = 8100;
   }
-  // No fade time
   imgA.classList.add("makePhotosDisappear");  imgA.style.animationDuration = String(changeTime)+"s";
   imgB.classList.add("makePhotosDisappear");  imgB.style.animationDuration = String(changeTime)+"s";
 
@@ -199,10 +196,9 @@ function goFromABtoCD() {
     imgC.style.display = "block ";   imgC.classList.add("makePhotosAppear");   imgC.style.animationDuration = String(changeTime)+"s";
     imgD.style.display = "block ";   imgD.classList.add("makePhotosAppear");   imgD.style.animationDuration = String(changeTime)+"s";
     // No fx sound
-    // No fade time
+    // No fade handling
+    new SuperTimeout(function(){ sayDE.play(); }, sayTime);
   }, changeTime*500); // Overlap images instead of to-white-from-white
-  new SuperTimeout(function(){ sayDE.play(); }, changeTime*500 + sayTime);
-  // No fading back-to-full-volume for fx sound
   new SuperTimeout(function(){ blurCDandBringVid2OverCD(); }, changeTime*500 + proceedTime);
 }
 
@@ -210,7 +206,7 @@ function blurCDandBringVid2OverCD() {
   let blurTime, startTime, sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
     case "slow": blurTime = 4.60; startTime = 0; sayTime = 7000; proceedTime = 10000;  break; // proceedTime must depend on video length
-    case "fast": blurTime = 2.00; startTime = 2; sayTime = 4000; proceedTime = 7000;   break; // proceedTime must depend on video length
+    case "fast": blurTime = 2.00; startTime = 2; sayTime = 4500; proceedTime = 7000;   break; // proceedTime must depend on video length
     default:     blurTime = 3.30; startTime = 1; sayTime = 6000; proceedTime = 9000;  // proceedTime must depend on video length
   }
 
@@ -244,6 +240,7 @@ function blurCDandBringVid2OverCD() {
     if (startTime !== 0) { vid2.currentTime = startTime; }
     vid2.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     // No soundtrack for vid2 // REMEMBER: Audio WILL NOT sync unless startTime is applied to audio too » that is a big deal for bread breaking scene
+    // No fade handling
     new SuperTimeout(function(){ sayF.play(); }, sayTime);
     new SuperTimeout(function(){ removeVid2AndReturnToCD(); }, proceedTime);
   }
@@ -283,12 +280,14 @@ function goFromCDtoEF() {
     imgE.style.display = "block ";   imgE.classList.add("makePhotosAppear");   imgE.style.animationDuration = String(changeTime)+"s";
     imgF.style.display = "block ";   imgF.classList.add("makePhotosAppear");   imgF.style.animationDuration = String(changeTime)+"s";
     // No fx sound
-    // No fade time
+    // No fade handling
+    new SuperTimeout(function(){ sayGH.play(); }, sayTime);
   }, changeTime*500); // Overlap images instead of to-white-from-white
-  new SuperTimeout(function(){ sayGH.play(); }, changeTime*500 + sayTime);
+
   // No more videos to bring
-  // No fading back-to-full-volume
-  new SuperTimeout(function () { continueLesson(); }, changeTime*500 + proceedTime);
+
+  // ---
+  new SuperTimeout(function () {  continueLesson();  }, changeTime*500 + proceedTime);
 }
 
 function continueLesson() {

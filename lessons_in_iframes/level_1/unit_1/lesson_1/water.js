@@ -27,14 +27,6 @@ const say4say5Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFil
 const say6Path     = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/water_6."+soundFileFormat;
 const say7say8Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_1/lesson_1/water_7-8."+soundFileFormat;
 
-//SHORTEN const whatWaterSoundsLike1_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_1."+soundFileFormat;
-//SHORTEN const whatWaterSoundsLike2_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_2."+soundFileFormat;
-//SHORTEN const whatWaterSoundsLike3_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_3."+soundFileFormat;
-//SHORTEN const whatWaterSoundsLike4_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_4."+soundFileFormat;
-//SHORTEN const whatWaterSoundsLike5_filePath = "/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_5."+soundFileFormat;
-//SHORTEN const successTone_filePath = "/user_interface/sounds/success1a."+soundFileFormat;
-//RELOCATED const notificationDingTone_filePath = "/user_interface/sounds/ding."+soundFileFormat;
-
 const sayAB = new parent.Howl({  src: [say1say2Path]  });
 const sayC  = new parent.Howl({  src: [say3Path]      });
 const sayDE = new parent.Howl({  src: [say4say5Path]  });
@@ -47,22 +39,13 @@ const whatWaterSoundsLike3 = new parent.Howl({  src: ["/lessons_in_iframes/level
 const whatWaterSoundsLike4 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_4."+soundFileFormat]  });
 const whatWaterSoundsLike5 = new parent.Howl({  src: ["/lessons_in_iframes/level_1/unit_1/lesson_1/what_water_sounds_like_5."+soundFileFormat]  });
 const successTone = new parent.Howl({  src: ["/user_interface/sounds/success1a."+soundFileFormat]  });
-//RELOCATED const notificationDingTone = new parent.Howl({  src: [notificationDingTone_filePath]  });
-/* Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload. */
-// listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
+// NOTE: Sound initialization happens on the parent but the consts exist in frame. SEE js_for_all_iframed_lesson_htmls » FIND onbeforeunload.
+// NOTE: For DING and DONDING sounds see js_for_speech_recognition_algorithm
+// NOTE: listOfAllSoundsInThisLesson is also used by pauseTheAppFunction in js_for_the_sliding_navigation_menu
 var listOfAllSoundsInThisLesson = [
-  //RELOCATED notificationDingTone,
   //successTone, // EXCEPTION: See unloadThatLastSoundWhichCannotBeUnloadedNormally
-  whatWaterSoundsLike5,
-  whatWaterSoundsLike4,
-  whatWaterSoundsLike3,
-  whatWaterSoundsLike2,
-  whatWaterSoundsLike1,
-  sayGH,
-  sayF,
-  sayDE,
-  sayC,
-  sayAB
+  whatWaterSoundsLike5, whatWaterSoundsLike4, whatWaterSoundsLike3, whatWaterSoundsLike2, whatWaterSoundsLike1,
+  sayGH, sayF, sayDE, sayC, sayAB
 ];
 function unloadTheSoundsOfThisLesson() { // See onbeforeunload in js_for_all_iframed_lesson_htmls
   for (let i = 0; i < listOfAllSoundsInThisLesson.length; i++) {
@@ -104,7 +87,7 @@ function checkIfAppIsPaused() {
 
 function loadingIsCompleteFunction() {
   // Stop and notify the user if necessary; otherwise just continue.
-  if (studiedLang == "zh") { // Display the warning about intonations to users who want to learn the Ren language.
+  if (studiedLang == "zh") { // Display the warning about intonations to users who want to learn the Renmen language.
     const pathOfNotificationAboutRenIntonation = "/user_interface/text/"+userInterfaceLanguage+"/1-1-1_ren_intonation.txt";
     fetch(pathOfNotificationAboutRenIntonation,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
       new SuperTimeout(function(){ createAndHandleInfoBoxType1BeforeLessonStarts(); putNotificationTxtIntoThisP1.innerHTML = contentOfTheTxtFile; },501); // See js_for_info_boxes_in_lessons.js
@@ -152,19 +135,18 @@ function startTheLesson() {
     default:     sayTime = 3400; proceedTime = 9100; // Leave room for sfx
   }
   //---
-  whatWaterSoundsLike1.play(); //8607ms           // Play for a few seconds at full volume
-  new SuperTimeout(function(){ whatWaterSoundsLike1.fade(1,0.4,500); }, sayTime - 500); // and then fade down volume to about half to make room for teacher's voice
-  new SuperTimeout(function(){ sayAB.play(); }, sayTime); // Assume that teacher will be talking for 5000ms
-  sayAB.once("end", function(){  whatWaterSoundsLike1.fade(0.4,1,500);  }); // Fade back to full volume quickly even though whatWaterSoundsLike1 (wave file) ends with fade down
-  new SuperTimeout(function () { blurABandBringVid1OverAB(); }, proceedTime); // slow, normal, fast
+  whatWaterSoundsLike1.play(); whatWaterSoundsLike1.fade(0,1,2000); //8607ms           // Play for a few seconds at full volume
+  new SuperTimeout(function(){ whatWaterSoundsLike1.fade(1,0.33,1000); }, sayTime - 1000); // and then fade down volume to about half to make room for teacher's voice
+  new SuperTimeout(function(){      sayAB.play();      sayAB.once("end", function(){  whatWaterSoundsLike1.fade(0.33,1,1000);  });      }, sayTime); // Assume that teacher will be talking for 5000ms
+  new SuperTimeout(function(){ blurABandBringVid1OverAB(); }, proceedTime); // slow, normal, fast
 }
 
 function blurABandBringVid1OverAB() {
-  let blurTime, sayTime, proceedTime;
+  let blurTime, startTime, sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": blurTime = 4.60; sayTime = 8000; proceedTime = 11000; break; // proceedTime must depend on video length
-    case "fast": blurTime = 2.00; sayTime = 6000; proceedTime = 9000;  break; // proceedTime must depend on video length
-    default:     blurTime = 3.30; sayTime = 7000; proceedTime = 10000; // proceedTime must depend on video length
+    case "slow": blurTime = 4.60; startTime = 0; sayTime = 8000; proceedTime = 11000; break; // proceedTime must depend on video length
+    case "fast": blurTime = 2.00; startTime = 0; sayTime = 6000; proceedTime = 9000;  break; // proceedTime must depend on video length
+    default:     blurTime = 3.30; startTime = 0; sayTime = 7000; proceedTime = 10000; // proceedTime must depend on video length
   }
 
   main.style.animationDuration = String(blurTime)+"s"; // Blur+Unblur paused at mid » See css_for_photos_and_videos_teach_a_new_word
@@ -193,14 +175,15 @@ function blurABandBringVid1OverAB() {
       }
     }
   }
-  function playVid1NowThatItCanPlayThrough(){
+  function playVid1NowThatItCanPlayThrough(){ // Video of glass being filled with water
     // NOT NEEDED IN THIS CASE: if (startTime !== 0) { vid1.currentTime = startTime; }
     vid1.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     whatWaterSoundsLike2.play(); // Audio sync is not ideal but let's call it good enough
-    new SuperTimeout(function(){ sayC.play(); }, sayTime);
+    new SuperTimeout(function(){ whatWaterSoundsLike2.fade(1,0.33,1000); }, sayTime - 1000);
+    new SuperTimeout(function(){      sayC.play();      sayC.once("end", function(){ whatWaterSoundsLike2.fade(0.33,1,1000);  });      }, sayTime);
     new SuperTimeout(function(){ removeVid1AndReturnToAB(); }, proceedTime);
   }
-}
+} // End of blurABandBringVid1OverAB
 
 function removeVid1AndReturnToAB() {
   let blurTime;
@@ -235,19 +218,18 @@ function goFromABtoCD() {
     imgC.style.display = "block ";   imgC.classList.add("makePhotosAppear");   imgC.style.animationDuration = String(changeTime)+"s";
     imgD.style.display = "block ";   imgD.classList.add("makePhotosAppear");   imgD.style.animationDuration = String(changeTime)+"s";
     whatWaterSoundsLike3.play(); // 8808ms
-    new SuperTimeout(function(){ whatWaterSoundsLike3.fade(1,0.75,500); }, sayTime - 500); // Start fading 500ms before teacher talks
+    new SuperTimeout(function(){ whatWaterSoundsLike3.fade(1,0.33,1000); }, sayTime - 1000); // Start fading 1000ms before teacher talks
+    new SuperTimeout(function(){      sayDE.play();     sayDE.once("end", function(){  whatWaterSoundsLike3.fade(0.33,1,1000);  });      }, sayTime);
   }, changeTime*500); // Overlap images instead of to-white-from-white
-  new SuperTimeout(function(){ sayDE.play(); }, changeTime*500 + sayTime);
-  sayDE.once("end", function(){  whatWaterSoundsLike3.fade(0.75,1,500);  }); //Fade back to full volume quickly
   new SuperTimeout(function(){ blurCDandBringVid2OverCD(); }, changeTime*500 + proceedTime);
 }
 
 function blurCDandBringVid2OverCD() {
-  let blurTime, sayTime, proceedTime;
+  let blurTime, startTime, sayTime, proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": blurTime = 4.60; sayTime = 9000; proceedTime = 13000; break; // proceedTime must depend on video length
-    case "fast": blurTime = 2.00; sayTime = 7750; proceedTime = 9750;  break; // proceedTime must depend on video length
-    default:     blurTime = 3.30; sayTime = 8000; proceedTime = 11000; // proceedTime must depend on video length
+    case "slow": blurTime = 4.60; startTime = 0; sayTime = 9000; proceedTime = 13000; break; // proceedTime must depend on video length
+    case "fast": blurTime = 2.00; startTime = 0; sayTime = 7750; proceedTime = 9750;  break; // proceedTime must depend on video length
+    default:     blurTime = 3.30; startTime = 0; sayTime = 8000; proceedTime = 11000; // proceedTime must depend on video length
   }
 
   main.style.animationDuration = String(blurTime)+"s"; // Blur+Unblur paused at mid » See css_for_photos_and_videos_teach_a_new_word
@@ -280,7 +262,8 @@ function blurCDandBringVid2OverCD() {
     // NOT NEEDED IN THIS CASE: if (startTime !== 0) { vid2.currentTime = startTime; }
     vid2.play(); // Let video play and then go back to double photos (still image pairs),,, total video length ~ ???s.
     whatWaterSoundsLike4.play(); // 9048ms
-    new SuperTimeout(function(){ sayF.play(); }, sayTime);
+    new SuperTimeout(function(){ whatWaterSoundsLike4.fade(1,0.33,1000); }, sayTime - 1000);
+    new SuperTimeout(function(){      sayF.play();      sayF.once("end", function(){ whatWaterSoundsLike4.fade(0.33,1,1000);  });      }, sayTime);
     new SuperTimeout(function(){ removeVid2AndReturnToCD(); }, proceedTime);
   }
 }
@@ -318,12 +301,13 @@ function goFromCDtoEF() {
   new SuperTimeout(function(){
     imgE.style.display = "block ";   imgE.classList.add("makePhotosAppear");   imgE.style.animationDuration = String(changeTime)+"s";
     imgF.style.display = "block ";   imgF.classList.add("makePhotosAppear");   imgF.style.animationDuration = String(changeTime)+"s";
-    whatWaterSoundsLike5.play(); /* 13944ms*/
-    new SuperTimeout(function(){ whatWaterSoundsLike5.fade(1,0.5,1000); }, changeTime*500 + sayTime - 1100);
+    whatWaterSoundsLike5.play(); // 13944ms audio
+    new SuperTimeout(function(){ whatWaterSoundsLike5.fade(1,0.33,1000); }, sayTime - 1000);
+    new SuperTimeout(function(){      sayGH.play();     sayGH.once("end", function(){  whatWaterSoundsLike5.fade(0.33,1,1000);  });      }, sayTime);
   }, changeTime*500); // Overlap images instead of to-white-from-white
-  new SuperTimeout(function(){ sayGH.play(); }, changeTime*500 + sayTime);
+
   // No more videos to bring
-  sayGH.once("end", function(){  whatWaterSoundsLike5.fade(0.5,1,1000);  }); // Fade back to full volume in 1 second
+
   // ---
   new SuperTimeout(function () {
     // Special situation for Android users when viewing the first lesson (water.js)
