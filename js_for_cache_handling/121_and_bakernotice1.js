@@ -124,15 +124,30 @@ async function cacheLesson121AssetsForTheTargetLanguage() {
     "/speech_recognition_answer_key/"+parent.langCodeForTeachingFilePaths+"/1-2-1-glass.txt"
   ];
 
-  /*
+
   const u = "/user_interface/text/"+userInterfaceLanguage; // See js_for_every_single_html
   switch (parent.langCodeForTeachingFilePaths.substring(0,2)) { // Using substring, we trim "tr_istanbul" to "tr", "zh_putonghua" to "zh" etc
-    case "??":
-      listOfFilesForTargetLanguage_1_2_1.push(u+"/1-2-1_???.txt");
+    case "ar":
+      listOfFilesForTargetLanguage_1_2_1.push(u+"/1-2-1_vocabulary_p1_p2_ar.txt");
+      listOfFilesForTargetLanguage_1_2_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_1/kaas_listenbox_1."+soundFileFormat);
+      listOfFilesForTargetLanguage_1_2_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_1/kaas_listenbox_2."+soundFileFormat);
+      listOfFilesForTargetLanguage_1_2_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_1/kaas_listenbox_3."+soundFileFormat);
+      listOfFilesForTargetLanguage_1_2_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_1/kaas_listenbox_1.json");
+      listOfFilesForTargetLanguage_1_2_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_1/kaas_listenbox_2.json");
+      listOfFilesForTargetLanguage_1_2_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_1/kaas_listenbox_3.json");
+      break;
+    case "ko":
+      listOfFilesForTargetLanguage_1_2_1.push(u+"/1-2-1_vocabulary_p1_p2_ko.txt");
+      listOfFilesForTargetLanguage_1_2_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_1/jan_listenbox_1."+soundFileFormat);
+      listOfFilesForTargetLanguage_1_2_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_1/jan_listenbox_2."+soundFileFormat);
+      listOfFilesForTargetLanguage_1_2_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_1/jan_listenbox_3."+soundFileFormat);
+      listOfFilesForTargetLanguage_1_2_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_1/jan_listenbox_1.json");
+      listOfFilesForTargetLanguage_1_2_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_1/jan_listenbox_2.json");
+      listOfFilesForTargetLanguage_1_2_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_1/jan_listenbox_3.json");
       break;
     default: // Nothing
   }
-  */
+
 
   // ---
   let errorHappened = false;

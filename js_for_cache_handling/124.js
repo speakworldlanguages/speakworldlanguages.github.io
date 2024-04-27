@@ -122,12 +122,21 @@ async function cacheLesson124AssetsForTheTargetLanguage() {
       listOfFilesForTargetLanguage_1_2_4.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_4/tanaawal_listenbox_2.json");
       listOfFilesForTargetLanguage_1_2_4.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_4/tanaawal_listenbox_3.json");
       break;
+    case "ko":
+      listOfFilesForTargetLanguage_1_2_4.push(u+"/1-2-4_vocabulary_outro_p1_p2_ko.txt");
+      listOfFilesForTargetLanguage_1_2_4.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_4/deuseyo_listenbox_1."+soundFileFormat);
+      listOfFilesForTargetLanguage_1_2_4.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_4/deuseyo_listenbox_2."+soundFileFormat);
+      listOfFilesForTargetLanguage_1_2_4.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_4/deuseyo_listenbox_3."+soundFileFormat);
+      listOfFilesForTargetLanguage_1_2_4.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_4/deuseyo_listenbox_1.json");
+      listOfFilesForTargetLanguage_1_2_4.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_4/deuseyo_listenbox_2.json");
+      listOfFilesForTargetLanguage_1_2_4.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_2/lesson_4/deuseyo_listenbox_3.json");
+      break;
     case "ja":
       listOfFilesForTargetLanguage_1_2_4.push(u+"/1-2-4_end_of_meal_ja.txt");
       break;
     case "tr":
-      listOfFilesForTargetLanguage_1_2_4.push(u+"/1-2-4_end_of_meal_tr.txt");
       listOfFilesForTargetLanguage_1_2_4.push(u+"/1-2-4_kishi_harmony.txt");
+      listOfFilesForTargetLanguage_1_2_4.push(u+"/1-2-4_end_of_meal_tr.txt");
       break;
     default: // Nothing
   }

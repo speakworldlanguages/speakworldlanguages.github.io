@@ -138,7 +138,12 @@ async function cacheLesson211AssetsForTheTargetLanguage() {
   switch (parent.langCodeForTeachingFilePaths.substring(0,2)) { // Using substring, we trim "tr_istanbul" to "tr", "zh_putonghua" to "zh" etc
     case "ar":
       listOfFilesForTargetLanguage_2_1_1.push(u+"/2-1-1_vocabulary_p1_p2_ar.txt");
-      listOfFilesForTargetLanguage_2_1_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_2/unit_1/lesson_1/3sfoor_listenbox."+soundFileFormat);
+      listOfFilesForTargetLanguage_2_1_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_2/unit_1/lesson_1/3sfoor_listenbox_1."+soundFileFormat);
+      listOfFilesForTargetLanguage_2_1_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_2/unit_1/lesson_1/3sfoor_listenbox_2."+soundFileFormat);
+      listOfFilesForTargetLanguage_2_1_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_2/unit_1/lesson_1/3sfoor_listenbox_3."+soundFileFormat);
+      listOfFilesForTargetLanguage_2_1_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_2/unit_1/lesson_1/3sfoor_listenbox_1.json");
+      listOfFilesForTargetLanguage_2_1_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_2/unit_1/lesson_1/3sfoor_listenbox_2.json");
+      listOfFilesForTargetLanguage_2_1_1.push("/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_2/unit_1/lesson_1/3sfoor_listenbox_3.json");
       break;
     case "??":
       // ??

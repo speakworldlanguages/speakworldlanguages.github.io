@@ -403,13 +403,14 @@ function createAndHandleListenManyTimesBox(pathToTheAudio1,pathToJSON1,pathToThe
     // -
     if (nthPlay==1) {
       if (listenAgainButtonTxt) { listenButtonOfTheVocabulary.innerHTML = listenAgainButtonTxt; } // Change button innerHTML from [Listen] to [Listen again]
-    }
-    if (nthPlay==2) {
+    } else if (nthPlay==2) {
+      // No change
+    } else if (nthPlay==3) {
       startButtonToCloseTheVocabulary.classList.add("startButtonUnderListenBox"); twoButtonsContainer.appendChild(startButtonToCloseTheVocabulary); // Reveal the [Start] button
     }
-    if (nthPlay%3 == 1) {      if (!isLessonOutro) {  playintroVocabulary1();  }      else {  playoutroVocabulary1();  }    }
-    if (nthPlay%3 == 2) {      if (!isLessonOutro) {  playintroVocabulary2();  }      else {  playoutroVocabulary2();  }    }
-    if (nthPlay%3 == 0) {      if (!isLessonOutro) {  playintroVocabulary3();  }      else {  playoutroVocabulary3();  }    }
+    if (nthPlay%3 == 1) {    if (!isLessonOutro) {  playintroVocabulary1();  } else {  playoutroVocabulary1();  }    }
+    if (nthPlay%3 == 2) {    if (!isLessonOutro) {  playintroVocabulary2();  } else {  playoutroVocabulary2();  }    }
+    if (nthPlay%3 == 0) {    if (!isLessonOutro) {  playintroVocabulary3();  } else {  playoutroVocabulary3();  }    }
   }
   let spaceKeyIsBeingHeldDown = false;
   function checkIfSpaceKeyWasPressed(event) { event.preventDefault(); // Can't be too safe

@@ -294,7 +294,9 @@ function updateUniqueGraphicsWithNumbersRangingFromZeroToTwenty(useThisToSetRota
   // Initial value in css is transform: translateX(0vw) translateY(0vh)
   // TESTED TO SEE if transitionDuration should be decreased » initial value in css is 0.6s // RESULT: Looks OK on Windows-Chrome
   // WATCH THE FUNCTIONS disperse & undoTheDispersion
-  driveTheRotationOfThisWithMicVolume.style.transform = "rotateY("+(useThisToSetRotateY*4).toFixed(2)+"deg)";
+  if (driveTheRotationOfThisWithMicVolume) { // Prevent console error if the function fires too early
+    driveTheRotationOfThisWithMicVolume.style.transform = "rotateY("+(useThisToSetRotateY*4).toFixed(2)+"deg)";
+  }
 }
 
 

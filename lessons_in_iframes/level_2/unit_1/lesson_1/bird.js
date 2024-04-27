@@ -97,12 +97,16 @@ function loadingIsCompleteFunction() {
     // WE DO NOT NEED 3 SEPARATE AUDIO FILES TO BE ABLE TO CALL createAndHandleListenManyTimesBox
     // 1 OR 2 FILES WILL BE ENOUGH AS WE CAN PASS THE SAME SOUND AND THE SAME JSON THREE TIMES INTO createAndHandleListenManyTimesBox
     const filePathOfTheAudio1 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_2/unit_1/lesson_1/3sfoor_listenbox_1."+soundFileFormat;
+    const filePathOfTheAudio2 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_2/unit_1/lesson_1/3sfoor_listenbox_2."+soundFileFormat;
+    const filePathOfTheAudio3 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_2/unit_1/lesson_1/3sfoor_listenbox_3."+soundFileFormat;
     const filePathOfLipSyncJSON1 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_2/unit_1/lesson_1/3sfoor_listenbox_1.json";
+    const filePathOfLipSyncJSON2 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_2/unit_1/lesson_1/3sfoor_listenbox_2.json";
+    const filePathOfLipSyncJSON3 = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_2/unit_1/lesson_1/3sfoor_listenbox_3.json";
     // NOTE: The lip-sync json file names better be THE SAME with the audio file names that will be played in the listen-many-times box » See js_for_info_boxes_in_lessons
     const listenBoxP1P2Path = "/user_interface/text/"+userInterfaceLanguage+"/2-1-1_vocabulary_p1_p2_ar.txt"; // UI lang depends on domain (hostname) » See js_for_every_single_html
     fetch(listenBoxP1P2Path,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleP1P2ActualText(contentOfTheTxtFile);  });
     // See js_for_info_boxes_in_lessons » iframe-lesson level
-    new SuperTimeout(function(){    createAndHandleListenManyTimesBox(filePathOfTheAudio1,filePathOfLipSyncJSON1,filePathOfTheAudio1,filePathOfLipSyncJSON1,filePathOfTheAudio1,filePathOfLipSyncJSON1);    },501); // Wait for preloader to disappear or give a brief break after notification
+    new SuperTimeout(function(){    createAndHandleListenManyTimesBox(filePathOfTheAudio1,filePathOfLipSyncJSON1,filePathOfTheAudio2,filePathOfLipSyncJSON2,filePathOfTheAudio3,filePathOfLipSyncJSON3);    },501); // Wait for preloader to disappear or give a brief break after notification
   } else if (studiedLang == "??") {
     // Create a notification box if there is a special case with any particular target language
   } else {
