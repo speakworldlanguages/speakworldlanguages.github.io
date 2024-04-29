@@ -194,8 +194,10 @@ var numberOfStartsAndRestartsRegardlessOfAudioInput = 0; // ON ANDROID we make t
         // Custom code for speakworldlanguages.app
         // DESPITE: annyang.js being listed in index.html before js_for_different_browsers_and_devices it should be OK to use global variables here
         // as this part will not execute immediately as the app launches
-        if (isAndroid && microphoneOnOffVisualIndicator) { // See js_for_different_browsers_and_devices
-          document.body.appendChild(microphoneOnOffVisualIndicator);
+        // April 2024: Let's try showing it on all devices instead of just Android
+        if (/*isAndroid && */microphoneOnOffVisualIndicator) { // See js_for_different_browsers_and_devices
+          if (document.body.contains(microphoneOnOffVisualIndicator)) { console.warn("How can microphoneOnOffVisualIndicator already exist?"); }
+          else { document.body.appendChild(microphoneOnOffVisualIndicator); } // Add safely
 
           // WARNING: On Android there seems to be a time gap after onstart fires where Speech Recognition HAS NOT ACTUALLY started !!!
 
@@ -246,8 +248,9 @@ var numberOfStartsAndRestartsRegardlessOfAudioInput = 0; // ON ANDROID we make t
         // Custom code for speakworldlanguages.app
         // DESPITE: annyang.js being listed in index.html before js_for_different_browsers_and_devices it should be OK to use global variables here
         // as this part will not execute immediately as the app launches
-        if (isAndroid && microphoneOnOffVisualIndicator) { // See js_for_different_browsers_and_devices
-          document.body.removeChild(microphoneOnOffVisualIndicator);
+        if (/*isAndroid && */microphoneOnOffVisualIndicator) { // See js_for_different_browsers_and_devices
+          if (document.body.contains(microphoneOnOffVisualIndicator)) { document.body.removeChild(microphoneOnOffVisualIndicator); } // Remove safely
+          else { } // Do nothing safely
         }
 
         // annyang will auto restart if it is closed automatically and not by user action.

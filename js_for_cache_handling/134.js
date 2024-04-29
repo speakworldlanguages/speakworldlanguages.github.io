@@ -8,7 +8,7 @@ else { cacheLesson134AssetsForTheTargetLanguage(); }
 
 let triesFor134CommonAssets = 0;
 async function cacheLesson134CommonAssetsForAllLanguages() {
-  const cacheForAllLanguages_1_3_4 = await caches.open('1-3-4-assets-for-all-languages-October2023');
+  const cacheForAllLanguages_1_3_4 = await caches.open('1-3-4-assets-for-all-languages-April2024');
   // ---
   let listOfFilesForAllLanguages_1_3_4 = [
     "/lessons_in_iframes/level_1/unit_3/lesson_4/fabric/1.avif",
@@ -55,7 +55,7 @@ async function cacheLesson134CommonAssetsForAllLanguages() {
     /* THIS DOES NOT EXIST because «translation help box» is not used in this lesson
     "/user_interface/text/"+userInterfaceLanguage+"/1-3-4_vocabulary_p1_p2.txt"
     */
-    
+
   ];
   // soundFileFormat exists in js_for_all_iframed_lesson_htmls where it is copied from the parent in js_for_different_browsers_and_devices
 
