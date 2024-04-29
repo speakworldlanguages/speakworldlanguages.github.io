@@ -139,6 +139,7 @@ function cacheProgressChartCommonFiles() { // LOOKS LIKE IMPOSSIBLE: Make progre
       "/progress_chart/images/not_published_yet.webp",
 
       "/user_interface/images/arrow_right.webp", // Same file used both for progress chart (via progress.css) and at parent level » See the parent index.html
+      // Note: arrow_right is also used in 1-3-4
       "/user_interface/images/arrow_left.webp", // Same file used both for progress chart (via progress.css) and at parent level » See the parent index.html
 
 
@@ -236,8 +237,8 @@ function cacheCommonFilesForAllLessons() {
       "/user_interface/sounds/glass_button_click."+soundFileFormat,
       // sounds for notice1 and notice2 etc
       "/user_interface/sounds/looping_bgm_stereo_therapy."+soundFileFormat,
-      "/user_interface/sounds/section_as_button_hover."+soundFileFormat,
-      "/user_interface/sounds/section_as_button_click."+soundFileFormat,
+      "/user_interface/sounds/authors_notice_next_button_hover."+soundFileFormat,
+      "/user_interface/sounds/authors_notice_next_button_click."+soundFileFormat,
       // info boxes in lessons
       "/user_interface/sounds/notification1_appear."+soundFileFormat,
       "/user_interface/sounds/notification1_close."+soundFileFormat,

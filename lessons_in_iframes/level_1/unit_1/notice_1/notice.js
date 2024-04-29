@@ -5,8 +5,15 @@ let theSilentSpeechOfTheAuthor;
 let windowLoadFiredAlready = false;
 
 window.addEventListener('DOMContentLoaded', function(){
-  clonedButtons0 = document.getElementsByTagName('SECTION')[0];
-  clonedButtons1 = document.getElementsByTagName('SECTION')[1];
+  clonedButtons0 = document.getElementsByClassName("goToNextLessonButton")[0];
+  clonedButtons1 = document.getElementsByClassName("goToNextLessonButton")[1];
+  if (needLatinFonts) {
+    clonedButtons0.style.fontFamily = '"Oxanium SemiBold", sans-serif'; // Font loaded via js_for_every_single_html
+    clonedButtons1.style.fontFamily = '"Oxanium SemiBold", sans-serif'; // Font loaded via js_for_every_single_html
+  }
+  if (needHitoicJapaneseFonts) {
+    // The text is short: Don't need line break rules
+  }
 
   const filePathForAuthorsMessage = "/user_interface/text/"+userInterfaceLanguage+"/1-1-notice_author_says.txt";
   const filePathForWhatToPutIntoTheButton = "/user_interface/text/"+userInterfaceLanguage+"/0lesson-continue_to_next.txt";
@@ -48,8 +55,8 @@ function loadingIsCompleteFunction() {
     setTimeout(function () {   bgmSound.play(); bgmSound.fade(0,0.6,15000);   }, 4000);
     setTimeout(function () {   bgmSound.fade(0.6,0,15000);   }, 27000);
   });
-  hoverSound = new parent.Howl({  src: ["/user_interface/sounds/section_as_button_hover."+soundFileFormat]  });
-  clickSound = new parent.Howl({  src: ["/user_interface/sounds/section_as_button_click."+soundFileFormat]  });
+  hoverSound = new parent.Howl({  src: ["/user_interface/sounds/authors_notice_next_button_hover."+soundFileFormat]  });
+  clickSound = new parent.Howl({  src: ["/user_interface/sounds/authors_notice_next_button_click."+soundFileFormat]  });
   // --
   if (deviceDetector.isMobile) {
     clonedButtons0.addEventListener("touchstart",function (event) { event.preventDefault(); event.stopPropagation(); hoverSound.play(); });

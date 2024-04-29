@@ -21,8 +21,8 @@ async function cacheAuthorsNotice3Assets() {
     "/user_interface/text/"+userInterfaceLanguage+"/1-3-notice_author_says.txt"
     // FOLLOWING FILES ARE USED both in notice1 and notice2 and notice3 but they are cached by cacheCommonFilesForAllLessons in js_for_cache_handling/0_parent_initial_load_and_111
     // "/user_interface/sounds/looping_bgm_stereo_therapy."+soundFileFormat
-    // "/user_interface/sounds/section_as_button_hover."+soundFileFormat
-    // "/user_interface/sounds/section_as_button_click."+soundFileFormat
+    // "/user_interface/sounds/authors_notice_next_button_hover."+soundFileFormat
+    // "/user_interface/sounds/authors_notice_next_button_click."+soundFileFormat
   ];
   if (deviceDetector.device == "tablet") {
     list.push("/lessons_in_iframes/level_1/unit_3/notice_3/global_circulation_tablet.webp");

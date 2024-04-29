@@ -80,7 +80,9 @@
       }, { once: true });
 
       function navigateToInformation() {
-        setTimeout(function () {          parent.ayFreym.src = "/information/index.html";        }, 500);
+        // Better if this does not navigate away before addThisToAButtonForPlayStationStyleClick in css_for_every_single_html completes » 600ms
+        // clickSoundForAddressElementAsButton should also complete » 470ms
+        setTimeout(function () {          parent.ayFreym.src = "/information/index.html";        }, 700);
       }
     </script>
   </head>

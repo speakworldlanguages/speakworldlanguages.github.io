@@ -11,41 +11,51 @@ async function cacheLesson134CommonAssetsForAllLanguages() {
   const cacheForAllLanguages_1_3_4 = await caches.open('1-3-4-assets-for-all-languages-October2023');
   // ---
   let listOfFilesForAllLanguages_1_3_4 = [
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/1.avif",
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/2.avif",
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/3.avif",
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/4.avif",
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/5.avif",
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/6.avif",
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/bird.avif",
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/black.avif",
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/blue.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/fabric/1.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/fabric/2.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/fabric/3.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/fabric/4.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/fabric/5.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/fabric/6.avif",
+    /* uncomment when avif files are ready
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/painter/1.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/painter/2.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/painter/3.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/painter/4.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/painter/5.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/painter/6.avif",
+    */
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/bird.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/black.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/blue.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/fish.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/green.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/red.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/water.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/white.avif",
+    "/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/yellow.avif",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/colors.css",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/colors.js",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/desktop.js",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/explosion."+soundFileFormat,
     "/lessons_in_iframes/level_1/unit_3/lesson_4/fail."+soundFileFormat,
     "/lessons_in_iframes/level_1/unit_3/lesson_4/find."+soundFileFormat,
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/fish.avif",
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/green.avif",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/index.html",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/mobile.js",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/mousedown_touchend."+soundFileFormat,
     "/lessons_in_iframes/level_1/unit_3/lesson_4/mouseenter_touchstart."+soundFileFormat,
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/red.avif",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/set_off_1."+soundFileFormat,
     "/lessons_in_iframes/level_1/unit_3/lesson_4/set_off_2."+soundFileFormat,
     "/lessons_in_iframes/level_1/unit_3/lesson_4/set_off_3."+soundFileFormat,
     "/lessons_in_iframes/level_1/unit_3/lesson_4/turn."+soundFileFormat,
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/water.avif",
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/white.avif",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/win."+soundFileFormat,
-    "/lessons_in_iframes/level_1/unit_3/lesson_4/yellow.avif"
+    // There is no «translation help box» in 1-3-4 BUT IN THIS CASE the txt is for in-lesson-navigation elements
+    "/user_interface/text/"+userInterfaceLanguage+"/1-3-4.txt" // See js_for_every_single_html to find userInterfaceLanguage
 
-    /* THESE DO NOT EXIST because «translation help box» is not used in this lesson
-    "/user_interface/text/"+userInterfaceLanguage+"/1-3-4.txt", // See js_for_every_single_html to find userInterfaceLanguage
+    /* THIS DOES NOT EXIST because «translation help box» is not used in this lesson
     "/user_interface/text/"+userInterfaceLanguage+"/1-3-4_vocabulary_p1_p2.txt"
     */
+    
   ];
   // soundFileFormat exists in js_for_all_iframed_lesson_htmls where it is copied from the parent in js_for_different_browsers_and_devices
 

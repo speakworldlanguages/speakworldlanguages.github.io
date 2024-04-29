@@ -110,20 +110,29 @@ function unloadTheSoundsOfThisLesson() { // See onbeforeunload in js_for_all_ifr
 
 // List of backside visuals
 const imageFiles = [
-  '/lessons_in_iframes/level_1/unit_3/lesson_4/fish.avif',
-  '/lessons_in_iframes/level_1/unit_3/lesson_4/bird.avif',
-  '/lessons_in_iframes/level_1/unit_3/lesson_4/water.avif',
-  '/lessons_in_iframes/level_1/unit_3/lesson_4/fish.avif',
-  '/lessons_in_iframes/level_1/unit_3/lesson_4/bird.avif',
-  '/lessons_in_iframes/level_1/unit_3/lesson_4/water.avif'
+  '/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/fish.avif',
+  '/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/bird.avif',
+  '/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/water.avif',
+  '/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/fish.avif',
+  '/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/bird.avif',
+  '/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/water.avif'
 ];
 
 /* __CONTAINER DIVS__ */
 // const main = document.getElementsByTagName('MAIN')[0]; // Cannot use touchstart touchmove listeners with main
 // See index.html » const touchArea = document.getElementById('mobileTouchArea');
 const fullVpDarkBlue = document.getElementById('coverForTheUnchosenOnesID');
-const containerOfSingles = document.getElementById('singlesDivID');
-const allSingles = containerOfSingles.children; // Use children instead of childNodes to ignore HTML comments
+const containerOfSingles_A = document.getElementById('singlesDiv1ID');
+const containerOfSingles_B = document.getElementById('singlesDiv2ID');
+const allSinglesOfFirstSet = containerOfSingles_A.children; // Use children instead of childNodes to ignore HTML comments
+const allSinglesOfSecondSet = containerOfSingles_B.children; // Use children instead of childNodes to ignore HTML comments
+const theTwoOptions = document.getElementById('chooseRepeatOrPlayDivID');
+const listenAgainButton = document.getElementsByTagName('SECTION')[0];
+const playTheGameButton = document.getElementsByTagName('SECTION')[1];
+const listenAgainTextP = document.getElementById('p1ID');
+const areYouSureTextH = document.getElementsByTagName('HEADER')[0];
+const playTheGameTextP = document.getElementById('p2ID');
+
 // See index.html » const containerOfTheWholeGame = document.getElementById('allOfTheGameDivID');
 const allSixPerfectFitSquares = document.querySelectorAll(".containerForOneOfSixPerfectFitPieces");
 const allBackFaces = document.querySelectorAll(".theCardsBackFace");
@@ -176,6 +185,35 @@ function loadingIsCompleteFunction() {
     startTheLesson(); // Call it now if it was not called from within createAndHandleInfoBoxType1BeforeLessonStarts() in js_for_info_boxes_in_lessons.js
   }
   // ---
+  // Get the lesson navigation texts ready ,,, Note: THESE WILL BE VISIBLE WAY AFTER window load
+  setTimeout(function () {
+    // listenAgainTextP    // areYouSureTextH    // playTheGameTextP
+    const pathOfLessonNavigationTexts = "/user_interface/text/"+userInterfaceLanguage+"/1-3-4.txt";
+    fetch(pathOfLessonNavigationTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){
+      listenAgainTextP.innerHTML = contentOfTheTxtFile.split("|")[0];
+      areYouSureTextH.innerHTML = contentOfTheTxtFile.split("|")[1];
+      playTheGameTextP.innerHTML = contentOfTheTxtFile.split("|")[2];
+      if (needHitoicJapaneseFonts) {
+        areYouSureTextH.classList.add("toUseWBR_withCJK","cjkLineHeightAndLetterSpacing"); // See css_for_every_single_html
+      }
+      // Function to compare and adjust widths of paragraphs to make the buttons equal in size
+      function compareAndAdjustWidths() {
+          const paragraph1 = listenAgainTextP; const paragraph1Width = paragraph1.clientWidth;
+          const paragraph2 = playTheGameTextP; const paragraph2Width = paragraph2.clientWidth;
+          // Compare the widths
+          if (paragraph1Width > paragraph2Width) {
+              paragraph2.style.width = paragraph1Width + 'px'; // Set width of paragraph2 to match paragraph1
+          } else if (paragraph1Width < paragraph2Width) {
+              paragraph1.style.width = paragraph2Width + 'px'; // Set width of paragraph1 to match paragraph2
+          } else {
+              // They are the same already! Wow!
+          }
+      }
+      requestAnimationFrame(compareAndAdjustWidths); // Call the function initially // with RAF it is delayed by one frame-moment
+      window.addEventListener('resize', compareAndAdjustWidths); // Call the function when window is resized
+    });
+  }, 3000);
+  // ---
   // By the way: Get the end-of-lesson texts ready
   setTimeout(function () { // We don't want a SuperTimeout in this case
     if (studiedLang == "ja") {
@@ -191,95 +229,198 @@ function loadingIsCompleteFunction() {
   }, 5000);
 }
 
+let displayingFirstSet = true;
 function startTheLesson() {
   // White is the first color then comes green » blue » yellow » red » black
   // Give time to the preloader to clear
-  let say1Time; let say2Time; let proceedTime;
+  let sayTime; let proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": say1Time = 1500; say2Time = 5000; proceedTime = 8500; break; // pause1: 3500 pause2: 3500
-    case "fast": say1Time = 500;  say2Time = 3000; proceedTime = 5500; break; // pause1: 2500 pause2: 2500
-    default:     say1Time = 1000; say2Time = 4000; proceedTime = 7000;        // pause1: 3000 pause2: 3000
+    case "slow": sayTime = 3003; proceedTime = 8500; break; // midpoint: 4250
+    case "fast": sayTime = 1001; proceedTime = 4500; break; // midpoint: 2250
+    default:     sayTime = 2002; proceedTime = 6500;        // midpoint: 3250
   }
-  new SuperTimeout(function () { sayWhite1.play(); }, say1Time);
-  new SuperTimeout(function () { sayWhite2.play(); }, say2Time);
+  // -
+  if (displayingFirstSet) {
+    allSinglesOfFirstSet[5].style.visibility = "hidden";
+    allSinglesOfFirstSet[0].style.visibility = "visible";
+    new SuperTimeout(function () { sayWhite1.play(); }, sayTime);
+  }
+  else {
+    // allSinglesOfSecondSet[5].style.visibility = "hidden"; // RELOCATE: It is too late to reset here
+    // allSinglesOfSecondSet[0].style.visibility = "visible"; // RELOCATE: It is too late to reset here
+    new SuperTimeout(function () { sayWhite2.play(); }, sayTime);
+  }
+  // -
   new SuperTimeout(showGreen, proceedTime);
 }
 
 function showGreen() {
-  allSingles[0].style.visibility = "hidden";
-  allSingles[1].style.visibility = "visible"; // Sudden change actually looks good in this case
-  let say1Time; let say2Time; let proceedTime;
+
+  let sayTime; let proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": say1Time = 1500; say2Time = 5000; proceedTime = 8500; break;
-    case "fast": say1Time = 500;  say2Time = 3000; proceedTime = 5500; break;
-    default:     say1Time = 1000; say2Time = 4000; proceedTime = 7000;
+    case "slow": sayTime = 3003; proceedTime = 8500; break; // midpoint: 4250
+    case "fast": sayTime = 1001; proceedTime = 4500; break; // midpoint: 2250
+    default:     sayTime = 2002; proceedTime = 6500;        // midpoint: 3250
   }
-  new SuperTimeout(function () { sayGreen1.play(); }, say1Time);
-  new SuperTimeout(function () { sayGreen2.play(); }, say2Time);
+  // -
+  if (displayingFirstSet) {
+    allSinglesOfFirstSet[0].style.visibility = "hidden";
+    allSinglesOfFirstSet[1].style.visibility = "visible"; // Sudden change actually looks good in this case
+    new SuperTimeout(function () { sayGreen1.play(); }, sayTime);
+  }
+  else {
+    allSinglesOfSecondSet[0].style.visibility = "hidden";
+    allSinglesOfSecondSet[1].style.visibility = "visible";
+    new SuperTimeout(function () { sayGreen2.play(); }, sayTime);
+  }
+  // -
   new SuperTimeout(showBlue, proceedTime);
 }
 
 function showBlue() {
-  allSingles[1].style.visibility = "hidden";
-  allSingles[2].style.visibility = "visible"; // Sudden change actually looks good in this case
-  let say1Time; let say2Time; let proceedTime;
+
+  let sayTime; let proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": say1Time = 1500; say2Time = 5000; proceedTime = 8500; break;
-    case "fast": say1Time = 500;  say2Time = 3000; proceedTime = 5500; break;
-    default:     say1Time = 1000; say2Time = 4000; proceedTime = 7000;
+    case "slow": sayTime = 3003; proceedTime = 8500; break; // midpoint: 4250
+    case "fast": sayTime = 1001; proceedTime = 4500; break; // midpoint: 2250
+    default:     sayTime = 2002; proceedTime = 6500;        // midpoint: 3250
   }
-  new SuperTimeout(function () { sayBlue1.play(); }, say1Time);
-  new SuperTimeout(function () { sayBlue2.play(); }, say2Time);
+  // -
+  if (displayingFirstSet) {
+    allSinglesOfFirstSet[1].style.visibility = "hidden";
+    allSinglesOfFirstSet[2].style.visibility = "visible"; // Sudden change actually looks good in this case
+    new SuperTimeout(function () { sayBlue1.play(); }, sayTime);
+  }
+  else {
+    allSinglesOfSecondSet[1].style.visibility = "hidden";
+    allSinglesOfSecondSet[2].style.visibility = "visible";
+    new SuperTimeout(function () { sayBlue2.play(); }, sayTime);
+  }
+  // -
   new SuperTimeout(showYellow, proceedTime);
 }
 
 function showYellow() {
-  allSingles[2].style.visibility = "hidden";
-  allSingles[3].style.visibility = "visible"; // Sudden change actually looks good in this case
-  let say1Time; let say2Time; let proceedTime;
+
+  let sayTime; let proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": say1Time = 1500; say2Time = 5000; proceedTime = 8500; break;
-    case "fast": say1Time = 500;  say2Time = 3000; proceedTime = 5500; break;
-    default:     say1Time = 1000; say2Time = 4000; proceedTime = 7000;
+    case "slow": sayTime = 3003; proceedTime = 8500; break; // midpoint: 4250
+    case "fast": sayTime = 1001; proceedTime = 4500; break; // midpoint: 2250
+    default:     sayTime = 2002; proceedTime = 6500;        // midpoint: 3250
   }
-  new SuperTimeout(function () { sayYellow1.play(); }, say1Time);
-  new SuperTimeout(function () { sayYellow2.play(); }, say2Time);
+  // -
+  if (displayingFirstSet) {
+    allSinglesOfFirstSet[2].style.visibility = "hidden";
+    allSinglesOfFirstSet[3].style.visibility = "visible"; // Sudden change actually looks good in this case
+    new SuperTimeout(function () { sayYellow1.play(); }, sayTime);
+  }
+  else {
+    allSinglesOfSecondSet[2].style.visibility = "hidden";
+    allSinglesOfSecondSet[3].style.visibility = "visible";
+    new SuperTimeout(function () { sayYellow2.play(); }, sayTime);
+  }
+  // -
   new SuperTimeout(showRed, proceedTime);
 }
 
 function showRed() {
-  allSingles[3].style.visibility = "hidden";
-  allSingles[4].style.visibility = "visible"; // Sudden change actually looks good in this case
-  let say1Time; let say2Time; let proceedTime;
+
+  let sayTime; let proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": say1Time = 1500; say2Time = 5000; proceedTime = 8500; break;
-    case "fast": say1Time = 500;  say2Time = 3000; proceedTime = 5500; break;
-    default:     say1Time = 1000; say2Time = 4000; proceedTime = 7000;
+    case "slow": sayTime = 3003; proceedTime = 8500; break; // midpoint: 4250
+    case "fast": sayTime = 1001; proceedTime = 4500; break; // midpoint: 2250
+    default:     sayTime = 2002; proceedTime = 6500;        // midpoint: 3250
   }
-  new SuperTimeout(function () { sayRed1.play(); }, say1Time);
-  new SuperTimeout(function () { sayRed2.play(); }, say2Time);
+  // -
+  if (displayingFirstSet) {
+    allSinglesOfFirstSet[3].style.visibility = "hidden";
+    allSinglesOfFirstSet[4].style.visibility = "visible"; // Sudden change actually looks good in this case
+    new SuperTimeout(function () { sayRed1.play(); }, sayTime);
+  }
+  else {
+    allSinglesOfSecondSet[3].style.visibility = "hidden";
+    allSinglesOfSecondSet[4].style.visibility = "visible";
+    new SuperTimeout(function () { sayRed2.play(); }, sayTime);
+  }
+  // -
   new SuperTimeout(showBlack, proceedTime);
 }
 
 function showBlack() {
-  allSingles[4].style.visibility = "hidden";
-  allSingles[5].style.visibility = "visible"; // Sudden change actually looks good in this case
-  let say1Time; let say2Time; let proceedTime;
+
+  let sayTime; let proceedTime;
   switch (parent.speedAdjustmentSetting) {
-    case "slow": say1Time = 1500; say2Time = 5000; proceedTime = 8500; break;
-    case "fast": say1Time = 500;  say2Time = 3000; proceedTime = 5500; break;
-    default:     say1Time = 1000; say2Time = 4000; proceedTime = 7000;
+    case "slow": sayTime = 3003; proceedTime = 8500; break; // midpoint: 4250
+    case "fast": sayTime = 1001; proceedTime = 4500; break; // midpoint: 2250
+    default:     sayTime = 2002; proceedTime = 6500;        // midpoint: 3250
   }
-  new SuperTimeout(function () { sayBlack1.play(); }, say1Time);
-  new SuperTimeout(function () { sayBlack2.play(); }, say2Time);
-  new SuperTimeout(sendTheCardsToTheirNewPositions, proceedTime-2000); // 900?
-  new SuperTimeout(bringTheGameToTheScene, proceedTime);
+  // -
+  if (displayingFirstSet) {
+    allSinglesOfFirstSet[4].style.visibility = "hidden";
+    allSinglesOfFirstSet[5].style.visibility = "visible"; // Sudden change actually looks good in this case
+    new SuperTimeout(function () { sayBlack1.play(); }, sayTime);
+    new SuperTimeout(startDisplayingTheSecondSet, proceedTime+1000);
+  }
+  else {
+    allSinglesOfSecondSet[4].style.visibility = "hidden";
+    allSinglesOfSecondSet[5].style.visibility = "visible";
+    new SuperTimeout(function () { sayBlack2.play(); }, sayTime);
+    new SuperTimeout(goToRepeatOrPlayTheGameChoice, proceedTime+1000);
+  }
+  // -
 }
 
+function startDisplayingTheSecondSet() {
+  displayingFirstSet = false;
+  containerOfSingles_A.classList.add("moveUpAndGoAboveScreenLimit"); // Standard 2s animation » See colors.css
+  containerOfSingles_B.classList.add("moveUpFromBelowScreenToCenter"); // Standard 2s animation » See colors.css
+  // ??? remove ??? initialPositionBelowTheScreen
+  new SuperTimeout(startTheLesson, 2000); // Now that displayingFirstSet is set to false it will display the second set (with white painter)
+}
+let userHasChosenToListenAgain = false;
+function goToRepeatOrPlayTheGameChoice() {
+  if (!userHasChosenToListenAgain) {
+    containerOfSingles_B.classList.remove("moveUpFromBelowScreenToCenter");
+  } else {
+    containerOfSingles_B.classList.remove("moveDownFromAboveScreenToCenter");
+    theTwoOptions.classList.remove("moveDownFromCenterToBelowScreen");
+  }
+  containerOfSingles_B.classList.add("moveUpAndGoAboveScreenLimit"); // Standard 2s animation » See colors.css
+  theTwoOptions.classList.add("moveUpFromBelowScreenToCenter"); // Standard 2s animation » See colors.css
+
+  if (deviceDetector.isMobile) {
+    listenAgainButton.addEventListener("touchend", listenAgainFunction);
+    playTheGameButton.addEventListener("touchend", playTheGameFunction);
+  } else {
+    listenAgainButton.addEventListener("mousedown", listenAgainFunction);
+    playTheGameButton.addEventListener("mousedown", playTheGameFunction);
+  }
+  // If user clicks|touches REPEAT
+  function listenAgainFunction() {
+    userHasChosenToListenAgain = true;
+    theTwoOptions.classList.remove("moveUpFromBelowScreenToCenter");
+    theTwoOptions.classList.add("moveDownFromCenterToBelowScreen"); // 2s animation
+    containerOfSingles_B.classList.remove("moveUpAndGoAboveScreenLimit");
+    containerOfSingles_B.classList.add("moveDownFromAboveScreenToCenter"); // 2s animation
+    // Leave displayingFirstSet unchanged i.e. let it remain false
+    allSinglesOfSecondSet[5].style.visibility = "hidden"; // Reset back from "black" to "white"
+    allSinglesOfSecondSet[0].style.visibility = "visible"; // Reset back from "black" to "white"
+    new SuperTimeout(startTheLesson, 2000);
+  }
+  // containerOfSingles_A will never be seen again in this session
+
+  // If user clicks|touches PLAY
+  function playTheGameFunction() {
+    theTwoOptions.classList.remove("moveUpFromBelowScreenToCenter");
+    theTwoOptions.classList.add("moveUpAndGoAboveScreenLimit");// 2s animation
+    sendTheCardsToTheirNewPositions();
+    new SuperTimeout(bringTheGameToTheScene, 900);
+  }
+}
 
 function bringTheGameToTheScene() {
-  containerOfSingles.classList.add("moveUpAndGoBeyondScreenLimit"); // Standard 2s animation » See colors.css
-  containerOfTheWholeGame.classList.add("moveUpAndComeToTheCenterOfScreen"); // Standard 2s animation » See colors.css
+  parent.console.log("Starting the game...");
+  containerOfTheWholeGame.classList.add("moveUpAndComeToTheCenterOfScreenNORETURN"); // NON-STANDARD 3.5s animation » See colors.css
 
   if (deviceDetector.isMobile) { // Phones and tablets
     acceptAndHandleScreenTouches(); // See mobile.js

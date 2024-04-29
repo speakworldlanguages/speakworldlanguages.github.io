@@ -236,7 +236,7 @@ if (parent.thisIsTheParentWhichContainsAllIFramedLessons == "yes") {
 
 // HANDLE PAGE UNLOAD IF THE BROWSER'S “BACK” BUTTON IS USED
 // WARNING: onbeforeunload doesn't fire when src of the iframe changes nor does hashchange on mobile chrome (or are we misunderstanding something?)
-window.onbeforeunload = function() {
+window.addEventListener('beforeunload', function () {
   // parent.console.log("iframe onbeforeunload has been fired -> js_for_all_iframed_lesson_htmls");
 
   // CAUTION: THESE ARE MAINLY FOR THE CASE WHERE USER NAVIGATES AWAY FROM THE LESSON WITHOUT NEITHER SUCCESS NOR GIVEUPSKIP
@@ -246,7 +246,7 @@ window.onbeforeunload = function() {
   if (parent.annyang) { // DO NOT OMIT! Firefox and other no-speech browsers need this "if (parent.annyang)" to let the app work without Web Speech API.
     // This is like a "making it double-safe" thing // stopListeningAndProceedToNext() already has parent.annyang.abort();
     if (parent.annyang.isListening()) { // DANGER! It looks like this doesn't always fire correctly. Will try to remedy by adding it to progress/index.html
-      console.warn("__SpeechRecognition was still listening as the frame window got unloaded!__\nWas this intentional?");
+      console.warn("__SpeechRecognition was still listening as the frame window got unloaded!__\nPossible bug if this was NOT intentional.");
       parent.annyang.removeCallback();
       /* DEPRECATE: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
       if (isApple) { parent.annyang.pause(); } // BESIDES: CPU demand is somewhat too high when MIC is ON. So we want to turn it off whenever it is not in use.
@@ -266,6 +266,7 @@ window.onbeforeunload = function() {
   */
   if (typeof unloadTheSoundsOfThisLesson === "function") {
     unloadTheSoundsOfThisLesson(); // Every time defined with a different list in the lesson. See the unique js file of each lesson.
+    // Note: Standardized SECTION button and ADDRESS button sounds get unloaded via js_for_proceed_buttons
   }
 
   // Unlock swipe menu in case it was locked
@@ -284,8 +285,8 @@ window.onbeforeunload = function() {
     // See js_for_navigation_handling
     parent.startTheTimerToSeeIfNextLessonLoadsFastEnough(); // Also fires via openFirstLesson() which is located in js_for_the_parent_all_browsers_all_devices
   }
+}); // End of BEFOREUNLOAD
 
-};
 
 // ________
 function checkIfNextLessonIsCachedAndRedirectIfNot(lessonCode) { // Called at the end of each lesson
