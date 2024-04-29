@@ -396,7 +396,7 @@ function goToRepeatOrPlayTheGameChoice() {
     playTheGameButton.addEventListener("mousedown", playTheGameFunction);
   }
   // If user clicks|touches REPEAT
-  function listenAgainFunction() {
+  function listenAgainFunction(e) { e.preventDefault(); e.stopPropagation();
     userHasChosenToListenAgain = true;
     theTwoOptions.classList.remove("moveUpFromBelowScreenToCenter");
     theTwoOptions.classList.add("moveDownFromCenterToBelowScreen"); // 2s animation
@@ -410,7 +410,7 @@ function goToRepeatOrPlayTheGameChoice() {
   // containerOfSingles_A will never be seen again in this session
 
   // If user clicks|touches PLAY
-  function playTheGameFunction() {
+  function playTheGameFunction(e) { e.preventDefault(); e.stopPropagation();
     theTwoOptions.classList.remove("moveUpFromBelowScreenToCenter");
     theTwoOptions.classList.add("moveUpAndGoAboveScreenLimit");// 2s animation
     sendTheCardsToTheirNewPositions();
