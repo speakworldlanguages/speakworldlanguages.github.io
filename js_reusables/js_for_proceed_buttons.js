@@ -42,7 +42,7 @@ window.addEventListener('DOMContentLoaded', function(){
       hoverOrTouchSoundForSectionElementAsButton.play();
       thatWhichWasTouched = e.target;
       thatWhichWasTouched.classList.add('sectionTouchstart');
-    } // financial_thirdparty_hover completes in 261ms
+    } // financial_thirdparty_hover.webm/mp3 completes in 261ms
 
     function touchEndSection(e) {  e.stopPropagation();  e.preventDefault();
       thatWhichWasTouched.classList.remove('sectionTouchstart');
