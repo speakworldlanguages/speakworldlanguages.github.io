@@ -34,9 +34,9 @@ window.addEventListener('DOMContentLoaded', function(){
           function stopPropagation(event) { event.stopPropagation(); event.preventDefault(); }
       }
 
-      document.addEventListener('touchstart',checkWhatIsTouched);
-      document.addEventListener('touchmove',checkWhatIsTouched);
-      document.addEventListener('touchend',handleTouchEndForAllSectionButtons);
+      window.addEventListener('touchstart',checkWhatIsTouched);
+      window.addEventListener('touchmove',checkWhatIsTouched);
+      window.addEventListener('touchend',handleTouchEndForAllSectionButtons);
       let lastTouchedElement = null;
       function checkWhatIsTouched(event) { event.preventDefault(); // We want to let propagation be through the document to allow sliding-nav-menu swipe
         // Get the touch position

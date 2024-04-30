@@ -390,16 +390,24 @@ function goToRepeatOrPlayTheGameChoice() {
   theTwoOptions.classList.add("moveUpFromBelowScreenToCenter"); // Standard 2s animation » See colors.css
 
   if (deviceDetector.isMobile) {
-    listenAgainButton.addEventListener("touchend", listenAgainFunction);
-    playTheGameButton.addEventListener("touchend", playTheGameFunction);
-    // listenAgainButton.addEventListener("touchstart", preventDefault); // Handle it in js_for_proceed_buttons
-    // playTheGameButton.addEventListener("touchstart", preventDefault); // Handle it in js_for_proceed_buttons
+    // listenAgainButton.addEventListener("touchend", listenAgainFunction);
+    // playTheGameButton.addEventListener("touchend", playTheGameFunction);
+    document.addEventListener('touchend',seeIfFingerLiftWasOnSectionButton);
+    function seeIfFingerLiftWasOnSectionButton(event) { event.preventDefault(); // let it propagate
+      const touchX = event.touches[0].clientX; const touchY = event.touches[0].clientY;
+      const fingerLiftHappenedOnWhateverThisIs = document.elementFromPoint(touchX, touchY);
+      if (fingerLiftHappenedOnWhateverThisIs == listenAgainButton) {        listenAgainFunction();      }
+      else if (fingerLiftHappenedOnWhateverThisIs == playTheGameButton) {    playTheGameFunction();     }
+      else {  } // Do nothing
+    }
+    // listenAgainButton.addEventListener("touchstart", preventDefault); » Handle it in js_for_proceed_buttons
+    // playTheGameButton.addEventListener("touchstart", preventDefault); » Handle it in js_for_proceed_buttons
   } else {
-    listenAgainButton.addEventListener("mousedown", listenAgainFunction);
-    playTheGameButton.addEventListener("mousedown", playTheGameFunction);
+    listenAgainButton.addEventListener("mouseup", listenAgainFunction);
+    playTheGameButton.addEventListener("mouseup", playTheGameFunction);
   }
   // If user clicks|touches REPEAT
-  function listenAgainFunction(e) { // e.stopPropagation(); e.preventDefault(); // Handled in js_for_proceed_buttons
+  function listenAgainFunction() { // e.stopPropagation(); e.preventDefault(); » Handled in js_for_proceed_buttons
     userHasChosenToListenAgain = true;
     theTwoOptions.classList.remove("moveUpFromBelowScreenToCenter");
     theTwoOptions.classList.add("moveDownFromCenterToBelowScreen"); // 2s animation
@@ -413,7 +421,7 @@ function goToRepeatOrPlayTheGameChoice() {
   // containerOfSingles_A will never be seen again in this session
 
   // If user clicks|touches PLAY
-  function playTheGameFunction(e) { // e.stopPropagation(); e.preventDefault(); // Handled in js_for_proceed_buttons
+  function playTheGameFunction() { // e.stopPropagation(); e.preventDefault(); » Handled in js_for_proceed_buttons
     theTwoOptions.classList.remove("moveUpFromBelowScreenToCenter");
     theTwoOptions.classList.add("moveUpAndGoAboveScreenLimit");// 2s animation
     if (document.body.contains(touchArea)) {    touchArea.style.display = "block";    } // MOBILES
