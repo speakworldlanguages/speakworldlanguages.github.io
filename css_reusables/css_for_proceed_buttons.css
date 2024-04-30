@@ -20,8 +20,8 @@ section { pointer-events: all;
 }
 
 /*PROBLEM: Hover on touchscreen lesson 1-3-4 » hover state cannot end with touchend » so the hover rules stay even after finger is lifted*/
-/*SOLUTION: EITHER let transform work only on larger screens which are mostly but not entirely desktops,,, OR detect touch via ECMAScript and add the transforming class only on desktops*/
-/*April 2024: Lets try the new media query and see if prevents hover on mobiles and lets desktops be*/
+/*SOLUTION:*/
+/*April 2024: Lets try the new media query and see if prevents faulty hover simulation on mobiles and lets desktops be » AND YES it works (tested on Android) */
 @media (hover: hover) {
   section:hover {
     cursor: url("/user_interface/images/cursor/glow_cursor.png") 16 4,auto;
@@ -30,25 +30,18 @@ section { pointer-events: all;
     background-image: linear-gradient(180deg, rgba(142, 221, 225, 0.55), rgba(123, 200, 204, 0.55));
     box-shadow: 0px 2px 4px rgba(65, 92, 116, 0.16), 0px 4px 8px rgba(109, 133, 152, 0.16);
   }
+  section:active {
+    transform: scale(0.80);
+    background-image: linear-gradient(180deg, rgba(142, 221, 225, 0.99), rgba(123, 200, 204, 0.99));
+  }
 }
+/*See js_for_proceed_buttons*/
+.sectionTouchstart{transform: scale(0.90); background-color: rgba(255, 255, 255, 0.90);}
+/* .sectionTouchend{} » Just remove sectionTouchstart instead of adding another class */
 
-section:active {
-  transform: scale(0.80);
-  background-image: linear-gradient(180deg, rgba(142, 221, 225, 0.99), rgba(123, 200, 204, 0.99));
-}
+/*UNCERTAIN: Can section elements have focus???*/
 section:focus {outline:0;}
 /*See css_for_every_single_html about playstation style click animation*/
-
-
-/*Buttons created from divs for 1-3-4 [Listen to the colors again] & [Start the game]*/
-/* Deprecate » Use the section element as a standardized button type
-.buttonFromDivOverBlankScreen{
-
-}
-.buttonFromDivOverBlankScreen p{ line-height: normal; }
-.buttonFromDivOverBlankScreen img{ pointer-events: none; }
-*/
-
 
 
 
@@ -66,6 +59,7 @@ address { pointer-events: all;
   transition: all 0.1s;
   white-space: pre; line-height: normal;
 }
+/*Check above for the prevention of faulty hover simulation on touchscreens|mobiles IF NEED BE*/
 address:hover {
   border: 3px solid #30d9cf;
   /* color: #ffffff; It's the same white*/
@@ -78,4 +72,5 @@ address:hover {
 address:active {
   background-color: #30d9cf;
 }
+/*UNCERTAIN: Can address elements have focus???*/
 address:focus {outline:0;}

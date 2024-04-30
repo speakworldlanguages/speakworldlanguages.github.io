@@ -32,13 +32,22 @@ window.addEventListener('DOMContentLoaded', function(){
     for (k = 0; k < allSectionButtonElementsAreInThisArray.length; k++) {
       if (deviceDetector.isMobile) {
         allSectionButtonElementsAreInThisArray[k].addEventListener("touchstart", hoverOrTouchStartSection);
-        allSectionButtonElementsAreInThisArray[k].addEventListener("touchend", stopPropagationF);
+        allSectionButtonElementsAreInThisArray[k].addEventListener("touchend", touchEndSection);
       } else {
         allSectionButtonElementsAreInThisArray[k].addEventListener("mouseenter", hoverOrTouchStartSection);
       }
     }
-    function hoverOrTouchStartSection(e) {  e.stopPropagation();  e.preventDefault();  hoverOrTouchSoundForSectionElementAsButton.play();  } // financial_thirdparty_hover completes in 261ms
-    function stopPropagationF(e) {  e.stopPropagation();  e.preventDefault();  }
+    let thatWhichWasTouched = null;
+    function hoverOrTouchStartSection(e) {  e.stopPropagation();  e.preventDefault();
+      hoverOrTouchSoundForSectionElementAsButton.play();
+      thatWhichWasTouched = e.target;
+      thatWhichWasTouched.classList.add('sectionTouchstart');
+    } // financial_thirdparty_hover completes in 261ms
+
+    function touchEndSection(e) {  e.stopPropagation();  e.preventDefault();
+      thatWhichWasTouched.classList.remove('sectionTouchstart');
+      thatWhichWasTouched = null;
+    }
 
   } else {
     // DO NOTHING as there are no section elements in the document
