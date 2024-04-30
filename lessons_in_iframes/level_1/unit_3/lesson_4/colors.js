@@ -399,8 +399,8 @@ function goToRepeatOrPlayTheGameChoice() {
       const touchY = event.changedTouches[0].clientY;
       const fingerLiftHappenedOnWhateverThisIs = document.elementFromPoint(touchX, touchY);
       // parent.console.log(fingerLiftHappenedOnWhateverThisIs.id + " was the last thing finger touched");
-      if (fingerLiftHappenedOnWhateverThisIs.id == "listenAgainButtonID") {        listenAgainFunction();      }
-      else if (fingerLiftHappenedOnWhateverThisIs.id == "playTheGameButtonID") {    playTheGameFunction();     }
+      if (fingerLiftHappenedOnWhateverThisIs.id == "listenAgainButtonID") {       setTimeout(()=> {  listenAgainFunction();  }, 555);  }
+      else if (fingerLiftHappenedOnWhateverThisIs.id == "playTheGameButtonID") {  setTimeout(()=> {  playTheGameFunction();  }, 555);  }
       else {  } // Do nothing
     }
   } else { // Desktop
