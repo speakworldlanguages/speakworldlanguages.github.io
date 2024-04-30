@@ -32,11 +32,13 @@ window.addEventListener('DOMContentLoaded', function(){
     for (k = 0; k < allSectionButtonElementsAreInThisArray.length; k++) {
       if (deviceDetector.isMobile) {
         allSectionButtonElementsAreInThisArray[k].addEventListener("touchstart", hoverOrTouchStartSection);
+        allSectionButtonElementsAreInThisArray[k].addEventListener("touchend", stopPropagationF);
       } else {
         allSectionButtonElementsAreInThisArray[k].addEventListener("mouseenter", hoverOrTouchStartSection);
       }
     }
-    function hoverOrTouchStartSection() {  hoverOrTouchSoundForSectionElementAsButton.play();  } // financial_thirdparty_hover completes in 261ms
+    function hoverOrTouchStartSection(e) {  e.stopPropagation();  e.preventDefault();  hoverOrTouchSoundForSectionElementAsButton.play();  } // financial_thirdparty_hover completes in 261ms
+    function stopPropagationF(e) {  e.stopPropagation();  e.preventDefault();  }
 
   } else {
     // DO NOTHING as there are no section elements in the document
@@ -85,8 +87,9 @@ window.addEventListener('DOMContentLoaded', function(){
         }
       }
     }
-    function hoverOrTouchStartAddress() {  hoverSoundForAddressElementAsButton.play();  }
-    function mouseDownOrTouchEndAddress() {  clickSoundForAddressElementAsButton.play();  } // 470ms
+    // stopPropagation???
+    function hoverOrTouchStartAddress(e) {  e.stopPropagation();  e.preventDefault();  hoverSoundForAddressElementAsButton.play();  }
+    function mouseDownOrTouchEndAddress(e) {  e.stopPropagation();  e.preventDefault();  clickSoundForAddressElementAsButton.play();  } // 470ms
   } else {
     // DO NOTHING as there are no address elements in the document
   }

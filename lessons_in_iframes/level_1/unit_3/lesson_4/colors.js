@@ -391,12 +391,14 @@ function goToRepeatOrPlayTheGameChoice() {
   if (deviceDetector.isMobile) {
     listenAgainButton.addEventListener("touchend", listenAgainFunction);
     playTheGameButton.addEventListener("touchend", playTheGameFunction);
+    // listenAgainButton.addEventListener("touchstart", preventDefault); // Handle it in js_for_proceed_buttons
+    // playTheGameButton.addEventListener("touchstart", preventDefault); // Handle it in js_for_proceed_buttons
   } else {
     listenAgainButton.addEventListener("mousedown", listenAgainFunction);
     playTheGameButton.addEventListener("mousedown", playTheGameFunction);
   }
   // If user clicks|touches REPEAT
-  function listenAgainFunction(e) { e.preventDefault(); e.stopPropagation();
+  function listenAgainFunction(e) { // e.stopPropagation(); e.preventDefault(); // Handled in js_for_proceed_buttons
     userHasChosenToListenAgain = true;
     theTwoOptions.classList.remove("moveUpFromBelowScreenToCenter");
     theTwoOptions.classList.add("moveDownFromCenterToBelowScreen"); // 2s animation
@@ -410,9 +412,10 @@ function goToRepeatOrPlayTheGameChoice() {
   // containerOfSingles_A will never be seen again in this session
 
   // If user clicks|touches PLAY
-  function playTheGameFunction(e) { e.preventDefault(); e.stopPropagation();
+  function playTheGameFunction(e) { // e.stopPropagation(); e.preventDefault(); // Handled in js_for_proceed_buttons
     theTwoOptions.classList.remove("moveUpFromBelowScreenToCenter");
     theTwoOptions.classList.add("moveUpAndGoAboveScreenLimit");// 2s animation
+    if (document.body.contains(touchArea)) {    touchArea.style.display = "block";    } // MOBILES
     sendTheCardsToTheirNewPositions();
     new SuperTimeout(bringTheGameToTheScene, 900);
   }
@@ -420,6 +423,7 @@ function goToRepeatOrPlayTheGameChoice() {
 
 function bringTheGameToTheScene() {
   parent.console.log("Starting the game...");
+  // Note: On mobiles containerOfTheWholeGame will be contained by touchArea » On desktops it will be a direct child of document.body
   containerOfTheWholeGame.classList.add("moveUpAndComeToTheCenterOfScreenNORETURN"); // NON-STANDARD 3.5s animation » See colors.css
 
   if (deviceDetector.isMobile) { // Phones and tablets

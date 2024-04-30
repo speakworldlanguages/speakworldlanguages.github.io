@@ -18,13 +18,20 @@ section { pointer-events: all;
   transition: transform 0.2s, background-color 1.4s, box-shadow 0.2s; /* Transition doesn't work for background-image */
   box-shadow: 0px 2px 4px rgba(65, 92, 116, 0.08), 0px 4px 8px rgba(109, 133, 152, 0.08);
 }
-section:hover {
-  cursor: url("/user_interface/images/cursor/glow_cursor.png") 16 4,auto;
-  transform: scale(1.05); /*Just a tiny bit bigger than idle size*/
-  background-color: rgba(255, 255, 255, 0.55);
-  background-image: linear-gradient(180deg, rgba(142, 221, 225, 0.55), rgba(123, 200, 204, 0.55));
-  box-shadow: 0px 2px 4px rgba(65, 92, 116, 0.16), 0px 4px 8px rgba(109, 133, 152, 0.16);
+
+/*PROBLEM: Hover on touchscreen lesson 1-3-4 » hover state cannot end with touchend » so the hover rules stay even after finger is lifted*/
+/*SOLUTION: EITHER let transform work only on larger screens which are mostly but not entirely desktops,,, OR detect touch via ECMAScript and add the transforming class only on desktops*/
+/*April 2024: Lets try the new media query and see if prevents hover on mobiles and lets desktops be*/
+@media (hover: hover) {
+  section:hover {
+    cursor: url("/user_interface/images/cursor/glow_cursor.png") 16 4,auto;
+    transform: scale(1.05); /*Just a tiny bit bigger than idle size*/
+    background-color: rgba(255, 255, 255, 0.55);
+    background-image: linear-gradient(180deg, rgba(142, 221, 225, 0.55), rgba(123, 200, 204, 0.55));
+    box-shadow: 0px 2px 4px rgba(65, 92, 116, 0.16), 0px 4px 8px rgba(109, 133, 152, 0.16);
+  }
 }
+
 section:active {
   transform: scale(0.80);
   background-image: linear-gradient(180deg, rgba(142, 221, 225, 0.99), rgba(123, 200, 204, 0.99));
