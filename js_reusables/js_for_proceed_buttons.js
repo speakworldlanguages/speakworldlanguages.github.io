@@ -26,11 +26,14 @@ window.addEventListener('DOMContentLoaded', function(){
     window.addEventListener('beforeunload', function () {      hoverOrTouchSoundForSectionElementAsButton.unload();     });
     // -
     if (deviceDetector.isMobile) {
+
+
       //stopPropagation to prevent conflict with sliding nav menu
       let p;
       for (p = 0; p < allSectionButtonElementsAreInThisArray.length; p++) {
           allSectionButtonElementsAreInThisArray[p].addEventListener('touchstart',stopPropagation); // Block sliding-nav-menu swipe
           allSectionButtonElementsAreInThisArray[p].addEventListener('touchmove',stopPropagation); // Block sliding-nav-menu swipe
+          allSectionButtonElementsAreInThisArray[p].addEventListener('touchend',stopPropagation); // Block sliding-nav-menu swipe
           function stopPropagation(event) { event.stopPropagation(); event.preventDefault(); }
       }
 
@@ -38,7 +41,7 @@ window.addEventListener('DOMContentLoaded', function(){
       window.addEventListener('touchmove',checkWhatIsTouched);
       window.addEventListener('touchend',handleTouchEndForAllSectionButtons);
       let elementThatIsBeingTouchedNow = null;
-      let elementThatWasTouchedPreviously = null;
+      let sectionAsButtonThatWasTouchedPreviously = null;
       // let fingerIsAlreadyOnIt = false;
       function checkWhatIsTouched(event) { event.preventDefault(); // We want to let propagation be through the document to allow sliding-nav-menu swipe
         // Get the touch position
@@ -48,20 +51,31 @@ window.addEventListener('DOMContentLoaded', function(){
         elementThatIsBeingTouchedNow = document.elementFromPoint(touchX, touchY);
         let k;
         for (k = 0; k < allSectionButtonElementsAreInThisArray.length; k++) {
-          if (elementThatIsBeingTouchedNow == allSectionButtonElementsAreInThisArray[k]) { // Finger is on a section-as-button
-            if (elementThatIsBeingTouchedNow != elementThatWasTouchedPreviously) { // Simulate fingerenter event
+          if (elementThatIsBeingTouchedNow === allSectionButtonElementsAreInThisArray[k]) { // Finger is on a section-as-button
+            if (sectionAsButtonThatWasTouchedPreviously !== elementThatIsBeingTouchedNow) { // Finger jumped from one section-as-button to another
+              allSectionButtonElementsAreInThisArray[k].classList.remove('sectionTouchstart'); // Simulate fingerleave event
+              sectionAsButtonThatWasTouchedPreviously = elementThatIsBeingTouchedNow;
+              return;
+            }
+            // -
+            if (elementThatIsBeingTouchedNow !== sectionAsButtonThatWasTouchedPreviously) { // Simulate fingerenter event
               hoverOrTouchSoundForSectionElementAsButton.play();
               allSectionButtonElementsAreInThisArray[k].classList.add('sectionTouchstart');
+              sectionAsButtonThatWasTouchedPreviously = elementThatIsBeingTouchedNow;
             }
           } else { // Finger IS NOT on a section-as-button
-            allSectionButtonElementsAreInThisArray[m].classList.remove('sectionTouchstart'); // Simulate fingerleave event
+            // RISK: If two section buttons are too close to each other finger might jump from one to the other without triggering fingerleave
+            allSectionButtonElementsAreInThisArray[k].classList.remove('sectionTouchstart'); // Simulate fingerleave event
+            sectionAsButtonThatWasTouchedPreviously = null;
+            // elementThatIsBeingTouchedNow could be document.body or something else
           }
         }
         // -
-        elementThatWasTouchedPreviously = elementThatIsBeingTouchedNow;
+
       }
       function handleTouchEndForAllSectionButtons(event) { event.preventDefault(); // We want to let propagation be through the document to allow sliding-nav-menu swipe
         elementThatIsBeingTouchedNow = null;
+        sectionAsButtonThatWasTouchedPreviously = null;
         // Remove hover simulation class from all section elements
         let m;
         for (m = 0; m < allSectionButtonElementsAreInThisArray.length; m++) {
@@ -69,7 +83,11 @@ window.addEventListener('DOMContentLoaded', function(){
         }
       }
 
-    } else {
+
+
+
+
+    } else { // Desktop
       // NOTE: For section-as-buttons USE mouseup IN THE LESSON's OWN js FOR NAVIGATION AND OTHER TASKS » Yields a way better UX than mousedown
       let n;
       for (n = 0; n < allSectionButtonElementsAreInThisArray.length; n++) {
