@@ -30,8 +30,10 @@ window.addEventListener('DOMContentLoaded', function(){
       for (s = 0; s < allSectionButtonElementsAreInThisArray.length; s++) {
         allSectionButtonElementsAreInThisArray[s].addEventListener("touchstart",touchstartSection);
         function touchstartSection(event) { event.preventDefault(); event.stopPropagation(); // stopPropagation to prevent conflict with sliding-navigation-menu
-          event.target.classList.add("sectionTouchstart"); // See css_for_proceed_buttons
-          hoverOrTouchSoundForSectionElementAsButton.play();
+          if (event.touches.length == 1) { // Possibility of second finger triggering a conflict is handled
+            event.target.classList.add("sectionTouchstart"); // See css_for_proceed_buttons
+            hoverOrTouchSoundForSectionElementAsButton.play();
+          }
         }
       }
       // ---
@@ -56,7 +58,9 @@ window.addEventListener('DOMContentLoaded', function(){
             }
             // IMPROVMENT: Check the current efp against the previous one and see if finger jumped directly from one to another
             // What if it did: Remove sectionTouchstart from the previous one, THAT'S IT, FINISHED!
-            
+            // As of April 2024 this seems rather unnecessary because
+            // In case of 1-3-4 it was impossible to make the jump as the distance between the two section-as-buttons is too big
+            // WHICH IS UNLIKE the welcome screen language buttons where you can jump from one to the next if you move your finger quickly » See js_for_hover_simulation_and_scrollglobe
 
           }
 
