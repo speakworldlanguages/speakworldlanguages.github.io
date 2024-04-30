@@ -27,7 +27,8 @@ window.addEventListener('load', function(){
   function checkAgainAfterResize() { setTimeout(function () { checkIfThereIsOverflow(); }, 150); }
   // --
   // NOTE: DOMContentLoaded is or can be too early for deviceDetector at parent level
-  let elementFromPoint; let previousButtonViaEFP = document.createElement("button"); previousButtonViaEFP.name = "??";
+  let elementFromPoint;
+  let previousButtonViaEFP = document.createElement("button"); previousButtonViaEFP.name = "??"; // Start with a dummy button to prevent errors
 
   if (deviceDetector.isMobile) { // PHONES AND TABLETS
     // Left side - or listed languages
@@ -48,7 +49,7 @@ window.addEventListener('load', function(){
           console.log("Jump detected!");
           previousButtonViaEFP.className=" "; // Remove by setting to a string of nothing but space
         }
-        previousButtonViaEFP = elementFromPoint; // Should we reset previousButtonViaEFP back to its initial state at touchend moment or not?
+        previousButtonViaEFP = elementFromPoint; // Should we reset previousButtonViaEFP back to its initial state at touchend moment or not? TESTED: Works fine without it.
       }
       else { // Try to detect finger-leave when it is in-between buttons > TEST RESULT: Nice enough
         let i; for (i = 0; i < buttonsInLinkedJS.length; i++) { buttonsInLinkedJS[i].classList.remove("simulatedHover"); }
