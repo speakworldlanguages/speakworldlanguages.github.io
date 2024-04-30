@@ -50,7 +50,7 @@ parent.console.log("DOM");
           if (efp.classList.contains("sectionTouchstart")) {
             // Already hovered
           } else { // simulate fingerenter
-            event.target.classList.add("sectionTouchstart"); // See css_for_proceed_buttons
+            efp.classList.add("sectionTouchstart"); // See css_for_proceed_buttons
             hoverOrTouchSoundForSectionElementAsButton.play();
             // CONSIDER: FOR BETTER UX - We can send the sliding-navigation-menu back to its hiding place and lock it until fingerup
 
