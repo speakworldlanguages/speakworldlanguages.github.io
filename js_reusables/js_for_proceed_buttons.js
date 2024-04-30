@@ -13,8 +13,6 @@ let hoverOrTouchSoundForSectionElementAsButton;
 
 window.addEventListener('DOMContentLoaded', function(){
 
-parent.console.log("DOM");
-
 
   //_______ See lesson 1-3-4
   const allSectionButtonElementsAreInThisArray = document.getElementsByTagName("SECTION");
@@ -30,19 +28,17 @@ parent.console.log("DOM");
 
       let s;
       for (s = 0; s < allSectionButtonElementsAreInThisArray.length; s++) {
-        parent.console.log("_section_");
         allSectionButtonElementsAreInThisArray[s].addEventListener("touchstart",touchstartSection);
         function touchstartSection(event) { event.preventDefault(); event.stopPropagation(); // stopPropagation to prevent conflict with sliding-navigation-menu
           event.target.classList.add("sectionTouchstart"); // See css_for_proceed_buttons
           hoverOrTouchSoundForSectionElementAsButton.play();
         }
       }
-
+      // ---
       document.addEventListener('touchmove',checkFingerPosition);
-      // document.addEventListener('touchend',handleTouchEndForAllSectionButtons);
       let efp = null;
       function checkFingerPosition(event) { event.preventDefault();
-        parent.console.log("finger move detected");
+        // parent.console.log("finger move detected");
         let touch = event.touches[0];
         efp = document.elementFromPoint(touch.clientX, touch.clientY); // DON'T NEED: touch.pageX - window.pageXOffset, touch.pageY - window.pageYOffset // because there is no scrolling in window or body
         if(efp.tagName.toLowerCase() == "section" ) {
@@ -56,23 +52,30 @@ parent.console.log("DOM");
             // Could also lock it until fingerup but maybe it is better if we don't
             if (parent.navMenuIsUpAndVisible) { // See js_for_the_sliding_navigation_menu
               parent.makeTheNavMenuGoDownOnMobiles(); // See js_for_the_sliding_navigation_menu
+              // Tested: Looks good.
             }
             // IMPROVMENT: Check the current efp against the previous one and see if finger jumped directly from one to another
             // What if it did: Remove sectionTouchstart from the previous one, THAT'S IT, FINISHED!
-
             
+
           }
 
         } else { // Try to detect finger-leave when touch is on empty space or on other non-section elements in-between buttons > TEST RESULT: Nice enough
-          let z;
-          for (z = 0; z < allSectionButtonElementsAreInThisArray.length; z++) {
-            allSectionButtonElementsAreInThisArray[z].classList.remove("sectionTouchstart");
-          }
+          resetAllSectionAsButtons();
         }
       } // End of checkFingerPosition
-
-
-
+      // ---
+      function resetAllSectionAsButtons() {
+        let z;
+        for (z = 0; z < allSectionButtonElementsAreInThisArray.length; z++) {
+          allSectionButtonElementsAreInThisArray[z].classList.remove("sectionTouchstart");
+        }
+      }
+      // ---
+      document.addEventListener('touchend',touchHasEnded);
+      function touchHasEnded(event) { event.preventDefault();
+        resetAllSectionAsButtons();
+      }
 
 
 
