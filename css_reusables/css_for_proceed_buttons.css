@@ -40,8 +40,11 @@ section { pointer-events: all;
 .sectionTouchstart{transform: scale(1.10); background-color: rgba(255, 255, 255, 0.90);}
 /* .sectionTouchend{} » Just remove sectionTouchstart instead of adding another class */
 
-/*select any and every child element within all <section> elements*/
-section > * {    pointer-events: none;    }
+/*Should we try to select any and every child element within all <section> elements?*/
+/* section > * {    pointer-events: none;    } */
+/*Or is this enough?*/
+section p {    pointer-events: none;    }
+section img {    pointer-events: none;    }
 
 
 /*UNCERTAIN: Can section elements have focus???*/

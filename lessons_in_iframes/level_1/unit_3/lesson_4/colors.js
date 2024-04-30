@@ -394,12 +394,16 @@ function goToRepeatOrPlayTheGameChoice() {
     // playTheGameButton.addEventListener("touchend", playTheGameFunction);
     document.addEventListener('touchend',seeIfFingerLiftWasOnSectionButton);
     function seeIfFingerLiftWasOnSectionButton(event) { event.preventDefault(); // let it propagate
-      parent.console.log("FINGER LIFT CHECK");
-      const touchX = event.touches[0].clientX; const touchY = event.touches[0].clientY;
+      parent.console.log("----A finger lift happened----");
+      // touches[0] won't work with touchend » ChatGPT says try using changedTouches[0] instead
+      // We could easily detect if a section-as-button was hovered or not by checking its classList IF IT WASN'T TOO LATE at the moment of touchend
+      const touchX = event.changedTouches[0].clientX;
+      const touchY = event.changedTouches[0].clientY;
       const fingerLiftHappenedOnWhateverThisIs = document.elementFromPoint(touchX, touchY);
-      if (fingerLiftHappenedOnWhateverThisIs == listenAgainButton) {        listenAgainFunction();      }
-      else if (fingerLiftHappenedOnWhateverThisIs == playTheGameButton) {    playTheGameFunction();     }
-      else {  } // Do nothing
+      parent.console.log(fingerLiftHappenedOnWhateverThisIs.id + " was the last thing finger touched");
+      // if (fingerLiftHappenedOnWhateverThisIs.id == "listenAgainButtonID") {        listenAgainFunction();      }
+      // else if (fingerLiftHappenedOnWhateverThisIs.id == "playTheGameButtonID") {    playTheGameFunction();     }
+      // else {  } // Do nothing
     }
     // listenAgainButton.addEventListener("touchstart", preventDefault); » Handle it in js_for_proceed_buttons
     // playTheGameButton.addEventListener("touchstart", preventDefault); » Handle it in js_for_proceed_buttons
