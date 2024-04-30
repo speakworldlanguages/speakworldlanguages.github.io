@@ -251,7 +251,8 @@ function startTheLesson() {
     new SuperTimeout(function () { sayWhite2.play(); }, sayTime);
   }
   // -
-  new SuperTimeout(showGreen, proceedTime);
+  // UNCOMMENT AFTER TESTS new SuperTimeout(showGreen, proceedTime);
+  new SuperTimeout(showBlack, proceedTime); //allSinglesOfFirstSet[0].style.visibility = "hidden"; // DELETE AFTER TESTS
 }
 
 function showGreen() {

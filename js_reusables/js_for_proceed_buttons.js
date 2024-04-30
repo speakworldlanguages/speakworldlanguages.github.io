@@ -23,36 +23,72 @@ window.addEventListener('DOMContentLoaded', function(){
     hoverOrTouchSoundForSectionElementAsButton = new parent.Howl({  src: ["/user_interface/sounds/financial_thirdparty_hover."+soundFileFormat]  });
     // Normally, unique lesson sounds get unloaded when beforeunload in js_for_all_iframed_lesson_htmls fires unloadTheSoundsOfThisLesson
     // Here we must EITHER add these sounds to the unique sound list of the lesson OR create a dedicated unloader function
-    window.addEventListener('beforeunload', function () {
-      hoverOrTouchSoundForSectionElementAsButton.unload();
-    });
-
+    window.addEventListener('beforeunload', function () {      hoverOrTouchSoundForSectionElementAsButton.unload();     });
     // -
-    let k;
-    for (k = 0; k < allSectionButtonElementsAreInThisArray.length; k++) {
-      if (deviceDetector.isMobile) {
-        allSectionButtonElementsAreInThisArray[k].addEventListener("touchstart", hoverOrTouchStartSection);
-        allSectionButtonElementsAreInThisArray[k].addEventListener("touchend", touchEndSection);
-      } else {
-        allSectionButtonElementsAreInThisArray[k].addEventListener("mouseenter", hoverOrTouchStartSection);
+    if (deviceDetector.isMobile) {
+      //stopPropagation to prevent conflict with sliding nav menu
+      let p;
+      for (p = 0; p < allSectionButtonElementsAreInThisArray.length; p++) {
+          allSectionButtonElementsAreInThisArray[p].addEventListener('touchstart',stopPropagation); // Block sliding-nav-menu swipe
+          allSectionButtonElementsAreInThisArray[p].addEventListener('touchmove',stopPropagation); // Block sliding-nav-menu swipe
+          function stopPropagation(event) { event.stopPropagation(); event.preventDefault(); }
+      }
+
+      document.addEventListener('touchstart',checkWhatIsTouched);
+      document.addEventListener('touchmove',checkWhatIsTouched);
+      document.addEventListener('touchend',handleTouchEndForAllSectionButtons);
+      let lastTouchedElement = null;
+      function checkWhatIsTouched(event) { event.preventDefault(); // We want to let propagation be through the document to allow sliding-nav-menu swipe
+        // Get the touch position
+        const touchX = event.touches[0].clientX;
+        const touchY = event.touches[0].clientY;
+        // Use elementFromPoint to find the element at the touch position
+        lastTouchedElement = document.elementFromPoint(touchX, touchY);
+        let k;
+        for (k = 0; k < allSectionButtonElementsAreInThisArray.length; k++) {
+          if (lastTouchedElement == allSectionButtonElementsAreInThisArray[k]) {
+            hoverOrTouchSoundForSectionElementAsButton.play();
+            allSectionButtonElementsAreInThisArray[k].classList.add('sectionTouchstart');
+          }
+        }
+      }
+      function handleTouchEndForAllSectionButtons(event) { event.preventDefault(); // We want to let propagation be through the document to allow sliding-nav-menu swipe
+        lastTouchedElement = null;
+        // Remove hover simulation class from all section elements
+        let m;
+        for (m = 0; m < allSectionButtonElementsAreInThisArray.length; m++) {
+          allSectionButtonElementsAreInThisArray[m].classList.remove('sectionTouchstart'); // It is OK to NOT CHECK whether the class exists before trying to remove it
+        }
+      }
+
+    } else {
+      let n;
+      for (n = 0; n < allSectionButtonElementsAreInThisArray.length; n++) {
+          allSectionButtonElementsAreInThisArray[n].addEventListener("mouseenter", ()=>{ hoverOrTouchSoundForSectionElementAsButton.play(); });
       }
     }
+    // -
+    /* DEPRECATE
     let thatWhichWasTouched = null;
-    function hoverOrTouchStartSection(e) {  e.stopPropagation();  e.preventDefault();
+    function hoverOrTouchStartSection(event) {  //event.stopPropagation();  event.preventDefault();
       hoverOrTouchSoundForSectionElementAsButton.play();
-      thatWhichWasTouched = e.target;
+      thatWhichWasTouched = event.target;
+      parent.console.log("touchstart works, add sectionTouchstart class to");
+      parent.console.log(thatWhichWasTouched);
       thatWhichWasTouched.classList.add('sectionTouchstart');
     } // financial_thirdparty_hover.webm/mp3 completes in 261ms
 
-    function touchEndSection(e) {  e.stopPropagation();  e.preventDefault();
+    function touchEndSection(event) {  //event.stopPropagation();  event.preventDefault();
       thatWhichWasTouched.classList.remove('sectionTouchstart');
       thatWhichWasTouched = null;
     }
-
+    */
   } else {
     // DO NOTHING as there are no section elements in the document
   }
   // End of SECTION button handling
+
+
 
 
 
@@ -97,8 +133,8 @@ window.addEventListener('DOMContentLoaded', function(){
       }
     }
     // stopPropagation???
-    function hoverOrTouchStartAddress(e) {  e.stopPropagation();  e.preventDefault();  hoverSoundForAddressElementAsButton.play();  }
-    function mouseDownOrTouchEndAddress(e) {  e.stopPropagation();  e.preventDefault();  clickSoundForAddressElementAsButton.play();  } // 470ms
+    function hoverOrTouchStartAddress(event) {  event.stopPropagation();  event.preventDefault();  hoverSoundForAddressElementAsButton.play();  }
+    function mouseDownOrTouchEndAddress(event) {  event.stopPropagation();  event.preventDefault();  clickSoundForAddressElementAsButton.play();  } // 470ms
   } else {
     // DO NOTHING as there are no address elements in the document
   }
