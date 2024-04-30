@@ -27,11 +27,11 @@ window.addEventListener('load', function(){
   function checkAgainAfterResize() { setTimeout(function () { checkIfThereIsOverflow(); }, 150); }
   // --
   // NOTE: DOMContentLoaded is or can be too early for deviceDetector at parent level
-  let elementFromPoint; let previousButtonViaEFP;
+  let elementFromPoint; let previousButtonViaEFP = {name:"??"};
   if (deviceDetector.isMobile) { // PHONES AND TABLETS
     // Left side - or listed languages
     leftArea.addEventListener("touchstart", function(event){  event.preventDefault(); /* CAN THIS: Disable context menu via long touch?*/
-      if (event.target.tagName.toLowerCase() == "button" && event.touches.length == 1) { // Possibility of second finger triggering a conflict is prevented with touches.length
+      if (event.target.tagName.toLowerCase() == "button" && event.touches.length == 1) { // Possibility of second finger triggering a visual conflict is prevented with touches.length
         event.target.classList.add("simulatedHover");
       }
       // Let touching an empty area also dim the background by leaving it unconditional here
@@ -44,9 +44,9 @@ window.addEventListener('load', function(){
         elementFromPoint.className="simulatedHover";
         // See if finger jumped from one button to the next without triggering removal of simulatedHover from all buttons
         if (elementFromPoint.name != previousButtonViaEFP.name) { // ATTENTION: All buttons must have names in our app!
-          previousButtonViaEFP.classList.remove("simulatedHover");
+          previousButtonViaEFP.classList.remove("simulatedHover"); console.log("Jump detected!");
         }
-        previousButtonViaEFP = elementFromPoint;
+        previousButtonViaEFP = elementFromPoint; // Should we reset previousButtonViaEFP back to its initial state at touchend moment or not?
       }
       else { // Try to detect finger-leave when it is in-between buttons > TEST RESULT: Nice enough
         let i; for (i = 0; i < buttonsInLinkedJS.length; i++) { buttonsInLinkedJS[i].classList.remove("simulatedHover"); }
