@@ -27,7 +27,8 @@ window.addEventListener('load', function(){
   function checkAgainAfterResize() { setTimeout(function () { checkIfThereIsOverflow(); }, 150); }
   // --
   // NOTE: DOMContentLoaded is or can be too early for deviceDetector at parent level
-  let elementFromPoint; let previousButtonViaEFP = {name:"??"};
+  let elementFromPoint; let previousButtonViaEFP = document.createElement("button"); previousButtonViaEFP.name = "??";
+
   if (deviceDetector.isMobile) { // PHONES AND TABLETS
     // Left side - or listed languages
     leftArea.addEventListener("touchstart", function(event){  event.preventDefault(); /* CAN THIS: Disable context menu via long touch?*/
@@ -44,7 +45,8 @@ window.addEventListener('load', function(){
         elementFromPoint.className="simulatedHover";
         // See if finger jumped from one button to the next without triggering removal of simulatedHover from all buttons
         if (elementFromPoint.name != previousButtonViaEFP.name) { // ATTENTION: All buttons must have names in our app!
-          previousButtonViaEFP.classList.remove("simulatedHover"); console.log("Jump detected!");
+          console.log("Jump detected!");
+          previousButtonViaEFP.className=" "; // Remove by setting to a string of nothing but space
         }
         previousButtonViaEFP = elementFromPoint; // Should we reset previousButtonViaEFP back to its initial state at touchend moment or not?
       }
