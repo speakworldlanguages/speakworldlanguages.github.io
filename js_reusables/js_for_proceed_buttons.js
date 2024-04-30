@@ -44,7 +44,7 @@ window.addEventListener('DOMContentLoaded', function(){
       document.addEventListener('touchend',handleTouchEndForAllSectionButtons);
       let elementThatIsBeingTouchedNow = null;
       let sectionAsButtonThatWasTouchedPreviously = null;
-      let fingerIsOnOneOfThem = false;
+      // let fingerWasOnOneOfThem = false;
       function checkWhatIsTouched(event) { event.preventDefault(); // We want to let propagation be through the document to allow sliding-nav-menu swipe
         parent.console.log("CHECKING TOUCH");
         // Get the touch position
@@ -52,34 +52,49 @@ window.addEventListener('DOMContentLoaded', function(){
         const touchY = event.touches[0].clientY;
         // Use elementFromPoint to find the element at the touch position
         elementThatIsBeingTouchedNow = document.elementFromPoint(touchX, touchY);
-        let k;
-        for (k = 0; k < allSectionButtonElementsAreInThisArray.length; k++) {
-
-          if (allSectionButtonElementsAreInThisArray[k] === elementThatIsBeingTouchedNow) { // Finger is on the kth section-as-button
-            parent.console.log("FINGER IS ON BUTTON NO "+k);
+        if (allSectionButtonElementsAreInThisArray.includes(elementThatIsBeingTouchedNow)) {
             event.stopPropagation(); // Prevent sliding-nav-menu
-            // -
-            if (sectionAsButtonThatWasTouchedPreviously !== elementThatIsBeingTouchedNow) {  // Fresh new fingerenter
-              parent.console.log("FINGERENTER DETECTED");
-              if (sectionAsButtonThatWasTouchedPreviously) { // Cover the case where finger has jumped from one section-as-button to another
-                  sectionAsButtonThatWasTouchedPreviously.classList.remove('sectionTouchstart'); // Simulate fingerleave for the one that was jumped from
-              }
-              elementThatIsBeingTouchedNow.classList.add('sectionTouchstart'); // Simulate fingerenter event
-              hoverOrTouchSoundForSectionElementAsButton.play();
-              fingerIsOnOneOfThem = true;
-            }
-            // -
-            sectionAsButtonThatWasTouchedPreviously = elementThatIsBeingTouchedNow;
-          }
+            // Let's find which one
+            let k;
+            for (k = 0; k < allSectionButtonElementsAreInThisArray.length; k++) {
 
+              if (allSectionButtonElementsAreInThisArray[k] === elementThatIsBeingTouchedNow) { // Finger is on the kth section-as-button
+                parent.console.log("FINGER IS ON BUTTON NO "+k);
+                // -
+                if (sectionAsButtonThatWasTouchedPreviously !== elementThatIsBeingTouchedNow) {  // Fresh new fingerenter
+                  parent.console.log("FINGERENTER DETECTED");
+                  if (sectionAsButtonThatWasTouchedPreviously) { // Cover the case where finger has jumped from one section-as-button to another
+                      sectionAsButtonThatWasTouchedPreviously.classList.remove('sectionTouchstart'); // Simulate fingerleave for the one that was jumped from
+                  }
+                  elementThatIsBeingTouchedNow.classList.add('sectionTouchstart'); // Simulate fingerenter event
+                  hoverOrTouchSoundForSectionElementAsButton.play();
+                  // fingerWasOnOneOfThem = true;
+                } else {
+                  // Finger is lingering on an already touched element
+                }
+                // -
+                sectionAsButtonThatWasTouchedPreviously = elementThatIsBeingTouchedNow;
+              }
+
+            }
+        } else {
+            handleTouchEndForAllSectionButtons();
         }
+
+
+
+        // -
+        // if (fingerWasOnOneOfThem) {
+        //
+        //
+        // }
         // -
         // How do we detect and simulate fingerleave?
       }
-      function handleTouchEndForAllSectionButtons(event) { event.preventDefault(); // We want to let propagation be through the document to allow sliding-nav-menu swipe
+      function handleTouchEndForAllSectionButtons() { //event.preventDefault(); // We want to let propagation be through the document to allow sliding-nav-menu swipe
         elementThatIsBeingTouchedNow = null;
         sectionAsButtonThatWasTouchedPreviously = null;
-        fingerIsOnOneOfThem = false;
+        // fingerWasOnOneOfThem = false;
         // Remove hover simulation class from all section elements
         let m;
         for (m = 0; m < allSectionButtonElementsAreInThisArray.length; m++) {
