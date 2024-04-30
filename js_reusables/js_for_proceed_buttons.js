@@ -37,23 +37,31 @@ window.addEventListener('DOMContentLoaded', function(){
       window.addEventListener('touchstart',checkWhatIsTouched);
       window.addEventListener('touchmove',checkWhatIsTouched);
       window.addEventListener('touchend',handleTouchEndForAllSectionButtons);
-      let lastTouchedElement = null;
+      let elementThatIsBeingTouchedNow = null;
+      let elementThatWasTouchedPreviously = null;
+      // let fingerIsAlreadyOnIt = false;
       function checkWhatIsTouched(event) { event.preventDefault(); // We want to let propagation be through the document to allow sliding-nav-menu swipe
         // Get the touch position
         const touchX = event.touches[0].clientX;
         const touchY = event.touches[0].clientY;
         // Use elementFromPoint to find the element at the touch position
-        lastTouchedElement = document.elementFromPoint(touchX, touchY);
+        elementThatIsBeingTouchedNow = document.elementFromPoint(touchX, touchY);
         let k;
         for (k = 0; k < allSectionButtonElementsAreInThisArray.length; k++) {
-          if (lastTouchedElement == allSectionButtonElementsAreInThisArray[k]) {
-            hoverOrTouchSoundForSectionElementAsButton.play();
-            allSectionButtonElementsAreInThisArray[k].classList.add('sectionTouchstart');
+          if (elementThatIsBeingTouchedNow == allSectionButtonElementsAreInThisArray[k]) { // Finger is on a section-as-button
+            if (elementThatIsBeingTouchedNow != elementThatWasTouchedPreviously) { // Simulate fingerenter event
+              hoverOrTouchSoundForSectionElementAsButton.play();
+              allSectionButtonElementsAreInThisArray[k].classList.add('sectionTouchstart');
+            }
+          } else { // Finger IS NOT on a section-as-button
+            allSectionButtonElementsAreInThisArray[m].classList.remove('sectionTouchstart'); // Simulate fingerleave event
           }
         }
+        // -
+        elementThatWasTouchedPreviously = elementThatIsBeingTouchedNow;
       }
       function handleTouchEndForAllSectionButtons(event) { event.preventDefault(); // We want to let propagation be through the document to allow sliding-nav-menu swipe
-        lastTouchedElement = null;
+        elementThatIsBeingTouchedNow = null;
         // Remove hover simulation class from all section elements
         let m;
         for (m = 0; m < allSectionButtonElementsAreInThisArray.length; m++) {
@@ -62,6 +70,7 @@ window.addEventListener('DOMContentLoaded', function(){
       }
 
     } else {
+      // NOTE: For section-as-buttons USE mouseup IN THE LESSON's OWN js FOR NAVIGATION AND OTHER TASKS » Yields a way better UX than mousedown
       let n;
       for (n = 0; n < allSectionButtonElementsAreInThisArray.length; n++) {
           allSectionButtonElementsAreInThisArray[n].addEventListener("mouseenter", ()=>{ hoverOrTouchSoundForSectionElementAsButton.play(); });
