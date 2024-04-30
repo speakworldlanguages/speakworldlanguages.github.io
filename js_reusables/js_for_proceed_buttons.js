@@ -53,21 +53,18 @@ parent.console.log("DOM");
             efp.classList.add("sectionTouchstart"); // See css_for_proceed_buttons
             hoverOrTouchSoundForSectionElementAsButton.play();
             // CONSIDER: FOR BETTER UX - We can send the sliding-navigation-menu back to its hiding place and lock it until fingerup
-
+            
             // IMPROVMENT: Check the current efp against the previous one and see if finger jumped directly from one to another
-            // What if it did: Remove sectionTouchstart from the previous one THAT'S IT!
+            // What if it did: Remove sectionTouchstart from the previous one, THAT'S IT, FINISHED!
           }
 
+        } else { // Try to detect finger-leave when touch is on empty space or on other non-section elements in-between buttons > TEST RESULT: Nice enough
+          let z;
+          for (z = 0; z < allSectionButtonElementsAreInThisArray.length; z++) {
+            allSectionButtonElementsAreInThisArray[z].classList.remove("sectionTouchstart");
+          }
         }
-        else { // Try to detect finger-leave when it is in-between buttons > TEST RESULT: Nice enough
-          /*
-          allSectionButtonElementsAreInThisArray.forEach(function(element) {
-              // Add touchstart event listener to each section-as-button
-              element.classList.remove("sectionTouchstart");
-          });
-          */
-        }
-      }
+      } // End of checkFingerPosition
 
 
 
