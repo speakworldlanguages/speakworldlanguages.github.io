@@ -394,6 +394,7 @@ function goToRepeatOrPlayTheGameChoice() {
     // playTheGameButton.addEventListener("touchend", playTheGameFunction);
     document.addEventListener('touchend',seeIfFingerLiftWasOnSectionButton);
     function seeIfFingerLiftWasOnSectionButton(event) { event.preventDefault(); // let it propagate
+      parent.console.log("FINGER LIFT CHECK");
       const touchX = event.touches[0].clientX; const touchY = event.touches[0].clientY;
       const fingerLiftHappenedOnWhateverThisIs = document.elementFromPoint(touchX, touchY);
       if (fingerLiftHappenedOnWhateverThisIs == listenAgainButton) {        listenAgainFunction();      }

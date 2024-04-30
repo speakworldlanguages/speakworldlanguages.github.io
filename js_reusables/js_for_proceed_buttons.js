@@ -29,21 +29,24 @@ window.addEventListener('DOMContentLoaded', function(){
 
 
       //stopPropagation to prevent conflict with sliding nav menu
+      /* PROBLEM if we stop propagation like this then touch will not reach through the button to the document
+      SOLUTION: stopPropagation only if finger is newly touching or moving on a section-as-button
       let p;
       for (p = 0; p < allSectionButtonElementsAreInThisArray.length; p++) {
           allSectionButtonElementsAreInThisArray[p].addEventListener('touchstart',stopPropagation); // Block sliding-nav-menu swipe
           allSectionButtonElementsAreInThisArray[p].addEventListener('touchmove',stopPropagation); // Block sliding-nav-menu swipe
           allSectionButtonElementsAreInThisArray[p].addEventListener('touchend',stopPropagation); // Block sliding-nav-menu swipe
-          function stopPropagation(event) { event.stopPropagation(); event.preventDefault(); }
+          function stopPropagation(event) {event.stopPropagation(); event.preventDefault(); }
       }
-
-      window.addEventListener('touchstart',checkWhatIsTouched);
-      window.addEventListener('touchmove',checkWhatIsTouched);
-      window.addEventListener('touchend',handleTouchEndForAllSectionButtons);
+      */
+      document.addEventListener('touchstart',checkWhatIsTouched);
+      document.addEventListener('touchmove',checkWhatIsTouched);
+      document.addEventListener('touchend',handleTouchEndForAllSectionButtons);
       let elementThatIsBeingTouchedNow = null;
       let sectionAsButtonThatWasTouchedPreviously = null;
-      // let fingerIsAlreadyOnIt = false;
+      let fingerIsOnOneOfThem = false;
       function checkWhatIsTouched(event) { event.preventDefault(); // We want to let propagation be through the document to allow sliding-nav-menu swipe
+        parent.console.log("CHECKING TOUCH");
         // Get the touch position
         const touchX = event.touches[0].clientX;
         const touchY = event.touches[0].clientY;
@@ -51,31 +54,32 @@ window.addEventListener('DOMContentLoaded', function(){
         elementThatIsBeingTouchedNow = document.elementFromPoint(touchX, touchY);
         let k;
         for (k = 0; k < allSectionButtonElementsAreInThisArray.length; k++) {
-          if (elementThatIsBeingTouchedNow === allSectionButtonElementsAreInThisArray[k]) { // Finger is on a section-as-button
-            if (sectionAsButtonThatWasTouchedPreviously !== elementThatIsBeingTouchedNow) { // Finger jumped from one section-as-button to another
-              allSectionButtonElementsAreInThisArray[k].classList.remove('sectionTouchstart'); // Simulate fingerleave event
-              sectionAsButtonThatWasTouchedPreviously = elementThatIsBeingTouchedNow;
-              return;
+
+          if (allSectionButtonElementsAreInThisArray[k] === elementThatIsBeingTouchedNow) { // Finger is on the kth section-as-button
+            parent.console.log("FINGER IS ON BUTTON NO "+k);
+            event.stopPropagation(); // Prevent sliding-nav-menu
+            // -
+            if (sectionAsButtonThatWasTouchedPreviously !== elementThatIsBeingTouchedNow) {  // Fresh new fingerenter
+              parent.console.log("FINGERENTER DETECTED");
+              if (sectionAsButtonThatWasTouchedPreviously) { // Cover the case where finger has jumped from one section-as-button to another
+                  sectionAsButtonThatWasTouchedPreviously.classList.remove('sectionTouchstart'); // Simulate fingerleave for the one that was jumped from
+              }
+              elementThatIsBeingTouchedNow.classList.add('sectionTouchstart'); // Simulate fingerenter event
+              hoverOrTouchSoundForSectionElementAsButton.play();
+              fingerIsOnOneOfThem = true;
             }
             // -
-            if (elementThatIsBeingTouchedNow !== sectionAsButtonThatWasTouchedPreviously) { // Simulate fingerenter event
-              hoverOrTouchSoundForSectionElementAsButton.play();
-              allSectionButtonElementsAreInThisArray[k].classList.add('sectionTouchstart');
-              sectionAsButtonThatWasTouchedPreviously = elementThatIsBeingTouchedNow;
-            }
-          } else { // Finger IS NOT on a section-as-button
-            // RISK: If two section buttons are too close to each other finger might jump from one to the other without triggering fingerleave
-            allSectionButtonElementsAreInThisArray[k].classList.remove('sectionTouchstart'); // Simulate fingerleave event
-            sectionAsButtonThatWasTouchedPreviously = null;
-            // elementThatIsBeingTouchedNow could be document.body or something else
+            sectionAsButtonThatWasTouchedPreviously = elementThatIsBeingTouchedNow;
           }
+
         }
         // -
-
+        // How do we detect and simulate fingerleave?
       }
       function handleTouchEndForAllSectionButtons(event) { event.preventDefault(); // We want to let propagation be through the document to allow sliding-nav-menu swipe
         elementThatIsBeingTouchedNow = null;
         sectionAsButtonThatWasTouchedPreviously = null;
+        fingerIsOnOneOfThem = false;
         // Remove hover simulation class from all section elements
         let m;
         for (m = 0; m < allSectionButtonElementsAreInThisArray.length; m++) {
