@@ -390,24 +390,20 @@ function goToRepeatOrPlayTheGameChoice() {
   theTwoOptions.classList.add("moveUpFromBelowScreenToCenter"); // Standard 2s animation » See colors.css
 
   if (deviceDetector.isMobile) {
-    // listenAgainButton.addEventListener("touchend", listenAgainFunction);
-    // playTheGameButton.addEventListener("touchend", playTheGameFunction);
     document.addEventListener('touchend',seeIfFingerLiftWasOnSectionButton);
     function seeIfFingerLiftWasOnSectionButton(event) { event.preventDefault(); // let it propagate
-      parent.console.log("----A finger lift happened----");
+      // parent.console.log("----A finger lift happened----");
       // touches[0] won't work with touchend » ChatGPT says try using changedTouches[0] instead
-      // We could easily detect if a section-as-button was hovered or not by checking its classList IF IT WASN'T TOO LATE at the moment of touchend
+      // Could easily detect if a section-as-button was hovered or not by checking its classList IF IT WASN'T TOO LATE FOR THAT at the moment of touchend
       const touchX = event.changedTouches[0].clientX;
       const touchY = event.changedTouches[0].clientY;
       const fingerLiftHappenedOnWhateverThisIs = document.elementFromPoint(touchX, touchY);
-      parent.console.log(fingerLiftHappenedOnWhateverThisIs.id + " was the last thing finger touched");
-      // if (fingerLiftHappenedOnWhateverThisIs.id == "listenAgainButtonID") {        listenAgainFunction();      }
-      // else if (fingerLiftHappenedOnWhateverThisIs.id == "playTheGameButtonID") {    playTheGameFunction();     }
-      // else {  } // Do nothing
+      // parent.console.log(fingerLiftHappenedOnWhateverThisIs.id + " was the last thing finger touched");
+      if (fingerLiftHappenedOnWhateverThisIs.id == "listenAgainButtonID") {        listenAgainFunction();      }
+      else if (fingerLiftHappenedOnWhateverThisIs.id == "playTheGameButtonID") {    playTheGameFunction();     }
+      else {  } // Do nothing
     }
-    // listenAgainButton.addEventListener("touchstart", preventDefault); » Handle it in js_for_proceed_buttons
-    // playTheGameButton.addEventListener("touchstart", preventDefault); » Handle it in js_for_proceed_buttons
-  } else {
+  } else { // Desktop
     listenAgainButton.addEventListener("mouseup", listenAgainFunction);
     playTheGameButton.addEventListener("mouseup", playTheGameFunction);
   }
