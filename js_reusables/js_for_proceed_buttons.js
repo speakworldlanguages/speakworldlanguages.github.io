@@ -13,13 +13,14 @@ let hoverOrTouchSoundForSectionElementAsButton;
 
 window.addEventListener('DOMContentLoaded', function(){
 
-
+parent.console.log("DOM");
 
 
   //_______ See lesson 1-3-4
   const allSectionButtonElementsAreInThisArray = document.getElementsByTagName("SECTION");
   // See if any section elements exist by checking array length » The value of zero means false in ECMAScript
   if (allSectionButtonElementsAreInThisArray.length) {
+
     hoverOrTouchSoundForSectionElementAsButton = new parent.Howl({  src: ["/user_interface/sounds/financial_thirdparty_hover."+soundFileFormat]  });
     // Normally, unique lesson sounds get unloaded when beforeunload in js_for_all_iframed_lesson_htmls fires unloadTheSoundsOfThisLesson
     // Here we must EITHER add these sounds to the unique sound list of the lesson OR create a dedicated unloader function
@@ -39,7 +40,17 @@ window.addEventListener('DOMContentLoaded', function(){
           function stopPropagation(event) {event.stopPropagation(); event.preventDefault(); }
       }
       */
-      parent.console.log("SEE HOW MANY SECTIONS EXIST");
+      parent.console.log("_SEE HOW MANY SECTIONS EXIST_");
+      let s;
+      for (s = 0; s < allSectionButtonElementsAreInThisArray.length; s++) {
+        parent.console.log("_section_");
+        allSectionButtonElementsAreInThisArray[s].addEventListener("touchstart",touchstartSection);
+        function touchstartSection(event) { event.preventDefault(); event.stopPropagation();
+          event.target.classList.add("sectionTouchstart"); // See css_for_proceed_buttons
+          hoverOrTouchSoundForSectionElementAsButton.play();
+        }
+      }
+      /*
       allSectionButtonElementsAreInThisArray.forEach(function(element) {
           parent.console.log("section");
           // Add touchstart event listener to each section-as-button
@@ -48,9 +59,9 @@ window.addEventListener('DOMContentLoaded', function(){
               hoverOrTouchSoundForSectionElementAsButton.play();
           });
       });
-
+      */
       // document.addEventListener('touchstart',checkWhatIsTouched);
-      document.addEventListener('touchmove',checkFingerPosition);
+      // document.addEventListener('touchmove',checkFingerPosition);
       // document.addEventListener('touchend',handleTouchEndForAllSectionButtons);
       let efp = null;
       function checkFingerPosition(event) { event.preventDefault();
@@ -72,10 +83,12 @@ window.addEventListener('DOMContentLoaded', function(){
 
         }
         else { // Try to detect finger-leave when it is in-between buttons > TEST RESULT: Nice enough
+          /*
           allSectionButtonElementsAreInThisArray.forEach(function(element) {
               // Add touchstart event listener to each section-as-button
               element.classList.remove("sectionTouchstart");
           });
+          */
         }
       }
 
