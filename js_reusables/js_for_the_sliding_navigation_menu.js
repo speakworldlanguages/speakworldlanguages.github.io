@@ -140,7 +140,7 @@ var speedAdjustmentSetting = "normal"; // SLOW, NORMAL, FAST // REMEMBER: This i
 // Variables for detecting the swipe
 var swipeNavMenuIsLocked = false; // information.js:162 information.js:176 ,,, User for permanently locking swipe menu while reading Good People's License // Unlocking also exists in js_for_all_iframed_lesson_htmls as a precaution
 let touchStartY=0, newYCoord=0, newMarginBottom=0, swipeDifferenceY=0;
-var navMenuIsUpAndVisible = true; // Nav menu is visible at first when the app starts. // Also see information.js bigSlideTowardsLeft()
+var navMenuIsUpAndVisible = true; // Nav menu is visible at first when the app starts. // Also see information.js bigSlideTowardsLeft() & js_for_proceed_buttons
 let preventAutoDisappear;
 var topContainerDivOfTheSlidingNavMenuForMobiles = document.createElement("DIV"); // Use in inline script in parent index.html - Android only
 
