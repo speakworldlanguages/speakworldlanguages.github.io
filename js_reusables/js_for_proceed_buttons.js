@@ -39,8 +39,9 @@ window.addEventListener('DOMContentLoaded', function(){
           function stopPropagation(event) {event.stopPropagation(); event.preventDefault(); }
       }
       */
-
+      parent.console.log("SEE HOW MANY SECTIONS EXIST");
       allSectionButtonElementsAreInThisArray.forEach(function(element) {
+          parent.console.log("section");
           // Add touchstart event listener to each section-as-button
           element.addEventListener('touchstart', function(event) { event.preventDefault(); event.stopPropagation();
               event.target.classList.add("sectionTouchstart"); // See css_for_proceed_buttons
@@ -53,6 +54,7 @@ window.addEventListener('DOMContentLoaded', function(){
       // document.addEventListener('touchend',handleTouchEndForAllSectionButtons);
       let efp = null;
       function checkFingerPosition(event) { event.preventDefault();
+        parent.console.log("finger move detected");
         let touch = event.touches[0];
         efp = document.elementFromPoint(touch.clientX, touch.clientY); // DON'T NEED: touch.pageX - window.pageXOffset, touch.pageY - window.pageYOffset // because there is no scrolling in window or body
         if(efp.tagName.toLowerCase() == "section" ) {
