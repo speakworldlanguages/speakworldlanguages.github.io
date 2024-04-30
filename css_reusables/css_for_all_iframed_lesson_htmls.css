@@ -13,7 +13,7 @@ header{
  line-height: normal;
 
 
- font-size: calc(10px+4vmin;); /* Looks good in lesson 1-3-4 */
+ font-size: calc(11px+4.2vmin;); /* Looks good in lesson 1-3-4 */
  color: rgb(109, 133, 152); /* Looks good in lesson 1-3-4 */
  margin: calc(20px+2vmin); /* Looks good in lesson 1-3-4 */
 }

@@ -28,40 +28,17 @@ parent.console.log("DOM");
     // -
     if (deviceDetector.isMobile) {
 
-
-      //stopPropagation to prevent conflict with sliding nav menu
-      /* PROBLEM if we stop propagation like this then touch will not reach through the button to the document
-      SOLUTION: stopPropagation only if finger is newly touching or moving on a section-as-button
-      let p;
-      for (p = 0; p < allSectionButtonElementsAreInThisArray.length; p++) {
-          allSectionButtonElementsAreInThisArray[p].addEventListener('touchstart',stopPropagation); // Block sliding-nav-menu swipe
-          allSectionButtonElementsAreInThisArray[p].addEventListener('touchmove',stopPropagation); // Block sliding-nav-menu swipe
-          allSectionButtonElementsAreInThisArray[p].addEventListener('touchend',stopPropagation); // Block sliding-nav-menu swipe
-          function stopPropagation(event) {event.stopPropagation(); event.preventDefault(); }
-      }
-      */
-      parent.console.log("_SEE HOW MANY SECTIONS EXIST_");
       let s;
       for (s = 0; s < allSectionButtonElementsAreInThisArray.length; s++) {
         parent.console.log("_section_");
         allSectionButtonElementsAreInThisArray[s].addEventListener("touchstart",touchstartSection);
-        function touchstartSection(event) { event.preventDefault(); event.stopPropagation();
+        function touchstartSection(event) { event.preventDefault(); event.stopPropagation(); // stopPropagation to prevent conflict with sliding-navigation-menu
           event.target.classList.add("sectionTouchstart"); // See css_for_proceed_buttons
           hoverOrTouchSoundForSectionElementAsButton.play();
         }
       }
-      /*
-      allSectionButtonElementsAreInThisArray.forEach(function(element) {
-          parent.console.log("section");
-          // Add touchstart event listener to each section-as-button
-          element.addEventListener('touchstart', function(event) { event.preventDefault(); event.stopPropagation();
-              event.target.classList.add("sectionTouchstart"); // See css_for_proceed_buttons
-              hoverOrTouchSoundForSectionElementAsButton.play();
-          });
-      });
-      */
-      // document.addEventListener('touchstart',checkWhatIsTouched);
-      // document.addEventListener('touchmove',checkFingerPosition);
+
+      document.addEventListener('touchmove',checkFingerPosition);
       // document.addEventListener('touchend',handleTouchEndForAllSectionButtons);
       let efp = null;
       function checkFingerPosition(event) { event.preventDefault();
@@ -75,7 +52,7 @@ parent.console.log("DOM");
           } else { // simulate fingerenter
             event.target.classList.add("sectionTouchstart"); // See css_for_proceed_buttons
             hoverOrTouchSoundForSectionElementAsButton.play();
-            // CONSIDER: FOR BETTER UX - We can send the sliding-navigation-menu back to its hiding place and lock it until ???
+            // CONSIDER: FOR BETTER UX - We can send the sliding-navigation-menu back to its hiding place and lock it until fingerup
 
             // IMPROVMENT: Check the current efp against the previous one and see if finger jumped directly from one to another
             // What if it did: Remove sectionTouchstart from the previous one THAT'S IT!
