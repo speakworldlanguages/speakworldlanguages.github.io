@@ -48,7 +48,7 @@ function whatToDoWhenSpoonIsTouched(event) { event.preventDefault(); event.stopP
     initialDistanceToLeft = event.targetTouches[0].clientX; // Record coordinates to calculate distance in touchmove
     initialDistanceToTop = event.targetTouches[0].clientY; // Record coordinates to calculate distance in touchmove
     theSquareSpoonContainerDiv.style.transition = "none"; // Reset to none BECAUSE it was set, by touchend, to "margin-left ?.??s, margin-top ?.??s"
-    main.addEventListener("touchmove",whatToDoWhenSpoonIsDragged);
+    fullTouchAreaOfTheGame.addEventListener("touchmove",whatToDoWhenSpoonIsDragged);
     theLongSpoonContainerDivWithStates.style.transform = "rotate(-90deg) translate(100%,-50%)"; // See eat_with_spoon.css to find the constant transition settings
     // Looks like getBoundingClientRect yields different results on different screens for SVG area
     // let ooo = event.target.getBoundingClientRect();
@@ -73,7 +73,7 @@ function whatToDoWhenSpoonTouchIsReleased(event) { event.preventDefault(); event
   isHoldingTheSpoon = false;
   mouseDownTouchEndSound.play();
   if (canVibrate) { navigator.vibrate(12); }
-  main.removeEventListener("touchmove",whatToDoWhenSpoonIsDragged);
+  fullTouchAreaOfTheGame.removeEventListener("touchmove",whatToDoWhenSpoonIsDragged);
   theLongSpoonContainerDivWithStates.style.transform = "rotate(-0deg) translate(0%,-0%)";//translateY(-0%) // Reset back to initial rotation and remove finger offset
   theLongSpoonContainerDivWithStates.style.marginLeft = "0px"; // Reset back to initial position
   theLongSpoonContainerDivWithStates.style.marginTop = "0px"; // Reset back to initial position
@@ -116,7 +116,7 @@ function whatToDoWhenSpoonIsDragged(event) { event.preventDefault(); event.stopP
   // THE POINT OF NO RETURN
   if (elementFromPoint.id == "plateHoverAreaMobileID" && canLoadTheSpoonNow) { // HIT DETECTED
       // Feels like it is better without if (canVibrate) { navigator.vibrate(12); }
-      main.removeEventListener("touchmove",whatToDoWhenSpoonIsDragged);
+      fullTouchAreaOfTheGame.removeEventListener("touchmove",whatToDoWhenSpoonIsDragged);
       spoonFatTouchAreaOnMobiles.removeEventListener("touchstart",whatToDoWhenSpoonIsTouched);
       spoonFatTouchAreaOnMobiles.removeEventListener("touchend",whatToDoWhenSpoonTouchIsReleased);
       // Since touchend won't fire, we must do all the resetting here
@@ -150,15 +150,15 @@ function whatToDoWhenSpoonIsDragged(event) { event.preventDefault(); event.stopP
 
       // ---
       if (yumNumber == 1) {
-        main.addEventListener("touchend",handleSensorPermissions,{once:true});
-        main.addEventListener("touchstart",onlyToPreventSwipeMenu); // Block the swipe menu pop-up until that task is transferred to getTouchesAndCheck() in showHowToMoveTheSpoonInOrderToSwallow()
+        fullTouchAreaOfTheGame.addEventListener("touchend",handleSensorPermissions,{once:true});
+        fullTouchAreaOfTheGame.addEventListener("touchstart",onlyToPreventSwipeMenu); // Block the swipe menu pop-up until that task is transferred to getTouchesAndCheck() in showHowToMoveTheSpoonInOrderToSwallow()
       }
       else {
         // yumNumber 2 and 3
         if (motionIsNotAvailableSoWillPlayWithTouchmove) {
-          main.addEventListener("touchstart",getTouchesAndCheck);
-          main.addEventListener("touchmove",getTouchesAndCheck);
-          main.addEventListener("touchend",getTouchesAndCheck);
+          fullTouchAreaOfTheGame.addEventListener("touchstart",getTouchesAndCheck);
+          fullTouchAreaOfTheGame.addEventListener("touchmove",getTouchesAndCheck);
+          fullTouchAreaOfTheGame.addEventListener("touchend",getTouchesAndCheck);
         } else {
           window.addEventListener("devicemotion",getAccelerationDataAndCheck);
         }
@@ -189,7 +189,7 @@ function scoop() {
 // ---
 let motionIsNotAvailableSoWillPlayWithTouchmove = false;
 function handleSensorPermissions(event) { event.preventDefault(); event.stopPropagation();
-  // By using {once:true} we eliminate the need to execute main.removeEventListener("touchend",handleSensorPermissions);
+  // By using {once:true} we eliminate the need to execute fullTouchAreaOfTheGame.removeEventListener("touchend",handleSensorPermissions);
   // Feature detect
   parent.console.log("Check if DeviceMotionEvent.requestPermission exists");
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
@@ -275,10 +275,10 @@ function showHowToMoveTheSpoonInOrderToSwallow(devicemotionDidNotWorkIsTrueOrFal
     //---
     parent.console.log("can not use devicemotion,,, will play with touch-unpinch");
     new SuperTimeout(function () {
-      main.removeEventListener("touchstart",onlyToPreventSwipeMenu);
-      main.addEventListener("touchstart",getTouchesAndCheck);
-      main.addEventListener("touchmove",getTouchesAndCheck);
-      main.addEventListener("touchend",getTouchesAndCheck);
+      fullTouchAreaOfTheGame.removeEventListener("touchstart",onlyToPreventSwipeMenu);
+      fullTouchAreaOfTheGame.addEventListener("touchstart",getTouchesAndCheck);
+      fullTouchAreaOfTheGame.addEventListener("touchmove",getTouchesAndCheck);
+      fullTouchAreaOfTheGame.addEventListener("touchend",getTouchesAndCheck);
     }, 300);
   } else {
     // Show how to use acceleration webp
@@ -300,7 +300,7 @@ function showHowToMoveTheSpoonInOrderToSwallow(devicemotionDidNotWorkIsTrueOrFal
     // ---
     parent.console.log("devicemotion is available,,, will play with movement-acceleration");
     new SuperTimeout(function () {
-      main.removeEventListener("touchstart",onlyToPreventSwipeMenu);
+      fullTouchAreaOfTheGame.removeEventListener("touchstart",onlyToPreventSwipeMenu);
       window.addEventListener("devicemotion",getAccelerationDataAndCheck);
     }, 300);
   }
@@ -502,9 +502,9 @@ function getTouchesAndCheck(event) {
       }
     } else { // Threshold is passed
       // No more firings
-      main.removeEventListener("touchstart",getTouchesAndCheck);
-      main.removeEventListener("touchmove",getTouchesAndCheck);
-      main.removeEventListener("touchend",getTouchesAndCheck);
+      fullTouchAreaOfTheGame.removeEventListener("touchstart",getTouchesAndCheck);
+      fullTouchAreaOfTheGame.removeEventListener("touchmove",getTouchesAndCheck);
+      fullTouchAreaOfTheGame.removeEventListener("touchend",getTouchesAndCheck);
       parent.console.log("Swipe menu should be released now");
       // Make teacher stop talking
       /*clearTimeout(to1); clearTimeout(to2); clearTimeout(to3); clearTimeout(to4);*/

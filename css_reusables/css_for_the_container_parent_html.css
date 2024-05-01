@@ -243,7 +243,7 @@ footer{
 }
 .letYouMustAllowMicrophoneDialogAppearMobile{
   /* margin-top: calc(-50vh + 10vmin + 10px); */
-  transform: translate(-50%,calc(5vmin + 10px + -50vh)); /*With just a little space between the box and top of screen*/
+  transform: translate(-50%,calc(3vmin + 8px + -50vh)); /*With just a little space between the box and top of screen*/
   /*Older phones will not recognize dvh so we try to handle the situation without it*/
 }
 .letYouMustAllowMicrophoneDialogAppearDesktop{

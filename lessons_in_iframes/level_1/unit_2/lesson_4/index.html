@@ -50,9 +50,10 @@
   <body>
     <!-- MAIN :: Start blurred 8px -->
     <main style="filter: blur(8px); transition-property: filter; transition-timing-function: ease;"> <!-- See css_for_lessons_with_interactables -->
-
+      <!-- Use stopPropagation where finger shall not trigger the swipe gesture for sliding navigation menu -->
+      <div id="mobileTouchAreaID" style="pointer-events:all;"></div>
       <!-- THE PLATE WITH FOOD IN IT -->
-      <div class="containerOfThePlate" id="thePlateStatesDivID" style="border:1px dotted green;">
+      <div class="containerOfThePlate" id="thePlateStatesDivID">
         <!-- state A B C D -->
         <img draggable="false" src="/lessons_in_iframes/level_1/unit_2/lesson_4/plate_a.webp" style="width:100vmin;">
         <img draggable="false" src="/lessons_in_iframes/level_1/unit_2/lesson_4/plate_b.webp" style="width:100vmin; position: absolute; left:0px; top:0px; opacity:0;">
@@ -84,12 +85,12 @@
           	c0.915,10.457,1.616,21.045,2.294,31.284c1.283,19.396,2.61,39.454,5.444,59.13c1.438,9.99-1.045,16.384-7.381,19.003
           	C784.085,798.983,780.544,799.627,776.943,799.627z"/>
       </svg>
-      <!-- HOVER AREA OF THE PLATE ON MOBILES -->
+      <!-- ACCEPTED TOUCH AREA OF THE PLATE ON MOBILES, for collision detection -->
       <div id="mobileHoverID" class="containerOfThePlate" style="width:100vmin; height:100vmin; pointer-events:none; z-index:1550;">
         <div id="preventSwipeMenuMobileID" style="pointer-events:all; z-index:1551; border-radius:20%; background-color:rgba(111,0,222,0.0); width:45vmin; height:45vmin; position: absolute; left:40%; top:63%; transform: translate(-50%,-50%)">&nbsp;</div>
         <div id="plateHoverAreaMobileID"   style="pointer-events:all; z-index:1552; border-radius:50%; background-color:rgba(101,255,0,0.0); width:15vmin; height:11vmin; position: absolute; left:62vmin; top:66vmin;">&nbsp;</div>
       </div>
-      <!-- HOVER AREA OF THE SPOON ON MOBILES -->
+      <!-- ACCEPTED TOUCH AREA OF THE SPOON ON MOBILES, for collision detection -->
       <svg id="mobileSvgID" version="1.2" baseProfile="tiny" class="squareContainerOfTheLongSpoonContainer" style="opacity:0.0; z-index:1600; pointer-events:none;"
       	  x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000" xml:space="preserve">
           <!-- FAT HOVER AREA FOR FINGER -->
@@ -125,7 +126,8 @@
       const svgDesktop = document.getElementById('desktopSvgID');
       var svgMobile = document.getElementById('mobileSvgID');
       const hoverAreaDesktop = document.getElementById('desktopHoverID');
-      const hoverAreaMobile = document.getElementById('mobileHoverID');
+      const hoverAreaMobile = document.getElementById('mobileHoverID'); // Contains the div whose id is used for elementFromPoint check
+      var fullTouchAreaOfTheGame = document.getElementById('mobileTouchAreaID');
       // ---
       window.addEventListener('DOMContentLoaded', whatMustBeDoneAtFirstOnThisDevice, { once: true });
       function whatMustBeDoneAtFirstOnThisDevice() {
@@ -136,6 +138,7 @@
           svgMobile.parentNode.removeChild(svgMobile);
           showHowDesktop.children[0].src = "/lessons_in_iframes/level_1/unit_2/lesson_4/mousewheel_show_how.webp";
           hoverAreaMobile.parentNode.removeChild(hoverAreaMobile);
+          fullTouchAreaOfTheGame.remove();
         } else if (deviceDetector.device == "tablet") {
           theLongSpoonContainerDivWithStates.classList.add("theLongSpoonContainerTransitionSettingsOnMobiles");
           showHowDesktop.parentNode.removeChild(showHowDesktop);

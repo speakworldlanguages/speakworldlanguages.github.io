@@ -83,8 +83,8 @@ const preventSwipeMenuOnMobiles = document.getElementById('preventSwipeMenuMobil
 const plateHoverAreaOnDesktops = document.getElementById('plateHoverAreaDesktopID');
 // Better without? Probably yes: const plateHoverAreaOnMobiles = document.getElementById('plateHoverAreaMobileID'); // WARNING: elementFromPoint.id compares to plateHoverAreaMobileID to detect touch hovering
 // See index.html to find theLongSpoonContainerDivWithStates
-const theSquareSpoonContainerDiv = document.querySelector('.squareContainerOfTheLongSpoonContainer');
-const plateStates = document.getElementById('thePlateStatesDivID');
+var theSquareSpoonContainerDiv = document.querySelector('.squareContainerOfTheLongSpoonContainer');
+var plateStates = document.getElementById('thePlateStatesDivID');
 // See index.html to find showHowDesktop showHowTablet showHowPhone
 
 // See js_for_the_parent_all_browsers_all_devices for lastRecordedWindowWidth lastRecordedWindowHeight
