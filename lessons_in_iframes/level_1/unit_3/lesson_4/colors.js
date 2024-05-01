@@ -409,6 +409,7 @@ function startDisplayingTheSecondSet() {
   new SuperTimeout(startTheLesson, 2000); // Now that displayingFirstSet is set to false it will display the second set (with white painter)
 }
 let userHasChosenToListenAgain = false;
+let desktopEventListenersAlreadyAdded = false;
 function goToRepeatOrPlayTheGameChoice() {
   if (!userHasChosenToListenAgain) {
     containerOfSingles_B.classList.remove("moveUpFromBelowScreenToCenter");
@@ -440,8 +441,11 @@ function goToRepeatOrPlayTheGameChoice() {
       else {  } // Do nothing
     }
   } else { // Desktop
-    listenAgainButton.addEventListener("mouseup", listenAgainFunction,{once:true}); // Fixed bug: Without once:true it double fires as it keeps adding new instances of the event listener
-    playTheGameButton.addEventListener("mouseup", playTheGameFunction,{once:true}); // Fixed bug: Without once:true it double fires as it keeps adding new instances of the event listener
+    if (!desktopEventListenersAlreadyAdded) { // Fix: Wrap it into a condition block
+      listenAgainButton.addEventListener("mouseup", listenAgainFunction); // Bug: Even with once:true it double fires as it keeps adding new instances of the event listener
+      playTheGameButton.addEventListener("mouseup", playTheGameFunction,{once:true}); // Bug: Even with once:true it double fires as it keeps adding new instances of the event listener
+      desktopEventListenersAlreadyAdded = true;
+    }
   }
   // If user clicks|touches REPEAT
   function listenAgainFunction() { // e.stopPropagation(); e.preventDefault(); » Handled in js_for_proceed_buttons
@@ -468,13 +472,14 @@ function goToRepeatOrPlayTheGameChoice() {
     theTwoOptions.classList.remove("moveUpFromBelowScreenToCenter");
     theTwoOptions.classList.add("moveUpAndGoAboveScreenLimit");// 2s animation
     if (document.body.contains(touchArea)) {    touchArea.style.display = "block";    } // MOBILES
+    parent.console.log("Get ready to start...");
     sendTheCardsToTheirNewPositions();
     new SuperTimeout(bringTheGameToTheScene, 900);
   }
 }
 
 function bringTheGameToTheScene() {
-  parent.console.log("Starting the game...");
+  parent.console.log("...the game");
   // Note: On mobiles containerOfTheWholeGame will be contained by touchArea » On desktops it will be a direct child of document.body
   containerOfTheWholeGame.classList.add("moveUpAndComeToTheCenterOfScreenNORETURN"); // NON-STANDARD 3.5s animation » See colors.css
 
