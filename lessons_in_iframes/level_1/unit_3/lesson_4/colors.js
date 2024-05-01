@@ -229,7 +229,13 @@ function loadingIsCompleteFunction() {
   }, 5000);
 }
 
+function hideThemAllWithTheExceptionOf(array,whoseTurn) {
+  for (let i = 0; i < array.length; i++) {   array[i].style.visibility = "hidden";   }
+  array[whoseTurn].style.visibility = "visible";
+}
+
 let displayingFirstSet = true;
+let nowShowingTheSecondSixInsideSecondSet = false;
 function startTheLesson() {
   // White is the first color then comes green » blue » yellow » red » black
   // Give time to the preloader to clear
@@ -241,18 +247,22 @@ function startTheLesson() {
   }
   // -
   if (displayingFirstSet) {
-    allSinglesOfFirstSet[5].style.visibility = "hidden";
-    allSinglesOfFirstSet[0].style.visibility = "visible";
+    // NO NEED TO HIDE/UNHIDE as fabrics i.e. the-first-set will never be visible again ,,, first image already visible in index.html
     new SuperTimeout(function () { sayWhite1.play(); }, sayTime);
   }
   else {
-    // allSinglesOfSecondSet[5].style.visibility = "hidden"; // RELOCATE: It is too late to reset here
-    // allSinglesOfSecondSet[0].style.visibility = "visible"; // RELOCATE: It is too late to reset here
-    new SuperTimeout(function () { sayWhite2.play(); }, sayTime);
+    if (!nowShowingTheSecondSixInsideSecondSet) {
+      // See listenAgainFunction to find HIDE/UNHIDE algorithm
+      new SuperTimeout(function () { sayWhite2.play(); }, sayTime);
+    } else {
+      // See listenAgainFunction to find HIDE/UNHIDE algorithm
+      new SuperTimeout(function () { sayWhite3.play(); }, sayTime);
+    }
   }
   // -
   // UNCOMMENT AFTER TESTS new SuperTimeout(showGreen, proceedTime);
-  new SuperTimeout(showBlack, proceedTime); //allSinglesOfFirstSet[0].style.visibility = "hidden"; // DELETE AFTER TESTS
+  new SuperTimeout(showGreen, proceedTime);
+  // new SuperTimeout(showBlack, proceedTime); //allSinglesOfFirstSet[0].style.visibility = "hidden"; // DELETE AFTER TESTS
 }
 
 function showGreen() {
@@ -265,14 +275,18 @@ function showGreen() {
   }
   // -
   if (displayingFirstSet) {
-    allSinglesOfFirstSet[0].style.visibility = "hidden";
-    allSinglesOfFirstSet[1].style.visibility = "visible"; // Sudden change actually looks good in this case
+    hideThemAllWithTheExceptionOf(allSinglesOfFirstSet,1);
     new SuperTimeout(function () { sayGreen1.play(); }, sayTime);
   }
   else {
-    allSinglesOfSecondSet[0].style.visibility = "hidden";
-    allSinglesOfSecondSet[1].style.visibility = "visible";
-    new SuperTimeout(function () { sayGreen2.play(); }, sayTime);
+
+    if (!nowShowingTheSecondSixInsideSecondSet) {
+      hideThemAllWithTheExceptionOf(allSinglesOfSecondSet,1);
+      new SuperTimeout(function () { sayGreen2.play(); }, sayTime);
+    } else {
+      hideThemAllWithTheExceptionOf(allSinglesOfSecondSet,7);
+      new SuperTimeout(function () { sayGreen3.play(); }, sayTime);
+    }
   }
   // -
   new SuperTimeout(showBlue, proceedTime);
@@ -288,14 +302,18 @@ function showBlue() {
   }
   // -
   if (displayingFirstSet) {
-    allSinglesOfFirstSet[1].style.visibility = "hidden";
-    allSinglesOfFirstSet[2].style.visibility = "visible"; // Sudden change actually looks good in this case
+    hideThemAllWithTheExceptionOf(allSinglesOfFirstSet,2);
     new SuperTimeout(function () { sayBlue1.play(); }, sayTime);
   }
   else {
-    allSinglesOfSecondSet[1].style.visibility = "hidden";
-    allSinglesOfSecondSet[2].style.visibility = "visible";
-    new SuperTimeout(function () { sayBlue2.play(); }, sayTime);
+
+    if (!nowShowingTheSecondSixInsideSecondSet) {
+      hideThemAllWithTheExceptionOf(allSinglesOfSecondSet,2);
+      new SuperTimeout(function () { sayBlue2.play(); }, sayTime);
+    } else {
+      hideThemAllWithTheExceptionOf(allSinglesOfSecondSet,8);
+      new SuperTimeout(function () { sayBlue3.play(); }, sayTime);
+    }
   }
   // -
   new SuperTimeout(showYellow, proceedTime);
@@ -311,14 +329,18 @@ function showYellow() {
   }
   // -
   if (displayingFirstSet) {
-    allSinglesOfFirstSet[2].style.visibility = "hidden";
-    allSinglesOfFirstSet[3].style.visibility = "visible"; // Sudden change actually looks good in this case
+    hideThemAllWithTheExceptionOf(allSinglesOfFirstSet,3);
     new SuperTimeout(function () { sayYellow1.play(); }, sayTime);
   }
   else {
-    allSinglesOfSecondSet[2].style.visibility = "hidden";
-    allSinglesOfSecondSet[3].style.visibility = "visible";
-    new SuperTimeout(function () { sayYellow2.play(); }, sayTime);
+
+    if (!nowShowingTheSecondSixInsideSecondSet) {
+      hideThemAllWithTheExceptionOf(allSinglesOfSecondSet,3);
+      new SuperTimeout(function () { sayYellow2.play(); }, sayTime);
+    } else {
+      hideThemAllWithTheExceptionOf(allSinglesOfSecondSet,9);
+      new SuperTimeout(function () { sayYellow3.play(); }, sayTime);
+    }
   }
   // -
   new SuperTimeout(showRed, proceedTime);
@@ -334,14 +356,18 @@ function showRed() {
   }
   // -
   if (displayingFirstSet) {
-    allSinglesOfFirstSet[3].style.visibility = "hidden";
-    allSinglesOfFirstSet[4].style.visibility = "visible"; // Sudden change actually looks good in this case
+    hideThemAllWithTheExceptionOf(allSinglesOfFirstSet,4);
     new SuperTimeout(function () { sayRed1.play(); }, sayTime);
   }
   else {
-    allSinglesOfSecondSet[3].style.visibility = "hidden";
-    allSinglesOfSecondSet[4].style.visibility = "visible";
-    new SuperTimeout(function () { sayRed2.play(); }, sayTime);
+
+    if (!nowShowingTheSecondSixInsideSecondSet) {
+      hideThemAllWithTheExceptionOf(allSinglesOfSecondSet,4);
+      new SuperTimeout(function () { sayRed2.play(); }, sayTime);
+    } else {
+      hideThemAllWithTheExceptionOf(allSinglesOfSecondSet,10);
+      new SuperTimeout(function () { sayRed3.play(); }, sayTime);
+    }
   }
   // -
   new SuperTimeout(showBlack, proceedTime);
@@ -357,15 +383,19 @@ function showBlack() {
   }
   // -
   if (displayingFirstSet) {
-    allSinglesOfFirstSet[4].style.visibility = "hidden";
-    allSinglesOfFirstSet[5].style.visibility = "visible"; // Sudden change actually looks good in this case
+    hideThemAllWithTheExceptionOf(allSinglesOfFirstSet,5);
     new SuperTimeout(function () { sayBlack1.play(); }, sayTime);
     new SuperTimeout(startDisplayingTheSecondSet, proceedTime+1000);
   }
   else {
-    allSinglesOfSecondSet[4].style.visibility = "hidden";
-    allSinglesOfSecondSet[5].style.visibility = "visible";
-    new SuperTimeout(function () { sayBlack2.play(); }, sayTime);
+
+    if (!nowShowingTheSecondSixInsideSecondSet) {
+      hideThemAllWithTheExceptionOf(allSinglesOfSecondSet,5);
+      new SuperTimeout(function () { sayBlack2.play(); }, sayTime);
+    } else {
+      hideThemAllWithTheExceptionOf(allSinglesOfSecondSet,11);
+      new SuperTimeout(function () { sayBlack3.play(); }, sayTime);
+    }
     new SuperTimeout(goToRepeatOrPlayTheGameChoice, proceedTime+1000);
   }
   // -
@@ -399,13 +429,19 @@ function goToRepeatOrPlayTheGameChoice() {
       const touchY = event.changedTouches[0].clientY;
       const fingerLiftHappenedOnWhateverThisIs = document.elementFromPoint(touchX, touchY);
       // parent.console.log(fingerLiftHappenedOnWhateverThisIs.id + " was the last thing finger touched");
-      if (fingerLiftHappenedOnWhateverThisIs.id == "listenAgainButtonID") {       setTimeout(()=> {  listenAgainFunction();  }, 555);  }
-      else if (fingerLiftHappenedOnWhateverThisIs.id == "playTheGameButtonID") {  setTimeout(()=> {  playTheGameFunction();  }, 555);  }
+      if (fingerLiftHappenedOnWhateverThisIs.id == "listenAgainButtonID") {
+        document.removeEventListener('touchend',seeIfFingerLiftWasOnSectionButton);
+        setTimeout(()=> {  listenAgainFunction();  }, 555);
+      }
+      else if (fingerLiftHappenedOnWhateverThisIs.id == "playTheGameButtonID") {
+        document.removeEventListener('touchend',seeIfFingerLiftWasOnSectionButton);
+        setTimeout(()=> {  playTheGameFunction();  }, 555);
+      }
       else {  } // Do nothing
     }
   } else { // Desktop
-    listenAgainButton.addEventListener("mouseup", listenAgainFunction);
-    playTheGameButton.addEventListener("mouseup", playTheGameFunction);
+    listenAgainButton.addEventListener("mouseup", listenAgainFunction,{once:true}); // Fixed bug: Without once:true it double fires as it keeps adding new instances of the event listener
+    playTheGameButton.addEventListener("mouseup", playTheGameFunction,{once:true}); // Fixed bug: Without once:true it double fires as it keeps adding new instances of the event listener
   }
   // If user clicks|touches REPEAT
   function listenAgainFunction() { // e.stopPropagation(); e.preventDefault(); » Handled in js_for_proceed_buttons
@@ -415,8 +451,14 @@ function goToRepeatOrPlayTheGameChoice() {
     containerOfSingles_B.classList.remove("moveUpAndGoAboveScreenLimit");
     containerOfSingles_B.classList.add("moveDownFromAboveScreenToCenter"); // 2s animation
     // Leave displayingFirstSet unchanged i.e. let it remain false
-    allSinglesOfSecondSet[5].style.visibility = "hidden"; // Reset back from "black" to "white"
-    allSinglesOfSecondSet[0].style.visibility = "visible"; // Reset back from "black" to "white"
+    // allSinglesOfSecondSet[5].style.visibility = "hidden"; // Reset back from "black" to "white"
+    // allSinglesOfSecondSet[0].style.visibility = "visible"; // Reset back from "black" to "white"
+    parent.console.log("nowShowingTheSecondSixInsideSecondSet was " + nowShowingTheSecondSixInsideSecondSet);
+    nowShowingTheSecondSixInsideSecondSet = !nowShowingTheSecondSixInsideSecondSet; // flip
+    parent.console.log("nowShowingTheSecondSixInsideSecondSet is " + nowShowingTheSecondSixInsideSecondSet);
+    if (nowShowingTheSecondSixInsideSecondSet) { hideThemAllWithTheExceptionOf(allSinglesOfSecondSet,6); }
+    else { hideThemAllWithTheExceptionOf(allSinglesOfSecondSet,0); }
+
     new SuperTimeout(startTheLesson, 2000);
   }
   // containerOfSingles_A will never be seen again in this session
