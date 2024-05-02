@@ -78,9 +78,11 @@ function unloadTheSoundsOfThisLesson() {
 /* Declare js variables to manipulate the elements */
 const main = document.getElementsByTagName('MAIN')[0];
 const spoonHoverExactAreaOnDesktops = document.getElementById('preciseSpoonHoverAreaForDesktopMouseID');
-const spoonFatTouchAreaOnMobiles = document.getElementById('niceFatTouchAreaForMobileID');
-const preventSwipeMenuOnMobiles = document.getElementById('preventSwipeMenuMobileID');
-const plateHoverAreaOnDesktops = document.getElementById('plateHoverAreaDesktopID');
+var spoonFatTouchAreaOnMobiles = document.getElementById('niceFatTouchAreaForMobileID');
+/* deprecate
+var preventSwipeMenuOnMobiles = document.getElementById('preventSwipeMenuMobileID');
+*/
+var plateHoverAreaOnDesktops = document.getElementById('plateHoverAreaDesktopID');
 // Better without? Probably yes: const plateHoverAreaOnMobiles = document.getElementById('plateHoverAreaMobileID'); // WARNING: elementFromPoint.id compares to plateHoverAreaMobileID to detect touch hovering
 // See index.html to find theLongSpoonContainerDivWithStates
 var theSquareSpoonContainerDiv = document.querySelector('.squareContainerOfTheLongSpoonContainer');

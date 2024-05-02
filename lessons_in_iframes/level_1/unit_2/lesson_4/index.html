@@ -89,11 +89,11 @@
       <div id="mobileTouchAreaID" style="pointer-events:all; z-index: 1500; border:2px dotted blue;"></div>
       <!-- ACCEPTED TOUCH AREA OF THE PLATE ON MOBILES, for collision detection -->
       <div id="mobileHoverID" class="containerOfThePlate" style="width:100vmin; height:100vmin; pointer-events:none; z-index:1550;">
-        <div id="preventSwipeMenuMobileID" style="border:1px dotted red; pointer-events:all; z-index:1551; border-radius:20%; background-color:rgba(111,0,222,0.0); width:45vmin; height:45vmin; position: absolute; left:40%; top:63%; transform: translate(-50%,-50%)">&nbsp;</div>
-        <div id="plateHoverAreaMobileID"   style="pointer-events:all; z-index:1552; border-radius:50%; background-color:rgba(101,255,0,0.0); width:15vmin; height:11vmin; position: absolute; left:62vmin; top:66vmin;">&nbsp;</div>
+        <!-- <div id="preventSwipeMenuMobileID" style="border:1px dotted red; pointer-events:all; z-index:1551; border-radius:20%; background-color:rgba(111,0,222,0.0); width:45vmin; height:45vmin; position: absolute; left:40%; top:63%; transform: translate(-50%,-50%)">&nbsp;</div> -->
+        <div id="plateHoverAreaMobileID"   style="border:1px dotted orange; pointer-events:all; z-index:1552; border-radius:50%; background-color:rgba(101,255,0,0.0); width:15vmin; height:11vmin; position: absolute; left:62vmin; top:66vmin;">&nbsp;</div>
       </div>
-      <!-- ACCEPTED TOUCH AREA OF THE SPOON ON MOBILES, for collision detection -->
-      <svg id="mobileSvgID" version="1.2" baseProfile="tiny" class="squareContainerOfTheLongSpoonContainer" style="opacity:0.0; z-index:1600; pointer-events:none;"
+      <!-- ACCEPTED TOUCH AREA OF THE SPOON ON MOBILES, for collision detection | SET OPACITY BACK TO 0.0 AFTER TESTING -->
+      <svg id="mobileSvgID" version="1.2" baseProfile="tiny" class="squareContainerOfTheLongSpoonContainer" style="opacity:0.5; z-index:1600; pointer-events:none;"
       	  x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000" xml:space="preserve">
           <!-- FAT HOVER AREA FOR FINGER -->
           <path id="niceFatTouchAreaForMobileID" style="pointer-events:all; z-index:1601;" fill-rule="evenodd" d="M776.943,829.627c-7.34,0-14.564-1.341-20.893-3.877c-7.196-2.886-24.635-9.25-18.895-44.65
