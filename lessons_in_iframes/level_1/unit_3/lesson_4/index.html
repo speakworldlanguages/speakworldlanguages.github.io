@@ -119,7 +119,7 @@
     <!-- On mobile we want to prevent conflict with the sliding navigation menu -->
     <!-- SOLUTION: Keep using stopPropagation but do not occupy the whole viewport so that user can still access the sliding navigation menu with a swipe -->
     <!-- In colors.js must set the display to block before the game is visible -->
-    <div id="mobileTouchArea" style="z-index:9; pointer-events:all; display:none;"></div>
+    <div id="mobileTouchAreaID" style="z-index:9; pointer-events:all; display:none;"></div>
 
 
     <div id="allOfTheGameDivID" class="allOfTheGame" style="z-index:10;">
@@ -178,7 +178,7 @@
 
 
     <script>
-    var touchArea = document.getElementById('mobileTouchArea');
+    var touchArea = document.getElementById('mobileTouchAreaID');
     var containerOfTheWholeGame = document.getElementById('allOfTheGameDivID');
     // ---
     window.addEventListener('DOMContentLoaded', whatMustBeDoneAtFirstOnThisDevice, { once: true });

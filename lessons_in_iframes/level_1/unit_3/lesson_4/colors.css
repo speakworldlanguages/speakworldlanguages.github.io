@@ -154,9 +154,9 @@ canvas {
   opacity: 0;
 }
 
-#mobileTouchArea{
+#mobileTouchAreaID{
   position: fixed;
-  top:0; left:0; width:100vw; width:100dvw; height: calc(100% - 40px); height: calc(100dvh - 40px);
+  top:0; left:0; width:100vw; width:100dvw; height: calc(100% - 40px - 2vh); height: calc(100dvh - 40px - 2dvh);
   overflow: visible;
 }
 

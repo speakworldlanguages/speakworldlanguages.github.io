@@ -120,7 +120,7 @@ const imageFiles = [
 
 /* __CONTAINER DIVS__ */
 // const main = document.getElementsByTagName('MAIN')[0]; // Cannot use touchstart touchmove listeners with main
-// See index.html » const touchArea = document.getElementById('mobileTouchArea');
+// See index.html » const touchArea = document.getElementById('mobileTouchAreaID');
 const fullVpDarkBlue = document.getElementById('coverForTheUnchosenOnesID');
 const containerOfSingles_A = document.getElementById('singlesDiv1ID');
 const containerOfSingles_B = document.getElementById('singlesDiv2ID');
