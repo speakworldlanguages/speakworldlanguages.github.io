@@ -22,7 +22,7 @@ document.addEventListener('readystatechange', (e) => {
     // NOTE: If we don't stopPropagation for elements that are layered on top of fullTouchAreaOfTheGame they will create TOUCH HOLES that will allow touches to pass through
     // EVEN THOUGH: fullTouchAreaOfTheGame already has stopPropagation
     plateHoverAreaOnMobiles.addEventListener("touchstart",function (event) { event.preventDefault(); event.stopPropagation(); });
-    spoonFatTouchAreaOnMobiles.addEventListener("touchstart",function (event) { event.preventDefault(); event.stopPropagation(); });
+    // spoonFatTouchAreaOnMobiles.addEventListener("touchstart",function (event) { event.preventDefault(); event.stopPropagation(); });
 
   }
 });
@@ -61,6 +61,7 @@ function whatToDoWhenSpoonIsTouched(event) { // event.preventDefault(); //event.
     initialDistanceToLeft = event.targetTouches[0].clientX; // Record coordinates to calculate distance in touchmove
     initialDistanceToTop = event.targetTouches[0].clientY; // Record coordinates to calculate distance in touchmove
     theSquareSpoonContainerDiv.style.transition = "none"; // Reset to none BECAUSE it was set, by touchend, to "margin-left ?.??s, margin-top ?.??s"
+    parent.console.log("READY FOR TOUCHMOVE");
     fullTouchAreaOfTheGame.addEventListener("touchmove",whatToDoWhenSpoonIsDragged);
     theLongSpoonContainerDivWithStates.style.transform = "rotate(-90deg) translate(100%,-50%)"; // See eat_with_spoon.css to find the constant transition settings
     // Looks like getBoundingClientRect yields different results on different screens for SVG area
@@ -112,6 +113,7 @@ let plateSoundIsUnleashed = true;
 let elementFromPoint;
 
 function whatToDoWhenSpoonIsDragged(event) { event.preventDefault(); //event.stopPropagation(); // May 2024: Let it propagate ???
+  parent.console.log("--DRAGGING--");
   touchmoveDistanceX = event.changedTouches[0].clientX - initialDistanceToLeft;
   touchmoveDistanceY = event.changedTouches[0].clientY - initialDistanceToTop;
   // --
