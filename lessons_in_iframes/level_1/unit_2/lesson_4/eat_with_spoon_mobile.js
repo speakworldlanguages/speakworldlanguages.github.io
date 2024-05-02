@@ -9,7 +9,7 @@ let isHoldingTheSpoon = false;
 // Prevent swipe menu if user touches somewhere near the plate
 document.addEventListener('readystatechange', (e) => {
   if (e.target.readyState === 'complete') {
-    // Better without? Probably yes: plateHoverAreaOnMobiles.addEventListener("touchstart",function (event) {   event.stopPropagation(); }); // No need for event.preventDefault();
+
 /* deprecate
     preventSwipeMenuOnMobiles.addEventListener("touchstart",function (event) { event.stopPropagation(); }); // No need for event.preventDefault();
     plateHoverAreaOnDesktops.addEventListener("touchstart",function (event) {  event.stopPropagation(); }); // No need for event.preventDefault();
@@ -17,6 +17,13 @@ document.addEventListener('readystatechange', (e) => {
     // May 2024 UPDATE: Use mobileTouchAreaID div for the prevention of sliding navigation menu
     fullTouchAreaOfTheGame.addEventListener("touchstart",function (event) { event.preventDefault(); event.stopPropagation(); });
     // QUESTION: Is stopping propagation for touchstart enough to prevent sliding navigation menu or do we have to handle touchmove too?
+    // ANSWER: touchstart is enough,,, no need to handle touchmove
+
+    // NOTE: If we don't stopPropagation for elements that are layered on top of fullTouchAreaOfTheGame they will create TOUCH HOLES that will allow touches to pass through
+    // EVEN THOUGH: fullTouchAreaOfTheGame already has stopPropagation
+    plateHoverAreaOnMobiles.addEventListener("touchstart",function (event) { event.preventDefault(); event.stopPropagation(); });
+    spoonFatTouchAreaOnMobiles.addEventListener("touchstart",function (event) { event.preventDefault(); event.stopPropagation(); });
+
   }
 });
 
@@ -36,7 +43,7 @@ function normalizeTouchDiameter(touchWidth,touchHeight) {
   return (touchWidth*touchHeight*1000000000)/Math.pow(screen.width*screen.height,2.2);
 }
 
-function getFingerPressure(event) { event.preventDefault(); //event.stopPropagation(); // May 2024: Let it propagate
+function getFingerPressure(event) { event.preventDefault(); //event.stopPropagation(); // May 2024: Let it propagate ???
   let usefulNumber = normalizeTouchDiameter(event.width,event.height); // Range is approximately from 0 to 5 on Sony Experia and 0 to 3 on Asus Nexus
   if (isHoldingTheSpoon) {
     theLongSpoonContainerDivWithStates.style.scale = (1+usefulNumber/15).toFixed(3);
@@ -45,7 +52,7 @@ function getFingerPressure(event) { event.preventDefault(); //event.stopPropagat
 }
 
 let measureSpoonHoldTimeInterval = null; let heldMilliseconds = 0;
-function whatToDoWhenSpoonIsTouched(event) { event.preventDefault(); //event.stopPropagation(); // May 2024: Let it propagate
+function whatToDoWhenSpoonIsTouched(event) { // event.preventDefault(); //event.stopPropagation(); // May 2024: See "readystatechange" above for propagation
   // --
   if (!tooEarlyToPickUpAgain) {
     isHoldingTheSpoon = true; measureSpoonHoldTimeInterval = new SuperInterval(function () { heldMilliseconds += 10; }, 10);
@@ -74,7 +81,7 @@ function whatToDoWhenSpoonIsTouched(event) { event.preventDefault(); //event.sto
     // ---
   }
 }
-function whatToDoWhenSpoonTouchIsReleased(event) { event.preventDefault(); //event.stopPropagation(); // May 2024: Let it propagate
+function whatToDoWhenSpoonTouchIsReleased(event) { //event.preventDefault(); //event.stopPropagation(); // May 2024: See "readystatechange" above for propagation
   // --
   isHoldingTheSpoon = false;
   mouseDownTouchEndSound.play();
@@ -104,7 +111,7 @@ function whatToDoWhenSpoonTouchIsReleased(event) { event.preventDefault(); //eve
 let plateSoundIsUnleashed = true;
 let elementFromPoint;
 
-function whatToDoWhenSpoonIsDragged(event) { event.preventDefault(); //event.stopPropagation(); // May 2024: Let it propagate
+function whatToDoWhenSpoonIsDragged(event) { event.preventDefault(); //event.stopPropagation(); // May 2024: Let it propagate ???
   touchmoveDistanceX = event.changedTouches[0].clientX - initialDistanceToLeft;
   touchmoveDistanceY = event.changedTouches[0].clientY - initialDistanceToTop;
   // --
@@ -198,7 +205,7 @@ function scoop() {
 
 // ---
 let motionIsNotAvailableSoWillPlayWithTouchmove = false;
-function handleSensorPermissions(event) { event.preventDefault(); //event.stopPropagation(); // May 2024: Let it propagate
+function handleSensorPermissions(event) { event.preventDefault(); //event.stopPropagation(); // May 2024: Let it propagate ??? - This fires with a touchend
   // By using {once:true} we eliminate the need to execute fullTouchAreaOfTheGame.removeEventListener("touchend",handleSensorPermissions);
   // Feature detect
   parent.console.log("Check if DeviceMotionEvent.requestPermission exists");
@@ -476,7 +483,7 @@ let initialX1 = 0; let initialY1 = 0; let initialX2 = 1; let initialY2 = 1;
 let initialDistanceBetweenTwoFingers = 0; let currentDistanceBetweenTwoFingers = 0;
 let twoFingersDetected = false;
 let loadFoodSoundIsUnleashed = true;
-function getTouchesAndCheck(event) {  event.preventDefault();  //event.stopPropagation(); // Disable swipe menu // May 2024: Let it propagate
+function getTouchesAndCheck(event) {  event.preventDefault();  //event.stopPropagation(); // Disable swipe menu // May 2024: See "readystatechange" above for propagation
   if (event.touches.length == 2) {
     // TWO FINGER GESTURE
     if (!twoFingersDetected) { // Save the initial coordinates of both fingers
