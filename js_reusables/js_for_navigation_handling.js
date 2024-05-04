@@ -8,15 +8,6 @@ window.addEventListener('DOMContentLoaded', function(){ // NOTE: Do not access d
   // soundFileFormat exists in js_for_different_browsers_and_devices
   userIsAwaySound = new Howl({  src: ["/user_interface/sounds/user_is_away."+soundFileFormat]  }); // See js_for_different_browsers_and_devices
   userIsBackSound = new Howl({  src: ["/user_interface/sounds/user_is_back."+soundFileFormat]  }); // See js_for_different_browsers_and_devices
-  /* DEPRECATE
-  if (isApple) { // Do not access isApple before DOMContentLoaded in js_for_different_browsers_and_devices
-    userIsAwaySound = new Howl({  src: ["/user_interface/sounds/user_is_away.mp3"]  });
-    userIsBackSound = new Howl({  src: ["/user_interface/sounds/user_is_back.mp3"]  });
-  } else {
-    userIsAwaySound = new Howl({  src: ["/user_interface/sounds/user_is_away.webm"]  });
-    userIsBackSound = new Howl({  src: ["/user_interface/sounds/user_is_back.webm"]  });
-  }
-  */
 
   // Handle lesson PAUSE with visibility change on mobile devices for return after tab navigation or when on/off button is pressed etc.
   // Use “var” (not “const”) for things that need to be accessible from elsewhere.
@@ -24,7 +15,8 @@ window.addEventListener('DOMContentLoaded', function(){ // NOTE: Do not access d
 }, { once: true }); // END OF DOMContentLoaded
 
 window.addEventListener('load', function(){
-  // Using alert() to pause the app when OFF button is pressed: 1-It breaks down Firefox Mobile 2-It mutes/unmutes Web Audio on Safari
+
+  // Note: Using alert() to pause the app when OFF button is pressed: 1-It breaks down Firefox Mobile 2-It mutes/unmutes Web Audio on Safari
 
   // Note: The following enables annyang to restart after a PAUSE when user has been AWAY or has turned off his mobile device's screen. Desktops don't need any handling for that.
   // Note: Annyang's behaviour is similar to the "visibilitychange" event. That is different from window "blur/focus" event. See https://stackoverflow.com/questions/58148482/document-visibilitychange-versus-window-blur-focus-what-is-the-difference-when/58148483#58148483
