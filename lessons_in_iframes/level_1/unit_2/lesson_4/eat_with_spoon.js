@@ -78,13 +78,10 @@ function unloadTheSoundsOfThisLesson() {
 /* Declare js variables to manipulate the elements */
 const main = document.getElementsByTagName('MAIN')[0];
 const spoonHoverExactAreaOnDesktops = document.getElementById('preciseSpoonHoverAreaForDesktopMouseID');
-var spoonFatTouchAreaOnMobiles = document.getElementById('niceFatTouchAreaForMobileID'); // Accurate path with curved edges
-/* deprecate
-var preventSwipeMenuOnMobiles = document.getElementById('preventSwipeMenuMobileID');
-*/
+var spoonFatTouchAreaOnMobiles = document.getElementById('shoeLikeTouchAreaForSpoonID'); // Accurate path with curved edges » See eat_with_spoon_mobile.js
+var plateTouchHitAreaOnMobiles = document.getElementById('ellipticalTouchAreaForPlateID'); // Approximate path with curved edges » See eat_with_spoon_mobile.js
+
 var plateHoverAreaOnDesktops = document.getElementById('plateHoverAreaDesktopID');
-// NOTE: plateHoverAreaOnMobiles IS ONLY for stopping propagation » Collision check is done by elementFromPoint.id comparison with "plateHoverAreaMobileID" string DIRECTLY
-var plateHoverAreaOnMobiles = document.getElementById('plateHoverAreaMobileID');
 // See index.html to find theLongSpoonContainerDivWithStates
 var theSquareSpoonContainerDiv = document.querySelector('.squareContainerOfTheLongSpoonContainer');
 var plateStates = document.getElementById('thePlateStatesDivID');

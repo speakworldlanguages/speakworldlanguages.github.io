@@ -17,7 +17,7 @@ async function cacheLesson134CommonAssetsForAllLanguages() {
     "/lessons_in_iframes/level_1/unit_3/lesson_4/fabric/4.avif",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/fabric/5.avif",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/fabric/6.avif",
-    /* uncomment when avif files are ready
+
     "/lessons_in_iframes/level_1/unit_3/lesson_4/painter/a1.avif",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/painter/a2.avif",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/painter/a3.avif",
@@ -30,7 +30,7 @@ async function cacheLesson134CommonAssetsForAllLanguages() {
     "/lessons_in_iframes/level_1/unit_3/lesson_4/painter/b4.avif",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/painter/b5.avif",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/painter/b6.avif",
-    */
+    
     "/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/bird.avif",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/black.avif",
     "/lessons_in_iframes/level_1/unit_3/lesson_4/gamecard/blue.avif",

@@ -245,13 +245,15 @@ window.addEventListener('beforeunload', function () {
   // ISSUE THAT NEEDS SERIOUS CARE: Safari doesn't allow mic permanently; it allows for only 1 listening session and prompts for permission everytime mic restarts
   if (parent.annyang) { // DO NOT OMIT! Firefox and other no-speech browsers need this "if (parent.annyang)" to let the app work without Web Speech API.
     // This is like a "making it double-safe" thing // stopListeningAndProceedToNext() already has parent.annyang.abort();
-    if (parent.annyang.isListening()) { // DANGER! It looks like this doesn't always fire correctly. Will try to remedy by adding it to progress/index.html
-      console.warn("__SpeechRecognition was still listening as the frame window got unloaded!__\nPossible bug if this was NOT intentional.");
+
+    // NOTE THAT User may want to navigate from a lesson to the progress_chart in the middle of a SpeechRecognition session
+    // Here we can attempt ending the session so that the mic will be turned off (and Android won't DING) as user views progress_chart
+    // REMEMBER: annyang continuously turns SpeechRecognition back on everytime it is timed out by the browser and turned off » this causes a problem
+    // PROBLEM: annyang.isListening will misreturn false between "onend" and "onstart" where it should theoretically return true
+    // WE TRY to remedy that by setting a setInterval inspection in progress/index.html » TESTED: Looks good
+    if (parent.annyang.isListening()) { // CHECK! progress/index.html
+      parent.console.warn("__SpeechRecognition was still listening as the frame window got unloaded!__\n---");
       parent.annyang.removeCallback();
-      /* DEPRECATE: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
-      if (isApple) { parent.annyang.pause(); } // BESIDES: CPU demand is somewhat too high when MIC is ON. So we want to turn it off whenever it is not in use.
-      else { parent.annyang.abort(); }
-      */
       parent.annyang.abort(); // Better if we tell or let Safari user figure out how to "permanently allow mic"
     }
   }

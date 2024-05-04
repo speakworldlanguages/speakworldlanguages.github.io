@@ -163,16 +163,19 @@
     // ISSUE THAT NEEDS SERIOUS CARE: Safari doesn't allow mic permanently; it allows for only 1 listening session and prompts for permission everytime mic restarts
 
     if (parent.annyang) { // DO NOT OMIT! Firefox and other no-speech browsers need this "if (parent.annyang)" to let the app work without Web Speech API.
-      if (parent.annyang.isListening()) { // DANGER! It looks like this doesn't always fire correctly. Will try to remedy by adding it to progress/index.html
-        console.warn("__ Annyang was force stopped by script in progress_chart/index.html __");
+      // NECESSARY EXTRA SAFETY: Since SpeechRecognition continuously turns on and off there is a chance (especially in Android) that annyang.isListening will misreturn false
+      // EVEN THOUGH the Speech Recognition session is not over yet
+      // NORMALLY js_for_all_iframed_lesson_htmls checks if annyang was listening when beforeunload fires and aborts accordingly
+      // BUT if beforeunload fires during the small interval between onend and onstart Speech Recognition will not be aborted where it should
+      // SINCE we cannot start a setInterval check inside beforeunload we have to do it here in progress_chart
+      let inspector = setInterval(checkSpeechRecognition, 100); // Tested: WORKS!
+      function checkSpeechRecognition() {        if (parent.annyang.isListening()) {    stopSpeechRecognition();    }        }
+      function stopSpeechRecognition() {
+        parent.console.warn("__ Annyang was force stopped by script in progress_chart/index.html __\n---");
         parent.annyang.removeCallback();
-        /* DEPRECATE: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
-        if (isApple) { parent.annyang.pause(); } // WASN'T IT TOO EARLY TO ACCESS isApple HERE without parent.isApple?
-        // BESIDES: CPU demand is somewhat too high when MIC is ON. So we want to turn it off whenever it is not in use.
-        else { parent.annyang.abort(); }
-        */
         parent.annyang.abort(); // Better if we tell or let Safari user figure out how to "permanently allow mic"
       }
+      setTimeout(function () { clearInterval(inspector); }, 5000); // Will check 50 times in 5 seconds to make sure
     }
 
     // PROBABLY: No need to call stopStandardAudioInputVisualization which exists in js_for_microphone_input_visualization
