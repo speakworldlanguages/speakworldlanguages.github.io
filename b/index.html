@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+
+    <link rel="stylesheet" href="/css_reusables/css_for_every_single_html.css"> <!-- Basically the global margin:0 padding:0 and box-sizing thing -->
+    <!-- <link rel="stylesheet" href="/css_reusables/css_for_lessons_with_interactables.css">  -->
+    <!-- Fill MAIN with the right color -->
+
+    <link rel="stylesheet" href="look_at_the_tree.css">
+
+    <style media="screen">
+      .testPoint{
+        position: fixed;
+        width: 2px; height: 2px;
+        background-color: cyan;
+      }
+    </style>
+
+  </head>
+  <body>
+    <!-- IN THIS CASE MAIN EXISTS TO PREVENT A BUGGINESS THAT EMERGES WHEN document.body.style.cursor is set to none -->
+    <!-- Explanation: When document body is emptied, mouse cursor will show even if body.style.cursor is set to NONE and even if body width and height are 100% 100% or 100vw 100vh-->
+    <!-- Because: elementFromPoint returns nothing or returns the HTML document itself when mouse is hovering on an area that doesn't contain any divs -->
+    <!-- Note that main itself WILL NEVER BE SEEN during this lesson; it exists only to fully fill the body, so that cursor can be hidden everywhere -->
+    <main></main>
+    <div class="theSky"></div>
+    <div class="clouds">    <img src="clouds.webp" id="cloudsID">    </div>
+    <div class="theInfiniteGround"></div>
+    <div class="clouds">    <img src="hill.webp" id="hillID">      </div>
+    <div class="clouds">    <img src="tree.webp" id="treeID">      </div>
+    <div class="clouds" id="arrowToEyeID">    <img src="arrow_to_eye.webp">      </div> <!-- Check Safari version and remove if is too old to play animated webps -->
+    <div class="usePerspective">
+      <div class="monocularContainer">
+        <div class="monocularPositioning">
+          <img src="outside_monocular_sprite_1.avif" class="sprite1">
+          <img src="outside_monocular_sprite_2.avif" class="sprite2" style="display:none;">
+        </div>
+      </div>
+    </div>
+    <div class="clouds">
+      <svg id="monocularShapeAndTreeShapeID" version="1.2" baseProfile="tiny" x="0px" y="0px" width="1200px" height="1200px" viewBox="0 0 1200 1200" xml:space="preserve">
+          <path id="mouseEnterMonocularID" d="M651.5,801.833c27.75-18.333,96.334-33.666,130.667,19.667 s51.5,79.5,56.833,88s15,32.166,8.833,59.166C863,976,872,987,882.333,1004.333s26.329,61.495-25.5,99.833 c-40.333,29.834-83.334,6.167-96.5-8.166s-22.5-32.001-24.5-49.167C713,1045,696,1035.5,668.167,998.833 C648.013,972.282,631.834,950.167,617,929.5S595.973,838.517,651.5,801.833z"/>
+
+          <path id="monocularFrontLensID" style="pointer-events:none;" fill="#226699" d="M641.334,810.666c37.26-34.484,95.833-30.999,120.166-0.333c24.625,31.033,17.196,76.955-30,110.167 c-27,19-94.5,33-114.833,4.833C592.036,891.213,610,839.666,641.334,810.666z"/>
+
+          <path id="treeCanopyID" fill="#8CC63F" d="M372,222c150,0,206,116,215,189s27,203-209,203S150,425,168,382S212,222,372,222z"/>
+      </svg>
+    </div>
+
+    <!--  -->
+    <svg class="bothEyelidsSVG" style="pointer-events:none;" version="1.2" baseProfile="tiny" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
+    	<path id="upperEyelidID" fill="black" stroke="black" stroke-width="2" d="M500-150c204.478,0,388,46.093,520,130v-180H-20v180C113-103.536,296.038-150,500-150z"/>
+      <path id="lowerEyelidID" fill="black" stroke="black" stroke-width="2" d="M500,1150c-204.478,0-388-46.093-520-130v180h1040v-180C887,1103.535,703.962,1150,500,1150z"/>
+    </svg>
+
+    <!--  -->
+    <div class="clouds" id="birdInTreeContainerID" style="display:none;">
+
+      <img src="bird_in_tree_1x.webp" style="filter: blur(10px);">
+      <img src="bird_in_tree_2x.webp" style="display:none;">
+      <img src="bird_in_tree_3x.webp" style="display:none;">
+
+      <!-- 2x is actually 150% and 3x is 200% -->
+    </div>
+
+    <!--  -->
+    <div class="monocularHoleContainer" style="pointer-events:none; display:none;">
+      <img src="inside_monocular_sprite.avif" id="monocularHoleImgID">
+    </div>
+
+    <div class="monocularHoleContainer" style="pointer-events:none; display:none;">
+      <img src="ticker_marks.webp" id="monocularLensTickersID">
+    </div>
+
+    <div class="pureBlack" id="topBlackID"    style="display:none;"></div>
+    <div class="pureBlack" id="rightBlackID"  style="display:none;"></div>
+    <div class="pureBlack" id="bottomBlackID" style="display:none;"></div>
+    <div class="pureBlack" id="leftBlackID"   style="display:none;"></div>
+
+
+    <script>
+
+      const arrowToEye = document.getElementById('arrowToEyeID');
+      // CHECK SAFARI VERSION AND REMOVE IF IS TOO OLD TO PLAY ANIMATED WEBPS
+      /* Uncomment when placed into parent
+      if (isSafari) {
+        if (detectedBrowserVersion<30.0) { // Replace 30.0 with the version that can play animated webps
+          arrowToEye.remove();
+        }
+      } else { // Browser is not Safari but
+        if (isApple) { // Perhaps Chrome that runs on iOS or MacOS
+          arrowToEye.remove();
+        }
+      }
+      */
+      let firstPointerX; let firstPointerY;
+      const spriteImg_A = document.querySelector('.monocularPositioning').children[0];
+      const spriteImg_B = document.querySelector('.monocularPositioning').children[1];
+      const mouseEnterPath = document.getElementById('mouseEnterMonocularID');
+      mouseEnterPath.addEventListener("mouseenter",monocularIsHovered);
+      mouseEnterPath.addEventListener("mouseleave",monocularIsUnhovered);
+      function monocularIsHovered() {      spriteImg_A.classList.add("whenMonocularIsHovered"); console.log("hover sound!");       }
+      function monocularIsUnhovered() {    spriteImg_A.classList.remove("whenMonocularIsHovered");    }
+      mouseEnterPath.addEventListener("mousedown",monocularIsClicked,{once:true});
+      function monocularIsClicked(event) {
+        console.log("click sound!");
+        mouseEnterPath.removeEventListener("mouseenter",monocularIsHovered);
+        mouseEnterPath.removeEventListener("mouseleave",monocularIsUnhovered);
+        spriteImg_A.classList.remove("whenMonocularIsHovered");
+        spriteImg_A.parentNode.classList.add("whenMonocularIsClicked"); // 800ms animation » See look_at_the_tree.css
+        setTimeout(function () { spriteImg_A.parentNode.classList.remove("whenMonocularIsClicked"); }, 2000);
+
+        firstPointerX = event.clientX; // Initial values
+        firstPointerY = event.clientY; // Initial values
+        document.body.classList.add("noCursor");
+        document.body.addEventListener("mousemove",updateMonocularPosition);
+        document.body.addEventListener("mousedown",checkIfTreeWasTargeted);
+        window.addEventListener('resize', resetTheGame, {once:true}  );
+
+        // Q:TOO MUCH CPU? A:YES arrowToEye.classList.add("arrowSignDisappears"); setTimeout(()=> { arrowToEye.remove(); }, 2000); // Deprecated; perform instant removal
+        arrowToEye.remove();
+      }
+      function resetTheGame() {
+        mouseEnterPath.addEventListener("mouseenter",monocularIsHovered);
+        mouseEnterPath.addEventListener("mouseleave",monocularIsUnhovered);
+        document.body.classList.remove("noCursor");
+        document.body.removeEventListener("mousemove",updateMonocularPosition);
+        document.body.removeEventListener("mousedown",checkIfTreeWasTargeted);
+        mouseEnterPath.addEventListener("mousedown",monocularIsClicked,{once:true});
+        mousemoveFireCount = 0;
+        spriteImg_A.parentNode.style.transform = "translate(0px,0px)";
+        cloudsImg.style.transform = "translateY(0vh)";
+        treeImg.style.transform = "scale(100%)";
+        hillImg.style.transform = "scaleX(100%)";
+      }
+
+      let treeIsTargeted = false;
+      const monocularShapeAndTreeShapeSvg = document.getElementById('monocularShapeAndTreeShapeID'); // Get the SVG element
+      let svgRect = monocularShapeAndTreeShapeSvg.getBoundingClientRect(); // Get SVG's bounding box; update needed if window is resized
+      const monocularFrontLens = document.getElementById('monocularFrontLensID');
+      const treeCanopy = document.getElementById('treeCanopyID');
+
+      let naturalWidthOfSvg = monocularShapeAndTreeShapeSvg.getAttribute('width'); // IN THIS CASE IT IS A SQUARE so width and height are the same
+      naturalWidthOfSvg = naturalWidthOfSvg.match(/\d/g); naturalWidthOfSvg = naturalWidthOfSvg.join(''); naturalWidthOfSvg = Number(naturalWidthOfSvg);
+
+      let resizeRatioOfSvg = naturalWidthOfSvg / svgRect.width; // WARNING: This must be updated every time window is resized.
+      window.addEventListener('resize', getNewSvgDimensions); // Use a small delay to ensure things fire in correct order
+      function getNewSvgDimensions() {
+        setTimeout(function () { svgRect = monocularShapeAndTreeShapeSvg.getBoundingClientRect();  resizeRatioOfSvg = naturalWidthOfSvg / svgRect.width; }, 250);
+      }
+      // console.log(monocularFrontLens.getTotalLength()); // Always returns 513.1487426757812 regardless of viewport size (tested with app version May 16th 2024)
+      const totalPathLength = Math.floor(monocularFrontLens.getTotalLength());
+      // getBBox ignores css styling and it returns a cropped box that excludes all the empty area around the shapes
+      const bbox2 = treeCanopy.getBBox(); // Static shape that never moves anywhere
+      let mousemoveFireCount = 0;
+      const treeSoundPlayModulus = 24; // 12 or 24 or 36 or 48
+      function updateMonocularPosition(event) { mousemoveFireCount++;
+        const dX = event.clientX - firstPointerX; // WARNING: Resizing the window will break firstPointerX unless handled
+        const dY = event.clientY - firstPointerY; // WARNING: Resizing the window will break firstPointerY unless handled
+        spriteImg_A.parentNode.style.transform = "translate("+dX+"px,"+dY+"px)";
+        slightForwardMovement(dY); // Let's make this DESKTOP ONLY
+        const dxInsideSvg = dX*resizeRatioOfSvg;
+        const dyInsideSvg = dY*resizeRatioOfSvg;
+        // DEBUG:        monocularFrontLens.setAttribute("transform", "translate("+dxInsideSvg+", "+dyInsideSvg+")");
+        // Update phantom shape's phantom bounding box position
+        const bbox1 = monocularFrontLens.getBBox(); // getBBox ignores css styling and it returns a cropped box that excludes all the empty area around the shapes
+        bbox1.x = bbox1.x + dxInsideSvg;
+        bbox1.y = bbox1.y + dyInsideSvg;
+        // NOTE: isPointInFill IS VERY SLOW: To optimize, we check for overlap between the bounding boxes first, so that we can skip the unnecessary task load
+        const overlap = !(bbox2.x > (bbox1.x + bbox1.width) ||
+                        (bbox2.x + bbox2.width) < bbox1.x ||
+                        bbox2.y > (bbox1.y + bbox1.height) ||
+                        (bbox2.y + bbox2.height) < bbox1.y);
+
+        if (overlap) {
+            // console.log("Bounding boxes overlap!"); // Works OK
+            let numberOfPointsUnderCollision = 0;
+            for (let i = 25; i < totalPathLength; i+=125) {
+              const pointObj = monocularShapeAndTreeShapeSvg.createSVGPoint();
+              // REMEMBER: All transformations (both css and native svg) are ignored by getPointAtLength
+              pointObj.x = monocularFrontLens.getPointAtLength(i).x + dxInsideSvg; // Phantom points on phantom path
+              pointObj.y = monocularFrontLens.getPointAtLength(i).y + dyInsideSvg; // Phantom points on phantom path
+              // DEBUG:              addSquare(pointObj.x,pointObj.y,3,"cyan");
+              const isPointInFill = treeCanopy.isPointInFill(pointObj);
+              if (isPointInFill) {            numberOfPointsUnderCollision++;          }
+            }
+            // console.log(numberOfPointsUnderCollision);
+            if (numberOfPointsUnderCollision>0) {
+              treeIsTargeted = true;
+              if (mousemoveFireCount%(treeSoundPlayModulus/numberOfPointsUnderCollision) == 0) {
+
+                console.log("TREE hover sound!");
+                // NOTE: It is already good enough without creating an exception for reacting to the very first collision immediately without waiting for the modulus
+              }
+            } else {
+              treeIsTargeted = false;
+            }
+        } else {
+            // console.log("Bounding boxes do not overlap.");
+            treeIsTargeted = false;
+        }
+      }
+
+      /* DEBUG:
+      // addSquare is FOR DEBUGGING ONLY
+      function addSquare(x, y, size, color) {
+          var square = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          square.setAttribute("x", x);
+          square.setAttribute("y", y);
+          square.setAttribute("width", size);
+          square.setAttribute("height", size);
+          square.setAttribute("fill", color);
+          monocularShapeAndTreeShapeSvg.appendChild(square);
+          setTimeout(function () {            monocularShapeAndTreeShapeSvg.removeChild(square);          }, 500);
+      }
+      */
+
+      const cloudsImg = document.getElementById('cloudsID');
+      const treeImg = document.getElementById('treeID');
+      const hillImg = document.getElementById('hillID');
+      function slightForwardMovement(distance) {
+        let _vh = distance*100/window.innerHeight; // IS IT OK TO NOT CHECK ORIENTATION » portait vs landscape
+        _vh *= 2.25; // Boost
+        if (_vh<-70) {    _vh = _vh + Math.pow((Math.abs(_vh) - 70), Math.abs(_vh/105)) ;}
+        if (_vh<0) {
+          /* DEPRECATE: save transformless translations for later
+          cloudsImg.style.translate = "0px " + (   _vh/12   ).toFixed(3) + "vh";
+          treeImg.style.scale = (   100 - _vh*4/(25-Math.abs(_vh/8))   ).toFixed(3) + "%";
+          hillImg.style.scale = (   100 - _vh/2   ).toFixed(3)+"% 100%";
+          */
+          cloudsImg.style.transform = "translateY("+(   _vh/12   ).toFixed(3)+"vh)";
+          treeImg.style.transform = "scale("+ (   100 - _vh*4/(25-Math.abs(_vh/8))   ).toFixed(3) +"%)";
+          hillImg.style.transform = "scaleX("+ (   100 - _vh/2   ).toFixed(3) +"%)";
+        } else {
+          // No movement
+        }
+      }
+
+      const perspectiveContainer = document.querySelector('.usePerspective');
+      function checkIfTreeWasTargeted(event) {
+        if (treeIsTargeted) {
+          // The point of no return
+          document.body.removeEventListener("mousedown",checkIfTreeWasTargeted);
+          document.body.removeEventListener("mousemove",updateMonocularPosition);
+          window.removeEventListener('resize', resetTheGame);
+          window.removeEventListener('resize', getNewSvgDimensions);
+          // Proceed
+          console.log("TREE click sound!");
+          // -
+          spriteImg_A.style.display="none";
+          spriteImg_B.style.display="block";
+          const perspectiveRect = perspectiveContainer.getBoundingClientRect();
+          const x = ((event.clientX - perspectiveRect.left)*100/perspectiveRect.width).toFixed(1);
+          const y = ((event.clientY - perspectiveRect.top)*100/perspectiveRect.height).toFixed(1);
+          perspectiveContainer.style.perspectiveOrigin = x + "% " + y + "%";
+          // console.log(perspectiveContainer.style.perspectiveOrigin); // Tested: Good enough
+          spriteImg_B.parentNode.parentNode.classList.add("moveTowardsViewer"); // May 16th 2024: 4300ms
+          // Background
+          try { // 3300ms as of May 17th 2024
+            cloudsImg.style.translate = "50vmin 1vmin"; // Will be ignored by older mobile browsers
+            cloudsImg.style.rotate = "3deg"; // Will be ignored by older mobile browsers
+            treeImg.style.translate = "15vmin"; // Will be ignored by older mobile browsers
+          } catch (e) {
+            // transformless translations not supported by the browser
+          }
+          // Next stage: Looking through monocular
+          // For normal speed 4300-1500=2800
+          setTimeout(closeTheEye, 2500);
+        }
+      }
+
+      const svgEyelids = document.querySelector('.bothEyelidsSVG');
+      const upperEyelid = document.getElementById('upperEyelidID');
+      const lowerEyelid = document.getElementById('lowerEyelidID');
+      const birdInTreeContainer = document.getElementById('birdInTreeContainerID');
+      function closeTheEye() {
+        if (window.innerWidth>window.innerHeight) { // landscape
+          const aspectRatioPct = Math.ceil(window.innerWidth*100/window.innerHeight);
+          svgEyelids.style.transform = "translate(-50%,-50%) scaleX("+aspectRatioPct+"%) scaleY(100%)";
+        } else { // portait
+          const aspectRatioPct = Math.ceil(window.innerHeight*100/window.innerWidth);
+          svgEyelids.style.transform = "translate(-50%,-50%) scaleX(100%) scaleY("+aspectRatioPct+"%)";
+        }
+        // set animation duration depending on speed setting
+
+        // Fast 0.5s Normal 1.5s Slow 2.5s
+        upperEyelid.style.animationDuration = "1.5s";
+        lowerEyelid.style.animationDuration = "1.5s";
+        upperEyelid.classList.add("animateUpperEyelid");
+        lowerEyelid.classList.add("animateLowerEyelid");
+        upperEyelid.addEventListener("animationend",removeAllThatIsNotNeededAnymoreAndProceed,{once:true});
+        function removeAllThatIsNotNeededAnymoreAndProceed() {
+          // Remove all visual assets used so far
+          document.querySelector('.theSky').remove();
+          cloudsImg.parentNode.remove();
+          document.querySelector('.theInfiniteGround').remove();
+          hillImg.parentNode.remove();
+          treeImg.parentNode.remove();
+          // Should already be removed » arrowToEyeID
+          perspectiveContainer.remove();
+          monocularShapeAndTreeShapeSvg.parentNode.remove();
+          setTimeout(function () {
+            upperEyelid.classList.remove("animateUpperEyelid");
+            lowerEyelid.classList.remove("animateLowerEyelid");
+            svgEyelids.remove();
+            // Set display block to monocular Hole and bird_in_tree_1x-2x-3x
+            birdInTreeContainer.style.display = "block";
+            proceedWithTheLookThroughHoleScene();
+          }, 250); // fast:1 normal:250 slow:1250
+        }
+
+
+        // setTimeout(proceedWithTheLookThroughHoleScene, 4000);
+      }
+
+      const monocularHoleImg = document.getElementById('monocularHoleImgID');
+      const monocularHoleContainerDiv = monocularHoleImg.parentNode;//document.querySelector('.monocularHoleContainer');
+      const monocularLensTickersImg = document.getElementById('monocularLensTickersID');
+      const lensTickersContainerDiv = monocularLensTickersImg.parentNode;
+      let monocularHoleRect;
+      const leftBlackDiv = document.getElementById('leftBlackID');
+      const rightBlackDiv = document.getElementById('rightBlackID');
+      const topBlackDiv = document.getElementById('topBlackID');
+      const bottomBlackDiv = document.getElementById('bottomBlackID');
+
+
+      function proceedWithTheLookThroughHoleScene() {
+        if (document.hasFocus()) { } else { document.body.classList.add("grayAway"); }
+        window.addEventListener('blur', blurHappenedF);
+        function blurHappenedF(){ document.body.classList.remove("colorBack"); document.body.classList.add("grayAway"); }
+        window.addEventListener('focus', focusHappenedF);
+        function focusHappenedF(){ document.body.classList.remove("grayAway"); document.body.classList.add("colorBack"); }
+        // -
+        monocularHoleContainerDiv.style.display ="block";
+        lensTickersContainerDiv.style.display ="block";
+        leftBlackDiv.style.display ="block";  rightBlackDiv.style.display ="block";
+        topBlackDiv.style.display ="block";   bottomBlackDiv.style.display ="block";
+        setHoleView();
+        // -
+        document.body.addEventListener("mousemove",initializeTranslation,{once:true});
+        document.body.addEventListener("mousemove",updateHoleView);
+
+        document.body.addEventListener("wheel",adjustFocus_1x_2x_3x);
+        // Show mouse wheel instruction animation
+
+        // Event listener for keydown event
+        document.addEventListener('keydown',readKeyboardInput);
+
+
+
+
+
+        // Implement resize handling if it becomes necessary
+        // window.addEventListener('resize',createTheAppIsPausedBoxAndResetToCenter);
+        // function createTheAppIsPausedBoxAndResetToCenter() { document.body.addEventListener("mousemove",initializeTranslation,{once:true}); }
+
+        monocularHoleImg.style.animationDirection = "reverse";
+        monocularHoleImg.classList.add("sprite3");
+        monocularHoleImg.addEventListener("animationend",()=>{ monocularHoleImg.style.animationDirection = "alternate"; },{once:true});
+        monocularHoleImg.addEventListener("animationend",blinkRandomizer);
+
+      }
+      //-
+      function readKeyboardInput(event) {
+        if (event.key === 'ArrowUp' || event.keyCode === 38) {
+          if (canZoomFurther) {
+            proceedToNextZoomLevel();
+          } else {
+            console.log("Cannot zoom before focusing");
+          }
+        }
+      }
+      //-
+      function blinkRandomizer() {
+        monocularHoleImg.classList.remove("sprite3");
+        const randomNumber = Math.floor(Math.random() * 4001);// A random number between 0 and 4000
+        setTimeout(function () {
+          if (Math.random()<0.25) { monocularHoleImg.style.animationIterationCount = "4"; } // Two blinks at 25 percent probability
+          else { monocularHoleImg.style.animationIterationCount = "2"; } // One blink
+          monocularHoleImg.classList.add("sprite3");
+        }, 4000+randomNumber);
+      }
+      //-
+      function initializeTranslation(event) {
+        firstPointerX = event.clientX; // Save initial values
+        firstPointerY = event.clientY; // Save initial values
+        console.log(firstPointerX); console.log(firstPointerY);
+      }
+      //-
+      function setHoleView() {
+        monocularHoleRect = monocularHoleContainerDiv.getBoundingClientRect();
+
+        rightBlackDiv.style.left = (monocularHoleRect.left + monocularHoleRect.width - 5).toFixed(0) + "px";
+        bottomBlackDiv.style.top = (monocularHoleRect.top + monocularHoleRect.height - 5).toFixed(0) + "px";
+
+        if (monocularHoleRect.left > 0) { leftBlackDiv.style.width = (monocularHoleRect.left + 5).toFixed(0) + "px";   }
+        else {                            leftBlackDiv.style.width = "1px";   }
+        if (monocularHoleRect.top > 0) {  topBlackDiv.style.height = (monocularHoleRect.top + 5).toFixed(0) + "px";   }
+        else {                            topBlackDiv.style.height = "1px";   }
+
+      }
+
+      let effective_dX; let effective_dY;
+      // let isWithinRange = true; // Usable in case becomes necessary
+      function updateHoleView(event) { // SOLVED: const element = document.elementFromPoint(event.clientX, event.clientY); console.log(element); // Now <main> fills the whole <body> so that cursor can stay hidden over every point of the viewport
+        setHoleView();
+
+        const dX = event.clientX - firstPointerX; // IN THIS CASE: Resizing the window will break firstPointerX but only negligably
+        const dY = event.clientY - firstPointerY; // IN THIS CASE: Resizing the window will break firstPointerY but only negligably
+        let xMovementPct; let yMovementPct;
+        if (window.innerWidth>window.innerHeight) { // Landscape
+            xMovementPct = dX*100/window.innerHeight;
+            yMovementPct = dY*100/window.innerHeight;
+        } else { // Portait
+            xMovementPct = dX*100/window.innerWidth;
+            yMovementPct = dY*100/window.innerWidth;
+        }
+
+        if (Math.abs(xMovementPct)<15 && Math.abs(yMovementPct)<15) {
+          // isWithinRange = true; // Usable in case becomes necessary
+          effective_dX = dX; effective_dY = dY;
+        } else {
+          firstPointerX += (dX-effective_dX); firstPointerY += (dY-effective_dY);
+          /* Usable in case becomes necessary
+          if (isWithinRange) {
+            // This is the moment when mouse has just exited range
+          }
+          isWithinRange = false;
+          */
+        }
+
+        monocularHoleContainerDiv.style.translate = effective_dX.toFixed(0)+"px "+effective_dY.toFixed(0)+"px"; // px is the smoothest // do not use vmins
+        lensTickersContainerDiv.style.translate = effective_dX.toFixed(0)+"px "+effective_dY.toFixed(0)+"px";
+      }
+
+      let canTickAgain = true;
+      let adjustedBlur = 10; // Check initial value in element style, use px
+      let rotationDegree = 0;
+      let canZoomFurther = false;
+      function adjustFocus_1x_2x_3x(event) { // Document body is never long enough to trigger the scroll bar; IS THAT WHY "wheel" event is passive in this case?
+        // event.preventDefault(); // Prevent the default scroll behavior // Note: this triggers an error saying, «Unable to preventDefault inside passive event listener due to target being treated as passive»
+        // Use {passive:false} if necessary as stated on https://www.uriports.com/blog/easy-fix-for-unable-to-preventdefault-inside-passive-event-listener/
+        // Check if app is paused!
+        if (canTickAgain) { // Apply speed limit allowing a maximum of around 10 ticks per second
+          // -
+          const delta = Math.sign(event.deltaY);
+          if (delta > 0) {
+              if (adjustedBlur>=4) { adjustedBlur--; }
+              else if (adjustedBlur>=0.5) { adjustedBlur -= 0.5; }
+              else { adjustedBlur = 0; }
+              // -
+              if (adjustedBlur) {
+                rotationDegree += 2.5;
+                console.log('Lens adjuster click-tick sound ,,,'); // No more ticks if is already at sharpest i.e. zero
+              }
+          } else {
+              if (adjustedBlur<10) {
+                adjustedBlur++;
+                rotationDegree -= 2.5;
+                console.log('Lens adjuster click-tick sound ...'); // No more ticks if is already at maximum blur
+              }
+          }
+          // -
+          birdInTreeContainer.children[0].style.filter= "blur("+adjustedBlur.toFixed(1)+"px)";
+          birdInTreeContainer.children[1].style.filter= "blur("+adjustedBlur.toFixed(1)+"px)";
+          birdInTreeContainer.children[2].style.filter= "blur("+adjustedBlur.toFixed(1)+"px)";
+          // -
+          if (adjustedBlur < 1) {
+            canZoomFurther = true; console.log("Can now zoom further");
+            switch (zoomLevelIndex) {
+              case 0:
+                console.log("Says: There is a bird");
+                // Check isAllowedToSayAgain
+                break;
+              case 1:
+                console.log("Says: There is a bird in the tree");
+                // Check isAllowedToSayAgain
+                break;
+              case 2:
+                console.log("Says: Listen to the bird");
+                // Check isAllowedToSayAgain
+                break;
+              default:
+            }
+          }
+          // -
+          canTickAgain = false;
+          setTimeout(function () {          canTickAgain = true;          }, 100); // Do not use a SuperTimeout here
+          monocularLensTickersImg.style.transform = "rotate("+ rotationDegree +"deg)";
+        } else {
+          // Skip when is firing too many times like when using tickless smooth mouse pad wheel gesture etc especially on MacOS
+        }
+
+      }
+
+      let zoomLevelIndex = 0; // 0 for 1x ; 1 for 2x; 2 for 3x
+      function proceedToNextZoomLevel() {
+        if (zoomLevelIndex<1) { // startZooming
+          monocularHoleImg.removeEventListener("animationend",blinkRandomizer); // Can either let setTimeout fire one last blink or clear it
+          monocularHoleImg.addEventListener("animationend",()=>{ monocularHoleImg.classList.remove("sprite3"); console.log("The last auto blink happened"); },{once:true}); // Let eye stay open
+          birdInTreeContainer.children[zoomLevelIndex].classList.add("startZoomingFrom1xTo2x");
+          birdInTreeContainer.children[zoomLevelIndex].onanimationend = () => {
+            birdInTreeContainer.children[zoomLevelIndex].style.display = "none";
+            birdInTreeContainer.children[zoomLevelIndex+1].style.display = "block";
+            birdInTreeContainer.children[zoomLevelIndex+1].style.filter = "blur(4px)";
+            canZoomFurther = false;
+            adjustedBlur = 4;
+            zoomLevelIndex++;
+          };
+        } else if (zoomLevelIndex<2) {
+          birdInTreeContainer.children[zoomLevelIndex].classList.add("startZoomingFrom2xTo3x");
+          birdInTreeContainer.children[zoomLevelIndex].onanimationend = () => {
+            monocularHoleImg.style.animationDirection = "normal";
+            monocularHoleImg.style.animationIterationCount = "1";
+            monocularHoleImg.classList.add("sprite3"); // Close the eye
+            monocularHoleImg.addEventListener("animationend",()=>{ // When it is fully closed
+              // Change from hopping bird to singing bird
+              birdInTreeContainer.children[zoomLevelIndex].style.display = "none";
+              birdInTreeContainer.children[zoomLevelIndex+1].style.display = "block";
+              birdInTreeContainer.children[zoomLevelIndex+1].style.filter = "blur(5px)";
+              canZoomFurther = false;
+              adjustedBlur = 5;
+              zoomLevelIndex++;
+              // Then open the eye one to the singing bird
+              monocularHoleImg.classList.remove("sprite3");
+              monocularHoleImg.style.animationDirection = "reverse";
+              void monocularHoleImg.offsetWidth; // Trigger a reflow, flushing the CSS changes
+              monocularHoleImg.classList.add("sprite3");
+            },{once:true});
+
+
+          };
+        } else {
+          // Proceed to walking simulation
+          console.log("Listen to the bird then walk");
+          document.removeEventListener('keydown',readKeyboardInput);
+          document.body.removeEventListener("wheel",adjustFocus_1x_2x_3x);
+          document.body.removeEventListener("mousemove",updateHoleView);
+          // First close the monocular eye
+          monocularHoleImg.classList.remove("sprite3");
+          monocularHoleImg.style.animationDirection = "normal";
+          void monocularHoleImg.offsetWidth; // Trigger a reflow, flushing the CSS changes
+          monocularHoleImg.classList.add("sprite3");
+          // Then open normal eye to the field walk
+          monocularHoleImg.addEventListener("animationend",()=>{ // When it is fully closed
+            // Remove all that is not needed
+            monocularHoleContainerDiv.remove();            lensTickersContainerDiv.remove();
+            leftBlackDiv.remove();      rightBlackDiv.remove();      topBlackDiv.remove();      bottomBlackDiv.remove();
+            birdInTreeContainer.remove();
+            // Bring the field walk
+
+            // Play svg animation in reverse
+            upperEyelid.style.animationDirection = "reverse"; upperEyelid.style.animationDuration = "1.4s"; upperEyelid.style.animationDelay = "-0.02s";
+            lowerEyelid.style.animationDirection = "reverse"; lowerEyelid.style.animationDuration = "1.4s"; lowerEyelid.style.animationDelay = "-0.02s";
+            document.body.appendChild(svgEyelids); //  animation-play-state: paused;
+            upperEyelid.classList.add("animateUpperEyelid"); upperEyelid.style.animationPlayState = "paused";
+            lowerEyelid.classList.add("animateLowerEyelid"); lowerEyelid.style.animationPlayState = "paused";
+            setTimeout(function () {
+              upperEyelid.style.animationPlayState = "running"; lowerEyelid.style.animationPlayState = "running";
+            }, 500);
+            upperEyelid.onanimationend = () => {   svgEyelids.remove();   };
+            console.log("opening svg eye");
+          },{once:true});
+        }
+      }
+    </script>
+  </body>
+</html>

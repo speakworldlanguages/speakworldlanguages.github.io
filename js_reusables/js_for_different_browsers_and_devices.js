@@ -63,6 +63,8 @@ window.addEventListener('DOMContentLoaded', function(){
     } else { // Example: If "15.6" then » 156 ,,, If "15.78" then ignore the less significant digits » 157
       detectedBrowserVersion = Number(  versionNumberWithDots.split(".")[0]  )*10 + Number(  versionNumberWithDots.split(".")[1].substring(0,1)  );
     }
+    // Finally back to normal dotted notation, like 159 » 15.9
+    detectedBrowserVersion = detectedBrowserVersion/10; // We can now use "greater than" or "less than" operators
   }
   detectedOS_name = parser.getOS().name.toLowerCase();
   if (parser.getDevice().vendor) {
