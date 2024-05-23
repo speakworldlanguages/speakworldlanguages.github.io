@@ -103,7 +103,7 @@
   from { filter: contrast(118%) drop-shadow(   0px 0px 1px rgba(42, 63, 74, 0)   ); }
   to {   filter: contrast(100%) drop-shadow(   0px 0px 3px rgba(42, 63, 74, 0.7)   ); }
 }
-/* Q:TOO MUCH CPU? A:YES » Therefore deprecate
+/* Q:TOO MUCH CPU? A:YES or COULD BE » Therefore deprecate
 .arrowSignDisappears{  animation: disappearing-arrow 1.2s;  animation-fill-mode: forwards;  animation-timing-function: linear;  }
 @keyframes disappearing-arrow {
   from { opacity:1; }
@@ -163,7 +163,7 @@
 }
 
 .startZoomingFrom1xTo2x{
-  animation: birdZoom1 2.6s; animation-fill-mode: forwards; animation-timing-function: cubic-bezier(0,.25,.5,1);
+  animation: birdZoom1 2.6s; animation-fill-mode: forwards; animation-timing-function: cubic-bezier(.2,0,.6,1);
 }
 @keyframes birdZoom1 {
 from { transform: scale(1); /*filter: blur(0px);*/ }
@@ -171,9 +171,59 @@ from { transform: scale(1); /*filter: blur(0px);*/ }
 }
 
 .startZoomingFrom2xTo3x{
-  animation: birdZoom2 2.6s; animation-fill-mode: forwards; animation-timing-function: cubic-bezier(0,.25,.5,1);
+  animation: birdZoom2 2.6s; animation-fill-mode: forwards; animation-timing-function: linear; /*cubic-bezier(0,.25,.5,1);*/
 }
 @keyframes birdZoom2 {
-from { transform: scale(1) translateX(0vmin); /*filter: blur(0px);*/ }
-  to {   transform: scale(1.29) translateX(5vmin); filter: blur(4px); }
+  0% {   transform: scale(1) translateX(0vmin); /*filter: blur(  «value at the given moment»   px);*/ }
+  25% {  transform: scale(1.05) translateX(0.25vmin);  }
+  50% {  transform: scale(1.13) translateX(1.5vmin); filter: blur(2px); }
+  75% {  transform: scale(1.24) translateX(4.75vmin); filter: blur(3px); }
+  100% { transform: scale(1.29) translateX(5vmin); filter: blur(4px); }
+}
+
+.walkToTheTreeContainer{
+  position: fixed;
+  left: 0px; top: 0px;
+  width: 100%; width: 100dvw;
+  height: 100%; height: 100dvh;
+  overflow: hidden;
+  display: flex; flex-direction: column-reverse; align-items: center;
+}
+.walkToTheTreeContainer img {
+  height: 100vmin; height: 100dvmin;
+}
+
+.handleNewPortraitSetting{  } /*Use opacity to avoid intervention with dynamic settings of display and visibility*/
+@media (orientation: portrait) {
+  .handleNewPortraitSetting{ opacity: 0; }
+  #flyingBirdSpriteContainerID{animation-duration: 1.5s; animation-name: bird-flies-portrait;}
+}
+@media (orientation: landscape) {
+  .handleNewPortraitSetting{ opacity: 1; }
+  #flyingBirdSpriteContainerID{animation-duration: 3.3s; animation-name: bird-flies-landscape;}
+}
+
+
+#flyingBirdSpriteContainerID{
+  position: fixed;
+  width: 9vmin; width: 9dvmin;
+  height: 9vmin; height: 9dvmin;
+  margin-top: 20.2vmin; margin-top: 20.2dvmin;
+  margin-left: 39vmin; margin-left: 39dvmin;
+  overflow: hidden;
+  animation-fill-mode: forwards; animation-timing-function: cubic-bezier(.2,.2,.5,1);
+  /* animation-name: bird-flies; */
+  /* animation-duration: 3s; */
+}
+
+@keyframes bird-flies-portrait { from { scale: 100%; }  to { scale: 175%; } }
+@keyframes bird-flies-landscape { from { scale: 100%; }  to { scale: 250%; } }
+
+#flyingBirdSpriteContainerID img{
+  height: 9vmin; height: 9dvmin;
+  animation: play-sprite-4 0.14s; animation-timing-function: steps(4, jump-none); animation-direction: alternate; animation-iteration-count: infinite;
+}
+@keyframes play-sprite-4 {
+  from { transform: translateX(0%); } /* Start from the first frame */
+  to { transform: translateX(-75%); } /* End at the last frame */
 }

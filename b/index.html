@@ -29,7 +29,7 @@
     <div class="theSky"></div>
     <div class="clouds">    <img src="clouds.webp" id="cloudsID">    </div>
     <div class="theInfiniteGround"></div>
-    <div class="clouds">    <img src="hill.webp" id="hillID">      </div>
+    <div class="clouds">    <img src="first_hill.webp" id="firstHillID">      </div>
     <div class="clouds">    <img src="tree.webp" id="treeID">      </div>
     <div class="clouds" id="arrowToEyeID">    <img src="arrow_to_eye.webp">      </div> <!-- Check Safari version and remove if is too old to play animated webps -->
     <div class="usePerspective">
@@ -80,6 +80,17 @@
     <div class="pureBlack" id="bottomBlackID" style="display:none;"></div>
     <div class="pureBlack" id="leftBlackID"   style="display:none;"></div>
 
+    <div class="clouds" id="secondHillContainerID" style="display:none; pointer-events:none;">    <img src="last_hill.webp">      </div>
+
+    <div class="walkToTheTreeContainer" id="walkToTheTreeContainerID" style="visibility: hidden; pointer-events:none;">
+      <img src="walk_to_the_tree.webp">
+      <img src="arrived_at_the_tree.webp" style="display:none;">
+      <!-- NOTE: Avoid switching display from "none" to "flex" to prevent confusion with "block",,, use visibility instead to let flex be -->
+    </div>
+
+    <div id="flyingBirdSpriteContainerID" style="display:none;">
+      <img src="flying_bird_sprite.avif">
+    </div>
 
     <script>
 
@@ -134,7 +145,7 @@
         spriteImg_A.parentNode.style.transform = "translate(0px,0px)";
         cloudsImg.style.transform = "translateY(0vh)";
         treeImg.style.transform = "scale(100%)";
-        hillImg.style.transform = "scaleX(100%)";
+        firstHillImg.style.transform = "scaleX(100%)";
       }
 
       let treeIsTargeted = false;
@@ -220,20 +231,16 @@
 
       const cloudsImg = document.getElementById('cloudsID');
       const treeImg = document.getElementById('treeID');
-      const hillImg = document.getElementById('hillID');
+      const firstHillImg = document.getElementById('firstHillID');
       function slightForwardMovement(distance) {
         let _vh = distance*100/window.innerHeight; // IS IT OK TO NOT CHECK ORIENTATION » portait vs landscape
         _vh *= 2.25; // Boost
         if (_vh<-70) {    _vh = _vh + Math.pow((Math.abs(_vh) - 70), Math.abs(_vh/105)) ;}
         if (_vh<0) {
-          /* DEPRECATE: save transformless translations for later
-          cloudsImg.style.translate = "0px " + (   _vh/12   ).toFixed(3) + "vh";
-          treeImg.style.scale = (   100 - _vh*4/(25-Math.abs(_vh/8))   ).toFixed(3) + "%";
-          hillImg.style.scale = (   100 - _vh/2   ).toFixed(3)+"% 100%";
-          */
+          // Note: Save transformless translations for later
           cloudsImg.style.transform = "translateY("+(   _vh/12   ).toFixed(3)+"vh)";
           treeImg.style.transform = "scale("+ (   100 - _vh*4/(25-Math.abs(_vh/8))   ).toFixed(3) +"%)";
-          hillImg.style.transform = "scaleX("+ (   100 - _vh/2   ).toFixed(3) +"%)";
+          firstHillImg.style.transform = "scaleX("+ (   100 - _vh/2   ).toFixed(3) +"%)";
         } else {
           // No movement
         }
@@ -276,6 +283,7 @@
       const upperEyelid = document.getElementById('upperEyelidID');
       const lowerEyelid = document.getElementById('lowerEyelidID');
       const birdInTreeContainer = document.getElementById('birdInTreeContainerID');
+      const theInfiniteGround = document.querySelector('.theInfiniteGround');
       function closeTheEye() {
         if (window.innerWidth>window.innerHeight) { // landscape
           const aspectRatioPct = Math.ceil(window.innerWidth*100/window.innerHeight);
@@ -296,8 +304,8 @@
           // Remove all visual assets used so far
           document.querySelector('.theSky').remove();
           cloudsImg.parentNode.remove();
-          document.querySelector('.theInfiniteGround').remove();
-          hillImg.parentNode.remove();
+          theInfiniteGround.style.visibility = "hidden";// This will be shown again later so we do not use remove();
+          firstHillImg.parentNode.remove();//firstHillImg.parentNode.style.visibility = "hidden";//
           treeImg.parentNode.remove();
           // Should already be removed » arrowToEyeID
           perspectiveContainer.remove();
@@ -496,6 +504,8 @@
 
       }
 
+      const secondHillContainerDiv = document.getElementById('secondHillContainerID'); // Initially display is none
+      const walkToTheTreeContainerDiv = document.getElementById('walkToTheTreeContainerID');
       let zoomLevelIndex = 0; // 0 for 1x ; 1 for 2x; 2 for 3x
       function proceedToNextZoomLevel() {
         if (zoomLevelIndex<1) { // startZooming
@@ -550,8 +560,36 @@
             monocularHoleContainerDiv.remove();            lensTickersContainerDiv.remove();
             leftBlackDiv.remove();      rightBlackDiv.remove();      topBlackDiv.remove();      bottomBlackDiv.remove();
             birdInTreeContainer.remove();
-            // Bring the field walk
-
+            // Bring layers under the field walk
+            theInfiniteGround.style.visibility = "visible"; // As was set to hidden in  »  closeTheEye  »  removeAllThatIsNotNeededAnymoreAndProceed
+            theInfiniteGround.classList.add("handleNewPortraitSetting");
+            // Show the img that connects the square webp to the infinite ground
+            secondHillContainerDiv.style.display = "block";
+            secondHillContainerDiv.classList.add("handleNewPortraitSetting");
+            // The filed walk
+            walkToTheTreeContainerDiv.style.visibility = "visible"; // Has been waiting hidden with display flex since the beginning
+            setTimeout(function () {
+              walkToTheTreeContainerDiv.children[0].style.display = "none";
+              walkToTheTreeContainerDiv.children[1].style.display = "block";
+              const flyingBirdSpriteContainerDiv = document.getElementById('flyingBirdSpriteContainerID');
+              setTimeout(function () {
+                const walkToTheTreeRect = walkToTheTreeContainerDiv.children[1].getBoundingClientRect();
+                flyingBirdSpriteContainerDiv.style.display = "block";
+                flyingBirdSpriteContainerDiv.style.left = walkToTheTreeRect.left + "px";
+                flyingBirdSpriteContainerDiv.style.top = walkToTheTreeRect.top + "px";
+                let displacementX = 0;
+                let speed = -0.04;
+                let acceleration = -0.005;
+                function flyAway() {
+                  displacementX += speed;
+                  speed += acceleration;
+                  // -
+                  flyingBirdSpriteContainerDiv.style.transform = "translateX("+displacementX+"vmin)";
+                  requestAnimationFrame(flyAway);
+                }
+                flyAway();
+              }, 498); // 3x166=498
+            }, 16434); // FAST:12000 NORMAL:16434 SLOW:20000,,, 99x166=16434
             // Play svg animation in reverse
             upperEyelid.style.animationDirection = "reverse"; upperEyelid.style.animationDuration = "1.4s"; upperEyelid.style.animationDelay = "-0.02s";
             lowerEyelid.style.animationDirection = "reverse"; lowerEyelid.style.animationDuration = "1.4s"; lowerEyelid.style.animationDelay = "-0.02s";
