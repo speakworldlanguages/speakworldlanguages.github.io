@@ -28,8 +28,8 @@ let noteToBeDisplayedAtTheEndOfThisLesson = null; // See what follows after wind
 
 /* ___AUDIO ELEMENTS___ */ //...Sound player (Howler) exists in the parent html. So the path must be relative to the parent html. Not to the framed html.
 // Find soundFileFormat in js_for_all_iframed_lesson_htmls
-let say1Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_2/there_is_something_in_the_water."+soundFileFormat;
-let say2Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_2/there_is_something_in_the_water_slow."+soundFileFormat;
+let say1Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_2/there_is_something_in_the_water_1."+soundFileFormat;
+let say2Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_2/there_is_something_in_the_water_2."+soundFileFormat;
 let say3Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_2/huh."+soundFileFormat;
 let say4Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_2/it_is_a_fish."+soundFileFormat;
 let say5Path = "/audio_files_for_listening/"+parent.langCodeForTeachingFilePaths+"/level_1/unit_3/lesson_2/there_is_a_fish_in_the_water."+soundFileFormat;

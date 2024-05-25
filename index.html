@@ -145,12 +145,12 @@
             <!-- Observe what names and ids do -->
             <!-- If more than one dialect|accent is available, better if we prompt and ask which one user wants to hear -->
             <button name="ja"  id="">Hito Language (Japanese)</button>
-            <button name="ko"  id="">Saram Language (Korean)</button>
-            <button name="zh"  id="">Renmen Language (Chinese)</button> <!-- As of 2023 putongnua dialect chosen automatically -->
+            <button name="ko"  id="" style="opacity:0.55; pointer-events:none;">Korean (Coming soon)</button> <!-- Coming soon Saram Language (Korean) -->
+            <button name="zh"  id="" style="opacity:0.55; pointer-events:none;">Chinese (Coming soon)</button> <!-- Coming soon Renmen Language (Chinese) --> <!-- As of 2023 putongnua dialect chosen automatically -->
             <!-- As of 2023 istanbul dialect chosen automatically -->
             <!-- <button name="tr"  id="">Kishi Language (Turkish)</button> -->
             <!-- <button name="ar"  id="">Annaas Language (Arabic)</button> -->
-            <!-- <button name="de"  id="">Leute Language (German)</button> -->
+            <!-- <button name="de"  id="" style="opacity:0.55; pointer-events:none;">Leute Language (German)</button> -->
             <!-- <button name="fr"  id="">Gens Language (French)</button> -->
             <!-- <button name="en"  id="">Eastern or Western English</button> -->
             <!-- WHEN NEW BUTTONS ARE ADDED -->
@@ -235,11 +235,13 @@
     </script>
 
     <!-- WHAT TO DISPLAY DURING APP MAINTENANCE :: UNCOMMENT WHEN NECESSARY -->
+    <!--
     <div data-nosnippet id="removeThisID" onmouseup="adminAccess()" style="position: fixed; z-index:50000; width:100vw; width:100dvw; height:100%; height:100dvh; background-color:white; display:flex; align-items:center; justify-content:center; flex-direction: column;">
       <img data-nosnippet src="/user_interface/images/maintenance.png" alt="...">
       <p data-nosnippet style="color:#040a17;">Sorry, we are performing app maintenance<br>Please check back later</p>
     </div>
     <script>let secretCounter=0; function adminAccess() { secretCounter++; if (secretCounter>4) { document.body.removeChild(document.getElementById('removeThisID')); } }</script>
+    -->
     <!-- END OF WHAT TO DISPLAY DURING APP MAINTENANCE -->
 
   </body>

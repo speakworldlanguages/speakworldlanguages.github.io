@@ -5,6 +5,8 @@
 let clickTouchendSound;
 let hoverTouchstartSound;
 // -
+let authorSaysToPotentialDonor;
+// -
 let theTextThatWillBePutInTheButton;
 let filePathForMonthlyFinanceBaseUsd; // Dynamic
 let filePathForMonthlyFinanceBaseEur; // Dynamic
@@ -54,13 +56,7 @@ window.addEventListener('load', function(){
   // soundFileFormat exists in js_for_all_iframed_lesson_htmls where it is copied from the parent in js_for_different_browsers_and_devices
   clickTouchendSound = new parent.Howl({  src: ["/user_interface/sounds/financial_thirdparty_click."+soundFileFormat]  });
   hoverTouchstartSound = new parent.Howl({  src: ["/user_interface/sounds/financial_thirdparty_hover."+soundFileFormat]  });
-  /*DEPRECATE if (isApple) { // isApple is copied from the parent window by js_for_all_iframed_lesson_htmls
-    clickTouchendSound = new parent.Howl({  src: ["/user_interface/sounds/financial_thirdparty_click.mp3"]  });
-    hoverTouchstartSound = new parent.Howl({  src: ["/user_interface/sounds/financial_thirdparty_hover.mp3"]  });
-  } else {
-    clickTouchendSound = new parent.Howl({  src: ["/user_interface/sounds/financial_thirdparty_click.webm"]  });
-    hoverTouchstartSound = new parent.Howl({  src: ["/user_interface/sounds/financial_thirdparty_hover.webm"]  });
-  }*/
+  authorSaysToPotentialDonor = new parent.Howl({  src: ["/user_interface/speech/"+userInterfaceLanguage+"/message_to_possible_donor."+soundFileFormat]  });
 
   // ------- Fill the divs with text depending on the user interface language --------
   const filePathForLicense = "/LICENSE";
@@ -184,18 +180,23 @@ function handleNavigationToPatreon() {
   if (needHitoicJapaneseFonts) { firstLine.style.fontFamily = 'DFKai-SB, dfkai, serif'; secondLine.style.fontFamily = 'DFKai-SB, dfkai, serif'; } // If kaiu.ttf exists in windows fonts try to use it (DFKai-SB),,, otherwise hope that it is loaded from /user_interface/fonts/ (dfkai:almost 5MB)
   //---
   setTimeout(function(){ markContainerDIV.appendChild(firstLine); markContainerDIV.appendChild(secondLine); },4000);
+  // message_to_possible_donor
+  let clearIfSpeechPlayIsSuccessful = setTimeout(function () { nowGoToTheDonationHandlerThirdParty(); }, 15000);
+  authorSaysToPotentialDonor.once('end', function(){    clearTimeout(clearIfSpeechPlayIsSuccessful); nowGoToTheDonationHandlerThirdParty();   });
+  function nowGoToTheDonationHandlerThirdParty() {
+    // EXIT FULLSCREEN IF WAS FULLSCREEN
+    setTimeout(function () {  if (parent.hasGoneFullscreen) {    parent.closeFullscreen();    }  },2000);
+    setTimeout(function () {  window.open("https://patreon.com/ForTerranationalBonocracy_USD","_blank");   },3000);
+  }
   setTimeout(function(){ firstLine.style.opacity = "1";  },4600);
+  setTimeout(function () { authorSaysToPotentialDonor.play(); }, 4700);
   setTimeout(function(){ secondLine.style.opacity = "1";  },6400);
+  //-
   if (needLatinFonts) {
     //DEPRECATED secondLine.style.textAlign = "justify";
     secondLine.classList.add("textAlignJustifyLTR"); // See css_for_every_single_html
   }
 
-  // EXIT FULLSCREEN IF WAS FULLSCREEN
-  setTimeout(function () {
-    if (parent.hasGoneFullscreen) {    parent.closeFullscreen();    }
-  },10000);
-  setTimeout(function () {  window.open("https://patreon.com/ForTerranationalBonocracy_USD","_blank");   },12000);
 }
 
 /* ___ MAKE ARROW BUTTONS FUNCTION - SWITCHING SCREENS ___ */
