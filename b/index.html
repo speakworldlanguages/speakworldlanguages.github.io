@@ -373,7 +373,7 @@
       }
       //-
       function readKeyboardInput(event) {
-        if (event.key === 'ArrowUp' || event.keyCode === 38) {
+        if (event.key === 'ArrowUp' || event.code == "ArrowUp") { // NOT NECESSARY: event.keyCode === 38
           if (canZoomFurther) {
             proceedToNextZoomLevel();
           } else {

@@ -48,7 +48,7 @@
     <!-- <script defer src="/js_reusables/js_for_pwa.js">/*IN THE FUTURE: Progressive Web App - Handle installation*/</script> -->
     <!--  -->
     <!-- Firebase : WARN-ING Code is outdated -->
-    <!-- <script type="module" src="notify_en.js"></script> -->
+    <!-- <script type="module" src="/pwa/notify_en.js"></script> -->
     <!--  -->
     <!-- SOLVED: THERE USED TO BE A CONFLICT between eruda and the canvas element, probably because they both used "ctx" as the variable name -->
     <!-- Uncomment the following to be able to use the browser console on mobile devices. CAUTION: iframes must use parent.console.log -->
@@ -78,8 +78,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Speak World Languages">
     <meta name="apple-mobile-web-app-status-bar-style" content="#4d606f">
-    <link rel="apple-touch-icon" href="/user_interface/homescreen_icon/icon_for_pwa_en.png">
-    <link rel="manifest" href="manifest_en.json">
+    <link rel="apple-touch-icon" href="/pwa/homescreen_icon/icon_for_pwa_en.png">
+    <link rel="manifest" href="/pwa/manifest_en.json">
     <script>
       if ("serviceWorker" in navigator) {  window.addEventListener("DOMContentLoaded",()=>{  navigator.serviceWorker.register("service-worker.js");  },{once:true});  } // Forgot what this means: Takes too long compared to window load (almost a second)
     </script>
@@ -148,12 +148,14 @@
             <!-- Observe what names and ids do -->
             <!-- If more than one dialect|accent is available, better if we prompt and ask which one user wants to hear -->
             <button name="ja"  id="">Hito Language (Japanese)</button>
-            <button name="ko"  id="" style="opacity:0.55; pointer-events:none;">Korean (Coming soon)</button> <!-- Coming soon Saram Language (Korean) -->
-            <button name="zh"  id="" style="opacity:0.55; pointer-events:none;">Chinese (Coming soon)</button> <!-- Coming soon Renmen Language (Chinese) --> <!-- As of 2023 putongnua dialect chosen automatically -->
+            <button name="ko"  id="" style="opacity:0.55; pointer-events:none;">Korean (coming soon)</button> <!-- Saram Language (Korean) -->
+            <!-- As of 2023 putonghua dialect chosen automatically -->
+            <button name="zh"  id="" style="opacity:0.55; pointer-events:none;">Chinese (coming soon)</button> <!-- Renmen Language (Chinese) -->
             <!-- As of 2023 istanbul dialect chosen automatically -->
             <!-- <button name="tr"  id="">Kishi Language (Turkish)</button> -->
             <!-- <button name="ar"  id="">Annaas Language (Arabic)</button> -->
-            <!-- <button name="de"  id="" style="opacity:0.55; pointer-events:none;">Leute Language (German)</button> -->
+            <!-- Leute Language (German) -->
+            <!-- <button name="de"  id="" style="opacity:0.55; pointer-events:none;">German (coming soon)</button> -->
             <!-- <button name="fr"  id="">Gens Language (French)</button> -->
             <!-- <button name="en"  id="">Eastern or Western English</button> -->
             <!-- WHEN NEW BUTTONS ARE ADDED -->

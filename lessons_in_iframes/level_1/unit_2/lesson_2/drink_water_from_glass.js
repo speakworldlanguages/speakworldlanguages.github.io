@@ -137,15 +137,17 @@ function vocabularyBoxIsClosed(x,y) { // Will fire from within createAndHandleLi
 }
 
 let isFirstTimeLooping = true;
-let to1,to2,to3,to4,to5,to6,to7,to8,to9,to10,to11,to12;
+let to1,to2,to3,to4,to5,to6,to7,to8,to9,to10,to11,to12,to13,to14,to15;
 function playPictogramLoop1() {
   let proceedTime;  switch (parent.speedAdjustmentSetting) {  case "slow": proceedTime = 3600; break;  case "fast": proceedTime = 1200; break;  default: proceedTime = 2400;  }
-  pictogramContainer.children[0].style.display = "none"; // To be never seen again
+  pictogramContainer.children[0].style.display = "none"; // To be never seen again » Do not remove() because the function will fire more than once
+  glassContainerBeforeGame.children[0].style.display = "none"; // Will be seen again with touchstart mousedown
+
   pictogramContainer.children[2].style.display = "none"; resetWebp(pictogramContainer.children[2]); // In case of returning from Loop2
   pictogramContainer.children[1].style.display = "block";
-  glassContainerBeforeGame.children[0].style.display = "none"; // To be never seen again
+
   glassContainerBeforeGame.children[3].style.display = "none"; resetWebp(glassContainerBeforeGame.children[3]); // In case of returning from Loop2
-  glassContainerBeforeGame.children[1].style.display = "block";
+  glassContainerBeforeGame.children[1].style.display = "block"; // GLASS from focus to blur
   to1 = new SuperTimeout(function () { // Drink!
     console.log("Teacher says: Drink!");
     injectTextIntoTheHelpBoxP.innerHTML = translation1;
@@ -156,11 +158,11 @@ function playPictogramLoop1() {
     pictogramContainer.children[1].style.display = "none"; resetWebp(pictogramContainer.children[1]);
     pictogramContainer.children[2].style.display = "block";
     glassContainerBeforeGame.children[1].style.display = "none"; resetWebp(glassContainerBeforeGame.children[1]);
-    glassContainerBeforeGame.children[2].style.display = "block";
+    glassContainerBeforeGame.children[2].style.display = "block"; // GLASS from blur to focus
     if (!isFirstTimeLooping) {
-      new SuperTimeout(function () {
+      to13 = new SuperTimeout(function () {
         glassContainerBeforeGame.children[2].style.display = "none"; resetWebp(glassContainerBeforeGame.children[2]);
-        glassContainerBeforeGame.children[3].style.display = "block";
+        glassContainerBeforeGame.children[3].style.display = "block"; // GLASS flashing
       }, 1000);
     } else {
       preciseTouchClickArea.addEventListener("mousemove",function () {   handleHoveringON();   },{ once:true });
@@ -176,7 +178,7 @@ function playPictogramLoop1() {
   function andThen2() {
     pictogramContainer.children[2].style.display = "none"; resetWebp(pictogramContainer.children[2]);
     pictogramContainer.children[1].style.display = "block";
-    glassContainerBeforeGame.children[3].style.display = "none"; resetWebp(glassContainerBeforeGame.children[3]);
+    glassContainerBeforeGame.children[3].style.display = "none"; resetWebp(glassContainerBeforeGame.children[3]); // Even though it loops forever
     glassContainerBeforeGame.children[2].style.display = "none"; resetWebp(glassContainerBeforeGame.children[2]); // Only for the "First Time Of Looping"
     glassContainerBeforeGame.children[1].style.display = "block";
     to5 = new SuperTimeout(function () { // Drink water from the glass!
@@ -199,7 +201,7 @@ function playPictogramLoop2() {
   pictogramContainer.children[2].style.display = "block";
   glassContainerBeforeGame.children[1].style.display = "none"; resetWebp(glassContainerBeforeGame.children[1]);
   glassContainerBeforeGame.children[2].style.display = "block";
-  new SuperTimeout(function () {
+  to14 = new SuperTimeout(function () {
     glassContainerBeforeGame.children[2].style.display = "none"; resetWebp(glassContainerBeforeGame.children[2]);
     glassContainerBeforeGame.children[3].style.display = "block";
   }, 1000);
@@ -226,7 +228,7 @@ function playPictogramLoop2() {
     pictogramContainer.children[2].style.display = "block";
     glassContainerBeforeGame.children[1].style.display = "none"; resetWebp(glassContainerBeforeGame.children[1]);
     glassContainerBeforeGame.children[2].style.display = "block";
-    new SuperTimeout(function () {
+    to15 = new SuperTimeout(function () {
       glassContainerBeforeGame.children[2].style.display = "none"; resetWebp(glassContainerBeforeGame.children[2]);
       glassContainerBeforeGame.children[3].style.display = "block";
     }, 1000);
@@ -259,10 +261,10 @@ function handleHoveringON() {  glassContainerBeforeGame.classList.remove("mouseI
 function handleHoveringOFF() {  glassContainerBeforeGame.classList.remove("mouseIsHovering"); glassContainerBeforeGame.classList.add("mouseIsNotHovering");  }
 function stopLoopingAndGetToNewPosition() {
   injectTextIntoTheHelpBoxP.innerHTML = "…";
-  /*clearTimeout(to1);clearTimeout(to2);clearTimeout(to3);clearTimeout(to4);clearTimeout(to5);clearTimeout(to6);clearTimeout(to7);clearTimeout(to8);clearTimeout(to9);clearTimeout(to10);clearTimeout(to11);clearTimeout(to12);*/
+  // DEPRECATED: /*clearTimeout(to1);clearTimeout(to2);clearTimeout(to3);clearTimeout(to4);clearTimeout(to5);clearTimeout(to6);clearTimeout(to7);clearTimeout(to8);clearTimeout(to9);clearTimeout(to10);clearTimeout(to11);clearTimeout(to12);*/
   if (to1) { to1.clear(); } if (to2) { to2.clear(); } if (to3) { to3.clear(); } if (to4) { to4.clear(); } if (to5) { to5.clear(); }
   if (to6) { to6.clear(); } if (to7) { to7.clear(); } if (to8) { to8.clear(); } if (to9) { to9.clear(); } if (to10) { to10.clear(); }
-  if (to11) { to11.clear(); } if (to12) { to12.clear(); }
+  if (to11) { to11.clear(); } if (to12) { to12.clear(); } if (to13) { to13.clear(); } if (to14) { to14.clear(); } if (to15) { to15.clear(); }
   let newPositionTime;  switch (parent.speedAdjustmentSetting) {  case "slow": newPositionTime = 7.0; break;  case "fast": newPositionTime = 3.0; break;  default: newPositionTime = 5.0;  }
   pictogramContainer.style.transitionDuration = String(newPositionTime)+"s";
   pictogramContainer.style.animationDuration = String(newPositionTime)+"s";
@@ -275,19 +277,25 @@ function stopLoopingAndGetToNewPosition() {
     new SuperTimeout(function () {
       pictogramContainer.style.display = "none";
       glassContainerBeforeGame.style.display = "none";
-      //glassContainerDuringGameGulp0.style.display = "block";
-      //glassContainerDuringGameGulp0.style.visibility = "visible";
-      glassContainerDuringGameGulp0.style.opacity = "1";
+      // DEPRECATE glassContainerDuringGameGulp0.style.display = "block"; // Use opacity instead
+      // DEPRECATE glassContainerDuringGameGulp0.style.visibility = "visible"; // Use opacity instead
+      glassContainerDuringGameGulp0.style.opacity = "1"; // MAY26th2024: Cannot remember why opacity but it works
     }, newPositionTime*1000+100);
   }, 100);
-  // unblur if was blurred
-  if (glassContainerBeforeGame.children[1].style.display == "block") {
-    glassContainerBeforeGame.children[1].style.display = "none"; // No need to reset webp at this point because this ends its usage
-    glassContainerBeforeGame.children[2].style.display = "block"; // from blur to focus
-  }
+  // -
 }
+// -
+function getNormalGlass() {
+  // No need to reset any webps at this point because this is the point of no return
+  glassContainerBeforeGame.children[1].style.display = "none"; // focus to blur
+  glassContainerBeforeGame.children[2].style.display = "none"; // blur to focus
+  glassContainerBeforeGame.children[3].style.display = "none"; // flashing as it may have been
+  glassContainerBeforeGame.children[0].style.display = "block"; // fixed clear frame in focus
+}
+// -
 let mouseInstructionDisappearTimeout = null;
 function getReadyToStartTheGameOnDESKTOP() {
+  getNormalGlass(); // Sudden focus will happen if was blurred
   mouseDownAndTouchEndSound.play();
   handleHoveringOFF(); // In case it was on
   preciseTouchClickArea.removeEventListener("mouseenter",handleHoveringON); // svg display is set to none in stopLoopingAndGetToNewPosition
@@ -344,13 +352,11 @@ function getReadyToStartTheGameOnDESKTOP() {
 }
 
 function getReadyToStartTheGameOnMOBILEtouchstart(event) { event.preventDefault(); event.stopPropagation();
+  getNormalGlass(); // Sudden focus will happen if was blurred
   if (canVibrate) { navigator.vibrate(10); }
-  console.log("user has started touching");
+  parent.console.log("user has started touching preciseTouchClickArea");
   mouseHoverAndTouchStartSound.play();
-  if (glassContainerBeforeGame.children[3].style.display == "block") {
-    glassContainerBeforeGame.children[3].style.display = "none";
-    glassContainerBeforeGame.children[0].style.display = "block"
-  }
+  // See stopLoopingAndGetToNewPosition where blur unblur is handled
   glassContainerBeforeGame.classList.add("glassFlashesBriefly");
 }
 
@@ -395,7 +401,7 @@ function getReadyToStartTheGameOnMOBILEtouchend(event) { event.preventDefault();
       showHowToPlayOnMobile(tiltIsNotAvailableSoWillPlayWithTouchmove); // See drink_water_from_glass_mobile.js
     }, getReadyTime);
   }
-}
+} // END OF getReadyToStartTheGameOnMOBILEtouchend
 
 let deviceorientationHasNeverFired = true;
 function testDeviceorientation() {

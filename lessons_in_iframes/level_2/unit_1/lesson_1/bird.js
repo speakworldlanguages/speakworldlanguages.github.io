@@ -336,27 +336,63 @@ function display_nowItsYourTurn_animation() {
   new SuperTimeout(function(){ speakToTheMic(); }, dingTimeMeansProceedTime); // Makes the DING tone play
   new SuperTimeout(function(){
     containerOfSingles.style.display = "block"; containerOfSingles.classList.add("singlesContainerAppears"); // Fixed animation duration (1.5s) to avoid conflict
+    numberOfThoseThatAreYetToBeShown = allSingles.length - 1;
     new SuperTimeout(function(){ showSinglesOneByOne(); }, 1500);
   }, dingTimeMeansProceedTime + changeTime*300);
 }
-
+// -
+let tickUntilSuccessHappens;
+const allSingles = containerOfSingles.children; // Use children instead of childNodes to ignore HTML comments
+let numberOfThoseThatAreYetToBeShown;
 function showSinglesOneByOne() {
-  const allSingles = containerOfSingles.children; // Use children instead of childNodes to ignore HTML comments
   let i = 0; const modulus = allSingles.length;
   let changeTime;  switch (parent.speedAdjustmentSetting) {
     case "slow": changeTime = 5.00; break;
     case "fast": changeTime = 2.00; break;
     default:     changeTime = 3.50;
   }
-  new SuperInterval(bringTheNext, changeTime*1000); // Minor issue: Changing speedAdjustmentSetting will not take effect after this starts ticking
+  tickUntilSuccessHappens = new SuperInterval(bringTheNext, changeTime*1000); // Minor issue: Changing speedAdjustmentSetting will not take effect once this starts ticking
   function bringTheNext() {
-    let now = i%modulus; let next = (i+1)%modulus;
-    allSingles[now].classList.remove("simpleFadeIn");    allSingles[now].classList.add("simpleFadeOut");  allSingles[now].style.animationDuration  = String(changeTime/2)+"s";
-    allSingles[next].classList.remove("simpleFadeOut");  allSingles[next].classList.add("simpleFadeIn");  allSingles[next].style.animationDuration = String(changeTime/2)+"s";
-    allSingles[now].style.zIndex = String(i+50);
+    const current = i%modulus; const next = (i+1)%modulus;
+    allSingles[current].classList.remove("simpleFadeIn");  allSingles[current].classList.add("simpleFadeOut");  allSingles[current].style.animationDuration  = String(changeTime/2)+"s";
+    allSingles[next].classList.remove("simpleFadeOut");    allSingles[next].classList.add("simpleFadeIn");      allSingles[next].style.animationDuration = String(changeTime/2)+"s";
+    allSingles[current].style.zIndex = String(i+50);
     allSingles[next].style.zIndex = String(i+51);
+    if (numberOfThoseThatAreYetToBeShown>0) { numberOfThoseThatAreYetToBeShown--; }
     i++;
   }
+}
+
+function quicklyShowAllRemainingSingles() {
+  return new Promise((resolve) => {
+    if (numberOfThoseThatAreYetToBeShown) { // One or more «singles» images have never been displayed
+      // Hide all of them
+      for (let z = 0; z < allSingles.length; z++) {
+        allSingles[z].classList.remove("simpleFadeIn"); allSingles[z].classList.remove("simpleFadeOut"); allSingles[z].style.visibility = "hidden";
+      }
+      // Start with displaying the one that was showing at the moment of success
+      let j = allSingles.length-numberOfThoseThatAreYetToBeShown-1;
+      allSingles[j].style.visibility = "visible";
+      const modulus = allSingles.length;
+      let changeTime;  switch (parent.speedAdjustmentSetting) {
+        case "slow": changeTime = 750; break;
+        case "fast": changeTime = 250; break;
+        default:     changeTime = 500;
+      }
+      new SuperTimeout(showNextOneImmediately,changeTime*2+1000);
+      function showNextOneImmediately() {
+        if (numberOfThoseThatAreYetToBeShown>0) { numberOfThoseThatAreYetToBeShown--;
+          const current = j%modulus; const next = (j+1)%modulus;
+          allSingles[current].style.visibility = "hidden";
+          allSingles[next].style.visibility = "visible";
+          j++;
+          new SuperTimeout(showNextOneImmediately,changeTime);
+        } else {  resolve();  }
+      }
+    } else { // All «singles» images have been displayed at least once
+      resolve();
+    }
+  });
 }
 
 /* ___SPEECH RECOGNITION___ */
@@ -392,6 +428,7 @@ function speakToTheMic() {
 
 function stopListeningAndProceedToNext() {
   if (!userHasGivenUp) { // Real success of speech recognition
+    tickUntilSuccessHappens.clear(); quicklyShowAllRemainingSingles().then(nowItIsOkToExit);
     successTone.play(); fullVpDarkBlue.style.animationPlayState = "running"; containerOfSingles.classList.add("brightenUp");
     if (canVibrate) {  navigator.vibrate([14, 133, 12, 111, 12, 133, 20]);  } // See js_for_every_single_html.js for canVibrate
     preventGiveUpButtonIfSuccessHappens.clear(); // Used to be clearTimeout(preventGiveUpButtonIfSuccessHappens); // i.e. without supertimeout.js
@@ -427,16 +464,18 @@ function stopListeningAndProceedToNext() {
   /* GET READY TO EXIT THIS LESSON */
   let endTime;
   switch (parent.speedAdjustmentSetting) { case "slow": endTime = 5000; break;    case "fast": endTime = 3000; break;    default: endTime = 4000; }
-  new SuperTimeout(function() { showGlobyPreloaderBeforeExit(); },endTime-1500); // See js_for_all_iframed_lesson_htmls AND See css_for_preloader_and_orbiting_circles
-  // REMEMBER: iframe.src change makes window.onbeforeunload fire in js_for_all_iframed_lesson_htmls.js which then calls unloadTheSoundsOfThisLesson();
-  parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost = "/lessons_in_iframes/level_2/unit_1/lesson_2/index.html"; // See js_for_online_and_offline_modes
-  // --- HANDLE ONLINE and OFFLINE cases
-  if (parent.internetConnectivityIsNiceAndUsable) { // See js_for_online_and_offline_modes.js
-    new SuperTimeout(function() { parent.ayFreym.src = parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost; },endTime); // See js_for_all_iframed_lesson_htmls » onbeforeunload
-  } else { parent.console.warn("THE DEVICE IS OFFLINE (detected at the end of lesson");
-    const isCached = checkIfNextLessonIsCachedAndRedirectIfNot(212); // See js_for_all_iframed_lesson_htmls
-    if (isCached) { parent.console.warn("WILL TRY TO CONTINUE OFFLINE");
+  function nowItIsOkToExit() {
+    new SuperTimeout(function() { showGlobyPreloaderBeforeExit(); },endTime-1500); // See js_for_all_iframed_lesson_htmls AND See css_for_preloader_and_orbiting_circles
+    // REMEMBER: iframe.src change makes window.onbeforeunload fire in js_for_all_iframed_lesson_htmls.js which then calls unloadTheSoundsOfThisLesson();
+    parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost = "/lessons_in_iframes/level_2/unit_1/lesson_2/index.html"; // See js_for_online_and_offline_modes
+    // --- HANDLE ONLINE and OFFLINE cases
+    if (parent.internetConnectivityIsNiceAndUsable) { // See js_for_online_and_offline_modes.js
       new SuperTimeout(function() { parent.ayFreym.src = parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost; },endTime); // See js_for_all_iframed_lesson_htmls » onbeforeunload
+    } else { parent.console.warn("THE DEVICE IS OFFLINE (detected at the end of lesson");
+      const isCached = checkIfNextLessonIsCachedAndRedirectIfNot(212); // See js_for_all_iframed_lesson_htmls
+      if (isCached) { parent.console.warn("WILL TRY TO CONTINUE OFFLINE");
+        new SuperTimeout(function() { parent.ayFreym.src = parent.pathOfWhatWillBeDisplayedUnlessInternetConnectivityIsLost; },endTime); // See js_for_all_iframed_lesson_htmls » onbeforeunload
+      }
     }
   }
   // ---

@@ -175,18 +175,26 @@ function startTheLesson() {
 let to1,to2,to3,to4;
 let howManySaysFinished = 0;
 function playTheLoopingVoiceInstruction() {
-  let sayTime;  switch (parent.speedAdjustmentSetting) {  case "slow": sayTime = 8000; break;  case "fast": sayTime = 4000; break;  default: sayTime = 6000;  }
+  let sayTime; // Use an average value and run tests to fine adjust via trial error
+  function updateSayTime() { switch (parent.speedAdjustmentSetting) {  case "slow": sayTime = 6000; break;  case "fast": sayTime = 3000; break;  default: sayTime = 4500;  }  }
   loopingTalk();
   function loopingTalk() {
-    say1.play(); injectTextIntoTheHelpBoxP.innerHTML = translation;
-    to1 = new SuperTimeout(function () { say2.play(); }, sayTime); // Clear this timeout as soon as the gameplay starts
-    to2 = new SuperTimeout(function () { say3.play(); }, sayTime*2); // Clear this timeout as soon as the gameplay starts
-    to3 = new SuperTimeout(function () { say4.play(); }, sayTime*3); // Clear this timeout as soon as the gameplay starts
-    // Exit the loop by not calling any further repetition
-    to4 = new SuperTimeout(function () {
+    updateSayTime(); // Use an average value and run tests to fine adjust via trial error
+    say1.play(); injectTextIntoTheHelpBoxP.innerHTML = translation; console.log("Says «eat!»");
+    to1 = new SuperTimeout(proceed_1, sayTime-500); // Clear this timeout as soon as the gameplay starts
+    function proceed_1() { say2.play(); updateSayTime();
+      to2 = new SuperTimeout(proceed_2, sayTime+2500); // Clear this timeout as soon as the gameplay starts
+    }
+    function proceed_2() { say3.play(); updateSayTime();
+      to3 = new SuperTimeout(proceed_3, sayTime+111); // Clear this timeout as soon as the gameplay starts
+    }
+    function proceed_3() { say4.play(); updateSayTime();
+      to4 = new SuperTimeout(restartIfMust, sayTime+3500); // Clear this timeout as soon as the gameplay starts
+    }
+    function restartIfMust() {
       howManySaysFinished++; //parent.console.log("howManySaysFinished=" + howManySaysFinished);
-      if (howManySaysFinished<4) {  loopingTalk();  }
-    }, sayTime*4+2500); // Clear this timeout as soon as the gameplay starts
+      if (howManySaysFinished<4) {  loopingTalk();  } else {  } // Exit the loop by not calling any further repetition
+    }
   }
 }
 
