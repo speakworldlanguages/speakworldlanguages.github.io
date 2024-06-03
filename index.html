@@ -45,10 +45,10 @@
     <script defer src="/js_reusables/js_for_info_boxes_in_parent.js">/*[Your progress will be saved] box and [Your progress has been loaded] box*/</script>
     <script defer src="/js_for_cache_handling/0_parent_initial_load_and_111.js">/*Get the files in advance to minimize waiting time - The latter caching will be handled from within each iframed html*/</script>
 
-    <!-- <script defer src="/js_reusables/js_for_pwa.js">/*IN THE FUTURE: Progressive Web App - Handle installation*/</script> -->
+    <!-- <script defer src="/pwa/js_for_pwa.js">/*IN THE FUTURE: Progressive Web App - Handle installation*/</script> -->
     <!--  -->
-    <!-- Firebase : WARN-ING Code is outdated -->
-    <!-- <script type="module" src="/pwa/notify_en.js"></script> -->
+    <!-- Firebase -->
+    <script defer async type="module" src="/pwa/firebase.js"></script>
     <!--  -->
     <!-- SOLVED: THERE USED TO BE A CONFLICT between eruda and the canvas element, probably because they both used "ctx" as the variable name -->
     <!-- Uncomment the following to be able to use the browser console on mobile devices. CAUTION: iframes must use parent.console.log -->
