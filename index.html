@@ -152,7 +152,7 @@
             <!-- As of 2023 putonghua dialect chosen automatically -->
             <button name="zh"  id="" style="opacity:0.55; pointer-events:none;">Chinese (coming soon)</button> <!-- Renmen Language (Chinese) -->
             <!-- As of 2023 istanbul dialect chosen automatically -->
-            <!-- <button name="tr"  id="">Kishi Language (Turkish)</button> -->
+            <button name="tr"  id="" style="opacity:0.55; pointer-events:none;">Turkish (coming soon)</button> <!-- Kishi Language (Turkish) -->
             <!-- <button name="ar"  id="">Annaas Language (Arabic)</button> -->
             <!-- Leute Language (German) -->
             <!-- <button name="de"  id="" style="opacity:0.55; pointer-events:none;">German (coming soon)</button> -->
@@ -248,6 +248,38 @@
     <script>let secretCounter=0; function adminAccess() { secretCounter++; if (secretCounter>4) { document.body.removeChild(document.getElementById('removeThisID')); } }</script>
     -->
     <!-- END OF WHAT TO DISPLAY DURING APP MAINTENANCE -->
+
+    <!-- SECRET WAY TO ACCESS CONSOLE ON MOBILES -->
+    <script>
+      let secretCounterIsAt=0; let counterResetInterval=null; const consoleActivatorScript = document.createElement("script");
+      if ('ontouchend' in window) {
+        document.body.addEventListener("touchend",handleActivationOfEruda);
+        counterResetInterval=setInterval(function () {   secretCounterIsAt=0;   }, 4444);
+      }
+
+      function handleActivationOfEruda(event) {
+        if (event.touches.length > 3 ) {
+          secretCounterIsAt++;
+          // -
+          if (secretCounterIsAt>4) {
+            document.body.removeEventListener("touchend",handleActivationOfEruda);
+            clearInterval(counterResetInterval);
+            alert("Activating console");
+            setTimeout(function () {
+                alert("Getting eruda");
+                consoleActivatorScript.src = "/third_party_js/eruda.js";
+                document.body.appendChild(consoleActivatorScript);
+                let erudaLoadCheckInterval = setInterval(function () {
+                  eruda.init();
+                  alert("eruda initialized"); // Why is it that this never fires on mobile, even though it fires on desktop?
+                  clearInterval(erudaLoadCheckInterval);
+                }, 1000);
+            }, 100);
+          }
+        }
+      }
+    </script>
+    <!-- END OF SECRET WAY TO ACCESS CONSOLE ON MOBILES -->
 
   </body>
 </html>
