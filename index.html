@@ -270,9 +270,11 @@
                 consoleActivatorScript.src = "/third_party_js/eruda.js";
                 document.body.appendChild(consoleActivatorScript);
                 let erudaLoadCheckInterval = setInterval(function () {
-                  eruda.init();
-                  alert("eruda initialized"); // Why is it that this never fires on mobile, even though it fires on desktop?
-                  clearInterval(erudaLoadCheckInterval);
+                  try {
+                    eruda.init();
+                    alert("eruda initialized"); // Why is it that this never fires on mobile, even though it fires on desktop?
+                    clearInterval(erudaLoadCheckInterval);
+                  } catch (e) { }
                 }, 1000);
             }, 100);
           }
