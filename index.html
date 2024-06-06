@@ -252,8 +252,8 @@
     <!-- SECRET WAY TO ACCESS CONSOLE ON MOBILES -->
     <script>
       let secretCounterIsAt=0; let counterResetInterval=null; const consoleActivatorScript = document.createElement("script");
-      if ('ontouchend' in window) {
-        document.body.addEventListener("touchend",handleActivationOfEruda);
+      if ('ontouchstart' in window) {
+        document.body.addEventListener("touchstart",handleActivationOfEruda);
         counterResetInterval=setInterval(function () {   secretCounterIsAt=0;   }, 4444);
       }
 
@@ -262,7 +262,7 @@
           secretCounterIsAt++;
           // -
           if (secretCounterIsAt>4) {
-            document.body.removeEventListener("touchend",handleActivationOfEruda);
+            document.body.removeEventListener("touchstart",handleActivationOfEruda);
             clearInterval(counterResetInterval);
             alert("Activating console");
             setTimeout(function () {
