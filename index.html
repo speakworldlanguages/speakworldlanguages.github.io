@@ -51,9 +51,24 @@
     <script defer async type="module" src="/pwa/firebase.js"></script>
     <!--  -->
     <!-- SOLVED: THERE USED TO BE A CONFLICT between eruda and the canvas element, probably because they both used "ctx" as the variable name -->
-    <!-- Uncomment the following to be able to use the browser console on mobile devices. CAUTION: iframes must use parent.console.log -->
-    <!-- <script src="/third_party_js/eruda.js"></script> -->
-    <!-- <script>eruda.init();</script> -->
+    <!-- August 2024: Will use eruda from cdn instead of loading from local js file | CAUTION: iframes must still use parent.console.log -->
+    <script>
+      window.addEventListener("DOMContentLoaded",handleMobileConsole,{once:true});
+      function handleMobileConsole() {
+        if (window.location.search) {
+          if (window.location.search.includes('debug')) {
+              console.log('Activating portable debug console');
+              const consoleActivatorScript = document.createElement("script"); consoleActivatorScript.async = false; document.body.appendChild(consoleActivatorScript); // Add the script to the DOM
+              consoleActivatorScript.src = "https://cdn.jsdelivr.net/npm/eruda";
+              // Ensure eruda.init() is called once the script is loaded
+              consoleActivatorScript.onload = function() {
+                  eruda.init();
+                  console.log("Eruda has been initialized.");
+              };
+          } else {}  // Query exists but is irrelevant - Do nothing
+        } else {} // No query - Do nothing
+      }
+    </script>
 
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -248,40 +263,6 @@
     <script>let secretCounter=0; function adminAccess() { secretCounter++; if (secretCounter>4) { document.body.removeChild(document.getElementById('removeThisID')); } }</script>
     -->
     <!-- END OF WHAT TO DISPLAY DURING APP MAINTENANCE -->
-
-    <!-- SECRET WAY TO ACCESS CONSOLE ON MOBILES -->
-    <script>
-      let secretCounterIsAt=0; let counterResetInterval=null; const consoleActivatorScript = document.createElement("script");
-      if ('ontouchstart' in window) {
-        document.body.addEventListener("touchstart",handleActivationOfEruda);
-        counterResetInterval=setInterval(function () {   secretCounterIsAt=0;   }, 4444);
-      }
-
-      function handleActivationOfEruda(event) {
-        if (event.touches.length > 3 ) {
-          secretCounterIsAt++;
-          // -
-          if (secretCounterIsAt>4) {
-            document.body.removeEventListener("touchstart",handleActivationOfEruda);
-            clearInterval(counterResetInterval);
-            alert("Activating console");
-            setTimeout(function () {
-                alert("Getting eruda");
-                consoleActivatorScript.src = "/third_party_js/eruda.js";
-                document.body.appendChild(consoleActivatorScript);
-                let erudaLoadCheckInterval = setInterval(function () {
-                  try {
-                    eruda.init();
-                    alert("eruda initialized"); // Why is it that this never fires on mobile, even though it fires on desktop?
-                    clearInterval(erudaLoadCheckInterval);
-                  } catch (e) { }
-                }, 1000);
-            }, 100);
-          }
-        }
-      }
-    </script>
-    <!-- END OF SECRET WAY TO ACCESS CONSOLE ON MOBILES -->
 
   </body>
 </html>
