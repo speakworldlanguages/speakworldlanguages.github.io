@@ -104,6 +104,7 @@ window.addEventListener('DOMContentLoaded', function(){
   if (detectedOS_name == "macos") {
     // DECIDE: Desktop Safari supports playing webm but Mobile Safari doesn't.
     // Should we use mp3 for Desktop Safari too???? ???? ???? YES IF it runs faster and hover sounds are accurate
+    // New test with Safari 17.3 in August 2024
     // console.warn("Will use HTML5 Audio instead of Web Audio on Mac OS");
     // try {
     //   Howler.usingWebAudio = false; // force html5 // Otherwise every alert mutes and unmutes all the sounds and it keeps toggling like that (at least with webm)
@@ -347,7 +348,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
         // ---Permission handling---
         // These will be executed only when testAnnyangAndAllowMic is called » when a welcome screen button is touched/clicked
         // Safari 16.0 ~ 16.3 SUPPORT Permissions API without supporting [PermissionStatus change event]
-        // Safari 16.4 has full support with the change event
+        // Safari 16.4 has SEEMS TO HAVE full support with the change event but tests has proven otherwise that is if my memory is correct
         let changeEventIsSupported = true;
         if ("permissions" in navigator) {
             console.log("Both SpeechRecognition and PermissionStatus are supported");
@@ -375,6 +376,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
               // Special workaround method is required for Safari 16.0 ~ 16.3 according to caniuse: Check Safari versions that support onchange
               try {
+                console.log('Will now  add the event listener to detect any change about microphone permission');
                 result2.onchange = function(event) {   proceedAccordingToUsersChoiceAboutMicPermission(event);  return true;   };
               } catch (e) {
                 console.error("Couldn't add event listener for mic permission via onchange: " + e);
@@ -382,8 +384,8 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                 if (result2.onchange) {
                   console.log("onchange appears to be supported");
                   // INDEED: Tested on MacOS with Safari 16.6 and it did not respond to the change when [allow] button was clicked!!!
-                  if (isSafari) { console.log("but this is Safari and it could be lying");
-                    changeEventIsSupported = false; // Thankfully: We can still react to user's choice
+                  if (isSafari) { console.log("but this is Safari and it could be lying ... remember that 16.4 was lying");
+                    //Let's test Safari 17.3 >>> changeEventIsSupported = false; // Thankfully: We can still react to user's choice
                   }
                 } else {
                   console.warn("onchange is not supported for PermissionStatus object");
@@ -392,7 +394,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                   // Handle the case where the change event is not supported
                   changeEventIsSupported = false; // So that, when user has made a choice, we can use the setInterval to detect it
                 }
-              }
+              } // END OF finally
 
               // _______
 
@@ -488,14 +490,18 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
         if (true) { // Can handle Safari if need be by using !isApple
           if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { // According to caniuse this should work in every popular browser
             setTimeout(function () {
+              console.log('Attempting to turn on the mic via getUserMedia,,, so that the permission dialog is triggered');
               navigator.mediaDevices.getUserMedia({ audio: true })  // Make the prompt show
                 .then(function (stream) {
+                        console.log('Dialog triggering seems to be successful');
                          // Detect user's answer even if change event is not supported » Safari
-                        handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEvent(); // Safari lies as it appears to support it but the event actually never fires
+                        //handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEvent(); // Safari lies as it appears to support it but the event actually never fires
                         setTimeout(function () {
+                          console.log('Attempting to turn off the mic');
                           const tracks = stream.getTracks();
                           tracks.forEach(track => track.stop());
                           stream = null; // Release the stream
+                          console.log('Mic should be turned off now');
                           // CONSIDER: Test and check if the prompt will block the execution of setTimeout and prevent mic-turn-off
                           // If it does then make sure mic-turn-off is performed (or reperformed) when onchange fires as a result of touching|clicking [ALLOW]
                           // See proceedAccordingToUsersChoiceAboutMicPermission
