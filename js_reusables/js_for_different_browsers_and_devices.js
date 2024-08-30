@@ -39,8 +39,7 @@ function tryToPreventScreenSleep() {
   }).catch(error => {console.log(error);});
 }
 
-if ('wakeLock' in navigator) {  tryToPreventScreenSleep();  } // Also see js_for_all_iframed_lesson_htmls and js_for_navigation_handling
-// Also see visibilitychange below to see how wake-lock is reacquired after being lost due to tab navigation or pressing the OFF button
+
 
 window.addEventListener('DOMContentLoaded', function(){
   const ua = navigator.userAgent;
@@ -87,6 +86,9 @@ window.addEventListener('DOMContentLoaded', function(){
   // HERE WE DON'T NEED TO WAIT FOR window.load to correctly access deviceDetector
   if (deviceDetector.isMobile) { // Let's allow bubbling by omitting event.stopPropagation();
     window.ontouchstart = function(event) {     event.preventDefault();     return false;    }; // It looks like this is working...
+    // ---
+    if ('wakeLock' in navigator) {  tryToPreventScreenSleep();  } // Also see js_for_all_iframed_lesson_htmls and js_for_navigation_handling
+    // Also see visibilitychange below to see how wake-lock is reacquired after being lost due to tab navigation or pressing the OFF button
   } else { } // We need the right click menu on desktops » it opens the [start-fullscreen-mode] box
 
   /* DESPITE: Being sick of writing extra code to handle Apple */
@@ -102,9 +104,12 @@ window.addEventListener('DOMContentLoaded', function(){
   }
   // -
   if (detectedOS_name == "macos") {
+    // Code for MacOS
+
     // DECIDE: Desktop Safari supports playing webm but Mobile Safari doesn't.
-    // Should we use mp3 for Desktop Safari too???? ???? ???? YES IF it runs faster and hover sounds are accurate
-    // New test with Safari 17.3 in August 2024
+    // Should we use mp3 for Desktop Safari too??? YES IF it runs faster and hover sounds are accurate
+    // DECISION: After testing with Safari 17.6 in August 2024 we will go without HTML5 Audio
+    // Therefore the following is DEPRECATED:
     // console.warn("Will use HTML5 Audio instead of Web Audio on Mac OS");
     // try {
     //   Howler.usingWebAudio = false; // force html5 // Otherwise every alert mutes and unmutes all the sounds and it keeps toggling like that (at least with webm)
@@ -196,6 +201,7 @@ window.addEventListener('DOMContentLoaded', function(){
     // According to caniuse
     // Safari 16.0 ~ 16.3 SUPPORT Permissions API without supporting [PermissionStatus change event]
     // Safari 16.4 ~ 16.6 appear to have full support with the change event but change event doesn't fire at all
+    // Update August 2024: As of Safari 17.6 the problem persists
     // Get the current status for mic from the browser
     const micPermissionPromise = navigator.permissions.query({name:'microphone'});
     micPermissionPromise.then(function(result1) { // Handle Windows & Android ...mainly Chrome
@@ -348,7 +354,8 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
         // ---Permission handling---
         // These will be executed only when testAnnyangAndAllowMic is called » when a welcome screen button is touched/clicked
         // Safari 16.0 ~ 16.3 SUPPORT Permissions API without supporting [PermissionStatus change event]
-        // Safari 16.4 has SEEMS TO HAVE full support with the change event but tests has proven otherwise that is if my memory is correct
+        // Safari 16.4 has SEEMS TO HAVE full support with the change event but tests has proven otherwise
+        // August 2024: Safari 17.6 still has the same problem
         let changeEventIsSupported = true;
         if ("permissions" in navigator) {
             console.log("Both SpeechRecognition and PermissionStatus are supported");
@@ -376,16 +383,16 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
               // Special workaround method is required for Safari 16.0 ~ 16.3 according to caniuse: Check Safari versions that support onchange
               try {
-                console.log('Will now  add the event listener to detect any change about microphone permission');
-                result2.onchange = function(event) {   proceedAccordingToUsersChoiceAboutMicPermission(event);  return true;   };
+                console.log('Will now set the event listener to detect any change about microphone permission');
+                result2.onchange = function(event) { console.log('Change event fired!');   proceedAccordingToUsersChoiceAboutMicPermission(event);  return true;   };
               } catch (e) {
                 console.error("Couldn't add event listener for mic permission via onchange: " + e);
               } finally {
                 if (result2.onchange) {
                   console.log("onchange appears to be supported");
-                  // INDEED: Tested on MacOS with Safari 16.6 and it did not respond to the change when [allow] button was clicked!!!
-                  if (isSafari) { console.log("but this is Safari and it could be lying ... remember that 16.4 was lying");
-                    //Let's test Safari 17.3 >>> changeEventIsSupported = false; // Thankfully: We can still react to user's choice
+                  // INDEED: Tested on MacOS with Safari 16.6 and 17.6 it did not respond to the change when [allow] button was clicked!!!
+                  if (isSafari) { console.log("but this is Safari and it could be lying ... remember that from 16.4 to 17.6 it was lying");
+                    //Let's test Safari 17.6 >>> changeEventIsSupported = false; // Thankfully: We can still react to user's choice
                   }
                 } else {
                   console.warn("onchange is not supported for PermissionStatus object");
