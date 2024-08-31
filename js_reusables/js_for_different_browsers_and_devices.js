@@ -289,7 +289,6 @@ function tellTheUserToChangeOrUpdateTheBrowser() {
 /*________________window LOAD___________________*/
 let allowMicrophoneBlinker;
 var pleaseAllowSound; // Also used in lessons as "Hey! New lesson is loaded" sound to recapture wandering user's attention when was viewing another browser tab
-// PROBALY: We will get away with injecting safariHowToPermanentlyAllowMicP into the allowMicrophoneBlinker
 let safariHowToPermanentlyAllowMicP = document.createElement("P"); safariHowToPermanentlyAllowMicP.innerHTML = "…"; // If this method fails then create a new box in js_for_info_boxes_in_parent » Remember to use "var" instead of "let" if that happens
 let micPermissionHasChangedToGrantedSound;
 
@@ -316,15 +315,14 @@ function handleSafariMicHowToTexts(receivedTxt) {
   }
   // NOTE: When iPhone user runs the app from his homescreen THERE IS NO ADDRESS BAR and it's FULLSCREEN
   // Still mic access can be allowed permanently by going to iPhone device settings->Safari settings->Microphone and allowing mic for all web sites: Not that it is TROUBLESOME
-  // -
+
   // wrap method seems to work for positioning the second line of text inside the div
   allowMicrophoneBlinker.style.flexWrap = "wrap"; // Rather than » allowMicrophoneBlinker.style.flexDirection = "column";
-  // August 2024
-  //CREATE A DEDICATED [ok] BOX INSTEAD OF allowMicrophoneBlinker.appendChild(safariHowToPermanentlyAllowMicP);
+  // PREVIOUSLY: We tried getting away with injecting safariHowToPermanentlyAllowMicP into the allowMicrophoneBlinker
 
-  // As of Safari 17.6 reappearing permission prompt bug seems to be fixed on MacOS
-  // If it is also solved on iPad and iOS then there is no need for 0-allow_microphone_permanently_on_safari.txt
-  // TEST RESULT: The problem persists on iPad AppleChrome
+  // August 2024: As of Safari 17.6 reappearing permission prompt bug seems to be fixed on MacOS
+  // BUT: It is not solved on iPad and iOS so there is still need for 0-allow_microphone_permanently_on_safari.txt
+  // NOTE: The problem persists both on iPad-Safari and iPad-AppleChrome
 
 }
 
@@ -446,7 +444,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                 const newPermissionState = event.target.state;
                 if (newPermissionState === 'granted') {
                   console.log('Microphone permission STATE has CHANGED TO GRANTED.');
-                  setTimeout(() => { micPermissionHasChangedToGrantedSound.play(); }, 150); // For some reason this sound usually doesn't play on Android
+                  setTimeout(() => { micPermissionHasChangedToGrantedSound.play(); }, 150); // For some reason this sound usually doesn't play on Android // Can it be because unload is called too early?
                   localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes"; // Prevent all future prompts
                   if (!isApple) { // August 2024: We will not let auto fullscreen be used on iPad
                     mobileCanGoFullscreenNow = true; // For a first-time-user who has just touched|clicked [Allow] // See js_for_handling_fullscreen_mode » handleTouchForFullscreen
