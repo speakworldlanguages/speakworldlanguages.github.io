@@ -80,6 +80,14 @@ window.addEventListener('DOMContentLoaded', function(){
       deviceDetector.device = "phone"; deviceDetector.isMobile = true;
     } else {
       // As of UA-parser-js 2.0.0 Safari on iPad is misrecognized as DESKTOP while AppleChrome on the same iPad is recognized correctly as a tablet/mobile device
+      // Recommended by AI
+      if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
+        if (screen.width > 414) { console.warn('iPad detected despite misleading userAgent');
+          deviceDetector.device = "tablet"; deviceDetector.isMobile = true; // probably iPad
+        } else { console.warn('iPhone detected despite misleading userAgent');
+          deviceDetector.device = "phone"; deviceDetector.isMobile = true; // probably iPhone
+        }
+      }
     } // Do not change the defaults and assume that it is a desktop
   }
 
