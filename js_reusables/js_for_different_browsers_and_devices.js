@@ -541,7 +541,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
               console.log('Attempting to turn on the mic via getUserMedia,,, so that the permission dialog is triggered');
               navigator.mediaDevices.getUserMedia({ audio: true })  // Make the prompt show
                 .then(function (stream) {
-                        console.log('Dialog triggering seems to be successful');
+                        console.log('Dialog triggering seems to be successful'); // On Windows this fires after change event // Precisely speaking, it fires right after the console prints 'Microphone permission STATE has CHANGED TO GRANTED'
                         // Detect user's answer even if [PermissionStatus API: change event] is not really supported by Safari
                         // Until August 2024 we did: handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEventUsingIntervalCheck();
                         // August 2024:
@@ -561,12 +561,12 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                           // ---
                           if (deviceDetector.isMobile) { // iPad and iPhone
                             console.log('This is an iPad or an iPhone');
-                            // CREATE A MODAL BOX THAT SAYS: You must go to settings and allow mic permanently
+                            // CREATE A MODAL BOX THAT SAYS: You must go to settings and allow mic permanently // Avoid using ALERT or CONFIRM on Apple
 
                             // ONCE THE MODAL BOX IS CLOSED: Call turnOFFgetUserMediaMic()
                           } else { // Mac OS
                             console.log('This is a Mac');
-                            setTimeout(turnOFFgetUserMediaMic, 100); // Quickly call turnOFFgetUserMediaMic()
+                            setTimeout(turnOFFgetUserMediaMic, 1000); // Quickly call turnOFFgetUserMediaMic()
                             setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
                           }
                           // ---
