@@ -52,44 +52,14 @@
     <!--  -->
     <!-- SOLVED: THERE USED TO BE A CONFLICT between eruda and the canvas element, probably because they both used "ctx" as the variable name -->
     <!-- August 2024: Will use eruda from cdn instead of loading from local js file | CAUTION: iframes must still use parent.console.log -->
-<!--
-    <script>
-      window.addEventListener("DOMContentLoaded",handleMobileConsole,{once:true});
-      function handleMobileConsole() {
-        if (window.location.search) {
-          if (window.location.search.includes('debug')) {
-              console.log('Activating portable debug console');
-              const consoleActivatorScript = document.createElement("script"); consoleActivatorScript.async = false; document.body.appendChild(consoleActivatorScript); // Add the script to the DOM
-              consoleActivatorScript.src = "https://cdn.jsdelivr.net/npm/eruda";
-              // Ensure eruda.init() is called once the script is loaded
-              consoleActivatorScript.onload = function() {
-                  eruda.init();
-                  console.log("Eruda has been initialized.");
-              };
-          } else {}  // Query exists but is irrelevant - Do nothing
-        } else {} // No query - Do nothing
-      } // End of handleMobileConsole
-    </script>
--->
-<!--
-    <script>
-    if (window.location.search) {
-      if (window.location.search.includes('debug')) {
-        this.onload = function() { eruda.init(); console.log("Eruda has been initialized."); };
-        this.src = "https://cdn.jsdelivr.net/npm/eruda";
-      }
-    }
-    </script>
--->
-    <!-- <script> eruda.init(); </script> -->
 
     <script>
-    if (window.location.search && window.location.search.includes('debug')) {
-      var script = document.createElement('script');
-      script.onload = function() {        eruda.init();        console.log("Eruda has been initialized.");      };
-      script.src = "https://cdn.jsdelivr.net/npm/eruda";
-      document.head.appendChild(script);
-    }
+      if (window.location.search && window.location.search.includes('debug')) {
+        const scriptToEnableMobileConsole = document.createElement('script');
+        scriptToEnableMobileConsole.onload = function() {        eruda.init();        console.log("Eruda has been initialized.");      };
+        scriptToEnableMobileConsole.src = "https://cdn.jsdelivr.net/npm/eruda";
+        document.head.appendChild(scriptToEnableMobileConsole);
+      }
     </script>
 
 
