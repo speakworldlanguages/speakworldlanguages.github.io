@@ -78,7 +78,9 @@ window.addEventListener('DOMContentLoaded', function(){
       deviceDetector.device = "tablet"; deviceDetector.isMobile = true;
     } else if (parser.getDevice().type.toLowerCase() == "mobile") {
       deviceDetector.device = "phone"; deviceDetector.isMobile = true;
-    } else { } // Do not change the defaults and assume that it is a desktop
+    } else {
+      // As of UA-parser-js 2.0.0 Safari on iPad is misrecognized as DESKTOP while AppleChrome on the same iPad is recognized correctly as a tablet/mobile device
+    } // Do not change the defaults and assume that it is a desktop
   }
 
   // DISABLE ALL LONG-TOUCH-MENUs on mobiles
@@ -310,7 +312,7 @@ function handleSafariMicHowToTexts(receivedTxt) {
   // As of Safari 17.6 reappearing permission prompt bug seems to be fixed on MacOS
   // If it is also solved on iPad and iOS then there is no need for 0-allow_microphone_permanently_on_safari.txt
   // TEST RESULT: The problem persists on iPad AppleChrome
-  
+
 }
 
 const blockAllClicksAndHoversDIV = document.createElement("DIV"); // During mic permission prompt
