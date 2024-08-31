@@ -249,7 +249,7 @@ footer{
 .letYouMustAllowMicrophoneDialogAppearDesktop{
   /* margin-top: calc(0vh + 50px); */
   transform: translate(-50%,calc(-50% + 150px)); /* For Chorme move it at least 50px downwards after centering it, because desktop Chrome's prompt box hangs from top and is about 50px high*/
-  /*Let's see if 150px works with Safari and AppleChrome*/
+  /*Let's see if 150px works with Safari and AppleChrome --- RESULT: Nice enough on MacOS Safari*/
 }
 .letYouMustAllowMicrophoneDialogDisappear{
   /* margin-top:-100vh;  */

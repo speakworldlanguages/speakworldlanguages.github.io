@@ -307,9 +307,8 @@ function handleSafariMicHowToTexts(receivedTxt) {
   // August 2024
   //CREATE A DEDICATED [ok] BOX INSTEAD OF allowMicrophoneBlinker.appendChild(safariHowToPermanentlyAllowMicP);
 
-
-
-
+  // As of Safari 17.6 reappearing permission prompt bug seems to be fixed on MacOS
+  // If it is also solved on iPad and iOS then there is no need for 0-allow_microphone_permanently_on_safari.txt
 }
 
 const blockAllClicksAndHoversDIV = document.createElement("DIV"); // During mic permission prompt
