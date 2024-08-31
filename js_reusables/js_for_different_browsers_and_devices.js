@@ -608,7 +608,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                                 }
                             });
                         }
-                        /*
+                        /* OLDER PREVIOUS CODE
                         function turnOFFgetUserMediaMic() {
                           console.log('Attempting to turn off the mic');
                           const tracks = stream.getTracks();
