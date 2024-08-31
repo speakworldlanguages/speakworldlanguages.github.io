@@ -504,8 +504,8 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
         // THERE ARE TWO WAYS TO PROMPT AND DISPLAY ALLOW MICROPHONE DIALOG BOX
         // 1- getUserMedia
         // 2- SpeechRecognition
-        if (true) { // Can handle Safari if need be by using !isApple
-          if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { // According to caniuse this should work in every popular browser
+        if (navigator.mediaDevices) { // Handle Safari below either by using !isApple or !isSafari
+          if (navigator.mediaDevices.getUserMedia) { // According to caniuse this should work in every popular browser
             setTimeout(function () {
               console.log('Attempting to turn on the mic via getUserMedia,,, so that the permission dialog is triggered');
               navigator.mediaDevices.getUserMedia({ audio: true })  // Make the prompt show
@@ -529,11 +529,15 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                               });
                             } // End of if ("permissions" in navigator)
 
-                            alert('If you dont want ... Safari ... allow permanently');
+
                             // When the setting is changed anyhow
                             removeAllowMicrophoneBlinkerSoftly(); // With nice animation » Should work both on mobile and desktop
-                            // The first lesson may start in 1502ms
-                            setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
+
+                            setTimeout(function () {
+                              alert('If you dont want ... Safari ... allow permanently');
+                              // The first lesson may start in 1502ms
+                              setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
+                            }, 2000);
 
                           }
                           // CONSIDER: Test and check if the prompt will block the execution of setTimeout and prevent mic-turn-off
