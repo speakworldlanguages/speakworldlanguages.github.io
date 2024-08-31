@@ -567,11 +567,14 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                               turnOFFgetUserMediaMic().then(() => {
                                   console.log('Mic has been successfully turned off.');
                                   if ("permissions" in navigator) {
-                                    const micPermissionPromise2Apple = navigator.permissions.query({name:'microphone'});
-                                    micPermissionPromise2Apple.then(function(result5) {
-                                      console.log('After turning the mic OFF, mic permission state is set to '+result5.state);
-                                      if (result5.state == 'prompt') { alert('sadly the permission was not permanent'); }
-                                    });
+                                    setTimeout(function () {
+                                      const micPermissionPromise2Apple = navigator.permissions.query({name:'microphone'});
+                                      micPermissionPromise2Apple.then(function(result5) {
+                                        console.log('After turning the mic OFF, mic permission state is set to '+result5.state); // still granted
+                                        // if (result5.state == 'prompt') { alert('sadly the permission was not permanent'); }
+                                        setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },100);
+                                      });
+                                    }, 1500);
                                   } // End of if ("permissions" in navigator)
                               }).catch(error => {
                                   console.error('An error occurred while turning off the mic:', error);
