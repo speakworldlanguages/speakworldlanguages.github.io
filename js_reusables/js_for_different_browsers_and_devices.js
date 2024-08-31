@@ -388,7 +388,10 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                 // 1 - This is a browser that allows microphone usage by default
                 // 2 - Before choosing his first target language user has changed the browser settings to allow microphone
                 // -
-                mobileCanGoFullscreenNow = true; // For a first-time-user whose browser's settings are SOMEHOW already good // See js_for_handling_fullscreen_mode » handleTouchForFullscreen
+                if (!isApple) { // August 2024: We will not let auto fullscreen be used on iPad
+                  mobileCanGoFullscreenNow = true; // For a first-time-user whose browser's settings are SOMEHOW already good // See js_for_handling_fullscreen_mode » handleTouchForFullscreen
+                }
+
                 // -
                 console.log("Mic permission was somehow set to GRANTED without a prompt");
                 removeAllowMicrophoneBlinkerForcedly(); // Immediate HARD REMOVE » Never let anything appear
@@ -445,7 +448,9 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                   console.log('Microphone permission STATE has CHANGED TO GRANTED.');
                   setTimeout(() => { micPermissionHasChangedToGrantedSound.play(); }, 150); // For some reason this sound usually doesn't play on Android
                   localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes"; // Prevent all future prompts
-                  mobileCanGoFullscreenNow = true; // For a first-time-user who has just touched|clicked [Allow] // See js_for_handling_fullscreen_mode » handleTouchForFullscreen
+                  if (!isApple) { // August 2024: We will not let auto fullscreen be used on iPad
+                    mobileCanGoFullscreenNow = true; // For a first-time-user who has just touched|clicked [Allow] // See js_for_handling_fullscreen_mode » handleTouchForFullscreen
+                  }
                   willUserTalkToSpeechRecognition = true; // Necessary: In case user is on an unknown browser that supports "Speech Recognition"
                 } else if (newPermissionState === 'denied') {
                   console.log('Microphone permission STATE has CHANGED TO DENIED.');
@@ -539,7 +544,9 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                           // When the setting is changed anyhow
                           removeAllowMicrophoneBlinkerSoftly(); // With nice animation » Should work both on mobile and desktop
                           localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes"; // Prevent all future prompts
-                          mobileCanGoFullscreenNow = true; // Necessary for iPad,,, iPhone does not allow going fullscreen
+                          // August 2024: We will not let auto fullscreen be used on iPad
+                          // mobileCanGoFullscreenNow = true; // Necessary if iPad should go fullscreen,,, iPhone does not allow going fullscreen anyway
+
 
                           if ("permissions" in navigator) {
                             const micPermissionPromiseApple = navigator.permissions.query({name:'microphone'});
@@ -633,6 +640,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                       console.log("User has chosen OK for microphone");
                       micPermissionHasChangedToGrantedSound.play();
                       localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes"; // Prevent all future prompts
+                      // August 2024: Apple devices won't fall here > If they did we would have to use: if(!isApple){mobileCanGoFullscreenNow = true;}
                       mobileCanGoFullscreenNow = true; // For a first-time-user who has just touched|clicked [Allow] // See js_for_handling_fullscreen_mode » handleTouchForFullscreen
                       willUserTalkToSpeechRecognition = true; // In case user is on an unknown browser that supports "Speech Recognition"
                     }
