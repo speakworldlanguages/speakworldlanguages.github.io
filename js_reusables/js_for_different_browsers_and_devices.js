@@ -346,16 +346,32 @@ function removeAllowMicrophoneBlinkerForcedly() {
 /*---*/
 
 /* __Test microphone and get allowed if need be__ */
+let micPermissionAlreadyGranted = false;
 function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_the_parent_all_browsers_all_devices
   // Check if Speech Recognition API is supported // Note that Opera desktop and Edge have lied by falsely returning true for a while, in 2020 they said yes but didn't.
   if (annyang) {
+
+    if ("permissions" in navigator) {
+      const micPermissionPromise5 = navigator.permissions.query({name:'microphone'});
+      micPermissionPromise5.then(function(result5) { // Get mic permission
+        if (result5.state == 'granted') {
+          // This is a very rare case: It can only happen if
+          // 1 - This is a browser that allows microphone usage by default
+          // 2 - Before choosing his first target language user has changed the browser settings to allow microphone
+          console.log("Mic permission was somehow set to GRANTED without a prompt");
+          micPermissionAlreadyGranted = true;
+        }
+      });
+    }
+    // ---
     // For first-time users, try to get the “allow microphone” issue solved as soon as possible.
     // Skip the allow microphone procedure when the user wants to change the studied language
-    if (localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed) { // There used to be a problem here like a double firing when index.html redirected to ja.html or tr.html shortly after landing because of UI language.
+    if (localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed || micPermissionAlreadyGranted) { // There used to be a problem here like a double firing when index.html redirected to ja.html or tr.html shortly after landing because of UI language.
         console.log("Skipping permission queries... Proceed to startTeaching()");
         startTeaching(nameOfButtonIsWhatWillBeTaught); // Not a fresh user: User must be trying to learn a different language
     } else { // What to do for fresh users who have just chosen their first target language
 
+        // DISPLAY THE APP'S CUSTOM [PLEASE ALLOW] DIV ALONG WITH NATIVE [ALLOWxDO NOT ALLOW] BOX
         const httpORhttps = window.location.protocol.toLowerCase(); // the app's custom "please allow" box must appear only on https (not http)
         // In case of testing on http://localhost we don't want "Allow-Deny" dialog to appear
         if (httpORhttps.search("https") >= 0) {
@@ -401,7 +417,6 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                 console.log("Mic permission was somehow set to GRANTED without a prompt");
                 // removeAllowMicrophoneBlinkerForcedly(); // Immediate HARD REMOVE » Never let anything appear
                 // setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
-                // ?????? RETURN ??????
               } else {
                 // Let the [Please allow] message appear and stay by doing nothing
                 // Use if needed: if (result2.state == 'prompt')
