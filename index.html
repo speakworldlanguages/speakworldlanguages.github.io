@@ -52,6 +52,7 @@
     <!--  -->
     <!-- SOLVED: THERE USED TO BE A CONFLICT between eruda and the canvas element, probably because they both used "ctx" as the variable name -->
     <!-- August 2024: Will use eruda from cdn instead of loading from local js file | CAUTION: iframes must still use parent.console.log -->
+<!--
     <script>
       window.addEventListener("DOMContentLoaded",handleMobileConsole,{once:true});
       function handleMobileConsole() {
@@ -69,7 +70,9 @@
         } else {} // No query - Do nothing
       } // End of handleMobileConsole
     </script>
-
+-->
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script> eruda.init(); </script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script>

@@ -309,6 +309,8 @@ function handleSafariMicHowToTexts(receivedTxt) {
 
   // As of Safari 17.6 reappearing permission prompt bug seems to be fixed on MacOS
   // If it is also solved on iPad and iOS then there is no need for 0-allow_microphone_permanently_on_safari.txt
+  // TEST RESULT: The problem persists on iPad AppleChrome
+  
 }
 
 const blockAllClicksAndHoversDIV = document.createElement("DIV"); // During mic permission prompt
