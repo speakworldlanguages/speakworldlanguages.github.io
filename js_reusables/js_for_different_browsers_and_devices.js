@@ -349,17 +349,6 @@ function removeAllowMicrophoneBlinkerForcedly() {
 function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_the_parent_all_browsers_all_devices
   // Check if Speech Recognition API is supported // Note that Opera desktop and Edge have lied by falsely returning true for a while, in 2020 they said yes but didn't.
   if (annyang) {
-    /* RUBBISH?
-    if ("permissions" in navigator) {
-      const micPermissionPromise5 = navigator.permissions.query({name:'microphone'});
-      micPermissionPromise5.then(function(result5) { // Get mic permission
-        if (result5.state == 'granted') {
-
-        }
-      });
-    }
-    */
-
     // ---
     // For first-time users, try to get the “allow microphone” issue solved as soon as possible.
     // Skip the allow microphone procedure when the user wants to change the studied language
@@ -565,20 +554,33 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                           // August 2024: We will not let auto fullscreen be used on iPad
                           // mobileCanGoFullscreenNow = true; // Necessary if iPad should go fullscreen,,, iPhone does not allow going fullscreen anyway
                           if ("permissions" in navigator) {
-                            const micPermissionPromiseApple = navigator.permissions.query({name:'microphone'});
-                            micPermissionPromiseApple.then(function(result4) {
+                            const micPermissionPromise1Apple = navigator.permissions.query({name:'microphone'});
+                            micPermissionPromise1Apple.then(function(result4) {
                               console.log('In this Apple device, mic permission state is now set to '+result4.state);
                               if (result4.state == 'granted') { micPermissionHasChangedToGrantedSound.play(); }
                             });
                           } // End of if ("permissions" in navigator)
                           // ---
                           if (deviceDetector.isMobile) { // iPad and iPhone
-                            console.log('This is an iPad or an iPhone');
+                            console.log('This is either an iPad or an iPhone'); // Works
+                            setTimeout(function () {
+                              turnOFFgetUserMediaMic().then(() => {
+                                  console.log('Mic has been successfully turned off.');
+                                  if ("permissions" in navigator) {
+                                    const micPermissionPromise2Apple = navigator.permissions.query({name:'microphone'});
+                                    micPermissionPromise2Apple.then(function(result5) {
+                                      console.log('After turning the mic OFF, mic permission state is set to '+result5.state);
+                                      if (result5.state == 'prompt') { alert('sadly the permission was not permanent'); }
+                                    });
+                                  } // End of if ("permissions" in navigator)
+                              }).catch(error => {
+                                  console.error('An error occurred while turning off the mic:', error);
+                              });
+                            }, 1000);
                             // CREATE A MODAL BOX THAT SAYS: You must go to settings and allow mic permanently // Avoid using ALERT or CONFIRM on Apple
 
-                            // ONCE THE MODAL BOX IS CLOSED: Call turnOFFgetUserMediaMic()
                           } else { // Mac OS
-                            console.log('This is a Mac');
+                            console.log('This is a Mac'); // Works
                             setTimeout(turnOFFgetUserMediaMic, 1000); // Quickly call turnOFFgetUserMediaMic()
                             setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
                           }
@@ -590,12 +592,27 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                         }
                         // ---
                         function turnOFFgetUserMediaMic() {
+                            return new Promise((resolve, reject) => {
+                                try {
+                                    console.log('Attempting to turn off the mic');
+                                    const tracks = stream.getTracks();
+                                    tracks.forEach(track => track.stop());
+                                    stream = null; // Release the stream
+                                    console.log('Mic should be turned off now');
+                                    resolve(); // Resolve the promise when the mic is turned off
+                                } catch (error) {
+                                    reject(error); // Reject the promise if an error occurs
+                                }
+                            });
+                        }
+                        /*
+                        function turnOFFgetUserMediaMic() {
                           console.log('Attempting to turn off the mic');
                           const tracks = stream.getTracks();
                           tracks.forEach(track => track.stop());
                           stream = null; // Release the stream
                           console.log('Mic should be turned off now');
-                          /* REDUNDANT
+                          // REDUNDANT
                           // August 2024: Handle Safari not responding to [PermissionStatus API: change event]
 
                           if (isApple) { // isApple instead of isSafari considering the case where Chrome being installed and used on an Apple device
@@ -605,11 +622,12 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                           } else {
                             // Nothing to do here because startTeaching() will be fired via proceedAccordingToUsersChoiceAboutMicPermission()
                           }
-                          */
+
                           // CONSIDER: Test and check if the prompt will block the execution of setTimeout and prevent mic-turn-off
                           // If it does then make sure mic-turn-off is performed (or reperformed) when onchange fires as a result of touching|clicking [ALLOW]
                           // See proceedAccordingToUsersChoiceAboutMicPermission
                         } // END OF turnOFFgetUserMediaMic()
+                        */
                 }) // End of then() block
                 .catch(function (error) {
                   console.error('Error accessing the microphone:', error);
