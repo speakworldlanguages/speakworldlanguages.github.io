@@ -89,6 +89,8 @@ window.addEventListener('DOMContentLoaded', function(){
         }
       }
     } // Do not change the defaults and assume that it is a desktop
+  } else {
+    console.log('ua parser device type does not exist');
   }
 
   // DISABLE ALL LONG-TOUCH-MENUs on mobiles
