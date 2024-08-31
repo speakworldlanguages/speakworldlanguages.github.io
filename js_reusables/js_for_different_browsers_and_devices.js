@@ -79,11 +79,12 @@ window.addEventListener('DOMContentLoaded', function(){
     } else if (parser.getDevice().type.toLowerCase() == "mobile") { console.log('Phone device detected via userAgent');
       deviceDetector.device = "phone"; deviceDetector.isMobile = true;
     } else {
+      console.log('Device type is neither tablet nor phone according to userAgent');
       detectIPADorIOSwithoutUserAgent(); // Even though this is not expected to fire in case of iPad-Safari because getDevice-type is undefined
     } // Do not change the defaults and assume that it is a desktop
   } else {
-    console.log('ua parser device type does not exist'); // Safari 17.6 on iPad falls here
-    detectIPADorIOSwithoutUserAgent(); // August 2024 > Q:Are we saved? A:
+    console.log('ua parser device type does not exist or is undefined'); // Safari 17.6 on iPad falls here
+    detectIPADorIOSwithoutUserAgent(); // August 2024 > Q:Are we saved? A:Yes and will display mobile version of the app on iPad and iPhone even if desktop mode is turned on
   }
 
   function detectIPADorIOSwithoutUserAgent() {
@@ -93,6 +94,8 @@ window.addEventListener('DOMContentLoaded', function(){
       } else { console.log('iPhone detected despite misleading userAgent');
         deviceDetector.device = "phone"; deviceDetector.isMobile = true; // probably iPhone
       }
+    } else {
+      console.log('Leaving device type as DESKTOP which is the default');
     }
   }
 
@@ -363,7 +366,11 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
           } else { // DESKTOPS
             // On desktops create and display a full viewport half opaque DIV to block all hovering and clicking while native allow box is showing
             blockAllClicksAndHoversDIV.classList.add("allowMicDesktopBackground"); document.body.appendChild(blockAllClicksAndHoversDIV); // See css_for_the_container_parent_html
-            allowMicrophoneBlinker.classList.add("letYouMustAllowMicrophoneDialogAppearDesktop"); // 1.5s See css_for_the_container_parent_html
+            if (detectedBrowserName == 'chrome') { // Desktop Chrome and similar browsers where the [Allow-Do not allow] dialog hangs from the TOP of the screen
+              allowMicrophoneBlinker.classList.add("letYouMustAllowMicrophoneDialogAppearDesktopChrome"); // 1.5s See css_for_the_container_parent_html
+            } else { // Mac OS Safari and similar browsers where the [Allow-Do not allow] dialog appears at the CENTER of the screen
+              allowMicrophoneBlinker.classList.add("letYouMustAllowMicrophoneDialogAppearDesktopSafari"); // 1.5s See css_for_the_container_parent_html
+            }
             setTimeout(function () { pleaseAllowSound.play(); }, 300);
           }
         } else {
@@ -544,8 +551,6 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                           localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes"; // Prevent all future prompts
                           // August 2024: We will not let auto fullscreen be used on iPad
                           // mobileCanGoFullscreenNow = true; // Necessary if iPad should go fullscreen,,, iPhone does not allow going fullscreen anyway
-
-
                           if ("permissions" in navigator) {
                             const micPermissionPromiseApple = navigator.permissions.query({name:'microphone'});
                             micPermissionPromiseApple.then(function(result4) {
@@ -553,12 +558,20 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                               if (result4.state == 'granted') { micPermissionHasChangedToGrantedSound.play(); }
                             });
                           } // End of if ("permissions" in navigator)
+
+                          if (deviceDetector) {
+
+                          }
+                          // CREATE A MODAL BOX THAT SAYS: You must go to settings and allow mic permanently
+
+                          // ONCE THE MODAL BOX IS CLOSED: Call turnOFFgetUserMediaMic()
                         } else {
                           // Windows and Android -> Nothing to do here as [PermissionStatus API: change event] is nicely supported
                           // Therefore, as soon as user clicks|touches [ALLOW] proceedAccordingToUsersChoiceAboutMicPermission() will fire
+                          setTimeout(turnOFFgetUserMediaMic, 1000);
                         }
                         // ---
-                        setTimeout(function () {
+                        function turnOFFgetUserMediaMic() {
                           console.log('Attempting to turn off the mic');
                           const tracks = stream.getTracks();
                           tracks.forEach(track => track.stop());
@@ -576,7 +589,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                           // CONSIDER: Test and check if the prompt will block the execution of setTimeout and prevent mic-turn-off
                           // If it does then make sure mic-turn-off is performed (or reperformed) when onchange fires as a result of touching|clicking [ALLOW]
                           // See proceedAccordingToUsersChoiceAboutMicPermission
-                        }, 1000);
+                        }
                 }) // End of then() block
                 .catch(function (error) {
                   parent.console.error('Error accessing the microphone:', error);
