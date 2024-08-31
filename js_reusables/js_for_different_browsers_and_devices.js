@@ -323,7 +323,7 @@ function handleSafariMicHowToTexts(receivedTxt) {
   // PREVIOUSLY: We tried getting away with injecting safariHowToPermanentlyAllowMicP into the allowMicrophoneBlinker
 
   // August 2024: As of Safari 17.6 reappearing permission prompt bug seems to be fixed on MacOS
-  // BUT: It is not solved on iPad and iOS so there is still need for 0-allow_microphone_permanently_on_safari.txt
+  // BUT: It is not solved on iPad so there is still need for 0-allow_microphone_permanently_on_safari.txt
   // NOTE: The problem persists both on iPad-Safari and iPad-AppleChrome
 
 }
@@ -401,6 +401,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
                 // -
                 console.log("Mic permission was somehow set to GRANTED without a prompt");
+                // When this happens we should skip or prevent all the MIC TURN ON-OFF code below, no???
                 // removeAllowMicrophoneBlinkerForcedly(); // Immediate HARD REMOVE » Never let anything appear
                 // setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
               } else {
@@ -543,7 +544,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
               console.log('Attempting to turn on the mic via getUserMedia,,, so that the permission dialog is triggered');
               navigator.mediaDevices.getUserMedia({ audio: true })  // Make the prompt show
                 .then(function (stream) {
-                        console.log('Dialog triggering seems to be successful'); // On Windows this fires after change event // Precisely speaking, it fires right after the console prints 'Microphone permission STATE has CHANGED TO GRANTED'
+                        console.log('Dialog triggering seems to be successful'); // On Windows, this line fires after change event // Precisely speaking, it fires right after the console prints 'Microphone permission STATE has CHANGED TO GRANTED'
                         // Detect user's answer even if [PermissionStatus API: change event] is not really supported by Safari
                         // Until August 2024 we did: handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEventUsingIntervalCheck();
                         // August 2024:
@@ -580,7 +581,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                                   console.error('An error occurred while turning off the mic:', error);
                               });
                             }, 1000);
-                            // CREATE A MODAL BOX THAT SAYS: You must go to settings and allow mic permanently // Avoid using ALERT or CONFIRM on Apple
+                            // IS IT NECESSARY TO CREATE A MODAL BOX THAT SAYS: You must go to settings and allow mic permanently // Avoid using ALERT or CONFIRM on Apple
 
                           } else { // Mac OS
                             console.log('This is a Mac'); // Works
@@ -641,7 +642,8 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
               console.error('getUserMedia is not supported in this browser.');
               willUserTalkToSpeechRecognition = false;
           }
-        } /*else { // IN THEORY: We can start and stop annyang where getUserMedia is not supported
+        } // IN THEORY: We can start and stop annyang where getUserMedia is not supported
+        /*else {
           setTimeout(function () {
             annyang.start({ autoRestart: false }); // Make the prompt show
             handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEventUsingIntervalCheck(); // Detect user's answer even if change event is not supported » Safari
@@ -665,6 +667,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
         // ---
         // Note that proceedAccordingToUsersChoiceAboutMicPermission will be armed and ready to fire startTeaching() IF AND ONLY IF change event is supported
+        // AUGUST 2024: ...IntervalCheck function is not used anymore
         function handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEventUsingIntervalCheck() { // Safari lies as it appears to support it but the event actually never fires
           // -
           if (changeEventIsSupported) {

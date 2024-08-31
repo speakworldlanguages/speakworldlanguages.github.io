@@ -45,7 +45,7 @@ window.addEventListener("load",function() {
     function handleTouchForFullscreen() {
       if (!hasGoneFullscreen && mobileCanGoFullscreenNow){
         const screenArea = screen.width*screen.height;
-        if (screenArea<480000) { // 800x600=480000
+        if (screenArea<500000) { // 800x600=480000
           openFullscreen();
         } else {
           console.log('Screen size of this device is big enough to enjoy the content without fullscreen');
