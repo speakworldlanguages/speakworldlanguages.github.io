@@ -389,6 +389,8 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                 } else {
                   // If one day Safari starts supporting [PermissionStatus API: change event] for real,,,
                   // ,,, then the version number can be checked and onchange can be set here
+                  result2.onchange = willThisEverWork;
+                  function willThisEverWork() { console.log('Wow, it did work! Better take note of the Safari version'); }
                 }
 
               } catch (e) {
@@ -403,7 +405,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                     // August 2024: Let's try handling user's response as soon as getUserMedia mic turn off happens
                   }
                 } else {
-                  console.warn("onchange is not supported for PermissionStatus object");
+                  console.warn("onchange either is not set or is not supported for PermissionStatus object");
                   tellTheUserToChangeOrUpdateTheBrowser();
                   // Note that Safari 15.x and earlier cannot fall here because this is inside an if ("permissions" in navigator) block
                   // Handle the case where the change event is not supported
@@ -629,6 +631,6 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
     },500);
     // Policy: The app won't proceed without annyang (except for the two liars i.e. Opera and Edge)
   }
-}
+} // END OF testAnnyangAndAllowMic
 
 /*THE END of this js file*/
