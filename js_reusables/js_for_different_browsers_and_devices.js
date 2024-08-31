@@ -285,26 +285,31 @@ window.addEventListener("load",function() {
   const filePathForAllowMicrophoneText = "/user_interface/text/"+userInterfaceLanguage+"/0-allow_microphone.txt";
   fetch(filePathForAllowMicrophoneText,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ allowMicrophoneBlinker.children[1].innerHTML =  contentOfTheTxtFile; getTheNextFile(); });
   function getTheNextFile() {
-    if (isSafari) {
+    if (isApple) { // isApple instead of isSafari considering the case where Chrome being installed and used on an Apple device
       const pathOfHowToAllowMicPermanentlyOnSafariTexts = "/user_interface/text/"+userInterfaceLanguage+"/0-allow_microphone_permanently_on_safari.txt";
-      fetch(pathOfHowToAllowMicPermanentlyOnSafariTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){ handleSafariMicHowToTexts(contentOfTheTxtFile);  });
+      fetch(pathOfHowToAllowMicPermanentlyOnSafariTexts,myHeaders).then(function(response){return response.text();}).then(function(contentOfTheTxtFile){  handleSafariMicHowToTexts(contentOfTheTxtFile);  });
     }
   }
 }, { once: true });
 
 function handleSafariMicHowToTexts(receivedTxt) {
   // REMEMBER: We want to avoid alert boxes especially in Safari
-  if (deviceDetector.device == "desktop") {
+  if (deviceDetector.device == "desktop") { // MacOS
     safariHowToPermanentlyAllowMicP.innerHTML = receivedTxt.split("|")[0];
-  } else { // iPhone and iPad
+  } else { // iPhone, iPad
     safariHowToPermanentlyAllowMicP.innerHTML = receivedTxt.split("|")[1];
   }
   // NOTE: When iPhone user runs the app from his homescreen THERE IS NO ADDRESS BAR and it's FULLSCREEN
   // Still mic access can be allowed permanently by going to iPhone device settings->Safari settings->Microphone and allowing mic for all web sites: Not that it is TROUBLESOME
   // -
-  // wrap method seems to work
+  // wrap method seems to work for positioning the second line of text inside the div
   allowMicrophoneBlinker.style.flexWrap = "wrap"; // Rather than » allowMicrophoneBlinker.style.flexDirection = "column";
-  allowMicrophoneBlinker.appendChild(safariHowToPermanentlyAllowMicP);
+  // August 2024
+  //CREATE A DEDICATED [ok] BOX INSTEAD OF allowMicrophoneBlinker.appendChild(safariHowToPermanentlyAllowMicP);
+
+
+
+
 }
 
 const blockAllClicksAndHoversDIV = document.createElement("DIV"); // During mic permission prompt
