@@ -384,7 +384,13 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
               // Special workaround method is required for Safari 16.0 ~ 16.3 according to caniuse: Check Safari versions that support onchange
               try {
                 console.log('Will now set the event listener to detect any change about microphone permission');
-                result2.onchange = function(event) { console.log('Change event fired!');   proceedAccordingToUsersChoiceAboutMicPermission(event);  return true;   };
+                if (!isSafari) { // Decide isSafari or isApple considering the case where Chrome being installed and used on an Apple device
+                  result2.onchange = function(event) { console.log('Change event fired!');   proceedAccordingToUsersChoiceAboutMicPermission(event);  return true;   };
+                } else {
+                  // If one day Safari starts supporting [PermissionStatus API: change event] for real,,,
+                  // ,,, then the version number can be checked and onchange can be set here
+                }
+
               } catch (e) {
                 console.error("Couldn't add event listener for mic permission via onchange: " + e);
               } finally {
@@ -392,7 +398,9 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                   console.log("onchange appears to be supported");
                   // INDEED: Tested on MacOS with Safari 16.6 and 17.6 it did not respond to the change when [allow] button was clicked!!!
                   if (isSafari) { console.log("but this is Safari and it could be lying ... remember that from 16.4 to 17.6 it was lying");
-                    //Let's test Safari 17.6 >>> changeEventIsSupported = false; // Thankfully: We can still react to user's choice
+                    // Thankfully: We can still react to user's choice either with a setInterval or as soon as getUserMedia mic turn off happens
+                    // Until August 2024 // changeEventIsSupported = false;
+                    // August 2024: Let's try handling user's response as soon as getUserMedia mic turn off happens
                   }
                 } else {
                   console.warn("onchange is not supported for PermissionStatus object");
@@ -471,7 +479,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
         // To make the mic permission prompt appear we do a quick TURN ON AND THEN OFF
         // Either with or without permissions API
         // UNCERTAIN: We don't know if a browser would pause the script execution during a permission prompt similar to the way it pauses during an alert.
-        // LATER: Yes it looks like Samsung Browser ignores the annyang.abort() inside handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEvent
+        // LATER: Yes it looks like Samsung Browser ignores the annyang.abort() inside handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEventUsingIntervalCheck
         // IN CASE: onchange isn't really supported (like Safari 16.x), we start a setInterval before the prompt appears and as a result it doesn't matter if its ticking is paused by the permission box or not.
         // BUT: On Samsung Browser onchange works fine so we don't use the setInterval » so better try calling annyang.abort() shortly after onchange fires
         // SEE: proceedAccordingToUsersChoiceAboutMicPermission() function above
@@ -501,14 +509,31 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
               navigator.mediaDevices.getUserMedia({ audio: true })  // Make the prompt show
                 .then(function (stream) {
                         console.log('Dialog triggering seems to be successful');
-                         // Detect user's answer even if change event is not supported » Safari
-                        //handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEvent(); // Safari lies as it appears to support it but the event actually never fires
+                        // Detect user's answer even if [PermissionStatus API: change event] is not really supported by Safari
+                        // Until August 2024 we did: handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEventUsingIntervalCheck(); // See August 2024 below
                         setTimeout(function () {
                           console.log('Attempting to turn off the mic');
                           const tracks = stream.getTracks();
                           tracks.forEach(track => track.stop());
                           stream = null; // Release the stream
                           console.log('Mic should be turned off now');
+                          // August 2024: Handle Safari not responding to [PermissionStatus API: change event]
+                          if (isSafari) { // Decide isSafari or isApple considering the case where Chrome being installed and used on an Apple device
+
+                            if ("permissions" in navigator) {
+                              const micPermissionPromiseInit = navigator.permissions.query({name:'microphone'});
+                              micPermissionPromiseInit.then(function(result4) {
+                                console.log('Mic permission state is now set to '+result4.state);
+                              });
+                            } // End of if ("permissions" in navigator)
+
+                            alert('If you dont want ... Safari ... allow permanently');
+                            // When the setting is changed anyhow
+                            removeAllowMicrophoneBlinkerSoftly(); // With nice animation » Should work both on mobile and desktop
+                            // The first lesson may start in 1502ms
+                            setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
+
+                          }
                           // CONSIDER: Test and check if the prompt will block the execution of setTimeout and prevent mic-turn-off
                           // If it does then make sure mic-turn-off is performed (or reperformed) when onchange fires as a result of touching|clicking [ALLOW]
                           // See proceedAccordingToUsersChoiceAboutMicPermission
@@ -526,7 +551,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
         } /*else { // IN THEORY: We can start and stop annyang where getUserMedia is not supported
           setTimeout(function () {
             annyang.start({ autoRestart: false }); // Make the prompt show
-            handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEvent(); // Detect user's answer even if change event is not supported » Safari
+            handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEventUsingIntervalCheck(); // Detect user's answer even if change event is not supported » Safari
 
             // REMEMBER: Looks like we cannot avoid Safari's repeating "allow mic" annoyance by pausing annyang instead of turning it off.
             // Better if we tell or let Safari user figure out how to "permanently allow mic"
@@ -547,7 +572,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
         // ---
         // Note that proceedAccordingToUsersChoiceAboutMicPermission will be armed and ready to fire startTeaching() IF AND ONLY IF change event is supported
-        function handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEvent() { // Safari lies as it appears to support it but the event actually never fires
+        function handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEventUsingIntervalCheck() { // Safari lies as it appears to support it but the event actually never fires
           // -
           if (changeEventIsSupported) {
             // Do nothing and let proceedAccordingToUsersChoiceAboutMicPermission() react to the user's answer
@@ -591,7 +616,7 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
             } // End of if ("permissions" in navigator)
           } // End of else for changeEventIsSupported
 
-        } // End of handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEvent
+        } // End of handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEventUsingIntervalCheck
 
     } // End of what to do for fresh users who have just chosen their first target language
   } // End of if (annyang)
