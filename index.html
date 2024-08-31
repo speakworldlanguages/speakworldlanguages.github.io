@@ -71,8 +71,27 @@
       } // End of handleMobileConsole
     </script>
 -->
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script> eruda.init(); </script>
+<!--
+    <script>
+    if (window.location.search) {
+      if (window.location.search.includes('debug')) {
+        this.onload = function() { eruda.init(); console.log("Eruda has been initialized."); };
+        this.src = "https://cdn.jsdelivr.net/npm/eruda";
+      }
+    }
+    </script>
+-->
+    <!-- <script> eruda.init(); </script> -->
+
+    <script>
+    if (window.location.search && window.location.search.includes('debug')) {
+      var script = document.createElement('script');
+      script.onload = function() {        eruda.init();        console.log("Eruda has been initialized.");      };
+      script.src = "https://cdn.jsdelivr.net/npm/eruda";
+      document.head.appendChild(script);
+    }
+    </script>
+
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script>
