@@ -399,8 +399,9 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
 
                 // -
                 console.log("Mic permission was somehow set to GRANTED without a prompt");
-                removeAllowMicrophoneBlinkerForcedly(); // Immediate HARD REMOVE » Never let anything appear
-                setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
+                // removeAllowMicrophoneBlinkerForcedly(); // Immediate HARD REMOVE » Never let anything appear
+                // setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
+                // ?????? RETURN ??????
               } else {
                 // Let the [Please allow] message appear and stay by doing nothing
                 // Use if needed: if (result2.state == 'prompt')

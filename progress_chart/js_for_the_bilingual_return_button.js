@@ -104,6 +104,6 @@ function goBackToWelcomeScreenLanguageSelection() {
     }
   } else {
     // Avoid all alert and confirm boxes on Apple because it mutes and unmutes and keeps toggling the sound ON&OFF
-    proceedWithOrWithoutConfirmBox();
+    proceedWithOrWithoutConfirmBox(); // Feels nice enough when fires without any delay, so no setTimeouts here
   }
 } // END OF goBackToWelcomeScreenLanguageSelection
