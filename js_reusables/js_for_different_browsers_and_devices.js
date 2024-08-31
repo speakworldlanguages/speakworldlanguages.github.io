@@ -40,7 +40,6 @@ function tryToPreventScreenSleep() {
 }
 
 
-
 window.addEventListener('DOMContentLoaded', function(){
   const ua = navigator.userAgent;
   const parser = new UAParser(ua);
@@ -123,7 +122,6 @@ window.addEventListener('DOMContentLoaded', function(){
   // -
   if (detectedOS_name == "macos") {
     // Code for MacOS
-
     // DECIDE: Desktop Safari supports playing webm but Mobile Safari doesn't.
     // Should we use mp3 for Desktop Safari too??? YES IF it runs faster and hover sounds are accurate
     // DECISION: After testing with Safari 17.6 in August 2024 we will go without HTML5 Audio
@@ -228,10 +226,11 @@ window.addEventListener('DOMContentLoaded', function(){
       if (result1.state == 'granted') {
         willUserTalkToSpeechRecognition = true; // Necessary: In case user is on an unknown browser that supports "Speech Recognition"
         // -
-        console.log("Microphone permission is already set to GRANTED");
+        console.log("Microphone permission is already set to GRANTED!");
+        // -
       } else if (result1.state == 'denied') {
         willUserTalkToSpeechRecognition = false; // Shorten the waiting time when showing c1 c2 c3 visuals and change the button from SKIP to NEXT
-        console.warn("Microphone permission is already set to DENIED");
+        console.warn("Microphone permission is already set to DENIED!");
         // Maybe give an alert(); box like "You will not be able to play the games in this app without giving microphone permission"
 
         // WEIRD SITUATION: This block sometimes gets executed on mobile Chrome version 106 and the app functions normally after a reload
@@ -346,27 +345,25 @@ function removeAllowMicrophoneBlinkerForcedly() {
 /*---*/
 
 /* __Test microphone and get allowed if need be__ */
-let micPermissionAlreadyGranted = false;
+
 function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_the_parent_all_browsers_all_devices
   // Check if Speech Recognition API is supported // Note that Opera desktop and Edge have lied by falsely returning true for a while, in 2020 they said yes but didn't.
   if (annyang) {
-
+    /* RUBBISH?
     if ("permissions" in navigator) {
       const micPermissionPromise5 = navigator.permissions.query({name:'microphone'});
       micPermissionPromise5.then(function(result5) { // Get mic permission
         if (result5.state == 'granted') {
-          // This is a very rare case: It can only happen if
-          // 1 - This is a browser that allows microphone usage by default
-          // 2 - Before choosing his first target language user has changed the browser settings to allow microphone
-          console.log("Mic permission was somehow set to GRANTED without a prompt");
-          micPermissionAlreadyGranted = true;
+
         }
       });
     }
+    */
+
     // ---
     // For first-time users, try to get the “allow microphone” issue solved as soon as possible.
     // Skip the allow microphone procedure when the user wants to change the studied language
-    if (localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed || micPermissionAlreadyGranted) { // There used to be a problem here like a double firing when index.html redirected to ja.html or tr.html shortly after landing because of UI language.
+    if (localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed) { // There used to be a problem here like a double firing when index.html redirected to ja.html or tr.html shortly after landing because of UI language.
         console.log("Skipping permission queries... Proceed to startTeaching()");
         startTeaching(nameOfButtonIsWhatWillBeTaught); // Not a fresh user: User must be trying to learn a different language
     } else { // What to do for fresh users who have just chosen their first target language
@@ -615,12 +612,12 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                         } // END OF turnOFFgetUserMediaMic()
                 }) // End of then() block
                 .catch(function (error) {
-                  parent.console.error('Error accessing the microphone:', error);
+                  console.error('Error accessing the microphone:', error);
                   willUserTalkToSpeechRecognition = false;
                 });
             }, 1750); // This will make the prompt box appear for allowing microphone usage when this many milliseconds passes after button touch|click
           } else {
-              parent.console.error('getUserMedia is not supported in this browser.');
+              console.error('getUserMedia is not supported in this browser.');
               willUserTalkToSpeechRecognition = false;
           }
         } /*else { // IN THEORY: We can start and stop annyang where getUserMedia is not supported
