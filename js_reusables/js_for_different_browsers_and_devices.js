@@ -74,9 +74,9 @@ window.addEventListener('DOMContentLoaded', function(){
   console.log("This is "+detectedBrowserName+" "+detectedBrowserVersion+" on "+detectedOS_name+" running on a device by "+detectedBrandName);
   // Use the same logic from Maarten Belmans deviceDetector » https://github.com/PoeHaH/devicedetector
   if (parser.getDevice().type) { // Check if is available » Otherwise throws an error like: Cannot use toLowerCase with undefined
-    if (parser.getDevice().type.toLowerCase() == "tablet") {
+    if (parser.getDevice().type.toLowerCase() == "tablet") { console.log('Tablet device detected via userAgent');
       deviceDetector.device = "tablet"; deviceDetector.isMobile = true;
-    } else if (parser.getDevice().type.toLowerCase() == "mobile") {
+    } else if (parser.getDevice().type.toLowerCase() == "mobile") { console.log('Phone device detected via userAgent');
       deviceDetector.device = "phone"; deviceDetector.isMobile = true;
     } else {
       // As of UA-parser-js 2.0.0 Safari on iPad is misrecognized as DESKTOP while AppleChrome on the same iPad is recognized correctly as a tablet/mobile device
