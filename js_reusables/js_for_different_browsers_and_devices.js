@@ -384,13 +384,13 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
               // Special workaround method is required for Safari 16.0 ~ 16.3 according to caniuse: Check Safari versions that support onchange
               try {
                 console.log('Will now set the event listener to detect any change about microphone permission');
-                if (!isSafari) { // Decide isSafari or isApple considering the case where Chrome being installed and used on an Apple device
+                if (!isApple) { // isApple instead of isSafari considering the case where Chrome being installed and used on an Apple device
                   result2.onchange = function(event) { console.log('Change event fired!');   proceedAccordingToUsersChoiceAboutMicPermission(event);  return true;   };
                 } else {
                   // If one day Safari starts supporting [PermissionStatus API: change event] for real,,,
                   // ,,, then the version number can be checked and onchange can be set here
-                  result2.onchange = willThisEverWork;
                   function willThisEverWork() { console.warn('Wow, [PermissionStatus API: change event] did work! Better take note of the Safari version'); }
+                  result2.onchange = willThisEverWork;
                 }
 
               } catch (e) {
@@ -514,21 +514,24 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                         // Detect user's answer even if [PermissionStatus API: change event] is not really supported by Safari
                         // Until August 2024 we did: handleMicFirstTurnOnForThoseWhoDoNotSupportChangeEventUsingIntervalCheck();
                         // August 2024:
-                        if (isSafari) { // Decide isSafari or isApple considering the case where Chrome being installed and used on an Apple device
+                        if (isApple) { // isApple instead of isSafari considering the case where Chrome being installed and used on an Apple device
                           // When the setting is changed anyhow
                           removeAllowMicrophoneBlinkerSoftly(); // With nice animation » Should work both on mobile and desktop
-
-                          micPermissionHasChangedToGrantedSound.play();
                           localStorage.allowMicrophoneDialogHasAlreadyBeenDisplayed = "yes"; // Prevent all future prompts
-                          mobileCanGoFullscreenNow = true;
+                          mobileCanGoFullscreenNow = true; // Necessary for iPad,,, iPhone does not allow going fullscreen
 
                           if ("permissions" in navigator) {
-                            const micPermissionPromiseInit = navigator.permissions.query({name:'microphone'});
-                            micPermissionPromiseInit.then(function(result4) {
-                              console.log('Mic permission state is now set to '+result4.state);
+                            const micPermissionPromiseApple = navigator.permissions.query({name:'microphone'});
+                            micPermissionPromiseApple.then(function(result4) {
+                              console.log('In this Apple device, mic permission state is now set to '+result4.state);
+                              if (result4.state == 'granted') { micPermissionHasChangedToGrantedSound.play(); }
                             });
                           } // End of if ("permissions" in navigator)
+                        } else {
+                          // Windows and Android -> Nothing to do here as [PermissionStatus API: change event] is nicely supported
+                          // Therefore, as soon as user clicks|touches [ALLOW] proceedAccordingToUsersChoiceAboutMicPermission() will fire
                         }
+                        // ---
                         setTimeout(function () {
                           console.log('Attempting to turn off the mic');
                           const tracks = stream.getTracks();
@@ -536,15 +539,13 @@ function testAnnyangAndAllowMic(nameOfButtonIsWhatWillBeTaught) { // See js_for_
                           stream = null; // Release the stream
                           console.log('Mic should be turned off now');
                           // August 2024: Handle Safari not responding to [PermissionStatus API: change event]
-                          if (isSafari) { // Decide isSafari or isApple considering the case where Chrome being installed and used on an Apple device
-
+                          if (isApple) { // isApple instead of isSafari considering the case where Chrome being installed and used on an Apple device
                             setTimeout(function () {
                               // WARNING: Do not use ALERT in Safari like alert('If you dont want ... Safari ... allow permanently');
                               // Create a custom modal box instead
                               // The first lesson may start in 1502ms
                               setTimeout(function () {     startTeaching(nameOfButtonIsWhatWillBeTaught);     },2002);
-                            }, 10);
-
+                            }, 100);
                           }
                           // CONSIDER: Test and check if the prompt will block the execution of setTimeout and prevent mic-turn-off
                           // If it does then make sure mic-turn-off is performed (or reperformed) when onchange fires as a result of touching|clicking [ALLOW]
