@@ -79,18 +79,21 @@ window.addEventListener('DOMContentLoaded', function(){
     } else if (parser.getDevice().type.toLowerCase() == "mobile") { console.log('Phone device detected via userAgent');
       deviceDetector.device = "phone"; deviceDetector.isMobile = true;
     } else {
-      // As of UA-parser-js 2.0.0 Safari on iPad is misrecognized as DESKTOP while AppleChrome on the same iPad is recognized correctly as a tablet/mobile device
-      // Recommended by AI
-      if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
-        if (screen.width > 414) { console.warn('iPad detected despite misleading userAgent');
-          deviceDetector.device = "tablet"; deviceDetector.isMobile = true; // probably iPad
-        } else { console.warn('iPhone detected despite misleading userAgent');
-          deviceDetector.device = "phone"; deviceDetector.isMobile = true; // probably iPhone
-        }
-      }
+      detectIPADorIOSwithoutUserAgent(); // Even though this is not expected to fire in case of iPad-Safari because getDevice-type is undefined
     } // Do not change the defaults and assume that it is a desktop
   } else {
-    console.log('ua parser device type does not exist');
+    console.log('ua parser device type does not exist'); // Safari 17.6 on iPad falls here
+    detectIPADorIOSwithoutUserAgent(); // August 2024 > Q:Are we saved? A:
+  }
+
+  function detectIPADorIOSwithoutUserAgent() {
+    if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
+      if (screen.width > 414) { console.log('iPad detected despite misleading userAgent');
+        deviceDetector.device = "tablet"; deviceDetector.isMobile = true; // probably iPad
+      } else { console.log('iPhone detected despite misleading userAgent');
+        deviceDetector.device = "phone"; deviceDetector.isMobile = true; // probably iPhone
+      }
+    }
   }
 
   // DISABLE ALL LONG-TOUCH-MENUs on mobiles
